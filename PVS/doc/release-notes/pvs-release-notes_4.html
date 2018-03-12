@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on January, 14 2013 by texi2html 1.70 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>PVS Release Notes: PVS 4.1 Release Notes</title>
+
+<meta name="description" content="PVS Release Notes: PVS 4.1 Release Notes">
+<meta name="keywords" content="PVS Release Notes: PVS 4.1 Release Notes">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.70">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="pvs-release-notes_3.html#SEC29" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="pvs-release-notes_5.html#SEC37" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="pvs-release-notes.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="pvs-release-notes_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="pvs-release-notes_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+
+<hr size="2">
+<a name="NOD32"></a>
+<a name="SEC33"></a>
+<h1 class="unnumbered"> PVS 4.1 Release Notes </h1>
+
+<p>PVS 4.1 is primarily a bug fix release; there are few new features.
+Some of the changes do affect proofs, though our experience is that
+only a few proofs need adjustment, and most of these were quite easy
+to recognize and fix.
+
+</p><table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#SEC34">Installation Notes</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC35">Upgrades</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC36">Incompatibilities</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="NOD33"></a>
+<a name="SEC34"></a>
+<h2 class="section"> Installation Notes </h2>
+
+<p>The system is installed as usual; see the download pages at
+</p><table><tr><td>&nbsp;</td><td><pre class="example"><a href="http://pvs.csl.sri.com/download.shtml">http://pvs.csl.sri.com/download.shtml</a>
+</pre></td></tr></table><p>We strongly suggest getting a pre-built Allegro version, unless you have
+concerns with the Allegro runtime click-though license, in which case get
+the pre-built CMU Lisp image.
+
+</p><p>The build process is largely untested outside of SRI.  The process has
+been somewhat improved with this release, but please let us know of your
+experiences, and suggestions for improvement.  Problems and solutions may
+be sent to <a href="mailto:pvs-bugs@csl.sri.com">pvs-bugs@csl.sri.com</a>.  If you are more ambitious, feel
+free to expand on the build description in the PVS Wiki
+(<a href="pvs-wiki.csl.sri.com">pvs-wiki.csl.sri.com</a>).
+
+</p><p>PVS was recently moved from CVS to Subversion, and you can now access the
+system using <code>svn</code>:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">svn checkout https://spartan.csl.sri.com/svn/public/pvs/trunk pvs
+</pre></td></tr></table>
+<p>For now, this is read-only outside of SRI.  If you wish to contribute
+code to PVS, please send it to <a href="mailto:pvs-sri@csl.sri.com">pvs-sri@csl.sri.com</a>, and we will
+assess and incorporate it.
+
+</p>
+<hr size="6">
+<a name="NOD34"></a>
+<a name="SEC35"></a>
+<h2 class="section"> Upgrades </h2>
+
+<ul class="toc">
+<li>-
+<p>PVS Now uses Allegro 8.1.
+
+</p></li><li>-
+<p>ILISP has been updated to version 5.12.0 - we include slightly modified
+sources of the ILISP files in <code>pvs/emacs/emacs-src/ilisp/</code>.
+
+</p></li><li>-
+<p>The <code>pvs</code> startup script has been modified to work with both Allegro
+and CMU Lisp.  In particular, the `<samp>-L</samp>' flag may be used to indicate a
+lisp file to be loaded <em>after</em> PVS starts.
+
+</p></li><li>-
+<p>Thanks to Jerry James (<a href="mailto:jamesj@acm.org">jamesj@acm.org</a>, the BDD and WS1S source code
+have been brought up to date, and no longer generate warnings.
+
+</p></li><li>-
+<p>We have made minor additions to the prelude: A <code>nonempty_set</code> type,
+and the following lemmas: <code>Union_member lemma</code>,
+<code>Union_emptyset_rew</code>, <code>Union_union_rew</code>,
+<code>Intersection_member</code>, <code>Intersection_intersection_rew</code>,
+<code>mod_wrap2</code>, <code>mod_inj1</code>, <code>mod_inj2</code>,
+<code>mod_wrap_inj_eq</code>, <code>mod_neg_limited</code>, <code>odd_mod</code>,
+<code>even_mod</code>, and <code>finite_Union_finite</code>.
+
+</p></li><li>-
+<p>The prover <code>instantiate</code> command now allows &quot;_&quot; in the same way as
+the <code>skolem</code> command, allowing partial instantiation.
+
+</p></li><li>-
+<p>The prover <code>copy</code> command was a derived rule, and is now a primitive
+rule.  This is to keep it from generating spurious TCCs.
+
+</p></li><li>-
+<p>The <code>let-reduce?</code> flag has been added to various strategies.
+
+</p></li><li>-
+<p>Various improvements have been made to the <code>yices</code> interface.
+
+</p></li><li>-
+<p>After struggling with making the bin files work with both case sensitive
+and case insensitive Lisps, we decided the simplest solution is to create
+separate bin files for each.  Thus there is now a <code>pvsbin</code>
+subdirectory created for case sensitive Lisps (Allegro in this case), and
+<code>PVSBIN</code> for case-insensitive ones (CMU Lisp).
+</p></li></ul>
+
+<hr size="6">
+<a name="NOD35"></a>
+<a name="SEC36"></a>
+<h2 class="section"> Incompatibilities </h2>
+
+<p>The bugs that have been fixed in 4.1 are mostly those reported since
+December 2002.  Some of these fixes are to the judgement and TCC
+mechanism, so may have an impact on existing proofs.  As usual, if it
+is not obvious why a proof is failing, it is often easiest to run it in
+parallel on an earlier version of PVS to see where it differs.
+
+</p><p>Some of the differences can be quite subtle, for example, one of the
+proofs that quit working used <code>induct-and-simplify</code>.  There were two
+possible instantiations found in an underlying <code>inst?</code> command, and in
+version 3.0 one of these led to a nontrivial TCC, so the other was chosen.
+In version 4.1, a fix to the judgement mechanism meant that the TCC was no
+longer generated, resulting in a different instantiation.  In this case
+the proof was repaired using <code>:if-match all</code>.
+
+</p><p>Most of the other incompatibilities are more obvious, and the proofs are
+easily repaired.  If you have difficulties understanding why a proof has
+failed, or want help fixing it, send it to PVS bugs
+<a href="mailto:pvs-bugs@csl.sri.com">pvs-bugs@csl.sri.com</a>.
+
+</p><hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC33" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="pvs-release-notes_5.html#SEC37" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="pvs-release-notes.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="pvs-release-notes_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="pvs-release-notes_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>Sam Owre</em> on <em>January, 14 2013</em> using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.70</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>
