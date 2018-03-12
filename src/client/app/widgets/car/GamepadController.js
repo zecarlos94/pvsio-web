@@ -36,14 +36,44 @@
 define(function (require, exports, module) {
     "use strict";
 
+    /**
+     * @description Array 'gamepadsKnown' has all connected gamepads.
+     * @memberof module:GamepadController
+     * @instance
+     */
     let gamepadsKnown = [];
     let gamepadEvents;
+    /**
+     * @description 'gamepadPS4Id' has PS4 gamepad unique ID, to use the proper mapping method.
+     * @memberof module:GamepadController
+     * @instance
+     */
     let gamepadPS4Id = "Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 09cc)";
 
+    /**
+     * @description Button 'carAccelerate' to be clicked when a certain gamepad button is pressed.
+     * @memberof module:GamepadController
+     * @instance
+     */
     let carAccelerate;
+    /**
+     * @description Button 'carBrake' to be clicked when a certain gamepad button is pressed.
+     * @memberof module:GamepadController
+     * @instance
+     */
     let carBrake;
+    /**
+     * @description SteeringWheel 'carSteeringWheel' to be rotated with gamepad axes values.
+     * @memberof module:GamepadController
+     * @instance
+     */
     let carSteeringWheel;
 
+    /**
+     * @description Listening for event 'gamepadconnected' to update known gamepads array.
+     * @memberof module:GamepadController
+     * @instance
+     */
     gamepadEvents = window.addEventListener("gamepadconnected", ( event ) => {
         // All buttons and axes values can be accessed through
         event.gamepad;
@@ -52,6 +82,11 @@ define(function (require, exports, module) {
 
     });
 
+    /**
+     * @description Listening for event 'gamepaddisconnected' to update known gamepads array.
+     * @memberof module:GamepadController
+     * @instance
+     */
     gamepadEvents = window.addEventListener("gamepaddisconnected", ( event ) => {
         // All buttons and axes values can be accessed through
         event.gamepad;
@@ -106,22 +141,47 @@ define(function (require, exports, module) {
     GamepadController.prototype.constructor = GamepadController;
     GamepadController.prototype.parentClass = Widget.prototype;
 
+    /**
+     * @function hide
+     * @description hide method of the GamepadController widget. This method changes 'gamepads' div visibility to hidden.
+     * @memberof module:GamepadController
+     * @instance
+     */
     GamepadController.prototype.hide = () => {
         this.div = document.getElementById("gamepads");
         this.div.style.visibility = "hidden";
         return ;
     };
 
+    /**
+     * @function reveal
+     * @description reveal method of the GamepadController widget. This method changes 'gamepads' div visibility to visible.
+     * @memberof module:GamepadController
+     * @instance
+     */
     GamepadController.prototype.reveal = () => {
         this.div = document.getElementById("gamepads");
         this.div.style.visibility = "visible";
         return ;
     };
 
+    /**
+     * @function connectGamepad
+     * @description connectGamepad method of the GamepadController widget. This method connects 'gamepad'.
+     * @memberof module:GamepadController
+     * @instance
+     */
     GamepadController.prototype.connectGamepad = (gamepad) => {
         GamepadController.prototype.saveGamepad(gamepad);
     };
 
+    /**
+     * @function saveGamepad
+     * @description saveGamepad method of the GamepadController widget. This method add 'gamepad' to gamepadsKnown array and add its div on the frontend demo.
+     * Also invokes updateStatus method to continuously update the aforementioned div with the current values of pressed buttons and angles read from gamepad axes.
+     * @memberof module:GamepadController
+     * @instance
+     */
     GamepadController.prototype.saveGamepad = (gamepad) => {
         gamepadsKnown[gamepad.index] = gamepad;
 
@@ -178,6 +238,12 @@ define(function (require, exports, module) {
     };
 
 
+     /**
+     * @function updateStatus
+     * @description updateStatus method of the GamepadController widget. This method updates all connected gamepads divs with their current values of pressed buttons and of angles read from gamepad axes.
+     * @memberof module:GamepadController
+     * @instance
+     */
     GamepadController.prototype.updateStatus = () => {
         if (!gamepadEvents) {
             GamepadController.prototype.listGamepads();
@@ -272,16 +338,34 @@ define(function (require, exports, module) {
       }
 
 
+    /**
+     * @function disconnectGamepad
+     * @description disconnectGamepad method of the GamepadController widget. This method disconnects 'gamepad'.
+     * @memberof module:GamepadController
+     * @instance
+     */
     GamepadController.prototype.disconnectGamepad = (gamepad) => {
         GamepadController.prototype.removeGamepad(gamepad);
     };
       
+    /**
+     * @function removeGamepad
+     * @description removeGamepad method of the GamepadController widget. This method removes 'gamepad' from gamepadsKnown array and removes its div on the frontend demo.
+     * @memberof module:GamepadController
+     * @instance
+     */
     GamepadController.prototype.removeGamepad = (gamepad) => {
         delete gamepadsKnown[gamepad.index];
         let divToRemove = document.getElementById("gamepad_" + gamepad.index);
         divToRemove.remove();
     };
   
+    /**
+     * @function listGamepads
+     * @description listGamepads method of the GamepadController widget. This method lists all connected gamepads and saved those on gamepadsKnown array.
+     * @memberof module:GamepadController
+     * @instance
+     */
     GamepadController.prototype.listGamepads = () => {
         let gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
         for (let i = 0; i < gamepads.length; i++) {
@@ -293,6 +377,12 @@ define(function (require, exports, module) {
         }
     };
 
+    /**
+     * @function listGamepadsKnown
+     * @description listGamepadsKnown method of the GamepadController widget. This method lists all saved gamepads, i.e. currently connected.
+     * @memberof module:GamepadController
+     * @instance
+     */
     GamepadController.prototype.listGamepadsKnown = () => {
         setTimeout(function(){  
             for (let i = 0; i < gamepadsKnown.length; i++) {
@@ -301,10 +391,21 @@ define(function (require, exports, module) {
         }, 500);
     };
 
+    /**
+     * @description Running listGamepads method every 500ms to update known gamepads after detecting new connections(gamepadEvents).
+     * @memberof module:GamepadController
+     * @instance
+     */
     if (!gamepadEvents) {
         setInterval(GamepadController.prototype.listGamepads, 500);
     }
 
+    /**
+     * @function mappingPS4GamepadButtons
+     * @description mappingPS4GamepadButtons method of the GamepadController widget. This method maps all read buttons to PS4 buttons.
+     * @memberof module:GamepadController
+     * @instance
+     */
     GamepadController.prototype.mappingPS4GamepadButtons = (key) => {
        
         let ps4MappingButtons = [
@@ -331,6 +432,12 @@ define(function (require, exports, module) {
         return ps4MappingButtons[key].value;
     }
 
+     /**
+     * @function mappingPS4GamepadAxes
+     * @description mappingPS4GamepadAxes method of the GamepadController widget. This method maps all read axes to PS4 axes.
+     * @memberof module:GamepadController
+     * @instance
+     */
     GamepadController.prototype.mappingPS4GamepadAxes = (key) => {
        
         let ps4MappingAxes = [
@@ -341,11 +448,6 @@ define(function (require, exports, module) {
         ]
 
         return ps4MappingAxes[key].value;
-    }
-
-    // this API is useful with joypads
-    GamepadController.prototype.rotate = (val) => {
-        ButtonActionsQueue.queueGUIAction(this.id() + "_rotate(" + val + ")", this.callback);
     }
 
     /**
