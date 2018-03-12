@@ -33,7 +33,7 @@ require.config({
 });
 
 require([
-        "widgets/Button",
+        "widgets/car/ButtonExternalController",
         "widgets/TouchscreenButton",
         "widgets/TouchscreenDisplay",
         "widgets/BasicDisplay",
@@ -54,7 +54,7 @@ require([
         "stateParser",
         "PVSioWebClient"
     ],  (
-        Button,
+        ButtonExternalController,
         TouchscreenButton,
         TouchscreenDisplay,
         BasicDisplay,
@@ -237,12 +237,12 @@ require([
         });
 
         // ----------------------------- DASHBOARD INTERACTION -----------------------------
-        car.up = new Button("accelerate", { width: 0, height: 0 }, {
+        car.up = new ButtonExternalController("accelerate", { width: 0, height: 0 }, {
             callback: onMessageReceived,
             evts: ['press/release'],
             keyCode: 38 // key up
         });
-        car.down = new Button("brake", { width: 0, height: 0 }, {
+        car.down = new ButtonExternalController("brake", { width: 0, height: 0 }, {
             callback: onMessageReceived,
             evts: ['press/release'],
             keyCode: 40 // key down

@@ -33,7 +33,7 @@ define(function (require, exports, module) {
     "use strict";
 
     var Widget = require("widgets/Widget"),
-        Button = require("widgets/Button"),
+        ButtonExternalController = require("widgets/car/ButtonExternalController"),
         ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
 
     /**
@@ -100,7 +100,7 @@ define(function (require, exports, module) {
         opt.right = opt.right || {};
         opt.right.functionText = opt.right.functionText || (id + "_right");
         opt.right.keyCode = opt.right.keyCode || 39; // right arrow
-        this.btn_rotate_right = new Button(id + "_RIGHT", {
+        this.btn_rotate_right = new ButtonExternalController(id + "_RIGHT", {
             left: 0, top: 0, height: 0, width: 0
         }, {
             customFunctionText: opt.right.functionText,
@@ -113,7 +113,7 @@ define(function (require, exports, module) {
         opt.left = opt.left || {};
         opt.left.functionText = opt.left.functionText || (id + "_left");
         opt.left.keyCode = opt.left.keyCode || 37; // left arrow
-        this.btn_rotate_left = new Button(id + "_LEFT", {
+        this.btn_rotate_left = new ButtonExternalController(id + "_LEFT", {
             left: 0, top: 0, height: 0, width: 0
         }, {
             customFunctionText: opt.left.functionText,
@@ -125,7 +125,7 @@ define(function (require, exports, module) {
 
         opt.straight = opt.straight || {};
         opt.straight.functionText = opt.straight.functionText || (id + "_straight");
-        this.btn_rotate_straight = new Button(id + "_STRAIGHT", {
+        this.btn_rotate_straight = new ButtonExternalController(id + "_STRAIGHT", {
             left: 0, top: 0, height: 0, width: 0
         }, {
             customFunctionText: opt.straight.functionText,

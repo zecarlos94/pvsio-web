@@ -33,7 +33,7 @@ define(function (require, exports, module) {
     "use strict";
 
     var Widget = require("widgets/Widget"),
-        Button = require("widgets/Button"),
+        ButtonExternalController = require("widgets/car/ButtonExternalController"),
         SteeringWheel = require("widgets/car/SteeringWheel"), // In order to render rotations when button clicked
         ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
 
@@ -116,7 +116,7 @@ define(function (require, exports, module) {
         opt.upArrow = opt.upArrow || {};
         opt.upArrow.functionText = opt.upArrow.functionText || ("accelerate");
         opt.upArrow.keyCode = opt.upArrow.keyCode || 38;
-        this.btn_upArrow = new Button("accelerate", {
+        this.btn_upArrow = new ButtonExternalController("accelerate", {
             left: 0, top: 0, height: 0, width: 0
         }, {
             customFunctionText: opt.upArrow.functionText,
@@ -133,7 +133,7 @@ define(function (require, exports, module) {
         opt.leftArrow = opt.leftArrow || {};
         opt.leftArrow.functionText = opt.leftArrow.functionText || ("steering_wheel_left");
         opt.leftArrow.keyCode = opt.leftArrow.keyCode || 37;
-        this.btn_leftArrow = new Button("steering_wheel_left", {
+        this.btn_leftArrow = new ButtonExternalController("steering_wheel_left", {
             left: 0, top: 0, height: 0, width: 0
         }, {
             customFunctionText: opt.leftArrow.functionText,
@@ -149,7 +149,7 @@ define(function (require, exports, module) {
         opt.downArrow = opt.downArrow || {};
         opt.downArrow.functionText = opt.downArrow.functionText || ("brake");
         opt.downArrow.keyCode = opt.downArrow.keyCode || 40;
-        this.btn_downArrow = new Button("brake", {
+        this.btn_downArrow = new ButtonExternalController("brake", {
             left: 0, top: 0, height: 0, width: 0
         }, {
             customFunctionText: opt.downArrow.functionText,
@@ -166,7 +166,7 @@ define(function (require, exports, module) {
         opt.rightArrow = opt.rightArrow || {};
         opt.rightArrow.functionText = opt.rightArrow.functionText || ("steering_wheel_right");
         opt.rightArrow.keyCode = opt.rightArrow.keyCode || 39;
-        this.btn_rightArrow = new Button("steering_wheel_right", {
+        this.btn_rightArrow = new ButtonExternalController("steering_wheel_right", {
             left: 0, top: 0, height: 0, width: 0
         }, {
             customFunctionText: opt.rightArrow.functionText,
@@ -182,7 +182,7 @@ define(function (require, exports, module) {
         opt.quit = opt.quit || {};
         opt.quit.functionText = opt.quit.functionText || ("quit");
         opt.quit.keyCode = opt.quit.keyCode || 81; // q key
-        this.btn_quit = new Button("quit", {
+        this.btn_quit = new ButtonExternalController("quit", {
             left: 0, top: 0, height: 0, width: 0
         }, {
             customFunctionText: opt.quit.functionText,
@@ -199,7 +199,7 @@ define(function (require, exports, module) {
         opt.pause = opt.pause || {};
         opt.pause.functionText = opt.pause.functionText || ("pause");
         opt.pause.keyCode = opt.pause.keyCode || 83; // s key
-        this.btn_pause = new Button("pause", {
+        this.btn_pause = new ButtonExternalController("pause", {
             left: 0, top: 0, height: 0, width: 0
         }, {
             customFunctionText: opt.pause.functionText,
@@ -216,7 +216,7 @@ define(function (require, exports, module) {
         opt.resume = opt.resume || {};
         opt.resume.functionText = opt.resume.functionText || ("resume");
         opt.resume.keyCode = opt.resume.keyCode || 32; // spacebar
-        this.btn_resume = new Button("resume", {
+        this.btn_resume = new ButtonExternalController("resume", {
             left: 0, top: 0, height: 0, width: 0
         }, {
             customFunctionText: opt.resume.functionText,

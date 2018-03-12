@@ -68,7 +68,7 @@ define(function (require, exports, module) {
     });
 
     let Widget = require("widgets/Widget"),
-        Button = require("widgets/Button"),
+        ButtonExternalController = require("widgets/car/ButtonExternalController"),
         SteeringWheel = require("widgets/car/SteeringWheel"), // In order to render rotations when button clicked
         Controller = require("widgets/car/Controller"),
         ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();

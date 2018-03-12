@@ -38,7 +38,7 @@ define(function (require, exports, module) {
     "use strict";
 
     let Widget = require("widgets/Widget"),
-        Button = require("widgets/Button"),
+        ButtonExternalController = require("widgets/car/ButtonExternalController"),
         SteeringWheel = require("widgets/car/SteeringWheel"), // In order to render rotations when button clicked
         ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
 
@@ -78,7 +78,7 @@ define(function (require, exports, module) {
         this.buttonsAreas = [];
         this.axesAreas = [];
         // for (let i = 0; i < controller.buttons.length; i++) {
-        //     this.buttonsAreas[i] = new Button("button_"+i, {
+        //     this.buttonsAreas[i] = new ButtonExternalController("button_"+i, {
         //              left: 0, top: 0, height: 0, width: 0
         //          }, {
         //              customFunctionText: "button_"+i,
@@ -89,7 +89,7 @@ define(function (require, exports, module) {
         //          });
         // }
         // for (let i = 0; i < controller.axes.length; i++) {
-        //     this.axesAreas[i] = new Button("axis_"+i, {
+        //     this.axesAreas[i] = new ButtonExternalController("axis_"+i, {
         //              left: 0, top: 0, height: 0, width: 0
         //          }, {
         //              customFunctionText: "axis_"+i,
@@ -104,7 +104,7 @@ define(function (require, exports, module) {
         // console.log(this.areaDiv);
         // this.areaDiv = d3.select("#gamepads");
         
-        // this.btn_Cross = new Button("accelerate", {
+        // this.btn_Cross = new ButtonExternalController("accelerate", {
         //      left: 0, top: 0, height: 0, width: 0
         //  }, {
         //      customFunctionText: "accelerate",
@@ -114,7 +114,7 @@ define(function (require, exports, module) {
         //      evts: ['press/release']
         //  });
 
-        // this.btn_Circle = new Button("brake", {
+        // this.btn_Circle = new ButtonExternalController("brake", {
         //     left: 0, top: 0, height: 0, width: 0
         // }, {
         //     customFunctionText: "brake",

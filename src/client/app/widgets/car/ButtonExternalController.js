@@ -1,6 +1,6 @@
 /**
- * @module Button
- * @desc Button Widget
+ * @module ButtonExternalController
+ * @desc ButtonExternalController Widget
  * @author Patrick Oladimeji, José Carlos
  * @date 10/31/13 11:26:16 AM
  *
@@ -32,7 +32,7 @@ define(function (require, exports, module) {
         btnTimer.reset();
     }
 
-    function Button(id, coords, opt) {
+    function ButtonExternalController(id, coords, opt) {
         opt = opt || {};
         opt.functionText = opt.functionText || id;
         opt.recallRate = opt.recallRate || 250;
@@ -123,15 +123,15 @@ define(function (require, exports, module) {
     }
 
 
-    Button.prototype = Object.create(Widget.prototype);
-    Button.prototype.constructor = Button;
-    Button.prototype.parentClass = Widget.prototype;
+    ButtonExternalController.prototype = Object.create(Widget.prototype);
+    ButtonExternalController.prototype.constructor = ButtonExternalController;
+    ButtonExternalController.prototype.parentClass = Widget.prototype;
     /**
      * @function boundFunctions
      * @returns {String} A comma separated string representing the PVS functions modelling actions over this button.
-     * @memberof module:Button
+     * @memberof module:ButtonExternalController
      */
-    Button.prototype.boundFunctions = function () {
+    ButtonExternalController.prototype.boundFunctions = function () {
         var o = this;
         var res = "";
         if (o.evts() && o.evts().length === 1 && o.evts()[0] === "custom") {
@@ -152,11 +152,11 @@ define(function (require, exports, module) {
     };
 
     /**
-     * Returns a JSON object representation of this Button.
+     * Returns a JSON object representation of this ButtonExternalController.
      * @returns {object}
-     * @memberof module:Button
+     * @memberof module:ButtonExternalController
     */
-    Button.prototype.toJSON = function () {
+    ButtonExternalController.prototype.toJSON = function () {
         return {
             id: this.id(),
             type: this.type(),
@@ -175,9 +175,9 @@ define(function (require, exports, module) {
     /**
      * @function release
      * @description API to simulate a release action on the button
-     * @memberof module:Button
+     * @memberof module:ButtonExternalController
      */
-    Button.prototype.release = function (opt) {
+    ButtonExternalController.prototype.release = function (opt) {
         opt = opt || {};
         var f = this.functionText();
         var anim = opt.animation || this.animation || function () {};
@@ -198,9 +198,9 @@ define(function (require, exports, module) {
     /**
      * @function hide
      * @description API to hide the button (disable actions & restore default mouse cursor)
-     * @memberof module:Button
+     * @memberof module:ButtonExternalController
      */
-    Button.prototype.hide = function (opt) {
+    ButtonExternalController.prototype.hide = function (opt) {
         opt = opt || {};
         opt.prototypeMap = opt.prototypeMap || this.prototypeMap;
         this.cursor = opt.cursor || "default";
@@ -210,9 +210,9 @@ define(function (require, exports, module) {
     /**
      * @function reveal
      * @description API to reveal the button (disable actions & restore default mouse cursor)
-     * @memberof module:Button
+     * @memberof module:ButtonExternalController
      */
-    Button.prototype.reveal = function (opt) {
+    ButtonExternalController.prototype.reveal = function (opt) {
         opt = opt || {};
         opt.prototypeMap = opt.prototypeMap || this.prototypeMap;
         this.cursor = opt.cursor || "pointer";
@@ -229,9 +229,9 @@ define(function (require, exports, module) {
     /**
      * @function press
      * @description API to simulate a single press action on the button
-     * @memberof module:Button
+     * @memberof module:ButtonExternalController
      */
-    Button.prototype.press = function (opt) {
+    ButtonExternalController.prototype.press = function (opt) {
         opt = opt || {};
         var f = this.functionText();
         var anim = opt.animation || this.animation || function () {};
@@ -251,9 +251,9 @@ define(function (require, exports, module) {
     /**
      * @function pressAndHold
      * @description API to simulate a continuous press action on the button
-     * @memberof module:Button
+     * @memberof module:ButtonExternalController
      */
-    Button.prototype.pressAndHold = function (opt) {
+    ButtonExternalController.prototype.pressAndHold = function (opt) {
         opt = opt || {};
         var f = this.functionText(),
             widget = this;
@@ -280,9 +280,9 @@ define(function (require, exports, module) {
     /**
      * @function click
      * @description API to simulate a click action on the button
-     * @memberof module:Button
+     * @memberof module:ButtonExternalController
      */
-    Button.prototype.click = function (opt) {
+    ButtonExternalController.prototype.click = function (opt) {
         opt = opt || {};
         var anim = opt.animation || this.animation || function () {};
         opt.callback = opt.callback || this.callback;
@@ -308,9 +308,9 @@ define(function (require, exports, module) {
     /**
      * @function render
      * @description API for updating properties of the button, e.g., whether it's enabled
-     * @memberof module:Button
+     * @memberof module:ButtonExternalController
      */
-    Button.prototype.render = function (txt, opt) {
+    ButtonExternalController.prototype.render = function (txt, opt) {
         opt = opt || {};
         txt = txt || "";
         if (typeof txt === "object") {
@@ -333,7 +333,7 @@ define(function (require, exports, module) {
         }
         return this.hide();
     };
-    Button.prototype.renderSample = function (opt) {
+    ButtonExternalController.prototype.renderSample = function (opt) {
         opt = opt || {};
         var txt = opt.txt || this.example;
         return this.render(txt, { visibleWhen: "true" });
@@ -345,9 +345,9 @@ define(function (require, exports, module) {
      * @function removeImageMap
      * @description Removes the image map area for this button
      * @returns this
-     * @memberof Button
+     * @memberof ButtonExternalController
      */
-    Button.prototype.removeImageMap = function (opt) {
+    ButtonExternalController.prototype.removeImageMap = function (opt) {
         opt = opt || {};
         opt.prototypeMap = opt.prototypeMap || this.prototypeMap;
         if (d3.select("#" + opt.prototypeMap).node() && d3.select("#" + opt.prototypeMap).select("." + this.id()).node()) {
@@ -364,14 +364,14 @@ define(function (require, exports, module) {
      * calls to function in the PVS model. Whenever a response is returned from the PVS function call, the callback
      * function is invoked.
      * @returns this
-     * @memberof Button
+     * @memberof ButtonExternalController
      */
-    Button.prototype.createImageMap = function (opt) {
+    ButtonExternalController.prototype.createImageMap = function (opt) {
         opt = opt || {};
         opt.callback = opt.callback || this.callback;
         opt.prototypeMap = opt.prototypeMap || this.prototypeMap;
 
-        var area = opt.area || Button.prototype.parentClass.createImageMap.apply(this, arguments),
+        var area = opt.area || ButtonExternalController.prototype.parentClass.createImageMap.apply(this, arguments),
             widget = this,
             f,
             evts;
@@ -399,5 +399,5 @@ define(function (require, exports, module) {
         return area;
     };
 
-    module.exports = Button;
+    module.exports = ButtonExternalController;
 });
