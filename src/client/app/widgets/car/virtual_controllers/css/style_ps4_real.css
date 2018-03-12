@@ -1,0 +1,381 @@
+.container {
+  width: 940px;
+  margin: 0 auto;
+}
+
+
+.col1 {
+  width: 60px;
+}
+
+.col2 {
+  width: 140px;
+}
+
+.col3 {
+  width: 220px;
+}
+
+.col4 {
+  width: 300px;
+}
+
+.col5 {
+  width: 380px;
+}
+
+.col6 {
+  width: 460px;
+}
+
+.col7 {
+  width: 540px;
+}
+
+.col8 {
+  width: 620px;
+}
+
+.col9 {
+  width: 700px;
+}
+
+.col10 {
+  width: 780px;
+}
+
+.col11 {
+  width: 860px;
+}
+
+.col12 {
+  width: 940px;
+}
+
+[class *="col"] {
+  float: left;
+  margin-left: 20px;
+}
+
+.row {
+  margin-left: -20px;
+}
+
+.row::before,
+.row::after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+.controller {
+	position: relative;
+	width:600;
+	height: 400px;
+	top: 0px;
+	left: 15%;
+}
+
+/*Up & Down & Left & Right Arrows*/
+.button-up{
+	position: absolute;
+	width: 26px;
+	height:24px;
+	background-color: transparent;
+	top: 65px;
+	left: 119px;	
+}
+.button-down{
+	position: absolute;
+	width: 26px;
+	height:24px;
+	background-color: transparent;
+	top: 129px;
+	left: 119px;	
+}
+.button-left{
+	position: absolute;
+	width: 26px;
+	height:24px;
+	background-color: transparent;
+	top: 97px;
+	left: 88px;	
+}
+.button-right{
+	position: absolute;
+	width: 26px;
+	height:24px;
+	background-color: transparent;
+	top: 97px;
+	left: 150px;	
+}
+.up,.down,.left,.right{
+	position: absolute;
+	width: 26px;
+	height:24px;
+	top: 0px;
+	left: 0px;
+	border:2px solid #353535;
+	opacity: 0.8;
+	border-radius: 6px;
+
+	transition: all 200ms ease;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+}
+.up:active,.down:active,.left:active,.right:active{
+	position: absolute;
+	width: 24px;
+	height:24px;
+	top: 0px;
+	left: 1px;
+	border:1px solid #353535;
+	opacity: 0.8;
+}
+/*Shared and Start Buttons*/
+.button-shared{
+	position: absolute;
+	width: 15px;
+	height:30px;
+	background-color: transparent;
+	top: 35px;
+	left: 187px;	
+}
+.button-start{
+	position: absolute;
+	width: 15px;
+	height:30px;
+	background-color: transparent;
+	top: 34px;
+	left: 424px;	
+}
+.shared,.start{
+	position: absolute;
+	width: 15px;
+	height:30px;
+	top: 0px;
+	left: 0px;
+	border:3px solid rgb(65,66,76);
+	opacity: 0.8;
+	border-radius: 10px;
+
+	transition: all 200ms ease;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+}
+.shared:active,.start:active{
+	position: absolute;
+	width: 17px;
+	height:31px;
+	top: 0px;
+	left: 0px;
+	opacity: 0.8;
+	border:2px solid rgb(65,66,76);
+}
+/*PS Button*/
+.button-PS{
+	position: absolute;
+	width: 25px;
+	height:28px;
+	background-color: transparent;
+	top: 176px;
+	left: 301px;	
+}
+.PS{
+	position: absolute;
+	width: 25px;
+	height:28px;
+	top: 0px;
+	left: 0px;
+	border:3px solid rgb(20,21,25);
+	border-radius: 50%;
+	
+
+	transition: all 200ms ease;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+}
+.PS:active{
+	position: absolute;
+	width: 28px;
+	height:29px;
+	top: 0px;
+	left: 0px;
+	border:2px solid rgb(20,21,25);
+}
+/*Pad Button*/
+.button-pad{
+	position: absolute;
+	width: 30px;
+	height:30Px;
+	background-color: transparent;
+	top: 26px;
+	left: 221px;	
+}
+.pad{
+	position: absolute;
+	width: 187px;
+	height:99px;
+	top: 0px;
+	left: 0px;
+	border:3px solid black;
+	border-bottom-left-radius:18px;
+	border-bottom-right-radius:18px;
+
+	transition: all 200ms ease;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+}
+.pad:active{
+	position: absolute;
+	width: 187px;
+	height:100px;
+	top: 0px;
+	left: 0px;
+	border:2px solid black;
+}
+
+/*Triangle, Circle, X and Square Buttons*/
+.button-triangle{
+	position: absolute;
+	width: 34px;
+	height:34px;
+	background-color: transparent;
+	top: 48px;
+	left: 478px;
+	border-radius: 5px;
+}
+
+.button-x{
+	position: absolute;
+	width: 34px;
+	height:34px;
+	background-color: transparent;
+	top: 133px;
+	left: 478px;
+	border-radius: 5px;
+}
+
+.button-square{
+	position: absolute;
+	width: 34px;
+	height:34px;
+	background-color: transparent;
+	top: 90px;
+	left: 436px;
+	border-radius: 5px;
+}
+
+.button-circle{
+	position: absolute;
+	width: 34px;
+	height:34px;
+	background-color: transparent;
+	top: 90px;
+	left: 521px;
+	border-radius: 5px;
+}
+
+.square,.x,.circle,.triangle{
+	position: absolute;
+	width: 34px;
+	height: 34px;
+	background-color: transparent;
+	border-radius: 50%;
+	top: 0px;
+	left: 0px;
+	border: 3px solid black;
+
+	transition: all 200ms ease;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+}
+
+.square:active,.x:active,.circle:active,.triangle:active{
+	position: absolute;
+	border: 2px solid #424242;
+	top: 0px;
+	left: 1px;
+	width: 33px;
+	height:33px;
+}
+
+/*L3 & R3 Joypads*/
+.button-L3{
+	position: absolute;
+	width: 30px;
+	height:30Px;
+	background-color: transparent;
+	top: 156px;
+	left: 192px;	
+}
+.button-R3{
+	position: absolute;
+	width: 30px;
+	height:30Px;
+	background-color: transparent;
+	top: 156px;
+	left: 378px;	
+}
+.L3,.R3{
+	position: absolute;
+	width: 54px;
+	height:54px;
+	top: 0px;
+	left: 0px;
+	border:5px solid rgb(42,43,50);
+	border-radius:50%;
+	transition: all 200ms ease;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+}
+.L3:active,.R3:active{
+	position: absolute;
+	width: 55px;
+	height: 55px;
+	top: 0px;
+	left: 0px;
+	border: 6px solid rgb(42,43,50);
+}
+
+p{
+	font-size: 14px;
+	color:#7f8c8d;
+	text-align: center;
+	margin:0px;
+}
+.img-adaptable{
+	max-width: 100%;
+	height: auto;
+	display:block;
+}
+.img-PS{
+  position:absolute;
+  top:-121px;
+  left:-288px;
+	height: auto;
+	display:block;
+
+.img-center{
+	margin:0 auto;
+	display:block;
+}
+  .img-PS{
+    position:absolute;
+    top:100%;
+    left:0%;
+  }
+
+

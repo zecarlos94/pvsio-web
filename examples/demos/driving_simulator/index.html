@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<!-- TODO Add media queries to become responsive -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link href="../../client/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="../../client/app/plugins/graphbuilder/graph.css" rel="stylesheet" type="text/css"/>
+    <link href="../../client/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="css/960.css" rel="stylesheet" type="text/css"/>
+    <!-- Recently included files -->
+    <link href="css/image-picker.css" rel="stylesheet" type="text/css"/>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script> -->
+    <link href="css/jquery-ui.css" rel="stylesheet" type="text/css">
+    <script src="js/outsources/jquery-ui/jquery-ui.js"></script>
+</head>
+
+<body>
+    <div id="content" class="content" style="display:none;">
+        <div id="dashboard" class="container dashboard-container" style="position:absolute;margin-left:0px;margin-top:0px;">
+            <br>
+            <div class="customization">
+                <h4 style="margin-left: 5px;">Select Steering Wheel</h4>
+                <br>
+                <div style="margin-left:35px">
+                    <select id="selectImage" class="image-picker">
+                        <option value=""></option>
+                        <option data-img-src='../../../client/app/widgets/car/steering_wheels/basic_steering_wheel.svg' value='basic_steering_wheel.svg'>basic_steering_wheel.svg</option>
+                        <option data-img-src='../../../client/app/widgets/car/steering_wheels/ferrari_steering_wheel.svg' value='ferrari_steering_wheel.svg'>ferrari_steering_wheel.svg</option>
+                        <option data-img-src='../../../client/app/widgets/car/steering_wheels/porsche_steering_wheel.svg' value='porsche_steering_wheel.svg'>porsche_steering_wheel.svg</option>
+                        <option data-img-src='../../../client/app/widgets/car/steering_wheels/sparco_steering_wheel.svg' value='sparco_steering_wheel.svg'>sparco_steering_wheel.svg</option>
+                    </select>
+                </div>
+                <br>
+                <h4 style="margin-left: 5px;">Customize</h4>
+                <br>
+                <div class="game-customisation-speedometer">
+                    <div class="col-xs-12" id="slidecontainer-speedometer">
+                        <input type="range" min="0" max="400" value="340" class="slider" id="myRange-Speedometer">
+                        <p style="color:#4CAF50;margin-left:15px">Value of Speedometer:
+                            <span id="demo-Speedometer"></span>
+                        </p>
+                    </div>
+                </div>
+                <div class="game-customisation-tachometer">
+                    <div class="col-xs-12" id="slidecontainer-tachometer">
+                        <input type="range" min="0" max="20" value="16" class="slider" id="myRange-Tachometer">
+                        <p style="color:#4CAF50;margin-left:15px">Value of Tachometer:
+                            <span id="demo-Tachometer"></span>
+                        </p>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <br/>
+                <div class="game-customisation-lanes">
+                    <div class="col-xs-12" id="slidecontainer-lanes">
+                        <input type="range" min="0" max="3" value="0" class="slider" id="myRange-Lanes">
+                        <p style="color:#4CAF50;margin-left:15px">Number of Track Lanes:
+                            <span id="demo-Lanes"></span>
+                        </p>
+                    </div>
+                </div>
+                <div class="game-customisation-hills">
+                    <div class="col-xs-12" id="slidecontainer-hills">
+                        <input type="range" min="0" max="10" value="0" class="slider" id="myRange-Hills">
+                        <p style="color:#4CAF50;margin-left:15px">Number of Hills:
+                            <span id="demo-Hills"></span>
+                        </p>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <br/>
+                <div class="game-customisation-obstacles">
+                    <div class="col-xs-12" id="slidecontainer-obstacles">
+                        <input type="range" min="0" max="10" value="0" class="slider" id="myRange-Obstacles">
+                        <p style="color:#4CAF50;margin-left:15px">Number of Obstacles:
+                            <span id="demo-Obstacles"></span>
+                        </p>
+                    </div>
+                </div>
+                <div class="game-customisation-other-cars">
+                    <div class="col-xs-12" id="slidecontainer-other-cars">
+                        <input type="range" min="0" max="10" value="0" class="slider" id="myRange-Other-Cars">
+                        <p style="color:#4CAF50;margin-left:15px">Number of Other Vehicles on Track:
+                            <span id="demo-Other-Cars"></span>
+                        </p>
+                    </div>
+                </div> 
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <div class="game-customisation-end">
+                    <div class="col-xs-12" id="slidecontainer-end">
+                        <input type="range" min="0" max="1" value="0" class="slider" id="myRange-End">
+                        <p style="color:#4CAF50;margin-left:15px">End
+                            <span id="demo-End"></span>
+                        </p>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+            </div>
+            <div class="dashboard-widgets">
+                <div class="col-xs-8 text-center" id="instructions">
+                    Car controls:
+                    <br> [left/right arrow keys] Turn Left/Right
+                    <br> [up/down arrow keys] Accelerate/Brake
+                    <br>
+                </div>
+                <div id="gauges" class="text-center" style="position:absolute;margin-left:370px;margin-top:430px;zoom: 45%">
+                    <span id="speedometer-gauge"></span>
+                    <span id="tachometer-gauge" style="float:right;"></span>
+                </div>
+            </div>
+        </div>
+        <div class="container game_view" id="game-window" style="position:absolute;top:80px;left:650px;height:650px;width:780px;">
+            <img src="#" id="track_img" style='height: 100%; width: 100%; object-fit: contain; visibility:hidden;'>
+        </div>
+        <div id="gamepads">
+            <!--
+            GamepadController widget will append GamepadController HTML here
+            --> 
+        </div>
+        <div class="mobileDevivesController" style="position:absolute;top:735px;left:1410px;">
+            <img class="icon keyboard" src="img/keyboard.png" title="Click to open virtual keypad controller" onclick="openKeypad();"/>
+        </div>
+        <div class="virtualKeyPad">
+            <!--
+            VirtualKeypadController widget will append VirtualKeypadController HTML here
+            --> 
+        </div>
+    </div>
+    <div id="splash" class="demo-splash">
+        <div class="loader">
+            <div class="version">Arcade Driving Simulator</div>
+            <div class="bar">
+                Loading
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+    <script type="application/javascript" src="../../client/lib/layout.js"></script>
+    <script type="application/javascript" src="../../client/lib/promise-0.1.1.js"></script>
+    <!-- <script type="application/javascript" src="../../client/lib/speakClient.js"></script> -->
+    <script type="application/javascript" src="../../client/lib/keys.js"></script>
+    <script type="text/javascript" src="../../client/lib/jquery.js"></script>
+    <script type="text/javascript" src="../../client/lib/underscore/underscore.js"></script>
+    <script type="text/javascript" src="../../client/lib/d3/d3.js"></script>
+    <script type="text/javascript" src="../../client/lib/backbone.js"></script>
+    <script type="text/javascript" src="../../client/lib/handlebars-v1.3.0.js"></script>
+    <script type="text/javascript" src="../../client/lib/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Recently included files -->
+    <script type="text/javascript" src="js/outsources/image-picker/image-picker.min.js"></script>
+    <script type="text/javascript" src="js/outsources/image-picker/imagesloaded.pkgd.min.js"></script>
+    <script type="text/javascript" src="js/outsources/image-picker/masonry.pkgd.min.js"></script>
+    <script type="text/javascript" src="js/outsources/d3/d3-gauge-plus.min.js"></script>
+    <script type="text/javascript" src="../../client/require.js" data-main="js/index.js"></script>
+</body>
+</html>

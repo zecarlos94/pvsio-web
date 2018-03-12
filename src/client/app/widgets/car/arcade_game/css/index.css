@@ -1,0 +1,18 @@
+html, body {
+    overflow: visible;
+    background: black;
+}
+#test {
+    margin-left:800px;
+    margin-top:-420px;
+}
+#arcadeSimulator {
+    -webkit-transform: scale(2.5);
+}
+
+.tog {
+    width: 24px; 
+    height: 24px; 
+    margin-left:520px;
+    margin-top:-25px; 
+}

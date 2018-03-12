@@ -1,0 +1,315 @@
+.container {
+  width: 940px;
+  margin: 0 auto;
+}
+
+
+.col1 {
+  width: 60px;
+}
+
+.col2 {
+  width: 140px;
+}
+
+.col3 {
+  width: 220px;
+}
+
+.col4 {
+  width: 300px;
+}
+
+.col5 {
+  width: 380px;
+}
+
+.col6 {
+  width: 460px;
+}
+
+.col7 {
+  width: 540px;
+}
+
+.col8 {
+  width: 620px;
+}
+
+.col9 {
+  width: 700px;
+}
+
+.col10 {
+  width: 780px;
+}
+
+.col11 {
+  width: 860px;
+}
+
+.col12 {
+  width: 940px;
+}
+
+[class *="col"] {
+  float: left;
+  margin-left: 20px;
+}
+
+.row {
+  margin-left: -20px;
+}
+
+.row::before,
+.row::after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+.controller {
+	position: relative;
+	width:600;
+	height: 400px;
+	top: 0px;
+	left: 15%;
+}
+
+/*Up & Down & Left & Right Arrows*/
+.button-up{
+	position: absolute;
+	width: 26px;
+	height:24px;
+	background-color: transparent;
+	top: 233px;
+	left: 208px;	
+}
+.button-down{
+	position: absolute;
+	width: 26px;
+	height:24px;
+	background-color: transparent;
+	top: 306px;
+	left: 208px;	
+}
+.button-left{
+	position: absolute;
+	width: 26px;
+	height:24px;
+	background-color: transparent;
+	top: 270px;
+	left: 172px;	
+}
+.button-right{
+	position: absolute;
+	width: 26px;
+	height:24px;
+	background-color: transparent;
+	top: 270px;
+	left: 242px;	
+}
+.up,.down,.left,.right{
+	position: absolute;
+	width: 26px;
+	height:24px;
+	top: 0px;
+	left: 0px;
+	border:2px solid #353535;
+	opacity: 0.8;
+	border-radius: 6px;
+
+	transition: all 200ms ease;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+}
+.up:active,.down:active,.left:active,.right:active{
+	position: absolute;
+	width: 24px;
+	height:24px;
+	top: 0px;
+	left: 1px;
+	border:3px solid #353535;
+	opacity: 0.8;
+}
+/*Shared and Start Buttons*/
+.button-shared{
+	position: absolute;
+	width: 26px;
+	height:26px;
+	background-color: transparent;
+	top: 146px;
+	left: 249px;	
+}
+.button-start{
+	position: absolute;
+	width: 26px;
+	height:26px;
+	background-color: transparent;
+	top: 146px;
+	left: 361px;	
+}
+.shared,.start{
+	position: absolute;
+	width: 26px;
+	height:26px;
+	top: 0px;
+	left: 0px;
+	border:3px solid rgb(7,4,2);
+	opacity: 0.8;
+	border-radius: 50%;
+
+	transition: all 200ms ease;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+}
+.shared:active,.start:active{
+	position: absolute;
+	width: 26px;
+	height:26px;
+	top: 0px;
+	left: 0px;
+	opacity: 0.8;
+	border:4px solid rgb(7,4,2);
+}
+
+/*y, b, X and x Buttons*/
+.button-y{
+	position: absolute;
+	width: 45px;
+	height:45px;
+	background-color: transparent;
+	top: 87px;
+	left: 495px;
+	border-radius: 5px;
+}
+
+.button-a{
+	position: absolute;
+	width: 45px;
+	height:45px;
+	background-color: transparent;
+	top: 188px;
+	left: 495px;
+	border-radius: 5px;
+}
+
+.button-x{
+	position: absolute;
+	width: 45px;
+	height:45px;
+	background-color: transparent;
+	top: 137px;
+	left: 442px;
+	border-radius: 5px;
+}
+
+.button-b{
+	position: absolute;
+	width: 45px;
+	height:45px;
+	background-color: transparent;
+	top: 137px;
+	left: 550px;
+	border-radius: 5px;
+}
+
+.x,.a,.b,.y{
+	position: absolute;
+	width: 45px;
+	height: 45px;
+	background-color: transparent;
+	border-radius: 50%;
+	top: 0px;
+	left: 0px;
+	border: 3px solid black;
+
+	transition: all 200ms ease;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+}
+
+.x:active,.a:active,.b:active,.y:active{
+	position: absolute;
+	border: 4px solid rgb(7,4,2);
+	top: 0px;
+	left: 0px;
+	width: 45px;
+	height:45px;
+}
+
+/*L3 & R3 Joypads*/
+.button-L3{
+	position: absolute;
+	width: 30px;
+	height:30Px;
+	background-color: transparent;
+	top: 128px;
+	left: 95px;	
+}
+.button-R3{
+	position: absolute;
+	width: 30px;
+	height:30Px;
+	background-color: transparent;
+	top: 248px;
+	left: 390px;	
+}
+.L3,.R3{
+	position: absolute;
+	width: 54px;
+	height:54px;
+	top: 0px;
+	left: 0px;
+	border:5px solid rgb(42,43,50);
+	border-radius:50%;
+	transition: all 200ms ease;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+}
+.L3:active,.R3:active{
+	position: absolute;
+	width: 55px;
+	height: 55px;
+	top: 0px;
+	left: 0px;
+	border: 6px solid rgb(42,43,50);
+}
+
+p{
+	font-size: 14px;
+	color:#7f8c8d;
+	text-align: center;
+	margin:0px;
+}
+.img-adaptable{
+	max-width: 100%;
+	height: auto;
+	display:block;
+}
+.img-PS{
+  position:absolute;
+  top:-121px;
+  left:-288px;
+	height: auto;
+	display:block;
+
+.img-center{
+	margin:0 auto;
+	display:block;
+}
+  .img-PS{
+    position:absolute;
+    top:100%;
+    left:0%;
+  }
+
+

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"> 
+    <script src="js/lib/jquery/jquery-3.2.1.min.js"></script>
+    <script src="js/lib/jchronometer/jchronometer.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/index.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+
+  </head>
+  <body>
+      <div style="background-color: black;width: 33%;height:600px;margin-left:20px;">
+        Colocar virtual keyboard
+      </div>
+
+        <div class="tog" style="visibility: hidden;" >
+            <img id="play" style="display:none;" src="img/song/muted.png" />
+            <img id="stop" src="img/song/notMuted.png" />
+        </div>
+
+        <audio class ="audioStartup" name="" src="song/ferrari_startup.mp3" >Your browser does not support the <code>audio</code> element.</audio>
+        <audio loop class ="audioIdle" name="" src="song/ferrari_idle.mp3" >Your browser does not support the <code>audio</code> element.</audio>
+        <audio loop class ="audioAccelerating" name="" src="song/ferrari-accelerating.mp3" >Your browser does not support the <code>audio</code> element.</audio>
+        <audio class ="audio" name="" src="song/other/racer.mp3" ></audio>
+      
+        <div id="test">
+            <canvas id="arcadeSimulator"></canvas>
+        </div>
+
+        <div style="background-color: black;width: 100%;height:400px;margin-left:20px;margin-top:250px;">
+            Colocar virtual controller
+        </div>
+  </body>
+</html>
