@@ -165,6 +165,19 @@ require([
         }
 
         var car = {};
+
+        // ----------------------------- DASHBOARD INTERACTION -----------------------------
+        car.up = new ButtonExternalController("accelerate", { width: 0, height: 0 }, {
+            callback: onMessageReceived,
+            evts: ['press/release'],
+            keyCode: 38 // key up
+        });
+        car.down = new ButtonExternalController("brake", { width: 0, height: 0 }, {
+            callback: onMessageReceived,
+            evts: ['press/release'],
+            keyCode: 40 // key down
+        });
+
         // ----------------------------- DASHBOARD COMPONENTS -----------------------------
         // ---------------- SPEEDOMETER ----------------
         car.speedometerGauge = new Speedometer('speedometer-gauge', {
@@ -212,8 +225,10 @@ require([
             width: 750,
             height: 750
         }, {
-            callback: onMessageReceived,
-            // carUp: car.up
+            carAccelerate: car.up,
+            carBrake: car.down,
+            carSteeringWheel: car.steeringWheel,
+            callback: onMessageReceived
         });
 
         // car.gamepadController.listGamepads();
@@ -236,23 +251,12 @@ require([
             callback: onMessageReceived
         });
 
-        // ----------------------------- DASHBOARD INTERACTION -----------------------------
-        car.up = new ButtonExternalController("accelerate", { width: 0, height: 0 }, {
-            callback: onMessageReceived,
-            evts: ['press/release'],
-            keyCode: 38 // key up
-        });
-        car.down = new ButtonExternalController("brake", { width: 0, height: 0 }, {
-            callback: onMessageReceived,
-            evts: ['press/release'],
-            keyCode: 40 // key down
-        });
-
         // Render car dashboard components
         let render = (res) => {
             car.speedometerGauge.render(evaluate(res.speed.val));
             car.tachometerGauge.render(evaluate(res.rpm));
             car.steeringWheel.render(evaluate(res.steering));
+            car.gamepadController.render();
         }
 
         let removeSpeedometer = () => {

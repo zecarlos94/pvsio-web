@@ -40,6 +40,10 @@ define(function (require, exports, module) {
     let gamepadEvents;
     let gamepadPS4Id = "Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 09cc)";
 
+    let carAccelerate;
+    let carBrake;
+    let carSteeringWheel;
+
     gamepadEvents = window.addEventListener("gamepadconnected", ( event ) => {
         // All buttons and axes values can be accessed through
         event.gamepad;
@@ -77,6 +81,9 @@ define(function (require, exports, module) {
         opt = opt || {};
         opt.style = opt.style || "";
         opt.opacity = opt.opacity || 1;
+        opt.carAccelerate = opt.carAccelerate;
+        opt.carBrake = opt.carBrake;
+        opt.carSteeringWheel = opt.carSteeringWheel;
         coords = coords || {};
 
         this.id = id;
@@ -84,6 +91,9 @@ define(function (require, exports, module) {
         this.left = coords.left || 100;
         this.width = coords.width || 750;
         this.height = coords.height || 750;
+        carAccelerate = (opt.carAccelerate) ? opt.carAccelerate : null;
+        carBrake = (opt.carBrake) ? opt.carBrake : null;
+        carSteeringWheel = (opt.carSteeringWheel) ? opt.carSteeringWheel : null;
 
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
@@ -97,11 +107,15 @@ define(function (require, exports, module) {
     GamepadController.prototype.parentClass = Widget.prototype;
 
     GamepadController.prototype.hide = () => {
-        return this.div.style("display", "none");
+        this.div = document.getElementById("gamepads");
+        this.div.style.visibility = "hidden";
+        return ;
     };
 
     GamepadController.prototype.reveal = () => {
-        return this.div.style("display", "block");
+        this.div = document.getElementById("gamepads");
+        this.div.style.visibility = "visible";
+        return ;
     };
 
     GamepadController.prototype.connectGamepad = (gamepad) => {
@@ -188,12 +202,40 @@ define(function (require, exports, module) {
       
             let pct = Math.round(val * 100) + "%";
             b.style.backgroundSize = pct + " " + pct;
-      
+            let clickedOnce=false;                            
             if (pressed) {
                 if(controller.id===gamepadPS4Id){
                     let mappedName = GamepadController.prototype.mappingPS4GamepadButtons(i);
                     b.className = mappedName +" pressed";
-                    // carUp.click();
+                    if(carAccelerate && carBrake && carSteeringWheel){
+                        if(i===0){ // Button Cross - PS4 Gamepad/External Controller
+                            if(!clickedOnce){
+                                // carAccelerate.click();
+                                carAccelerate.press();
+                                carAccelerate.release();
+                                clickedOnce=true;
+                            }
+                        }else if(i===1){ // Button Circle - PS4 Gamepad/External Controller
+                            if(!clickedOnce){
+                                // carBrake.click();
+                                carBrake.press();
+                                carBrake.release();
+                                clickedOnce=true;
+                            }
+                        }else if(i===14){ // Left Arrow - PS4 Gamepad/External Controller
+                            if(!clickedOnce){
+                                // console.log("rotate left");
+                                carSteeringWheel.btn_rotate_left.click();
+                                clickedOnce=true;
+                            }
+                        }else if(i===15){ // Right Arrow - PS4 Gamepad/External Controller
+                            if(!clickedOnce){
+                                // console.log("rotate right");
+                                carSteeringWheel.btn_rotate_right.click();
+                                clickedOnce=true;
+                            }
+                        }                            
+                    }
                 }else{
                     b.className = "button pressed";
                 }
@@ -202,6 +244,7 @@ define(function (require, exports, module) {
             }
           }
 
+          let stickThreshold = 0.50;
           let axes = d.getElementsByClassName("axis");
           for (i = 0; i < controller.axes.length; i++) {
             let mappedAxis = GamepadController.prototype.mappingPS4GamepadAxes(i);
@@ -209,6 +252,19 @@ define(function (require, exports, module) {
             a.innerHTML = i;
             a.className = mappedAxis + " moving";
             a.setAttribute("value", controller.axes[i].toFixed(4));
+            // Max and Min values of 1 and -1 for all gamepads
+            if(carSteeringWheel){
+                if(i===0){ // left stick - PS4 Gamepad/External Controller
+                    // console.log(controller.axes[i].toFixed(4));
+                    if(controller.axes[i].toFixed(4)>-1 && controller.axes[i].toFixed(4)<-stickThreshold){
+                        // console.log("rotate left");
+                        carSteeringWheel.btn_rotate_left.click();
+                    }else if(controller.axes[i].toFixed(4)>stickThreshold && controller.axes[i].toFixed(4)<1){
+                        // console.log("rotate right");
+                        carSteeringWheel.btn_rotate_right.click();
+                    }
+                }
+            }
           }
         }
       

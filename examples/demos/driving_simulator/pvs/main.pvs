@@ -184,34 +184,10 @@ main: THEORY
   press_resume(st: state): state = st WITH [ action := resume ]
   release_resume(st: state): state = st WITH [ action := resume ]
 
-  %-- API for ps4_controller
-  %-- press_buttonX(st: state): state = accelerate(st) WITH [ action := acc ]
-  %-- ps4_controller_release_buttonX(st: state): state = st WITH [ action := idle ]
+  %-- API for external controllers such as PS4 gamepad
+  click_accelerate(st: state): state = accelerate(st) WITH [ action := acc ]
 
-  ps4_controller_press_buttonCircle(st: state): state = brake(st) WITH [ action := brake ]
-  ps4_controller_release_buttonCircle(st: state): state = st WITH [ action := idle ]
-
-  %-- The next buttons, below, will not have any functionality in this 2D game, but in future demos might be
-
-  %-- ps4_controller_press_buttonSquare(st: state): state = accelerate(st) WITH [ action := acc ]
-  %-- ps4_controller_release_buttonSquare(st: state): state = st WITH [ action := idle ]
-
-  %-- ps4_controller_press_buttonTriangle(st: state): state = accelerate(st) WITH [ action := acc ]
-  %-- ps4_controller_release_buttonTriangle(st: state): state = st WITH [ action := idle ]
-
-  %-- Up/Down Arrows in the controller
-  %-- ps4_controller_buttonUp(st: state): state = st WITH [ steering := 0 ]
-  %-- ps4_controller_buttonDown(st: state): state = st WITH [ steering := 0 ]
-
-  %-- PS4_CONTROLLER_STEERING_STEP: real = 20 %deg
-  %-- ps4_controller_buttonRight(st: state): state = st WITH [ steering := steering(st) + PS4_CONTROLLER_STEERING_STEP ]
-  %-- ps4_controller_buttonLeft(st: state): state = st WITH [ steering := steering(st) - PS4_CONTROLLER_STEERING_STEP ]
-  %-- ps4_controller_straight(st: state): state = st WITH [ steering := 0 ]
-  %-- ps4_controller_rotate(x: real)(st: state): state = st WITH [ steering := x ]
-
-  %-- The next buttons are the sticks(joysticks) in the PS4 controller
-  %-- TODO It might be necessary to change this code because these buttons are always producing values between -1 and 1!!!
-  %-- ps4_controller_buttonRightStick(st: state): state = st WITH [ steering := steering(st) + PS4_CONTROLLER_STEERING_STEP ]
-  %-- ps4_controller_buttonLeftStick(st: state): state = st WITH [ steering := steering(st) - PS4_CONTROLLER_STEERING_STEP ]
+  click_brake(st: state): state = brake(st) WITH [ action := brake ]
 
 END main
+
