@@ -17,7 +17,7 @@
  *
  *     function main() {
  *          // After SoundWidget module was loaded, initialize it
- *          var SoundWidget = new SoundWidget(
+ *          let SoundWidget = new SoundWidget(
  *               'example', // id of the SoundWidget element that will be created
  *               { top: 800, left: 800, width: 500, height: 500 }, // coordinates object
  *               { parent: 'tog', 
@@ -32,7 +32,7 @@
  *     }
  * });
  */
-/*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
+/*jslint lets: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global define*/
 define(function (require, exports, module) {
     "use strict";

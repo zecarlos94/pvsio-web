@@ -16,7 +16,7 @@
  *
  *     function main() {
  *          // After SteeringWheel module was loaded, initialize it
- *          var wheel = new SteeringWheel(
+ *          let wheel = new SteeringWheel(
  *               'example', // id of the gauge element that will be created
  *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
  *               { style: 'ferrari' } // options
@@ -32,7 +32,7 @@
 define(function (require, exports, module) {
     "use strict";
 
-    var Widget = require("widgets/Widget"),
+    let Widget = require("widgets/Widget"),
         ButtonExternalController = require("widgets/car/ButtonExternalController"),
         ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
 
@@ -76,16 +76,16 @@ define(function (require, exports, module) {
                         .style("display", "none");
 
         // Load steering wheel picture based on style options
-        var _this = this;
-        var steering_wheel_file = "text!widgets/car/steering_wheels/" + opt.style + "_steering_wheel.svg";
+        let _this = this;
+        let steering_wheel_file = "text!widgets/car/steering_wheels/" + opt.style + "_steering_wheel.svg";
         require([steering_wheel_file], function(steering_wheel) {
             _this.div.append("div").attr("id", id + "_SW").html(steering_wheel);
             // Scale svg according to scale factor
-            var svgHeight = parseFloat(_this.div.select("svg").style("height").replace("px", ""));
-            var svgWidth = parseFloat(_this.div.select("svg").style("width").replace("px", ""));
-            var widthDiff = svgWidth - _this.width;
-            var heightDiff = svgHeight - _this.height;
-            var ratio = (widthDiff === heightDiff || widthDiff > heightDiff) ?
+            let svgHeight = parseFloat(_this.div.select("svg").style("height").replace("px", ""));
+            let svgWidth = parseFloat(_this.div.select("svg").style("width").replace("px", ""));
+            let widthDiff = svgWidth - _this.width;
+            let heightDiff = svgHeight - _this.height;
+            let ratio = (widthDiff === heightDiff || widthDiff > heightDiff) ?
                             _this.width / svgWidth : _this.height / svgHeight;
             _this.div.style("transform", "scale(" + ratio + ")");
             _this.steering_wheel = _this.div.select("svg");

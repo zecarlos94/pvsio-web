@@ -17,7 +17,7 @@
  *
  *     function main() {
  *          // After VirtualKeypadController module was loaded, initialize it
- *          var virtualKeypadController = new VirtualKeypadController(
+ *          let virtualKeypadController = new VirtualKeypadController(
  *               'example', // id of the VirtualKeypadController element that will be created
  *               { top: 800, left: 800, width: 500, height: 500 }, // coordinates object
  *               { parent: 'virtualKeyPad', simulatorActions: 'simulatorActions', simulatorArrows: 'simulatorArrows' } // options, append this widget on div class="virtualKeyPad"
@@ -32,7 +32,7 @@
 define(function (require, exports, module) {
     "use strict";
 
-    var Widget = require("widgets/Widget"),
+    let Widget = require("widgets/Widget"),
         ButtonExternalController = require("widgets/car/ButtonExternalController"),
         SteeringWheel = require("widgets/car/SteeringWheel"), // In order to render rotations when button clicked
         ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
@@ -67,10 +67,6 @@ define(function (require, exports, module) {
         this.left = coords.left || 100;
         this.width = coords.width || 750;
         this.height = coords.height || 750;
-
-        // this.parent = (opt.parent) ? ("." + opt.parent) : "virtualKeyPad";
-        // this.simulatorActions = (opt.simulatorActions) ? (opt.simulatorActions) : "simulatorActions";
-        // this.simulatorArrows = (opt.simulatorArrows) ? (opt.simulatorArrows) : "simulatorArrows";
 
         this.parent = (opt.parent) ? ("." + opt.parent) : null;
         this.simulatorActions = opt.simulatorActions;
@@ -238,15 +234,15 @@ define(function (require, exports, module) {
     VirtualKeypadController.prototype.constructor = VirtualKeypadController;
     VirtualKeypadController.prototype.parentClass = Widget.prototype;
 
-    VirtualKeypadController.prototype.hide = function () {
+    VirtualKeypadController.prototype.hide = () => {
         return this.div.style("visibility", "hidden");
     };
 
-    VirtualKeypadController.prototype.reveal = function () {
+    VirtualKeypadController.prototype.reveal = () => {
         return this.div.style("visibility", "visible");
     };
 
-    VirtualKeypadController.prototype.show = function () {
+    VirtualKeypadController.prototype.show = () => {
         return this.div;
     };
 
@@ -257,7 +253,7 @@ define(function (require, exports, module) {
      * @instance
      */
     VirtualKeypadController.prototype.render = () => {
-        return this.show();
+        return VirtualKeypadController.prototype.show();
     };
 
     module.exports = VirtualKeypadController;

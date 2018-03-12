@@ -282,7 +282,7 @@ define(function (require, exports, module) {
         divToRemove.remove();
     };
   
-    GamepadController.prototype.listGamepads = function () {
+    GamepadController.prototype.listGamepads = () => {
         let gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
         for (let i = 0; i < gamepads.length; i++) {
             if (gamepads[i]) {
@@ -305,7 +305,7 @@ define(function (require, exports, module) {
         setInterval(GamepadController.prototype.listGamepads, 500);
     }
 
-    GamepadController.prototype.mappingPS4GamepadButtons = function (key) {
+    GamepadController.prototype.mappingPS4GamepadButtons = (key) => {
        
         let ps4MappingButtons = [
             {key: 0, value: 'button cross'}, 
@@ -331,7 +331,7 @@ define(function (require, exports, module) {
         return ps4MappingButtons[key].value;
     }
 
-    GamepadController.prototype.mappingPS4GamepadAxes = function (key) {
+    GamepadController.prototype.mappingPS4GamepadAxes = (key) => {
        
         let ps4MappingAxes = [
             {key: 0, value: 'left axis stick left/right'},
@@ -344,7 +344,7 @@ define(function (require, exports, module) {
     }
 
     // this API is useful with joypads
-    GamepadController.prototype.rotate = function (val) {
+    GamepadController.prototype.rotate = (val) => {
         ButtonActionsQueue.queueGUIAction(this.id() + "_rotate(" + val + ")", this.callback);
     }
 
@@ -354,9 +354,9 @@ define(function (require, exports, module) {
      * @memberof module:GamepadController
      * @instance
      */
-    GamepadController.prototype.render = function(gamepads) {
+    GamepadController.prototype.render = (gamepads) => {
         let gp = gamepads || null;
-        return this.reveal();
+        return GamepadController.prototype.reveal();
     };
 
     module.exports = GamepadController;
