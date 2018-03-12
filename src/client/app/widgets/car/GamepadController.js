@@ -40,18 +40,6 @@ define(function (require, exports, module) {
     let gamepadEvents;
     let gamepadPS4Id = "Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 09cc)";
 
-    // window.addEventListener("keyup",function(ev){
-    //     console.log(ev);
-    // })
-
-    // window.addEventListener("keydown",function(ev){
-    //     console.log(ev);
-    // })
-
-    // window.addEventListener("keypress",function(ev){
-    //     console.log(ev);
-    // })
-
     gamepadEvents = window.addEventListener("gamepadconnected", ( event ) => {
         // All buttons and axes values can be accessed through
         event.gamepad;
@@ -70,7 +58,6 @@ define(function (require, exports, module) {
     let Widget = require("widgets/Widget"),
         ButtonExternalController = require("widgets/car/ButtonExternalController"),
         SteeringWheel = require("widgets/car/SteeringWheel"), // In order to render rotations when button clicked
-        Controller = require("widgets/car/Controller"),
         ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
 
 
@@ -173,10 +160,6 @@ define(function (require, exports, module) {
         }
       
         document.body.appendChild(granParent);
-
-        let controller = new Controller("ps4", gamepad,
-        { left: 0, top: 0, height: 0, width: 0 }, {areaDiv: "gamepad_" + gamepad.index});
-
         requestAnimationFrame(GamepadController.prototype.updateStatus);
     };
 
@@ -214,14 +197,6 @@ define(function (require, exports, module) {
                 }else{
                     b.className = "button pressed";
                 }
-
-                // TODO Trigger press/release of KeyCodes 37,38,39 & 40 and Trigger Steering Wheel rotation!!!
-
-                // window.dispatchEvent(new KeyboardEvent('keydown',{'keyCode':38}));
-                // window.dispatchEvent(new KeyboardEvent('keyup',{'keyCode':38}));
-
-                // GamepadController.prototype.fire("keydown",{ctrlKey:true,keyCode:38})
-                // GamepadController.prototype.fire("keyup",{ctrlKey:true,keyCode:38})
             } else {
               b.className = "button";
             }
@@ -311,14 +286,6 @@ define(function (require, exports, module) {
 
         return ps4MappingAxes[key].value;
     }
-
-//     GamepadController.prototype.fire=function(type,options){
-//         let event=new CustomEvent(type);
-//         for(let p in options){
-//             event[p]=options[p];
-//         }
-//         window.dispatchEvent(event);
-//    }
 
     // this API is useful with joypads
     GamepadController.prototype.rotate = function (val) {
