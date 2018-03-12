@@ -20,7 +20,14 @@
  *          let virtualKeypadController = new VirtualKeypadController(
  *               'example', // id of the VirtualKeypadController element that will be created
  *               { top: 800, left: 800, width: 500, height: 500 }, // coordinates object
- *               { parent: 'virtualKeyPad', simulatorActions: 'simulatorActions', simulatorArrows: 'simulatorArrows' } // options, append this widget on div class="virtualKeyPad"
+ *               { parent: 'virtualKeyPad', 
+ *                 simulatorActions: 'simulatorActions', 
+ *                 simulatorArrows: 'simulatorArrows',
+ *                 floatArrows: 'floatArrows',
+ *                 blockArrows: 'blockArrows',
+ *                 buttonClass: 'buttonClass',
+ *                 title: 'title',
+ *               } // options, append this widget on div class="virtualKeyPad"
  *           );
  *          // Render the VirtualKeypadController widget
  *          virtualKeypadController.render();
@@ -46,6 +53,12 @@ define(function (require, exports, module) {
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
      *          <li>parent (String): the HTML element where the display will be appended (default is "virtualKeyPad").</li>
+     *          <li>simulatorActions (String): the HTML element where the action buttons(pause, resume and quit) will be appended (default is "simulatorActions").</li>
+     *          <li>simulatorArrows (String): the HTML element where the arrow buttons(left, up, right, down) will be appended (default is "simulatorArrows").</li>
+     *          <li>floatArrows (String): the HTML element where the up arrow button will be appended (default is "floatArrows").</li>
+     *          <li>blockArrows (String): the HTML element where the arrow buttons(left, right, down) will be appended (default is "blockArrows").</li>
+     *          <li>buttonClass (String): the constant string that allows ButtonExternalController widget to use 'button' tags with JQuery-UI images instead of areas as Button widget implements.(default is "buttonClass").</li>
+     *          <li>title (String): the button's title(default is 'title').</li>
      * @returns {VirtualKeypadController} The created instance of the widget VirtualKeypadController.
      * @memberof module:VirtualKeypadController
      * @instance
@@ -234,21 +247,39 @@ define(function (require, exports, module) {
     VirtualKeypadController.prototype.constructor = VirtualKeypadController;
     VirtualKeypadController.prototype.parentClass = Widget.prototype;
 
+    /**
+     * @function hide
+     * @description hide method of the VirtualKeypadController widget. This method changes 'virtualKeyPad' div visibility to hidden.
+     * @memberof module:VirtualKeypadController
+     * @instance
+     */
     VirtualKeypadController.prototype.hide = () => {
         return this.div.style("visibility", "hidden");
     };
 
+    /**
+     * @function reveal
+     * @description reveal method of the VirtualKeypadController widget. This method changes 'virtualKeyPad' div visibility to visible.
+     * @memberof module:VirtualKeypadController
+     * @instance
+     */
     VirtualKeypadController.prototype.reveal = () => {
         return this.div.style("visibility", "visible");
     };
 
+    /**
+     * @function show
+     * @description show method of the VirtualKeypadController widget. This method shows the current div status, i.e. as it was created by the VirtualKeypadController constructor.
+     * @memberof module:VirtualKeypadController
+     * @instance
+     */
     VirtualKeypadController.prototype.show = () => {
         return this.div;
     };
 
     /**
      * @function render
-     * @description Render method of the VirtualKeypadController widget.
+     * @description Render method of the VirtualKeypadController widget. This method renders this.div, i.e. the div produced by this widget constructor.
      * @memberof module:VirtualKeypadController
      * @instance
      */

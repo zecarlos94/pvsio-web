@@ -24,6 +24,11 @@
  *          let GamepadController = new GamepadController(
  *               'example', // id of the GamepadController element that will be created
  *               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
+ *               {
+ *                  carAccelerate: car.up, 
+ *                  carBrake: car.down,
+ *                  carSteeringWheel: car.steeringWheel 
+ *               }
  *           );
  *
  *          // Render the GamepadController widget
@@ -51,13 +56,13 @@ define(function (require, exports, module) {
     let gamepadPS4Id = "Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 09cc)";
 
     /**
-     * @description Button 'carAccelerate' to be clicked when a certain gamepad button is pressed.
+     * @description ButtonExternalController 'carAccelerate' to be clicked when a certain gamepad button is pressed.
      * @memberof module:GamepadController
      * @instance
      */
     let carAccelerate;
     /**
-     * @description Button 'carBrake' to be clicked when a certain gamepad button is pressed.
+     * @description ButtonExternalController 'carBrake' to be clicked when a certain gamepad button is pressed.
      * @memberof module:GamepadController
      * @instance
      */
@@ -108,6 +113,9 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
+     *          <li>carAccelerate (ButtonExternalController): Button 'accelerate' to accelerate when a certain gamepad button is pressed.</li>
+     *          <li>carBrake (ButtonExternalController): Button 'brake' to brake when a certain gamepad button is pressed.</li>
+     *          <li>carSteeringWheel (SteeringWheel): SteeringWheel 'steering_wheel' to rotate the current steering wheel with gamepad axes values.</li>
      * @returns {GamepadController} The created instance of the widget GamepadController.
      * @memberof module:GamepadController
      * @instance
