@@ -1,11 +1,12 @@
 /**
  * @module SteeringWheel
  * @version 1.0.0
- * @author Paolo Masci
+ * @author Paolo Masci, José Carlos
  * @desc This module helps you building gauge widgets using SVG files. Uses the Pointer module to
  * draw pointers for the gauges.
  *
  * @date October 6, 2017
+ * last modified @date Mar 12, 2018
  *
  * @example <caption>Usage of SteeringWheel within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -143,14 +144,33 @@ define(function (require, exports, module) {
     SteeringWheel.prototype.constructor = SteeringWheel;
     SteeringWheel.prototype.parentClass = Widget.prototype;
 
+    /**
+     * @function hide
+     * @description hide method of the SteeringWheel widget. This method changes parent div display to none.
+     * @memberof module:SteeringWheel
+     * @instance
+     */
     SteeringWheel.prototype.hide = function () {
         return this.div.style("display", "none");
     };
 
+    /**
+     * @function reveal
+     * @description reveal method of the SteeringWheel widget. This method changes parent div display to block.
+     * @memberof module:SteeringWheel
+     * @instance
+     */
     SteeringWheel.prototype.reveal = function () {
         return this.div.style("display", "block");
     };
 
+     /**
+     * @function rotate
+     * @description rotate method of the SteeringWheel widget. This method rotates the steering wheel svg, i.e. image, by the value of 'val'.
+     * @param val Rotation angle (degrees). Positive values indicate clockwise rotation; negative values are for counter-clockwise rotations.
+     * @memberof module:SteeringWheel
+     * @instance
+     */
     // this API is useful with joypads
     SteeringWheel.prototype.rotate = function (val) {
         ButtonActionsQueue.queueGUIAction(this.id() + "_rotate(" + val + ")", this.callback);

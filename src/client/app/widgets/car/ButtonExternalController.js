@@ -32,6 +32,23 @@ define(function (require, exports, module) {
         btnTimer.reset();
     }
 
+    /**
+     * @function constructor
+     * @description Constructor for the ButtonExternalController widget.
+     * @param id {String} The id of the widget instance.
+     * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
+     *        the left, top corner, and the width and height of the (rectangular) display.
+     *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
+     * @param opt {Object} Options:
+     *          <li>axisX (String): Value of left axis of PS4 gamepad.</li>
+     *          <li>axisY (String): Value of right axis of PS4 gamepad.</li>
+     *          <li>buttonClass (String): Constant that allows this widget to use 'button' tags instead of 'area' when defining buttons.</li>
+     *          <li>title (String): Title of Gamepad's Buttons.</li>
+     *          <li>icon (String): JQuery-UI icon class to define VirtualKeypadController widget buttons, i.e. up, left, down, right arrows.</li>
+     * @returns {ButtonExternalController} The created instance of the widget ButtonExternalController.
+     * @memberof module:ButtonExternalController
+     * @instance
+     */
     function ButtonExternalController(id, coords, opt) {
         opt = opt || {};
         opt.functionText = opt.functionText || id;
@@ -93,7 +110,7 @@ define(function (require, exports, module) {
             var x2 = this.left + this.width;
             var x3 = this.top + this.height;
 
-            if(id==="accelerate"){
+            if(id==="accelerate"){ // this id 'accelerate' is necessary to have the visual appearance in VirtualKeypadController widget as in the real keyboard, i.e., having 3 arrows aligned at the bottom and 1 arrow in the middle above them.
                 this.area.attr("id", id).attr("class", opt.buttonClass)
                 .attr("title", opt.title).style("margin-left","31px").style("margin-bottom","5px").append("span").attr("class", "ui-button-icon ui-icon "+opt.icon);
             

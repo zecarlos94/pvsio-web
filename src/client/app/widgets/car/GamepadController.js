@@ -176,6 +176,7 @@ define(function (require, exports, module) {
     /**
      * @function connectGamepad
      * @description connectGamepad method of the GamepadController widget. This method connects 'gamepad'.
+     * @param gamepad {Gamepad} The gamepad instance, i.e. its buttons, axes, unique id, among others.
      * @memberof module:GamepadController
      * @instance
      */
@@ -187,6 +188,7 @@ define(function (require, exports, module) {
      * @function saveGamepad
      * @description saveGamepad method of the GamepadController widget. This method add 'gamepad' to gamepadsKnown array and add its div on the frontend demo.
      * Also invokes updateStatus method to continuously update the aforementioned div with the current values of pressed buttons and angles read from gamepad axes.
+     * @param gamepad {Gamepad} The gamepad instance, i.e. its buttons, axes, unique id, among others.
      * @memberof module:GamepadController
      * @instance
      */
@@ -349,6 +351,7 @@ define(function (require, exports, module) {
     /**
      * @function disconnectGamepad
      * @description disconnectGamepad method of the GamepadController widget. This method disconnects 'gamepad'.
+     * @param gamepad {Gamepad} The gamepad instance, i.e. its buttons, axes, unique id, among others.
      * @memberof module:GamepadController
      * @instance
      */
@@ -359,6 +362,7 @@ define(function (require, exports, module) {
     /**
      * @function removeGamepad
      * @description removeGamepad method of the GamepadController widget. This method removes 'gamepad' from gamepadsKnown array and removes its div on the frontend demo.
+     * @param gamepad {Gamepad} The gamepad instance, i.e. its buttons, axes, unique id, among others.
      * @memberof module:GamepadController
      * @instance
      */
@@ -411,6 +415,7 @@ define(function (require, exports, module) {
     /**
      * @function mappingPS4GamepadButtons
      * @description mappingPS4GamepadButtons method of the GamepadController widget. This method maps all read buttons to PS4 buttons.
+     * @param key {Integer} The key instance, i.e. the gamepad button index to be mapped into PS4 names.
      * @memberof module:GamepadController
      * @instance
      */
@@ -443,6 +448,7 @@ define(function (require, exports, module) {
      /**
      * @function mappingPS4GamepadAxes
      * @description mappingPS4GamepadAxes method of the GamepadController widget. This method maps all read axes to PS4 axes.
+     * @param key {Integer} The key instance, i.e. the gamepad axis index to be mapped into PS4 names.
      * @memberof module:GamepadController
      * @instance
      */
@@ -461,6 +467,7 @@ define(function (require, exports, module) {
     /**
      * @function render
      * @description Render method of the GamepadController widget.
+     * @param gamepads {Gamepad[]} The array of gamepad instance, i.e. all gamepads currently detected in user's browser.
      * @memberof module:GamepadController
      * @instance
      */
