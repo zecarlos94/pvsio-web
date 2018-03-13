@@ -23,8 +23,16 @@
  *               { parent: 'tog', 
  *                 mutedImg: "img/muted.png", 
  *                 notMutedImg: "img/notMuted.png", 
- *                 loopSong: "song/loop.mp3", 
- *                 song: "song/sound.mp3" 
+ *                 songs: [
+ *                           {
+ *                               url: "song/sound.mp3",
+ *                               loop: false
+ *                           },
+ *                           {
+ *                               url: "song/loop.mp3",
+ *                               loop: true
+ *                           }
+ *                       ],
  *               } // append on div 'tog'
  *           );
  *          // Render the Sound widget
