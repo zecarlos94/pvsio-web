@@ -25,6 +25,7 @@ require([
         "widgets/NumericDisplay",
         "widgets/LED",
         "widgets/car/SoundWidget",
+        "widgets/car/Sound",
 
         "widgets/ButtonActionsQueue",
         "stateParser",
@@ -39,6 +40,7 @@ require([
 
         // Added Sound Widget Components here
         SoundWidget,
+        Sound, // Dynamic Version
 
         ButtonActionsQueue,
         stateParser,
@@ -89,7 +91,21 @@ require([
 
         var sound = {};
         // ----------------------------- SOUND COMPONENTS -----------------------------
-        sound.soundWidget = new SoundWidget("soundWidget", {
+        // sound.soundWidget = new SoundWidget("soundWidget", {
+        //     top: 100,
+        //     left: 700,
+        //     width: 750,
+        //     height: 750
+        // }, {
+        //     parent: "tog", // defines parent div, which is div class="tog" by default
+        //     mutedImg: "img/muted.png", 
+        //     notMutedImg: "img/notMuted.png", 
+        //     loopSong: "song/loop.mp3", 
+        //     song: "song/sound.mp3",
+        //     callback: onMessageReceived
+        // });
+
+        sound.soundWidget = new Sound("soundWidget", {
             top: 100,
             left: 700,
             width: 750,
@@ -98,8 +114,16 @@ require([
             parent: "tog", // defines parent div, which is div class="tog" by default
             mutedImg: "img/muted.png", 
             notMutedImg: "img/notMuted.png", 
-            loopSong: "song/loop.mp3", 
-            song: "song/sound.mp3",
+            songs: [
+                {
+                    url: "song/sound.mp3",
+                    loop: false
+                },
+                {
+                    url: "song/loop.mp3",
+                    loop: true
+                }
+            ],
             callback: onMessageReceived
         });
 
