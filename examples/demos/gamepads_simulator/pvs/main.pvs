@@ -1,0 +1,29 @@
+% ---------------------------------------------------------------
+%  Theory: gamepads_simulator_demo
+%  Author: José Carlos
+%          Universidade do Minho
+% ---------------------------------------------------------------
+
+main: THEORY
+ BEGIN
+
+  Action: TYPE = { idle, drawed }
+  
+  state: TYPE = [#
+    action: Action
+  #]
+
+  %-- initial state
+  init(x: real): state = (#
+    action := idle
+  #)
+    
+  draw(st: state): state = (#
+    action := drawed
+  #)
+
+  %-- APIs
+  press_draw(st: state): state = draw(st) WITH [ action := drawed ]
+  release_draw(st: state): state = st WITH [ action := idle ]
+
+END main
