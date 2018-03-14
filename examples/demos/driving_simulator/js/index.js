@@ -259,6 +259,11 @@ require([
             car.gamepadController.render();
         }
 
+        // // Full Left
+        // console.log("Full Left Angle: ", car.gamepadController.calculateRotationAngle(-0.16, -1.0));
+        // // Full Right
+        // console.log("Full Right Angle: ", car.gamepadController.calculateRotationAngle(-0.08, 1.0));
+
         let removeSpeedometer = () => {
             let parent = document.getElementById("speedometer-gauge");
             let child = document.getElementById("last-gauge");

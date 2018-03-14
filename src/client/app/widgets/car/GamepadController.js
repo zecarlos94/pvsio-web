@@ -321,6 +321,7 @@ define(function (require, exports, module) {
           }
 
           let stickThreshold = 0.50;
+          let angleRotationSteeringWheel = 0;
           let axes = d.getElementsByClassName("axis");
           for (i = 0; i < controller.axes.length; i++) {
             let mappedAxis = GamepadController.prototype.mappingPS4GamepadAxes(i);
@@ -332,6 +333,21 @@ define(function (require, exports, module) {
             if(carSteeringWheel){
                 if(i===0){ // left stick - PS4 Gamepad/External Controller
                     // console.log(controller.axes[i].toFixed(4));
+                    angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
+                    // console.log(angleRotationSteeringWheel);
+                    // TODO SteeringWheel.rotate(angleRotationSteeringWheel);
+                    if(controller.axes[i].toFixed(4)>-1 && controller.axes[i].toFixed(4)<-stickThreshold){
+                        // console.log("rotate left");
+                        carSteeringWheel.btn_rotate_left.click();
+                    }else if(controller.axes[i].toFixed(4)>stickThreshold && controller.axes[i].toFixed(4)<1){
+                        // console.log("rotate right");
+                        carSteeringWheel.btn_rotate_right.click();
+                    }
+                }else if(i===2){ // right stick - PS4 Gamepad/External Controller
+                    // console.log(controller.axes[i].toFixed(4));
+                    angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
+                    // console.log(angleRotationSteeringWheel);
+                    // TODO SteeringWheel.rotate(angleRotationSteeringWheel);
                     if(controller.axes[i].toFixed(4)>-1 && controller.axes[i].toFixed(4)<-stickThreshold){
                         // console.log("rotate left");
                         carSteeringWheel.btn_rotate_left.click();
@@ -464,6 +480,45 @@ define(function (require, exports, module) {
         return ps4MappingAxes[key].value;
     }
 
+    /**
+     * @function degToRadians
+     * @description degToRadians method of the GamepadController widget. This method converts angles from degrees to radians.
+     * @param deg {Float} The angle in degrees instance.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    GamepadController.prototype.degToRadians = (deg) => {
+        return deg * Math.PI / 180;
+    };
+    
+    /**
+     * @function radiansToDegrees
+     * @description radiansToDegrees method of the GamepadController widget. This method converts angles from radians to degrees.
+     * @param rad {Float} The angle in radians instance.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    GamepadController.prototype.radiansToDegrees = (rad) => {
+        return rad * 180 / Math.PI;
+    };
+
+    /**
+     * @function calculateRotationAngle
+     * @description calculateRotationAngle method of the GamepadController widget. This method converts angles from radians to degrees.
+     * @param y {Float} The value of vertical axis(up to/or down), between -1 and 1.
+     * @param x {Float} The value of horizontal axis(left to/or right), between -1 and 1.  
+     * @memberof module:GamepadController
+     * @returns {angle} The angle in degrees calculated based on horizontal and vertical axis values read from gamepad.
+     * @instance
+     */
+    GamepadController.prototype.calculateRotationAngle = (y,x) => {
+        let angle = 0;
+        if (x !== 0.0 || y !== 0.0) {
+            angle = GamepadController.prototype.radiansToDegrees( Math.atan2(x, y) );
+        }
+        return angle;
+    };
+  
     /**
      * @function render
      * @description Render method of the GamepadController widget.
