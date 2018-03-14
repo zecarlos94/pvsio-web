@@ -97,6 +97,134 @@ require([
         }, {
             parent: "gamepads", // defines parent div, which is div id="drawGamepad" by default
             style: "ps4", // defines parent div, which is "ps4" by default
+            areas: [ // mapped build manually at https://www.image-map.net/
+                {
+                    type: "circle",
+                    cx: 537,
+                    cy: 130,
+                    r: 22,
+                    opacity: 0.2,
+                    stroke: "black",
+                    strokeWidth: 3,
+                    href: " "
+                },
+                { 
+                    type: "circle",
+                    cx: 589,
+                    cy: 180,
+                    r: 22,
+                    opacity: 0.2,
+                    stroke: "black",
+                    strokeWidth: 3,
+                    href: " " 
+                },
+                { 
+                    type: "circle",
+                    cx: 638,
+                    cy: 130,
+                    r: 22,
+                    opacity: 0.2,
+                    stroke: "black",
+                    strokeWidth: 3,
+                    href: " " 
+                },
+                { 
+                    type: "circle",
+                    cx: 586,
+                    cy: 80,
+                    r: 22,
+                    opacity: 0.2,
+                    stroke: "black",
+                    strokeWidth: 3,
+                    href: " "
+                },
+                { 
+                    type: "circle",
+                    cx: 483,
+                    cy: 223,
+                    r: 38,
+                    opacity: 0.2,
+                    stroke: "black",
+                    strokeWidth: 3,
+                    href: " "
+                },
+                { 
+                    type: "circle",
+                    cx: 265,
+                    cy: 223,
+                    r: 38,
+                    opacity: 0.2,
+                    stroke: "black",
+                    strokeWidth: 3,
+                    href: " " 
+                },
+                { 
+                    type: "circle",
+                    cx: 376,
+                    cy: 228,
+                    r: 20,
+                    opacity: 0.2,
+                    stroke: "black",
+                    strokeWidth: 3,
+                    href: " " 
+                },                                            
+                { 
+                    type: "rect",
+                    x: 266,
+                    y: 31,
+                    opacity: 0.2,
+                    height: 128,
+                    width: 220
+                }, 
+                { 
+                    type: "rect",
+                    x: 504,
+                    y: 48,
+                    opacity: 0.2,
+                    height: 36,
+                    width: 18
+                }, 
+                { 
+                    type: "rect",
+                    x: 225,
+                    y: 48,
+                    opacity: 0.2,
+                    height: 36,
+                    width: 18
+                },                                          
+                {   
+                    type: "rect",
+                    x: 144,
+                    y: 78,
+                    opacity: 0.2,
+                    height: 32,
+                    width: 32
+                },  
+                { 
+                    type: "rect",
+                    x: 183,
+                    y: 116,
+                    opacity: 0.2,
+                    height: 32,
+                    width: 32
+                },
+                { 
+                    type: "rect",
+                    x: 144,
+                    y: 155,
+                    opacity: 0.2,
+                    height: 32,
+                    width: 32
+                }, 
+                { 
+                    type: "rect",
+                    x: 106,
+                    y: 115,
+                    opacity: 0.2,
+                    height: 32,
+                    width: 32
+                } 
+            ],
             callback: onMessageReceived
         });
 
