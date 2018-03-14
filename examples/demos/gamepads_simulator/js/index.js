@@ -89,130 +89,6 @@ require([
 
         var draw = {};
         // ----------------------------- DRAWGAMEPAD COMPONENTS -----------------------------
-        draw.drawGamepad = new DrawGamepad("drawGamepad", {
-            top: 100,
-            left: 350,
-            width: 750,
-            height: 750
-        }, {
-            parent: "gamepads", // defines parent div, which is div id="drawGamepad" by default
-            style: "xbox", // defines parent div, which is "ps4" by default
-            areas: [ // mapped build manually at https://www.image-map.net/
-                {
-                    type: "circle",
-                    cx: 837,
-                    cy: 262,
-                    r: 34,
-                    opacity: 0.2,
-                    stroke: "black",
-                    strokeWidth: 3,
-                    href: " "
-                },
-                { 
-                    type: "circle",
-                    cx: 905,
-                    cy: 197,
-                    r: 34,
-                    opacity: 0.2,
-                    stroke: "black",
-                    strokeWidth: 3,
-                    href: " " 
-                },
-                { 
-                    type: "circle",
-                    cx: 839,
-                    cy: 131,
-                    r: 34,
-                    opacity: 0.2,
-                    stroke: "black",
-                    strokeWidth: 3,
-                    href: " " 
-                },
-                { 
-                    type: "circle",
-                    cx: 772,
-                    cy: 197,
-                    r: 34,
-                    opacity: 0.2,
-                    stroke: "black",
-                    strokeWidth: 3,
-                    href: " "
-                },
-                { 
-                    type: "circle",
-                    cx: 659,
-                    cy: 196,
-                    r: 25,
-                    opacity: 0.2,
-                    stroke: "black",
-                    strokeWidth: 3,
-                    href: " "
-                },
-                { 
-                    type: "circle",
-                    cx: 520,
-                    cy: 195,
-                    r: 25,
-                    opacity: 0.2,
-                    stroke: "black",
-                    strokeWidth: 3,
-                    href: " " 
-                },
-                { 
-                    type: "circle",
-                    cx: 715,
-                    cy: 343,
-                    r: 55,
-                    opacity: 0.2,
-                    stroke: "black",
-                    strokeWidth: 3,
-                    href: " " 
-                },   
-                { 
-                    type: "circle",
-                    cx: 343,
-                    cy: 195,
-                    r: 55,
-                    opacity: 0.2,
-                    stroke: "black",
-                    strokeWidth: 3,
-                    href: " " 
-                },                                            
-                { 
-                    type: "rect",
-                    x: 400,
-                    y: 336,
-                    opacity: 0.2,
-                    height: 38,
-                    width: 38
-                }, 
-                { 
-                    type: "rect",
-                    x: 490,
-                    y: 336,
-                    opacity: 0.2,
-                    height: 38,
-                    width: 38
-                }, 
-                { 
-                    type: "rect",
-                    x: 444,
-                    y: 287,
-                    opacity: 0.2,
-                    height: 38,
-                    width: 38
-                },                                          
-                {   
-                    type: "rect",
-                    x: 444,
-                    y: 376,
-                    opacity: 0.2,
-                    height: 38,
-                    width: 38
-                }
-            ],
-            callback: onMessageReceived
-        });
         // draw.drawGamepad = new DrawGamepad("drawGamepad", {
         //     top: 100,
         //     left: 350,
@@ -220,137 +96,287 @@ require([
         //     height: 750
         // }, {
         //     parent: "gamepads", // defines parent div, which is div id="drawGamepad" by default
-        //     style: "ps4", // defines parent div, which is "ps4" by default
+        //     style: "xbox", // defines parent div, which is "ps4" by default
         //     areas: [ // mapped build manually at https://www.image-map.net/
         //         {
         //             type: "circle",
-        //             cx: 537,
-        //             cy: 130,
-        //             r: 22,
+        //             cx: 837,
+        //             cy: 262,
+        //             r: 34,
         //             opacity: 0.2,
         //             stroke: "black",
         //             strokeWidth: 3,
-        //             href: " "
+        //             href: " ",
+        //             id: "A"
         //         },
         //         { 
         //             type: "circle",
-        //             cx: 589,
-        //             cy: 180,
-        //             r: 22,
+        //             cx: 905,
+        //             cy: 197,
+        //             r: 34,
         //             opacity: 0.2,
         //             stroke: "black",
         //             strokeWidth: 3,
-        //             href: " " 
+        //             href: " ",
+        //             id: "B" 
         //         },
         //         { 
         //             type: "circle",
-        //             cx: 638,
-        //             cy: 130,
-        //             r: 22,
+        //             cx: 839,
+        //             cy: 131,
+        //             r: 34,
         //             opacity: 0.2,
         //             stroke: "black",
         //             strokeWidth: 3,
-        //             href: " " 
+        //             href: " ",
+        //             id: "Y" 
         //         },
         //         { 
         //             type: "circle",
-        //             cx: 586,
-        //             cy: 80,
-        //             r: 22,
+        //             cx: 772,
+        //             cy: 197,
+        //             r: 34,
         //             opacity: 0.2,
         //             stroke: "black",
         //             strokeWidth: 3,
-        //             href: " "
+        //             href: " ",
+        //             id: "X"
         //         },
         //         { 
         //             type: "circle",
-        //             cx: 483,
-        //             cy: 223,
-        //             r: 38,
+        //             cx: 659,
+        //             cy: 196,
+        //             r: 25,
         //             opacity: 0.2,
         //             stroke: "black",
         //             strokeWidth: 3,
-        //             href: " "
+        //             href: " ",
+        //             id: "menu"
         //         },
         //         { 
         //             type: "circle",
-        //             cx: 265,
-        //             cy: 223,
-        //             r: 38,
+        //             cx: 520,
+        //             cy: 195,
+        //             r: 25,
         //             opacity: 0.2,
         //             stroke: "black",
         //             strokeWidth: 3,
-        //             href: " " 
+        //             href: " ",
+        //             id: "start" 
         //         },
         //         { 
         //             type: "circle",
-        //             cx: 376,
-        //             cy: 228,
-        //             r: 20,
+        //             cx: 715,
+        //             cy: 343,
+        //             r: 55,
         //             opacity: 0.2,
         //             stroke: "black",
         //             strokeWidth: 3,
-        //             href: " " 
+        //             href: " ",
+        //             id: "rightAxis" 
+        //         },   
+        //         { 
+        //             type: "circle",
+        //             cx: 343,
+        //             cy: 195,
+        //             r: 55,
+        //             opacity: 0.2,
+        //             stroke: "black",
+        //             strokeWidth: 3,
+        //             href: " ",
+        //             id: "leftAxis" 
         //         },                                            
         //         { 
         //             type: "rect",
-        //             x: 266,
-        //             y: 31,
+        //             x: 400,
+        //             y: 336,
         //             opacity: 0.2,
-        //             height: 128,
-        //             width: 220
+        //             height: 38,
+        //             width: 38,
+        //             id: "leftArrow"
         //         }, 
         //         { 
         //             type: "rect",
-        //             x: 504,
-        //             y: 48,
+        //             x: 490,
+        //             y: 336,
         //             opacity: 0.2,
-        //             height: 36,
-        //             width: 18
+        //             height: 38,
+        //             width: 38,
+        //             id: "rightArrow" 
         //         }, 
         //         { 
         //             type: "rect",
-        //             x: 225,
-        //             y: 48,
+        //             x: 444,
+        //             y: 287,
         //             opacity: 0.2,
-        //             height: 36,
-        //             width: 18
+        //             height: 38,
+        //             width: 38,
+        //             id: "upArrow" 
         //         },                                          
         //         {   
         //             type: "rect",
-        //             x: 144,
-        //             y: 78,
+        //             x: 444,
+        //             y: 376,
         //             opacity: 0.2,
-        //             height: 32,
-        //             width: 32
-        //         },  
-        //         { 
-        //             type: "rect",
-        //             x: 183,
-        //             y: 116,
-        //             opacity: 0.2,
-        //             height: 32,
-        //             width: 32
-        //         },
-        //         { 
-        //             type: "rect",
-        //             x: 144,
-        //             y: 155,
-        //             opacity: 0.2,
-        //             height: 32,
-        //             width: 32
-        //         }, 
-        //         { 
-        //             type: "rect",
-        //             x: 106,
-        //             y: 115,
-        //             opacity: 0.2,
-        //             height: 32,
-        //             width: 32
-        //         } 
+        //             height: 38,
+        //             width: 38,
+        //             id: "downArrow"
+        //         }
         //     ],
         //     callback: onMessageReceived
         // });
+        draw.drawGamepad = new DrawGamepad("drawGamepad", {
+            top: 100,
+            left: 350,
+            width: 750,
+            height: 750
+        }, {
+            parent: "gamepads", // defines parent div, which is div id="drawGamepad" by default
+            style: "ps4", // defines parent div, which is "ps4" by default
+            areas: [ // mapped build manually at https://www.image-map.net/
+                {
+                    type: "circle",
+                    cx: 537,
+                    cy: 130,
+                    r: 22,
+                    opacity: 0.2,
+                    stroke: "black",
+                    strokeWidth: 3,
+                    href: " ",
+                    id: "square"
+                },
+                { 
+                    type: "circle",
+                    cx: 589,
+                    cy: 180,
+                    r: 22,
+                    opacity: 0.2,
+                    stroke: "black",
+                    strokeWidth: 3,
+                    href: " ",
+                    id: "cross"
+                },
+                { 
+                    type: "circle",
+                    cx: 638,
+                    cy: 130,
+                    r: 22,
+                    opacity: 0.2,
+                    stroke: "black",
+                    strokeWidth: 3,
+                    href: " ",
+                    id: "circle"
+                },
+                { 
+                    type: "circle",
+                    cx: 586,
+                    cy: 80,
+                    r: 22,
+                    opacity: 0.2,
+                    stroke: "black",
+                    strokeWidth: 3,
+                    href: " ",
+                    id: "triangle"
+                },
+                { 
+                    type: "circle",
+                    cx: 483,
+                    cy: 223,
+                    r: 38,
+                    opacity: 0.2,
+                    stroke: "black",
+                    strokeWidth: 3,
+                    href: " ",
+                    id: "rightAxis"
+                },
+                { 
+                    type: "circle",
+                    cx: 265,
+                    cy: 223,
+                    r: 38,
+                    opacity: 0.2,
+                    stroke: "black",
+                    strokeWidth: 3,
+                    href: " ",
+                    id: "leftAxis" 
+                },
+                { 
+                    type: "circle",
+                    cx: 376,
+                    cy: 228,
+                    r: 20,
+                    opacity: 0.2,
+                    stroke: "black",
+                    strokeWidth: 3,
+                    href: " ",
+                    id: "PS" 
+                },                                            
+                { 
+                    type: "rect",
+                    x: 266,
+                    y: 31,
+                    opacity: 0.2,
+                    height: 128,
+                    width: 220,
+                    id: "touchpad"
+                }, 
+                { 
+                    type: "rect",
+                    x: 504,
+                    y: 48,
+                    opacity: 0.2,
+                    height: 36,
+                    width: 18,
+                    id: "options"
+                }, 
+                { 
+                    type: "rect",
+                    x: 225,
+                    y: 48,
+                    opacity: 0.2,
+                    height: 36,
+                    width: 18,
+                    id: "share"
+                },                                          
+                {   
+                    type: "rect",
+                    x: 144,
+                    y: 78,
+                    opacity: 0.2,
+                    height: 32,
+                    width: 32,
+                    id: "upArrow"
+                },  
+                { 
+                    type: "rect",
+                    x: 183,
+                    y: 116,
+                    opacity: 0.2,
+                    height: 32,
+                    width: 32,
+                    id: "rightArrow"
+                },
+                { 
+                    type: "rect",
+                    x: 144,
+                    y: 155,
+                    opacity: 0.2,
+                    height: 32,
+                    width: 32,
+                    id: "downArrow"
+                }, 
+                { 
+                    type: "rect",
+                    x: 106,
+                    y: 115,
+                    opacity: 0.2,
+                    height: 32,
+                    width: 32,
+                    id: "leftArrow"
+                } 
+            ],
+            callback: onMessageReceived
+        });
 
         // ----------------------------- SOUND INTERACTION -----------------------------
         draw.draw = new Button("draw", { width: 0, height: 0 }, {

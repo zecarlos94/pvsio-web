@@ -87,7 +87,8 @@ define(function (require, exports, module) {
             if(opt.areas){
                 for(let k=0;k<opt.areas.length;k++){
                     if(opt.areas[k].type==="circle"){
-                        _this.gamepad.append("circle").attr("cx",""+opt.areas[k].cx)
+                        _this.gamepad.append("circle").attr("id",""+opt.areas[k].id)
+                                                      .attr("cx",""+opt.areas[k].cx)
                                                       .attr("cy",""+opt.areas[k].cy)
                                                       .attr("r",""+opt.areas[k].r)
                                                       .attr("opacity",""+opt.areas[k].opacity)
@@ -95,7 +96,8 @@ define(function (require, exports, module) {
                                                       .attr("stroke-width",""+opt.areas[k].strokeWidth)
                                                       .attr("href", ""+opt.areas[k].href);
                     }else if(opt.areas[k].type==="rect"){
-                        _this.gamepad.append("rect").attr("x",""+opt.areas[k].x)
+                        _this.gamepad.append("rect").attr("id",""+opt.areas[k].id)
+                                                    .attr("x",""+opt.areas[k].x)
                                                     .attr("y", ""+opt.areas[k].y)
                                                     .attr("opacity", ""+opt.areas[k].opacity)
                                                     .attr("height", ""+opt.areas[k].height)
