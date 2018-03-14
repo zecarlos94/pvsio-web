@@ -33,6 +33,10 @@
 define(function (require, exports, module) {
     "use strict";
 
+    // let clickableAreaGamepad = window.addEventListener("onclick", ( event ) => {
+    //     console.log(event);
+    // });
+
     let Widget = require("widgets/Widget"),
         ButtonExternalController = require("widgets/car/ButtonExternalController"),
         ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
