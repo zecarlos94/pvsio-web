@@ -64,14 +64,7 @@ define(function (require, exports, module) {
         this.height = coords.height || 250;
 
         this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
-        this.div = d3.select(this.parent)
-                        .append("div").attr("id", id)
-                        .style("position", "absolute")
-                        .style("top", this.top + "px").style("left", this.left + "px")
-                        .style("opacity", opt.opacity)
-                        .style("transform-origin", "0 0");
-
-        // Load gamepad picture based on style options
+       
         let _this = this;
         let gamepad_file = "text!widgets/car/virtual_controllers/" + opt.style + ".svg";
         require([gamepad_file], function(gamepad) {
@@ -85,10 +78,135 @@ define(function (require, exports, module) {
                             _this.width / svgWidth : _this.height / svgHeight;
             _this.div.style("transform", "scale(" + ratio + ")");
             _this.gamepad = _this.div.select("svg");
-            _this.gamepad.style("transition", "transform 0.3s")
+            _this.gamepad.style("transition", "transform 0.3s");
+            // mapped build manually at https://www.image-map.net/
+            _this.gamepad.append("circle").attr("cx","537")
+                                          .attr("cy","130")
+                                          .attr("r","22")
+                                          .attr("opacity","0.2")
+                                          .attr("stroke","black")
+                                          .attr("stroke-width","3")
+                                          .attr("href", " ");
+
+            _this.gamepad.append("circle").attr("cx","589")
+                                          .attr("cy","180")
+                                          .attr("r","22")
+                                          .attr("opacity","0.2")
+                                          .attr("stroke","black")
+                                          .attr("stroke-width","3")
+                                          .attr("href", " ");
+              
+            _this.gamepad.append("circle").attr("cx","638")
+                                          .attr("cy","130")
+                                          .attr("r","22")
+                                          .attr("opacity","0.2")
+                                          .attr("stroke","black")
+                                          .attr("stroke-width","3")
+                                          .attr("href", " ");
+              
+            _this.gamepad.append("circle").attr("cx","586")
+                                          .attr("cy","80")
+                                          .attr("r","22")
+                                          .attr("opacity","0.2")
+                                          .attr("stroke","black")
+                                          .attr("stroke-width","3")
+                                          .attr("href", " ");
+              
+            _this.gamepad.append("circle").attr("cx","483")
+                                          .attr("cy","223")
+                                          .attr("r","38")
+                                          .attr("opacity","0.2")
+                                          .attr("stroke","black")
+                                          .attr("stroke-width","3")
+                                          .attr("href", " ");
+              
+            _this.gamepad.append("circle").attr("cx","265")
+                                          .attr("cy","223")
+                                          .attr("r","38")
+                                          .attr("opacity","0.2")
+                                          .attr("stroke","black")
+                                          .attr("stroke-width","3")
+                                          .attr("href", " ");
+              
+            _this.gamepad.append("circle").attr("cx","376")
+                                          .attr("cy","228")
+                                          .attr("r","20")
+                                          .attr("opacity","0.2")
+                                          .attr("stroke","black")
+                                          .attr("stroke-width","3")
+                                          .attr("href", " ");
+                                          
+            _this.gamepad.append("rect").attr("x","266")
+                                        .attr("y","31")
+                                        .attr("opacity","0.2")
+                                        .attr("height","128")
+                                        .attr("width","220");
+
+            _this.gamepad.append("rect").attr("x","504")
+                                        .attr("y","48")
+                                        .attr("opacity","0.2")
+                                        .attr("height","36")
+                                        .attr("width","18");
+                
+            _this.gamepad.append("rect").attr("x","225")
+                                        .attr("y","48")
+                                        .attr("opacity","0.2")
+                                        .attr("height","36")
+                                        .attr("width","18");                                         
+              
+            _this.gamepad.append("rect").attr("x","144")
+                                        .attr("y","78")
+                                        .attr("opacity","0.2")
+                                        .attr("height","32")
+                                        .attr("width","32"); 
+              
+            _this.gamepad.append("rect").attr("x","183")
+                                        .attr("y","116")
+                                        .attr("opacity","0.2")
+                                        .attr("height","32")
+                                        .attr("width","32");
+              
+            _this.gamepad.append("rect").attr("x","144")
+                                        .attr("y","155")
+                                        .attr("opacity","0.2")
+                                        .attr("height","32")
+                                        .attr("width","32");
+              
+            _this.gamepad.append("rect").attr("x","106")
+                                        .attr("y","115")
+                                        .attr("opacity","0.2")
+                                        .attr("height","32")
+                                        .attr("width","32");
+                                          
             return _this;
         });
 
+        this.div = d3.select(this.parent)
+                        .append("div").attr("id", id);
+
+        this.div.append("style").text( " \
+            svg circle { \
+                -webkit-transition: all 2s ease-out; \
+                -moz-transition: all 2s ease-out; \
+                -ms-transition: all 2s ease-out; \
+                -o-transition: all 2s ease-out; \
+                transition: all 2s ease-out; \
+            } \
+            svg circle:active { \
+                opacity: 0.9; \
+            } \
+            svg rect { \
+                -webkit-transition: all 2s ease-out; \
+                -moz-transition: all 2s ease-out; \
+                -ms-transition: all 2s ease-out; \
+                -o-transition: all 2s ease-out; \
+                transition: all 2s ease-out; \
+            } \
+            svg rect:active { \
+                opacity: 0.9; \
+            } \
+            ");
+   
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
 
