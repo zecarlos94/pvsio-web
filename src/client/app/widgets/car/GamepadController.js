@@ -360,6 +360,7 @@ define(function (require, exports, module) {
               }
             }
         }
+        return this;
     };
 
     /**
@@ -373,6 +374,7 @@ define(function (require, exports, module) {
             for (let i = 0; i < gamepadsKnown.length; i++) {
                 console.log(gamepadsKnown[i]);
             }
+            return this;
         }, 500);
     };
 
@@ -385,6 +387,7 @@ define(function (require, exports, module) {
      */
     GamepadController.prototype.disconnectGamepad = function (gamepad) {
        this.removeGamepad(gamepad);
+       return this;
     };
       
     /**
@@ -398,6 +401,7 @@ define(function (require, exports, module) {
         delete gamepadsKnown[gamepad.index];
         let divToRemove = document.getElementById("gamepad_" + gamepad.index);
         divToRemove.remove();
+        return this;
     };
   
     /**
@@ -409,6 +413,7 @@ define(function (require, exports, module) {
      */
     GamepadController.prototype.connectGamepad = function (gamepad) {
         this.saveGamepad(gamepad);
+        return this;
     };
 
     /**

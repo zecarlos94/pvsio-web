@@ -199,7 +199,8 @@ define(function (require, exports, module) {
      * @instance
      */
     Sound.prototype.playSound = function (index) {
-        return sounds[index].play();
+        sounds[index].play();
+        return this;
     };
 
     /**
@@ -210,7 +211,8 @@ define(function (require, exports, module) {
      * @instance
      */
     Sound.prototype.pauseSound = function (index) {
-        return sounds[index].pause();
+        sounds[index].pause();
+        return this;
     };
 
     /**
@@ -224,7 +226,7 @@ define(function (require, exports, module) {
         for(let i=0; i<s; i++) {
             sounds[i].play();
         }
-        return ;
+        return this;
     };
 
     /**
@@ -238,7 +240,7 @@ define(function (require, exports, module) {
         for(let i=0; i<s; i++) {
             sounds[i].pause();
         }
-        return ;
+        return this;
     };
 
     /**
@@ -250,7 +252,8 @@ define(function (require, exports, module) {
      * @instance
      */
     Sound.prototype.setVolume = function (newVolume, index) {
-        return sounds[index].volume = newVolume;
+        sounds[index].volume = newVolume;
+        return this;
     };
 
     /**
@@ -265,7 +268,7 @@ define(function (require, exports, module) {
         for(let i=0; i<s; i++) {
             sounds[i].volume = newVolume;
         }
-        return ;
+        return this;
     };
 
     /**
@@ -280,7 +283,7 @@ define(function (require, exports, module) {
         this.muteDiv.style("display", "inline");
         this.unmuteDiv.style("display", "none");
         this.pauseAll();
-        return ;
+        return this;
     };
 
     /**
@@ -295,7 +298,7 @@ define(function (require, exports, module) {
         this.muteDiv.style("display", "none");
         this.unmuteDiv.style("display", "inline");
         this.playAll();
-        return ;
+        return this;
     };
 
     /**
