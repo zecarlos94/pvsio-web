@@ -128,6 +128,8 @@ require([
             sound.soundWidget.render();
         }
 
+        // sound.soundWidget.playSound(0).setVolume(0.2,0);
+
         var demoFolder = "sound_simulator";
         //register event listener for websocket connection from the client
         client.addListener('WebSocketConnectionOpened', function (e) {

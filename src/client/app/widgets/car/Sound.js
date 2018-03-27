@@ -55,8 +55,6 @@ define(function (require, exports, module) {
 
     let Widget = require("widgets/Widget");
     let sounds = [];
-    let muteDiv, unmuteDiv;
-    let mainDiv;
     
     /**
      * @function constructor
@@ -100,18 +98,16 @@ define(function (require, exports, module) {
                         .style("top", this.top + "px")
                         .style("left", this.left + "px");
         
-        mainDiv = this.div;
-
-        muteDiv = this.div.append("img").attr("id", "mute")
+        this.div.append("img").attr("id", "mute")
                             .attr("src", this.mutedImg)
-                            .style("display","none");
-        
-        unmuteDiv = this.div.append("img").attr("id", "unmute")
+                            .style("display","inline");
+            
+        this.div.append("img").attr("id", "unmute")
                               .attr("src", this.notMutedImg)
-                              .style("display","inline");
+                              .style("display","none");
 
         this.body = d3.select("body");
-
+       
         for(let i=0;i<this.numberSongs;i++){
             if(opt.songs[i].loop){
                 if(opt.songs[i].url){
@@ -143,8 +139,6 @@ define(function (require, exports, module) {
             }
             sounds[i] = document.getElementById('audio'+i);
         }
-
-        // console.log(sounds);
       
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
@@ -157,7 +151,7 @@ define(function (require, exports, module) {
             Sound.prototype.mute();
         });
 
-        Sound.prototype.playAll();
+        Sound.prototype.pauseAll();
 
         Widget.call(this, id, coords, opt);
         return this;
@@ -173,8 +167,8 @@ define(function (require, exports, module) {
      * @memberof module:Sound
      * @instance
      */
-    Sound.prototype.hide = () => {
-        return mainDiv.style("visibility", "hidden");
+    Sound.prototype.hide = function () {
+        return this.div.style("visibility", "hidden");
     };
 
     /**
@@ -183,8 +177,8 @@ define(function (require, exports, module) {
      * @memberof module:Sound
      * @instance
      */
-    Sound.prototype.reveal = () => {
-        return mainDiv.style("visibility", "visible");
+    Sound.prototype.reveal = function () {
+        return this.div.style("visibility", "visible");
     };
 
     /**
@@ -193,8 +187,8 @@ define(function (require, exports, module) {
      * @memberof module:Sound
      * @instance
      */
-    Sound.prototype.show = () => {
-        return mainDiv;
+    Sound.prototype.show = function () {
+        return this.div;
     };
 
      /**
@@ -204,7 +198,7 @@ define(function (require, exports, module) {
      * @memberof module:Sound
      * @instance
      */
-    Sound.prototype.playSound = (index) => {
+    Sound.prototype.playSound = function (index) {
         return sounds[index].play();
     };
 
@@ -215,7 +209,7 @@ define(function (require, exports, module) {
      * @memberof module:Sound
      * @instance
      */
-    Sound.prototype.pauseSound = (index) => {
+    Sound.prototype.pauseSound = function (index) {
         return sounds[index].pause();
     };
 
@@ -225,10 +219,11 @@ define(function (require, exports, module) {
      * @memberof module:Sound
      * @instance
      */
-    Sound.prototype.playAll = () => {
+    Sound.prototype.playAll = function () {
         let s = sounds.length;
-        for(let i=0; i<s; i++)
+        for(let i=0; i<s; i++) {
             sounds[i].play();
+        }
         return ;
     };
 
@@ -238,22 +233,23 @@ define(function (require, exports, module) {
      * @memberof module:Sound
      * @instance
      */
-    Sound.prototype.pauseAll = () => {
+    Sound.prototype.pauseAll = function () {
         let s = sounds.length;
-        for(let i=0; i<s; i++)
+        for(let i=0; i<s; i++) {
             sounds[i].pause();
+        }
         return ;
     };
 
     /**
-     * @function setVolumeAll
-     * @description SetVolumeAll method of the Sound widget. This method changes the volume of a specific known sound, given by index parameter.
+     * @function setVolume
+     * @description SetVolume method of the Sound widget. This method changes the volume of a specific known sound, given by index parameter.
      * @param newVolume (Float) This parameter is the new volume to be set to all known sounds.
      * @param index (Integer) This parameter is the index of the intended sound to be changed.
      * @memberof module:Sound
      * @instance
      */
-    Sound.prototype.setVolume = (newVolume, index) => {
+    Sound.prototype.setVolume = function (newVolume, index) {
         return sounds[index].volume = newVolume;
     };
 
@@ -264,10 +260,11 @@ define(function (require, exports, module) {
      * @memberof module:Sound
      * @instance
      */
-    Sound.prototype.setVolumeAll = (newVolume) => {
+    Sound.prototype.setVolumeAll = function (newVolume) {
         let s = sounds.length;
-        for(let i=0; i<s; i++)
+        for(let i=0; i<s; i++) {
             sounds[i].volume = newVolume;
+        }
         return ;
     };
 
@@ -277,10 +274,12 @@ define(function (require, exports, module) {
      * @memberof module:Sound
      * @instance
      */
-    Sound.prototype.mute = () => {
-        muteDiv.style("display", "inline");
-        unmuteDiv.style("display", "none");
-        Sound.prototype.pauseAll();
+    Sound.prototype.mute = function () {
+        this.muteDiv   = d3.select("#mute");
+        this.unmuteDiv = d3.select("#unmute");
+        this.muteDiv.style("display", "inline");
+        this.unmuteDiv.style("display", "none");
+        this.pauseAll();
         return ;
     };
 
@@ -290,10 +289,12 @@ define(function (require, exports, module) {
      * @memberof module:Sound
      * @instance
      */
-    Sound.prototype.unmute = () => {
-        muteDiv.style("display", "none");
-        unmuteDiv.style("display", "inline");
-        Sound.prototype.playAll();
+    Sound.prototype.unmute = function () {
+        this.muteDiv   = d3.select("#mute");
+        this.unmuteDiv = d3.select("#unmute");
+        this.muteDiv.style("display", "none");
+        this.unmuteDiv.style("display", "inline");
+        this.playAll();
         return ;
     };
 
@@ -303,8 +304,8 @@ define(function (require, exports, module) {
      * @memberof module:Sound
      * @instance
      */
-    Sound.prototype.render = () => {
-        return Sound.prototype.reveal();
+    Sound.prototype.render = function () {
+        return this.reveal();
     };
 
     module.exports = Sound;
