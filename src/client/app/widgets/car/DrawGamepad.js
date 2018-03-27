@@ -100,6 +100,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 49, 
                 callback: opt.callback,
+                evts: ['press/release']
             });
 
             this.btn_b= new Button("b", {
@@ -107,6 +108,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 50, 
                 callback: opt.callback,
+                evts: ['press/release']
             });
 
             this.btn_y= new Button("y", {
@@ -114,6 +116,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 51, 
                 callback: opt.callback,
+                evts: ['press/release']
             });
 
             this.btn_x= new Button("x", {
@@ -121,6 +124,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 52, 
                 callback: opt.callback,
+                evts: ['press/release']
             });
 
             this.btn_menu= new Button("menu", {
@@ -128,6 +132,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 53, 
                 callback: opt.callback,
+                evts: ['press/release']                
             });
 
             this.btn_windows= new Button("windows", {
@@ -135,6 +140,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 54, 
                 callback: opt.callback,
+                evts: ['press/release']                
             });
 
             this.btn_xbox= new Button("xbox", {
@@ -142,6 +148,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 56, 
                 callback: opt.callback,
+                evts: ['press/release']                
             });
 
             this.btn_leftArrow= new Button("leftArrow", {
@@ -149,6 +156,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 37, 
                 callback: opt.callback,
+                evts: ['press/release']                
             });
 
             this.btn_upArrow= new Button("upArrow", {
@@ -156,6 +164,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 38, 
                 callback: opt.callback,
+                evts: ['press/release']                
             });
 
             this.btn_rightArrow= new Button("rightArrow", {
@@ -163,6 +172,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 39, 
                 callback: opt.callback,
+                evts: ['press/release']                
             });
 
             this.btn_downArrow= new Button("downArrow", {
@@ -170,6 +180,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 40, 
                 callback: opt.callback,
+                evts: ['press/release']                
             });
 
             this.btn_rightStick= new Button("rightStick", {
@@ -191,6 +202,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 49, 
                 callback: opt.callback,
+                evts: ['press/release']
             });
 
             this.btn_circle= new Button("circle", {
@@ -198,6 +210,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 50, 
                 callback: opt.callback,
+                evts: ['press/release']
             });
 
             this.btn_triangle= new Button("triangle", {
@@ -205,6 +218,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 51, 
                 callback: opt.callback,
+                evts: ['press/release']                
             });
 
             this.btn_square= new Button("square", {
@@ -212,6 +226,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 52, 
                 callback: opt.callback,
+                evts: ['press/release']                
             });
 
             this.btn_options= new Button("options", {
@@ -219,6 +234,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 53, 
                 callback: opt.callback,
+                evts: ['press/release']                
             });
 
             this.btn_share= new Button("share", {
@@ -226,6 +242,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 54, 
                 callback: opt.callback,
+                evts: ['press/release']                
             });
 
             this.btn_touchpad= new Button("touchpad", {
@@ -233,6 +250,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 55, 
                 callback: opt.callback,
+                evts: ['press/release']                
             });
 
             this.btn_ps= new Button("ps", {
@@ -240,6 +258,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 56, 
                 callback: opt.callback,
+                evts: ['press/release']                
             });
 
             this.btn_leftArrow= new Button("leftArrow", {
@@ -247,6 +266,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 37, 
                 callback: opt.callback,
+                evts: ['press/release']                
             });
 
             this.btn_upArrow= new Button("upArrow", {
@@ -254,6 +274,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 38, 
                 callback: opt.callback,
+                evts: ['press/release']                
             });
 
             this.btn_rightArrow= new Button("rightArrow", {
@@ -261,6 +282,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 39, 
                 callback: opt.callback,
+                evts: ['press/release']                
             });
 
             this.btn_downArrow= new Button("downArrow", {
@@ -268,6 +290,7 @@ define(function (require, exports, module) {
             }, {
                 keyCode: 40, 
                 callback: opt.callback,
+                evts: ['press/release']                
             });
 
             this.btn_rightStick= new Button("rightStick", {
