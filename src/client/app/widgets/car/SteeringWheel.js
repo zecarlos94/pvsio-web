@@ -173,7 +173,10 @@ define(function (require, exports, module) {
      */
     // this API is useful with joypads
     SteeringWheel.prototype.rotate = function (val) {
-        ButtonActionsQueue.queueGUIAction(this.id() + "_rotate(" + val + ")", this.callback);
+        if(val!==0.0) {
+            // console.log(val);
+            ButtonActionsQueue.queueGUIAction(this.id() + "_rotate(" + val + ")", this.callback);
+        }
     }
 
     /**

@@ -633,28 +633,28 @@ define(function (require, exports, module) {
                         angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
                         // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
                         // console.log(angleRotationSteeringWheel);
-                        // TODO SteeringWheel.rotate(angleRotationSteeringWheel);
-                        if(controller.axes[i].toFixed(4)>-1 && controller.axes[i].toFixed(4)<-stickThreshold){
-                            // console.log("rotate left");
-                            carSteeringWheel.btn_rotate_left.click();
-                        }else if(controller.axes[i].toFixed(4)>stickThreshold && controller.axes[i].toFixed(4)<1){
-                            // console.log("rotate right");
-                            carSteeringWheel.btn_rotate_right.click();
-                        }
+                        carSteeringWheel.rotate(angleRotationSteeringWheel);
+                        // if(controller.axes[i].toFixed(4)>-1 && controller.axes[i].toFixed(4)<-stickThreshold){
+                        //     // console.log("rotate left");
+                        //     carSteeringWheel.btn_rotate_left.click();
+                        // }else if(controller.axes[i].toFixed(4)>stickThreshold && controller.axes[i].toFixed(4)<1){
+                        //     // console.log("rotate right");
+                        //     carSteeringWheel.btn_rotate_right.click();
+                        // }
                     }else if(i===2){ // right stick - XBOX1 Gamepad/External Controller
                         // console.log(controller.axes[i].toFixed(4));
                         // console.log(controller.axes[3].toFixed(4), controller.axes[2].toFixed(4));
                         angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
                         // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
                         // console.log(angleRotationSteeringWheel);
-                        // TODO SteeringWheel.rotate(angleRotationSteeringWheel);
-                        if(controller.axes[i].toFixed(4)>-1 && controller.axes[i].toFixed(4)<-stickThreshold){
-                            // console.log("rotate left");
-                            carSteeringWheel.btn_rotate_left.click();
-                        }else if(controller.axes[i].toFixed(4)>stickThreshold && controller.axes[i].toFixed(4)<1){
-                            // console.log("rotate right");
-                            carSteeringWheel.btn_rotate_right.click();
-                        }
+                        // carSteeringWheel.rotate(angleRotationSteeringWheel);
+                        // if(controller.axes[i].toFixed(4)>-1 && controller.axes[i].toFixed(4)<-stickThreshold){
+                        //     // console.log("rotate left");
+                        //     carSteeringWheel.btn_rotate_left.click();
+                        // }else if(controller.axes[i].toFixed(4)>stickThreshold && controller.axes[i].toFixed(4)<1){
+                        //     // console.log("rotate right");
+                        //     carSteeringWheel.btn_rotate_right.click();
+                        // }
                     }
                 }
             }
