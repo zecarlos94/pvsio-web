@@ -484,145 +484,97 @@ define(function (require, exports, module) {
         if (!gamepadEvents) {
             GamepadController.prototype.listGamepads();
         }
-      
-        let i = 0;
-        let j;
-      
+        let j, i = 0;
         for (j in gamepadsKnown) {
             let controller = gamepadsKnown[j];
             let d = document.getElementById("gamepad_" + j);
             let buttons = d.getElementsByClassName("button");
       
-          for (i = 0; i < controller.buttons.length; i++) {
-            let b = buttons[i];
-            let val = controller.buttons[i];
-            let pressed = val == 1.0;
-            if (typeof(val) == "object") {
-              pressed = val.pressed;
-              val = val.value;
+            for (i = 0; i < controller.buttons.length; i++) {
+                let b = buttons[i];
+                let val = controller.buttons[i];
+                let pressed = val == 1.0;
+                if (typeof(val) == "object") {
+                pressed = val.pressed;
+                val = val.value;
+                }
+        
+                let pct = Math.round(val * 100) + "%";
+                b.style.backgroundSize = pct + " " + pct;
+                let clickedOnce=false;  
+                let mappedName;                          
+                if (pressed) {
+                    if(controller.id===gamepadPS4Id){
+                        mappedName = GamepadController.prototype.mappingPS4GamepadButtons(i);
+                    }else if(controller.id===gamepadXBOX1Id){
+                        mappedName = GamepadController.prototype.mappingXBOX1GamepadButtons(i);
+                    }   
+                    b.className = mappedName +" pressed";
+                    if(carAccelerate && carBrake && carSteeringWheel){
+                        if(i===0){ 
+                            // Button Cross - PS4 Gamepad/External Controller
+                            // Button A - XBOX1 Gamepad/External Controller
+                            if(!clickedOnce){
+                                // carAccelerate.click();
+                                carAccelerate.press();
+                                carAccelerate.release();
+                                clickedOnce=true;
+                            }
+                        }else if(i===1){ 
+                            // Button Circle - PS4 Gamepad/External Controller
+                            // Button B - XBOX1 Gamepad/External Controller
+                            if(!clickedOnce){
+                                // carBrake.click();
+                                carBrake.press();
+                                carBrake.release();
+                                clickedOnce=true;
+                            }
+                        }else if(i===14){ // Left Arrow - PS4 and XBOX1 Gamepad/External Controller
+                            if(!clickedOnce){
+                                // console.log("rotate left");
+                                carSteeringWheel.btn_rotate_left.click();
+                                clickedOnce=true;
+                            }
+                        }else if(i===15){ // Right Arrow - PS4 and XBOX1 Gamepad/External Controller
+                            if(!clickedOnce){
+                                // console.log("rotate right");
+                                carSteeringWheel.btn_rotate_right.click();
+                                clickedOnce=true;
+                            }
+                        }                            
+                    }
+                } else {
+                    b.className = "button";
+                }
             }
-      
-            let pct = Math.round(val * 100) + "%";
-            b.style.backgroundSize = pct + " " + pct;
-            let clickedOnce=false;                            
-            if (pressed) {
+            let stickThreshold = 0.50; // remove "noise" values read in the idle sticks.
+            let angleRotationSteeringWheel = 0;
+            let axes = d.getElementsByClassName("axis");
+            let mappedAxis;
+            for (i = 0; i < controller.axes.length; i++) {
                 if(controller.id===gamepadPS4Id){
-                    let mappedName = GamepadController.prototype.mappingPS4GamepadButtons(i);
-                    b.className = mappedName +" pressed";
-                    if(carAccelerate && carBrake && carSteeringWheel){
-                        if(i===0){ // Button Cross - PS4 Gamepad/External Controller
-                            if(!clickedOnce){
-                                // carAccelerate.click();
-                                carAccelerate.press();
-                                carAccelerate.release();
-                                clickedOnce=true;
-                            }
-                        }else if(i===1){ // Button Circle - PS4 Gamepad/External Controller
-                            if(!clickedOnce){
-                                // carBrake.click();
-                                carBrake.press();
-                                carBrake.release();
-                                clickedOnce=true;
-                            }
-                        }else if(i===14){ // Left Arrow - PS4 Gamepad/External Controller
-                            if(!clickedOnce){
-                                // console.log("rotate left");
-                                carSteeringWheel.btn_rotate_left.click();
-                                clickedOnce=true;
-                            }
-                        }else if(i===15){ // Right Arrow - PS4 Gamepad/External Controller
-                            if(!clickedOnce){
-                                // console.log("rotate right");
-                                carSteeringWheel.btn_rotate_right.click();
-                                clickedOnce=true;
-                            }
-                        }                            
-                    }
+                    mappedAxis = GamepadController.prototype.mappingPS4GamepadAxes(i);
                 }else if(controller.id===gamepadXBOX1Id){
-                    let mappedName = GamepadController.prototype.mappingXBOX1GamepadButtons(i);
-                    b.className = mappedName +" pressed";
-                    if(carAccelerate && carBrake && carSteeringWheel){
-                        if(i===0){ // Button A - XBOX1 Gamepad/External Controller
-                            if(!clickedOnce){
-                                // carAccelerate.click();
-                                carAccelerate.press();
-                                carAccelerate.release();
-                                clickedOnce=true;
-                            }
-                        }else if(i===1){ // Button B - XBOX1 Gamepad/External Controller
-                            if(!clickedOnce){
-                                // carBrake.click();
-                                carBrake.press();
-                                carBrake.release();
-                                clickedOnce=true;
-                            }
-                        }else if(i===14){ // Left Arrow - XBOX1 Gamepad/External Controller
-                            if(!clickedOnce){
-                                // console.log("rotate left");
-                                carSteeringWheel.btn_rotate_left.click();
-                                clickedOnce=true;
-                            }
-                        }else if(i===15){ // Right Arrow - XBOX1 Gamepad/External Controller
-                            if(!clickedOnce){
-                                // console.log("rotate right");
-                                carSteeringWheel.btn_rotate_right.click();
-                                clickedOnce=true;
-                            }
-                        }                            
-                    }
-                }
-                else{
-                    b.className = "button pressed";
-                }
-            } else {
-              b.className = "button";
-            }
-          }
-            
-          let stickThreshold = 0.50;
-          let angleRotationSteeringWheel = 0;
-          let axes = d.getElementsByClassName("axis");
-          for (i = 0; i < controller.axes.length; i++) {
-            if(controller.id===gamepadPS4Id){
-                let mappedAxis = GamepadController.prototype.mappingPS4GamepadAxes(i);
+                    mappedAxis = GamepadController.prototype.mappingXBOX1GamepadAxes(i);
+                }   
                 let a = axes[i];
                 a.innerHTML = i;
                 a.className = mappedAxis + " moving";
                 a.setAttribute("value", controller.axes[i].toFixed(4));
                 // Max and Min values of 1 and -1 for all gamepads
                 if(carSteeringWheel){
-                    if(i===0){ // left stick - PS4 Gamepad/External Controller
+                    if(i===0){ // left stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
                         angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
                         // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
                         carSteeringWheel.rotate(angleRotationSteeringWheel);
-                    }else if(i===2){ // right stick - PS4 Gamepad/External Controller
-                        angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
-                        // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
-                        carSteeringWheel.rotate(angleRotationSteeringWheel);
-                    }
-                }
-            }else if(controller.id===gamepadXBOX1Id){
-                let mappedAxis = GamepadController.prototype.mappingXBOX1GamepadAxes(i);
-                let a = axes[i];
-                a.innerHTML = i;
-                a.className = mappedAxis + " moving";
-                a.setAttribute("value", controller.axes[i].toFixed(4));
-                // Max and Min values of 1 and -1 for all gamepads
-                if(carSteeringWheel){
-                    if(i===0){ // left stick - XBOX1 Gamepad/External Controller
-                        angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
-                        // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
-                        carSteeringWheel.rotate(angleRotationSteeringWheel);
-                    }else if(i===2){ // right stick - XBOX1 Gamepad/External Controller
+                    }else if(i===2){ // right stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
                         angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
                         // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
                         carSteeringWheel.rotate(angleRotationSteeringWheel);
                     }
                 }
             }
-          }
         }
-      
         requestAnimationFrame(GamepadController.prototype.updateStatus);
     }
 
