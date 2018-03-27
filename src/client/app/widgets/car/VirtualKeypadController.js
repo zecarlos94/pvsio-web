@@ -253,7 +253,7 @@ define(function (require, exports, module) {
      * @memberof module:VirtualKeypadController
      * @instance
      */
-    VirtualKeypadController.prototype.hide = () => {
+    VirtualKeypadController.prototype.hide = function () {
         return this.div.style("visibility", "hidden");
     };
 
@@ -263,7 +263,7 @@ define(function (require, exports, module) {
      * @memberof module:VirtualKeypadController
      * @instance
      */
-    VirtualKeypadController.prototype.reveal = () => {
+    VirtualKeypadController.prototype.reveal = function () {
         return this.div.style("visibility", "visible");
     };
 
@@ -273,7 +273,7 @@ define(function (require, exports, module) {
      * @memberof module:VirtualKeypadController
      * @instance
      */
-    VirtualKeypadController.prototype.show = () => {
+    VirtualKeypadController.prototype.show = function () {
         return this.div;
     };
 
@@ -283,8 +283,8 @@ define(function (require, exports, module) {
      * @memberof module:VirtualKeypadController
      * @instance
      */
-    VirtualKeypadController.prototype.render = () => {
-        return VirtualKeypadController.prototype.show();
+    VirtualKeypadController.prototype.render = function () {
+        return this.show();
     };
 
     module.exports = VirtualKeypadController;
