@@ -54,6 +54,12 @@ define(function (require, exports, module) {
      * @instance
      */
     let gamepadPS4Id = "Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 09cc)";
+    /**
+     * @description 'gamepadXBOX1Id' has Xbox One gamepad unique ID, to use the proper mapping method.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let gamepadXBOX1Id = "Xbox One Controller (STANDARD GAMEPAD Vendor: 045e Product: 02ea)";
 
     /**
      * @description ButtonExternalController 'carAccelerate' to be clicked when a certain gamepad button is pressed.
@@ -120,7 +126,7 @@ define(function (require, exports, module) {
      * @memberof module:GamepadController
      * @instance
      */
-    function GamepadController (id, coords, opt) {
+    function GamepadController(id, coords, opt) {
         opt = opt || {};
         opt.style = opt.style || "";
         opt.opacity = opt.opacity || 1;
@@ -138,15 +144,17 @@ define(function (require, exports, module) {
         carBrake = (opt.carBrake) ? opt.carBrake : null;
         carSteeringWheel = (opt.carSteeringWheel) ? opt.carSteeringWheel : null;
 
+        this.div = d3.select("#gamepads");
+
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
 
         Widget.call(this, id, coords, opt);
         return this;
-    }
-    
+    };
+
     GamepadController.prototype = Object.create(Widget.prototype);
-    GamepadController.prototype.constructor = GamepadController;
+    GamepadController.prototype.constructor =GamepadController;
     GamepadController.prototype.parentClass = Widget.prototype;
 
     /**
@@ -155,10 +163,8 @@ define(function (require, exports, module) {
      * @memberof module:GamepadController
      * @instance
      */
-    GamepadController.prototype.hide = () => {
-        this.div = document.getElementById("gamepads");
-        this.div.style.visibility = "hidden";
-        return ;
+    GamepadController.prototype.hide = function () {
+        return this.div.style("display", "none");
     };
 
     /**
@@ -167,12 +173,233 @@ define(function (require, exports, module) {
      * @memberof module:GamepadController
      * @instance
      */
-    GamepadController.prototype.reveal = () => {
-        this.div = document.getElementById("gamepads");
-        this.div.style.visibility = "visible";
-        return ;
+    GamepadController.prototype.reveal = function () {
+        return this.div.style("display", "block");
     };
 
+    /**
+     * @function mappingPS4GamepadButtons
+     * @description mappingPS4GamepadButtons method of the GamepadController widget. This method maps all read buttons to PS4 buttons.
+     * @param key {Integer} The key instance, i.e. the gamepad button index to be mapped into PS4 names.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    GamepadController.prototype.mappingPS4GamepadButtons = function (key) {
+       
+        let ps4MappingButtons = [
+            {key: 0, value: 'button cross'}, 
+            {key: 1, value: 'button circle'}, 
+            {key: 2, value: 'button square'},
+            {key: 3, value: 'button triangle'},
+            {key: 4, value: 'button l1'},
+            {key: 5, value: 'button r1'},
+            {key: 6, value: 'button l2'},
+            {key: 7, value: 'button r2'},
+            {key: 8, value: 'button share'},
+            {key: 9, value: 'button options'},
+            {key: 10, value: 'button l3 (press left axis stick)'},
+            {key: 11, value: 'button r3 (press right axis stick)'},
+            {key: 12, value: 'button up arrow'},
+            {key: 13, value: 'button down arrow'},
+            {key: 14, value: 'button left arrow'},
+            {key: 15, value: 'button right arrow'},
+            {key: 16, value: 'button sony ps'},
+            {key: 17, value: 'button touchpad'}
+        ];
+
+        return ps4MappingButtons[key].value;
+    };
+
+     /**
+     * @function mappingPS4GamepadAxes
+     * @description mappingPS4GamepadAxes method of the GamepadController widget. This method maps all read axes to PS4 axes.
+     * @param key {Integer} The key instance, i.e. the gamepad axis index to be mapped into PS4 names.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    GamepadController.prototype.mappingPS4GamepadAxes = function (key) {
+       
+        let ps4MappingAxes = [
+            {key: 0, value: 'left axis stick left/right'},
+            {key: 1, value: 'left axis stick up/down'},
+            {key: 2, value: 'right axis stick left/right'},
+            {key: 3, value: 'right axis stick up/down'}
+        ];
+
+        return ps4MappingAxes[key].value;
+    };
+
+    /**
+     * @function mappingXBOX1GamepadButtons
+     * @description mappingXBOX1GamepadButtons method of the GamepadController widget. This method maps all read buttons to XBOX1 buttons.
+     * @param key {Integer} The key instance, i.e. the gamepad button index to be mapped into XBOX1 names.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    GamepadController.prototype.mappingXBOX1GamepadButtons = function (key) {
+    
+        let xbox1MappingButtons = [
+            {key: 0, value: 'button a'}, 
+            {key: 1, value: 'button b'}, 
+            {key: 2, value: 'button x'},
+            {key: 3, value: 'button y'},
+            {key: 4, value: 'button lb'},
+            {key: 5, value: 'button rb'},
+            {key: 6, value: 'button lt'},
+            {key: 7, value: 'button rt'},
+            {key: 8, value: 'button windows'},
+            {key: 9, value: 'button menu'},
+            {key: 10, value: 'button left axis stick pressed'},
+            {key: 11, value: 'button right axis stick pressed'},
+            {key: 12, value: 'button up arrow'},
+            {key: 13, value: 'button down arrow'},
+            {key: 14, value: 'button left arrow'},
+            {key: 15, value: 'button right arrow'},
+            {key: 16, value: 'button XBOX'}
+        ];
+
+        return xbox1MappingButtons[key].value;
+    };
+
+    /**
+     * @function mappingXBOX1GamepadAxes
+     * @description mappingXBOX1GamepadAxes method of the GamepadController widget. This method maps all read axes to XBOX1 axes.
+     * @param key {Integer} The key instance, i.e. the gamepad axis index to be mapped into XBOX1 names.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    GamepadController.prototype.mappingXBOX1GamepadAxes = function (key) {
+    
+        let xbox1MappingAxes = [
+            {key: 0, value: 'left axis stick left/right'},
+            {key: 1, value: 'left axis stick up/down'},
+            {key: 2, value: 'right axis stick left/right'},
+            {key: 3, value: 'right axis stick up/down'}
+        ];
+
+        return xbox1MappingAxes[key].value;
+    };
+
+    /**
+     * @function degToRadians
+     * @description degToRadians method of the GamepadController widget. This method converts angles from degrees to radians.
+     * @param deg {Float} The angle in degrees instance.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    GamepadController.prototype.degToRadians = function (deg) {
+        return deg * Math.PI / 180;
+    };
+    
+    /**
+     * @function radiansToDegrees
+     * @description radiansToDegrees method of the GamepadController widget. This method converts angles from radians to degrees.
+     * @param rad {Float} The angle in radians instance.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    GamepadController.prototype.radiansToDegrees = function (rad) {
+        return rad * 180 / Math.PI;
+    };
+
+     /**
+     * @function calculateRotationAngle
+     * @description calculateRotationAngle method of the GamepadController widget. This method converts angles from radians to degrees. Default sensitivity is 1.
+     * @param y {Float} The value of vertical axis(up to/or down), between -1 and 1.
+     * @param x {Float} The value of horizontal axis(left to/or right), between -1 and 1.  
+     * @memberof module:GamepadController
+     * @returns {angle} The angle in degrees calculated based on horizontal and vertical axis values read from gamepad.
+     * @instance
+     */
+    GamepadController.prototype.calculateRotationAngle = function (y,x) {
+        let angle = 0;
+        if (x !== 0.0 || y !== 0.0) {
+            angle = this.radiansToDegrees( Math.atan2(x, y) );
+            // Defining interval min,max for rotation(between -90 and 90 degrees)
+            if(angle<-90) {
+                angle = -90; 
+            }else if(angle>90) {
+                angle = 90;
+            }
+
+        }
+        return angle;
+    };
+
+    /**
+     * @function calculateRotationAngle
+     * @description calculateRotationAngle method of the GamepadController widget. This method converts angles from radians to degrees.
+     * @param y {Float} The value of vertical axis(up to/or down), between -1 and 1.
+     * @param x {Float} The value of horizontal axis(left to/or right), between -1 and 1. 
+     * @param sensitivity {Integer} The value of sensitivity of the steering wheel rotation angle, between 1 and 100.
+     * @memberof module:GamepadController
+     * @returns {angle} The angle in degrees calculated based on horizontal and vertical axis values read from gamepad.
+     * @instance
+     */
+    GamepadController.prototype.calculateRotationAngleWithSensitivity = function (y,x,s) {
+        let angle = 0;
+        let sensitivity = s/100;
+        if (x !== 0.0 || y !== 0.0) {
+            angle = this.radiansToDegrees( Math.atan2(x, y) ) * sensitivity;
+        }
+        return angle;
+    };
+
+    /**
+     * @function listGamepads
+     * @description listGamepads method of the GamepadController widget. This method lists all connected gamepads and saved those on gamepadsKnown array.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    GamepadController.prototype.listGamepads = function () {
+        let gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
+        for (let i = 0; i < gamepads.length; i++) {
+            if (gamepads[i]) {
+              if (gamepads[i].index in gamepadsKnown) {
+                    gamepadsKnown[gamepads[i].index] = gamepads[i];
+              }
+            }
+        }
+    };
+
+    /**
+     * @function listGamepadsKnown
+     * @description listGamepadsKnown method of the GamepadController widget. This method lists all saved gamepads, i.e. currently connected.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    GamepadController.prototype.listGamepadsKnown = function () {
+        setTimeout(function(){  
+            for (let i = 0; i < gamepadsKnown.length; i++) {
+                console.log(gamepadsKnown[i]);
+            }
+        }, 500);
+    };
+
+    /**
+     * @function disconnectGamepad
+     * @description disconnectGamepad method of the GamepadController widget. This method disconnects 'gamepad'.
+     * @param gamepad {Gamepad} The gamepad instance, i.e. its buttons, axes, unique id, among others.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    GamepadController.prototype.disconnectGamepad = function (gamepad) {
+       this.removeGamepad(gamepad);
+    };
+      
+    /**
+     * @function removeGamepad
+     * @description removeGamepad method of the GamepadController widget. This method removes 'gamepad' from gamepadsKnown array and removes its div on the frontend demo.
+     * @param gamepad {Gamepad} The gamepad instance, i.e. its buttons, axes, unique id, among others.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    GamepadController.prototype.removeGamepad = function (gamepad) {
+        delete gamepadsKnown[gamepad.index];
+        let divToRemove = document.getElementById("gamepad_" + gamepad.index);
+        divToRemove.remove();
+    };
+  
     /**
      * @function connectGamepad
      * @description connectGamepad method of the GamepadController widget. This method connects 'gamepad'.
@@ -180,8 +407,8 @@ define(function (require, exports, module) {
      * @memberof module:GamepadController
      * @instance
      */
-    GamepadController.prototype.connectGamepad = (gamepad) => {
-        GamepadController.prototype.saveGamepad(gamepad);
+    GamepadController.prototype.connectGamepad = function (gamepad) {
+        this.saveGamepad(gamepad);
     };
 
     /**
@@ -192,7 +419,7 @@ define(function (require, exports, module) {
      * @memberof module:GamepadController
      * @instance
      */
-    GamepadController.prototype.saveGamepad = (gamepad) => {
+    GamepadController.prototype.saveGamepad = function (gamepad) {
         gamepadsKnown[gamepad.index] = gamepad;
 
         let granParent = document.getElementById("content");
@@ -244,9 +471,8 @@ define(function (require, exports, module) {
         }
       
         document.body.appendChild(granParent);
-        requestAnimationFrame(GamepadController.prototype.updateStatus);
+        requestAnimationFrame(this.updateStatus);
     };
-
 
      /**
      * @function updateStatus
@@ -254,7 +480,7 @@ define(function (require, exports, module) {
      * @memberof module:GamepadController
      * @instance
      */
-    GamepadController.prototype.updateStatus = () => {
+    GamepadController.prototype.updateStatus = function () {
         if (!gamepadEvents) {
             GamepadController.prototype.listGamepads();
         }
@@ -312,48 +538,123 @@ define(function (require, exports, module) {
                             }
                         }                            
                     }
-                }else{
+                }else if(controller.id===gamepadXBOX1Id){
+                    let mappedName = GamepadController.prototype.mappingXBOX1GamepadButtons(i);
+                    b.className = mappedName +" pressed";
+                    if(carAccelerate && carBrake && carSteeringWheel){
+                        if(i===0){ // Button A - XBOX1 Gamepad/External Controller
+                            if(!clickedOnce){
+                                // carAccelerate.click();
+                                carAccelerate.press();
+                                carAccelerate.release();
+                                clickedOnce=true;
+                            }
+                        }else if(i===1){ // Button B - XBOX1 Gamepad/External Controller
+                            if(!clickedOnce){
+                                // carBrake.click();
+                                carBrake.press();
+                                carBrake.release();
+                                clickedOnce=true;
+                            }
+                        }else if(i===14){ // Left Arrow - XBOX1 Gamepad/External Controller
+                            if(!clickedOnce){
+                                // console.log("rotate left");
+                                carSteeringWheel.btn_rotate_left.click();
+                                clickedOnce=true;
+                            }
+                        }else if(i===15){ // Right Arrow - XBOX1 Gamepad/External Controller
+                            if(!clickedOnce){
+                                // console.log("rotate right");
+                                carSteeringWheel.btn_rotate_right.click();
+                                clickedOnce=true;
+                            }
+                        }                            
+                    }
+                }
+                else{
                     b.className = "button pressed";
                 }
             } else {
               b.className = "button";
             }
           }
-
+            
           let stickThreshold = 0.50;
           let angleRotationSteeringWheel = 0;
           let axes = d.getElementsByClassName("axis");
           for (i = 0; i < controller.axes.length; i++) {
-            let mappedAxis = GamepadController.prototype.mappingPS4GamepadAxes(i);
-            let a = axes[i];
-            a.innerHTML = i;
-            a.className = mappedAxis + " moving";
-            a.setAttribute("value", controller.axes[i].toFixed(4));
-            // Max and Min values of 1 and -1 for all gamepads
-            if(carSteeringWheel){
-                if(i===0){ // left stick - PS4 Gamepad/External Controller
-                    // console.log(controller.axes[i].toFixed(4));
-                    angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
-                    // console.log(angleRotationSteeringWheel);
-                    // TODO SteeringWheel.rotate(angleRotationSteeringWheel);
-                    if(controller.axes[i].toFixed(4)>-1 && controller.axes[i].toFixed(4)<-stickThreshold){
-                        // console.log("rotate left");
-                        carSteeringWheel.btn_rotate_left.click();
-                    }else if(controller.axes[i].toFixed(4)>stickThreshold && controller.axes[i].toFixed(4)<1){
-                        // console.log("rotate right");
-                        carSteeringWheel.btn_rotate_right.click();
+            if(controller.id===gamepadPS4Id){
+                let mappedAxis = GamepadController.prototype.mappingPS4GamepadAxes(i);
+                let a = axes[i];
+                a.innerHTML = i;
+                a.className = mappedAxis + " moving";
+                a.setAttribute("value", controller.axes[i].toFixed(4));
+                // Max and Min values of 1 and -1 for all gamepads
+                if(carSteeringWheel){
+                    if(i===0){ // left stick - PS4 Gamepad/External Controller
+                        // console.log(controller.axes[i].toFixed(4));
+                        angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
+                        // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
+                        // console.log(angleRotationSteeringWheel);
+                        // TODO SteeringWheel.rotate(angleRotationSteeringWheel);
+                        if(controller.axes[i].toFixed(4)>-1 && controller.axes[i].toFixed(4)<-stickThreshold){
+                            // console.log("rotate left");
+                            carSteeringWheel.btn_rotate_left.click();
+                        }else if(controller.axes[i].toFixed(4)>stickThreshold && controller.axes[i].toFixed(4)<1){
+                            // console.log("rotate right");
+                            carSteeringWheel.btn_rotate_right.click();
+                        }
+                    }else if(i===2){ // right stick - PS4 Gamepad/External Controller
+                        // console.log(controller.axes[i].toFixed(4));
+                        angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
+                        // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
+                        // console.log(angleRotationSteeringWheel);
+                        // TODO SteeringWheel.rotate(angleRotationSteeringWheel);
+                        if(controller.axes[i].toFixed(4)>-1 && controller.axes[i].toFixed(4)<-stickThreshold){
+                            // console.log("rotate left");
+                            carSteeringWheel.btn_rotate_left.click();
+                        }else if(controller.axes[i].toFixed(4)>stickThreshold && controller.axes[i].toFixed(4)<1){
+                            // console.log("rotate right");
+                            carSteeringWheel.btn_rotate_right.click();
+                        }
                     }
-                }else if(i===2){ // right stick - PS4 Gamepad/External Controller
-                    // console.log(controller.axes[i].toFixed(4));
-                    angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
-                    // console.log(angleRotationSteeringWheel);
-                    // TODO SteeringWheel.rotate(angleRotationSteeringWheel);
-                    if(controller.axes[i].toFixed(4)>-1 && controller.axes[i].toFixed(4)<-stickThreshold){
-                        // console.log("rotate left");
-                        carSteeringWheel.btn_rotate_left.click();
-                    }else if(controller.axes[i].toFixed(4)>stickThreshold && controller.axes[i].toFixed(4)<1){
-                        // console.log("rotate right");
-                        carSteeringWheel.btn_rotate_right.click();
+                }
+            }else if(controller.id===gamepadXBOX1Id){
+                let mappedAxis = GamepadController.prototype.mappingXBOX1GamepadAxes(i);
+                let a = axes[i];
+                a.innerHTML = i;
+                a.className = mappedAxis + " moving";
+                a.setAttribute("value", controller.axes[i].toFixed(4));
+                // Max and Min values of 1 and -1 for all gamepads
+                if(carSteeringWheel){
+                    if(i===0){ // left stick - XBOX1 Gamepad/External Controller
+                        // console.log(controller.axes[i].toFixed(4));
+                        // console.log(controller.axes[1].toFixed(4), controller.axes[0].toFixed(4));
+                        angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
+                        // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
+                        // console.log(angleRotationSteeringWheel);
+                        // TODO SteeringWheel.rotate(angleRotationSteeringWheel);
+                        if(controller.axes[i].toFixed(4)>-1 && controller.axes[i].toFixed(4)<-stickThreshold){
+                            // console.log("rotate left");
+                            carSteeringWheel.btn_rotate_left.click();
+                        }else if(controller.axes[i].toFixed(4)>stickThreshold && controller.axes[i].toFixed(4)<1){
+                            // console.log("rotate right");
+                            carSteeringWheel.btn_rotate_right.click();
+                        }
+                    }else if(i===2){ // right stick - XBOX1 Gamepad/External Controller
+                        // console.log(controller.axes[i].toFixed(4));
+                        // console.log(controller.axes[3].toFixed(4), controller.axes[2].toFixed(4));
+                        angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
+                        // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
+                        // console.log(angleRotationSteeringWheel);
+                        // TODO SteeringWheel.rotate(angleRotationSteeringWheel);
+                        if(controller.axes[i].toFixed(4)>-1 && controller.axes[i].toFixed(4)<-stickThreshold){
+                            // console.log("rotate left");
+                            carSteeringWheel.btn_rotate_left.click();
+                        }else if(controller.axes[i].toFixed(4)>stickThreshold && controller.axes[i].toFixed(4)<1){
+                            // console.log("rotate right");
+                            carSteeringWheel.btn_rotate_right.click();
+                        }
                     }
                 }
             }
@@ -361,63 +662,8 @@ define(function (require, exports, module) {
         }
       
         requestAnimationFrame(GamepadController.prototype.updateStatus);
-      }
+    }
 
-
-    /**
-     * @function disconnectGamepad
-     * @description disconnectGamepad method of the GamepadController widget. This method disconnects 'gamepad'.
-     * @param gamepad {Gamepad} The gamepad instance, i.e. its buttons, axes, unique id, among others.
-     * @memberof module:GamepadController
-     * @instance
-     */
-    GamepadController.prototype.disconnectGamepad = (gamepad) => {
-        GamepadController.prototype.removeGamepad(gamepad);
-    };
-      
-    /**
-     * @function removeGamepad
-     * @description removeGamepad method of the GamepadController widget. This method removes 'gamepad' from gamepadsKnown array and removes its div on the frontend demo.
-     * @param gamepad {Gamepad} The gamepad instance, i.e. its buttons, axes, unique id, among others.
-     * @memberof module:GamepadController
-     * @instance
-     */
-    GamepadController.prototype.removeGamepad = (gamepad) => {
-        delete gamepadsKnown[gamepad.index];
-        let divToRemove = document.getElementById("gamepad_" + gamepad.index);
-        divToRemove.remove();
-    };
-  
-    /**
-     * @function listGamepads
-     * @description listGamepads method of the GamepadController widget. This method lists all connected gamepads and saved those on gamepadsKnown array.
-     * @memberof module:GamepadController
-     * @instance
-     */
-    GamepadController.prototype.listGamepads = () => {
-        let gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
-        for (let i = 0; i < gamepads.length; i++) {
-            if (gamepads[i]) {
-              if (gamepads[i].index in gamepadsKnown) {
-                    gamepadsKnown[gamepads[i].index] = gamepads[i];
-              }
-            }
-        }
-    };
-
-    /**
-     * @function listGamepadsKnown
-     * @description listGamepadsKnown method of the GamepadController widget. This method lists all saved gamepads, i.e. currently connected.
-     * @memberof module:GamepadController
-     * @instance
-     */
-    GamepadController.prototype.listGamepadsKnown = () => {
-        setTimeout(function(){  
-            for (let i = 0; i < gamepadsKnown.length; i++) {
-                console.log(gamepadsKnown[i]);
-            }
-        }, 500);
-    };
 
     /**
      * @description Running listGamepads method every 500ms to update known gamepads after detecting new connections(gamepadEvents).
@@ -425,100 +671,9 @@ define(function (require, exports, module) {
      * @instance
      */
     if (!gamepadEvents) {
-        setInterval(GamepadController.prototype.listGamepads, 500);
+        setInterval(this.listGamepads, 500);
     }
 
-    /**
-     * @function mappingPS4GamepadButtons
-     * @description mappingPS4GamepadButtons method of the GamepadController widget. This method maps all read buttons to PS4 buttons.
-     * @param key {Integer} The key instance, i.e. the gamepad button index to be mapped into PS4 names.
-     * @memberof module:GamepadController
-     * @instance
-     */
-    GamepadController.prototype.mappingPS4GamepadButtons = (key) => {
-       
-        let ps4MappingButtons = [
-            {key: 0, value: 'button cross'}, 
-            {key: 1, value: 'button circle'}, 
-            {key: 2, value: 'button square'},
-            {key: 3, value: 'button triangle'},
-            {key: 4, value: 'button l1'},
-            {key: 5, value: 'button r1'},
-            {key: 6, value: 'button l2'},
-            {key: 7, value: 'button r2'},
-            {key: 8, value: 'button share'},
-            {key: 9, value: 'button options'},
-            {key: 10, value: 'button l3 (press left axis stick)'},
-            {key: 11, value: 'button r3 (press right axis stick)'},
-            {key: 12, value: 'button up arrow'},
-            {key: 13, value: 'button down arrow'},
-            {key: 14, value: 'button left arrow'},
-            {key: 15, value: 'button right arrow'},
-            {key: 16, value: 'button sony ps'},
-            {key: 17, value: 'button touchpad'}
-        ];
-
-        return ps4MappingButtons[key].value;
-    }
-
-     /**
-     * @function mappingPS4GamepadAxes
-     * @description mappingPS4GamepadAxes method of the GamepadController widget. This method maps all read axes to PS4 axes.
-     * @param key {Integer} The key instance, i.e. the gamepad axis index to be mapped into PS4 names.
-     * @memberof module:GamepadController
-     * @instance
-     */
-    GamepadController.prototype.mappingPS4GamepadAxes = (key) => {
-       
-        let ps4MappingAxes = [
-            {key: 0, value: 'left axis stick left/right'},
-            {key: 1, value: 'left axis stick up/down'},
-            {key: 2, value: 'right axis stick left/right'},
-            {key: 3, value: 'right axis stick up/down'}
-        ]
-
-        return ps4MappingAxes[key].value;
-    }
-
-    /**
-     * @function degToRadians
-     * @description degToRadians method of the GamepadController widget. This method converts angles from degrees to radians.
-     * @param deg {Float} The angle in degrees instance.
-     * @memberof module:GamepadController
-     * @instance
-     */
-    GamepadController.prototype.degToRadians = (deg) => {
-        return deg * Math.PI / 180;
-    };
-    
-    /**
-     * @function radiansToDegrees
-     * @description radiansToDegrees method of the GamepadController widget. This method converts angles from radians to degrees.
-     * @param rad {Float} The angle in radians instance.
-     * @memberof module:GamepadController
-     * @instance
-     */
-    GamepadController.prototype.radiansToDegrees = (rad) => {
-        return rad * 180 / Math.PI;
-    };
-
-    /**
-     * @function calculateRotationAngle
-     * @description calculateRotationAngle method of the GamepadController widget. This method converts angles from radians to degrees.
-     * @param y {Float} The value of vertical axis(up to/or down), between -1 and 1.
-     * @param x {Float} The value of horizontal axis(left to/or right), between -1 and 1.  
-     * @memberof module:GamepadController
-     * @returns {angle} The angle in degrees calculated based on horizontal and vertical axis values read from gamepad.
-     * @instance
-     */
-    GamepadController.prototype.calculateRotationAngle = (y,x) => {
-        let angle = 0;
-        if (x !== 0.0 || y !== 0.0) {
-            angle = GamepadController.prototype.radiansToDegrees( Math.atan2(x, y) );
-        }
-        return angle;
-    };
-  
     /**
      * @function render
      * @description Render method of the GamepadController widget.
@@ -526,9 +681,9 @@ define(function (require, exports, module) {
      * @memberof module:GamepadController
      * @instance
      */
-    GamepadController.prototype.render = (gamepads) => {
+    GamepadController.prototype.render = function (gamepads) {
         let gp = gamepads || null;
-        return GamepadController.prototype.reveal();
+        return this.reveal();
     };
 
     module.exports = GamepadController;
