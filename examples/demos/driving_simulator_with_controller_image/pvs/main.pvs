@@ -205,7 +205,10 @@ main: THEORY
   release_b(st: state): state = st WITH [ action := idle ]
 
   press_rightArrow(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP ]
+  release_rightArrow(st: state): state = st WITH [ action := idle ]
+
   press_leftArrow(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP ]
+  release_leftArrow(st: state): state = st WITH [ action := idle ]
 
 END main
 
