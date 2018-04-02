@@ -77,8 +77,8 @@ define(function (require, exports, module) {
         opt = opt || {};
         coords = coords || {};
         opt.parent = opt.parent || "tog";
-        opt.mutedImg = opt.mutedImg || "img/muted.png";
-        opt.notMutedImg = opt.notMutedImg || "img/notMuted.png";
+        opt.mutedImg = opt.mutedImg || "../../client/app/widgets/car/configurations/img/muted.png";
+        opt.notMutedImg = opt.notMutedImg || "../../client/app/widgets/car/configurations/img/notMuted.png";
         opt.songs = opt.songs || {};
         this.numberSongs = (opt.songs) ? opt.songs.length : 0;
     
@@ -88,8 +88,8 @@ define(function (require, exports, module) {
         this.width = coords.width || 750;
         this.height = coords.height || 750;
 
-        this.mutedImg = (opt.mutedImg) ? opt.mutedImg : "img/muted.png";
-        this.notMutedImg = (opt.notMutedImg) ? opt.notMutedImg : "img/notMuted.png";
+        this.mutedImg = (opt.mutedImg) ? opt.mutedImg : "../../client/app/widgets/car/configurations/img/muted.png";
+        this.notMutedImg = (opt.notMutedImg) ? opt.notMutedImg : "../../client/app/widgets/car/configurations/img/notMuted.png";
 
         this.parent = (opt.parent) ? ("#" + opt.parent) : "tog";
        
@@ -108,35 +108,51 @@ define(function (require, exports, module) {
 
         this.body = d3.select("body");
        
-        for(let i=0;i<this.numberSongs;i++){
-            if(opt.songs[i].loop){
-                if(opt.songs[i].url){
-                    this.body.append("audio").attr("id", "audio"+i)
-                             .attr("name", " ")
-                             .attr("loop","")
-                             .attr("src", opt.songs[i].url)
-                             .text("Your browser does not support the <code>audio</code> element.");
-                }else{
-                    this.body.append("audio").attr("id", "audio"+i)
-                             .attr("name", " ")
-                             .attr("loop","")
-                             .attr("src", "song/loop.mp3") // Default url for loop audios
-                             .text("Your browser does not support the <code>audio</code> element.");
-                }    
-            }else {
-                if(opt.songs[i].url){
-                    this.body.append("audio").attr("id", "audio"+i)
-                             .attr("name", " ")
-                             .attr("src", opt.songs[i].url)
-                             .text("Your browser does not support the <code>audio</code> element.");
-                }else{
-                    this.body.append("audio").attr("id", "audio"+i)
-                             .attr("name", " ")
-                             .attr("src", "song/sound.mp3") // Default url for non loop audios
-                             .text("Your browser does not support the <code>audio</code> element.");
-                }    
+        if(this.numberSongs){
+            for(let i=0;i<this.numberSongs;i++){
+                if(opt.songs[i].loop){
+                    if(opt.songs[i].url){
+                        this.body.append("audio").attr("id", "audio"+i)
+                                .attr("name", " ")
+                                .attr("loop","")
+                                .attr("src", opt.songs[i].url)
+                                .text("Your browser does not support the <code>audio</code> element.");
+                    }else{
+                        this.body.append("audio").attr("id", "audio"+i)
+                                .attr("name", " ")
+                                .attr("loop","")
+                                .attr("src", "../../client/app/widgets/car/configurations/song/loop.mp3") // Default url for loop audios
+                                .text("Your browser does not support the <code>audio</code> element.");
+                    }    
+                }else {
+                    if(opt.songs[i].url){
+                        this.body.append("audio").attr("id", "audio"+i)
+                                .attr("name", " ")
+                                .attr("src", opt.songs[i].url)
+                                .text("Your browser does not support the <code>audio</code> element.");
+                    }else{
+                        this.body.append("audio").attr("id", "audio"+i)
+                                .attr("name", " ")
+                                .attr("src", "../../client/app/widgets/car/configurations/song/sound.mp3") // Default url for non loop audios
+                                .text("Your browser does not support the <code>audio</code> element.");
+                    }    
+                }
+                sounds[i] = document.getElementById('audio'+i);
             }
-            sounds[i] = document.getElementById('audio'+i);
+        } else { 
+            this.body.append("audio").attr("id", "audio0")
+                    .attr("name", " ")
+                    .attr("loop","")
+                    .attr("src", "../../client/app/widgets/car/configurations/song/loop.mp3") // Default url for loop audios
+                    .text("Your browser does not support the <code>audio</code> element.");
+            
+            this.body.append("audio").attr("id", "audio1")
+                    .attr("name", " ")
+                    .attr("src", "../../client/app/widgets/car/configurations/song/sound.mp3") // Default url for non loop audios
+                    .text("Your browser does not support the <code>audio</code> element.");
+            
+            sounds[0] = document.getElementById('audio0');
+            sounds[1] = document.getElementById('audio1');
         }
       
         opt.callback = opt.callback || function () {};
