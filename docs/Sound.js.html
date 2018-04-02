@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Sound.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Sound.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @module Sound
  * @version 1.0.0
  * @author José Carlos
@@ -8,7 +36,7 @@
  * @date Mar 10, 2018
  *
  *
- * @example <caption>Usage of Sound within a PVSio-web demo.</caption>
+ * @example &lt;caption>Usage of Sound within a PVSio-web demo.&lt;/caption>
  * define(function (require, exports, module) {
  *     "use strict";
  *
@@ -64,11 +92,11 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
-     *          <li>parent (String): the HTML element where the display will be appended (default is "tog").</li>
-     *          <li>mutedImg (String): the location of the muted image (default is "img/muted.png").</li>
-     *          <li>notMutedImg (String): the location of the unmuted image (default is "img/notMuted.png").</li>
-     *          <li>loopSong (String): the location of the sound to be played in a loop (default is "song/loop.mp3").</li>
-     *          <li>song (String): the location of the sound to be played normally (default is "song/sound.mp3").</li>
+     *          &lt;li>parent (String): the HTML element where the display will be appended (default is "tog").&lt;/li>
+     *          &lt;li>mutedImg (String): the location of the muted image (default is "img/muted.png").&lt;/li>
+     *          &lt;li>notMutedImg (String): the location of the unmuted image (default is "img/notMuted.png").&lt;/li>
+     *          &lt;li>loopSong (String): the location of the sound to be played in a loop (default is "song/loop.mp3").&lt;/li>
+     *          &lt;li>song (String): the location of the sound to be played normally (default is "song/sound.mp3").&lt;/li>
      * @returns {Sound} The created instance of the widget Sound.
      * @memberof module:Sound
      * @instance
@@ -108,32 +136,33 @@ define(function (require, exports, module) {
 
         this.body = d3.select("body");
        
-        for(let i=0;i<this.numberSongs;i++){
+        for(let i=0;i&lt;this.numberSongs;i++){
             if(opt.songs[i].loop){
                 if(opt.songs[i].url){
                     this.body.append("audio").attr("id", "audio"+i)
                              .attr("name", " ")
                              .attr("loop","")
                              .attr("src", opt.songs[i].url)
-                             .text("Your browser does not support the <code>audio</code> element.");
+                             .text("Your browser does not support the &lt;code>audio&lt;/code> element.");
                 }else{
                     this.body.append("audio").attr("id", "audio"+i)
                              .attr("name", " ")
                              .attr("loop","")
                              .attr("src", "song/loop.mp3") // Default url for loop audios
-                             .text("Your browser does not support the <code>audio</code> element.");
+                             .text("Your browser does not support the &lt;code>audio&lt;/code> element.");
                 }    
             }else {
                 if(opt.songs[i].url){
                     this.body.append("audio").attr("id", "audio"+i)
                              .attr("name", " ")
                              .attr("src", opt.songs[i].url)
-                             .text("Your browser does not support the <code>audio</code> element.");
+                             .text("Your browser does not support the &lt;code>audio&lt;/code> element.");
                 }else{
                     this.body.append("audio").attr("id", "audio"+i)
                              .attr("name", " ")
+                             .attr("loop","")
                              .attr("src", "song/sound.mp3") // Default url for non loop audios
-                             .text("Your browser does not support the <code>audio</code> element.");
+                             .text("Your browser does not support the &lt;code>audio&lt;/code> element.");
                 }    
             }
             sounds[i] = document.getElementById('audio'+i);
@@ -222,7 +251,7 @@ define(function (require, exports, module) {
      */
     Sound.prototype.playAll = function () {
         let s = sounds.length;
-        for(let i=0; i<s; i++) {
+        for(let i=0; i&lt;s; i++) {
             sounds[i].play();
         }
         return this;
@@ -236,7 +265,7 @@ define(function (require, exports, module) {
      */
     Sound.prototype.pauseAll = function () {
         let s = sounds.length;
-        for(let i=0; i<s; i++) {
+        for(let i=0; i&lt;s; i++) {
             sounds[i].pause();
         }
         return this;
@@ -264,7 +293,7 @@ define(function (require, exports, module) {
      */
     Sound.prototype.setVolumeAll = function (newVolume) {
         let s = sounds.length;
-        for(let i=0; i<s; i++) {
+        for(let i=0; i&lt;s; i++) {
             sounds[i].volume = newVolume;
         }
         return this;
@@ -312,3 +341,26 @@ define(function (require, exports, module) {
 
     module.exports = Sound;
 });
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ButtonExternalController.html">ButtonExternalController</a></li><li><a href="module-DrawGamepad.html">DrawGamepad</a></li><li><a href="module-GamepadController.html">GamepadController</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-Sound.html">Sound</a></li><li><a href="module-Speedometer.html">Speedometer</a></li><li><a href="module-SteeringWheel.html">SteeringWheel</a></li><li><a href="module-Tachometer.html">Tachometer</a></li><li><a href="module-VirtualKeypadController.html">VirtualKeypadController</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Mar 27 2018 22:15:49 GMT+0100 (WEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
