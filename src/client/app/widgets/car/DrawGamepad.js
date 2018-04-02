@@ -96,7 +96,7 @@ define(function (require, exports, module) {
 
         if(opt.style==="xbox"){
             this.btn_a= new Button("a", {
-                top: 203, left: 646, width: 32, height: 32
+                top: 115, left: 377, width: 32, height: 32
             }, {
                 keyCode: 49, 
                 callback: opt.callback,
@@ -104,7 +104,7 @@ define(function (require, exports, module) {
             });
 
             this.btn_b= new Button("b", {
-                top: 170, left: 678, width: 32, height: 32
+                top: 83, left: 408, width: 32, height: 32
             }, {
                 keyCode: 50, 
                 callback: opt.callback,
@@ -112,7 +112,7 @@ define(function (require, exports, module) {
             });
 
             this.btn_y= new Button("y", {
-                top: 140, left: 646, width: 32, height: 32
+                top: 50, left: 377, width: 32, height: 32
             }, {
                 keyCode: 51, 
                 callback: opt.callback,
@@ -120,7 +120,7 @@ define(function (require, exports, module) {
             });
 
             this.btn_x= new Button("x", {
-                top: 170, left: 615, width: 32, height: 32
+                top: 83, left: 345, width: 32, height: 32
             }, {
                 keyCode: 52, 
                 callback: opt.callback,
@@ -128,7 +128,7 @@ define(function (require, exports, module) {
             });
 
             this.btn_menu= new Button("menu", {
-                top: 177, left: 568, width: 22, height: 22
+                top: 89, left: 298, width: 22, height: 22
             }, {
                 keyCode: 53, 
                 callback: opt.callback,
@@ -136,7 +136,7 @@ define(function (require, exports, module) {
             });
 
             this.btn_windows= new Button("windows", {
-                top: 177, left: 502, width: 22, height: 22
+                top: 89, left: 233, width: 22, height: 22
             }, {
                 keyCode: 54, 
                 callback: opt.callback,
@@ -144,7 +144,7 @@ define(function (require, exports, module) {
             });
 
             this.btn_xbox= new Button("xbox", {
-                top: 115, left: 525, width: 44, height: 44
+                top: 20, left: 253, width: 46, height: 46
             }, {
                 keyCode: 56, 
                 callback: opt.callback,
@@ -152,7 +152,7 @@ define(function (require, exports, module) {
             });
 
             this.btn_leftArrow= new Button("leftArrow", {
-                top: 248, left: 457, width: 22, height: 22
+                top: 167, left: 188, width: 22, height: 22
             }, {
                 keyCode: 37, 
                 callback: opt.callback,
@@ -160,7 +160,7 @@ define(function (require, exports, module) {
             });
 
             this.btn_upArrow= new Button("upArrow", {
-                top: 228, left: 477, width: 22, height: 22
+                top: 144, left: 207, width: 22, height: 22
             }, {
                 keyCode: 38, 
                 callback: opt.callback,
@@ -168,7 +168,7 @@ define(function (require, exports, module) {
             });
 
             this.btn_rightArrow= new Button("rightArrow", {
-                top: 248, left: 497, width: 22, height: 22
+                top: 167, left: 228, width: 22, height: 22
             }, {
                 keyCode: 39, 
                 callback: opt.callback,
@@ -176,7 +176,7 @@ define(function (require, exports, module) {
             });
 
             this.btn_downArrow= new Button("downArrow", {
-                top: 268, left: 477, width: 22, height: 22
+                top: 189, left: 206, width: 22, height: 22
             }, {
                 keyCode: 40, 
                 callback: opt.callback,
@@ -184,14 +184,14 @@ define(function (require, exports, module) {
             });
 
             this.btn_rightStick= new Button("rightStick", {
-                top: 230, left: 578, width: 52, height: 52
+                top: 148, left: 309, width: 52, height: 52
             }, {
                 keyCode: 57, 
                 callback: opt.callback,
             });
 
             this.btn_leftStick= new Button("leftStick", {
-                top: 160, left: 405, width: 52, height: 52
+                top: 74, left: 135, width: 52, height: 52
             }, {
                 keyCode: 48, 
                 callback: opt.callback,

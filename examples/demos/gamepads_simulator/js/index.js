@@ -106,7 +106,7 @@ require([
             height: 750
         }, {
             parent: "gamepads", // defines parent div, which is div id="drawGamepad" by default
-            style: "ps4", // defines parent div, which is "ps4" by default
+            style: "xbox", // defines parent div, which is "ps4" by default
             callback: onMessageReceived
         });
 

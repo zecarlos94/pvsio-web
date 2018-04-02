@@ -26,40 +26,40 @@ main: THEORY
   press_draw(st: state): state = draw(st) WITH [ action := drawed ]
   release_draw(st: state): state = st WITH [ action := idle ]
 
-  click_cross(st: state):state = (#
+  press_cross(st: state):state = (#
     action := clicked
   #)
-  click_circle(st: state):state = (#
+  press_circle(st: state):state = (#
     action := clicked
   #)
-  click_square(st: state):state = (#
+  press_square(st: state):state = (#
     action := clicked
   #)
-  click_triangle(st: state):state = (#
+  press_triangle(st: state):state = (#
     action := clicked
   #)
-  click_options(st: state):state = (#
+  press_options(st: state):state = (#
     action := clicked
   #)
-  click_share(st: state):state = (#
+  press_share(st: state):state = (#
     action := clicked
   #)
-  click_touchpad(st: state):state = (#
+  press_touchpad(st: state):state = (#
     action := clicked
   #)
-  click_ps(st: state):state = (#
+  press_ps(st: state):state = (#
     action := clicked
   #)
-  click_leftArrow(st: state):state = (#
+  press_leftArrow(st: state):state = (#
     action := clicked
   #)
-  click_upArrow(st: state):state = (#
+  press_upArrow(st: state):state = (#
     action := clicked
   #)
-  click_rightArrow(st: state):state = (#
+  press_rightArrow(st: state):state = (#
     action := clicked
   #)
-  click_downArrow(st: state):state = (#
+  press_downArrow(st: state):state = (#
     action := clicked
   #)
   click_leftStick(st: state):state = (#
@@ -68,26 +68,85 @@ main: THEORY
   click_rightStick(st: state):state = (#
     action := clicked
   #)
-  click_a(st: state):state = (#
+  press_a(st: state):state = (#
     action := clicked
   #)
-  click_b(st: state):state = (#
+  press_b(st: state):state = (#
     action := clicked
   #)
-  click_x(st: state):state = (#
+  press_x(st: state):state = (#
     action := clicked
   #)
-  click_y(st: state):state = (#
+  press_y(st: state):state = (#
     action := clicked
   #)
-  click_menu(st: state):state = (#
+  press_menu(st: state):state = (#
     action := clicked
   #)
-  click_windows(st: state):state = (#
+  press_windows(st: state):state = (#
     action := clicked
   #)
-  click_xbox(st: state):state = (#
+  press_xbox(st: state):state = (#
     action := clicked
+  #)
+
+
+  release_cross(st: state):state = (#
+    action := idle
+  #)
+  release_circle(st: state):state = (#
+    action := idle
+  #)
+  release_square(st: state):state = (#
+    action := idle
+  #)
+  release_triangle(st: state):state = (#
+    action := idle
+  #)
+  release_options(st: state):state = (#
+    action := idle
+  #)
+  release_share(st: state):state = (#
+    action := idle
+  #)
+  release_touchpad(st: state):state = (#
+    action := idle
+  #)
+  release_ps(st: state):state = (#
+    action := idle
+  #)
+  release_leftArrow(st: state):state = (#
+    action := idle
+  #)
+  release_upArrow(st: state):state = (#
+    action := idle
+  #)
+  release_rightArrow(st: state):state = (#
+    action := idle
+  #)
+  release_downArrow(st: state):state = (#
+    action := idle
+  #)
+  release_a(st: state):state = (#
+    action := idle
+  #)
+  release_b(st: state):state = (#
+    action := idle
+  #)
+  release_x(st: state):state = (#
+    action := idle
+  #)
+  release_y(st: state):state = (#
+    action := idle
+  #)
+  release_menu(st: state):state = (#
+    action := idle
+  #)
+  release_windows(st: state):state = (#
+    action := idle
+  #)
+  release_xbox(st: state):state = (#
+    action := idle
   #)
 
 END main
