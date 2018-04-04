@@ -105,8 +105,8 @@ define(function (require, exports, module) {
         opt = opt || {};
         coords = coords || {};
         opt.parent = opt.parent || "tog";
-        opt.mutedImg = opt.mutedImg || "img/muted.png";
-        opt.notMutedImg = opt.notMutedImg || "img/notMuted.png";
+        opt.mutedImg = opt.mutedImg || "../../client/app/widgets/car/configurations/img/muted.png";
+        opt.notMutedImg = opt.notMutedImg || "../../client/app/widgets/car/configurations/img/notMuted.png";
         opt.songs = opt.songs || {};
         this.numberSongs = (opt.songs) ? opt.songs.length : 0;
     
@@ -116,8 +116,8 @@ define(function (require, exports, module) {
         this.width = coords.width || 750;
         this.height = coords.height || 750;
 
-        this.mutedImg = (opt.mutedImg) ? opt.mutedImg : "img/muted.png";
-        this.notMutedImg = (opt.notMutedImg) ? opt.notMutedImg : "img/notMuted.png";
+        this.mutedImg = (opt.mutedImg) ? opt.mutedImg : "../../client/app/widgets/car/configurations/img/muted.png";
+        this.notMutedImg = (opt.notMutedImg) ? opt.notMutedImg : "../../client/app/widgets/car/configurations/img/notMuted.png";
 
         this.parent = (opt.parent) ? ("#" + opt.parent) : "tog";
        
@@ -136,35 +136,51 @@ define(function (require, exports, module) {
 
         this.body = d3.select("body");
        
-        for(let i=0;i&lt;this.numberSongs;i++){
-            if(opt.songs[i].loop){
-                if(opt.songs[i].url){
-                    this.body.append("audio").attr("id", "audio"+i)
-                             .attr("name", " ")
-                             .attr("loop","")
-                             .attr("src", opt.songs[i].url)
-                             .text("Your browser does not support the &lt;code>audio&lt;/code> element.");
-                }else{
-                    this.body.append("audio").attr("id", "audio"+i)
-                             .attr("name", " ")
-                             .attr("loop","")
-                             .attr("src", "song/loop.mp3") // Default url for loop audios
-                             .text("Your browser does not support the &lt;code>audio&lt;/code> element.");
-                }    
-            }else {
-                if(opt.songs[i].url){
-                    this.body.append("audio").attr("id", "audio"+i)
-                             .attr("name", " ")
-                             .attr("src", opt.songs[i].url)
-                             .text("Your browser does not support the &lt;code>audio&lt;/code> element.");
-                }else{
-                    this.body.append("audio").attr("id", "audio"+i)
-                             .attr("name", " ")
-                             .attr("src", "song/sound.mp3") // Default url for non loop audios
-                             .text("Your browser does not support the &lt;code>audio&lt;/code> element.");
-                }    
+        if(this.numberSongs){
+            for(let i=0;i&lt;this.numberSongs;i++){
+                if(opt.songs[i].loop){
+                    if(opt.songs[i].url){
+                        this.body.append("audio").attr("id", "audio"+i)
+                                .attr("name", " ")
+                                .attr("loop","")
+                                .attr("src", opt.songs[i].url)
+                                .text("Your browser does not support the &lt;code>audio&lt;/code> element.");
+                    }else{
+                        this.body.append("audio").attr("id", "audio"+i)
+                                .attr("name", " ")
+                                .attr("loop","")
+                                .attr("src", "../../client/app/widgets/car/configurations/song/loop.mp3") // Default url for loop audios
+                                .text("Your browser does not support the &lt;code>audio&lt;/code> element.");
+                    }    
+                }else {
+                    if(opt.songs[i].url){
+                        this.body.append("audio").attr("id", "audio"+i)
+                                .attr("name", " ")
+                                .attr("src", opt.songs[i].url)
+                                .text("Your browser does not support the &lt;code>audio&lt;/code> element.");
+                    }else{
+                        this.body.append("audio").attr("id", "audio"+i)
+                                .attr("name", " ")
+                                .attr("src", "../../client/app/widgets/car/configurations/song/sound.mp3") // Default url for non loop audios
+                                .text("Your browser does not support the &lt;code>audio&lt;/code> element.");
+                    }    
+                }
+                sounds[i] = document.getElementById('audio'+i);
             }
-            sounds[i] = document.getElementById('audio'+i);
+        } else { 
+            this.body.append("audio").attr("id", "audio0")
+                    .attr("name", " ")
+                    .attr("loop","")
+                    .attr("src", "../../client/app/widgets/car/configurations/song/loop.mp3") // Default url for loop audios
+                    .text("Your browser does not support the &lt;code>audio&lt;/code> element.");
+            
+            this.body.append("audio").attr("id", "audio1")
+                    .attr("name", " ")
+                    .attr("src", "../../client/app/widgets/car/configurations/song/sound.mp3") // Default url for non loop audios
+                    .text("Your browser does not support the &lt;code>audio&lt;/code> element.");
+            
+            sounds[0] = document.getElementById('audio0');
+            sounds[1] = document.getElementById('audio1');
         }
       
         opt.callback = opt.callback || function () {};
@@ -350,13 +366,13 @@ define(function (require, exports, module) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ButtonExternalController.html">ButtonExternalController</a></li><li><a href="module-DrawGamepad.html">DrawGamepad</a></li><li><a href="module-GamepadController.html">GamepadController</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-Sound.html">Sound</a></li><li><a href="module-Speedometer.html">Speedometer</a></li><li><a href="module-SteeringWheel.html">SteeringWheel</a></li><li><a href="module-Tachometer.html">Tachometer</a></li><li><a href="module-VirtualKeypadController.html">VirtualKeypadController</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Arcade.html">Arcade</a></li><li><a href="module-ButtonExternalController.html">ButtonExternalController</a></li><li><a href="module-DrawGamepad.html">DrawGamepad</a></li><li><a href="module-GamepadController.html">GamepadController</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-Sound.html">Sound</a></li><li><a href="module-Speedometer.html">Speedometer</a></li><li><a href="module-SteeringWheel.html">SteeringWheel</a></li><li><a href="module-Tachometer.html">Tachometer</a></li><li><a href="module-VirtualKeypadController.html">VirtualKeypadController</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Apr 02 2018 14:43:07 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Apr 04 2018 17:22:57 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>
