@@ -61,11 +61,17 @@ define(function (require, exports, module) {
      */
     let gamepadXBOX1Id = "Xbox One Controller (STANDARD GAMEPAD Vendor: 045e Product: 02ea)";
     /**
-     * @description 'g29RacingId' has G29 Driving Force Racing Wheel unique ID, to use the proper mapping method. Available at https://www.amazon.co.uk/Logitech-Driving-Racing-Pedals-UK-Plug/dp/B00YUOVBZK
+     * @description 'g29RacingPS4ModeId' has G29 Driving Force Racing Wheel unique ID, to use the proper mapping method in PS4 mode. Available at https://www.amazon.co.uk/Logitech-Driving-Racing-Pedals-UK-Plug/dp/B00YUOVBZK
      * @memberof module:GamepadController
      * @instance
      */
-    let g29RacingId = "G29 Driving Force Racing Wheel (Vendor: 046d Product: c260)";
+    let g29RacingPS4ModeId = "G29 Driving Force Racing Wheel (Vendor: 046d Product: c260)";
+    /**
+     * @description 'g29RacingPS3ModeId' has G29 Driving Force Racing Wheel unique ID, to use the proper mapping method in PS3 mode. Available at https://www.amazon.co.uk/Logitech-Driving-Racing-Pedals-UK-Plug/dp/B00YUOVBZK
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let g29RacingPS3ModeId = "G29 Driving Force Racing Wheel (Vendor: 046d Product: c294)"
 
     
     /**
@@ -185,15 +191,68 @@ define(function (require, exports, module) {
     };
 
     /**
-     * @function mappingLogitechG29Buttons
-     * @description mappingLogitechG29Buttons method of the GamepadController widget. This method maps all read buttons to Logitech G29 buttons.
-     * @param key {Integer} The key instance, i.e. the gamepad button index to be mapped into Logitech G29 names.
+     * @function mappingLogitechG29PS3ModeButtons
+     * @description mappingLogitechG29PS3ModeButtons method of the GamepadController widget. This method maps all read buttons to Logitech G29 PS3 Mode buttons.
+     * @param key {Integer} The key instance, i.e. the gamepad button index to be mapped into Logitech G29 PS3 Mode names.
      * @memberof module:GamepadController
      * @instance
      */
-    GamepadController.prototype.mappingLogitechG29Buttons = function (key) {
+    GamepadController.prototype.mappingLogitechG29PS3ModeButtons = function (key) {
        
-        let logitechG29MappingButtons = [
+        let logitechG29PS3ModeMappingButtons = [
+            {key: 0, value: 'button square'}, 
+            {key: 1, value: 'button cross'}, 
+            {key: 2, value: 'button circle'},
+            {key: 3, value: 'button triangle'},
+            {key: 4, value: 'button l1 (left steering wheel paddle shifter)'},
+            {key: 5, value: 'button r1 (right steering wheel paddle shifter)'},
+            {key: 6, value: 'button l2'},
+            {key: 7, value: 'button r2'},
+            {key: 8, value: 'button share'},
+            {key: 9, value: 'button options'},
+            {key: 10, value: 'button l3'},
+            {key: 11, value: 'button r3'},
+            {key: 12, value: 'button PS'}
+        ];
+
+        return logitechG29PS3ModeMappingButtons[key].value;
+    };
+
+     /**
+     * @function mappingLogitechG29PS3ModeAxes
+     * @description mappingLogitechG29PS3ModeAxes method of the GamepadController widget. This method maps all read axes to Logitech G29 PS3 Mode axes.
+     * @param key {Integer} The key instance, i.e. the gamepad axis index to be mapped into Logitech G29 PS3 Mode names.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    GamepadController.prototype.mappingLogitechG29PS3ModeAxes = function (key) {
+       
+        let logitechG29PS3ModeMappingAxes = [
+            {key: 0, value: 'steering wheel left/right'},
+            {key: 1, value: 'unknown'},
+            {key: 2, value: 'unknown'},
+            {key: 3, value: 'unknown'},
+            {key: 4, value: 'unknown'},
+            {key: 5, value: 'unknown'},
+            {key: 6, value: 'unknown'},
+            {key: 7, value: 'unknown'},
+            {key: 8, value: 'unknown'},
+            {key: 9, value: 'left axis stick left/right/up/down'}
+        ];
+
+        return logitechG29PS3ModeMappingAxes[key].value;
+    };
+
+    /**
+     * @function mappingLogitechG29PS4ModeButtons
+     * @description mappingLogitechG29PS4ModeButtons method of the GamepadController widget. This method maps all read buttons to Logitech G29 PS4 Mode buttons.
+     * @param key {Integer} The key instance, i.e. the gamepad button index to be mapped into Logitech G29 PS4 Mode names.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    GamepadController.prototype.mappingLogitechG29PS4ModeButtons = function (key) {
+       
+        let logitechG29PS4ModeMappingButtons = [
             {key: 0, value: 'button square'}, 
             {key: 1, value: 'button cross'}, 
             {key: 2, value: 'button circle'},
@@ -210,19 +269,19 @@ define(function (require, exports, module) {
             {key: 13, value: 'unknown'}
         ];
 
-        return logitechG29MappingButtons[key].value;
+        return logitechG29PS4ModeMappingButtons[key].value;
     };
 
      /**
-     * @function mappingLogitechG29Axes
-     * @description mappingLogitechG29Axes method of the GamepadController widget. This method maps all read axes to Logitech G29 axes.
-     * @param key {Integer} The key instance, i.e. the gamepad axis index to be mapped into Logitech G29 names.
+     * @function mappingLogitechG29PS4ModeAxes
+     * @description mappingLogitechG29PS4ModeAxes method of the GamepadController widget. This method maps all read axes to Logitech G29 PS4 Mode axes.
+     * @param key {Integer} The key instance, i.e. the gamepad axis index to be mapped into Logitech G29 PS4 Mode names.
      * @memberof module:GamepadController
      * @instance
      */
-    GamepadController.prototype.mappingLogitechG29Axes = function (key) {
+    GamepadController.prototype.mappingLogitechG29PS4ModeAxes = function (key) {
        
-        let logitechG29MappingAxes = [
+        let logitechG29PS4ModeMappingAxes = [
             {key: 0, value: 'unknown'},
             {key: 1, value: 'unknown'},
             {key: 2, value: 'unknown'},
@@ -235,7 +294,7 @@ define(function (require, exports, module) {
             {key: 9, value: 'left axis stick left/right/up/down'}
         ];
 
-        return logitechG29MappingAxes[key].value;
+        return logitechG29PS4ModeMappingAxes[key].value;
     };
 
 
@@ -474,7 +533,11 @@ define(function (require, exports, module) {
      * @instance
      */
     GamepadController.prototype.connectGamepad = function (gamepad) {
-        this.saveGamepad(gamepad);
+        if(gamepad.id===""){
+            alert("External controller was not loaded properly. Please reload Demo and reconnect your external controller again!");
+        }else{
+            this.saveGamepad(gamepad);
+        }
         return this;
     };
 
@@ -524,7 +587,7 @@ define(function (require, exports, module) {
           let p = document.createElement("progress");
           p.className = "axis";
           p.setAttribute("name", "axis");
-          p.setAttribute("max", "2");
+        //   p.setAttribute("max", "2");
           p.setAttribute("value", "1");
           p.innerHTML = i;
           a.appendChild(p);
@@ -576,8 +639,10 @@ define(function (require, exports, module) {
                             mappedName = GamepadController.prototype.mappingPS4GamepadButtons(i);
                         }else if(controller.id===gamepadXBOX1Id){
                             mappedName = GamepadController.prototype.mappingXBOX1GamepadButtons(i);
-                        }else if(controller.id===g29RacingId){
-                            mappedName = GamepadController.prototype.mappingLogitechG29Buttons(i);
+                        }else if(controller.id===g29RacingPS4ModeId){
+                            mappedName = GamepadController.prototype.mappingLogitechG29PS4ModeButtons(i);
+                        }else if(controller.id===g29RacingPS3ModeId){
+                            mappedName = GamepadController.prototype.mappingLogitechG29PS3ModeButtons(i);
                         }else{
                             mappedName = "other";
                         }  
@@ -587,7 +652,7 @@ define(function (require, exports, module) {
                     }
                     if(carAccelerate && carBrake && carSteeringWheel){
                         if(i===0){ 
-                            // Button Square - Logitech G29 External Controller
+                            // Button Square - Logitech G29 PS4 Mode External Controller
                             // Button Cross - PS4 Gamepad/External Controller
                             // Button A - XBOX1 Gamepad/External Controller
                             if(!clickedOnce){
@@ -597,7 +662,7 @@ define(function (require, exports, module) {
                                 clickedOnce=true;
                             }
                         }else if(i===1){ 
-                            // Button Cross - Logitech G29 External Controller
+                            // Button Cross - Logitech G29 PS4 Mode External Controller
                             // Button Circle - PS4 Gamepad/External Controller
                             // Button B - XBOX1 Gamepad/External Controller
                             if(!clickedOnce){
@@ -607,14 +672,14 @@ define(function (require, exports, module) {
                                 clickedOnce=true;
                             }
                         }else if(i===14){ // Left Arrow - PS4 and XBOX1 Gamepad/External Controller
-                            // Logitech G29 External Controller does not have this button
+                            // Logitech G29 PS4 Mode External Controller does not have this button
                             if(!clickedOnce){
                                 // console.log("rotate left");
                                 carSteeringWheel.btn_rotate_left.click();
                                 clickedOnce=true;
                             }
                         }else if(i===15){ // Right Arrow - PS4 and XBOX1 Gamepad/External Controller
-                            // Logitech G29 External Controller does not have this button
+                            // Logitech G29 PS4 Mode External Controller does not have this button
                             if(!clickedOnce){
                                 // console.log("rotate right");
                                 carSteeringWheel.btn_rotate_right.click();
@@ -626,7 +691,7 @@ define(function (require, exports, module) {
                     b.setAttribute("name", "button");
                 }
             }
-            let stickThreshold = 0.30; // remove "noise" values read in the idle sticks.
+            let stickThreshold = 0.10; // remove "noise" values read in the idle sticks.
             let angleRotationSteeringWheel = 0;
             let axes = d.getElementsByClassName("axis");
             let mappedAxis;
@@ -636,8 +701,10 @@ define(function (require, exports, module) {
                         mappedAxis = GamepadController.prototype.mappingPS4GamepadAxes(i);
                     }else if(controller.id===gamepadXBOX1Id){
                         mappedAxis = GamepadController.prototype.mappingXBOX1GamepadAxes(i);
-                    }else if(controller.id===g29RacingId){
-                        mappedAxis = GamepadController.prototype.mappingLogitechG29Axes(i);
+                    }else if(controller.id===g29RacingPS4ModeId){
+                        mappedAxis = GamepadController.prototype.mappingLogitechG29PS4ModeAxes(i);
+                    }else if(controller.id===g29RacingPS3ModeId){
+                        mappedAxis = GamepadController.prototype.mappingLogitechG29PS3ModeAxes(i);
                     }else{
                         mappedAxis = "other";
                     }
@@ -649,11 +716,10 @@ define(function (require, exports, module) {
                 a.setAttribute("name", mappedAxis + " moving");
                 a.setAttribute("value", controller.axes[i].toFixed(4));
                 // Max and Min values of 1 and -1 for all gamepads
-                // In Logitech G29 External Controller, Max and Min values are between 0.71(left) and -0.71(right). Idle values varies from 1.20 to 1.30
                 if(carSteeringWheel){
                     if(controller.axes[i]>stickThreshold || controller.axes[i]<-stickThreshold){
-                        // For Logitech G29 External Controller only
-                        if(controller.id===g29RacingId){
+                        // For Logitech G29 PS4 Mode External Controller only
+                        if(controller.id===g29RacingPS4ModeId){
                             if(i===9){ // stick
                                 if(controller.axes[i].toFixed(4)>0 && controller.axes[i].toFixed(4)<1){
                                     carSteeringWheel.btn_rotate_left.click();
@@ -662,7 +728,21 @@ define(function (require, exports, module) {
                                     carSteeringWheel.btn_rotate_right.click();
                                 }
                             }
-                        }else {
+                        }else if(controller.id===g29RacingPS3ModeId){ // For Logitech G29 PS3 Mode External Controller only
+                            // Idle values varies from -0.0118 to -0.0510 and achieves value of -1 (full left) and of 1 (full right)
+                            if(i===0){ // steering wheel left/right rotation
+                                carSteeringWheel.rotate(controller.axes[i].toFixed(4)*100);
+                                // console.log(controller.axes[i].toFixed(4));
+                            }else if(i===9){ // stick
+                                // Idle values varies from 1.20 to 1.30 and achieves value of 0.71 (full left) and of -0.71 (full right)
+                                if(controller.axes[i].toFixed(4)>0 && controller.axes[i].toFixed(4)<1){
+                                    carSteeringWheel.btn_rotate_left.click();
+                                }
+                                else if(controller.axes[i].toFixed(4)<0 && controller.axes[i].toFixed(4)>-1){
+                                    carSteeringWheel.btn_rotate_right.click();
+                                }
+                            }
+                        } else {
                             if(i===0){ // left stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
                                 angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
                                 // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
