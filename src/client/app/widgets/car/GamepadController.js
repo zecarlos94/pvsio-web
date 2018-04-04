@@ -185,6 +185,61 @@ define(function (require, exports, module) {
     };
 
     /**
+     * @function mappingLogitechG29Buttons
+     * @description mappingLogitechG29Buttons method of the GamepadController widget. This method maps all read buttons to Logitech G29 buttons.
+     * @param key {Integer} The key instance, i.e. the gamepad button index to be mapped into Logitech G29 names.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    GamepadController.prototype.mappingLogitechG29Buttons = function (key) {
+       
+        let logitechG29MappingButtons = [
+            {key: 0, value: 'button square'}, 
+            {key: 1, value: 'button cross'}, 
+            {key: 2, value: 'button circle'},
+            {key: 3, value: 'button triangle'},
+            {key: 4, value: 'button l1 (left steering wheel paddle shifter)'},
+            {key: 5, value: 'button r1 (right steering wheel paddle shifter)'},
+            {key: 6, value: 'button l2'},
+            {key: 7, value: 'button r2'},
+            {key: 8, value: 'button share'},
+            {key: 9, value: 'button options'},
+            {key: 10, value: 'button l3'},
+            {key: 11, value: 'button r3'},
+            {key: 12, value: 'button PS'},
+            {key: 13, value: 'unknown'}
+        ];
+
+        return logitechG29MappingButtons[key].value;
+    };
+
+     /**
+     * @function mappingLogitechG29Axes
+     * @description mappingLogitechG29Axes method of the GamepadController widget. This method maps all read axes to Logitech G29 axes.
+     * @param key {Integer} The key instance, i.e. the gamepad axis index to be mapped into Logitech G29 names.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    GamepadController.prototype.mappingLogitechG29Axes = function (key) {
+       
+        let logitechG29MappingAxes = [
+            {key: 0, value: 'unknown'},
+            {key: 1, value: 'unknown'},
+            {key: 2, value: 'unknown'},
+            {key: 3, value: 'unknown'},
+            {key: 4, value: 'unknown'},
+            {key: 5, value: 'unknown'},
+            {key: 6, value: 'unknown'},
+            {key: 7, value: 'unknown'},
+            {key: 8, value: 'unknown'},
+            {key: 9, value: 'left axis stick left/right/up/down'}
+        ];
+
+        return logitechG29MappingAxes[key].value;
+    };
+
+
+    /**
      * @function mappingPS4GamepadButtons
      * @description mappingPS4GamepadButtons method of the GamepadController widget. This method maps all read buttons to PS4 buttons.
      * @param key {Integer} The key instance, i.e. the gamepad button index to be mapped into PS4 names.
@@ -455,7 +510,6 @@ define(function (require, exports, module) {
           let e = document.createElement("span");
           e.className = "button";
           e.setAttribute("name", "button");
-          //e.id = "b" + i;
           e.innerHTML = i;
           b.appendChild(e);
         }
@@ -470,7 +524,6 @@ define(function (require, exports, module) {
           let p = document.createElement("progress");
           p.className = "axis";
           p.setAttribute("name", "axis");
-          //p.id = "a" + i;
           p.setAttribute("max", "2");
           p.setAttribute("value", "1");
           p.innerHTML = i;
@@ -523,6 +576,8 @@ define(function (require, exports, module) {
                             mappedName = GamepadController.prototype.mappingPS4GamepadButtons(i);
                         }else if(controller.id===gamepadXBOX1Id){
                             mappedName = GamepadController.prototype.mappingXBOX1GamepadButtons(i);
+                        }else if(controller.id===g29RacingId){
+                            mappedName = GamepadController.prototype.mappingLogitechG29Buttons(i);
                         }else{
                             mappedName = "other";
                         }  
@@ -581,6 +636,8 @@ define(function (require, exports, module) {
                         mappedAxis = GamepadController.prototype.mappingPS4GamepadAxes(i);
                     }else if(controller.id===gamepadXBOX1Id){
                         mappedAxis = GamepadController.prototype.mappingXBOX1GamepadAxes(i);
+                    }else if(controller.id===g29RacingId){
+                        mappedAxis = GamepadController.prototype.mappingLogitechG29Axes(i);
                     }else{
                         mappedAxis = "other";
                     }
