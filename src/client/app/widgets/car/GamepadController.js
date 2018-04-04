@@ -509,12 +509,18 @@ define(function (require, exports, module) {
                 let clickedOnce=false;  
                 let mappedName;                          
                 if (pressed) {
-                    if(controller.id===gamepadPS4Id){
-                        mappedName = GamepadController.prototype.mappingPS4GamepadButtons(i);
-                    }else if(controller.id===gamepadXBOX1Id){
-                        mappedName = GamepadController.prototype.mappingXBOX1GamepadButtons(i);
-                    }   
-                    b.className = mappedName +" pressed";
+                    try {
+                        if(controller.id===gamepadPS4Id){
+                            mappedName = GamepadController.prototype.mappingPS4GamepadButtons(i);
+                        }else if(controller.id===gamepadXBOX1Id){
+                            mappedName = GamepadController.prototype.mappingXBOX1GamepadButtons(i);
+                        }else{
+                            mappedName = "standard";
+                        }  
+                        b.className = mappedName +" pressed";
+                    } catch (error) {
+                        console.log("Error Reading Gamepad Configurations!");
+                    }
                     if(carAccelerate && carBrake && carSteeringWheel){
                         if(i===0){ 
                             // Button Cross - PS4 Gamepad/External Controller
@@ -552,30 +558,38 @@ define(function (require, exports, module) {
                     b.className = "button";
                 }
             }
-            let stickThreshold = 0.50; // remove "noise" values read in the idle sticks.
+            let stickThreshold = 0.30; // remove "noise" values read in the idle sticks.
             let angleRotationSteeringWheel = 0;
             let axes = d.getElementsByClassName("axis");
             let mappedAxis;
             for (i = 0; i < controller.axes.length; i++) {
-                if(controller.id===gamepadPS4Id){
-                    mappedAxis = GamepadController.prototype.mappingPS4GamepadAxes(i);
-                }else if(controller.id===gamepadXBOX1Id){
-                    mappedAxis = GamepadController.prototype.mappingXBOX1GamepadAxes(i);
-                }   
-                let a = axes[i];
-                a.innerHTML = i;
-                a.className = mappedAxis + " moving";
-                a.setAttribute("value", controller.axes[i].toFixed(4));
-                // Max and Min values of 1 and -1 for all gamepads
+                try {
+                    if(controller.id===gamepadPS4Id){
+                        mappedAxis = GamepadController.prototype.mappingPS4GamepadAxes(i);
+                    }else if(controller.id===gamepadXBOX1Id){
+                        mappedAxis = GamepadController.prototype.mappingXBOX1GamepadAxes(i);
+                    }else{
+                        mappedAxis = "standard";
+                    }
+                    let a = axes[i];
+                    a.innerHTML = i;
+                    a.className = mappedAxis + " moving";
+                    a.setAttribute("value", controller.axes[i].toFixed(4));
+                    // Max and Min values of 1 and -1 for all gamepads
+                }catch (error) {
+                    console.log("Error Reading Gamepad Configurations!");
+                }
                 if(carSteeringWheel){
-                    if(i===0){ // left stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
-                        angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
-                        // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
-                        carSteeringWheel.rotate(angleRotationSteeringWheel);
-                    }else if(i===2){ // right stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
-                        angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
-                        // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
-                        carSteeringWheel.rotate(angleRotationSteeringWheel);
+                    if(controller.axes[i]>stickThreshold || controller.axes[i]<-stickThreshold){
+                        if(i===0){ // left stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
+                            angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
+                            // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
+                            carSteeringWheel.rotate(angleRotationSteeringWheel);
+                        }else if(i===2){ // right stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
+                            angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
+                            // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
+                            carSteeringWheel.rotate(angleRotationSteeringWheel);
+                        }
                     }
                 }
             }
