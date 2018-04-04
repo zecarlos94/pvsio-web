@@ -60,7 +60,14 @@ define(function (require, exports, module) {
      * @instance
      */
     let gamepadXBOX1Id = "Xbox One Controller (STANDARD GAMEPAD Vendor: 045e Product: 02ea)";
+    /**
+     * @description 'g29RacingId' has G29 Driving Force Racing Wheel unique ID, to use the proper mapping method. Available at https://www.amazon.co.uk/Logitech-Driving-Racing-Pedals-UK-Plug/dp/B00YUOVBZK
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let g29RacingId = "G29 Driving Force Racing Wheel (Vendor: 046d Product: c260)";
 
+    
     /**
      * @description ButtonExternalController 'carAccelerate' to be clicked when a certain gamepad button is pressed.
      * @memberof module:GamepadController
@@ -447,6 +454,7 @@ define(function (require, exports, module) {
         for (let i = 0; i < gamepad.buttons.length; i++) {
           let e = document.createElement("span");
           e.className = "button";
+          e.setAttribute("name", "button");
           //e.id = "b" + i;
           e.innerHTML = i;
           b.appendChild(e);
@@ -461,6 +469,7 @@ define(function (require, exports, module) {
         for (let i = 0; i < gamepad.axes.length; i++) {
           let p = document.createElement("progress");
           p.className = "axis";
+          p.setAttribute("name", "axis");
           //p.id = "a" + i;
           p.setAttribute("max", "2");
           p.setAttribute("value", "1");
@@ -489,21 +498,21 @@ define(function (require, exports, module) {
         if (!gamepadEvents) {
             GamepadController.prototype.listGamepads();
         }
+        
         let j, i = 0;
         for (j in gamepadsKnown) {
             let controller = gamepadsKnown[j];
             let d = document.getElementById("gamepad_" + j);
             let buttons = d.getElementsByClassName("button");
-      
+
             for (i = 0; i < controller.buttons.length; i++) {
                 let b = buttons[i];
                 let val = controller.buttons[i];
                 let pressed = val == 1.0;
                 if (typeof(val) == "object") {
-                pressed = val.pressed;
-                val = val.value;
+                    pressed = val.pressed;
+                    val = val.value;
                 }
-        
                 let pct = Math.round(val * 100) + "%";
                 b.style.backgroundSize = pct + " " + pct;
                 let clickedOnce=false;  
@@ -515,14 +524,15 @@ define(function (require, exports, module) {
                         }else if(controller.id===gamepadXBOX1Id){
                             mappedName = GamepadController.prototype.mappingXBOX1GamepadButtons(i);
                         }else{
-                            mappedName = "standard";
+                            mappedName = "other";
                         }  
-                        b.className = mappedName +" pressed";
+                        b.setAttribute("name", mappedName +" pressed");
                     } catch (error) {
                         console.log("Error Reading Gamepad Configurations!");
                     }
                     if(carAccelerate && carBrake && carSteeringWheel){
                         if(i===0){ 
+                            // Button Square - Logitech G29 External Controller
                             // Button Cross - PS4 Gamepad/External Controller
                             // Button A - XBOX1 Gamepad/External Controller
                             if(!clickedOnce){
@@ -532,6 +542,7 @@ define(function (require, exports, module) {
                                 clickedOnce=true;
                             }
                         }else if(i===1){ 
+                            // Button Cross - Logitech G29 External Controller
                             // Button Circle - PS4 Gamepad/External Controller
                             // Button B - XBOX1 Gamepad/External Controller
                             if(!clickedOnce){
@@ -541,12 +552,14 @@ define(function (require, exports, module) {
                                 clickedOnce=true;
                             }
                         }else if(i===14){ // Left Arrow - PS4 and XBOX1 Gamepad/External Controller
+                            // Logitech G29 External Controller does not have this button
                             if(!clickedOnce){
                                 // console.log("rotate left");
                                 carSteeringWheel.btn_rotate_left.click();
                                 clickedOnce=true;
                             }
                         }else if(i===15){ // Right Arrow - PS4 and XBOX1 Gamepad/External Controller
+                            // Logitech G29 External Controller does not have this button
                             if(!clickedOnce){
                                 // console.log("rotate right");
                                 carSteeringWheel.btn_rotate_right.click();
@@ -555,7 +568,7 @@ define(function (require, exports, module) {
                         }                            
                     }
                 } else {
-                    b.className = "button";
+                    b.setAttribute("name", "button");
                 }
             }
             let stickThreshold = 0.30; // remove "noise" values read in the idle sticks.
@@ -569,27 +582,40 @@ define(function (require, exports, module) {
                     }else if(controller.id===gamepadXBOX1Id){
                         mappedAxis = GamepadController.prototype.mappingXBOX1GamepadAxes(i);
                     }else{
-                        mappedAxis = "standard";
+                        mappedAxis = "other";
                     }
-                    let a = axes[i];
-                    a.innerHTML = i;
-                    a.className = mappedAxis + " moving";
-                    a.setAttribute("value", controller.axes[i].toFixed(4));
-                    // Max and Min values of 1 and -1 for all gamepads
                 }catch (error) {
                     console.log("Error Reading Gamepad Configurations!");
                 }
+                let a = axes[i];
+                a.innerHTML = i;
+                a.setAttribute("name", mappedAxis + " moving");
+                a.setAttribute("value", controller.axes[i].toFixed(4));
+                // Max and Min values of 1 and -1 for all gamepads
+                // In Logitech G29 External Controller, Max and Min values are between 0.71(left) and -0.71(right). Idle values varies from 1.20 to 1.30
                 if(carSteeringWheel){
                     if(controller.axes[i]>stickThreshold || controller.axes[i]<-stickThreshold){
-                        if(i===0){ // left stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
-                            angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
-                            // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
-                            carSteeringWheel.rotate(angleRotationSteeringWheel);
-                        }else if(i===2){ // right stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
-                            angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
-                            // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
-                            carSteeringWheel.rotate(angleRotationSteeringWheel);
-                        }
+                        // For Logitech G29 External Controller only
+                        if(controller.id===g29RacingId){
+                            if(i===9){ // stick
+                                if(controller.axes[i].toFixed(4)>0 && controller.axes[i].toFixed(4)<1){
+                                    carSteeringWheel.btn_rotate_left.click();
+                                }
+                                else if(controller.axes[i].toFixed(4)<0 && controller.axes[i].toFixed(4)>-1){
+                                    carSteeringWheel.btn_rotate_right.click();
+                                }
+                            }
+                        }else {
+                            if(i===0){ // left stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
+                                angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
+                                // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
+                                carSteeringWheel.rotate(angleRotationSteeringWheel);
+                            }else if(i===2){ // right stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
+                                angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
+                                // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
+                                carSteeringWheel.rotate(angleRotationSteeringWheel);
+                            }
+                        }    
                     }
                 }
             }
