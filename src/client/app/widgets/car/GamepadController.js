@@ -92,6 +92,12 @@ define(function (require, exports, module) {
      * @instance
      */
     let carSteeringWheel;
+    /**
+     * @description Field 'type' allows to differentiate the axes of the external controller, i.e. to differentiate between gamepad axes and a more complex controller such as steeringWheelAndPedals axes. 
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let type;
 
     /**
      * @description Index 'accelerationIndex' is the external controller index where acceleration action will be invoked.
@@ -207,6 +213,7 @@ define(function (require, exports, module) {
         opt.carAccelerate = opt.carAccelerate;
         opt.carBrake = opt.carBrake;
         opt.carSteeringWheel = opt.carSteeringWheel;
+        opt.type = opt.type || "gamepad";
 
         opt.accelerationIndex = opt.accelerationIndex || 0;
         opt.brakeIndex = opt.brakeIndex || 1;
@@ -230,6 +237,7 @@ define(function (require, exports, module) {
         carBrake = (opt.carBrake) ? opt.carBrake : null;
         carSteeringWheel = (opt.carSteeringWheel) ? opt.carSteeringWheel : null;
 
+        type = (opt.type) ? opt.type : "gamepad";
         accelerationIndex = (opt.accelerationIndex) ? opt.accelerationIndex : 0;
         brakeIndex = (opt.brakeIndex) ? opt.brakeIndex : 1;
         leftArrowIndex = (opt.leftArrowIndex) ? opt.leftArrowIndex : 14;
@@ -815,24 +823,13 @@ define(function (require, exports, module) {
                 // Max and Min values of 1 and -1 for all gamepads
                 if(carSteeringWheel){
                     if(controller.axes[i]>stickThreshold || controller.axes[i]<-stickThreshold){
-                        // For Logitech G29 PS4 Mode External Controller only
-                        if(controller.id===g29RacingPS4ModeId){
-                            if(i===analogueStickIndex){ // stick
-                                if(controller.axes[i].toFixed(4)>0 && controller.axes[i].toFixed(4)<1){
-                                    carSteeringWheel.btn_rotate_left.click();
-                                }
-                                else if(controller.axes[i].toFixed(4)<0 && controller.axes[i].toFixed(4)>-1){
-                                    carSteeringWheel.btn_rotate_right.click();
-                                }
-                            }
-                        }else if(controller.id===g29RacingPS3ModeId){ // For Logitech G29 PS3 Mode External Controller only
+                        if(type==="steeringWheelAndPedals"){
+                            // For Logitech G29 PS3 Mode and PS4 Mode External Controller
                             // Idle values varies from -0.0118 to -0.0510 and achieves value of -1 (full left) and of 1 (full right)
                             if(i===steeringWheelIndex){ // steering wheel left/right rotation
                                 angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(null, controller.axes[i].toFixed(4));
                                 // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(null, controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
                                 carSteeringWheel.rotate(angleRotationSteeringWheel);
-
-                                // console.log(controller.axes[i].toFixed(4));
                             }else if(i===accelerationPedalIndex || i===brakePedalIndex){ // pedals(brake and accelerator)
                                 // Idle value of -0.0039 and achieves value of 1(full brake) and of -1 (full accelerator)
                                 if(controller.axes[i].toFixed(4)>0 && controller.axes[i].toFixed(4)<=1){
@@ -853,8 +850,8 @@ define(function (require, exports, module) {
                                 else if(controller.axes[i].toFixed(4)<0 && controller.axes[i].toFixed(4)>-1){
                                     carSteeringWheel.btn_rotate_right.click();
                                 }
-                            }
-                        } else {
+                            }   
+                        }else if(type==="gamepad"){
                             if(i===leftAnalogueIndex){ // left stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
                                 angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
                                 // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
@@ -864,7 +861,7 @@ define(function (require, exports, module) {
                                 // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
                                 carSteeringWheel.rotate(angleRotationSteeringWheel);
                             }
-                        }    
+                        }
                     }
                 }
             }
