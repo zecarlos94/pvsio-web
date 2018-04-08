@@ -228,7 +228,7 @@ require([
             carAccelerate: car.up,
             carBrake: car.down,
             carSteeringWheel: car.steeringWheel,
-            type: "steeringWheelAndPedals", // Default is "gamepad"
+            type: "gamepad", // Default is "gamepad"
             accelerationIndex: 0,
             brakeIndex: 1,
             leftArrowIndex: 14,
