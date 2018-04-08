@@ -229,7 +229,7 @@ define(function (require, exports, module) {
        
         let logitechG29PS3ModeMappingAxes = [
             {key: 0, value: 'steering wheel left/right'},
-            {key: 1, value: 'unknown'},
+            {key: 1, value: 'Accelerator/Brake Pedals'},
             {key: 2, value: 'unknown'},
             {key: 3, value: 'unknown'},
             {key: 4, value: 'unknown'},
@@ -733,6 +733,18 @@ define(function (require, exports, module) {
                             if(i===0){ // steering wheel left/right rotation
                                 carSteeringWheel.rotate(controller.axes[i].toFixed(4)*100);
                                 // console.log(controller.axes[i].toFixed(4));
+                            }else if(i===1){ // pedals(brake and accelerator)
+                                // Idle value of -0.0039 and achieves value of 1(full brake) and of -1 (full accelerator)
+                                if(controller.axes[i].toFixed(4)>0 && controller.axes[i].toFixed(4)<=1){
+                                    // carBrake.click();
+                                    carBrake.press();
+                                    carBrake.release();
+                                }
+                                else if(controller.axes[i].toFixed(4)<0 && controller.axes[i].toFixed(4)>=-1){
+                                    // carAccelerate.click();
+                                    carAccelerate.press();
+                                    carAccelerate.release();
+                                }
                             }else if(i===9){ // stick
                                 // Idle values varies from 1.20 to 1.30 and achieves value of 0.71 (full left) and of -0.71 (full right)
                                 if(controller.axes[i].toFixed(4)>0 && controller.axes[i].toFixed(4)<1){

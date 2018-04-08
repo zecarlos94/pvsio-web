@@ -439,15 +439,15 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.render = function () {
-        // let c = document.getElementById("arcadeSimulator");
-        // let ctx = c.getContext("2d");
+        let c = document.getElementById("arcadeSimulator");
+        let ctx = c.getContext("2d");
 
-        // ctx.beginPath();
-        // ctx.arc(95, 50, 40, 0, 2 * Math.PI);
-        // ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(95, 50, 40, 0, 2 * Math.PI);
+        ctx.stroke();
 
-        // ctx.font = "30px Arial";
-        // ctx.fillText("Hello World", 10, 50);
+        ctx.font = "30px Arial";
+        ctx.fillText("Hello World", 10, 50);
         
         return this.reveal();
     };

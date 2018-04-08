@@ -33,12 +33,11 @@ define(function (require, exports, module) {
     "use strict";
 
     let Widget = require("widgets/Widget"),
-        ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();/*,
-        FileSystem = require("filesystem/FileSystem").getInstance();*/
+        ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
+        
+    // let FileSystem = require("filesystem/FileSystem").getInstance();
     
-    // let projectManager = require("project/ProjectManager").getInstance();
-
-    let streamSaver = require('widgets/car/configurations/StreamSaver');
+    let projectManager = require("project/ProjectManager").getInstance();
 
     /**
      * @function constructor
@@ -81,52 +80,18 @@ define(function (require, exports, module) {
             }
         });*/
 
-        // // Perform operations on the current project
-        // projectManager.project() // this is the current project
-        //   .addFile("trackFile.json", "file content...", { overWrite: true }).then(function (res) {
-        //     //file added successfully, res is the file descriptor
-        //     console.log(res);
-        // }).catch(function (err) {
-        //     //operation failed, err shows the error details
-        //     console.log(JSON.stringify(err));
-        // });  
+        // Perform operations on the current project
+        projectManager.project() // this is the current project
+          .addFile("trackFile.json", "file content...", { overWrite: true }).then(function (res) {
+            //file added successfully, res is the file descriptor
+            console.log(res);
+        }).catch(function (err) {
+            //operation failed, err shows the error details
+            console.log(JSON.stringify(err));
+        });  
 
-        // console.log(projectManager.project());
-        // console.log(projectManager.project().getWidgetDefinitionFile().content);
-
-        // https://www.javascripture.com/File
-        // var file = new File(['foo', 'bar'], 'foobar.txt');
-
-        // console.log('size=' + file.size);
-        // console.log('type=' + file.type);
-        // console.log('name=' + file.name);
-
-        // var testEndings = function(string, endings) {
-        // var file = new File([string], { type: 'plain/text',
-        //                                 endings: endings });
-        // var reader = new FileReader();
-        // reader.onload = function(event){
-        //     console.log(endings + ' of ' + JSON.stringify(string) + 
-        //                 ' => ' + JSON.stringify(reader.result));
-        // };
-        // reader.readAsText(file);
-        // };
-
-        // testEndings('foo\nbar',   'native');
-        // testEndings('foo\r\nbar', 'native');
-        // testEndings('foo\nbar',   'transparent');
-        // testEndings('foo\r\nbar', 'transparent');
-
-        // https://github.com/jimmywarting/StreamSaver.js 
-        // WORKS!!!
-        // const fileStream = streamSaver.createWriteStream('trackFile.json');
-        // const writer = fileStream.getWriter();
-        // const encoder = new TextEncoder();
-        // let data = JSON.stringify({ "name":"John", "age":30, "car":null });
-        // let uint8array = encoder.encode(data + "\n\n");
-
-        // writer.write(uint8array);
-        // writer.close();
+        console.log(projectManager.project());
+        console.log(projectManager.project().getWidgetDefinitionFile().content);
 
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
