@@ -228,6 +228,16 @@ require([
             carAccelerate: car.up,
             carBrake: car.down,
             carSteeringWheel: car.steeringWheel,
+            accelerationIndex: 0,
+            brakeIndex: 1,
+            leftArrowIndex: 14,
+            rightArrowIndex: 15,
+            accelerationPedalIndex: 1,
+            brakePedalIndex: 1,
+            steeringWheelIndex: 0,
+            analogueStickIndex: 9,
+            leftAnalogueIndex: 0,
+            rightAnalogueIndex: 2,
             callback: onMessageReceived
         });
 

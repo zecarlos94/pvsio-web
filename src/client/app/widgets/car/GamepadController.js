@@ -94,6 +94,67 @@ define(function (require, exports, module) {
     let carSteeringWheel;
 
     /**
+     * @description Index 'accelerationIndex' is the external controller index where acceleration action will be invoked.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let accelerationIndex;
+    /**
+     * @description Index 'brakeIndex' is the external controller index where brake action will be invoked.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let brakeIndex;
+    /**
+     * @description Index 'leftArrowIndex' is the external controller index where turn left action(steering wheel left rotation) will be invoked.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let leftArrowIndex;
+    /**
+     * @description Index 'rightArrowIndex' is the external controller index where turn right action(steering wheel right rotation) will be invoked.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let rightArrowIndex;
+    /**
+     * @description Index 'accelerationPedalIndex' is the external controller(pedals external controller) index where acceleration action will be invoked.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let accelerationPedalIndex;
+    /**
+     * @description Index 'brakePedalIndex' is the external controller(pedals external controller) index where brake action will be invoked.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let brakePedalIndex;
+    /**
+     * @description Index 'steeringWheelIndex' is the external controller(steering wheel external controller) index where steeringWheel widget rotate method will be invoked.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let steeringWheelIndex;
+    /**
+     * @description Index 'analogueStickIndex' is the external controller index where steeringWheel widget rotate method will be invoked, based on X axis calculated angle.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let analogueStickIndex;
+    /**
+     * @description Index 'leftAnalogueIndex' is the external controller index where steeringWheel widget rotate method will be invoked, based on X,Y axes calculated angle.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let leftAnalogueIndex;
+    /**
+     * @description Index 'rightAnalogueIndex' is the external controller index where steeringWheel widget rotate method will be invoked, based on X,Y axes calculated angle.
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let rightAnalogueIndex;
+
+    /**
      * @description Listening for event 'gamepadconnected' to update known gamepads array.
      * @memberof module:GamepadController
      * @instance
@@ -146,6 +207,18 @@ define(function (require, exports, module) {
         opt.carAccelerate = opt.carAccelerate;
         opt.carBrake = opt.carBrake;
         opt.carSteeringWheel = opt.carSteeringWheel;
+
+        opt.accelerationIndex = opt.accelerationIndex || 0;
+        opt.brakeIndex = opt.brakeIndex || 1;
+        opt.leftArrowIndex = opt.leftArrowIndex || 14;
+        opt.rightArrowIndex = opt.rightArrowIndex || 15;
+        opt.accelerationPedalIndex = opt.accelerationPedalIndex || 1;
+        opt.brakePedalIndex = opt.brakePedalIndex || 1;
+        opt.steeringWheelIndex = opt.steeringWheelIndex || 0;
+        opt.analogueStickIndex = opt.analogueStickIndex || 9;
+        opt.leftAnalogueIndex = opt.leftAnalogueIndex || 0;
+        opt.rightAnalogueIndex = opt.rightAnalogueIndex || 2;
+
         coords = coords || {};
 
         this.id = id;
@@ -156,6 +229,17 @@ define(function (require, exports, module) {
         carAccelerate = (opt.carAccelerate) ? opt.carAccelerate : null;
         carBrake = (opt.carBrake) ? opt.carBrake : null;
         carSteeringWheel = (opt.carSteeringWheel) ? opt.carSteeringWheel : null;
+
+        accelerationIndex = (opt.accelerationIndex) ? opt.accelerationIndex : 0;
+        brakeIndex = (opt.brakeIndex) ? opt.brakeIndex : 1;
+        leftArrowIndex = (opt.leftArrowIndex) ? opt.leftArrowIndex : 14;
+        rightArrowIndex = (opt.rightArrowIndex) ? opt.rightArrowIndex : 15;
+        accelerationPedalIndex = (opt.accelerationPedalIndex) ? opt.accelerationPedalIndex : 1;
+        brakePedalIndex = (opt.brakePedalIndex) ? opt.brakePedalIndex : 1;
+        steeringWheelIndex = (opt.steeringWheelIndex) ? opt.steeringWheelIndex : 0;
+        analogueStickIndex = (opt.analogueStickIndex) ? opt.analogueStickIndex : 9;
+        leftAnalogueIndex = (opt.leftAnalogueIndex) ? opt.leftAnalogueIndex : 0;
+        rightAnalogueIndex = (opt.rightAnalogueIndex) ? opt.rightAnalogueIndex : 2;
 
         this.div = d3.select("#gamepads");
 
@@ -434,15 +518,24 @@ define(function (require, exports, module) {
      */
     GamepadController.prototype.calculateRotationAngle = function (y,x) {
         let angle = 0;
-        if (x !== 0.0 || y !== 0.0) {
-            angle = this.radiansToDegrees( Math.atan2(x, y) );
+        if(y===null){
+            angle = x*100; 
             // Defining interval min,max for rotation(between -90 and 90 degrees)
             if(angle<-90) {
                 angle = -90; 
             }else if(angle>90) {
                 angle = 90;
             }
-
+        }else{
+            if (x !== 0.0 || y !== 0.0) {
+                angle = this.radiansToDegrees( Math.atan2(x, y) );
+                // Defining interval min,max for rotation(between -90 and 90 degrees)
+                if(angle<-90) {
+                    angle = -90; 
+                }else if(angle>90) {
+                    angle = 90;
+                }
+            }
         }
         return angle;
     };
@@ -460,8 +553,12 @@ define(function (require, exports, module) {
     GamepadController.prototype.calculateRotationAngleWithSensitivity = function (y,x,s) {
         let angle = 0;
         let sensitivity = s/100;
-        if (x !== 0.0 || y !== 0.0) {
-            angle = this.radiansToDegrees( Math.atan2(x, y) ) * sensitivity;
+        if(y===null){
+            angle = x*100*sensitivity;
+        }else{
+            if (x !== 0.0 || y !== 0.0) {
+                angle = this.radiansToDegrees( Math.atan2(x, y) ) * sensitivity;
+            }
         }
         return angle;
     };
@@ -651,7 +748,7 @@ define(function (require, exports, module) {
                         console.log("Error Reading Gamepad Configurations!");
                     }
                     if(carAccelerate && carBrake && carSteeringWheel){
-                        if(i===0){ 
+                        if(i===accelerationIndex){ 
                             // Button Square - Logitech G29 PS4 Mode External Controller
                             // Button Cross - PS4 Gamepad/External Controller
                             // Button A - XBOX1 Gamepad/External Controller
@@ -661,7 +758,7 @@ define(function (require, exports, module) {
                                 carAccelerate.release();
                                 clickedOnce=true;
                             }
-                        }else if(i===1){ 
+                        }else if(i===brakeIndex){ 
                             // Button Cross - Logitech G29 PS4 Mode External Controller
                             // Button Circle - PS4 Gamepad/External Controller
                             // Button B - XBOX1 Gamepad/External Controller
@@ -671,14 +768,14 @@ define(function (require, exports, module) {
                                 carBrake.release();
                                 clickedOnce=true;
                             }
-                        }else if(i===14){ // Left Arrow - PS4 and XBOX1 Gamepad/External Controller
+                        }else if(i===leftArrowIndex){ // Left Arrow - PS4 and XBOX1 Gamepad/External Controller
                             // Logitech G29 PS4 Mode External Controller does not have this button
                             if(!clickedOnce){
                                 // console.log("rotate left");
                                 carSteeringWheel.btn_rotate_left.click();
                                 clickedOnce=true;
                             }
-                        }else if(i===15){ // Right Arrow - PS4 and XBOX1 Gamepad/External Controller
+                        }else if(i===rightArrowIndex){ // Right Arrow - PS4 and XBOX1 Gamepad/External Controller
                             // Logitech G29 PS4 Mode External Controller does not have this button
                             if(!clickedOnce){
                                 // console.log("rotate right");
@@ -720,7 +817,7 @@ define(function (require, exports, module) {
                     if(controller.axes[i]>stickThreshold || controller.axes[i]<-stickThreshold){
                         // For Logitech G29 PS4 Mode External Controller only
                         if(controller.id===g29RacingPS4ModeId){
-                            if(i===9){ // stick
+                            if(i===analogueStickIndex){ // stick
                                 if(controller.axes[i].toFixed(4)>0 && controller.axes[i].toFixed(4)<1){
                                     carSteeringWheel.btn_rotate_left.click();
                                 }
@@ -730,10 +827,13 @@ define(function (require, exports, module) {
                             }
                         }else if(controller.id===g29RacingPS3ModeId){ // For Logitech G29 PS3 Mode External Controller only
                             // Idle values varies from -0.0118 to -0.0510 and achieves value of -1 (full left) and of 1 (full right)
-                            if(i===0){ // steering wheel left/right rotation
-                                carSteeringWheel.rotate(controller.axes[i].toFixed(4)*100);
+                            if(i===steeringWheelIndex){ // steering wheel left/right rotation
+                                angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(null, controller.axes[i].toFixed(4));
+                                // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(null, controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
+                                carSteeringWheel.rotate(angleRotationSteeringWheel);
+
                                 // console.log(controller.axes[i].toFixed(4));
-                            }else if(i===1){ // pedals(brake and accelerator)
+                            }else if(i===accelerationPedalIndex || i===brakePedalIndex){ // pedals(brake and accelerator)
                                 // Idle value of -0.0039 and achieves value of 1(full brake) and of -1 (full accelerator)
                                 if(controller.axes[i].toFixed(4)>0 && controller.axes[i].toFixed(4)<=1){
                                     // carBrake.click();
@@ -745,7 +845,7 @@ define(function (require, exports, module) {
                                     carAccelerate.press();
                                     carAccelerate.release();
                                 }
-                            }else if(i===9){ // stick
+                            }else if(i===analogueStickIndex){ // stick
                                 // Idle values varies from 1.20 to 1.30 and achieves value of 0.71 (full left) and of -0.71 (full right)
                                 if(controller.axes[i].toFixed(4)>0 && controller.axes[i].toFixed(4)<1){
                                     carSteeringWheel.btn_rotate_left.click();
@@ -755,11 +855,11 @@ define(function (require, exports, module) {
                                 }
                             }
                         } else {
-                            if(i===0){ // left stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
+                            if(i===leftAnalogueIndex){ // left stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
                                 angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
                                 // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
                                 carSteeringWheel.rotate(angleRotationSteeringWheel);
-                            }else if(i===2){ // right stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
+                            }else if(i===rightAnalogueIndex){ // right stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
                                 angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
                                 // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
                                 carSteeringWheel.rotate(angleRotationSteeringWheel);
