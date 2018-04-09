@@ -57,18 +57,24 @@ define(function (require, exports, module) {
      */
     let carSteeringWheel;
 
-    /**
-     * @description Listening for event 'deviceorientation' to detect changes in device orientation(screen rotation).
-     * @memberof module:GyroscopeController
-     * @instance
-     */
-    gamepadEvents =  window.addEventListener("deviceorientation", handleOrientation, true);
+    let ball;
+    let garden;
+    let output;
+    let maxX;
+    let maxY;
+
+    let fixed;
+    let h5logo;
+    let timestamp;
+    let alpha;
+    let beta;
+    let gamma;
+    let deviceOrientationData;
 
     let Widget = require("widgets/Widget"),
         ButtonExternalController = require("widgets/car/ButtonExternalController"),
         SteeringWheel = require("widgets/car/SteeringWheel"), // In order to render rotations when button clicked
         ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
-
 
     /**
      * @function constructor
@@ -103,8 +109,82 @@ define(function (require, exports, module) {
         carBrake = (opt.carBrake) ? opt.carBrake : null;
         carSteeringWheel = (opt.carSteeringWheel) ? opt.carSteeringWheel : null;
 
-        this.div = d3.select("#gyroscope");
+        this.gyroscope2 = d3.select("#content")
+                      .append("div").attr("id", "gyroscope2");
 
+        this.gyroscope2.append("h1").text("Device Orientation");
+        this.gyroscope2.append("p").text("Device orientation is ")
+                       .append("b")
+                       .append("span").attr("id", "doeSupported")
+                       .text(" supported on your device.");
+        
+        this.gyroscope2.append("img").attr("id", "h5logo").attr("src", "html5-logo.svg").attr("class", "h5logo");
+        this.gyroscope2.append("h2").text("Rotation Data");
+
+        this.rotationData = this.gyroscope2.append("p");
+        this.rotationData.append("b").text("alpha:")
+                         .append("span").attr("id", "alpha");
+        this.rotationData.append("br");
+        this.rotationData.append("b").text("beta:")
+                         .append("span").attr("id", "beta");
+        this.rotationData.append("br");
+        this.rotationData.append("b").text("gamma:")
+                         .append("span").attr("id", "gamma");
+        this.rotationData.append("br");
+
+        this.gyroscope2.append("p")
+                       .append("b").text("Last updated:")
+                       .append("span").attr("id", "timestamp");
+
+        this.div = d3.select("#gyroscope").style("margin-bottom","100px");
+
+        this.div.append("div").attr("class", "garden")
+                .append("div").attr("class", "ball");
+
+        this.div.append("pre").attr("class", "output");
+
+        this.div.append("style").text( " \
+            .garden { \
+                position: relative; \
+                width : 200px; \
+                height: 200px; \
+                border: 5px solid #CCC; \
+                border-radius: 10px; \
+            } \
+            .ball { \
+                position: absolute; \
+                top   : 90px; \
+                left  : 90px; \
+                width : 20px; \
+                height: 20px; \
+                background: green; \
+                border-radius: 100%; \
+              } \
+            ");
+            
+        ball   = document.querySelector('.ball');
+        garden = document.querySelector('.garden');
+        output = document.querySelector('.output');
+
+        maxX = parseInt($(".garden").css('width'), 10) - parseInt($(".ball").css('width'), 10);
+        maxY = parseInt($(".garden").css('height'), 10) - parseInt($(".ball").css('height'), 10);
+
+        fixed = 2;
+        h5logo  = document.getElementById("h5logo");
+        timestamp = document.getElementById("timestamp");
+        alpha = document.getElementById("alpha");
+        beta = document.getElementById("beta");
+        gamma = document.getElementById("gamma");
+
+        if (window.DeviceOrientationEvent) {
+            // window.addEventListener("deviceorientation", handleOrientation, true);
+            // window.addEventListener('deviceorientation', deviceOrientationHandler, false);
+            window.addEventListener('deviceorientation', deviceOrientationHandlerFinal, false);
+            document.getElementById("doeSupported").innerText = "";
+        }else {
+            alert("Sorry, your browser doesn't support Device Orientation");
+        }
+        
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
 
@@ -115,6 +195,88 @@ define(function (require, exports, module) {
     GyroscopeController.prototype = Object.create(Widget.prototype);
     GyroscopeController.prototype.constructor =GyroscopeController;
     GyroscopeController.prototype.parentClass = Widget.prototype;
+
+    /**
+     * @function handleOrientation
+     * @description handleOrientation method of the GyroscopeController widget. This method changes the object orientation based on its rotation angle.
+     * @memberof module:GyroscopeController
+     * @instance
+     */
+    function handleOrientation(event) {
+        let x = event.beta;  // In degree in the range [-180,180]
+        let y = event.gamma; // In degree in the range [-90,90]
+      
+        output.innerHTML  = "beta : " + x + "\n";
+        output.innerHTML += "gamma: " + y + "\n";
+      
+        // Because we don't want to have the device upside down
+        // We constrain the x value to the range [-90,90]
+        if (x >  90) { x =  90};
+        if (x < -90) { x = -90};
+      
+        // To make computation easier we shift the range of 
+        // x and y to [0,180]
+        x += 90;
+        y += 90;
+      
+        // 10 is half the size of the ball
+        // It center the positioning point to the center of the ball
+        ball.style.top  = (maxX*x/180 - 10) + "px";
+        ball.style.left = (maxY*y/180 - 10) + "px";
+    }
+
+    function deviceOrientationHandler(evt) {
+        deviceOrientationData = evt;
+        try {
+          timestamp.innerText = new Date(evt.timeStamp);
+          alpha.innerText = evt.alpha.toFixed(fixed);
+          beta.innerText = evt.beta.toFixed(fixed);
+          gamma.innerText = evt.gamma.toFixed(fixed);
+          let rotation = "rotate("+ evt.alpha +"deg) rotate3d(1,0,0, "+ (evt.gamma * -1)+"deg)";
+          h5logo.style.webkitTransform = rotation;
+          h5logo.style.transform = rotation;
+        } catch (ex) {
+          document.getElementById("doeSupported").innerText = "NOT";
+        }
+    }
+
+    function deviceOrientationHandlerFinal(evt) {
+        deviceOrientationData = evt;
+        
+        let x = deviceOrientationData.beta;  // In degree in the range [-180,180]
+        let y = deviceOrientationData.gamma; // In degree in the range [-90,90]
+      
+        output.innerHTML  = "beta : " + x + "\n";
+        output.innerHTML += "gamma: " + y + "\n";
+      
+        // Because we don't want to have the device upside down
+        // We constrain the x value to the range [-90,90]
+        if (x >  90) { x =  90};
+        if (x < -90) { x = -90};
+      
+        // To make computation easier we shift the range of 
+        // x and y to [0,180]
+        x += 90;
+        y += 90;
+      
+        // 10 is half the size of the ball
+        // It center the positioning point to the center of the ball
+        ball.style.top  = (maxX*x/180 - 10) + "px";
+        ball.style.left = (maxY*y/180 - 10) + "px";
+
+        try {
+          timestamp.innerText = new Date(evt.timeStamp);
+          alpha.innerText = evt.alpha.toFixed(fixed);
+          beta.innerText = evt.beta.toFixed(fixed);
+          gamma.innerText = evt.gamma.toFixed(fixed);
+          // let rotation = "rotate("+ evt.alpha +"deg) rotate3d(1,0,0, "+ (evt.gamma * -1)+"deg)";
+          let rotation = "rotate("+ evt.gamma +"deg)";
+          h5logo.style.webkitTransform = rotation;
+          h5logo.style.transform = rotation;
+        } catch (ex) {
+          document.getElementById("doeSupported").innerText = "NOT";
+        }
+    }
 
     /**
      * @function hide
@@ -169,15 +331,24 @@ define(function (require, exports, module) {
      */
     GyroscopeController.prototype.calculateRotationAngle = function (y,x) {
         let angle = 0;
-        if (x !== 0.0 || y !== 0.0) {
-            angle = this.radiansToDegrees( Math.atan2(x, y) );
+        if(y===null){
+            angle = x*100; 
             // Defining interval min,max for rotation(between -90 and 90 degrees)
             if(angle<-90) {
                 angle = -90; 
             }else if(angle>90) {
                 angle = 90;
             }
-
+        }else{
+            if (x !== 0.0 || y !== 0.0) {
+                angle = this.radiansToDegrees( Math.atan2(x, y) );
+                // Defining interval min,max for rotation(between -90 and 90 degrees)
+                if(angle<-90) {
+                    angle = -90; 
+                }else if(angle>90) {
+                    angle = 90;
+                }
+            }
         }
         return angle;
     };
@@ -195,8 +366,12 @@ define(function (require, exports, module) {
     GyroscopeController.prototype.calculateRotationAngleWithSensitivity = function (y,x,s) {
         let angle = 0;
         let sensitivity = s/100;
-        if (x !== 0.0 || y !== 0.0) {
-            angle = this.radiansToDegrees( Math.atan2(x, y) ) * sensitivity;
+        if(y===null){
+            angle = x*100*sensitivity;
+        }else{
+            if (x !== 0.0 || y !== 0.0) {
+                angle = this.radiansToDegrees( Math.atan2(x, y) ) * sensitivity;
+            }
         }
         return angle;
     };
