@@ -22,8 +22,7 @@
  *               'example', // id of the GyroscopeController element that will be created
  *               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
  *               {
- *                  carAccelerate: car.up, 
- *                  carBrake: car.down,
+ *                  parent: "gyroscope",
  *                  carSteeringWheel: car.steeringWheel 
  *               }
  *           );
@@ -39,37 +38,11 @@ define(function (require, exports, module) {
     "use strict";
    
     /**
-     * @description ButtonExternalController 'carAccelerate' to be clicked when a certain gamepad button is pressed.
-     * @memberof module:GyroscopeController
-     * @instance
-     */
-    let carAccelerate;
-    /**
-     * @description ButtonExternalController 'carBrake' to be clicked when a certain gamepad button is pressed.
-     * @memberof module:GyroscopeController
-     * @instance
-     */
-    let carBrake;
-    /**
      * @description SteeringWheel 'carSteeringWheel' to be rotated with gamepad axes values.
      * @memberof module:GyroscopeController
      * @instance
      */
     let carSteeringWheel;
-
-    let ball;
-    let garden;
-    let output;
-    let maxX;
-    let maxY;
-
-    let fixed;
-    let h5logo;
-    let timestamp;
-    let alpha;
-    let beta;
-    let gamma;
-    let deviceOrientationData;
 
     let Widget = require("widgets/Widget"),
         ButtonExternalController = require("widgets/car/ButtonExternalController"),
@@ -84,8 +57,7 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
-     *          <li>carAccelerate (ButtonExternalController): Button 'accelerate' to accelerate when a certain button is pressed.</li>
-     *          <li>carBrake (ButtonExternalController): Button 'brake' to brake when a certain button is pressed.</li>
+     *          <li>parent (String): the HTML element where the display will be appended (default is "gyroscope").</li>
      *          <li>carSteeringWheel (SteeringWheel): SteeringWheel 'steering_wheel' to rotate the current steering wheel with gyroscope rotation values.</li>
      * @returns {GyroscopeController} The created instance of the widget GyroscopeController.
      * @memberof module:GyroscopeController
@@ -93,10 +65,7 @@ define(function (require, exports, module) {
      */
     function GyroscopeController(id, coords, opt) {
         opt = opt || {};
-        opt.style = opt.style || "";
-        opt.opacity = opt.opacity || 1;
-        opt.carAccelerate = opt.carAccelerate;
-        opt.carBrake = opt.carBrake;
+        opt.parent = opt.parent;
         opt.carSteeringWheel = opt.carSteeringWheel;
         coords = coords || {};
 
@@ -105,82 +74,14 @@ define(function (require, exports, module) {
         this.left = coords.left || 100;
         this.width = coords.width || 750;
         this.height = coords.height || 750;
-        carAccelerate = (opt.carAccelerate) ? opt.carAccelerate : null;
-        carBrake = (opt.carBrake) ? opt.carBrake : null;
+
+        this.parent = (opt.parent) ? "#"+opt.parent : "#gyroscope";
         carSteeringWheel = (opt.carSteeringWheel) ? opt.carSteeringWheel : null;
 
-        this.gyroscope2 = d3.select("#content")
-                      .append("div").attr("id", "gyroscope2");
-
-        this.gyroscope2.append("h1").text("Device Orientation");
-        this.gyroscope2.append("p").text("Device orientation is ")
-                       .append("b")
-                       .append("span").attr("id", "doeSupported")
-                       .text(" supported on your device.");
-        
-        this.gyroscope2.append("img").attr("id", "h5logo").attr("src", "html5-logo.svg").attr("class", "h5logo");
-        this.gyroscope2.append("h2").text("Rotation Data");
-
-        this.rotationData = this.gyroscope2.append("p");
-        this.rotationData.append("b").text("alpha:")
-                         .append("span").attr("id", "alpha");
-        this.rotationData.append("br");
-        this.rotationData.append("b").text("beta:")
-                         .append("span").attr("id", "beta");
-        this.rotationData.append("br");
-        this.rotationData.append("b").text("gamma:")
-                         .append("span").attr("id", "gamma");
-        this.rotationData.append("br");
-
-        this.gyroscope2.append("p")
-                       .append("b").text("Last updated:")
-                       .append("span").attr("id", "timestamp");
-
-        this.div = d3.select("#gyroscope").style("margin-bottom","100px");
-
-        this.div.append("div").attr("class", "garden")
-                .append("div").attr("class", "ball");
-
-        this.div.append("pre").attr("class", "output");
-
-        this.div.append("style").text( " \
-            .garden { \
-                position: relative; \
-                width : 200px; \
-                height: 200px; \
-                border: 5px solid #CCC; \
-                border-radius: 10px; \
-            } \
-            .ball { \
-                position: absolute; \
-                top   : 90px; \
-                left  : 90px; \
-                width : 20px; \
-                height: 20px; \
-                background: green; \
-                border-radius: 100%; \
-              } \
-            ");
-            
-        ball   = document.querySelector('.ball');
-        garden = document.querySelector('.garden');
-        output = document.querySelector('.output');
-
-        maxX = parseInt($(".garden").css('width'), 10) - parseInt($(".ball").css('width'), 10);
-        maxY = parseInt($(".garden").css('height'), 10) - parseInt($(".ball").css('height'), 10);
-
-        fixed = 2;
-        h5logo  = document.getElementById("h5logo");
-        timestamp = document.getElementById("timestamp");
-        alpha = document.getElementById("alpha");
-        beta = document.getElementById("beta");
-        gamma = document.getElementById("gamma");
+        this.div = d3.select(this.parent);
 
         if (window.DeviceOrientationEvent) {
-            // window.addEventListener("deviceorientation", handleOrientation, true);
-            // window.addEventListener('deviceorientation', deviceOrientationHandler, false);
-            window.addEventListener('deviceorientation', deviceOrientationHandlerFinal, false);
-            document.getElementById("doeSupported").innerText = "";
+            window.addEventListener("deviceorientation", handleOrientation, false);
         }else {
             alert("Sorry, your browser doesn't support Device Orientation");
         }
@@ -196,86 +97,33 @@ define(function (require, exports, module) {
     GyroscopeController.prototype.constructor =GyroscopeController;
     GyroscopeController.prototype.parentClass = Widget.prototype;
 
+    function getRotationAngleWithSensitivity(gamma,s) {
+        let angle = 0;
+        let sensitivity = s/100;
+        if (gamma !== 0.0) {
+            angle = gamma * sensitivity;
+        }
+        return angle;
+    };
+
     /**
      * @function handleOrientation
      * @description handleOrientation method of the GyroscopeController widget. This method changes the object orientation based on its rotation angle.
      * @memberof module:GyroscopeController
      * @instance
      */
-    function handleOrientation(event) {
-        let x = event.beta;  // In degree in the range [-180,180]
-        let y = event.gamma; // In degree in the range [-90,90]
-      
-        output.innerHTML  = "beta : " + x + "\n";
-        output.innerHTML += "gamma: " + y + "\n";
-      
-        // Because we don't want to have the device upside down
-        // We constrain the x value to the range [-90,90]
-        if (x >  90) { x =  90};
-        if (x < -90) { x = -90};
-      
-        // To make computation easier we shift the range of 
-        // x and y to [0,180]
-        x += 90;
-        y += 90;
-      
-        // 10 is half the size of the ball
-        // It center the positioning point to the center of the ball
-        ball.style.top  = (maxX*x/180 - 10) + "px";
-        ball.style.left = (maxY*y/180 - 10) + "px";
-    }
-
-    function deviceOrientationHandler(evt) {
-        deviceOrientationData = evt;
-        try {
-          timestamp.innerText = new Date(evt.timeStamp);
-          alpha.innerText = evt.alpha.toFixed(fixed);
-          beta.innerText = evt.beta.toFixed(fixed);
-          gamma.innerText = evt.gamma.toFixed(fixed);
-          let rotation = "rotate("+ evt.alpha +"deg) rotate3d(1,0,0, "+ (evt.gamma * -1)+"deg)";
-          h5logo.style.webkitTransform = rotation;
-          h5logo.style.transform = rotation;
-        } catch (ex) {
-          document.getElementById("doeSupported").innerText = "NOT";
+    function handleOrientation(evt) {
+        // let z = evt.alpha.toFixed(2);  // In degree in the range [-360,360]
+        // let x = evt.beta.toFixed(2);  // In degree in the range [-180,180]
+        let y = evt.gamma.toFixed(2); // In degree in the range [-90,90]
+        if(y<=-90) {
+            y = -90; 
+        }else if(y>=90) {
+            y = 90;
         }
-    }
-
-    function deviceOrientationHandlerFinal(evt) {
-        deviceOrientationData = evt;
-        
-        let x = deviceOrientationData.beta;  // In degree in the range [-180,180]
-        let y = deviceOrientationData.gamma; // In degree in the range [-90,90]
-      
-        output.innerHTML  = "beta : " + x + "\n";
-        output.innerHTML += "gamma: " + y + "\n";
-      
-        // Because we don't want to have the device upside down
-        // We constrain the x value to the range [-90,90]
-        if (x >  90) { x =  90};
-        if (x < -90) { x = -90};
-      
-        // To make computation easier we shift the range of 
-        // x and y to [0,180]
-        x += 90;
-        y += 90;
-      
-        // 10 is half the size of the ball
-        // It center the positioning point to the center of the ball
-        ball.style.top  = (maxX*x/180 - 10) + "px";
-        ball.style.left = (maxY*y/180 - 10) + "px";
-
-        try {
-          timestamp.innerText = new Date(evt.timeStamp);
-          alpha.innerText = evt.alpha.toFixed(fixed);
-          beta.innerText = evt.beta.toFixed(fixed);
-          gamma.innerText = evt.gamma.toFixed(fixed);
-          // let rotation = "rotate("+ evt.alpha +"deg) rotate3d(1,0,0, "+ (evt.gamma * -1)+"deg)";
-          let rotation = "rotate("+ evt.gamma +"deg)";
-          h5logo.style.webkitTransform = rotation;
-          h5logo.style.transform = rotation;
-        } catch (ex) {
-          document.getElementById("doeSupported").innerText = "NOT";
-        }
+        carSteeringWheel.rotate(y);
+        // Higher than 75% or else the rotation will not be perceptible due to gyroscope sensor optics.
+        // carSteeringWheel.rotate(getRotationAngleWithSensitivity(y, 80));
     }
 
     /**
@@ -296,84 +144,6 @@ define(function (require, exports, module) {
      */
     GyroscopeController.prototype.reveal = function () {
         return this.div.style("display", "block");
-    };
-
-    /**
-     * @function degToRadians
-     * @description degToRadians method of the GyroscopeController widget. This method converts angles from degrees to radians.
-     * @param deg {Float} The angle in degrees instance.
-     * @memberof module:GyroscopeController
-     * @instance
-     */
-    GyroscopeController.prototype.degToRadians = function (deg) {
-        return deg * Math.PI / 180;
-    };
-    
-    /**
-     * @function radiansToDegrees
-     * @description radiansToDegrees method of the GyroscopeController widget. This method converts angles from radians to degrees.
-     * @param rad {Float} The angle in radians instance.
-     * @memberof module:GyroscopeController
-     * @instance
-     */
-    GyroscopeController.prototype.radiansToDegrees = function (rad) {
-        return rad * 180 / Math.PI;
-    };
-
-     /**
-     * @function calculateRotationAngle
-     * @description calculateRotationAngle method of the GyroscopeController widget. This method converts angles from radians to degrees. Default sensitivity is 1.
-     * @param y {Float} The value of vertical axis(up to/or down), between -1 and 1.
-     * @param x {Float} The value of horizontal axis(left to/or right), between -1 and 1.  
-     * @memberof module:GyroscopeController
-     * @returns {angle} The angle in degrees calculated based on horizontal and vertical axis values read from gamepad.
-     * @instance
-     */
-    GyroscopeController.prototype.calculateRotationAngle = function (y,x) {
-        let angle = 0;
-        if(y===null){
-            angle = x*100; 
-            // Defining interval min,max for rotation(between -90 and 90 degrees)
-            if(angle<-90) {
-                angle = -90; 
-            }else if(angle>90) {
-                angle = 90;
-            }
-        }else{
-            if (x !== 0.0 || y !== 0.0) {
-                angle = this.radiansToDegrees( Math.atan2(x, y) );
-                // Defining interval min,max for rotation(between -90 and 90 degrees)
-                if(angle<-90) {
-                    angle = -90; 
-                }else if(angle>90) {
-                    angle = 90;
-                }
-            }
-        }
-        return angle;
-    };
-
-    /**
-     * @function calculateRotationAngle
-     * @description calculateRotationAngle method of the GyroscopeController widget. This method converts angles from radians to degrees.
-     * @param y {Float} The value of vertical axis(up to/or down), between -1 and 1.
-     * @param x {Float} The value of horizontal axis(left to/or right), between -1 and 1. 
-     * @param sensitivity {Integer} The value of sensitivity of the steering wheel rotation angle, between 1 and 100.
-     * @memberof module:GyroscopeController
-     * @returns {angle} The angle in degrees calculated based on horizontal and vertical axis values read from gamepad.
-     * @instance
-     */
-    GyroscopeController.prototype.calculateRotationAngleWithSensitivity = function (y,x,s) {
-        let angle = 0;
-        let sensitivity = s/100;
-        if(y===null){
-            angle = x*100*sensitivity;
-        }else{
-            if (x !== 0.0 || y !== 0.0) {
-                angle = this.radiansToDegrees( Math.atan2(x, y) ) * sensitivity;
-            }
-        }
-        return angle;
     };
 
     /**
