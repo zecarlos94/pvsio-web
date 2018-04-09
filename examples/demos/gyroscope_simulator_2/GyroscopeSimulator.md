@@ -1,1 +1,0 @@
-# Gyroscope Controller Widget model

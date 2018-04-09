@@ -517,7 +517,7 @@ define(function (require, exports, module) {
 
      /**
      * @function calculateRotationAngle
-     * @description calculateRotationAngle method of the GamepadController widget. This method converts angles from radians to degrees. Default sensitivity is 1.
+     * @description calculateRotationAngle method of the GamepadController widget. This method converts angles from radians to degrees. Default sensitivity is 100.
      * @param y {Float} The value of vertical axis(up to/or down), between -1 and 1.
      * @param x {Float} The value of horizontal axis(left to/or right), between -1 and 1.  
      * @memberof module:GamepadController
