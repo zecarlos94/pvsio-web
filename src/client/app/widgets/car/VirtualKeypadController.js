@@ -333,13 +333,13 @@ define(function (require, exports, module) {
             }
             if(open){
                 open=false;
-                $(parent).css({visibility: "hidden"});
-                $(aux).attr("title", keyboardHoverInitialTitle);
+                d3.select(parent).style("visibility","hidden");
+                d3.select(aux).attr("title",keyboardHoverInitialTitle);
             }
             else{
                 open=true;
-                $(parent).css({marginBottom: "20px",visibility: "visible"});
-                $(aux).attr("title", keyboardHoverSecondTitle);
+                d3.select(parent).style("margin-bottom","20px").style("visibility","visible");
+                d3.select(aux).attr("title",keyboardHoverSecondTitle);
             }
         });
 

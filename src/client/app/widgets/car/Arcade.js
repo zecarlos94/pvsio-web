@@ -356,7 +356,8 @@ define(function (require, exports, module) {
     
         spritesheet = new Image();
         spritesheetText = new Image();
-    
+        
+        // use d3.select instead of $
         // spritesheet.onload = function(){
         //     splashInterval = setInterval(renderSplashFrame, 30);
         // };
