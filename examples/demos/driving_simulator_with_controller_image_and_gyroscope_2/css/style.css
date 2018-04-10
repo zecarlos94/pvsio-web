@@ -1,0 +1,284 @@
+.console_log{
+    text-align: left;
+    height: 120px;
+    overflow: auto;
+    color: lime;
+    background: black;
+    font-size: small;
+    padding-left: 10px;
+    white-space: pre-wrap;
+    margin: 10px 0 10px 0;
+}
+
+.pvsio, .sapere {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: steelblue;
+    border-style: solid;
+}
+
+.dbg {
+    background-color: black;
+    overflow: auto;
+}
+
+body{
+    font-family: 'Andale Mono', AndaleMono, monospace;
+}
+
+#sapere_controls{
+    margin: 10px 0 10px 0;
+}
+
+#sapere_dbg{
+    margin: 10px 0 10px 0;
+}
+
+
+/* Added CSS */
+div.version {
+    text-align: center;
+}
+
+div.dashboard-container {
+    /*Moving Game window up*/
+    margin-top: 2%;
+}
+
+/* Current shift styling */
+#current-shift {
+    padding: 1px 7px;
+    border: 2px solid white;
+}
+
+
+div#clock-div, div#env-temp-div {
+    font-size: 20px;
+}
+
+
+/* Control panel stuff */
+div#control-panel-container {
+    background-color: black;
+    color: white;
+    padding: 0;
+}
+
+div#odometer-container {
+    padding: 10px 0;
+}
+
+
+div.dash-top-container {
+    border-bottom: 2px solid white;
+}
+
+div.dash-bottom-container, div.dash-central-container {
+    padding: 20px 0;
+}
+
+/* Global helper classes */
+.font-xl {
+    font-weight: bold;
+    font-size: 25px;
+    color: white;
+}
+
+.main-wheel-container {
+  float: left;
+  position: relative;
+  left: 40%;
+}
+.wheel-container {
+  float: left;
+  position: relative;
+  left: -60%;
+  margin-top: -160px;
+}
+
+#wheel-custom {
+  margin-bottom:50px;
+  margin-left: 5px;
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+select:active, select:hover {
+  outline-color: #4CAF50!important;
+}
+
+option:hover {
+  color: white;
+  background-color: #4CAF50!important;
+}
+
+#slidecontainer-end {
+    margin-bottom:10px;
+    margin-left:5px;
+    width: 15%
+}
+
+#slidecontainer-tachometer {
+    margin-bottom:10px;
+    margin-left:5px;
+    width: 25%
+}
+
+#slidecontainer-speedometer {
+    margin-bottom:10px;
+    margin-left:5px;
+    width: 25%
+}
+
+#slidecontainer-lanes {
+    margin-bottom:10px;
+    margin-left:5px;
+    width: 25%
+}
+
+#slidecontainer-hills {
+    margin-bottom:10px;
+    margin-left:5px;
+    width: 25%
+}
+
+#slidecontainer-obstacles {
+    margin-bottom:10px;
+    margin-left:5px;
+    width: 25%
+}
+
+#slidecontainer-other-cars {
+    margin-bottom:10px;
+    margin-left:5px;
+    width: 25%
+}
+
+.slider {
+    margin-left: 15px;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 50px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+#game-window {
+  border: 5px solid black;
+  height: 600px;
+}
+
+#instructions {
+  margin-left: -160px;
+  margin-top: 0px;
+}
+
+#menu {
+  margin-left: -170px;
+  margin-top: 0px;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+#menu {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+button.launch {
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 8px;
+    height: 40px;
+    padding: 5px 15px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+    
+button.launch:hover {
+cursor: pointer;
+background-color: rgb(76, 175, 117);
+}
+
+button:active {
+outline: none;
+border: none;
+}
+
+button:focus {outline:0;}
+
+.image_picker_image {
+    max-width: 140px;
+    max-height: 100px;
+    background-color: white;
+}

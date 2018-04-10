@@ -86,7 +86,7 @@ define(function (require, exports, module) {
         this.width = coords.width || 750;
         this.height = coords.height || 750;
 
-        this.parent = (opt.parent) ? ("#" + opt.parent) : null;
+        this.parent = (opt.parent) ? ("." + opt.parent) : null;
         this.simulatorActions = opt.simulatorActions;
         this.simulatorArrows = opt.simulatorArrows;
         this.floatArrows = opt.floatArrows;
@@ -102,11 +102,11 @@ define(function (require, exports, module) {
                         .style("width", this.width + "px")
                         .style("visibility", "hidden");
 
-            this.div.append("div").attr("id", this.simulatorActions)
+            this.div.append("div").attr("class", this.simulatorActions)
                     .style("margin-top","-40px")
                     .style("margin-left","-150px");
     
-            this.div.append("div").attr("id", this.simulatorArrows)
+            this.div.append("div").attr("class", this.simulatorArrows)
                     .style("margin-top","-60px")
                     .style("margin-left","250px");
         }else{
@@ -116,29 +116,29 @@ define(function (require, exports, module) {
                         .style("left", this.left + "px")
                         .style("visibility", "hidden");
 
-            this.div.append("div").attr("id", this.simulatorActions)
+            this.div.append("div").attr("class", this.simulatorActions)
                     .style("margin-top","-60px")
                     .style("margin-left","-150px");
             
-            this.div.append("div").attr("id", this.simulatorArrows)
+            this.div.append("div").attr("class", this.simulatorArrows)
                     .style("margin-top","-30px")
                     .style("margin-left","250px");
         }
 
-        this.actions = d3.select("#virtualKeyPad")
-                         .select("#" + this.simulatorActions);
+        this.actions = d3.select(".virtualKeyPad")
+                         .select("." + this.simulatorActions);
 
-        this.arrows = d3.select("#virtualKeyPad")
-                         .selectAll("#" + this.simulatorArrows);
+        this.arrows = d3.select(".virtualKeyPad")
+                         .selectAll("." + this.simulatorArrows);
         
-        this.arrows.append("div").attr("id", this.floatArrows);
-        this.arrows.append("div").attr("id", this.blockArrows);
+        this.arrows.append("div").attr("class", this.floatArrows);
+        this.arrows.append("div").attr("class", this.blockArrows);
 
-        this.floatArrow = d3.select("#" + this.simulatorArrows)
-                            .selectAll("#" + this.floatArrows);
+        this.floatArrow = d3.select("." + this.simulatorArrows)
+                            .selectAll("." + this.floatArrows);
         
-        this.blockArrow = d3.select("#" + this.simulatorArrows)
-                            .selectAll("#" + this.blockArrows);
+        this.blockArrow = d3.select("." + this.simulatorArrows)
+                            .selectAll("." + this.blockArrows);
 
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;

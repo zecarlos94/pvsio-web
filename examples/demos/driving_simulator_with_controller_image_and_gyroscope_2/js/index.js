@@ -9,12 +9,12 @@ let mobile=false;
 let openKeypad = () => {
     if(mobile){
         mobile=false;
-        $("#virtualKeyPad").css({visibility: "hidden"});
+        $(".virtualKeyPad").css({visibility: "hidden"});
         $(".icon.keyboard").attr("title","Click to open virtual keypad controller");
     }
     else{
         mobile=true;
-        $("#virtualKeyPad").css({marginBottom: "20px",visibility: "visible"});
+        $(".virtualKeyPad").css({marginBottom: "20px",visibility: "visible"});
         $(".icon.keyboard").attr("title","Click to close virtual keypad controller");
     }
 }
@@ -256,7 +256,7 @@ require([
             width: 750,
             height: 750
         }, {
-            parent: "virtualKeyPad", // defines parent div, which is div id="virtualKeyPad" by default
+            parent: "virtualKeyPad", // defines parent div, which is div class="virtualKeyPad" by default
             simulatorActions: "simulatorActions",
             simulatorArrows: "simulatorArrows",
             floatArrows: "floatArrows",
@@ -426,7 +426,7 @@ require([
                     $("#instructions").css({ marginLeft: "650px", marginTop: "-750px", visibility: "visible" });
                     $("#gauges").css({ position: "absolute", marginLeft: "350px", marginTop: "-820px", visibility: "visible" });
                     $("#steering_wheel").css({ visibility: "visible" });
-                    // $("#virtualKeyPad").css({marginBottom: "20px",visibility: "visible"});
+                    // $(".virtualKeyPad").css({marginBottom: "20px",visibility: "visible"});
                     
                     $("#gamepadImage").css({visibility: "visible"});
                     car.drawGamepad.render();
