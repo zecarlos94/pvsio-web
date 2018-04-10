@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: VirtualKeypadController</title>
+    <title>JSDoc: Module: Customization</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: VirtualKeypadController</h1>
+    <h1 class="page-title">Module: Customization</h1>
 
     
 
@@ -38,8 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">This module helps you playing the 2D, HTML5, arcade driving simulator using
-a virtual keypad suitable for mobile devices.</div>
+            <div class="description">This module helps you to create and read local files with all configurations required for the arcade simulator.</div>
         
 
         
@@ -98,7 +97,7 @@ a virtual keypad suitable for mobile devices.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line1">line 1</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -127,30 +126,24 @@ a virtual keypad suitable for mobile devices.</div>
 
     <h5>Example</h5>
     
-        <p class="code-caption">Usage of VirtualKeypadController within a PVSio-web demo.</p>
+        <p class="code-caption">Usage of Customization within a PVSio-web demo.</p>
     
     <pre class="prettyprint"><code>define(function (require, exports, module) {
     "use strict";
 
-    // Require the VirtualKeypadController module
-    require("widgets/car/VirtualKeypadController");
+    // Require the Customization module
+    require("widgets/car/Customization");
 
     function main() {
-         // After VirtualKeypadController module was loaded, initialize it
-         let virtualKeypadController = new VirtualKeypadController(
-              'example', // id of the VirtualKeypadController element that will be created
-              { top: 800, left: 800, width: 500, height: 500 }, // coordinates object
-              { parent: 'virtualKeyPad', 
-                simulatorActions: 'simulatorActions', 
-                simulatorArrows: 'simulatorArrows',
-                floatArrows: 'floatArrows',
-                blockArrows: 'blockArrows',
-                buttonClass: 'buttonClass',
-                title: 'title',
-              } // options, append this widget on div class="virtualKeyPad"
+         // After Customization module was loaded, initialize it
+         let fs = new Customization(
+              'example', // id of the gauge element that will be created
+              { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
+              { parent: 'FS' } // options
           );
-         // Render the VirtualKeypadController widget
-         virtualKeypadController.render();
+
+         // Render the Customization widget
+         fs.render();
     }
 });</code></pre>
 
@@ -183,7 +176,7 @@ a virtual keypad suitable for mobile devices.</div>
     
 
     
-    <h4 class="name" id="constructor"><span class="type-signature"></span>constructor<span class="signature">(id, coords, opt)</span><span class="type-signature"> &rarr; {VirtualKeypadController}</span></h4>
+    <h4 class="name" id="constructor"><span class="type-signature"></span>constructor<span class="signature">(id, coords, opt)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
     
 
     
@@ -191,7 +184,7 @@ a virtual keypad suitable for mobile devices.</div>
 
 
 <div class="description">
-    Constructor for the VirtualKeypadController widget.
+    Constructor for the Customization widget.
 </div>
 
 
@@ -268,7 +261,7 @@ a virtual keypad suitable for mobile devices.</div>
 
             <td class="description last">The four coordinates (top, left, width, height) of the display, specifying
        the left, top corner, and the width and height of the (rectangular) display.
-       Default is { top: 1000, left: 100, width: 500, height: 500 }.</td>
+       Default is { top: 0, left: 0, width: 250, height: 250 }.</td>
         </tr>
 
     
@@ -292,13 +285,9 @@ a virtual keypad suitable for mobile devices.</div>
             
 
             <td class="description last">Options:
-         <li>parent (String): the HTML element where the display will be appended (default is "virtualKeyPad").</li>
-         <li>simulatorActions (String): the HTML element where the action buttons(pause, resume and quit) will be appended (default is "simulatorActions").</li>
-         <li>simulatorArrows (String): the HTML element where the arrow buttons(left, up, right, down) will be appended (default is "simulatorArrows").</li>
-         <li>floatArrows (String): the HTML element where the up arrow button will be appended (default is "floatArrows").</li>
-         <li>blockArrows (String): the HTML element where the arrow buttons(left, right, down) will be appended (default is "blockArrows").</li>
-         <li>buttonClass (String): the constant string that allows ButtonExternalController widget to use 'button' tags with JQuery-UI images instead of areas as Button widget implements.(default is "buttonClass").</li>
-         <li>title (String): the button's title(default is 'title').</li></td>
+         <li>parent (String): the HTML element where the display will be appended (default is "FS").</li>
+An example of usage of this configuration is with an hour pointer in a clock - The minimum value is 0,
+the maximum value is 24, but the pointer completes 2 laps between min and max values.</li></td>
         </tr>
 
     
@@ -339,7 +328,7 @@ a virtual keypad suitable for mobile devices.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line55">line 55</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line38">line 38</a>
     </li></ul></dd>
     
 
@@ -366,7 +355,7 @@ a virtual keypad suitable for mobile devices.</div>
 
         
 <div class="param-desc">
-    The created instance of the widget VirtualKeypadController.
+    The created instance of the widget Customization.
 </div>
 
 
@@ -377,99 +366,13 @@ a virtual keypad suitable for mobile devices.</div>
     </dt>
     <dd>
         
-<span class="param-type">VirtualKeypadController</span>
+<span class="param-type">Customization</span>
 
 
     </dd>
 </dl>
 
     
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="hide"><span class="type-signature"></span>hide<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    hide method of the VirtualKeypadController widget. This method changes 'virtualKeyPad' div visibility to hidden.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line354">line 354</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -489,7 +392,7 @@ a virtual keypad suitable for mobile devices.</div>
 
 
 <div class="description">
-    Render method of the VirtualKeypadController widget. This method renders this.div, i.e. the div produced by this widget constructor.
+    Render method of the Customization widget.
 </div>
 
 
@@ -533,7 +436,7 @@ a virtual keypad suitable for mobile devices.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line384">line 384</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line196">line 196</a>
     </li></ul></dd>
     
 
@@ -575,7 +478,7 @@ a virtual keypad suitable for mobile devices.</div>
 
 
 <div class="description">
-    reveal method of the VirtualKeypadController widget. This method changes 'virtualKeyPad' div visibility to visible.
+    reveal method of the Customization widget. This method ....
 </div>
 
 
@@ -619,93 +522,7 @@ a virtual keypad suitable for mobile devices.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line364">line 364</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="show"><span class="type-signature"></span>show<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    show method of the VirtualKeypadController widget. This method shows the current div status, i.e. as it was created by the VirtualKeypadController constructor.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line374">line 374</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line186">line 186</a>
     </li></ul></dd>
     
 

@@ -34,11 +34,7 @@ define(function (require, exports, module) {
 
     let Widget = require("widgets/Widget"),
         ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
-        
-    // let FileSystem = require("filesystem/FileSystem").getInstance();
-    
-    let projectManager = require("project/ProjectManager").getInstance();
-
+     
     /**
      * @function constructor
      * @description Constructor for the FileSystemArcade widget.
@@ -72,26 +68,6 @@ define(function (require, exports, module) {
                         .style("top", this.top + "px").style("left", this.left + "px")
                         .style("opacity", opt.opacity)
                         .style("display", "none");
-
-        /*fs.readFile("configurations/track.json").then(function (res) {
-            var data = res.content;
-            if (data) { 
-                console.log(data);
-            }
-        });*/
-
-        // Perform operations on the current project
-        projectManager.project() // this is the current project
-          .addFile("trackFile.json", "file content...", { overWrite: true }).then(function (res) {
-            //file added successfully, res is the file descriptor
-            console.log(res);
-        }).catch(function (err) {
-            //operation failed, err shows the error details
-            console.log(JSON.stringify(err));
-        });  
-
-        console.log(projectManager.project());
-        console.log(projectManager.project().getWidgetDefinitionFile().content);
 
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;

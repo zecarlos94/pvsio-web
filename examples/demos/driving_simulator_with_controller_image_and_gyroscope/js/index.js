@@ -36,6 +36,7 @@ require([
         "widgets/car/GamepadController",
         "widgets/car/DrawGamepad",
         "widgets/car/GyroscopeController",
+        "widgets/car/Customization",
 
         "widgets/ButtonActionsQueue",
         "stateParser",
@@ -59,6 +60,7 @@ require([
         GamepadController,
         DrawGamepad,
         GyroscopeController,
+        Customization,
 
         ButtonActionsQueue,
         stateParser,
@@ -78,41 +80,7 @@ require([
         let maxValueObstacles=$("#myRange-Obstacles").val();
         let maxValueOtherCars=$("#myRange-Other-Cars").val();
         let maxValueEnd=$("#myRange-End").val();
-                
-        $("#selectImage").imagepicker({
-            hide_select: true
-        });
-    
-        let $container = $('.image_picker_selector');
-        // initialize
-        $container.imagesLoaded( () => {
-            $container.masonry({
-                columnWidth: 30,
-                itemSelector: '.thumbnail'
-            });
-        });
-        $("#mySidenav").css({ width: "630px" });
-        $("#menu").css({ marginLeft: "450px", visibility: "hidden" });
-        $('#game-window').css('border', '5px solid black');
-        $("#instructions").css({ marginLeft: "-60px" });
-        $(".dashboard-widgets").css({ visibility: "hidden" });
-        
-        $(".image-picker").imagepicker({
-            hide_select: true,
-            selected: function (option) {
-                let values = this.val();
-                let path = ($(this).find("option[value='" + $(this).val() + "']").data('img-src'));
-                // console.log(values);
-                // console.log(path);
-                let steeringWheelStyle = values.split("_");            
-                steeringWheel = steeringWheelStyle[0];
-                // console.log(steeringWheel);
-    
-                $("#track_img").css({ visibility: "visible" });
-                $("#track_img").attr('src', path);
-            }
-        });
-        
+                              
         let start_tick = () => {
             //if (!tick) {
             //    tick = setInterval(function () {
@@ -154,6 +122,17 @@ require([
         }
 
         var car = {};
+        
+        // ----------------------------- CUSTOMIZATION COMPONENTS -----------------------------
+        car.customization = new Customization("customization-widget", {
+            top: 100,
+            left: 700,
+            width: 750,
+            height: 750
+        }, {
+            parent: "dashboard", // defines parent div, which is div id="dashboard" by default
+            callback: onMessageReceived
+        });
 
         // ----------------------------- DASHBOARD INTERACTION -----------------------------
         car.up = new ButtonExternalController("accelerate", { width: 0, height: 0 }, {
@@ -194,6 +173,41 @@ require([
             callback: onMessageReceived
         });
 
+        $("#selectImage").imagepicker({
+            hide_select: true
+        });
+    
+        let $container = $('.image_picker_selector');
+        // initialize
+        $container.imagesLoaded( () => {
+            $container.masonry({
+                columnWidth: 30,
+                itemSelector: '.thumbnail'
+            });
+        });
+
+        $("#mySidenav").css({ width: "630px" });
+        $("#menu").css({ marginLeft: "450px", visibility: "hidden" });
+        $('#game-window').css('border', '5px solid black');
+        $("#instructions").css({ marginLeft: "-60px" });
+        $(".dashboard-widgets").css({ visibility: "hidden" });
+        
+        $(".image-picker").imagepicker({
+            hide_select: true,
+            selected: function (option) {
+                let values = this.val();
+                let path = ($(this).find("option[value='" + $(this).val() + "']").data('img-src'));
+                // console.log(values);
+                // console.log(path);
+                let steeringWheelStyle = values.split("_");            
+                steeringWheel = steeringWheelStyle[0];
+                // console.log(steeringWheel);
+    
+                $("#track_img").css({ visibility: "visible" });
+                $("#track_img").attr('src', path);
+            }
+        });
+        
         $("#steering_wheel").css({ visibility: "hidden" });
         $('#steering_wheel').attr('class','last-steering_wheel');
 
@@ -300,6 +314,7 @@ require([
 
         // Render car dashboard components
         let render = (res) => {
+            car.customization.render();
             car.speedometerGauge.render(evaluate(res.speed.val));
             car.tachometerGauge.render(evaluate(res.rpm));
             car.steeringWheel.render(evaluate(res.steering));
@@ -423,9 +438,8 @@ require([
 
                     $(".customization").css({ visibility: "hidden" });
                     $("#instructions").css({ marginLeft: "650px", marginTop: "-750px", visibility: "visible" });
-                    $("#gauges").css({ position: "absolute", marginLeft: "350px", marginTop: "-820px", visibility: "visible" });
+                    $("#gauges").css({ position: "absolute", marginLeft: "350px", marginTop: "-810px", visibility: "visible" });
                     $("#steering_wheel").css({ visibility: "visible" });
-                    // $("#virtualKeyPad").css({marginBottom: "20px",visibility: "visible"});
                     
                     $("#gamepadImage").css({visibility: "visible"});
                     car.drawGamepad.render();

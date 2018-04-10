@@ -4,21 +4,6 @@
  * Last Modified @date 27/02/18 09:07:15 PM
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-let mobile=false;
-
-let openKeypad = () => {
-    if(mobile){
-        mobile=false;
-        $(".virtualKeyPad").css({visibility: "hidden"});
-        $(".icon.keyboard").attr("title","Click to open virtual keypad controller");
-    }
-    else{
-        mobile=true;
-        $(".virtualKeyPad").css({marginBottom: "20px",visibility: "visible"});
-        $(".icon.keyboard").attr("title","Click to close virtual keypad controller");
-    }
-}
-
 require.config({
     baseUrl: "../../client/app",
     paths: {
@@ -49,6 +34,9 @@ require([
         "widgets/car/SteeringWheel",
         "widgets/car/VirtualKeypadController",
         "widgets/car/GamepadController",
+        "widgets/car/DrawGamepad",
+        "widgets/car/GyroscopeController",
+        "widgets/car/Customization",
 
         "widgets/ButtonActionsQueue",
         "stateParser",
@@ -70,6 +58,9 @@ require([
         SteeringWheel,
         VirtualKeypadController,
         GamepadController,
+        DrawGamepad,
+        GyroscopeController,
+        Customization,
 
         ButtonActionsQueue,
         stateParser,
@@ -89,41 +80,7 @@ require([
         let maxValueObstacles=$("#myRange-Obstacles").val();
         let maxValueOtherCars=$("#myRange-Other-Cars").val();
         let maxValueEnd=$("#myRange-End").val();
-                
-        $("#selectImage").imagepicker({
-            hide_select: true
-        });
-    
-        let $container = $('.image_picker_selector');
-        // initialize
-        $container.imagesLoaded( () => {
-            $container.masonry({
-                columnWidth: 30,
-                itemSelector: '.thumbnail'
-            });
-        });
-        $("#mySidenav").css({ width: "630px" });
-        $("#menu").css({ marginLeft: "450px", visibility: "hidden" });
-        $('#game-window').css('border', '5px solid black');
-        $("#instructions").css({ marginLeft: "-60px" });
-        $(".dashboard-widgets").css({ visibility: "hidden" });
-        
-        $(".image-picker").imagepicker({
-            hide_select: true,
-            selected: function (option) {
-                let values = this.val();
-                let path = ($(this).find("option[value='" + $(this).val() + "']").data('img-src'));
-                // console.log(values);
-                // console.log(path);
-                let steeringWheelStyle = values.split("_");            
-                steeringWheel = steeringWheelStyle[0];
-                // console.log(steeringWheel);
-    
-                $("#track_img").css({ visibility: "visible" });
-                $("#track_img").attr('src', path);
-            }
-        });
-        
+                              
         let start_tick = () => {
             //if (!tick) {
             //    tick = setInterval(function () {
@@ -165,6 +122,17 @@ require([
         }
 
         var car = {};
+        
+        // ----------------------------- CUSTOMIZATION COMPONENTS -----------------------------
+        car.customization = new Customization("customization-widget", {
+            top: 100,
+            left: 700,
+            width: 750,
+            height: 750
+        }, {
+            parent: "dashboard", // defines parent div, which is div id="dashboard" by default
+            callback: onMessageReceived
+        });
 
         // ----------------------------- DASHBOARD INTERACTION -----------------------------
         car.up = new ButtonExternalController("accelerate", { width: 0, height: 0 }, {
@@ -205,6 +173,41 @@ require([
             callback: onMessageReceived
         });
 
+        $("#selectImage").imagepicker({
+            hide_select: true
+        });
+    
+        let $container = $('.image_picker_selector');
+        // initialize
+        $container.imagesLoaded( () => {
+            $container.masonry({
+                columnWidth: 30,
+                itemSelector: '.thumbnail'
+            });
+        });
+
+        $("#mySidenav").css({ width: "630px" });
+        $("#menu").css({ marginLeft: "450px", visibility: "hidden" });
+        $('#game-window').css('border', '5px solid black');
+        $("#instructions").css({ marginLeft: "-60px" });
+        $(".dashboard-widgets").css({ visibility: "hidden" });
+        
+        $(".image-picker").imagepicker({
+            hide_select: true,
+            selected: function (option) {
+                let values = this.val();
+                let path = ($(this).find("option[value='" + $(this).val() + "']").data('img-src'));
+                // console.log(values);
+                // console.log(path);
+                let steeringWheelStyle = values.split("_");            
+                steeringWheel = steeringWheelStyle[0];
+                // console.log(steeringWheel);
+    
+                $("#track_img").css({ visibility: "visible" });
+                $("#track_img").attr('src', path);
+            }
+        });
+        
         $("#steering_wheel").css({ visibility: "hidden" });
         $('#steering_wheel').attr('class','last-steering_wheel');
 
@@ -228,7 +231,7 @@ require([
             carAccelerate: car.up,
             carBrake: car.down,
             carSteeringWheel: car.steeringWheel,
-            type: "gamepad", // Default is "gamepad"
+            type: "steeringWheelAndPedals", // Default is "gamepad"
             accelerationIndex: 0,
             brakeIndex: 1,
             leftArrowIndex: 14,
@@ -252,7 +255,21 @@ require([
             width: 750,
             height: 750
         }, {
-            parent: "virtualKeyPad", // defines parent div, which is div class="virtualKeyPad" by default
+            keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
+            keyboardClass: "icon keyboard",
+            keyboardTopMobile: 750,
+            keyboardLeftMobile: 1350,
+            keyboardTopDesktop: 735,
+            keyboardLeftDesktop: 1380,
+            // keyboardUrl: "img/keyboard.png", // Image is located at widgets/car/configurations/img/keyboard.png by default
+            keyboardHoverInitialTitle: "Click to open virtual keypad controller",
+            keyboardHoverSecondTitle: "Click to close virtual keypad controller",
+            // keyboardOnclickAction: "alert("Clicked");", // No action by default
+            keyboardImageWidthMobile: 80,
+            keyboardImageHeightMobile: 60,
+            keyboardImageWidthDesktop: 50,
+            keyboardImageHeightDesktop: 30,
+            parent: "virtualKeyPad", // defines parent div, which is div id="virtualKeyPad" by default
             simulatorActions: "simulatorActions",
             simulatorArrows: "simulatorArrows",
             floatArrows: "floatArrows",
@@ -264,10 +281,10 @@ require([
 
         // Render car dashboard components
         let render = (res) => {
+            car.customization.render();
             car.speedometerGauge.render(evaluate(res.speed.val));
             car.tachometerGauge.render(evaluate(res.rpm));
             car.steeringWheel.render(evaluate(res.steering));
-            car.gamepadController.render();
         }
 
         // // Full Left
@@ -385,10 +402,13 @@ require([
                     $("#track_img").css({ visibility: "hidden" });
 
                     $(".customization").css({ visibility: "hidden" });
-                    $("#instructions").css({ marginLeft: "-160px", marginTop: "-500px", visibility: "visible" });
-                    $("#gauges").css({ position: "absolute", marginLeft: "350px", marginTop: "-820px", visibility: "visible" });
+                    $("#instructions").css({ marginLeft: "650px", marginTop: "-750px", visibility: "visible" });
+                    $("#gauges").css({ position: "absolute", marginLeft: "350px", marginTop: "-810px", visibility: "visible" });
                     $("#steering_wheel").css({ visibility: "visible" });
-                    // $(".virtualKeyPad").css({marginBottom: "20px",visibility: "visible"})
+                    
+                    $("#gamepadImage").css({visibility: "visible"});
+                    $("#steering_wheel").css({ marginTop: "200px" });
+                    $(".dashboard-widgets").css({ marginTop: "200px" });
                 }
             }
         });
