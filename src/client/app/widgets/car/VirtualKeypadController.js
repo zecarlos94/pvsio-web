@@ -38,6 +38,7 @@
 /*global define*/
 define(function (require, exports, module) {
     "use strict";
+    let open=false;
     let isMobile = false; //initiate as false
     // device detection
     if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) 
@@ -80,7 +81,7 @@ define(function (require, exports, module) {
         opt.keyboardUrl =  opt.keyboardUrl || "../../client/app/widgets/car/configurations/img/keyboard.png";
         opt.keyboardHoverInitialTitle = opt.keyboardHoverInitialTitle || "Click to open virtual keypad controller";
         opt.keyboardHoverSecondTitle = opt.keyboardHoverSecondTitle || "Click to close virtual keypad controller";
-        opt.keyboardOnclickAction = opt.keyboardOnclickAction || "openKeypad();";
+        opt.keyboardOnclickAction = opt.keyboardOnclickAction || "";
         opt.keyboardImageWidthMobile = opt.keyboardImageWidthMobile || 80;
         opt.keyboardImageHeightMobile = opt.keyboardImageHeightMobile || 60;
         opt.keyboardImageWidthDesktop = opt.keyboardImageWidthDesktop || 50;
@@ -110,7 +111,7 @@ define(function (require, exports, module) {
         this.keyboardUrl =  opt.keyboardUrl;
         this.keyboardHoverInitialTitle = opt.keyboardHoverInitialTitle;
         this.keyboardHoverSecondTitle = opt.keyboardHoverSecondTitle;
-        this.keyboardOnclickAction = opt.keyboardOnclickAction;
+        this.keyboardOnclickAction = (opt.keyboardOnclickAction==="") ? null : opt.keyboardOnclickAction;
         this.keyboardImageWidthMobile = opt.keyboardImageWidthMobile;
         this.keyboardImageHeightMobile = opt.keyboardImageHeightMobile;
         this.keyboardImageWidthDesktop = opt.keyboardImageWidthDesktop;
@@ -130,6 +131,7 @@ define(function (require, exports, module) {
                             .style("top", this.keyboardTopMobile + "px")
                             .style("left", this.keyboardLeftMobile + "px")
                             .append("img")
+                            .attr("id", "keyboardImg")
                             .attr("class", this.keyboardClass)
                             .attr("src", this.keyboardUrl)
                             .attr("title", this.keyboardHoverInitialTitle)
@@ -157,6 +159,7 @@ define(function (require, exports, module) {
                             .style("top", this.keyboardTopDesktop + "px")
                             .style("left", this.keyboardLeftDesktop + "px")
                             .append("img")
+                            .attr("id", "keyboardImg")
                             .attr("class", this.keyboardClass)
                             .attr("src", this.keyboardUrl)
                             .attr("title", this.keyboardHoverInitialTitle)
@@ -313,6 +316,20 @@ define(function (require, exports, module) {
             title: this.title,
             icon: "ui-icon-play",
             evts: ['press/release']
+        });
+
+        document.getElementById('keyboardImg').addEventListener('click', function (e) {
+            if(open){
+                open=false;
+                $("#virtualKeyPad").css({visibility: "hidden"});
+                $(".icon.keyboard").attr("title","Click to open virtual keypad controller");
+            }
+            else{
+                open=true;
+                $("#virtualKeyPad").css({marginBottom: "20px",visibility: "visible"});
+                $(".icon.keyboard").attr("title","Click to close virtual keypad controller");
+            }
+            console.log("keyboard: "+open);
         });
 
         Widget.call(this, id, coords, opt);

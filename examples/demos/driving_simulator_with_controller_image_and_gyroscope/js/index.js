@@ -4,21 +4,6 @@
  * Last Modified @date 27/02/18 09:07:15 PM
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-let mobile=false;
-
-let openKeypad = () => {
-    if(mobile){
-        mobile=false;
-        $("#virtualKeyPad").css({visibility: "hidden"});
-        $(".icon.keyboard").attr("title","Click to open virtual keypad controller");
-    }
-    else{
-        mobile=true;
-        $("#virtualKeyPad").css({marginBottom: "20px",visibility: "visible"});
-        $(".icon.keyboard").attr("title","Click to close virtual keypad controller");
-    }
-}
-
 require.config({
     baseUrl: "../../client/app",
     paths: {
@@ -262,10 +247,10 @@ require([
             keyboardLeftMobile: 1350,
             keyboardTopDesktop: 735,
             keyboardLeftDesktop: 1380,
-            // keyboardUrl: "img/keyboard.png", // Image is located at widgets/car/configurations/keyboard.png by default
+            // keyboardUrl: "img/keyboard.png", // Image is located at widgets/car/configurations/img/keyboard.png by default
             keyboardHoverInitialTitle: "Click to open virtual keypad controller",
             keyboardHoverSecondTitle: "Click to close virtual keypad controller",
-            keyboardOnclickAction: "openKeypad();",
+            // keyboardOnclickAction: "alert("Clicked");", // No action by default
             keyboardImageWidthMobile: 80,
             keyboardImageHeightMobile: 60,
             keyboardImageWidthDesktop: 50,
