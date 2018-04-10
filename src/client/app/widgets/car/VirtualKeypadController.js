@@ -39,6 +39,8 @@
 define(function (require, exports, module) {
     "use strict";
     let open=false;
+    let parent, keyboardClass, keyboardHoverInitialTitle, keyboardHoverSecondTitle;
+
     let isMobile = false; //initiate as false
     // device detection
     if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) 
@@ -318,18 +320,27 @@ define(function (require, exports, module) {
             evts: ['press/release']
         });
 
+        parent = this.parent;
+        keyboardClass = this.keyboardClass;
+        keyboardHoverInitialTitle = this.keyboardHoverInitialTitle;
+        keyboardHoverSecondTitle = this.keyboardHoverSecondTitle;
+
         document.getElementById('keyboardImg').addEventListener('click', function (e) {
+            let res = keyboardClass.split(" ");
+            let aux="";
+            for(let a=0;a<res.length;a++){
+                aux += "."+res[a];
+            }
             if(open){
                 open=false;
-                $("#virtualKeyPad").css({visibility: "hidden"});
-                $(".icon.keyboard").attr("title","Click to open virtual keypad controller");
+                $(parent).css({visibility: "hidden"});
+                $(aux).attr("title", keyboardHoverInitialTitle);
             }
             else{
                 open=true;
-                $("#virtualKeyPad").css({marginBottom: "20px",visibility: "visible"});
-                $(".icon.keyboard").attr("title","Click to close virtual keypad controller");
+                $(parent).css({marginBottom: "20px",visibility: "visible"});
+                $(aux).attr("title", keyboardHoverSecondTitle);
             }
-            console.log("keyboard: "+open);
         });
 
         Widget.call(this, id, coords, opt);
