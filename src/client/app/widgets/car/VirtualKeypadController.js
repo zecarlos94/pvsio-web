@@ -71,6 +71,21 @@ define(function (require, exports, module) {
     function VirtualKeypadController(id, coords, opt) {
         opt = opt || {};
         opt.style = opt.style || "";
+        opt.keyboardImgDiv = opt.keyboardImgDiv || "mobileDevicesController";
+        opt.keyboardClass = opt.keyboardClass || "icon keyboard";
+        opt.keyboardTopMobile = opt.keyboardTopMobile || 750;
+        opt.keyboardLeftMobile = opt.keyboardLeftMobile || 1350;
+        opt.keyboardTopDesktop = opt.keyboardTopDesktop || 735;
+        opt.keyboardLeftDesktop = opt.keyboardLeftDesktop || 1380;
+        opt.keyboardUrl =  opt.keyboardUrl || "img/keyboard.png";
+        opt.keyboardHoverInitialTitle = opt.keyboardHoverInitialTitle || "Click to open virtual keypad controller";
+        opt.keyboardHoverSecondTitle = opt.keyboardHoverSecondTitle || "Click to close virtual keypad controller";
+        opt.keyboardOnclickAction = opt.keyboardOnclickAction || "openKeypad();";
+        opt.keyboardImageWidthMobile = opt.keyboardImageWidthMobile || 80;
+        opt.keyboardImageHeightMobile = opt.keyboardImageHeightMobile || 60;
+        opt.keyboardImageWidthDesktop = opt.keyboardImageWidthDesktop || 50;
+        opt.keyboardImageHeightDesktop = opt.keyboardImageHeightDesktop || 30;
+
         opt.parent = opt.parent || "virtualKeyPad";
         opt.simulatorActions = opt.simulatorActions || "simulatorActions";
         opt.simulatorArrows = opt.simulatorArrows || "simulatorArrows";
@@ -86,15 +101,42 @@ define(function (require, exports, module) {
         this.width = coords.width || 750;
         this.height = coords.height || 750;
 
+        this.keyboardImgDiv = (opt.keyboardImgDiv) ? ("#" + opt.keyboardImgDiv) : null;
+        this.keyboardClass = opt.keyboardClass;
+        this.keyboardTopMobile = opt.keyboardTopMobile;
+        this.keyboardLeftMobile = opt.keyboardLeftMobile;
+        this.keyboardTopDesktop = opt.keyboardTopDesktop;
+        this.keyboardLeftDesktop = opt.keyboardLeftDesktop;
+        this.keyboardUrl =  opt.keyboardUrl;
+        this.keyboardHoverInitialTitle = opt.keyboardHoverInitialTitle;
+        this.keyboardHoverSecondTitle = opt.keyboardHoverSecondTitle;
+        this.keyboardOnclickAction = opt.keyboardOnclickAction;
+        this.keyboardImageWidthMobile = opt.keyboardImageWidthMobile;
+        this.keyboardImageHeightMobile = opt.keyboardImageHeightMobile;
+        this.keyboardImageWidthDesktop = opt.keyboardImageWidthDesktop;
+        this.keyboardImageHeightDesktop = opt.keyboardImageHeightDesktop;
+
         this.parent = (opt.parent) ? ("#" + opt.parent) : null;
         this.simulatorActions = opt.simulatorActions;
         this.simulatorArrows = opt.simulatorArrows;
         this.floatArrows = opt.floatArrows;
         this.blockArrows = opt.blockArrows;
         this.buttonClass = opt.buttonClass;
-        this.title = opt.title;
-         
+        this.title = opt.title;        
+
         if(isMobile){
+            this.keyboardDiv = d3.select(this.keyboardImgDiv)
+                            .style("position", "absolute")
+                            .style("top", this.keyboardTopMobile + "px")
+                            .style("left", this.keyboardLeftMobile + "px")
+                            .append("img")
+                            .attr("class", this.keyboardClass)
+                            .attr("src", this.keyboardUrl)
+                            .attr("title", this.keyboardHoverInitialTitle)
+                            .attr("onclick", this.keyboardOnclickAction)
+                            .style("width", this.keyboardImageWidthMobile + "px")
+                            .style("height", this.keyboardImageHeightMobile + "px");
+
             this.div = d3.select(this.parent)
                         .style("position", "absolute")
                         .style("top", this.top + "px")
@@ -110,6 +152,18 @@ define(function (require, exports, module) {
                     .style("margin-top","-60px")
                     .style("margin-left","250px");
         }else{
+            this.keyboardDiv = d3.select(this.keyboardImgDiv)
+                            .style("position", "absolute")
+                            .style("top", this.keyboardTopDesktop + "px")
+                            .style("left", this.keyboardLeftDesktop + "px")
+                            .append("img")
+                            .attr("class", this.keyboardClass)
+                            .attr("src", this.keyboardUrl)
+                            .attr("title", this.keyboardHoverInitialTitle)
+                            .attr("onclick", this.keyboardOnclickAction)
+                            .style("width", this.keyboardImageWidthDesktop + "px")
+                            .style("height", this.keyboardImageHeightDesktop + "px");
+
             this.div = d3.select(this.parent)
                         .style("position", "absolute")
                         .style("top", this.top + "px")

@@ -256,6 +256,20 @@ require([
             width: 750,
             height: 750
         }, {
+            keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
+            keyboardClass: "icon keyboard",
+            keyboardTopMobile: 750,
+            keyboardLeftMobile: 1350,
+            keyboardTopDesktop: 735,
+            keyboardLeftDesktop: 1380,
+            keyboardUrl: "img/keyboard.png",
+            keyboardHoverInitialTitle: "Click to open virtual keypad controller",
+            keyboardHoverSecondTitle: "Click to close virtual keypad controller",
+            keyboardOnclickAction: "openKeypad();",
+            keyboardImageWidthMobile: 80,
+            keyboardImageHeightMobile: 60,
+            keyboardImageWidthDesktop: 50,
+            keyboardImageHeightDesktop: 30,
             parent: "virtualKeyPad", // defines parent div, which is div id="virtualKeyPad" by default
             simulatorActions: "simulatorActions",
             simulatorArrows: "simulatorArrows",
