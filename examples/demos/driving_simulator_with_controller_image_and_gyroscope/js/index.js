@@ -262,7 +262,7 @@ require([
             keyboardLeftMobile: 1350,
             keyboardTopDesktop: 735,
             keyboardLeftDesktop: 1380,
-            keyboardUrl: "img/keyboard.png",
+            // keyboardUrl: "img/keyboard.png", // Image is located at widgets/car/configurations/keyboard.png by default
             keyboardHoverInitialTitle: "Click to open virtual keypad controller",
             keyboardHoverSecondTitle: "Click to close virtual keypad controller",
             keyboardOnclickAction: "openKeypad();",

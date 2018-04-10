@@ -77,7 +77,7 @@ define(function (require, exports, module) {
         opt.keyboardLeftMobile = opt.keyboardLeftMobile || 1350;
         opt.keyboardTopDesktop = opt.keyboardTopDesktop || 735;
         opt.keyboardLeftDesktop = opt.keyboardLeftDesktop || 1380;
-        opt.keyboardUrl =  opt.keyboardUrl || "img/keyboard.png";
+        opt.keyboardUrl =  opt.keyboardUrl || "../../client/app/widgets/car/configurations/img/keyboard.png";
         opt.keyboardHoverInitialTitle = opt.keyboardHoverInitialTitle || "Click to open virtual keypad controller";
         opt.keyboardHoverSecondTitle = opt.keyboardHoverSecondTitle || "Click to close virtual keypad controller";
         opt.keyboardOnclickAction = opt.keyboardOnclickAction || "openKeypad();";
