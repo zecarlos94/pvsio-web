@@ -7,13 +7,15 @@
 require.config({
     baseUrl: "../../client/app",
     paths: {
+        "jquery-ui": "../lib/jquery-ui",
         d3: "../lib/d3",
         "pvsioweb": "plugins/prototypebuilder",
         "imagemapper": "../lib/imagemapper",
         "text": "../lib/text",
         "lib": "../lib",
         "cm": "../lib/cm",
-        stateParser: './util/PVSioStateParser'
+        stateParser: './util/PVSioStateParser',
+        "image-picker": "../lib/image-picker",
     }
 });
 
