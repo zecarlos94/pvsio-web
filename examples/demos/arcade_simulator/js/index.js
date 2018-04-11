@@ -96,6 +96,8 @@ require([
             height: 650
         }, {
             parent: "game-window", // defines parent div, which is div id="game-window" by default
+            trackFilename: "track", // defines track configuration filename, which is "track.json" by default
+            spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             callback: onMessageReceived
         });
 
@@ -103,12 +105,12 @@ require([
         arcade.start = new Button("start", { width: 0, height: 0 }, {
             callback: onMessageReceived,
             evts: ['press/release'],
-            keyCode: 32 // key spacebar
+            keyCode: 49 // key 1
         });
         arcade.stop = new Button("stop", { width: 0, height: 0 }, {
             callback: onMessageReceived,
             evts: ['press/release'],
-            keyCode: 83 // key s
+            keyCode: 50 // key 2
         });
 
         // Render sound components

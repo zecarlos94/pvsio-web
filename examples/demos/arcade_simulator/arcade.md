@@ -5,5 +5,5 @@
 * Stop
 
 ### Arcade controls
-* **[ ]** Start (spacebar)
-* **[s]** Stop
+* **[1]** Start (spacebar)
+* **[2]** Stop

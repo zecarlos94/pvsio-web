@@ -44,9 +44,9 @@ define(function (require, exports, module) {
     let Widget = require("widgets/Widget");
     let Sound = require("widgets/car/Sound");
 
-    let spritesheetJSON = require("text!widgets/car/configurations/spritesheet.json");
-    let trackJSON = require("text!widgets/car/configurations/track.json");
-   
+    let spritesheetJSON;
+    let trackJSON;
+
     let currentBrowser = { chrome: false, mozilla: false, opera: false, msie: false, safari: false};
     let spritesheet, spritesheetText;
     let readSprite=false;
@@ -143,6 +143,8 @@ define(function (require, exports, module) {
         opt = opt || {};
         coords = coords || {};
         opt.parent = opt.parent || "game-window";
+        opt.trackFilename = opt.trackFilename;
+        opt.spritesFilename = opt.spritesFilename;
     
         this.id = id;
         this.top = coords.top || 100;
@@ -151,7 +153,12 @@ define(function (require, exports, module) {
         this.height = coords.height || 750;
 
         this.parent = (opt.parent) ? ("#" + opt.parent) : "game-window";
-       
+        this.trackFilename = (opt.trackFilename) ? ("text!widgets/car/configurations/" + opt.trackFilename + ".json") : "text!widgets/car/configurations/track.json";
+        this.spritesFilename = (opt.spritesFilename) ? ("text!widgets/car/configurations/" + opt.spritesFilename + ".json") : "text!widgets/car/configurations/spritesheet.json";
+        
+        trackJSON = require("text!widgets/car/configurations/track.json");
+        spritesheetJSON = require("text!widgets/car/configurations/spritesheet.json");        
+
         this.div = d3.select(this.parent)
                         .attr("class","container game_view")
                         .style("position", "absolute")
@@ -161,16 +168,8 @@ define(function (require, exports, module) {
                         .style("height", this.height + "px")
                         .style("border", "5px solid black");
         
-        this.div.append("canvas").attr("id", "arcadeSimulator");
+        this.div.append("canvas").attr("id", "arcadeSimulator").style("margin-left","-15px");
 
-        // this.div.append("img")
-        //         .attr("src", "#")
-        //         .attr("id", "track_img")
-        //         .style("width", "100%")
-        //         .style("height", "100%")
-        //         .style("object-fit", "contain")
-        //         .style("visibility", "hidden");
-        
         this.soundWidget = new Sound("soundWidget", {
             top: 700,
             left: 610,
@@ -247,15 +246,10 @@ define(function (require, exports, module) {
                 readSprite=true;
             }    
         }
-        
-        // console.log(JSON.parse(spritesheetJSON).frames);
-        // console.log(JSON.parse(trackJSON));
-        // console.log(readParams);
-        // console.log(readConfiguration);
-        // console.log(readSprite);
-        // console.log(track);
-
         Widget.call(this, id, coords, opt);
+        Arcade.prototype.onPageLoad();
+        loadingTrackConfiguration = setInterval(function(){ Arcade.prototype.loadTrackConfiguration(); }, 500);
+        
         return this;
     }
 
@@ -335,7 +329,7 @@ define(function (require, exports, module) {
         try {
             let numIterations = trackParam.numZones * trackParam.zoneSize;
             trackParam.numZones = numIterations;
-            // clearInterval(loadingTrackConfiguration);
+            clearInterval(loadingTrackConfiguration);
         } catch (error) { 
             console.log("Error Loading Track... "+error);
         }
@@ -357,35 +351,77 @@ define(function (require, exports, module) {
         spritesheet = new Image();
         spritesheetText = new Image();
         
-        // use d3.select instead of $
-        // spritesheet.onload = function(){
-        //     splashInterval = setInterval(renderSplashFrame, 30);
-        // };
+        spritesheet.onload = function(){
+            splashInterval = setInterval(Arcade.prototype.renderSplashFrame, 30);
+        };
     
-        // spritesheet.src = "img/spritesheet.png";
-        // spritesheetText.src = "img/spritesheet.text.png";
+        spritesheet.src = "../../client/app/widgets/car/configurations/img/spritesheet.png";
+        spritesheetText.src = "../../client/app/widgets/car/configurations/img/spritesheet.text.png";
     
-        // $(".tog").click(function(){
-        //     $('img',this).toggle();
-        // });
-    
-        // $("#play").click(function(){
-        //     sounds = $('audio');
-        //     let s = sounds.length;
-        //     soundOff=false;
-        //     for(i=1; i<s; i++) //startup song is also discarded
-        //         if(i!==2){
-        //             sounds[i].play();
-        //         }
-        // });
-    
-        // $("#stop").click(function(){
-        //     sounds = $('audio');
-        //     let s = sounds.length;
-        //     soundOff=true;
-        //     for(i=0; i<s; i++) sounds[i].pause();
-        // });
+        return this;
+    };
 
+    /**
+     * @function renderSplashFrame
+     * @description RenderSplashFrame method of the Arcade widget. 
+     * @memberof module:Arcade
+     * @instance
+     */
+     Arcade.prototype.renderSplashFrame = function () {
+        canvas.height = 645;
+        canvas.width = 770;        
+        context.fillStyle = "rgb(0,0,0)";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+    
+        // if(readParams){
+        //     canvas = $("#arcadeSimulator")[0];
+        //     context = canvas.getContext('2d');
+        //     canvas.height = render.height;
+        //     canvas.width = render.width;
+            // if(readConfiguration && readSprite){
+            //     context.drawImage(spritesheet,  logo.x, logo.y, logo.w, logo.h, 100, 20, 0.6*logo.w, 0.6*logo.h);
+    
+                // drawText("Instructions:",{x: 100, y: 95});
+                // drawText("Click on space bar to start",{x: 40, y: 110});
+                // drawText("Click on key s to pause",{x: 40, y: 120});
+                // drawText("Click on key q to end",{x: 40, y: 130});
+                // drawText("Use left and rigth arrows",{x: 40, y: 145});
+                // drawText("to control the vehicle",{x: 70, y: 155});
+                // drawText("You can start now",{x: 90, y: 175});
+                // drawText("Credits:",{x: 125, y: 195});
+                // drawText("Jose Carlos",{x: 110, y: 205});
+                
+                // if(keys[32]){
+                //     clearInterval(splashInterval);
+                //     simulatorInterval = setInterval(renderSimulatorFrame, 30);
+                //     $(".tog").css("visibility", "visible");
+                
+                //     chronometer = new Chronometer(
+                //         { precision: 10,
+                //         ontimeupdate: function (t) {
+                //             time = Chronometer.utils.humanFormat(chronometer.getElapsedTime()).split(":");
+                //         } 
+                //     });
+                //     chronometer.start();
+    
+                //     sounds = $('audio');
+                //     if(!soundOff){
+                //         sounds[0].play(); //startup song
+                //         sounds[3].play(); //background song
+                //         sounds[3].volume = 0.4;
+    
+                //         sounds[0].onended = function() {
+                //             sounds[1].play(); //idle song
+                //             sounds[1].volume = 1.0;
+                //         };
+                //     }
+                // }
+            // }else{
+            //     drawText("Loading Configurations...",{x: 100, y: 95}); 
+            // }
+        // }else{
+        //     drawText("Loading Parameters...",{x: 100, y: 68});  
+        // }
         return this;
     };
 
@@ -420,15 +456,17 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.init = function () {
         // configure canvas
-        canvas = $("#arcadeSimulator")[0];
+        canvas = document.getElementById("arcadeSimulator");
         context = canvas.getContext('2d');
-        // //register key handeling:
-        // $(document).keydown(function(e){
-        //     keys[e.keyCode] = true;
-        // });
-        // $(document).keyup(function(e){
-        //     keys[e.keyCode] = false;
-        // });
+        //register key handeling:
+        window.onkeydown = function(e){
+            keys[e.keyCode] = true;
+            console.log(e);
+        };
+        window.onkeyup = function(e){
+            keys[e.keyCode] = false;
+            console.log(e);
+        };
         return this;
     };
 
@@ -440,16 +478,6 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.render = function () {
-        let c = document.getElementById("arcadeSimulator");
-        let ctx = c.getContext("2d");
-
-        ctx.beginPath();
-        ctx.arc(95, 50, 40, 0, 2 * Math.PI);
-        ctx.stroke();
-
-        ctx.font = "30px Arial";
-        ctx.fillText("Hello World", 10, 50);
-        
         return this.reveal();
     };
 
