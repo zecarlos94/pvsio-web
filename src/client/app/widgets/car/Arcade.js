@@ -165,13 +165,16 @@ define(function (require, exports, module) {
                         .style("top", this.top + "px")
                         .style("left", this.left + "px")
                         .style("width", this.width + "px")
-                        .style("height", this.height + "px")
-                        .style("border", "5px solid black");
+                        .style("height", this.height + "px");
+                        // .style("border", "5px solid black");
         
-        this.div.append("canvas").attr("id", "arcadeSimulator").style("margin-left","-15px");
+        this.div.append("canvas").attr("id", "arcadeSimulator")
+                .style("-webkit-transform","scale(2.4)")
+                .style("margin-top", "170px")
+                .style("margin-left", "215px");
 
         this.soundWidget = new Sound("soundWidget", {
-            top: 700,
+            top: 625,
             left: 610,
             width: 750,
             height: 750
@@ -367,66 +370,83 @@ define(function (require, exports, module) {
      * @memberof module:Arcade
      * @instance
      */
-     Arcade.prototype.renderSplashFrame = function () {
-        canvas.height = 645;
-        canvas.width = 770;        
+     Arcade.prototype.renderSplashFrame = function () {  
+        canvas.height = 240;
+        canvas.width = 320;     
         context.fillStyle = "rgb(0,0,0)";
         context.fillRect(0, 0, canvas.width, canvas.height);
     
-        // if(readParams){
-        //     canvas = $("#arcadeSimulator")[0];
-        //     context = canvas.getContext('2d');
-        //     canvas.height = render.height;
-        //     canvas.width = render.width;
-            // if(readConfiguration && readSprite){
-            //     context.drawImage(spritesheet,  logo.x, logo.y, logo.w, logo.h, 100, 20, 0.6*logo.w, 0.6*logo.h);
+        if(readParams){
+            canvas = $("#arcadeSimulator")[0];
+            context = canvas.getContext('2d');
+            // canvas.height = render.height;
+            // canvas.width = render.width;
+
+            if(readConfiguration && readSprite){
+                context.drawImage(spritesheet,  logo.x, logo.y, logo.w, logo.h, 100, 20, 0.6*logo.w, 0.6*logo.h);
     
-                // drawText("Instructions:",{x: 100, y: 95});
-                // drawText("Click on space bar to start",{x: 40, y: 110});
-                // drawText("Click on key s to pause",{x: 40, y: 120});
-                // drawText("Click on key q to end",{x: 40, y: 130});
-                // drawText("Use left and rigth arrows",{x: 40, y: 145});
-                // drawText("to control the vehicle",{x: 70, y: 155});
-                // drawText("You can start now",{x: 90, y: 175});
-                // drawText("Credits:",{x: 125, y: 195});
-                // drawText("Jose Carlos",{x: 110, y: 205});
+                Arcade.prototype.drawText("Instructions:",{x: 100, y: 95});
+                Arcade.prototype.drawText("Click on space bar to start",{x: 40, y: 110});
+                Arcade.prototype.drawText("Click on key s to pause",{x: 40, y: 120});
+                Arcade.prototype.drawText("Click on key q to end",{x: 40, y: 130});
+                Arcade.prototype.drawText("Use left and rigth arrows",{x: 40, y: 145});
+                Arcade.prototype.drawText("to control the vehicle",{x: 70, y: 155});
+                Arcade.prototype.drawText("You can start now",{x: 90, y: 175});
+                Arcade.prototype.drawText("Credits:",{x: 125, y: 195});
+                Arcade.prototype.drawText("Jose Carlos",{x: 110, y: 205});
                 
                 // if(keys[32]){
                 //     clearInterval(splashInterval);
                 //     simulatorInterval = setInterval(renderSimulatorFrame, 30);
-                //     $(".tog").css("visibility", "visible");
+                    // $(".tog").css("visibility", "visible");
                 
-                //     chronometer = new Chronometer(
-                //         { precision: 10,
-                //         ontimeupdate: function (t) {
-                //             time = Chronometer.utils.humanFormat(chronometer.getElapsedTime()).split(":");
-                //         } 
-                //     });
-                //     chronometer.start();
+                    // chronometer = new Chronometer(
+                    //     { precision: 10,
+                    //     ontimeupdate: function (t) {
+                    //         time = Chronometer.utils.humanFormat(chronometer.getElapsedTime()).split(":");
+                    //     } 
+                    // });
+                    // chronometer.start();
     
-                //     sounds = $('audio');
-                //     if(!soundOff){
-                //         sounds[0].play(); //startup song
-                //         sounds[3].play(); //background song
-                //         sounds[3].volume = 0.4;
+                    // sounds = $('audio');
+                    // if(!soundOff){
+                    //     sounds[0].play(); //startup song
+                    //     sounds[3].play(); //background song
+                    //     sounds[3].volume = 0.4;
     
-                //         sounds[0].onended = function() {
-                //             sounds[1].play(); //idle song
-                //             sounds[1].volume = 1.0;
-                //         };
-                //     }
+                    //     sounds[0].onended = function() {
+                    //         sounds[1].play(); //idle song
+                    //         sounds[1].volume = 1.0;
+                    //     };
+                    // }
                 // }
-            // }else{
-            //     drawText("Loading Configurations...",{x: 100, y: 95}); 
-            // }
-        // }else{
-        //     drawText("Loading Parameters...",{x: 100, y: 68});  
-        // }
+            }else{
+                Arcade.prototype.drawText("Loading Configurations...",{x: 100, y: 95}); 
+            }
+        }else{
+            Arcade.prototype.drawText("Loading Parameters...",{x: 100, y: 68});  
+        }
+        
         return this;
     };
 
+    /**
+     * @function drawText
+     * @description drawText method of the Arcade widget. This method draws text using sprite letters to simulate the arcade look. That is, reading string and for each letter draw the corresponding sprite letter.
+     * @memberof module:Arcade
+     * @instance
+     */
+    Arcade.prototype.drawText = function (string, pos) {
+        string = string.toUpperCase();
+        let cur = pos.x;
+        for(let i=0; i < string.length; i++) {
+            context.drawImage(spritesheetText, (string.charCodeAt(i) - 32) * 8, 0, 8, 8, cur, pos.y, 8, 8);
+            cur += 8;
+        }
+        return this;
+    };
 
-     /**
+    /**
      * @function detectBrowserType
      * @description detectBrowserType method of the Arcade widget. This method detects current open Browser.
      * @memberof module:Arcade
@@ -458,6 +478,7 @@ define(function (require, exports, module) {
         // configure canvas
         canvas = document.getElementById("arcadeSimulator");
         context = canvas.getContext('2d');
+         
         //register key handeling:
         window.onkeydown = function(e){
             keys[e.keyCode] = true;
