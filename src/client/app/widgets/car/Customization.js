@@ -86,41 +86,42 @@ define(function (require, exports, module) {
         opt.sliderRanges = opt.sliderRanges || [
             {
                 name: "speedometer",
-                speedometerMin: 0,
-                speedometerMax: 400,
-                speedometerValue: 340
+                min: 0,
+                max: 400,
+                value: 340
             },
             {
                 name: "tachometer",
-                tachometerMin: 0,
-                tachometerMax: 20,
-                tachometerValue: 16
+                min: 0,
+                max: 20,
+                value: 16
             },
             {
                 name: "lanes",
-                lanesMin: 0,
-                lanesMax: 3,
-                lanesValue: 0
+                min: 0,
+                max: 3,
+                value: 0
             },
             {
                 name: "hills",
-                hillsMin: 0,
-                hillsMax: 10,
-                hillsValue: 0
+                min: 0,
+                max: 10,
+                value: 0
             },
             {
                 name: "obstacles",
-                obstaclesMin: 0,
-                obstaclesMax: 10,
-                obstaclesValue: 0
+                min: 0,
+                max: 10,
+                value: 0
             },
             {
                 name: "other-cars",
-                otherCarsMin: 0,
-                otherCarsMax: 10,
-                otherCarsValue: 0
+                min: 0,
+                max: 10,
+                value: 0
             }
         ];
+
         opt.controlsText = opt.controlsText || [
             "Car controls:",
             "[left/right arrow keys] Turn Left/Right",
@@ -192,14 +193,15 @@ define(function (require, exports, module) {
 
         for(iterator=0; iterator<this.sliderRanges.length; iterator++){
             brItr++;
-            this.customizationDiv.append("div").attr("class","game-customisation-"+this.sliderRanges[iterator].name)
-                                 .append("div").attr("class","col-xs-12").attr("id","slidecontainer-"+this.sliderRanges[iterator].name)
-                                 .append("input").attr("type","range").attr("min",""+this.sliderRanges[iterator].min).attr("max",""+this.sliderRanges[iterator].max).attr("value",""+this.sliderRanges[iterator].value)
-                                 .attr("class","slider")
-                                 .attr("id","myRange-"+this.sliderRanges[iterator].name.charAt(0).toUpperCase() + this.sliderRanges[iterator].name.slice(1))
-                                 .append("p").style("color",this.sliderColor).style("margin-left","15px")
-                                 .text("Value of "+this.sliderRanges[iterator].name.charAt(0).toUpperCase() + this.sliderRanges[iterator].name.slice(1)+":")
-                                 .append("span").attr("id","demo-"+this.sliderRanges[iterator].name.charAt(0).toUpperCase() + this.sliderRanges[iterator].name.slice(1));
+            this.aux=this.customizationDiv.append("div").attr("class","game-customisation-"+this.sliderRanges[iterator].name)
+                                 .append("div").attr("class","col-xs-12").attr("id","slidecontainer-"+this.sliderRanges[iterator].name);
+            
+            this.aux.append("input").attr("type","range").attr("min",""+this.sliderRanges[iterator].min).attr("max",""+this.sliderRanges[iterator].max).attr("value",""+this.sliderRanges[iterator].value)
+                    .attr("class","slider")
+                    .attr("id","myRange-"+this.sliderRanges[iterator].name.charAt(0).toUpperCase() + this.sliderRanges[iterator].name.slice(1));
+
+            this.aux.append("p").style("color",this.sliderColor).style("margin-left","15px").text("Value of "+this.sliderRanges[iterator].name.charAt(0).toUpperCase() + this.sliderRanges[iterator].name.slice(1)+":")
+                    .append("span").attr("id","demo-"+this.sliderRanges[iterator].name.charAt(0).toUpperCase() + this.sliderRanges[iterator].name.slice(1));
             if(brItr===2){
                 this.customizationDiv.append("br");
                 this.customizationDiv.append("br");
