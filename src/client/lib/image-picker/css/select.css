@@ -1,0 +1,14 @@
+select:active, select:hover {
+  outline-color: #4CAF50!important;
+}
+
+option:hover {
+  color: white;
+  background-color: #4CAF50!important;
+}
+
+.image_picker_image {
+    max-width: 140px;
+    max-height: 100px;
+    background-color: white;
+}
