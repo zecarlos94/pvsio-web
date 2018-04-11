@@ -39,6 +39,9 @@ define(function (require, exports, module) {
         isMobile = true;
     }
 
+    let iterator = 0;
+    let brItr = 0;
+
     let Widget = require("widgets/Widget"),
         ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
      
@@ -60,6 +63,89 @@ define(function (require, exports, module) {
     function Customization(id, coords, opt) {
         opt = opt || {};
         opt.opacity = opt.opacity || 1;
+
+        opt.sliderColor = opt.sliderColor || "#4CAF50";
+        opt.imagesSteeringWheels = opt.imagesSteeringWheels || [
+            {
+                path: "../../../client/app/widgets/car/steering_wheels/basic_steering_wheel.svg",
+                value: "basic_steering_wheel.svg",
+            },
+            {
+                path: "../../../client/app/widgets/car/steering_wheels/ferrari_steering_wheel.svg",
+                value: "ferrari_steering_wheel.svg",
+            },
+            {
+                path: "../../../client/app/widgets/car/steering_wheels/porsche_steering_wheel.svg",
+                value: "porsche_steering_wheel.svg",
+            },
+            {
+                path: "../../../client/app/widgets/car/steering_wheels/sparco_steering_wheel.svg",
+                value: "sparco_steering_wheel.svg",
+            }
+        ];
+        opt.sliderRanges = opt.sliderRanges || [
+            {
+                name: "speedometer",
+                speedometerMin: 0,
+                speedometerMax: 400,
+                speedometerValue: 340
+            },
+            {
+                name: "tachometer",
+                tachometerMin: 0,
+                tachometerMax: 20,
+                tachometerValue: 16
+            },
+            {
+                name: "lanes",
+                lanesMin: 0,
+                lanesMax: 3,
+                lanesValue: 0
+            },
+            {
+                name: "hills",
+                hillsMin: 0,
+                hillsMax: 10,
+                hillsValue: 0
+            },
+            {
+                name: "obstacles",
+                obstaclesMin: 0,
+                obstaclesMax: 10,
+                obstaclesValue: 0
+            },
+            {
+                name: "other-cars",
+                otherCarsMin: 0,
+                otherCarsMax: 10,
+                otherCarsValue: 0
+            }
+        ];
+        opt.controlsText = opt.controlsText || [
+            "Car controls:",
+            "[left/right arrow keys] Turn Left/Right",
+            "[up/down arrow keys] Accelerate/Brake"
+        ];
+        opt.gauges = opt.gauges || [
+            {
+                name: "speedometer-gauge",
+                styleId: "",
+                style: ""
+            },
+            {
+                name: "tachometer-gauge",
+                styleId: "float",
+                style: "right"
+            }
+        ];
+        opt.gaugesStyles = opt.gaugesStyles || [
+            {
+                zoom: "45%",
+                marginLeft: "370px",
+                marginTop: "430px"
+            }
+        ];
+
         coords = coords || {};
 
         this.id = id;
@@ -69,6 +155,13 @@ define(function (require, exports, module) {
         this.height = coords.height || 250;
 
         this.parent = (opt.parent) ? ("#" + opt.parent) : "dashboard";
+
+        this.sliderColor = opt.sliderColor;
+        this.imagesSteeringWheels = opt.imagesSteeringWheels;
+        this.sliderRanges = opt.sliderRanges;
+        this.controlsText = opt.controlsText;
+        this.gauges = opt.gauges;
+        this.gaugesStyles = opt.gaugesStyles;
 
         this.div = d3.select(this.parent)
                         .attr("class", "container dashboard-container")
@@ -87,183 +180,75 @@ define(function (require, exports, module) {
         this.select=this.customizationDiv.append("div").style("margin-left","35px");
         this.optionsSelect=this.select.append("select").attr("id","selectImage").attr("class","image-picker");
         this.optionsSelect.append("option").attr("value","");
-        this.optionsSelect.append("option").attr("data-img-src","../../../client/app/widgets/car/steering_wheels/basic_steering_wheel.svg").attr("value","basic_steering_wheel.svg").text("basic_steering_wheel.svg");
-        this.optionsSelect.append("option").attr("data-img-src","../../../client/app/widgets/car/steering_wheels/ferrari_steering_wheel.svg").attr("value","ferrari_steering_wheel.svg").text("ferrari_steering_wheel.svg");
-        this.optionsSelect.append("option").attr("data-img-src","../../../client/app/widgets/car/steering_wheels/porsche_steering_wheel.svg").attr("value","porsche_steering_wheel.svg").text("porsche_steering_wheel.svg");
-        this.optionsSelect.append("option").attr("data-img-src","../../../client/app/widgets/car/steering_wheels/sparco_steering_wheel.svg").attr("value","sparco_steering_wheel.svg").text("sparco_steering_wheel.svg");
-        
+        for(iterator=0; iterator<this.imagesSteeringWheels.length; iterator++){
+            this.optionsSelect.append("option").attr("data-img-src",this.imagesSteeringWheels[iterator].path).attr("value",this.imagesSteeringWheels[iterator].value).text(this.imagesSteeringWheels[iterator].value);
+        }
+       
         this.customizationDiv.append("br");
         
         this.customizationDiv.append("h4").style("margin-left","5px").text("Customize");
 
         this.customizationDiv.append("br");
 
-        if(isMobile){
-            this.customizationDiv.append("div").attr("class","game-customisation-speedometer")
-                        .append("div").attr("class","col-xs-12").attr("id","slidecontainer-speedometer")
-                        .append("input").attr("type","range").attr("min","0").attr("max","400").attr("value","340").attr("class","slider").attr("id","myRange-Speedometer")
-                        .append("p").style("color","#4CAF50").style("margin-left","15px").text("Value of Speedometer:")
-                        .append("span").attr("id","demo-Speedometer");
+        for(iterator=0; iterator<this.sliderRanges.length; iterator++){
+            brItr++;
+            this.customizationDiv.append("div").attr("class","game-customisation-"+this.sliderRanges[iterator].name)
+                                 .append("div").attr("class","col-xs-12").attr("id","slidecontainer-"+this.sliderRanges[iterator].name)
+                                 .append("input").attr("type","range").attr("min",""+this.sliderRanges[iterator].min).attr("max",""+this.sliderRanges[iterator].max).attr("value",""+this.sliderRanges[iterator].value)
+                                 .attr("class","slider")
+                                 .attr("id","myRange-"+this.sliderRanges[iterator].name.charAt(0).toUpperCase() + this.sliderRanges[iterator].name.slice(1))
+                                 .append("p").style("color",this.sliderColor).style("margin-left","15px")
+                                 .text("Value of "+this.sliderRanges[iterator].name.charAt(0).toUpperCase() + this.sliderRanges[iterator].name.slice(1)+":")
+                                 .append("span").attr("id","demo-"+this.sliderRanges[iterator].name.charAt(0).toUpperCase() + this.sliderRanges[iterator].name.slice(1));
+            if(brItr===2){
+                this.customizationDiv.append("br");
+                this.customizationDiv.append("br");
+                this.customizationDiv.append("br");
+                brItr=0;
+            }
+        }
 
-            this.customizationDiv.append("div").attr("class","game-customisation-tachometer")
-                        .append("div").attr("class","col-xs-12").attr("id","slidecontainer-tachometer")
-                        .append("input").attr("type","range").attr("min","0").attr("max","20").attr("value","16").attr("class","slider").attr("id","myRange-Tachometer")
-                        .append("p").style("color","#4CAF50").style("margin-left","15px").text("Value of Tachometer:")
-                        .append("span").attr("id","demo-Tachometer");
+        this.customizationDiv.append("div").attr("class","game-customisation-end")
+                    .append("div").attr("class","col-xs-12").attr("id","slidecontainer-end")
+                    .append("input").attr("type","range").attr("min","0").attr("max","1").attr("value","0").attr("class","slider").attr("id","myRange-End")
+                    .append("p").style("color",this.sliderColor).style("margin-left","15px").text("End")
+                    .append("span").attr("id","demo-End");
+                    
+        this.customizationDiv.append("br");
+        this.customizationDiv.append("br");
+        this.customizationDiv.append("br");
 
-            this.customizationDiv.append("br");
-            this.customizationDiv.append("br");
-            this.customizationDiv.append("br");
+        this.dashboardWidgets=this.div.append("div").attr("class", "dashboard-widgets");
 
-            this.customizationDiv.append("div").attr("class","game-customisation-lanes")
-                        .append("div").attr("class","col-xs-12").attr("id","slidecontainer-lanes")
-                        .append("input").attr("type","range").attr("min","0").attr("max","3").attr("value","0").attr("class","slider").attr("id","myRange-Lanes")
-                        .append("p").style("color","#4CAF50").style("margin-left","15px").text("Number of Track Lanes:")
-                        .append("span").attr("id","demo-Lanes");
-                        
-            this.customizationDiv.append("div").attr("class","game-customisation-hills")
-                        .append("div").attr("class","col-xs-12").attr("id","slidecontainer-hills")
-                        .append("input").attr("type","range").attr("min","0").attr("max","10").attr("value","0").attr("class","slider").attr("id","myRange-Hills")
-                        .append("p").style("color","#4CAF50").style("margin-left","15px").text("Number of Track Hills:")
-                        .append("span").attr("id","demo-Hills");
-                        
-            this.customizationDiv.append("br");
-            this.customizationDiv.append("br");
-            this.customizationDiv.append("br");
+        this.controls=this.dashboardWidgets.append("div").attr("class", "col-xs-8 text-center")
+                    .attr("id","instructions")
+                    .text(this.controlsText[0]);
 
-            this.customizationDiv.append("div").attr("class","game-customisation-obstacles")
-                        .append("div").attr("class","col-xs-12").attr("id","slidecontainer-obstacles")
-                        .append("input").attr("type","range").attr("min","0").attr("max","10").attr("value","0").attr("class","slider").attr("id","myRange-Obstacles")
-                        .append("p").style("color","#4CAF50").style("margin-left","15px").text("Number of Track Obstacles:")
-                        .append("span").attr("id","demo-Obstacles");
-
-            this.customizationDiv.append("div").attr("class","game-customisation-other-cars")
-                        .append("div").attr("class","col-xs-12").attr("id","slidecontainer-other-cars")
-                        .append("input").attr("type","range").attr("min","0").attr("max","10").attr("value","0").attr("class","slider").attr("id","myRange-Other-Cars")
-                        .append("p").style("color","#4CAF50").style("margin-left","15px").text("Number of Other Vehicles on Track:")
-                        .append("span").attr("id","demo-Other-Cars");
-
-            this.customizationDiv.append("br");
-            this.customizationDiv.append("br");
-            this.customizationDiv.append("br");
-            this.customizationDiv.append("br");
-
-            this.customizationDiv.append("div").attr("class","game-customisation-end")
-                        .append("div").attr("class","col-xs-12").attr("id","slidecontainer-end")
-                        .append("input").attr("type","range").attr("min","0").attr("max","1").attr("value","0").attr("class","slider").attr("id","myRange-End")
-                        .append("p").style("color","#4CAF50").style("margin-left","15px").text("End")
-                        .append("span").attr("id","demo-End");
-                        
-            this.customizationDiv.append("br");
-            this.customizationDiv.append("br");
-            this.customizationDiv.append("br");
-
-            this.dashboardWidgets=this.div.append("div").attr("class", "dashboard-widgets");
-
-            this.controls=this.dashboardWidgets.append("div").attr("class", "col-xs-8 text-center")
-                        .attr("id","instructions")
-                        .text("Car controls:");
+        for(iterator=1; iterator<this.controlsText.length; iterator++){
             this.controls.append("br");
-            this.controls.append("span").text("[left/right arrow keys] Turn Left/Right");
-            this.controls.append("br");
-            this.controls.append("span").text("[up/down arrow keys] Accelerate/Brake");
+            this.controls.append("span").text(this.controlsText[iterator]);
+        }
 
-            this.controls.append("br");
-            this.svg=this.dashboardWidgets.append("div")
-                        .attr("id", "gauges")
-                        .attr("class", "text-center")
-                        .style("position", "absolute")
-                        .style("margin-left", "370px")
-                        .style("margin-top", "430px")
-                        .style("zoom", "45%");
-            this.svg.append("span").attr("id","speedometer-gauge");
-            this.svg.append("span").attr("id","tachometer-gauge")
-                .style("float","right");
-            
-            d3.select("#slidecontainer-end").style("width","15%");
-
-        }else{
-            this.customizationDiv.append("div").attr("class","game-customisation-speedometer")
-                                .append("div").attr("class","col-xs-12").attr("id","slidecontainer-speedometer")
-                                .append("input").attr("type","range").attr("min","0").attr("max","400").attr("value","340").attr("class","slider").attr("id","myRange-Speedometer")
-                                .append("p").style("color","#4CAF50").style("margin-left","15px").text("Value of Speedometer:")
-                                .append("span").attr("id","demo-Speedometer");
-
-            this.customizationDiv.append("div").attr("class","game-customisation-tachometer")
-                                .append("div").attr("class","col-xs-12").attr("id","slidecontainer-tachometer")
-                                .append("input").attr("type","range").attr("min","0").attr("max","20").attr("value","16").attr("class","slider").attr("id","myRange-Tachometer")
-                                .append("p").style("color","#4CAF50").style("margin-left","15px").text("Value of Tachometer:")
-                                .append("span").attr("id","demo-Tachometer");
-            
-            this.customizationDiv.append("br");
-            this.customizationDiv.append("br");
-            this.customizationDiv.append("br");
-
-            this.customizationDiv.append("div").attr("class","game-customisation-lanes")
-                                .append("div").attr("class","col-xs-12").attr("id","slidecontainer-lanes")
-                                .append("input").attr("type","range").attr("min","0").attr("max","3").attr("value","0").attr("class","slider").attr("id","myRange-Lanes")
-                                .append("p").style("color","#4CAF50").style("margin-left","15px").text("Number of Track Lanes:")
-                                .append("span").attr("id","demo-Lanes");
-                                
-            this.customizationDiv.append("div").attr("class","game-customisation-hills")
-                                .append("div").attr("class","col-xs-12").attr("id","slidecontainer-hills")
-                                .append("input").attr("type","range").attr("min","0").attr("max","10").attr("value","0").attr("class","slider").attr("id","myRange-Hills")
-                                .append("p").style("color","#4CAF50").style("margin-left","15px").text("Number of Track Hills:")
-                                .append("span").attr("id","demo-Hills");
-                                
-            this.customizationDiv.append("br");
-            this.customizationDiv.append("br");
-            this.customizationDiv.append("br");
-
-            this.customizationDiv.append("div").attr("class","game-customisation-obstacles")
-                                .append("div").attr("class","col-xs-12").attr("id","slidecontainer-obstacles")
-                                .append("input").attr("type","range").attr("min","0").attr("max","10").attr("value","0").attr("class","slider").attr("id","myRange-Obstacles")
-                                .append("p").style("color","#4CAF50").style("margin-left","15px").text("Number of Track Obstacles:")
-                                .append("span").attr("id","demo-Obstacles");
+        this.controls.append("br");
+        this.svg=this.dashboardWidgets.append("div")
+                    .attr("id", "gauges")
+                    .attr("class", "text-center")
+                    .style("position", "absolute")
+                    .style("margin-left", this.gaugesStyles[0].marginLeft)
+                    .style("margin-top", this.gaugesStyles[0].marginTop)
+                    .style("zoom", this.gaugesStyles[0].zoom);
+                    
+        for(iterator=0; iterator<this.gauges.length; iterator++){
+            if(this.gauges[iterator].styleId!==""){
+                this.svg.append("span").attr("id",this.gauges[iterator].name).style(this.gauges[iterator].styleId,this.gauges[iterator].style);
+            }else{
+                this.svg.append("span").attr("id",this.gauges[iterator].name);
+            }
+        }
         
-            this.customizationDiv.append("div").attr("class","game-customisation-other-cars")
-                                .append("div").attr("class","col-xs-12").attr("id","slidecontainer-other-cars")
-                                .append("input").attr("type","range").attr("min","0").attr("max","10").attr("value","0").attr("class","slider").attr("id","myRange-Other-Cars")
-                                .append("p").style("color","#4CAF50").style("margin-left","15px").text("Number of Other Vehicles on Track:")
-                                .append("span").attr("id","demo-Other-Cars");
-
-            this.customizationDiv.append("br");
-            this.customizationDiv.append("br");
-            this.customizationDiv.append("br");
-            this.customizationDiv.append("br");
-
-            this.customizationDiv.append("div").attr("class","game-customisation-end")
-                                .append("div").attr("class","col-xs-12").attr("id","slidecontainer-end")
-                                .append("input").attr("type","range").attr("min","0").attr("max","1").attr("value","0").attr("class","slider").attr("id","myRange-End")
-                                .append("p").style("color","#4CAF50").style("margin-left","15px").text("End")
-                                .append("span").attr("id","demo-End");
-                                
-            this.customizationDiv.append("br");
-            this.customizationDiv.append("br");
-            this.customizationDiv.append("br");
-
-            this.dashboardWidgets=this.div.append("div").attr("class", "dashboard-widgets");
-
-            this.controls=this.dashboardWidgets.append("div").attr("class", "col-xs-8 text-center")
-                                .attr("id","instructions")
-                                .text("Car controls:");
-            this.controls.append("br");
-            this.controls.append("span").text("[left/right arrow keys] Turn Left/Right");
-            this.controls.append("br");
-            this.controls.append("span").text("[up/down arrow keys] Accelerate/Brake");
-            
-            this.controls.append("br");
-            this.svg=this.dashboardWidgets.append("div")
-                                .attr("id", "gauges")
-                                .attr("class", "text-center")
-                                .style("position", "absolute")
-                                .style("margin-left", "370px")
-                                .style("margin-top", "430px")
-                                .style("zoom", "45%");
-            this.svg.append("span").attr("id","speedometer-gauge");
-            this.svg.append("span").attr("id","tachometer-gauge")
-                        .style("float","right");
-
+        if(isMobile){
+            d3.select("#slidecontainer-end").style("width","15%");
+        }else{
             d3.select("#slidecontainer-end").style("width","6%");
         }
 
