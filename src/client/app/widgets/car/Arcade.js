@@ -20,6 +20,8 @@
  *               'example', // id of the Arcade element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
  *               { parent: 'game-window', 
+ *                 trackFilename: "track", // defines track configuration filename, which is "track.json" by default
+ *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *               } // append on div 'game-window'
  *           );
  *          // Render the Arcade widget
@@ -137,6 +139,8 @@ define(function (require, exports, module) {
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
      *          <li>parent (String): the HTML element where the display will be appended (default is "game-window").</li>
+     *          <li>trackFilename (String): the track configuration filename, i.e. JSON file with the track that will be drawed as well as the required sprite coordinates, etc (default is "track").</li>
+     *          <li>spritesFilename (String): the spritesheet configuration filename, i.e. JSON file with the all available sprites, whose coordinates are the same in trackFilename, i.e. the track must have been generated with this JSON as well so the coordinates will match (default is "spritesheet").</li>
      * @returns {Arcade} The created instance of the widget Arcade.
      * @memberof module:Arcade
      * @instance
