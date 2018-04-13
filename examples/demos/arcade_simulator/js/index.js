@@ -13,7 +13,8 @@ require.config({
         "text": "../lib/text",
         "lib": "../lib",
         "cm": "../lib/cm",
-        stateParser: './util/PVSioStateParser'
+        stateParser: './util/PVSioStateParser',
+        jchronometer: '../lib/jchronometer/jchronometer.js'
     }
 });
 
