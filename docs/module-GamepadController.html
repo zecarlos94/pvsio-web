@@ -805,68 +805,6 @@ https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_A
 
 
 <div class="description">
-    Listening for event 'gamepadconnected' to update known gamepads array.
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GamepadController.js.html">GamepadController.js</a>, <a href="GamepadController.js.html#line168">line 168</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="gamepadEvents"><span class="type-signature"></span>gamepadEvents<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
     Listening for event 'gamepaddisconnected' to update known gamepads array.
 </div>
 
@@ -906,6 +844,68 @@ https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_A
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="GamepadController.js.html">GamepadController.js</a>, <a href="GamepadController.js.html#line181">line 181</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="gamepadEvents"><span class="type-signature"></span>gamepadEvents<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Listening for event 'gamepadconnected' to update known gamepads array.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="GamepadController.js.html">GamepadController.js</a>, <a href="GamepadController.js.html#line168">line 168</a>
     </li></ul></dd>
     
 
@@ -1491,6 +1491,186 @@ https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_A
     
 
     
+    <h4 class="name" id="calculateRotationAngle"><span class="type-signature"></span>calculateRotationAngle<span class="signature">(y, x)</span><span class="type-signature"> &rarr; {angle}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    calculateRotationAngle method of the GamepadController widget. This method converts angles from radians to degrees. Default sensitivity is 100.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The value of vertical axis(up to/or down), between -1 and 1.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The value of horizontal axis(left to/or right), between -1 and 1.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="GamepadController.js.html">GamepadController.js</a>, <a href="GamepadController.js.html#line518">line 518</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The angle in degrees calculated based on horizontal and vertical axis values read from gamepad.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">angle</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="calculateRotationAngle"><span class="type-signature"></span>calculateRotationAngle<span class="signature">(y, x, sensitivity)</span><span class="type-signature"> &rarr; {angle}</span></h4>
     
 
@@ -1639,186 +1819,6 @@ https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_A
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="GamepadController.js.html">GamepadController.js</a>, <a href="GamepadController.js.html#line551">line 551</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    The angle in degrees calculated based on horizontal and vertical axis values read from gamepad.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">angle</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="calculateRotationAngle"><span class="type-signature"></span>calculateRotationAngle<span class="signature">(y, x)</span><span class="type-signature"> &rarr; {angle}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    calculateRotationAngle method of the GamepadController widget. This method converts angles from radians to degrees. Default sensitivity is 100.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Float</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The value of vertical axis(up to/or down), between -1 and 1.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>x</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Float</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The value of horizontal axis(left to/or right), between -1 and 1.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GamepadController.js.html">GamepadController.js</a>, <a href="GamepadController.js.html#line518">line 518</a>
     </li></ul></dd>
     
 
@@ -4554,7 +4554,7 @@ Also invokes updateStatus method to continuously update the aforementioned div w
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Apr 13 2018 09:35:22 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Apr 13 2018 10:22:51 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

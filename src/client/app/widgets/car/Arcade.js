@@ -182,6 +182,7 @@ define(function (require, exports, module) {
             height: 750
         }, {
             callback: opt.callback,
+            soundOff: "false",
             songs: [
                     {
                         url: "../../client/app/widgets/car/configurations/song/sound.mp3",
@@ -203,6 +204,7 @@ define(function (require, exports, module) {
         });
 
         soundWidget.hide();
+        soundOff = soundWidget.getSoundOff();
 
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
@@ -431,16 +433,17 @@ define(function (require, exports, module) {
                         } 
                     });
                     chronometer.start();
-    
+                    soundOff = soundWidget.getSoundOff();
                     if(!soundOff){
                         soundWidget.playSound(2); //startup song
                         soundWidget.playSound(0); //background song
                         soundWidget.setVolume(0.4,0);
-                        // sounds = $('audio');
-                        // sounds[0].onended = function() {
-                        //     soundWidget.playSound(1); //idle song
-                        //     soundWidget.setVolume(1.0,1);
-                        // };
+                        soundWidget.onEndedSound(2,[
+                            {
+                            indexPlayNext: 1, //idle song
+                            newVolume: 1.0
+                            }
+                        ]);
                     }
                 }
             }else{
@@ -480,16 +483,17 @@ define(function (require, exports, module) {
             soundWidget.reveal();
             soundWidget.unmute();
             soundWidget.pauseAll();
-      
+            soundOff = soundWidget.getSoundOff();
             if(!soundOff){
                 soundWidget.playSound(2); //startup song
                 soundWidget.playSound(0); //background song
                 soundWidget.setVolume(0.4,0);
-                // sounds = $('audio');
-                // sounds[0].onended = function() {
-                //     soundWidget.playSound(1); //idle song
-                //     soundWidget.setVolume(1.0,1);
-                // };
+                soundWidget.onEndedSound(2,[
+                    {
+                    indexPlayNext: 1, //idle song
+                    newVolume: 1.0
+                    }
+                ]);
             }
         }
     }
@@ -531,16 +535,17 @@ define(function (require, exports, module) {
             soundWidget.reveal();
             soundWidget.unmute();
             soundWidget.pauseAll();
-      
+            soundOff = soundWidget.getSoundOff();
             if(!soundOff){
                 soundWidget.playSound(2); //startup song
                 soundWidget.playSound(0); //background song
                 soundWidget.setVolume(0.4,0);
-                // sounds = $('audio');
-                // sounds[0].onended = function() {
-                //     soundWidget.playSound(1); //idle song
-                //     soundWidget.setVolume(1.0,1);
-                // };
+                soundWidget.onEndedSound(2,[
+                    {
+                    indexPlayNext: 1, //idle song
+                    newVolume: 1.0
+                    }
+                ]);
             }
         }
     }
@@ -794,6 +799,7 @@ define(function (require, exports, module) {
       
         } else {
             // readSprite acceleration controls
+            soundOff = soundWidget.getSoundOff();
             if (keys[38]) { // 38 up
                 controllable_car.speed += controllable_car.acceleration;
                 if(!soundOff){
@@ -1018,8 +1024,7 @@ define(function (require, exports, module) {
         // Draw the car 
         
         Arcade.prototype.drawImage(carSprite.car, carSprite.x, carSprite.y, 1);
-
-        
+    
         // Draw Header 
         Arcade.prototype.drawText(""+Math.round(absoluteIndex/(trackParam.numZones-render.depthOfField)*100)+"%",{x: 10, y: 1});
         
@@ -1069,11 +1074,9 @@ define(function (require, exports, module) {
         //register key handeling:
         window.onkeydown = function(e){
             keys[e.keyCode] = true;
-            console.log(e);
         };
         window.onkeyup = function(e){
             keys[e.keyCode] = false;
-            console.log(e);
         };
         return this;
     };

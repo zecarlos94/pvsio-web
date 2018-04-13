@@ -80,6 +80,7 @@ define(function (require, exports, module) {
         opt.mutedImg = opt.mutedImg || "../../client/app/widgets/car/configurations/img/muted.png";
         opt.notMutedImg = opt.notMutedImg || "../../client/app/widgets/car/configurations/img/notMuted.png";
         opt.songs = opt.songs || {};
+        opt.soundOff = opt.soundOff;
         this.numberSongs = (opt.songs) ? opt.songs.length : 0;
     
         this.id = id;
@@ -87,6 +88,8 @@ define(function (require, exports, module) {
         this.left = coords.left || 100;
         this.width = coords.width || 750;
         this.height = coords.height || 750;
+
+        this.soundOff = (opt.soundOff) ? opt.soundOff : null;
 
         this.mutedImg = (opt.mutedImg) ? opt.mutedImg : "../../client/app/widgets/car/configurations/img/muted.png";
         this.notMutedImg = (opt.notMutedImg) ? opt.notMutedImg : "../../client/app/widgets/car/configurations/img/notMuted.png";
@@ -105,6 +108,12 @@ define(function (require, exports, module) {
         this.div.append("img").attr("id", "unmute")
                               .attr("src", this.notMutedImg)
                               .style("display","none");
+
+        if(this.soundOff!==null){
+            this.div.append("p").attr("id", "soundOff")
+                                .style("visibility","hidden")
+                                .text(this.soundOff);
+        }
 
         this.body = d3.select("body");
        
@@ -206,6 +215,27 @@ define(function (require, exports, module) {
         return this.div;
     };
 
+  
+    /**
+     * @function onEndedSound
+     * @description onEndedSound method of the Sound widget. This method plays multiple known sounds, given by index parameter.
+     * @param indexOnEnded (Integer) This parameter is the index of the intended sound to be listening for its onended value.
+     * @param arrayNext (Array) This parameter is an array of objects, indexPlayNext and newVolume, which allows to play and set volume of multiple sounds after indexOnEnded sound ended.
+     * @memberof module:Sound
+     * @instance
+     */
+    Sound.prototype.onEndedSound = function (indexOnEnded, arrayNext) {
+        let a;
+        sounds[indexOnEnded].onended = function() {
+            for(a=0;a<arrayNext.length;a++){
+                sounds[arrayNext[a].indexPlayNext].play();
+                sounds[arrayNext[a].indexPlayNext].volume = arrayNext[a].newVolume;
+            }
+        };
+      
+        return this;
+    };
+
      /**
      * @function playSound
      * @description PlaySound method of the Sound widget. This method plays a specific known sound, given by index parameter.
@@ -293,6 +323,10 @@ define(function (require, exports, module) {
      * @instance
      */
     Sound.prototype.mute = function () {
+        if(this.soundOff!==null){
+            this.soundOffDiv = d3.select("#soundOff");
+            this.soundOffDiv.text("true");
+        }
         this.muteDiv   = d3.select("#mute");
         this.unmuteDiv = d3.select("#unmute");
         this.muteDiv.style("display", "inline");
@@ -308,11 +342,29 @@ define(function (require, exports, module) {
      * @instance
      */
     Sound.prototype.unmute = function () {
+        if(this.soundOff!==null){
+            this.soundOffDiv = d3.select("#soundOff");
+            this.soundOffDiv.text("false");
+        }
         this.muteDiv   = d3.select("#mute");
         this.unmuteDiv = d3.select("#unmute");
         this.muteDiv.style("display", "none");
         this.unmuteDiv.style("display", "inline");
         this.playAll();
+        return this;
+    };
+
+    /**
+     * @function getSoundOff
+     * @description GetSoundOff method of the Sound widget. This method returns the value of soundOffDiv.
+     * @memberof module:Sound
+     * @instance
+     */
+    Sound.prototype.getSoundOff = function () {
+        if(this.soundOff!==null){
+            this.soundOffDiv = d3.select("#soundOff");
+            return(JSON.parse(this.soundOffDiv[0][0].innerHTML));
+        }
         return this;
     };
 
