@@ -96,6 +96,38 @@ require([
             height: 650
         }, {
             parent: "content", // defines parent div, which is div id="content" by default
+            spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+            render: {
+                width: 320,
+                height: 240,
+                depthOfField: 150,
+                camera_distance: 30,
+                camera_height: 100
+            },
+            trackSegmentSize: 5,
+            numberOfSegmentPerColor: 4,
+            numLanes: 3,
+            laneWidth: 0.02,
+            trackConfigurations: {
+                maxHeight: 900,
+                maxCurve:  400,
+                numZones:    12, // number of different portions of the track
+                curvy:     0.8,
+                mountainy: 0.8,
+                zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
+            },
+            // Information regarding current controllable_car's car
+            controllable_car: {
+                position: 10,
+                speed: 0,
+                acceleration: 0.05,
+                deceleration: 0.04,
+                breaking: 0.3,
+                turning: 5.0,
+                posx: 0,
+                maxSpeed: 20
+            },
+            topSpeed: 250,
             callback: onMessageReceived
         });
 

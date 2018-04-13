@@ -46,6 +46,7 @@ define(function (require, exports, module) {
     let Sound = require("widgets/car/Sound");
 
     let spritesheetJSON,spritesReadJSON;
+    
     // Random numbers to place sprites randomly within the landscape territory
     let randomPos = Math.random;
     let sprites;
@@ -54,45 +55,14 @@ define(function (require, exports, module) {
     let generatedObstacles=[];
     let car_faced_front, car_faced_left, car_faced_right, car2_faced_front, car2_faced_left, car2_faced_right, background, tree, boulder, logo;
 
-    const render = {
-        width: 320,
-        height: 240,
-        depthOfField: 150,
-        camera_distance: 30,
-        camera_height: 100
-    };
-    const trackSegmentSize = 5;
-    const numberOfSegmentPerColor = 4;
-    const numLanes = 3;
-    const laneWidth = 0.02;
-    const trackParam = {
-        maxHeight: 900,
-        maxCurve:  400,
-        numZones:    12, // number of different portions of the track
-        curvy:     0.8,
-        mountainy: 0.8,
-        zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
-    }
-    let params = {
-        maxHeight: 900,
-        maxCurve:  400,
-        numZones:    12, // number of different portions of the track
-        curvy:     0.8,
-        mountainy: 0.8,
-        zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
-    }
-    // Information regarding current controllable_car's car
-    let controllable_car = {
-        position: 10,
-        speed: 0,
-        acceleration: 0.05,
-        deceleration: 0.04,
-        breaking: 0.3,
-        turning: 5.0,
-        posx: 0,
-        maxSpeed: 20
-    };
-    const topSpeed = 250;
+    let render;
+    let trackSegmentSize;
+    let numberOfSegmentPerColor;
+    let numLanes;
+    let laneWidth;
+    let trackConfigurations;
+    let controllable_car;
+    let topSpeed;
 
     let generatedJSON;
     
@@ -113,13 +83,30 @@ define(function (require, exports, module) {
         opt = opt || {};
         coords = coords || {};
         opt.parent = opt.parent || "game-window";
-        opt.spritesFilename = opt.spritesFilename;
-    
+        opt.spritesFilename = opt.spritesFilename;        
+        opt.render = opt.render;
+        opt.trackSegmentSize = opt.trackSegmentSize;
+        opt.numberOfSegmentPerColor = opt.numberOfSegmentPerColor;
+        opt.numLanes = opt.numLanes;
+        opt.laneWidth = opt.laneWidth;
+        opt.trackConfigurations = opt.trackConfigurations; 
+        opt.controllable_car = opt.controllable_car;
+        opt.topSpeed = opt.topSpeed;
+
         this.id = id;
         this.top = coords.top || 100;
         this.left = coords.left || 700;
         this.width = coords.width || 750;
         this.height = coords.height || 750;
+
+        render                  = (opt.render) ? opt.render : { width: 320, height: 240, depthOfField: 150, camera_distance: 30, camera_height: 100 };
+        trackSegmentSize        = (opt.trackSegmentSize) ? opt.trackSegmentSize : 5;
+        numberOfSegmentPerColor = (opt.numberOfSegmentPerColor) ? opt.numberOfSegmentPerColor : 4;
+        numLanes                = (opt.numLanes) ? opt.numLanes : 3;
+        laneWidth               = (opt.laneWidth) ? opt.laneWidth: 0.02;
+        trackConfigurations     = (opt.trackConfigurations) ? opt.trackConfigurations : { maxHeight: 900, maxCurve: 400, numZones: 12, /*number of different portions of the track*/ curvy: 0.8, mountainy: 0.8, zoneSize:  250 /*length of each numZones (the bigger this value. the longer it will take to finish)*/ }
+        controllable_car        = (opt.controllable_car) ? opt.controllable_car : { position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20 };
+        topSpeed                = (opt.topSpeed) ? opt.topSpeed : 250;
 
         this.parent = (opt.parent) ? ("#" + opt.parent) : "game-window";
         this.spritesFilename = (opt.spritesFilename) ? ("text!widgets/car/configurations/" + opt.spritesFilename + ".json") : "text!widgets/car/configurations/spritesheet.json";
@@ -175,7 +162,7 @@ define(function (require, exports, module) {
         }
         Widget.call(this, id, coords, opt);
         TrackGenerator.prototype.generateStraightTrack();
-        // console.log(JSON.stringify(generatedJSON));
+        console.log(JSON.stringify(generatedJSON));
         
         return this;
     }
@@ -212,7 +199,7 @@ define(function (require, exports, module) {
      */
     TrackGenerator.prototype.generateStraightTrack = () => {
         // Generate current Zone
-        let numIterations = params.numZones * params.zoneSize;
+        let numIterations = trackConfigurations.numZones * trackConfigurations.zoneSize;
         let sprite = null;
         let spritePos = null;
         let spritePosgeneratedObstaclesRandom = null;
@@ -298,7 +285,7 @@ define(function (require, exports, module) {
             
         }
     
-        params.numZones = numIterations; 
+        trackConfigurations.numZones = numIterations; 
 
         generatedJSON = {
             controllable_car: controllable_car,
@@ -308,7 +295,7 @@ define(function (require, exports, module) {
             render: render,
             topSpeed: topSpeed,
             track: generatedTrack,
-            trackParam: trackParam,
+            trackConfigurations: trackConfigurations,
             trackSegmentSize: trackSegmentSize,
             trackColors: {
                 grass1: "#699864",
