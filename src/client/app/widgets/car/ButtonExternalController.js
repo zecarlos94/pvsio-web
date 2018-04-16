@@ -67,6 +67,7 @@ define(function (require, exports, module) {
         opt.axisY = opt.axisY || "";
         // Added property buttonClass to add JQuery UI Classes on VirtualKeypadController Widget
         opt.buttonClass = opt.buttonClass || "";
+        opt.arrowName = opt.arrowName || "";
         opt.title = opt.title || "";
         opt.icon = opt.icon || "";
         opt.keyCode = opt.keyCode || "";
@@ -86,6 +87,7 @@ define(function (require, exports, module) {
         this.axisY = property.call(this, opt.axisY);
         // Added property buttonClass to add JQuery UI Classes on VirtualKeypadController Widget
         this.buttonClass = property.call(this, opt.buttonClass);
+        this.arrowName = property.call(this, opt.arrowName);
         this.title = property.call(this, opt.title);
         this.icon = property.call(this, opt.icon);
         this.keyCode = property.call(this, opt.keyCode);
@@ -117,7 +119,7 @@ define(function (require, exports, module) {
             var x3 = this.top + this.height;
 
             if(isMobile){
-                if(id==="accelerate"){ // this id 'accelerate' is necessary to have the visual appearance in VirtualKeypadController widget as in the real keyboard, i.e., having 3 arrows aligned at the bottom and 1 arrow in the middle above them.
+                if(opt.arrowName!==""){ // this opt.arrowName is necessary to have the visual appearance in VirtualKeypadController widget as in the real keyboard, i.e., having 3 arrows aligned at the bottom and 1 arrow in the middle above them.
                     this.area.attr("id", id).attr("class", opt.buttonClass)
                     .attr("title", opt.title).style("width","60px").style("height","60px").style("margin-left","80px").append("span").attr("class", "ui-button-icon ui-icon "+opt.icon);
                 
@@ -129,7 +131,7 @@ define(function (require, exports, module) {
                     this.area.attr("id", id).append("span").attr("class", "ui-button-icon-space"); 
                 }
             }else{
-                if(id==="accelerate"){ // this id 'accelerate' is necessary to have the visual appearance in VirtualKeypadController widget as in the real keyboard, i.e., having 3 arrows aligned at the bottom and 1 arrow in the middle above them.
+                if(opt.arrowName!==""){ // this opt.arrowName is necessary to have the visual appearance in VirtualKeypadController widget as in the real keyboard, i.e., having 3 arrows aligned at the bottom and 1 arrow in the middle above them.
                     this.area.attr("id", id).attr("class", opt.buttonClass)
                     .attr("title", opt.title).style("margin-left","31px").style("margin-bottom","5px").append("span").attr("class", "ui-button-icon ui-icon "+opt.icon);
                 

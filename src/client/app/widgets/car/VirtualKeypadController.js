@@ -89,6 +89,9 @@ define(function (require, exports, module) {
         opt.keyboardImageWidthDesktop = opt.keyboardImageWidthDesktop || 50;
         opt.keyboardImageHeightDesktop = opt.keyboardImageHeightDesktop || 30;
 
+        opt.arrowKeysPVS = opt.arrowKeysPVS;
+        opt.otherKeysPVS = opt.otherKeysPVS;
+
         opt.parent = opt.parent || "virtualKeyPad";
         opt.simulatorActions = opt.simulatorActions || "simulatorActions";
         opt.simulatorArrows = opt.simulatorArrows || "simulatorArrows";
@@ -118,6 +121,9 @@ define(function (require, exports, module) {
         this.keyboardImageHeightMobile = opt.keyboardImageHeightMobile;
         this.keyboardImageWidthDesktop = opt.keyboardImageWidthDesktop;
         this.keyboardImageHeightDesktop = opt.keyboardImageHeightDesktop;
+
+        this.arrowKeysPVS = (opt.arrowKeysPVS && opt.arrowKeysPVS.length===4) ? opt.arrowKeysPVS : [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"];
+        this.otherKeysPVS = (opt.otherKeysPVS && opt.otherKeysPVS.length===3) ? opt.otherKeysPVS : [ "quit", "pause", "resume" ];
 
         this.parent = (opt.parent) ? ("#" + opt.parent) : null;
         this.simulatorActions = opt.simulatorActions;
@@ -204,9 +210,9 @@ define(function (require, exports, module) {
 
         // create virtual buttons to emulate an arrow keyboard
         opt.upArrow = opt.upArrow || {};
-        opt.upArrow.functionText = opt.upArrow.functionText || ("accelerate");
+        opt.upArrow.functionText = opt.upArrow.functionText || (this.arrowKeysPVS[0]);
         opt.upArrow.keyCode = opt.upArrow.keyCode || 38;
-        this.btn_upArrow = new ButtonExternalController("accelerate", {
+        this.btn_upArrow = new ButtonExternalController(this.arrowKeysPVS[0], {
             left: 0, top: 0, height: 0, width: 0
         }, {
             customFunctionText: opt.upArrow.functionText,
@@ -217,13 +223,14 @@ define(function (require, exports, module) {
             buttonClass: this.buttonClass,
             title: this.title,
             icon: "ui-icon-arrow-1-n",
+            arrowName: this.arrowKeysPVS[0],
             evts: ['press/release']
         });
 
         opt.leftArrow = opt.leftArrow || {};
-        opt.leftArrow.functionText = opt.leftArrow.functionText || ("steering_wheel_left");
+        opt.leftArrow.functionText = opt.leftArrow.functionText || (this.arrowKeysPVS[2]);
         opt.leftArrow.keyCode = opt.leftArrow.keyCode || 37;
-        this.btn_leftArrow = new ButtonExternalController("steering_wheel_left", {
+        this.btn_leftArrow = new ButtonExternalController(this.arrowKeysPVS[2], {
             left: 0, top: 0, height: 0, width: 0
         }, {
             customFunctionText: opt.leftArrow.functionText,
@@ -237,9 +244,9 @@ define(function (require, exports, module) {
         });
 
         opt.downArrow = opt.downArrow || {};
-        opt.downArrow.functionText = opt.downArrow.functionText || ("brake");
+        opt.downArrow.functionText = opt.downArrow.functionText || (this.arrowKeysPVS[1]);
         opt.downArrow.keyCode = opt.downArrow.keyCode || 40;
-        this.btn_downArrow = new ButtonExternalController("brake", {
+        this.btn_downArrow = new ButtonExternalController(this.arrowKeysPVS[1], {
             left: 0, top: 0, height: 0, width: 0
         }, {
             customFunctionText: opt.downArrow.functionText,
@@ -254,9 +261,9 @@ define(function (require, exports, module) {
         });
 
         opt.rightArrow = opt.rightArrow || {};
-        opt.rightArrow.functionText = opt.rightArrow.functionText || ("steering_wheel_right");
+        opt.rightArrow.functionText = opt.rightArrow.functionText || (this.arrowKeysPVS[3]);
         opt.rightArrow.keyCode = opt.rightArrow.keyCode || 39;
-        this.btn_rightArrow = new ButtonExternalController("steering_wheel_right", {
+        this.btn_rightArrow = new ButtonExternalController(this.arrowKeysPVS[3], {
             left: 0, top: 0, height: 0, width: 0
         }, {
             customFunctionText: opt.rightArrow.functionText,
@@ -270,9 +277,9 @@ define(function (require, exports, module) {
         });
 
         opt.quit = opt.quit || {};
-        opt.quit.functionText = opt.quit.functionText || ("quit");
+        opt.quit.functionText = opt.quit.functionText || (this.otherKeysPVS[0]);
         opt.quit.keyCode = opt.quit.keyCode || 81; // q key
-        this.btn_quit = new ButtonExternalController("quit", {
+        this.btn_quit = new ButtonExternalController(this.otherKeysPVS[0], {
             left: 0, top: 0, height: 0, width: 0
         }, {
             customFunctionText: opt.quit.functionText,
@@ -287,9 +294,9 @@ define(function (require, exports, module) {
         });
 
         opt.pause = opt.pause || {};
-        opt.pause.functionText = opt.pause.functionText || ("pause");
+        opt.pause.functionText = opt.pause.functionText || (this.otherKeysPVS[1]);
         opt.pause.keyCode = opt.pause.keyCode || 83; // s key
-        this.btn_pause = new ButtonExternalController("pause", {
+        this.btn_pause = new ButtonExternalController(this.otherKeysPVS[1], {
             left: 0, top: 0, height: 0, width: 0
         }, {
             customFunctionText: opt.pause.functionText,
@@ -304,9 +311,9 @@ define(function (require, exports, module) {
         });
 
         opt.resume = opt.resume || {};
-        opt.resume.functionText = opt.resume.functionText || ("resume");
+        opt.resume.functionText = opt.resume.functionText || (this.otherKeysPVS[2]);
         opt.resume.keyCode = opt.resume.keyCode || 32; // spacebar
-        this.btn_resume = new ButtonExternalController("resume", {
+        this.btn_resume = new ButtonExternalController(this.otherKeysPVS[2], {
             left: 0, top: 0, height: 0, width: 0
         }, {
             customFunctionText: opt.resume.functionText,

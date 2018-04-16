@@ -359,6 +359,8 @@ require([
             blockArrows: "blockArrows",
             buttonClass: "ui-button ui-corner-all ui-widget ui-button-icon-only",
             title: "Button with icon only",
+            arrowKeysPVS: [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"],
+            otherKeysPVS: [ "quit", "pause", "resume" ],
             callback: onMessageReceived
         });
 
@@ -371,6 +373,7 @@ require([
         // }, {
         //     parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
         //     style: "xbox", // defines parent div, which is "ps4" by default
+        //     // buttonsPVS: [ "accelerate", "brake", "y", "x", "menu", "windows", "xbox", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
         //     callback: onMessageReceived
         // });
         car.drawGamepad = new DrawGamepad("drawGamepad", {
@@ -381,6 +384,7 @@ require([
         }, {
             parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
             style: "ps4", // defines parent div, which is "ps4" by default
+            // buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
             callback: onMessageReceived
         });
         // ----------------------------- GYROSCOPE COMPONENTS -----------------------------
@@ -403,6 +407,8 @@ require([
             car.steeringWheel.render(evaluate(res.steering));
             car.gamepadController.render();
             car.gyroscopeController.render();
+            // car.drawGamepad.callPressReleasePVS("accelerate");
+            // car.drawGamepad.callClickPVS("leftStick");
         }
 
         // // Full Left
