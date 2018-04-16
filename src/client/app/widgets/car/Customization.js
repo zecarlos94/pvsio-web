@@ -253,6 +253,11 @@ define(function (require, exports, module) {
             d3.select("#slidecontainer-end").style("width","6%");
         }
 
+        this.customizationDiv.append("p")
+                             .attr("id","selectedSteeringWheel")
+                             .style("visibility", "hidden")
+                             .text("");
+
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
 
@@ -272,6 +277,356 @@ define(function (require, exports, module) {
      */
     Customization.prototype.reveal = function () {
         return this.div;
+    };
+
+    /**
+     * @function removeSpeedometer
+     * @description RemoveSpeedometer method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.removeSpeedometer = function (id) {
+        let parent = document.getElementById(id);
+        let child = document.getElementById("last-gauge");
+        parent.removeChild(child);
+        return this;
+    };
+
+    /**
+     * @function removeSpeedometer
+     * @description RemoveSpeedometer method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.removeTachometer = function (id) {
+        let parent = document.getElementById(id);
+        let child = document.getElementById("last-gauge");
+        parent.removeChild(child);
+        return this;
+    };
+
+    /**
+     * @function setInitRenderingDiv
+     * @description SetInitRenderingDiv method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.setInitRenderingDiv = function () {
+        let steeringWheel;
+
+        $("#selectImage").imagepicker({
+            hide_select: true
+        });
+    
+        let $container = $('.image_picker_selector');
+        // initialize
+        $container.imagesLoaded( () => {
+            $container.masonry({
+                columnWidth: 30,
+                itemSelector: '.thumbnail'
+            });
+        });
+
+        $("#mySidenav").css({ width: "630px" });
+        $("#menu").css({ marginLeft: "450px", visibility: "hidden" });
+        $('#game-window').css('border', '5px solid black');
+        $("#instructions").css({ marginLeft: "-60px" });
+        $(".dashboard-widgets").css({ visibility: "hidden" });
+        
+        Customization.prototype.setImagePicker();
+        
+        $("#steering_wheel").css({ visibility: "hidden" });
+        $('#steering_wheel').attr('class','last-steering_wheel');
+        return this;
+    }
+    /**
+     * @function setImagePicker
+     * @description SetImagePicker method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.setImagePicker = function () {
+        
+        $(".image-picker").imagepicker({
+            hide_select: true,
+            selected: function (option) {
+                let values = this.val();
+                let path = ($(this).find("option[value='" + $(this).val() + "']").data('img-src'));
+                // console.log(values);
+                // console.log(path);
+                let steeringWheelStyle = values.split("_");       
+                steeringWheelStyle[0];
+
+                d3.select("#selectedSteeringWheel")
+                  .text(steeringWheelStyle[0]);
+                
+                $("#track_img").css({ visibility: "visible" });
+                $("#track_img").attr('src', path);
+            }
+        }); 
+        return this;   
+    }
+
+    /**
+     * @function getSteeringWheelImage
+     * @description GetSteeringWheelImage method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.getSteeringWheelImage = function () {        
+        return $("#selectedSteeringWheel").text();
+    }
+
+    
+    /**
+     * @function setLastRenderingDiv
+     * @description SetLastRenderingDiv method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.setLastRenderingDiv = function (className) {
+        d3.selectAll("."+className).attr('id','last-gauge');
+        return this;
+    }
+
+    /**
+     * @function reRenderedWindowCSS
+     * @description ReRenderedWindowCSS method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.reRenderedWindowCSS = function () {
+
+        let aux = [
+            {
+                id: "steering_wheel",
+                class: "last-steering_wheel",
+                styles: [
+                    {
+                        display: ""
+                    }
+                ]
+            },
+            {
+                id: "mySidenav",
+                class: null,
+                styles: [
+                    {
+                        width: "0px"
+                    }
+                ]
+            },
+            {
+                id: "menu",
+                class: null,
+                styles: [
+                    {
+                        margin_left: "-170px",
+                        margin_left: "0px",
+                        visibility: "visible"
+                    }
+                ]
+            },
+            {
+                id: "track_img",
+                class: null,
+                styles: [
+                    {
+                        visibility: "hidden"
+                    }
+                ]
+            },
+
+            {
+                id: "instructions",
+                class: null,
+                styles: [
+                    {
+                        margin_left: "650px",
+                        margin_top: "-740px",
+                        visibility: "visible"
+                    }
+                ]
+            },
+
+            {
+                id: "gauges",
+                class: null,
+                styles: [
+                    {
+                        position: "absolute",
+                        margin_left: "350px",
+                        margin_top: "-810px",
+                        visibility: "visible"
+                    }
+                ]
+            },
+
+            {
+                id: "steering_wheel",
+                class: null,
+                styles: [
+                    {
+                        margin_top: "200px",
+                        visibility: "visible"
+                    }
+                ]
+            },
+
+            {
+                id: "gamepadImage",
+                class: null,
+                styles: [
+                    {
+                        visibility: "visible"
+                    }
+                ]
+            },
+
+            {
+                id: null,
+                class: "dashboard-widgets",
+                styles: [
+                    {
+                        margin_top: "200px"
+                    }
+                ]
+            },
+
+            {
+                id: null,
+                class: "customization",
+                styles: [
+                    {
+                        visibility: "hidden"
+                    }
+                ]
+            },
+        ];
+
+        // styles.replace("_", "-");
+
+        d3.select("#steering_wheel")
+          .attr("class", "last-steering_wheel")
+          .style("display", "");
+
+        d3.select("#mySidenav")
+          .style("width", "0px");
+
+        d3.select("#menu")
+          .style("margin-left", "-170px")
+          .style("margin-top", "0px")
+          .style("visibility", "visible");
+       
+        d3.select("#track_img")
+          .style("visibility", "hidden");
+
+        d3.select(".customization")
+          .style("visibility", "hidden");
+
+        d3.select("#instructions")
+          .style("margin-left", "650px")
+          .style("margin-top", "-740px")
+          .style("visibility", "visible");
+
+        d3.select("#gauges")
+          .style("position","absolute")
+          .style("margin-left", "350px")
+          .style("margin-top", "-810px")
+          .style("visibility", "visible");
+
+        d3.select("#steering_wheel")
+          .style("visibility", "visible")
+          .style("margin-top", "200px");
+
+        d3.select("#gamepadImage")
+          .style("visibility", "visible"); 
+
+        d3.select(".dashboard-widgets")
+          .style("margin-top", "200px");
+
+        return this;
+    };
+
+    /**
+     * @function removeSteeringWheel
+     * @description RemoveSteeringWheel method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.removeSteeringWheel = function (id) {
+        let child = document.getElementById(id);
+        child.parentNode.removeChild(child);
+        return this;
+    };
+
+    /**
+     * @function rangeEvents
+     * @description RangeEvents method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.rangeEvents = function () {
+        let sliders = {
+            maxValueSpeedometer: null,
+            maxValueTachometer: null,
+            maxValueLanes: null,
+            maxValueHills: null,
+            maxValueObstacles: null,
+            maxValueOtherCars: null
+        };
+
+        // Speedometer
+        $("#myRange-Speedometer").on("input", (e) => {
+            $("#demo-Speedometer").text( $(e.target).val() );
+            // maxValueSpeedometer = $("#myRange-Speedometer").val();
+            sliders.maxValueSpeedometer = $("#myRange-Speedometer").val();
+            document.getElementById("myRange-End").value = "0";            
+        });
+
+        $("#myRange-Speedometer").trigger("input");
+
+        // Tachometer
+        $("#myRange-Tachometer").on("input", (e) => {
+            $("#demo-Tachometer").text( $(e.target).val() );
+            // maxValueTachometer = $("#myRange-Tachometer").val();
+            sliders.maxValueTachometer = $("#myRange-Tachometer").val();
+            document.getElementById("myRange-End").value = "0";
+        });
+
+        $("#myRange-Tachometer").trigger("input");
+
+        // Hills
+        // $("#myRange-Hills").on("input", (e) => {
+        //     $("#demo-Hills").text( $(e.target).val() );
+        //     maxValueTachometer = $("#myRange-Hills").val();
+        //     //console.log("MAX HILLS: "+maxValueHills);
+        //     });
+
+        //     $("#myRange-Hills").val("This is a test");
+        //     $("#myRange-Hills").trigger("input");
+
+        // Obstacles
+        // $("#myRange-Obstacles").on("input", (e) => {
+        //     $("#demo-Obstacles").text( $(e.target).val() );
+        //     maxValueTachometer = $("#myRange-Obstacles").val();
+        //     //console.log("MAX OBSTACLES: "+maxValueObstacles);
+        //     });
+
+        //     $("#myRange-Obstacles").val("This is a test");
+        //     $("#myRange-Obstacles").trigger("input");
+
+        // Other-Cars
+        // $("#myRange-Other-Cars").on("input", (e) => {
+        //     $("#demo-Other-Cars").text( $(e.target).val() );
+        //     maxValueTachometer = $("#myRange-Other-Cars").val();
+        //     //console.log("MAX OTHER CARS: "+maxValueOtherCars);
+        //     });
+
+        //     $("#myRange-Other-Cars").val("This is a test");
+        //     $("#myRange-Other-Cars").trigger("input");
+
+        return sliders;
     };
 
     /**

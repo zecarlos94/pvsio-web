@@ -75,13 +75,15 @@ require([
         let startMessage = 0;
         let reRenderEnd=0;
         let steeringWheel = "ferrari";
-        let maxValueSpeedometer=$("#myRange-Speedometer").val();
-        let maxValueTachometer=$("#myRange-Tachometer").val();
-        let maxValueLanes=$("#myRange-Lanes").val();
-        let maxValueHills=$("#myRange-Hills").val();
-        let maxValueObstacles=$("#myRange-Obstacles").val();
-        let maxValueOtherCars=$("#myRange-Other-Cars").val();
         let maxValueEnd=$("#myRange-End").val();
+        let sliders = {
+            maxValueSpeedometer: null,
+            maxValueTachometer: null,
+            maxValueLanes: null,
+            maxValueHills: null,
+            maxValueObstacles: null,
+            maxValueOtherCars: null
+        };
                               
         let start_tick = () => {
             //if (!tick) {
@@ -242,8 +244,8 @@ require([
             min: 0,
             label: "x1000/min"
         });
-
-        $('.gauge').attr('id','last-gauge');
+        
+        car.customization.setLastRenderingDiv("gauge");
 
         // ---------------- STEERING WHEEL ----------------
         car.steeringWheel = new SteeringWheel("steering_wheel", {
@@ -256,43 +258,7 @@ require([
             callback: onMessageReceived
         });
 
-        $("#selectImage").imagepicker({
-            hide_select: true
-        });
-    
-        let $container = $('.image_picker_selector');
-        // initialize
-        $container.imagesLoaded( () => {
-            $container.masonry({
-                columnWidth: 30,
-                itemSelector: '.thumbnail'
-            });
-        });
-
-        $("#mySidenav").css({ width: "630px" });
-        $("#menu").css({ marginLeft: "450px", visibility: "hidden" });
-        $('#game-window').css('border', '5px solid black');
-        $("#instructions").css({ marginLeft: "-60px" });
-        $(".dashboard-widgets").css({ visibility: "hidden" });
-        
-        $(".image-picker").imagepicker({
-            hide_select: true,
-            selected: function (option) {
-                let values = this.val();
-                let path = ($(this).find("option[value='" + $(this).val() + "']").data('img-src'));
-                // console.log(values);
-                // console.log(path);
-                let steeringWheelStyle = values.split("_");            
-                steeringWheel = steeringWheelStyle[0];
-                // console.log(steeringWheel);
-    
-                $("#track_img").css({ visibility: "visible" });
-                $("#track_img").attr('src', path);
-            }
-        });
-        
-        $("#steering_wheel").css({ visibility: "hidden" });
-        $('#steering_wheel').attr('class','last-steering_wheel');
+        car.customization.setInitRenderingDiv();
 
         /*
         // ---------------- CURRENT SHIFT -------------------------
@@ -416,98 +382,35 @@ require([
         // // Full Right
         // console.log("Full Right Angle: ", car.gamepadController.calculateRotationAngle(-0.08, 1.0));
 
-        let removeSpeedometer = () => {
-            let parent = document.getElementById("speedometer-gauge");
-            let child = document.getElementById("last-gauge");
-            parent.removeChild(child);
-        }
-
-        let removeTachometer = () => {
-            let parent = document.getElementById("tachometer-gauge");
-            let child = document.getElementById("last-gauge");
-            parent.removeChild(child);
-        }
-
-        let removeSteeringWheel = () => {
-            let child = document.getElementById("steering_wheel");
-            child.parentNode.removeChild(child);
-        }
-
-        // Speedometer
-        $("#myRange-Speedometer").on("input", (e) => {
-            $("#demo-Speedometer").text( $(e.target).val() );
-            maxValueSpeedometer = $("#myRange-Speedometer").val();
-            document.getElementById("myRange-End").value = "0";            
-        });
-
-        $("#myRange-Speedometer").trigger("input");
-
-        // Tachometer
-        $("#myRange-Tachometer").on("input", (e) => {
-            $("#demo-Tachometer").text( $(e.target).val() );
-            maxValueTachometer = $("#myRange-Tachometer").val();
-            document.getElementById("myRange-End").value = "0";
-        });
-    
-        $("#myRange-Tachometer").trigger("input");
-
-        // Hills
-        // $("#myRange-Hills").on("input", (e) => {
-        //     $("#demo-Hills").text( $(e.target).val() );
-        //     maxValueTachometer = $("#myRange-Hills").val();
-        //     //console.log("MAX HILLS: "+maxValueHills);
-        //     });
-
-        //     $("#myRange-Hills").val("This is a test");
-        //     $("#myRange-Hills").trigger("input");
-
-        // Obstacles
-        // $("#myRange-Obstacles").on("input", (e) => {
-        //     $("#demo-Obstacles").text( $(e.target).val() );
-        //     maxValueTachometer = $("#myRange-Obstacles").val();
-        //     //console.log("MAX OBSTACLES: "+maxValueObstacles);
-        //     });
-
-        //     $("#myRange-Obstacles").val("This is a test");
-        //     $("#myRange-Obstacles").trigger("input");
-
-        // Other-Cars
-        // $("#myRange-Other-Cars").on("input", (e) => {
-        //     $("#demo-Other-Cars").text( $(e.target).val() );
-        //     maxValueTachometer = $("#myRange-Other-Cars").val();
-        //     //console.log("MAX OTHER CARS: "+maxValueOtherCars);
-        //     });
-
-        //     $("#myRange-Other-Cars").val("This is a test");
-        //     $("#myRange-Other-Cars").trigger("input");
+        sliders=car.customization.rangeEvents();
 
         // End
         $("#myRange-End").on("input", (e) => {
             $("#demo-End").text( $(e.target).val() );
             maxValueEnd = $("#myRange-End").val();
-            // console.log("MAX END: "+maxValueEnd);
             if(maxValueEnd==1){
-                removeSpeedometer();
-                removeTachometer();
-                removeSteeringWheel();
-                // console.log(steeringWheel);
+                car.customization.removeSpeedometer("speedometer-gauge").removeTachometer("tachometer-gauge").removeSteeringWheel("steering_wheel");
                 if(reRenderEnd>=0){
                     reRenderEnd++;
+                    sliders=car.customization.rangeEvents();
+
                     // ---------------- SPEEDOMETER ----------------
                     car.speedometerGauge = new Speedometer('speedometer-gauge', {
                                 label: "kmh",
-                                max: maxValueSpeedometer,
+                                max: sliders.maxValueSpeedometer,
                                 min: 0,
                                 callback: onMessageReceived
                             });
                     // ---------------- TACHOMETER ----------------
                     car.tachometerGauge = new Tachometer('tachometer-gauge', {
-                        max:maxValueTachometer,
-                        min: 0,
-                        label: "x1000/min",
-                        callback: onMessageReceived
+                                max: sliders.maxValueTachometer,
+                                min: 0,
+                                label: "x1000/min",
+                                callback: onMessageReceived
                     });
-                    $('.gauge').attr('id','last-gauge');
+                    car.customization.setLastRenderingDiv("gauge");
+                    steeringWheel = car.customization.getSteeringWheelImage();
+
                     // ---------------- STEERING WHEEL ----------------
                     car.steeringWheel = new SteeringWheel("steering_wheel", {
                         top: 140,
@@ -518,22 +421,8 @@ require([
                         style: steeringWheel,
                         callback: onMessageReceived
                     });
-                    $('#steering_wheel').attr('class','last-steering_wheel');
-                    $("#steering_wheel").css({ 'display': '' });
-
-                    $("#mySidenav").css({ width: "0px" });
-                    $("#menu").css({ marginLeft: "-170px", marginTop: "0px", visibility: "visible" });
-                    $("#track_img").css({ visibility: "hidden" });
-
-                    $(".customization").css({ visibility: "hidden" });
-                    $("#instructions").css({ marginLeft: "650px", marginTop: "-740px", visibility: "visible" });
-                    $("#gauges").css({ position: "absolute", marginLeft: "350px", marginTop: "-810px", visibility: "visible" });
-                    $("#steering_wheel").css({ visibility: "visible" });
-                    
-                    $("#gamepadImage").css({visibility: "visible"});
+                    car.customization.reRenderedWindowCSS();
                     car.drawGamepad.render();
-                    $("#steering_wheel").css({ marginTop: "200px" });
-                    $(".dashboard-widgets").css({ marginTop: "200px" });
                 }
             }
         });
