@@ -89,7 +89,7 @@ require([
 
         var draw = {};
         // ----------------------------- DRAWGAMEPAD COMPONENTS -----------------------------
-        // draw.drawGamepad = new DrawGamepad("drawGamepad", {
+        // draw.drawGamepad = new DrawGamepad2("drawGamepad", {
         //     top: 100,
         //     left: 350,
         //     width: 750,
@@ -97,6 +97,7 @@ require([
         // }, {
         //     parent: "gamepads", // defines parent div, which is div id="drawGamepad" by default
         //     style: "xbox", // defines parent div, which is "ps4" by default
+        //     // buttonsPVS: [ "accelerate", "brake", "y", "x", "menu", "windows", "xbox", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
         //     callback: onMessageReceived
         // });
         draw.drawGamepad = new DrawGamepad("drawGamepad", {
@@ -106,20 +107,23 @@ require([
             height: 750
         }, {
             parent: "gamepads", // defines parent div, which is div id="drawGamepad" by default
-            style: "xbox", // defines parent div, which is "ps4" by default
+            style: "ps4", // defines parent div, which is "ps4" by default
+            // buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
             callback: onMessageReceived
         });
 
-        // ----------------------------- SOUND INTERACTION -----------------------------
+        // ----------------------------- GAMEPADS INTERACTION -----------------------------
         draw.draw = new Button("draw", { width: 0, height: 0 }, {
             callback: onMessageReceived,
             evts: ['press/release'],
             keyCode: 80 // key p
         });
        
-        // Render sound components
+        // Render Gamepads components
         function render(res) {
             draw.drawGamepad.render();
+            // draw.drawGamepad.callPressReleasePVS("accelerate");
+            // draw.drawGamepad.callClickPVS("leftStick");
         }
 
         var demoFolder = "gamepads_simulator";

@@ -42,8 +42,7 @@ define(function (require, exports, module) {
     let iterator = 0;
     let brItr = 0;
 
-    let Widget = require("widgets/Widget"),
-        ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
+    let Widget = require("widgets/Widget");
      
     /**
      * @function constructor
