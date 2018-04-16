@@ -189,5 +189,26 @@ main: THEORY
 
   click_brake(st: state): state = brake(st) WITH [ action := brake ]
 
+  %-- API for external controller interactive image
+  %-- PS4
+  press_cross(st: state): state = accelerate(st) WITH [ action := acc ]
+  release_cross(st: state): state = st WITH [ action := idle ]
+
+  press_circle(st: state): state = brake(st) WITH [ action := brake ]
+  release_circle(st: state): state = st WITH [ action := idle ]
+  
+  %-- XBOX1
+  press_a(st: state): state = accelerate(st) WITH [ action := acc ]
+  release_a(st: state): state = st WITH [ action := idle ]
+
+  press_b(st: state): state = brake(st) WITH [ action := brake ]
+  release_b(st: state): state = st WITH [ action := idle ]
+
+  press_rightArrow(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP ]
+  release_rightArrow(st: state): state = st WITH [ action := idle ]
+
+  press_leftArrow(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP ]
+  release_leftArrow(st: state): state = st WITH [ action := idle ]
+
 END main
 

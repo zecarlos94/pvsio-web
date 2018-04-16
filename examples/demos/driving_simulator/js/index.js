@@ -7,13 +7,15 @@
 require.config({
     baseUrl: "../../client/app",
     paths: {
+        "jquery-ui": "../lib/jquery-ui",
         d3: "../lib/d3",
         "pvsioweb": "plugins/prototypebuilder",
         "imagemapper": "../lib/imagemapper",
         "text": "../lib/text",
         "lib": "../lib",
         "cm": "../lib/cm",
-        stateParser: './util/PVSioStateParser'
+        stateParser: './util/PVSioStateParser',
+        "image-picker": "../lib/image-picker",
     }
 });
 
@@ -131,6 +133,87 @@ require([
             height: 750
         }, {
             parent: "dashboard", // defines parent div, which is div id="dashboard" by default
+            sliderColor: "#4CAF50",
+            imagesSteeringWheels: [
+                {
+                    path: "../../../client/app/widgets/car/steering_wheels/basic_steering_wheel.svg",
+                    value: "basic_steering_wheel.svg",
+                },
+                {
+                    path: "../../../client/app/widgets/car/steering_wheels/ferrari_steering_wheel.svg",
+                    value: "ferrari_steering_wheel.svg",
+                },
+                {
+                    path: "../../../client/app/widgets/car/steering_wheels/porsche_steering_wheel.svg",
+                    value: "porsche_steering_wheel.svg",
+                },
+                {
+                    path: "../../../client/app/widgets/car/steering_wheels/sparco_steering_wheel.svg",
+                    value: "sparco_steering_wheel.svg",
+                }
+            ],
+            sliderRanges: [
+                {
+                    name: "speedometer",
+                    min: 0,
+                    max: 400,
+                    value: 340
+                },
+                {
+                    name: "tachometer",
+                    min: 0,
+                    max: 20,
+                    value: 16
+                },
+                {
+                    name: "lanes",
+                    min: 0,
+                    max: 3,
+                    value: 0
+                },
+                {
+                    name: "hills",
+                    min: 0,
+                    max: 10,
+                    value: 0
+                },
+                {
+                    name: "obstacles",
+                    min: 0,
+                    max: 10,
+                    value: 0
+                },
+                {
+                    name: "other-cars",
+                    min: 0,
+                    max: 10,
+                    value: 0
+                }
+            ],
+            controlsText: [
+                "Car controls:",
+                "[left/right arrow keys] Turn Left/Right",
+                "[up/down arrow keys] Accelerate/Brake"
+            ],
+            gauges: [
+                {
+                    name: "speedometer-gauge",
+                    styleId: "",
+                    style: ""
+                },
+                {
+                    name: "tachometer-gauge",
+                    styleId: "float",
+                    style: "right"
+                }
+            ],
+            gaugesStyles: [
+                {
+                    zoom: "45%",
+                    marginLeft: "370px",
+                    marginTop: "430px"
+                }
+            ],
             callback: onMessageReceived
         });
 
@@ -279,12 +362,47 @@ require([
             callback: onMessageReceived
         });
 
+        // ----------------------------- DRAWGAMEPAD COMPONENTS -----------------------------
+        // car.drawGamepad = new DrawGamepad("drawGamepad", {
+        //     top: 100,
+        //     left: 350,
+        //     width: 750,
+        //     height: 750
+        // }, {
+        //     parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
+        //     style: "xbox", // defines parent div, which is "ps4" by default
+        //     callback: onMessageReceived
+        // });
+        car.drawGamepad = new DrawGamepad("drawGamepad", {
+            top: 100,
+            left: 350,
+            width: 750,
+            height: 750
+        }, {
+            parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
+            style: "ps4", // defines parent div, which is "ps4" by default
+            callback: onMessageReceived
+        });
+        // ----------------------------- GYROSCOPE COMPONENTS -----------------------------
+        car.gyroscopeController = new GyroscopeController("Gyroscope_Controller", {
+            top: 100,
+            left: 700,
+            width: 750,
+            height: 750
+        }, {
+            parent: "gyroscope", // defines parent div, which is div id="gyroscope" by default
+            carSteeringWheel: car.steeringWheel,
+            callback: onMessageReceived
+        });
+
         // Render car dashboard components
         let render = (res) => {
             car.customization.render();
             car.speedometerGauge.render(evaluate(res.speed.val));
             car.tachometerGauge.render(evaluate(res.rpm));
             car.steeringWheel.render(evaluate(res.steering));
+            car.gamepadController.render();
+            car.gyroscopeController.render();
         }
 
         // // Full Left
@@ -402,11 +520,12 @@ require([
                     $("#track_img").css({ visibility: "hidden" });
 
                     $(".customization").css({ visibility: "hidden" });
-                    $("#instructions").css({ marginLeft: "650px", marginTop: "-750px", visibility: "visible" });
+                    $("#instructions").css({ marginLeft: "650px", marginTop: "-740px", visibility: "visible" });
                     $("#gauges").css({ position: "absolute", marginLeft: "350px", marginTop: "-810px", visibility: "visible" });
                     $("#steering_wheel").css({ visibility: "visible" });
                     
                     $("#gamepadImage").css({visibility: "visible"});
+                    car.drawGamepad.render();
                     $("#steering_wheel").css({ marginTop: "200px" });
                     $(".dashboard-widgets").css({ marginTop: "200px" });
                 }

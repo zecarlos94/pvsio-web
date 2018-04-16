@@ -88,7 +88,7 @@ require([
         }
 
         var trackGenerator = {};
-        // ----------------------------- SOUND COMPONENTS -----------------------------
+        // -----------------------------  TRACK GENERATOR COMPONENTS -----------------------------
         trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget", {
             top: 80,
             left: 650,
@@ -133,7 +133,7 @@ require([
             callback: onMessageReceived
         });
 
-        // ----------------------------- SOUND INTERACTION -----------------------------
+        // ----------------------------- TRACK GENERATOR INTERACTION -----------------------------
         trackGenerator.start = new Button("start", { width: 0, height: 0 }, {
             callback: onMessageReceived,
             evts: ['press/release'],
@@ -145,12 +145,12 @@ require([
             keyCode: 50 // key 2
         });
 
-        // Render sound components
+        // Render track generator components
         function render(res) {
             trackGenerator.trackGeneratorWidget.render();
         }
 
-        var demoFolder = "generate_track_simulator";
+        var demoFolder = "track_generator_simulator";
         //register event listener for websocket connection from the client
         client.addListener('WebSocketConnectionOpened', function (e) {
             console.log("web socket connected");

@@ -89,7 +89,7 @@ require([
         }
 
         var arcade = {};
-        // ----------------------------- SOUND COMPONENTS -----------------------------
+        // ----------------------------- ARCADE GAME COMPONENTS -----------------------------
         arcade.arcadeWidget = new Arcade("arcadeWidget", {
             top: 80,
             left: 650,
@@ -102,7 +102,7 @@ require([
             callback: onMessageReceived
         });
 
-        // ----------------------------- SOUND INTERACTION -----------------------------
+        // ----------------------------- ARCADE GAME INTERACTION -----------------------------
         arcade.start = new Button("start", { width: 0, height: 0 }, {
             callback: onMessageReceived,
             evts: ['press/release'],
@@ -114,12 +114,12 @@ require([
             keyCode: 50 // key 2
         });
 
-        // Render sound components
+        // Render arcade game components
         function render(res) {
             arcade.arcadeWidget.render();
         }
 
-        var demoFolder = "arcade_simulator";
+        var demoFolder = "arcade_game_simulator";
         //register event listener for websocket connection from the client
         client.addListener('WebSocketConnectionOpened', function (e) {
             console.log("web socket connected");
