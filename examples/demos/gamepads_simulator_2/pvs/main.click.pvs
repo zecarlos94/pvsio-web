@@ -1,0 +1,93 @@
+% ---------------------------------------------------------------
+%  Theory: gamepads_simulator_demo
+%  Author: José Carlos
+%          Universidade do Minho
+% ---------------------------------------------------------------
+
+main: THEORY
+ BEGIN
+
+  Action: TYPE = { idle, drawed, clicked }
+  
+  state: TYPE = [#
+    action: Action
+  #]
+
+  %-- initial state
+  init(x: real): state = (#
+    action := idle
+  #)
+    
+  draw(st: state): state = (#
+    action := drawed
+  #)
+
+  %-- APIs
+  press_draw(st: state): state = draw(st) WITH [ action := drawed ]
+  release_draw(st: state): state = st WITH [ action := idle ]
+
+  click_cross(st: state):state = (#
+    action := clicked
+  #)
+  click_circle(st: state):state = (#
+    action := clicked
+  #)
+  click_square(st: state):state = (#
+    action := clicked
+  #)
+  click_triangle(st: state):state = (#
+    action := clicked
+  #)
+  click_options(st: state):state = (#
+    action := clicked
+  #)
+  click_share(st: state):state = (#
+    action := clicked
+  #)
+  click_touchpad(st: state):state = (#
+    action := clicked
+  #)
+  click_ps(st: state):state = (#
+    action := clicked
+  #)
+  click_leftArrow(st: state):state = (#
+    action := clicked
+  #)
+  click_upArrow(st: state):state = (#
+    action := clicked
+  #)
+  click_rightArrow(st: state):state = (#
+    action := clicked
+  #)
+  click_downArrow(st: state):state = (#
+    action := clicked
+  #)
+  click_leftStick(st: state):state = (#
+    action := clicked
+  #)
+  click_rightStick(st: state):state = (#
+    action := clicked
+  #)
+  click_a(st: state):state = (#
+    action := clicked
+  #)
+  click_b(st: state):state = (#
+    action := clicked
+  #)
+  click_x(st: state):state = (#
+    action := clicked
+  #)
+  click_y(st: state):state = (#
+    action := clicked
+  #)
+  click_menu(st: state):state = (#
+    action := clicked
+  #)
+  click_windows(st: state):state = (#
+    action := clicked
+  #)
+  click_xbox(st: state):state = (#
+    action := clicked
+  #)
+
+END main
