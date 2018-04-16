@@ -84,6 +84,140 @@ require([
             maxValueObstacles: null,
             maxValueOtherCars: null
         };
+        let reRenderedWindowCSSValues = [
+            {
+                id: "steering_wheel",
+                class: "last-steering_wheel",
+                styles: [
+                    {
+                        property: "display",
+                        value: " "
+                    }
+                ]
+            },
+            {
+                id: "mySidenav",
+                class: null,
+                styles: [
+                    {
+                        property: "width",
+                        value: "0px"
+                    }
+                ]
+            },
+            {
+                id: "menu",
+                class: null,
+                styles: [
+                    {
+                        property: "margin-left",
+                        value: "-170px"
+                    },
+                    {
+                        property: "margin-left",
+                        value: "0px"
+                    },
+                    {
+                        property: "visibility",
+                        value: "visible"
+                    }
+                ]
+            },
+            {
+                id: "track_img",
+                class: null,
+                styles: [
+                    {
+                        property: "visibility",
+                        value: "hidden"
+                    }
+                ]
+            },
+            {
+                id: "instructions",
+                class: null,
+                styles: [
+                    {
+                        property: "margin-left",
+                        value: "650px"
+                    },
+                    {
+                        property: "margin-top",
+                        value: "-740px"
+                    },
+                    {
+                        property: "visibility",
+                        value: "visible"
+                    }
+                ]
+            },
+            {
+                id: "gauges",
+                class: null,
+                styles: [
+                    {
+                        property: "position",
+                        value: "absolute"
+                    },
+                    {
+                        property: "margin-left",
+                        value: "350px"
+                    },
+                    {   
+                        property: "margin-top",
+                        value: "-810px"
+                    },
+                    {
+                        property: "visibility",
+                        value: "visible"
+                    }
+                ]
+            },
+            {
+                id: "steering_wheel",
+                class: null,
+                styles: [
+                    {
+                        property: "margin-top",
+                        value: "200px"
+                    },
+                    {
+                        property: "visibility",
+                        value: "visible"
+                    }
+                ]
+            },
+            {
+                id: "gamepadImage",
+                class: null,
+                styles: [
+                    {
+                        property: "visibility",
+                        value: "visible"
+                    }
+                ]
+            },
+            {
+                id: null,
+                class: "dashboard-widgets",
+                styles: [
+                    {
+                        property: "margin-top",
+                        value: "200px"
+                    }
+                ]
+            },
+            {
+                id: null,
+                class: "customization",
+                styles: [
+                    {
+                        property: "visibility",
+                        value: "hidden"
+                    }
+                ]
+            },
+        ];
                               
         let start_tick = () => {
             //if (!tick) {
@@ -421,7 +555,7 @@ require([
                         style: steeringWheel,
                         callback: onMessageReceived
                     });
-                    car.customization.reRenderedWindowCSS();
+                    car.customization.reRenderedWindowCSS(reRenderedWindowCSSValues);
                     car.drawGamepad.render();
                 }
             }

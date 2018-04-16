@@ -395,116 +395,28 @@ define(function (require, exports, module) {
      * @memberof module:Customization
      * @instance
      */
-    Customization.prototype.reRenderedWindowCSS = function () {
+    Customization.prototype.reRenderedWindowCSS = function (reRenderedWindowCSSValues) {
+        // reRenderedWindowCSSValues.forEach( (el) => {
+        //     if(el.id!==null){
+        //         // console.log("get by id");
+        //         let aux = d3.select("#"+el.id);
+        //         aux.attr("class", el.class);
+        //         el.styles.forEach( (st) => {
+        //             // console.log(st.property +": "+st.value);
+        //             aux.style(st.property, st.value);
+        //         });
+        //         console.log(aux);
+        //     }else if(el.class!==null){
+        //         // console.log("get by class");
+        //         let aux = d3.select("."+el.class);
+        //         el.styles.forEach( (st) => {
+        //             // console.log(st.property +": "+st.value);
+        //             aux.style(st.property, st.value);
+        //         });
+        //         console.log(aux);
+        //     }
+        // });
 
-        let aux = [
-            {
-                id: "steering_wheel",
-                class: "last-steering_wheel",
-                styles: [
-                    {
-                        display: ""
-                    }
-                ]
-            },
-            {
-                id: "mySidenav",
-                class: null,
-                styles: [
-                    {
-                        width: "0px"
-                    }
-                ]
-            },
-            {
-                id: "menu",
-                class: null,
-                styles: [
-                    {
-                        margin_left: "-170px",
-                        margin_left: "0px",
-                        visibility: "visible"
-                    }
-                ]
-            },
-            {
-                id: "track_img",
-                class: null,
-                styles: [
-                    {
-                        visibility: "hidden"
-                    }
-                ]
-            },
-
-            {
-                id: "instructions",
-                class: null,
-                styles: [
-                    {
-                        margin_left: "650px",
-                        margin_top: "-740px",
-                        visibility: "visible"
-                    }
-                ]
-            },
-
-            {
-                id: "gauges",
-                class: null,
-                styles: [
-                    {
-                        position: "absolute",
-                        margin_left: "350px",
-                        margin_top: "-810px",
-                        visibility: "visible"
-                    }
-                ]
-            },
-
-            {
-                id: "steering_wheel",
-                class: null,
-                styles: [
-                    {
-                        margin_top: "200px",
-                        visibility: "visible"
-                    }
-                ]
-            },
-
-            {
-                id: "gamepadImage",
-                class: null,
-                styles: [
-                    {
-                        visibility: "visible"
-                    }
-                ]
-            },
-
-            {
-                id: null,
-                class: "dashboard-widgets",
-                styles: [
-                    {
-                        margin_top: "200px"
-                    }
-                ]
-            },
-
-            {
-                id: null,
-                class: "customization",
-                styles: [
-                    {
-                        visibility: "hidden"
-                    }
-                ]
-            },
-        ];
-
-        // styles.replace("_", "-");
 
         d3.select("#steering_wheel")
           .attr("class", "last-steering_wheel")
