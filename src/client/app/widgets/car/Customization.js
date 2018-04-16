@@ -396,67 +396,22 @@ define(function (require, exports, module) {
      * @instance
      */
     Customization.prototype.reRenderedWindowCSS = function (reRenderedWindowCSSValues) {
-        // reRenderedWindowCSSValues.forEach( (el) => {
-        //     if(el.id!==null){
-        //         // console.log("get by id");
-        //         let aux = d3.select("#"+el.id);
-        //         aux.attr("class", el.class);
-        //         el.styles.forEach( (st) => {
-        //             // console.log(st.property +": "+st.value);
-        //             aux.style(st.property, st.value);
-        //         });
-        //         console.log(aux);
-        //     }else if(el.class!==null){
-        //         // console.log("get by class");
-        //         let aux = d3.select("."+el.class);
-        //         el.styles.forEach( (st) => {
-        //             // console.log(st.property +": "+st.value);
-        //             aux.style(st.property, st.value);
-        //         });
-        //         console.log(aux);
-        //     }
-        // });
-
-
-        d3.select("#steering_wheel")
-          .attr("class", "last-steering_wheel")
-          .style("display", "");
-
-        d3.select("#mySidenav")
-          .style("width", "0px");
-
-        d3.select("#menu")
-          .style("margin-left", "-170px")
-          .style("margin-top", "0px")
-          .style("visibility", "visible");
-       
-        d3.select("#track_img")
-          .style("visibility", "hidden");
-
-        d3.select(".customization")
-          .style("visibility", "hidden");
-
-        d3.select("#instructions")
-          .style("margin-left", "650px")
-          .style("margin-top", "-740px")
-          .style("visibility", "visible");
-
-        d3.select("#gauges")
-          .style("position","absolute")
-          .style("margin-left", "350px")
-          .style("margin-top", "-810px")
-          .style("visibility", "visible");
-
-        d3.select("#steering_wheel")
-          .style("visibility", "visible")
-          .style("margin-top", "200px");
-
-        d3.select("#gamepadImage")
-          .style("visibility", "visible"); 
-
-        d3.select(".dashboard-widgets")
-          .style("margin-top", "200px");
-
+        reRenderedWindowCSSValues.forEach( (el) => {
+            if(el.id!==null){
+                let aux = d3.select("#"+el.id);
+                if(el.class!==null){
+                    aux.attr("class", el.class);
+                }
+                el.styles.forEach( (st) => {
+                    aux.style(st.property, st.value);
+                });
+            }else if(el.class!==null){
+                let aux = d3.select("."+el.class);
+                el.styles.forEach( (st) => {
+                    aux.style(st.property, st.value);
+                });
+            }
+        });
         return this;
     };
 

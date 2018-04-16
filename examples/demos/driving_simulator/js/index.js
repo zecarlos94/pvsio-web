@@ -91,7 +91,7 @@ require([
                 styles: [
                     {
                         property: "display",
-                        value: " "
+                        value: "block"
                     }
                 ]
             },
