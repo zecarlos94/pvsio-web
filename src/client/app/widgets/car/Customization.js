@@ -15,14 +15,100 @@
  *
  *     function main() {
  *          // After Customization module was loaded, initialize it
- *          let fs = new Customization(
- *               'example', // id of the gauge element that will be created
- *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
- *               { parent: 'FS' } // options
- *           );
- *
+ *          let customization = new Customization(
+ *          "customization-widget",  // id of the gauge element that will be created
+ *          {top: 100, left: 700, width: 750, height: 750}, // coordinates object
+ *          {
+ *            parent: "dashboard", // defines parent div, which is div id="dashboard" by default
+ *            sliderColor: "#4CAF50",
+ *            imagesSteeringWheels: [
+ *            {
+ *              path: "../../../client/app/widgets/car/steering_wheels/basic_steering_wheel.svg",
+ *              value: "basic_steering_wheel.svg",
+ *            },
+ *            {
+ *              path: "../../../client/app/widgets/car/steering_wheels/ferrari_steering_wheel.svg",
+ *              value: "ferrari_steering_wheel.svg",
+ *            },
+ *            {
+ *              path: "../../../client/app/widgets/car/steering_wheels/porsche_steering_wheel.svg",
+ *              value: "porsche_steering_wheel.svg",
+ *            },
+ *            {
+ *              path: "../../../client/app/widgets/car/steering_wheels/sparco_steering_wheel.svg",
+ *              value: "sparco_steering_wheel.svg",
+ *            }
+ *            ],
+ *            sliderRanges: [
+ *            {
+ *              name: "speedometer",
+ *              min: 0,
+ *              max: 400,
+ *              value: 340
+ *             },
+ *             {
+ *              name: "tachometer",
+ *              min: 0,
+ *              max: 20,
+ *              value: 16
+ *             },
+ *             {
+ *               name: "lanes",
+ *               min: 0,
+ *               max: 3,
+ *               value: 0
+ *             },
+ *             {
+ *               name: "hills",
+ *               min: 0,
+ *               max: 10,
+ *               value: 0
+ *             },
+ *             {
+ *               name: "obstacles",
+ *               min: 0,
+ *               max: 10,
+ *               value: 0
+ *             },
+ *             {
+ *               name: "other-cars",
+ *               min: 0,
+ *               max: 10,
+ *               value: 0
+ *             }
+ *             ],
+ *             controlsText: ["Car controls:", "[left/right arrow keys] Turn Left/Right", "[up/down arrow keys] Accelerate/Brake" ],
+ *             gauges: [
+ *             {
+ *               name: "speedometer-gauge",
+ *               styleId: "",
+ *               style: ""
+ *             },
+ *             {
+ *               name: "tachometer-gauge",
+ *               styleId: "float",
+ *               style: "right"
+ *             }
+ *             ],
+ *             gaugesStyles: [
+ *             {
+ *               zoom: "45%",
+ *               marginLeft: "370px",
+ *               marginTop: "430px"
+ *             }
+ *             ],
+ *             callback: onMessageReceived
+ *          } // options
+ *          );
+ * 
  *          // Render the Customization widget
- *          fs.render();
+ *          customization.render();
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
  *     }
  * });
  */
@@ -286,12 +372,32 @@ define(function (require, exports, module) {
     Customization.prototype.parentClass = Widget.prototype;
 
     /**
+     * @function hide
+     * @description Hide method of the Customization widget. This method changes the current main div display to 'none'.
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.hide = function () {
+        return this.div.style("display","none");
+    };
+
+    /**
      * @function reveal
-     * @description reveal method of the Customization widget. This method ....
+     * @description Reveal method of the Customization widget. This method changes the current main div display to 'block'.
      * @memberof module:Customization
      * @instance
      */
     Customization.prototype.reveal = function () {
+        return this.div.style("display","block");
+    };
+
+    /**
+     * @function show
+     * @description Show method of the Customization widget. This method returns the current main div.
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.show = function () {
         return this.div;
     };
 
@@ -508,7 +614,7 @@ define(function (require, exports, module) {
      * @instance
      */
     Customization.prototype.render = function() {
-        return this.reveal();
+        return this.show();
     };
 
     module.exports = Customization;

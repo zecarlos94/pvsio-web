@@ -136,14 +136,100 @@
 
     function main() {
          // After Customization module was loaded, initialize it
-         let fs = new Customization(
-              'example', // id of the gauge element that will be created
-              { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
-              { parent: 'FS' } // options
-          );
+         let customization = new Customization(
+         "customization-widget",  // id of the gauge element that will be created
+         {top: 100, left: 700, width: 750, height: 750}, // coordinates object
+         {
+           parent: "dashboard", // defines parent div, which is div id="dashboard" by default
+           sliderColor: "#4CAF50",
+           imagesSteeringWheels: [
+           {
+             path: "../../../client/app/widgets/car/steering_wheels/basic_steering_wheel.svg",
+             value: "basic_steering_wheel.svg",
+           },
+           {
+             path: "../../../client/app/widgets/car/steering_wheels/ferrari_steering_wheel.svg",
+             value: "ferrari_steering_wheel.svg",
+           },
+           {
+             path: "../../../client/app/widgets/car/steering_wheels/porsche_steering_wheel.svg",
+             value: "porsche_steering_wheel.svg",
+           },
+           {
+             path: "../../../client/app/widgets/car/steering_wheels/sparco_steering_wheel.svg",
+             value: "sparco_steering_wheel.svg",
+           }
+           ],
+           sliderRanges: [
+           {
+             name: "speedometer",
+             min: 0,
+             max: 400,
+             value: 340
+            },
+            {
+             name: "tachometer",
+             min: 0,
+             max: 20,
+             value: 16
+            },
+            {
+              name: "lanes",
+              min: 0,
+              max: 3,
+              value: 0
+            },
+            {
+              name: "hills",
+              min: 0,
+              max: 10,
+              value: 0
+            },
+            {
+              name: "obstacles",
+              min: 0,
+              max: 10,
+              value: 0
+            },
+            {
+              name: "other-cars",
+              min: 0,
+              max: 10,
+              value: 0
+            }
+            ],
+            controlsText: ["Car controls:", "[left/right arrow keys] Turn Left/Right", "[up/down arrow keys] Accelerate/Brake" ],
+            gauges: [
+            {
+              name: "speedometer-gauge",
+              styleId: "",
+              style: ""
+            },
+            {
+              name: "tachometer-gauge",
+              styleId: "float",
+              style: "right"
+            }
+            ],
+            gaugesStyles: [
+            {
+              zoom: "45%",
+              marginLeft: "370px",
+              marginTop: "430px"
+            }
+            ],
+            callback: onMessageReceived
+         } // options
+         );
 
          // Render the Customization widget
-         fs.render();
+         customization.render();
+
+
+
+
+
+
     }
 });</code></pre>
 
@@ -328,7 +414,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line50">line 50</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line136">line 136</a>
     </li></ul></dd>
     
 
@@ -436,7 +522,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line447">line 447</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line553">line 553</a>
     </li></ul></dd>
     
 
@@ -522,7 +608,93 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line378">line 378</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line484">line 484</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="hide"><span class="type-signature"></span>hide<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Hide method of the Customization widget. This method changes the current main div display to 'none'.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line374">line 374</a>
     </li></ul></dd>
     
 
@@ -608,7 +780,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line426">line 426</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line532">line 532</a>
     </li></ul></dd>
     
 
@@ -694,7 +866,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line309">line 309</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line415">line 415</a>
     </li></ul></dd>
     
 
@@ -780,7 +952,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line298">line 298</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line404">line 404</a>
     </li></ul></dd>
     
 
@@ -866,7 +1038,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line504">line 504</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line610">line 610</a>
     </li></ul></dd>
     
 
@@ -952,7 +1124,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line400">line 400</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line506">line 506</a>
     </li></ul></dd>
     
 
@@ -994,7 +1166,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 <div class="description">
-    reveal method of the Customization widget. This method ....
+    Reveal method of the Customization widget. This method changes the current main div display to 'block'.
 </div>
 
 
@@ -1038,7 +1210,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line288">line 288</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line384">line 384</a>
     </li></ul></dd>
     
 
@@ -1124,7 +1296,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line348">line 348</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line454">line 454</a>
     </li></ul></dd>
     
 
@@ -1210,7 +1382,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line322">line 322</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line428">line 428</a>
     </li></ul></dd>
     
 
@@ -1296,7 +1468,93 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line389">line 389</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line495">line 495</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="show"><span class="type-signature"></span>show<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Show method of the Customization widget. This method returns the current main div.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line394">line 394</a>
     </li></ul></dd>
     
 
@@ -1346,7 +1604,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 17 2018 16:38:40 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 17 2018 17:21:40 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

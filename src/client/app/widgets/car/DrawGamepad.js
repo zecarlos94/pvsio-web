@@ -2,11 +2,12 @@
  * @module DrawGamepad
  * @version 2.0.0
  * @author José Carlos
- * @desc This module helps you building gauge widgets using SVG files. Uses the Pointer module to
- * draw pointers for the gauges.
+ * @desc This module allows to design the PlayStation4 and XBOX One gamepads. That is, allows to draw an SVG image of the gamepad 
+ * where its buttons are defined, whose action is formally specified in the main.pvs file. Interactive buttons were defined using 
+ * ButtonEVO Widget.
  *
  * @date October 6, 2017
- * last modified @date Apr 16, 2018
+ * last modified @date Apr 17, 2018
  *
  * @example <caption>Usage of DrawGamepad within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -17,14 +18,32 @@
  *
  *     function main() {
  *          // After DrawGamepad module was loaded, initialize it
- *          let wheel = new DrawGamepad(
+ *          let drawGamepad = new DrawGamepad(
  *               'example', // id of the gauge element that will be created
  *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
- *               { style: 'ps4' } // options
+ *               { 
+ *                  style: 'ps4', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
+ *                  buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+ *                  // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_accelerate"/"release_accelerate".
+ *                  // Left and Right sticks are not defined as ['press/release'] events, so actions will be "click_rightStick".
+ *               } // options
  *           );
  *
  *          // Render the DrawGamepad widget
- *          wheel.render();
+ *          drawGamepad.render();
+ * 
+ *          // Hides the DrawGamepad widget
+ *          drawGamepad.hide();
+ * 
+ *          // Reveals/Shows the DrawGamepad widget
+ *          drawGamepad.reveal();
+ * 
+ *          // Triggers action "click_rightStick", using ButtonActionsQueue instance.
+ *          drawGamepad.callClickPVS("rightStick");
+ * 
+ *          // Triggers actions "press_accelerate" and "release_accelerate", using ButtonActionsQueue instance.
+ *          drawGamepad.callPressReleasePVS("accelerate");
+ * 
  *     }
  * });
  */
@@ -47,6 +66,7 @@ define(function (require, exports, module) {
      * @param opt {Object} Options:
      *          <li>parent (String): the HTML element where the display will be appended (default is "body").</li>
      *          <li>style (String): a valid style identifier (default is "ps4").</li>
+     *          <li>buttonsPVS (Array): the actions defined in main.pvs file, which are used to define all gamepad buttons, ButtonEVO, ids (default is [ "a", "b", "y", "x", "menu", "windows", "xbox", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ] for style "xbox" and [ "cross", "circle", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ] for style "ps4").</li>
      * @returns {DrawGamepad} The created instance of the widget DrawGamepad.
      * @memberof module:DrawGamepad
      * @instance
@@ -54,8 +74,6 @@ define(function (require, exports, module) {
     function DrawGamepad(id, coords, opt) {
         opt = opt || {};
         opt.style = opt.style || "ps4";
-        opt.areas = opt.areas || [];
-        opt.opacity = opt.opacity || 1;
         opt.buttonsPVS = opt.buttonsPVS;
         coords = coords || {};
 
@@ -321,7 +339,7 @@ define(function (require, exports, module) {
 
     /**
      * @function hide
-     * @description hide method of the DrawGamepad widget. This method changes parent div display to none.
+     * @description Hide method of the DrawGamepad widget. This method changes parent div display to none.
      * @memberof module:DrawGamepad
      * @instance
      */
@@ -331,7 +349,7 @@ define(function (require, exports, module) {
 
     /**
      * @function reveal
-     * @description reveal method of the DrawGamepad widget. This method changes parent div display to block.
+     * @description Reveal method of the DrawGamepad widget. This method changes parent div display to block.
      * @memberof module:DrawGamepad
      * @instance
      */
@@ -342,6 +360,7 @@ define(function (require, exports, module) {
      /**
      * @function callPressReleasePVS
      * @description CallPressReleasePVS method of the DrawGamepad widget. This method calls a PVS press/release function in main.pvs file, based on the required buttonName.
+     * @param buttonName (String) Pressed ButtonEVO name, i.e. name of the pressed interactive button on the gamepad image, which will be used to invoke the PVS action, which is formally specified in the main.pvs file.
      * @memberof module:DrawGamepad
      * @instance
      */
@@ -353,6 +372,7 @@ define(function (require, exports, module) {
     /**
      * @function callClickPVS
      * @description CallClickPVS method of the DrawGamepad widget. This method calls a PVS click function in main.pvs file, based on the required buttonName.
+     * @param buttonName (String) Clicked ButtonEVO name, i.e. name of the clicked interactive button on the gamepad image, which will be used to invoke the PVS action, which is formally specified in the main.pvs file.
      * @memberof module:DrawGamepad
      * @instance
      */
@@ -362,7 +382,7 @@ define(function (require, exports, module) {
  
     /**
      * @function render
-     * @description Render method of the DrawGamepad widget.
+     * @description Render method of the DrawGamepad widget. Basically, it renders all ButtonEVO Widgets defined based on opt.style value, i.e., based on the required gamepad.
      * @memberof module:DrawGamepad
      * @instance
      */

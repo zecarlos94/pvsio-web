@@ -38,8 +38,9 @@
     <div class="container-overview">
     
         
-            <div class="description">This module helps you building gauge widgets using SVG files. Uses the Pointer module to
-draw pointers for the gauges.</div>
+            <div class="description">This module allows to design the PlayStation4 and XBOX One gamepads. That is, allows to draw an SVG image of the gamepad 
+where its buttons are defined, whose action is formally specified in the main.pvs file. Interactive buttons were defined using 
+ButtonEVO Widget.</div>
         
 
         
@@ -137,14 +138,32 @@ draw pointers for the gauges.</div>
 
     function main() {
          // After DrawGamepad module was loaded, initialize it
-         let wheel = new DrawGamepad(
+         let drawGamepad = new DrawGamepad(
               'example', // id of the gauge element that will be created
               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
-              { style: 'ps4' } // options
+              { 
+                 style: 'ps4', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
+                 buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+                 // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_accelerate"/"release_accelerate".
+                 // Left and Right sticks are not defined as ['press/release'] events, so actions will be "click_rightStick".
+              } // options
           );
 
          // Render the DrawGamepad widget
-         wheel.render();
+         drawGamepad.render();
+
+         // Hides the DrawGamepad widget
+         drawGamepad.hide();
+
+         // Reveals/Shows the DrawGamepad widget
+         drawGamepad.reveal();
+
+         // Triggers action "click_rightStick", using ButtonActionsQueue instance.
+         drawGamepad.callClickPVS("rightStick");
+
+         // Triggers actions "press_accelerate" and "release_accelerate", using ButtonActionsQueue instance.
+         drawGamepad.callPressReleasePVS("accelerate");
+
     }
 });</code></pre>
 
@@ -177,7 +196,7 @@ draw pointers for the gauges.</div>
     
 
     
-    <h4 class="name" id="callClickPVS"><span class="type-signature"></span>callClickPVS<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="callClickPVS"><span class="type-signature"></span>callClickPVS<span class="signature">(buttonName)</span><span class="type-signature"></span></h4>
     
 
     
@@ -194,6 +213,50 @@ draw pointers for the gauges.</div>
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>buttonName</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">(String) Clicked ButtonEVO name, i.e. name of the clicked interactive button on the gamepad image, which will be used to invoke the PVS action, which is formally specified in the main.pvs file.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -229,7 +292,7 @@ draw pointers for the gauges.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line353">line 353</a>
+        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line372">line 372</a>
     </li></ul></dd>
     
 
@@ -263,7 +326,7 @@ draw pointers for the gauges.</div>
     
 
     
-    <h4 class="name" id="callPressReleasePVS"><span class="type-signature"></span>callPressReleasePVS<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="callPressReleasePVS"><span class="type-signature"></span>callPressReleasePVS<span class="signature">(buttonName)</span><span class="type-signature"></span></h4>
     
 
     
@@ -280,6 +343,50 @@ draw pointers for the gauges.</div>
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>buttonName</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">(String) Pressed ButtonEVO name, i.e. name of the pressed interactive button on the gamepad image, which will be used to invoke the PVS action, which is formally specified in the main.pvs file.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -315,7 +422,7 @@ draw pointers for the gauges.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line342">line 342</a>
+        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line360">line 360</a>
     </li></ul></dd>
     
 
@@ -459,7 +566,8 @@ draw pointers for the gauges.</div>
 
             <td class="description last">Options:
          <li>parent (String): the HTML element where the display will be appended (default is "body").</li>
-         <li>style (String): a valid style identifier (default is "ps4").</li></td>
+         <li>style (String): a valid style identifier (default is "ps4").</li>
+         <li>buttonsPVS (Array): the actions defined in main.pvs file, which are used to define all gamepad buttons, ButtonEVO, ids (default is [ "a", "b", "y", "x", "menu", "windows", "xbox", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ] for style "xbox" and [ "cross", "circle", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ] for style "ps4").</li></td>
         </tr>
 
     
@@ -500,7 +608,7 @@ draw pointers for the gauges.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line40">line 40</a>
+        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -564,7 +672,7 @@ draw pointers for the gauges.</div>
 
 
 <div class="description">
-    hide method of the DrawGamepad widget. This method changes parent div display to none.
+    Hide method of the DrawGamepad widget. This method changes parent div display to none.
 </div>
 
 
@@ -608,7 +716,7 @@ draw pointers for the gauges.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line322">line 322</a>
+        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line340">line 340</a>
     </li></ul></dd>
     
 
@@ -650,7 +758,7 @@ draw pointers for the gauges.</div>
 
 
 <div class="description">
-    Render method of the DrawGamepad widget.
+    Render method of the DrawGamepad widget. Basically, it renders all ButtonEVO Widgets defined based on opt.style value, i.e., based on the required gamepad.
 </div>
 
 
@@ -694,7 +802,7 @@ draw pointers for the gauges.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line363">line 363</a>
+        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line383">line 383</a>
     </li></ul></dd>
     
 
@@ -736,7 +844,7 @@ draw pointers for the gauges.</div>
 
 
 <div class="description">
-    reveal method of the DrawGamepad widget. This method changes parent div display to block.
+    Reveal method of the DrawGamepad widget. This method changes parent div display to block.
 </div>
 
 
@@ -780,7 +888,7 @@ draw pointers for the gauges.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line332">line 332</a>
+        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line350">line 350</a>
     </li></ul></dd>
     
 
@@ -830,7 +938,7 @@ draw pointers for the gauges.</div>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 17 2018 16:38:40 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 17 2018 17:21:40 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>
