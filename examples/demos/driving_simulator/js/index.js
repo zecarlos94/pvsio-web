@@ -77,12 +77,30 @@ require([
         let steeringWheel = "ferrari";
         let maxValueEnd=$("#myRange-End").val();
         let sliders = {
-            maxValueSpeedometer: null,
-            maxValueTachometer: null,
-            maxValueLanes: null,
-            maxValueHills: null,
-            maxValueObstacles: null,
-            maxValueOtherCars: null
+            maxValueSpeedometer: {
+                id: "Speedometer",
+                value: null
+            },
+            maxValueTachometer: {
+                id: "Tachometer",
+                value: null
+            },
+            maxValueLanes: {
+                id: "Lanes",
+                value: null
+            },
+            maxValueHills: {
+                id: "Hills",
+                value: null
+            },
+            maxValueObstacles: {
+                id: "Obstacles",
+                value: null
+            },
+            maxValueOtherCars: {
+                id: "Other-cars",
+                value: null
+            }
         };
         let reRenderedWindowCSSValues = [
             {
@@ -531,13 +549,13 @@ require([
                     // ---------------- SPEEDOMETER ----------------
                     car.speedometerGauge = new Speedometer('speedometer-gauge', {
                                 label: "kmh",
-                                max: sliders.maxValueSpeedometer,
+                                max: sliders.maxValueSpeedometer.value,
                                 min: 0,
                                 callback: onMessageReceived
                             });
                     // ---------------- TACHOMETER ----------------
                     car.tachometerGauge = new Tachometer('tachometer-gauge', {
-                                max: sliders.maxValueTachometer,
+                                max: sliders.maxValueTachometer.value,
                                 min: 0,
                                 label: "x1000/min",
                                 callback: onMessageReceived

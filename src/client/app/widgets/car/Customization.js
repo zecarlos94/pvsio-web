@@ -312,8 +312,6 @@ define(function (require, exports, module) {
      * @instance
      */
     Customization.prototype.setInitRenderingDiv = function () {
-        let steeringWheel;
-
         $("#selectImage").imagepicker({
             hide_select: true
         });
@@ -327,16 +325,28 @@ define(function (require, exports, module) {
             });
         });
 
-        $("#mySidenav").css({ width: "630px" });
-        $("#menu").css({ marginLeft: "450px", visibility: "hidden" });
-        $('#game-window').css('border', '5px solid black');
-        $("#instructions").css({ marginLeft: "-60px" });
-        $(".dashboard-widgets").css({ visibility: "hidden" });
-        
+        d3.select("#mySidenav")
+          .style("width","630px");
+
+        d3.select("#menu")
+          .style("margin-left","450px")
+          .style("visibility","hidden"); 
+
+        d3.select("#game-window")
+          .style("border","5px solid black");
+
+        d3.select("#instructions")
+          .style("margin-left","-60px");
+          
+        d3.select(".dashboard-widgets")
+          .style("visibility","hidden"); 
+
         Customization.prototype.setImagePicker();
         
-        $("#steering_wheel").css({ visibility: "hidden" });
-        $('#steering_wheel').attr('class','last-steering_wheel');
+        d3.select("#steering_wheel")
+          .attr('class','last-steering_wheel')
+          .style("visibility","hidden");
+
         return this;
     }
     /**
@@ -346,22 +356,17 @@ define(function (require, exports, module) {
      * @instance
      */
     Customization.prototype.setImagePicker = function () {
-        
         $(".image-picker").imagepicker({
             hide_select: true,
             selected: function (option) {
                 let values = this.val();
                 let path = ($(this).find("option[value='" + $(this).val() + "']").data('img-src'));
-                // console.log(values);
-                // console.log(path);
                 let steeringWheelStyle = values.split("_");       
-                steeringWheelStyle[0];
-
                 d3.select("#selectedSteeringWheel")
                   .text(steeringWheelStyle[0]);
-                
-                $("#track_img").css({ visibility: "visible" });
-                $("#track_img").attr('src', path);
+                d3.select("#track_img")
+                  .attr('src', path)
+                  .style("visibility","visible");
             }
         }); 
         return this;   
@@ -374,7 +379,7 @@ define(function (require, exports, module) {
      * @instance
      */
     Customization.prototype.getSteeringWheelImage = function () {        
-        return $("#selectedSteeringWheel").text();
+       return d3.select("#selectedSteeringWheel")[0][0].innerHTML;
     }
 
     
@@ -435,63 +440,42 @@ define(function (require, exports, module) {
      */
     Customization.prototype.rangeEvents = function () {
         let sliders = {
-            maxValueSpeedometer: null,
-            maxValueTachometer: null,
-            maxValueLanes: null,
-            maxValueHills: null,
-            maxValueObstacles: null,
-            maxValueOtherCars: null
+            maxValueSpeedometer: {
+                id: "Speedometer",
+                value: null
+            },
+            maxValueTachometer: {
+                id: "Tachometer",
+                value: null
+            },
+            maxValueLanes: {
+                id: "Lanes",
+                value: null
+            },
+            maxValueHills: {
+                id: "Hills",
+                value: null
+            },
+            maxValueObstacles: {
+                id: "Obstacles",
+                value: null
+            },
+            maxValueOtherCars: {
+                id: "Other-cars",
+                value: null
+            }
         };
 
-        // Speedometer
-        $("#myRange-Speedometer").on("input", (e) => {
-            $("#demo-Speedometer").text( $(e.target).val() );
-            // maxValueSpeedometer = $("#myRange-Speedometer").val();
-            sliders.maxValueSpeedometer = $("#myRange-Speedometer").val();
-            document.getElementById("myRange-End").value = "0";            
-        });
+        for(let property in sliders){
+            let p = property;
+            $("#myRange-"+sliders[p].id).on("input", (e) => {
+                d3.select("#demo-"+sliders[p].id)[0][0].innerHTML = $(e.target).val() ;
+                sliders[p].value = d3.select("#demo-"+sliders[p].id)[0][0].innerHTML;
+                d3.select("#myRange-End")[0][0].value = "0";    
+            });
 
-        $("#myRange-Speedometer").trigger("input");
-
-        // Tachometer
-        $("#myRange-Tachometer").on("input", (e) => {
-            $("#demo-Tachometer").text( $(e.target).val() );
-            // maxValueTachometer = $("#myRange-Tachometer").val();
-            sliders.maxValueTachometer = $("#myRange-Tachometer").val();
-            document.getElementById("myRange-End").value = "0";
-        });
-
-        $("#myRange-Tachometer").trigger("input");
-
-        // Hills
-        // $("#myRange-Hills").on("input", (e) => {
-        //     $("#demo-Hills").text( $(e.target).val() );
-        //     maxValueTachometer = $("#myRange-Hills").val();
-        //     //console.log("MAX HILLS: "+maxValueHills);
-        //     });
-
-        //     $("#myRange-Hills").val("This is a test");
-        //     $("#myRange-Hills").trigger("input");
-
-        // Obstacles
-        // $("#myRange-Obstacles").on("input", (e) => {
-        //     $("#demo-Obstacles").text( $(e.target).val() );
-        //     maxValueTachometer = $("#myRange-Obstacles").val();
-        //     //console.log("MAX OBSTACLES: "+maxValueObstacles);
-        //     });
-
-        //     $("#myRange-Obstacles").val("This is a test");
-        //     $("#myRange-Obstacles").trigger("input");
-
-        // Other-Cars
-        // $("#myRange-Other-Cars").on("input", (e) => {
-        //     $("#demo-Other-Cars").text( $(e.target).val() );
-        //     maxValueTachometer = $("#myRange-Other-Cars").val();
-        //     //console.log("MAX OTHER CARS: "+maxValueOtherCars);
-        //     });
-
-        //     $("#myRange-Other-Cars").val("This is a test");
-        //     $("#myRange-Other-Cars").trigger("input");
+            $("#myRange-"+sliders[p].id).trigger("input");
+        }
 
         return sliders;
     };
