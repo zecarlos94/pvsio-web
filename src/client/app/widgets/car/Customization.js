@@ -43,6 +43,9 @@ define(function (require, exports, module) {
     let brItr = 0;
 
     let Widget = require("widgets/Widget");
+    let Speedometer = require("widgets/car/Speedometer");
+    let Tachometer = require("widgets/car/Tachometer");
+    let SteeringWheel = require("widgets/car/SteeringWheel");
      
     /**
      * @function constructor
@@ -439,6 +442,60 @@ define(function (require, exports, module) {
         }
 
         return sliders;
+    };
+
+    /**
+     * @function endRange
+     * @description EndRange method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.endRange = function (callback,car,CSSValues,reRenderEnd,maxValueEnd,sliders,steeringWheel) {
+        $("#myRange-End").on("input", (e) => {
+            d3.select("#demo-End")[0][0].innerHTML = $(e.target).val() ;
+            maxValueEnd = d3.select("#myRange-End")[0][0].value;
+            if(maxValueEnd==1){
+                Customization.prototype.removeParentAllChilds("speedometer-gauge").removeParentAllChilds("tachometer-gauge").removeChild("steering_wheel");
+                if(reRenderEnd>=0){
+                    reRenderEnd++;
+                    sliders=Customization.prototype.rangeEvents(sliders);
+
+                    // ---------------- SPEEDOMETER ----------------
+                    car.speedometerGauge = new Speedometer('speedometer-gauge', {
+                                label: "kmh",
+                                max: sliders.maxValueSpeedometer.value,
+                                min: 0,
+                                callback: callback
+                            });
+                    // ---------------- TACHOMETER ----------------
+                    car.tachometerGauge = new Tachometer('tachometer-gauge', {
+                                max: sliders.maxValueTachometer.value,
+                                min: 0,
+                                label: "x1000/min",
+                                callback: callback
+                    });
+                    Customization.prototype.setLastRenderingDiv("gauge");
+                    steeringWheel = Customization.prototype.getSteeringWheelImage();
+
+                    // ---------------- STEERING WHEEL ----------------
+                    car.steeringWheel = new SteeringWheel("steering_wheel", {
+                        top: 140,
+                        left: 30,
+                        width: 600,
+                        height: 600
+                    }, {
+                        style: steeringWheel,
+                        callback: callback
+                    });
+                    Customization.prototype.reRenderedWindowCSS(CSSValues);
+                    car.drawGamepad.render();
+                }
+            }
+        });
+
+        $("#myRange-End").trigger("input");
+        
+        return this;
     };
 
     /**

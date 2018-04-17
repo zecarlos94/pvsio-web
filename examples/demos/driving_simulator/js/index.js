@@ -612,51 +612,7 @@ require([
 
         sliders=car.customization.rangeEvents(sliders);
 
-        // End
-        $("#myRange-End").on("input", (e) => {
-            $("#demo-End").text( $(e.target).val() );
-            maxValueEnd = $("#myRange-End").val();
-            if(maxValueEnd==1){
-                car.customization.removeParentAllChilds("speedometer-gauge").removeParentAllChilds("tachometer-gauge").removeChild("steering_wheel");
-                if(reRenderEnd>=0){
-                    reRenderEnd++;
-                    sliders=car.customization.rangeEvents(sliders);
-
-                    // ---------------- SPEEDOMETER ----------------
-                    car.speedometerGauge = new Speedometer('speedometer-gauge', {
-                                label: "kmh",
-                                max: sliders.maxValueSpeedometer.value,
-                                min: 0,
-                                callback: onMessageReceived
-                            });
-                    // ---------------- TACHOMETER ----------------
-                    car.tachometerGauge = new Tachometer('tachometer-gauge', {
-                                max: sliders.maxValueTachometer.value,
-                                min: 0,
-                                label: "x1000/min",
-                                callback: onMessageReceived
-                    });
-                    car.customization.setLastRenderingDiv("gauge");
-                    steeringWheel = car.customization.getSteeringWheelImage();
-
-                    // ---------------- STEERING WHEEL ----------------
-                    car.steeringWheel = new SteeringWheel("steering_wheel", {
-                        top: 140,
-                        left: 30,
-                        width: 600,
-                        height: 600
-                    }, {
-                        style: steeringWheel,
-                        callback: onMessageReceived
-                    });
-                    car.customization.reRenderedWindowCSS(reRenderedWindowCSSValues);
-                    car.drawGamepad.render();
-                }
-            }
-        });
-
-        $("#myRange-End").trigger("input");
-
+        car.customization.endRange(onMessageReceived,car,reRenderedWindowCSSValues,reRenderEnd,maxValueEnd,sliders,steeringWheel);
 
         let demoFolder = "driving_simulator";
         //register event listener for websocket connection from the client
