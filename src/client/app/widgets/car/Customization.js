@@ -357,7 +357,16 @@ define(function (require, exports, module) {
                 let steeringWheelStyle = values.split("_");       
                 d3.select("#selectedSteeringWheel")
                   .text(steeringWheelStyle[0]);
-                Customization.prototype.reRenderedWindowCSS(aux);
+                let lastCSS = [];
+                lastCSS.push(aux);
+                Customization.prototype.reRenderedWindowCSS(lastCSS);
+                if(aux.id!==null){
+                    d3.select("#"+aux.id)               
+                      .attr('src', path);
+                }else if(aux.class!==null){
+                    d3.select("."+aux.class)               
+                      .attr('src', path);
+                }
             }
         }); 
         return this;   
