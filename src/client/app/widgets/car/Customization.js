@@ -450,7 +450,10 @@ define(function (require, exports, module) {
      * @memberof module:Customization
      * @instance
      */
-    Customization.prototype.endRange = function (callback,car,CSSValues,reRenderEnd,maxValueEnd,sliders,steeringWheel) {
+    Customization.prototype.endRange = function (callback,car,CSSValues,sliders,steeringWheel) {
+        let reRenderEnd=0;
+        let maxValueEnd=d3.select("#myRange-End")[0][0].value;
+        
         $("#myRange-End").on("input", (e) => {
             d3.select("#demo-End")[0][0].innerHTML = $(e.target).val() ;
             maxValueEnd = d3.select("#myRange-End")[0][0].value;

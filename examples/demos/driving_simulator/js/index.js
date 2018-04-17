@@ -73,9 +73,7 @@ require([
         var tick;
         let e;
         let startMessage = 0;
-        let reRenderEnd=0;
         let steeringWheel = "ferrari";
-        let maxValueEnd=$("#myRange-End").val();
         let sliders = {
             maxValueSpeedometer: {
                 id: "Speedometer",
@@ -612,7 +610,7 @@ require([
 
         sliders=car.customization.rangeEvents(sliders);
 
-        car.customization.endRange(onMessageReceived,car,reRenderedWindowCSSValues,reRenderEnd,maxValueEnd,sliders,steeringWheel);
+        car.customization.endRange(onMessageReceived,car,reRenderedWindowCSSValues,sliders,steeringWheel);
 
         let demoFolder = "driving_simulator";
         //register event listener for websocket connection from the client
