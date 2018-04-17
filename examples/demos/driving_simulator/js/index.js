@@ -98,10 +98,86 @@ require([
                 value: null
             },
             maxValueOtherCars: {
-                id: "Other-cars",
+                id: "Other-Cars",
                 value: null
             }
         };
+        let initWindowCSSValues = [
+            {
+                id: "mySidenav",
+                class: null,
+                styles: [
+                    {
+                        property: "width",
+                        value: "630px"
+                    }
+                ]
+            },
+            {
+                id: "menu",
+                class: null,
+                styles: [
+                    {
+                        property: "margin-left",
+                        value: "450px"
+                    },
+                    {
+                        property: "visibility",
+                        value: "hidden"
+                    }
+                ]
+            },
+            {
+                id: "game-window",
+                class: null,
+                styles: [
+                    {
+                        property: "border",
+                        value: "5px solid black"
+                    }
+                ]
+            },
+            {
+                id: "instructions",
+                class: null,
+                styles: [
+                    {
+                        property: "margin-left",
+                        value: "-60px"
+                    }
+                ]
+            },
+            {
+                id: null,
+                class: "dashboard-widgets",
+                styles: [
+                    {
+                        property: "visibility",
+                        value: "hidden"
+                    }
+                ]
+            },
+            {
+                id: "steering_wheel",
+                class: "last-steering_wheel",
+                styles: [
+                    {
+                        property: "visibility",
+                        value: "hidden"
+                    }
+                ]
+            },
+            {
+                id: "track_img",
+                class: null,
+                styles: [
+                    {
+                        property: "visibility",
+                        value: "visible"
+                    }
+                ]
+            }
+        ];
         let reRenderedWindowCSSValues = [
             {
                 id: "steering_wheel",
@@ -410,7 +486,7 @@ require([
             callback: onMessageReceived
         });
 
-        car.customization.setInitRenderingDiv();
+        car.customization.setInitRenderingDiv(initWindowCSSValues);
 
         /*
         // ---------------- CURRENT SHIFT -------------------------
@@ -534,17 +610,17 @@ require([
         // // Full Right
         // console.log("Full Right Angle: ", car.gamepadController.calculateRotationAngle(-0.08, 1.0));
 
-        sliders=car.customization.rangeEvents();
+        sliders=car.customization.rangeEvents(sliders);
 
         // End
         $("#myRange-End").on("input", (e) => {
             $("#demo-End").text( $(e.target).val() );
             maxValueEnd = $("#myRange-End").val();
             if(maxValueEnd==1){
-                car.customization.removeSpeedometer("speedometer-gauge").removeTachometer("tachometer-gauge").removeSteeringWheel("steering_wheel");
+                car.customization.removeParentAllChilds("speedometer-gauge").removeParentAllChilds("tachometer-gauge").removeChild("steering_wheel");
                 if(reRenderEnd>=0){
                     reRenderEnd++;
-                    sliders=car.customization.rangeEvents();
+                    sliders=car.customization.rangeEvents(sliders);
 
                     // ---------------- SPEEDOMETER ----------------
                     car.speedometerGauge = new Speedometer('speedometer-gauge', {

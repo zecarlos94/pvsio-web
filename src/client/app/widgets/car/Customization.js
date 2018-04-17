@@ -189,18 +189,31 @@ define(function (require, exports, module) {
         this.customizationDiv.append("h4").style("margin-left","5px").text("Customize");
 
         this.customizationDiv.append("br");
-
+        let aux="",res="",res2="";
         for(iterator=0; iterator<this.sliderRanges.length; iterator++){
             brItr++;
             this.aux=this.customizationDiv.append("div").attr("class","game-customisation-"+this.sliderRanges[iterator].name)
                                  .append("div").attr("class","col-xs-12").attr("id","slidecontainer-"+this.sliderRanges[iterator].name);
             
+            if(this.sliderRanges[iterator].name.match(/-/g)){
+                aux = this.sliderRanges[iterator].name.split("-");
+                res = aux[0].charAt(0).toUpperCase() + aux[0].slice(1);
+                res += " "+aux[1].charAt(0).toUpperCase() + aux[1].slice(1);
+                res2 = aux[0].charAt(0).toUpperCase() + aux[0].slice(1);
+                res2 += "-"+aux[1].charAt(0).toUpperCase() + aux[1].slice(1);
+
+            }else{
+                res = this.sliderRanges[iterator].name.charAt(0).toUpperCase() + this.sliderRanges[iterator].name.slice(1);
+                res2 = res;
+            }
+
             this.aux.append("input").attr("type","range").attr("min",""+this.sliderRanges[iterator].min).attr("max",""+this.sliderRanges[iterator].max).attr("value",""+this.sliderRanges[iterator].value)
                     .attr("class","slider")
-                    .attr("id","myRange-"+this.sliderRanges[iterator].name.charAt(0).toUpperCase() + this.sliderRanges[iterator].name.slice(1));
+                    .attr("id","myRange-"+res2);
 
-            this.aux.append("p").style("color",this.sliderColor).style("margin-left","15px").text("Value of "+this.sliderRanges[iterator].name.charAt(0).toUpperCase() + this.sliderRanges[iterator].name.slice(1)+":")
-                    .append("span").attr("id","demo-"+this.sliderRanges[iterator].name.charAt(0).toUpperCase() + this.sliderRanges[iterator].name.slice(1));
+            this.aux.append("p").style("color",this.sliderColor).style("margin-left","15px").text("Value of "+res+":")
+                    .append("span").attr("id","demo-"+res2);
+
             if(brItr===2){
                 this.customizationDiv.append("br");
                 this.customizationDiv.append("br");
@@ -280,28 +293,26 @@ define(function (require, exports, module) {
     };
 
     /**
-     * @function removeSpeedometer
-     * @description RemoveSpeedometer method of the Customization widget. This method ....
+     * @function removeParentAllChilds
+     * @description RemoveParentAllChilds method of the Customization widget. This method ....
      * @memberof module:Customization
      * @instance
      */
-    Customization.prototype.removeSpeedometer = function (id) {
-        let parent = document.getElementById(id);
-        let child = document.getElementById("last-gauge");
-        parent.removeChild(child);
+    Customization.prototype.removeParentAllChilds = function (id) {
+        d3.select("#"+id).selectAll("*").remove();
         return this;
     };
 
     /**
-     * @function removeSpeedometer
-     * @description RemoveSpeedometer method of the Customization widget. This method ....
+     * @function removeChild
+     * @description removeChild method of the Customization widget. This method ....
      * @memberof module:Customization
      * @instance
      */
-    Customization.prototype.removeTachometer = function (id) {
-        let parent = document.getElementById(id);
-        let child = document.getElementById("last-gauge");
-        parent.removeChild(child);
+    Customization.prototype.removeChild = function (id) {
+        let child = d3.select("#"+id); 
+        let parent = child.select(function() { return this.parentNode; });
+        parent.select("#"+id).remove();
         return this;
     };
 
@@ -311,7 +322,7 @@ define(function (require, exports, module) {
      * @memberof module:Customization
      * @instance
      */
-    Customization.prototype.setInitRenderingDiv = function () {
+    Customization.prototype.setInitRenderingDiv = function (initWindowCSSValues) {
         $("#selectImage").imagepicker({
             hide_select: true
         });
@@ -325,28 +336,10 @@ define(function (require, exports, module) {
             });
         });
 
-        d3.select("#mySidenav")
-          .style("width","630px");
-
-        d3.select("#menu")
-          .style("margin-left","450px")
-          .style("visibility","hidden"); 
-
-        d3.select("#game-window")
-          .style("border","5px solid black");
-
-        d3.select("#instructions")
-          .style("margin-left","-60px");
-          
-        d3.select(".dashboard-widgets")
-          .style("visibility","hidden"); 
-
-        Customization.prototype.setImagePicker();
+        let aux = initWindowCSSValues[initWindowCSSValues.length - 1];
+        Customization.prototype.reRenderedWindowCSS(initWindowCSSValues.slice(0, -1));
+        Customization.prototype.setImagePicker(aux);
         
-        d3.select("#steering_wheel")
-          .attr('class','last-steering_wheel')
-          .style("visibility","hidden");
-
         return this;
     }
     /**
@@ -355,7 +348,7 @@ define(function (require, exports, module) {
      * @memberof module:Customization
      * @instance
      */
-    Customization.prototype.setImagePicker = function () {
+    Customization.prototype.setImagePicker = function (aux) {
         $(".image-picker").imagepicker({
             hide_select: true,
             selected: function (option) {
@@ -364,9 +357,7 @@ define(function (require, exports, module) {
                 let steeringWheelStyle = values.split("_");       
                 d3.select("#selectedSteeringWheel")
                   .text(steeringWheelStyle[0]);
-                d3.select("#track_img")
-                  .attr('src', path)
-                  .style("visibility","visible");
+                Customization.prototype.reRenderedWindowCSS(aux);
             }
         }); 
         return this;   
@@ -421,51 +412,12 @@ define(function (require, exports, module) {
     };
 
     /**
-     * @function removeSteeringWheel
-     * @description RemoveSteeringWheel method of the Customization widget. This method ....
-     * @memberof module:Customization
-     * @instance
-     */
-    Customization.prototype.removeSteeringWheel = function (id) {
-        let child = document.getElementById(id);
-        child.parentNode.removeChild(child);
-        return this;
-    };
-
-    /**
      * @function rangeEvents
      * @description RangeEvents method of the Customization widget. This method ....
      * @memberof module:Customization
      * @instance
      */
-    Customization.prototype.rangeEvents = function () {
-        let sliders = {
-            maxValueSpeedometer: {
-                id: "Speedometer",
-                value: null
-            },
-            maxValueTachometer: {
-                id: "Tachometer",
-                value: null
-            },
-            maxValueLanes: {
-                id: "Lanes",
-                value: null
-            },
-            maxValueHills: {
-                id: "Hills",
-                value: null
-            },
-            maxValueObstacles: {
-                id: "Obstacles",
-                value: null
-            },
-            maxValueOtherCars: {
-                id: "Other-cars",
-                value: null
-            }
-        };
-
+    Customization.prototype.rangeEvents = function (sliders) {
         for(let property in sliders){
             let p = property;
             $("#myRange-"+sliders[p].id).on("input", (e) => {
