@@ -4,9 +4,10 @@
  * @author José Carlos
  * @desc This module helps you playing the 2D, HTML5, arcade driving simulator
  * using Device Orientation available at
- * https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Processing_orientation_events
+ * {@link https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Processing_orientation_events}
  *
  * @date Apr 05, 2018
+ * last modified @date Apr 17, 2018
  *
  *
  * @example <caption>Usage of GyroscopeController within a PVSio-web demo.</caption>
@@ -18,7 +19,7 @@
  *
  *     function main() {
  *          // After GyroscopeController module was loaded, initialize it
- *          let GyroscopeController = new GyroscopeController(
+ *          let gyroscope = new GyroscopeController(
  *               'example', // id of the GyroscopeController element that will be created
  *               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
  *               {
@@ -28,7 +29,28 @@
  *           );
  *
  *          // Render the GyroscopeController widget
- *          GyroscopeController.render();
+ *          gyroscope.render();
+ * 
+ *          // Hides the GyroscopeController widget
+ *          gyroscope.hide();
+ * 
+ *          // Reveals/Shows the GyroscopeController widget
+ *          gyroscope.reveal();
+ * 
+ *          // Rotates "carSteeringWheel" left to right and vice-versa, based on gamma values. 
+ *          // That is, "gamma" value represents the motion of the device around the y axis, represented in degrees with values 
+ *          // ranging from -90 to 90. This represents a left to right motion of the device. 
+ *          gyroscope.rotateSteeringAngle(gamma);
+ * 
+ *          // Rotates "carSteeringWheel" left to right and vice-versa, based on gamma values with sensitivity. 
+ *          // That is, "gamma" value represents the motion of the device around the y axis, represented in degrees with values 
+ *          // ranging from -90*sensitivity to 90*sensitivity. This represents a left to right motion of the device. 
+ *          // Sensitivity "sensitivity" values range from 0% to 100%.
+ *          gyroscope.rotateSteeringAngleWithSensitivity(gamma, sensitivity);
+ * 
+ *          // Method that is invoked whenever "deviceorientation" events occur.
+ *          gyroscope.handleOrientation(event);
+ * 
  *     }
  * });
  */
@@ -40,10 +62,10 @@ define(function (require, exports, module) {
     /**
      * @description Listening for event 'deviceorientation' to update current device orientation.
      * @memberof module:GyroscopeController
-     * @instance
      */
+    let gyroscopeEvents;
     if (window.DeviceOrientationEvent) {
-        let gyroscopeEvents = window.addEventListener("deviceorientation", ( event ) => {
+        gyroscopeEvents = window.addEventListener("deviceorientation", ( event ) => {
             GyroscopeController.prototype.handleOrientation(event);
         }, false);
     }else {
@@ -51,9 +73,8 @@ define(function (require, exports, module) {
     }
     
     /**
-     * @description SteeringWheel 'carSteeringWheel' to be rotated with gamepad axes values.
+     * @description SteeringWheel 'carSteeringWheel' to be rotated with gyroscope values.
      * @memberof module:GyroscopeController
-     * @instance
      */
     let carSteeringWheel;
 
@@ -106,9 +127,8 @@ define(function (require, exports, module) {
 
      /**
      * @function rotateSteeringAngle
-     * @description rotateSteeringAngle method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation). Default sensitivity is 100.
+     * @description RotateSteeringAngle method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation). Default sensitivity is 100.
      * @param gamma {Float} The value of vertical axis(up to/or down), between -90 and 90.
-     * @param sensitivity {Integer} The value of sensitivity of the steering wheel rotation angle, between 1 and 100.
      * @memberof module:GyroscopeController
      * @returns {angle} The angle in degrees calculated based on vertical axis value given by the gyroscope.
      * @instance
@@ -129,7 +149,7 @@ define(function (require, exports, module) {
 
     /**
      * @function rotateSteeringAngleWithSensitivity
-     * @description rotateSteeringAngleWithSensitivity method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation) and with the required sensitivity.
+     * @description RotateSteeringAngleWithSensitivity method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation) and with the required sensitivity.
      * @param gamma {Float} The value of vertical axis(up to/or down), between -90 and 90.
      * @param sensitivity {Integer} The value of sensitivity of the steering wheel rotation angle, between 1 and 100.
      * @memberof module:GyroscopeController
@@ -148,7 +168,7 @@ define(function (require, exports, module) {
 
     /**
      * @function handleOrientation
-     * @description handleOrientation method of the GyroscopeController widget. This method changes the object orientation based on its rotation angle.
+     * @description HandleOrientation method of the GyroscopeController widget. This method changes the object orientation based on its rotation angle.
      * @memberof module:GyroscopeController
      * @instance
      */
@@ -161,7 +181,7 @@ define(function (require, exports, module) {
 
     /**
      * @function hide
-     * @description hide method of the GyroscopeController widget. This method changes 'gyroscope' div visibility to hidden.
+     * @description Hide method of the GyroscopeController widget. This method changes 'gyroscope' div visibility to hidden.
      * @memberof module:GyroscopeController
      * @instance
      */
@@ -171,7 +191,7 @@ define(function (require, exports, module) {
 
     /**
      * @function reveal
-     * @description reveal method of the GyroscopeController widget. This method changes 'gyroscope' div visibility to visible.
+     * @description Reveal method of the GyroscopeController widget. This method changes 'gyroscope' div visibility to visible.
      * @memberof module:GyroscopeController
      * @instance
      */

@@ -40,7 +40,7 @@
         
             <div class="description">This module helps you playing the 2D, HTML5, arcade driving simulator
 using Device Orientation available at
-https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Processing_orientation_events</div>
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Processing_orientation_events">https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Processing_orientation_events</a></div>
         
 
         
@@ -138,7 +138,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
 
     function main() {
          // After GyroscopeController module was loaded, initialize it
-         let GyroscopeController = new GyroscopeController(
+         let gyroscope = new GyroscopeController(
               'example', // id of the GyroscopeController element that will be created
               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
               {
@@ -148,7 +148,28 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
           );
 
          // Render the GyroscopeController widget
-         GyroscopeController.render();
+         gyroscope.render();
+
+         // Hides the GyroscopeController widget
+         gyroscope.hide();
+
+         // Reveals/Shows the GyroscopeController widget
+         gyroscope.reveal();
+
+         // Rotates "carSteeringWheel" left to right and vice-versa, based on gamma values. 
+         // That is, "gamma" value represents the motion of the device around the y axis, represented in degrees with values 
+         // ranging from -90 to 90. This represents a left to right motion of the device. 
+         gyroscope.rotateSteeringAngle(gamma);
+
+         // Rotates "carSteeringWheel" left to right and vice-versa, based on gamma values with sensitivity. 
+         // That is, "gamma" value represents the motion of the device around the y axis, represented in degrees with values 
+         // ranging from -90*sensitivity to 90*sensitivity. This represents a left to right motion of the device. 
+         // Sensitivity "sensitivity" values range from 0% to 100%.
+         gyroscope.rotateSteeringAngleWithSensitivity(gamma, sensitivity);
+
+         // Method that is invoked whenever "deviceorientation" events occur.
+         gyroscope.handleOrientation(event);
+
     }
 });</code></pre>
 
@@ -175,13 +196,13 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
 
         
             
-<h4 class="name" id="carSteeringWheel"><span class="type-signature"></span>carSteeringWheel<span class="type-signature"></span></h4>
+<h4 class="name" id=".carSteeringWheel"><span class="type-signature">(static) </span>carSteeringWheel<span class="type-signature"></span></h4>
 
 
 
 
 <div class="description">
-    SteeringWheel 'carSteeringWheel' to be rotated with gamepad axes values.
+    SteeringWheel 'carSteeringWheel' to be rotated with gyroscope values.
 </div>
 
 
@@ -219,7 +240,69 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line58">line 58</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line79">line 79</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".gyroscopeEvents"><span class="type-signature">(static) </span>gyroscopeEvents<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Listening for event 'deviceorientation' to update current device orientation.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line66">line 66</a>
     </li></ul></dd>
     
 
@@ -398,7 +481,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line65">line 65</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line86">line 86</a>
     </li></ul></dd>
     
 
@@ -462,7 +545,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
 
 
 <div class="description">
-    handleOrientation method of the GyroscopeController widget. This method changes the object orientation based on its rotation angle.
+    HandleOrientation method of the GyroscopeController widget. This method changes the object orientation based on its rotation angle.
 </div>
 
 
@@ -506,7 +589,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line149">line 149</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line169">line 169</a>
     </li></ul></dd>
     
 
@@ -548,7 +631,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
 
 
 <div class="description">
-    hide method of the GyroscopeController widget. This method changes 'gyroscope' div visibility to hidden.
+    Hide method of the GyroscopeController widget. This method changes 'gyroscope' div visibility to hidden.
 </div>
 
 
@@ -592,7 +675,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line162">line 162</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line182">line 182</a>
     </li></ul></dd>
     
 
@@ -678,7 +761,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line182">line 182</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line202">line 202</a>
     </li></ul></dd>
     
 
@@ -720,7 +803,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
 
 
 <div class="description">
-    reveal method of the GyroscopeController widget. This method changes 'gyroscope' div visibility to visible.
+    Reveal method of the GyroscopeController widget. This method changes 'gyroscope' div visibility to visible.
 </div>
 
 
@@ -764,7 +847,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line172">line 172</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line192">line 192</a>
     </li></ul></dd>
     
 
@@ -798,7 +881,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
     
 
     
-    <h4 class="name" id="rotateSteeringAngle"><span class="type-signature"></span>rotateSteeringAngle<span class="signature">(gamma, sensitivity)</span><span class="type-signature"> &rarr; {angle}</span></h4>
+    <h4 class="name" id="rotateSteeringAngle"><span class="type-signature"></span>rotateSteeringAngle<span class="signature">(gamma)</span><span class="type-signature"> &rarr; {angle}</span></h4>
     
 
     
@@ -806,7 +889,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
 
 
 <div class="description">
-    rotateSteeringAngle method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation). Default sensitivity is 100.
+    RotateSteeringAngle method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation). Default sensitivity is 100.
 </div>
 
 
@@ -862,29 +945,6 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
         </tr>
 
     
-
-        <tr>
-            
-                <td class="name"><code>sensitivity</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Integer</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The value of sensitivity of the steering wheel rotation angle, between 1 and 100.</td>
-        </tr>
-
-    
     </tbody>
 </table>
 
@@ -922,7 +982,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line107">line 107</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line128">line 128</a>
     </li></ul></dd>
     
 
@@ -986,7 +1046,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
 
 
 <div class="description">
-    rotateSteeringAngleWithSensitivity method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation) and with the required sensitivity.
+    RotateSteeringAngleWithSensitivity method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation) and with the required sensitivity.
 </div>
 
 
@@ -1102,7 +1162,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line130">line 130</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line150">line 150</a>
     </li></ul></dd>
     
 
@@ -1174,7 +1234,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Pr
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 17 2018 11:58:25 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 17 2018 16:38:40 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

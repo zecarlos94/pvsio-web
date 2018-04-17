@@ -38,8 +38,9 @@
     <div class="container-overview">
     
         
-            <div class="description">This module helps you building gauge widgets using SVG files. Uses the Pointer module to
-draw pointers for the gauges.</div>
+            <div class="description">This module helps build vehicle steering wheel widgets using SVG images. 
+It also provides an API to perform the rotation of the steering wheel whose formal specification
+can be found in main.pvs file in the demonstration where the widget's constructor was invoked.</div>
         
 
         
@@ -140,11 +141,22 @@ draw pointers for the gauges.</div>
          let wheel = new SteeringWheel(
               'example', // id of the gauge element that will be created
               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
-              { style: 'ferrari' } // options
+              { style: 'ferrari' }
+              // options, in this case, style represents the SVG image name, available at steering_wheels folder.
+              // 'ferrari' will use "ferrari_steering_wheel.svg" as SVG image.
           );
 
          // Render the SteeringWheel widget, provinding a rotation value in degrees
          wheel.render(-45); // rotates 45 degrees counter-clockwise
+
+         // Hides the SteeringWheel widget
+         wheel.hide();
+
+         // Reveals/Shows the SteeringWheel widget
+         wheel.reveal();
+
+         // Rotates the SteeringWheel widget, provinding a rotation value in degrees
+         wheel.rotate(45); // rotates 45 degrees clockwise
     }
 });</code></pre>
 
@@ -287,10 +299,8 @@ draw pointers for the gauges.</div>
 
             <td class="description last">Options:
          <li>parent (String): the HTML element where the display will be appended (default is "body").</li>
-         <li>style (String): a valid style identifier (default is "ferrari").</li>
-         <li>z-index (String): value for the CSS property z-index (if not provided, no z-index is applied).</li>
-An example of usage of this configuration is with an hour pointer in a clock - The minimum value is 0,
-the maximum value is 24, but the pointer completes 2 laps between min and max values.</li></td>
+         <li>style (String): a valid style identifier, i.e., valid SVG filename (default is "ferrari").</li>
+         <li>z-index (String): value for the CSS property z-index (if not provided, no z-index is applied).</li></td>
         </tr>
 
     
@@ -331,7 +341,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line40">line 40</a>
+        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line53">line 53</a>
     </li></ul></dd>
     
 
@@ -395,7 +405,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 <div class="description">
-    hide method of the SteeringWheel widget. This method changes parent div display to none.
+    Hide method of the SteeringWheel widget. This method changes parent div display to none.
 </div>
 
 
@@ -439,7 +449,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line147">line 147</a>
+        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line158">line 158</a>
     </li></ul></dd>
     
 
@@ -473,7 +483,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
 
     
-    <h4 class="name" id="render"><span class="type-signature"></span>render<span class="signature">(value)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="render"><span class="type-signature"></span>render<span class="signature">(val)</span><span class="type-signature"></span></h4>
     
 
     
@@ -482,222 +492,6 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 <div class="description">
     Render method of the SteeringWheel widget.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>value</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Rotation angle (degrees). Positive values indicate clockwise rotation; negative values are for counter-clockwise rotations.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line182">line 182</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="reveal"><span class="type-signature"></span>reveal<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    reveal method of the SteeringWheel widget. This method changes parent div display to block.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line157">line 157</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="rotate"><span class="type-signature"></span>rotate<span class="signature">(val)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    rotate method of the SteeringWheel widget. This method rotates the steering wheel svg, i.e. image, by the value of 'val'.
 </div>
 
 
@@ -785,7 +579,223 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line167">line 167</a>
+        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line193">line 193</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="reveal"><span class="type-signature"></span>reveal<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Reveal method of the SteeringWheel widget. This method changes parent div display to block.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line168">line 168</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="rotate"><span class="type-signature"></span>rotate<span class="signature">(val)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Rotate method of the SteeringWheel widget. This method rotates the steering wheel SVG, i.e. the steering wheel image, by the value of 'val'.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>val</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Rotation angle (degrees). Positive values indicate clockwise rotation; negative values are for counter-clockwise rotations.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line178">line 178</a>
     </li></ul></dd>
     
 
@@ -835,7 +845,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 17 2018 11:58:25 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 17 2018 16:38:40 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>
