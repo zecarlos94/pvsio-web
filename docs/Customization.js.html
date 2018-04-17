@@ -71,6 +71,9 @@ define(function (require, exports, module) {
     let brItr = 0;
 
     let Widget = require("widgets/Widget");
+    let Speedometer = require("widgets/car/Speedometer");
+    let Tachometer = require("widgets/car/Tachometer");
+    let SteeringWheel = require("widgets/car/SteeringWheel");
      
     /**
      * @function constructor
@@ -217,18 +220,31 @@ define(function (require, exports, module) {
         this.customizationDiv.append("h4").style("margin-left","5px").text("Customize");
 
         this.customizationDiv.append("br");
-
+        let aux="",res="",res2="";
         for(iterator=0; iterator&lt;this.sliderRanges.length; iterator++){
             brItr++;
             this.aux=this.customizationDiv.append("div").attr("class","game-customisation-"+this.sliderRanges[iterator].name)
                                  .append("div").attr("class","col-xs-12").attr("id","slidecontainer-"+this.sliderRanges[iterator].name);
             
+            if(this.sliderRanges[iterator].name.match(/-/g)){
+                aux = this.sliderRanges[iterator].name.split("-");
+                res = aux[0].charAt(0).toUpperCase() + aux[0].slice(1);
+                res += " "+aux[1].charAt(0).toUpperCase() + aux[1].slice(1);
+                res2 = aux[0].charAt(0).toUpperCase() + aux[0].slice(1);
+                res2 += "-"+aux[1].charAt(0).toUpperCase() + aux[1].slice(1);
+
+            }else{
+                res = this.sliderRanges[iterator].name.charAt(0).toUpperCase() + this.sliderRanges[iterator].name.slice(1);
+                res2 = res;
+            }
+
             this.aux.append("input").attr("type","range").attr("min",""+this.sliderRanges[iterator].min).attr("max",""+this.sliderRanges[iterator].max).attr("value",""+this.sliderRanges[iterator].value)
                     .attr("class","slider")
-                    .attr("id","myRange-"+this.sliderRanges[iterator].name.charAt(0).toUpperCase() + this.sliderRanges[iterator].name.slice(1));
+                    .attr("id","myRange-"+res2);
 
-            this.aux.append("p").style("color",this.sliderColor).style("margin-left","15px").text("Value of "+this.sliderRanges[iterator].name.charAt(0).toUpperCase() + this.sliderRanges[iterator].name.slice(1)+":")
-                    .append("span").attr("id","demo-"+this.sliderRanges[iterator].name.charAt(0).toUpperCase() + this.sliderRanges[iterator].name.slice(1));
+            this.aux.append("p").style("color",this.sliderColor).style("margin-left","15px").text("Value of "+res+":")
+                    .append("span").attr("id","demo-"+res2);
+
             if(brItr===2){
                 this.customizationDiv.append("br");
                 this.customizationDiv.append("br");
@@ -281,6 +297,11 @@ define(function (require, exports, module) {
             d3.select("#slidecontainer-end").style("width","6%");
         }
 
+        this.customizationDiv.append("p")
+                             .attr("id","selectedSteeringWheel")
+                             .style("visibility", "hidden")
+                             .text("");
+
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
 
@@ -303,6 +324,212 @@ define(function (require, exports, module) {
     };
 
     /**
+     * @function removeParentAllChilds
+     * @description RemoveParentAllChilds method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.removeParentAllChilds = function (id) {
+        d3.select("#"+id).selectAll("*").remove();
+        return this;
+    };
+
+    /**
+     * @function removeChild
+     * @description removeChild method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.removeChild = function (id) {
+        let child = d3.select("#"+id); 
+        let parent = child.select(function() { return this.parentNode; });
+        parent.select("#"+id).remove();
+        return this;
+    };
+
+    /**
+     * @function setInitRenderingDiv
+     * @description SetInitRenderingDiv method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.setInitRenderingDiv = function (initWindowCSSValues) {
+        $("#selectImage").imagepicker({
+            hide_select: true
+        });
+    
+        let $container = $('.image_picker_selector');
+        // initialize
+        $container.imagesLoaded( () => {
+            $container.masonry({
+                columnWidth: 30,
+                itemSelector: '.thumbnail'
+            });
+        });
+
+        let aux = initWindowCSSValues[initWindowCSSValues.length - 1];
+        Customization.prototype.reRenderedWindowCSS(initWindowCSSValues.slice(0, -1));
+        Customization.prototype.setImagePicker(aux);
+        
+        return this;
+    }
+    /**
+     * @function setImagePicker
+     * @description SetImagePicker method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.setImagePicker = function (aux) {
+        $(".image-picker").imagepicker({
+            hide_select: true,
+            selected: function (option) {
+                let values = this.val();
+                let path = ($(this).find("option[value='" + $(this).val() + "']").data('img-src'));
+                let steeringWheelStyle = values.split("_");       
+                d3.select("#selectedSteeringWheel")
+                  .text(steeringWheelStyle[0]);
+                let lastCSS = [];
+                lastCSS.push(aux);
+                Customization.prototype.reRenderedWindowCSS(lastCSS);
+                if(aux.id!==null){
+                    d3.select("#"+aux.id)               
+                      .attr('src', path);
+                }else if(aux.class!==null){
+                    d3.select("."+aux.class)               
+                      .attr('src', path);
+                }
+            }
+        }); 
+        return this;   
+    }
+
+    /**
+     * @function getSteeringWheelImage
+     * @description GetSteeringWheelImage method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.getSteeringWheelImage = function () {        
+       return d3.select("#selectedSteeringWheel")[0][0].innerHTML;
+    }
+
+    
+    /**
+     * @function setLastRenderingDiv
+     * @description SetLastRenderingDiv method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.setLastRenderingDiv = function (className) {
+        d3.selectAll("."+className).attr('id','last-gauge');
+        return this;
+    }
+
+    /**
+     * @function reRenderedWindowCSS
+     * @description ReRenderedWindowCSS method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.reRenderedWindowCSS = function (reRenderedWindowCSSValues) {
+        reRenderedWindowCSSValues.forEach( (el) => {
+            if(el.id!==null){
+                let aux = d3.select("#"+el.id);
+                if(el.class!==null){
+                    aux.attr("class", el.class);
+                }
+                el.styles.forEach( (st) => {
+                    aux.style(st.property, st.value);
+                });
+            }else if(el.class!==null){
+                let aux = d3.select("."+el.class);
+                el.styles.forEach( (st) => {
+                    aux.style(st.property, st.value);
+                });
+            }
+        });
+        return this;
+    };
+
+    /**
+     * @function rangeEvents
+     * @description RangeEvents method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.rangeEvents = function (sliders) {
+        for(let property in sliders){
+            let p = property;
+            $("#myRange-"+sliders[p].id).on("input", (e) => {
+                d3.select("#demo-"+sliders[p].id)[0][0].innerHTML = $(e.target).val() ;
+                sliders[p].value = d3.select("#demo-"+sliders[p].id)[0][0].innerHTML;
+                d3.select("#myRange-End")[0][0].value = "0";    
+            });
+
+            $("#myRange-"+sliders[p].id).trigger("input");
+        }
+
+        return sliders;
+    };
+
+    /**
+     * @function endRange
+     * @description EndRange method of the Customization widget. This method ....
+     * @memberof module:Customization
+     * @instance
+     */
+    Customization.prototype.endRange = function (callback,car,CSSValues,sliders,steeringWheel) {
+        let reRenderEnd=0;
+        let maxValueEnd=d3.select("#myRange-End")[0][0].value;
+        
+        $("#myRange-End").on("input", (e) => {
+            d3.select("#demo-End")[0][0].innerHTML = $(e.target).val() ;
+            maxValueEnd = d3.select("#myRange-End")[0][0].value;
+            if(maxValueEnd==1){
+                Customization.prototype.removeParentAllChilds("speedometer-gauge").removeParentAllChilds("tachometer-gauge").removeChild("steering_wheel");
+                if(reRenderEnd>=0){
+                    reRenderEnd++;
+                    sliders=Customization.prototype.rangeEvents(sliders);
+
+                    // ---------------- SPEEDOMETER ----------------
+                    car.speedometerGauge = new Speedometer('speedometer-gauge', {
+                                label: "kmh",
+                                max: sliders.maxValueSpeedometer.value,
+                                min: 0,
+                                callback: callback
+                            });
+                    // ---------------- TACHOMETER ----------------
+                    car.tachometerGauge = new Tachometer('tachometer-gauge', {
+                                max: sliders.maxValueTachometer.value,
+                                min: 0,
+                                label: "x1000/min",
+                                callback: callback
+                    });
+                    Customization.prototype.setLastRenderingDiv("gauge");
+                    steeringWheel = Customization.prototype.getSteeringWheelImage();
+
+                    // ---------------- STEERING WHEEL ----------------
+                    car.steeringWheel = new SteeringWheel("steering_wheel", {
+                        top: 140,
+                        left: 30,
+                        width: 600,
+                        height: 600
+                    }, {
+                        style: steeringWheel,
+                        callback: callback
+                    });
+                    Customization.prototype.reRenderedWindowCSS(CSSValues);
+                    car.drawGamepad.render();
+                }
+            }
+        });
+
+        $("#myRange-End").trigger("input");
+        
+        return this;
+    };
+
+    /**
      * @function render
      * @description Render method of the Customization widget.
      * @memberof module:Customization
@@ -313,8 +540,7 @@ define(function (require, exports, module) {
     };
 
     module.exports = Customization;
-});
-</code></pre>
+});</code></pre>
         </article>
     </section>
 
@@ -330,7 +556,7 @@ define(function (require, exports, module) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Apr 16 2018 10:17:41 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 17 2018 11:58:25 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>
