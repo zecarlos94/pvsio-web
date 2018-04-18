@@ -257,6 +257,7 @@ define(function (require, exports, module) {
      * @function show
      * @description Show method of the Sound widget. This method displays the current main div as it is.
      * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
      * @instance
      */
     Sound.prototype.show = function () {
@@ -270,6 +271,7 @@ define(function (require, exports, module) {
      * @param indexOnEnded (Integer) This parameter is the index of the song that will end, given by the "onended" event.
      * @param arrayNext (Array) This parameter is an array of objects, indexPlayNext and newVolume, which allows to play and set volume of several sounds after "indexOnEnded" sound ended.
      * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
      * @instance
      */
     Sound.prototype.onEndedSound = function (indexOnEnded, arrayNext) {
@@ -289,6 +291,7 @@ define(function (require, exports, module) {
      * @description PlaySound method of the Sound widget. This method plays a specific known sound, given by index parameter.
      * @param index (Integer) This parameter is the index of the intended sound to be changed.
      * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
      * @instance
      */
     Sound.prototype.playSound = function (index) {
@@ -301,6 +304,7 @@ define(function (require, exports, module) {
      * @description PauseSound method of the Sound widget. This method pauses a specific known sound, given by index parameter.
      * @param index (Integer) This parameter is the index of the intended sound to be changed.
      * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
      * @instance
      */
     Sound.prototype.pauseSound = function (index) {
@@ -312,6 +316,7 @@ define(function (require, exports, module) {
      * @function playAll
      * @description PlayAll method of the Sound widget. This method plays all known sounds.
      * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
      * @instance
      */
     Sound.prototype.playAll = function () {
@@ -326,6 +331,7 @@ define(function (require, exports, module) {
      * @function pauseAll
      * @description PauseAll method of the Sound widget. This method pauses all known sounds playing.
      * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
      * @instance
      */
     Sound.prototype.pauseAll = function () {
@@ -342,6 +348,7 @@ define(function (require, exports, module) {
      * @param newVolume (Float) This parameter is the new volume to be set to all known sounds.
      * @param index (Integer) This parameter is the index of the intended sound to be changed.
      * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
      * @instance
      */
     Sound.prototype.setVolume = function (newVolume, index) {
@@ -354,6 +361,7 @@ define(function (require, exports, module) {
      * @description SetVolumeAll method of the Sound widget. This method changes the volume of all known sounds.
      * @param newVolume (Float) This parameter is the new volume to be set to all known sounds.
      * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
      * @instance
      */
     Sound.prototype.setVolumeAll = function (newVolume) {
@@ -368,6 +376,7 @@ define(function (require, exports, module) {
      * @function mute
      * @description Mute method of the Sound widget. This method changes the displayed image and pauses all sounds known.
      * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
      * @instance
      */
     Sound.prototype.mute = function () {
@@ -387,6 +396,7 @@ define(function (require, exports, module) {
      * @function unmute
      * @description Unmute method of the Sound widget. This method changes the displayed image and plays all sounds known.
      * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
      * @instance
      */
     Sound.prototype.unmute = function () {
@@ -406,6 +416,7 @@ define(function (require, exports, module) {
      * @function getSoundOff
      * @description GetSoundOff method of the Sound widget. This method returns the value of div with id="soundOff".
      * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
      * @instance
      */
     Sound.prototype.getSoundOff = function () {

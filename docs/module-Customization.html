@@ -62,7 +62,7 @@
 
     
     <dt class="tag-version">Version:</dt>
-    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    <dd class="tag-version"><ul class="dummy"><li>2.0.0</li></ul></dd>
     
 
     
@@ -135,6 +135,244 @@
     require("widgets/car/Customization");
 
     function main() {
+           let steeringWheel = "ferrari";
+           let sliders = {
+               maxValueSpeedometer: {
+                   id: "Speedometer",
+                   value: null
+               },
+               maxValueTachometer: {
+                   id: "Tachometer",
+                   value: null
+               },
+               maxValueLanes: {
+                   id: "Lanes",
+                   value: null
+               },
+               maxValueHills: {
+                   id: "Hills",
+                   value: null
+               },
+               maxValueObstacles: {
+                   id: "Obstacles",
+                   value: null
+               },
+               maxValueOtherCars: {
+                   id: "Other-Cars",
+                   value: null
+               }
+           };
+           let initWindowCSSValues = [
+               {
+                   id: "mySidenav",
+                   class: null,
+                   styles: [
+                       {
+                           property: "width",
+                           value: "630px"
+                       }
+                   ]
+               },
+               {
+                   id: "menu",
+                   class: null,
+                   styles: [
+                       {
+                           property: "margin-left",
+                           value: "450px"
+                       },
+                       {
+                           property: "visibility",
+                           value: "hidden"
+                       }
+                   ]
+               },
+               {
+                   id: "game-window",
+                   class: null,
+                   styles: [
+                       {
+                           property: "border",
+                           value: "5px solid black"
+                       }
+                   ]
+               },
+               {
+                   id: "instructions",
+                   class: null,
+                   styles: [
+                       {
+                           property: "margin-left",
+                           value: "-60px"
+                       }
+                   ]
+               },
+               {
+                   id: null,
+                   class: "dashboard-widgets",
+                   styles: [
+                       {
+                           property: "visibility",
+                           value: "hidden"
+                       }
+                   ]
+               },
+               {
+                   id: "steering_wheel",
+                   class: "last-steering_wheel",
+                   styles: [
+                       {
+                           property: "visibility",
+                           value: "hidden"
+                       }
+                   ]
+               },
+               {
+                   id: "track_img",
+                   class: null,
+                   styles: [
+                       {
+                           property: "visibility",
+                           value: "visible"
+                       }
+                   ]
+               }
+           ];
+           let reRenderedWindowCSSValues = [
+               {
+                   id: "steering_wheel",
+                   class: "last-steering_wheel",
+                   styles: [
+                       {
+                           property: "display",
+                           value: "block"
+                       }
+                   ]
+               },
+               {
+                   id: "mySidenav",
+                   class: null,
+                   styles: [
+                       {
+                           property: "width",
+                           value: "0px"
+                       }
+                   ]
+               },
+               {
+                   id: "menu",
+                   class: null,
+                   styles: [
+                       {
+                           property: "margin-left",
+                           value: "-170px"
+                       },
+                       {
+                           property: "margin-left",
+                           value: "0px"
+                       },
+                       {
+                           property: "visibility",
+                           value: "visible"
+                       }
+                   ]
+               },
+               {
+                   id: "track_img",
+                   class: null,
+                   styles: [
+                       {
+                           property: "visibility",
+                           value: "hidden"
+                       }
+                   ]
+               },
+               {
+                   id: "instructions",
+                   class: null,
+                   styles: [
+                       {
+                           property: "margin-left",
+                           value: "650px"
+                       },
+                       {
+                           property: "margin-top",
+                           value: "-740px"
+                       },
+                       {
+                           property: "visibility",
+                           value: "visible"
+                       }
+                   ]
+               },
+               {
+                   id: "gauges",
+                   class: null,
+                   styles: [
+                       {
+                           property: "position",
+                           value: "absolute"
+                       },
+                       {
+                           property: "margin-left",
+                           value: "350px"
+                       },
+                       {   
+                           property: "margin-top",
+                           value: "-810px"
+                       },
+                       {
+                           property: "visibility",
+                           value: "visible"
+                       }
+                   ]
+               },
+               {
+                   id: "steering_wheel",
+                   class: null,
+                   styles: [
+                       {
+                           property: "margin-top",
+                           value: "200px"
+                       },
+                       {
+                           property: "visibility",
+                           value: "visible"
+                       }
+                   ]
+               },
+               {
+                   id: "gamepadImage",
+                   class: null,
+                   styles: [
+                       {
+                           property: "visibility",
+                           value: "visible"
+                       }
+                   ]
+               },
+               {
+                   id: null,
+                   class: "dashboard-widgets",
+                   styles: [
+                       {
+                           property: "margin-top",
+                           value: "200px"
+                       }
+                   ]
+               },
+               {
+                   id: null,
+                   class: "customization",
+                   styles: [
+                       {
+                           property: "visibility",
+                           value: "hidden"
+                       }
+                   ]
+               },
+           ];
+
          // After Customization module was loaded, initialize it
          let customization = new Customization(
          "customization-widget",  // id of the gauge element that will be created
@@ -225,10 +463,45 @@
          // Render the Customization widget
          customization.render();
 
+         // Reveals the Customization widget
+         customization.reveal();
 
+         // Hides the Customization widget
+         customization.hide();
 
+         // Returns the current main div
+         customization.show();
 
+         // Starts the imagepicker, and sets all initial CSS styles.
+         customization.setInitRenderingDiv(initWindowCSSValues);
 
+         // Sets the imagepicker actions, and sets all CSS styles
+         let aux = initWindowCSSValues[initWindowCSSValues.length - 1];
+         customization.setImagePicker(aux);
+
+         // Updates all sliders (ranges values)
+         sliders=customization.rangeEvents(sliders);
+
+         // Updates the last selected steering wheel image (imagepicker)
+         steeringWheel = customization.getSteeringWheelImage();
+
+         // Adds the "last-gauge" id to all div with class "gauge"
+         customization.setLastRenderingDiv("gauge");
+
+         // Removes all divs(html) within div "speedometer-gauge"
+         customization.removeParentAllChilds("speedometer-gauge");
+
+         // Removes all divs(html) within div "tachometer-gauge"
+         customization.removeParentAllChilds("tachometer-gauge");
+
+         // Removes div(html) "steering_wheel"
+         customization.removeChild("steering_wheel");
+
+         // Sets all reRendered CSS styles.
+         customization.reRenderedWindowCSS(CSSValues);
+
+         // Re-renders new widgets and sets new layout (new CSS styles)
+         customization.endRange(onMessageReceived,car,reRenderedWindowCSSValues,sliders,steeringWheel);
 
     }
 });</code></pre>
@@ -371,9 +644,12 @@
             
 
             <td class="description last">Options:
-         <li>parent (String): the HTML element where the display will be appended (default is "FS").</li>
-An example of usage of this configuration is with an hour pointer in a clock - The minimum value is 0,
-the maximum value is 24, but the pointer completes 2 laps between min and max values.</li></td>
+         <li>sliderColor (String): the sliders circle color (default is "#4CAF50").</li>
+         <li>imagesSteeringWheels (Array): array of objects with all the images to insert in the imagepicker, providing the path and value fields (default values are {"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg" and default paths are "widgets/car/steering_wheels/"+{"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg").</li>
+         <li>sliderRanges (Array): array of objects with all the sliders to be created, giving the name (to put in the div), the values min, max (slider intervals) and value (default value) (default is [{name: "speedometer",min: 0,max: 400,value: 340},{name: "tachometer",min: 0,max: 20,value: 16},{name: "lanes",min: 0,max: 3,value: 0},{name: "hills",min: 0,max: 10,value: 0},{name: "obstacles",min: 0,max: 10,value: 0},{name: "other-cars",min: 0,max: 10,value: 0}]).</li>
+         <li>controlsText (Array): array of objects with information about widget control (default is ["Car controls:","[left/right arrow keys] Turn Left/Right","[up/down arrow keys] Accelerate/Brake"]).</li>
+         <li>gauges (Array): array of objects with information about gauge widgets to create (default is [{name:"speedometer-gauge",styleId:"",style:""},{name:"tachometer-gauge",styleId:"float",style:"right"}]).</li>
+         <li>gaugesStyles (Array): array of objects with CSS styles to add to the above gauge widgets (default is [{zoom: "45%",marginLeft: "370px",marginTop: "430px"}]).</li></td>
         </tr>
 
     
@@ -414,7 +690,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line136">line 136</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line410">line 410</a>
     </li></ul></dd>
     
 
@@ -470,7 +746,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
 
     
-    <h4 class="name" id="endRange"><span class="type-signature"></span>endRange<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="endRange"><span class="type-signature"></span>endRange<span class="signature">(callback, car, CSSValues, sliders, steeringWheel)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
     
 
     
@@ -478,7 +754,11 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 <div class="description">
-    EndRange method of the Customization widget. This method ....
+    EndRange method of the Customization widget. This method is responsible for re-rendering the 
+desired widgets, in this case, the speedometer, tachometer, and steering wheel, based on the value selected 
+in the slider "End", which only takes 2 values, 0 by default, which implies that the user is still choosing 
+customization options, and 1, when the user wants to exit the customization menu, which implies that the user 
+has already finished customizing.
 </div>
 
 
@@ -487,6 +767,127 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">(Function) the function provided as callback to widgets constructors that will be re-rendered. This function will be defined in the respective demo, where the Customization widget constructor was invoked.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>car</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">(Object) the object with all the widgets created so far in the demo. For example, in demo driving_simulator, car has the widgets accelerate and brake Buttons, Speedometer, Tachometer, SteeringWheel, DrawGamepad, GamepadController, GyroscopeController, among other widgets. 
+This object is essential so that the re-rendering process can invoke all the methods of the widgets that will be re-render.
+It is essential to provide this parameter, so that is possible to create the new speedometer and tachometer, based on the values selected in the sliders, in the previous customization menu.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>CSSValues</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">(Object) array of objects with all the ids, class, and styles to update. That is, it has all the CSS parameters, which are necessary in the re-rendering process, which will produce the new layout on the screen (re-organized widgets).
+For example, one of these objects will be example 1).
+This object will update the style of the div with id="a", with class="b". And the style that will be added is display:"block;", given by the fields, property and value. To allow more than one style, the styles field is also an array of objects, with values of all properties to be added.
+If the id is null, the class field is used to select the respective div. Otherwise the id value is the one to be used. When the two values exist, what happens is the creation of the attribute class, in the selected div, with the id value.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sliders</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">(Object) the object with all objects that allows the creation of sliders as well as to store its current values. For five different sliders, this object will have five objects, where each one will have the id of the slider, which will be used to name the id of its div, and the value of that, which by default is initialized to null.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>steeringWheel</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">(String) the string with the steering wheel image name to re-render. It takes the value provided by getSteeringWheelImage method. The default value is "ferrari", which represents the file "ferrari_steering_wheel.svg".</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -522,7 +923,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line553">line 553</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line863">line 863</a>
     </li></ul></dd>
     
 
@@ -545,8 +946,35 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget Customization.
+</div>
 
 
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Customization</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>1) {id:"a",class:"b",styles:[{property:"display",value:"block"}]}.</code></pre>
 
 
 
@@ -564,7 +992,8 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 <div class="description">
-    GetSteeringWheelImage method of the Customization widget. This method ....
+    GetSteeringWheelImage method of the Customization widget. This method selects the div text with id="# selectedSteeringWheel", which in turn contains the name 
+of the last selected image in the imagepicker. This content will be used to render the new Steering Wheel widget.
 </div>
 
 
@@ -608,7 +1037,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line484">line 484</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line780">line 780</a>
     </li></ul></dd>
     
 
@@ -694,7 +1123,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line374">line 374</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line650">line 650</a>
     </li></ul></dd>
     
 
@@ -728,7 +1157,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
 
     
-    <h4 class="name" id="rangeEvents"><span class="type-signature"></span>rangeEvents<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="rangeEvents"><span class="type-signature"></span>rangeEvents<span class="signature">(sliders)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -736,7 +1165,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 <div class="description">
-    RangeEvents method of the Customization widget. This method ....
+    RangeEvents method of the Customization widget. This method is responsible for updating the values of the sliders of the customization menu in the sliders object, received as argument, which will be returned at the end.
 </div>
 
 
@@ -745,6 +1174,51 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sliders</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">(Object) the object with all objects that allows the creation of sliders as well as to store its current values. For five different sliders, this object will have five objects, where each one will have the id of the slider, 
+which will be used to name the id of its div, and the value of that, which by default is initialized to null.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -780,7 +1254,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line532">line 532</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line839">line 839</a>
     </li></ul></dd>
     
 
@@ -803,6 +1277,28 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The updated sliders object received as argument.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -814,7 +1310,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
 
     
-    <h4 class="name" id="removeChild"><span class="type-signature"></span>removeChild<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="removeChild"><span class="type-signature"></span>removeChild<span class="signature">(id)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
     
 
     
@@ -822,7 +1318,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 <div class="description">
-    removeChild method of the Customization widget. This method ....
+    removeChild method of the Customization widget. This method removes the node, with id received as argument.
 </div>
 
 
@@ -831,6 +1327,50 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">(String) the div id name to be removed.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -866,7 +1406,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line415">line 415</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line694">line 694</a>
     </li></ul></dd>
     
 
@@ -889,6 +1429,28 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget Customization.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Customization</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -900,7 +1462,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
 
     
-    <h4 class="name" id="removeParentAllChilds"><span class="type-signature"></span>removeParentAllChilds<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="removeParentAllChilds"><span class="type-signature"></span>removeParentAllChilds<span class="signature">(id)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
     
 
     
@@ -908,7 +1470,8 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 <div class="description">
-    RemoveParentAllChilds method of the Customization widget. This method ....
+    RemoveParentAllChilds method of the Customization widget. This method removes all the divs(html) within the div with the received id as the argument.
+That is, it removes all child nodes from the parent div, with id="#(argument id)".
 </div>
 
 
@@ -917,6 +1480,50 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">(String) the parent div id name, where all child nodes will be removed.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -952,7 +1559,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line404">line 404</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line680">line 680</a>
     </li></ul></dd>
     
 
@@ -975,6 +1582,28 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget Customization.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Customization</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1038,7 +1667,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line610">line 610</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line936">line 936</a>
     </li></ul></dd>
     
 
@@ -1072,7 +1701,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
 
     
-    <h4 class="name" id="reRenderedWindowCSS"><span class="type-signature"></span>reRenderedWindowCSS<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="reRenderedWindowCSS"><span class="type-signature"></span>reRenderedWindowCSS<span class="signature">(reRenderedWindowCSSValues)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
     
 
     
@@ -1080,7 +1709,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 <div class="description">
-    ReRenderedWindowCSS method of the Customization widget. This method ....
+    ReRenderedWindowCSS method of the Customization widget. This method is responsible for updating all required styles in the re-rendering process.
 </div>
 
 
@@ -1089,6 +1718,54 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>reRenderedWindowCSSValues</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">(Object) array of objects with all the ids, class, and styles to update. 
+That is, it has all the CSS parameters, which are necessary in the re-rendering process, which will produce the new layout on the screen (re-organized widgets).
+For example, one of these objects will be example 2).
+This object will update the style of the div with id="a", with class="b". And the style that will be added is display:"block;", given by the fields, property and value. To allow more than one style, the styles field is also an array of objects, with values of all properties to be added.
+If the id is null, the class field is used to select the respective div. Otherwise the id value is the one to be used. When the two values exist, what happens is the creation of the attribute class, in the selected div, with the id value.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1124,7 +1801,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line506">line 506</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line806">line 806</a>
     </li></ul></dd>
     
 
@@ -1147,8 +1824,35 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget Customization.
+</div>
 
 
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Customization</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>2) {id:"a",class:"b",styles:[{property:"display",value:"block"}]}.</code></pre>
 
 
 
@@ -1210,7 +1914,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line384">line 384</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line660">line 660</a>
     </li></ul></dd>
     
 
@@ -1244,7 +1948,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
 
     
-    <h4 class="name" id="setImagePicker"><span class="type-signature"></span>setImagePicker<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="setImagePicker"><span class="type-signature"></span>setImagePicker<span class="signature">(aux)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
     
 
     
@@ -1252,7 +1956,9 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 <div class="description">
-    SetImagePicker method of the Customization widget. This method ....
+    SetImagePicker method of the Customization widget. This method is responsible for getting values related to the image selected in the imagepicker.
+In this, it adds the name of the selected image, taken from the path field, to the div with id="#selectedSteeringWheel", so that the currently selected image can be accessed at any time.
+Also adds the value of the path field to the div with id/class provided in the aux object, so that it can be viewed in that div (larger size, i.e. highlighted) as well as all its styles.
 </div>
 
 
@@ -1261,6 +1967,51 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>aux</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">(Object) the last object of initWindowCSSValues, argument of the setInitRenderingDiv method, which refers to the div where the selected image in the image picker can be highlighted, 
+as example 3) shows. This object has the id/class of that div, as well as an array of styles to add, with properties and its values.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1296,7 +2047,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line454">line 454</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line744">line 744</a>
     </li></ul></dd>
     
 
@@ -1319,8 +2070,35 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget Customization.
+</div>
 
 
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Customization</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>3) {id: "track_img", class: null, styles: [{property: "visibility",value: "visible"}]}</code></pre>
 
 
 
@@ -1330,7 +2108,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
 
     
-    <h4 class="name" id="setInitRenderingDiv"><span class="type-signature"></span>setInitRenderingDiv<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="setInitRenderingDiv"><span class="type-signature"></span>setInitRenderingDiv<span class="signature">(initWindowCSSValues)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
     
 
     
@@ -1338,7 +2116,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 <div class="description">
-    SetInitRenderingDiv method of the Customization widget. This method ....
+    SetInitRenderingDiv method of the Customization widget. This method starts the imagepicker.
 </div>
 
 
@@ -1347,6 +2125,56 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>initWindowCSSValues</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">(Object) array of objects with all the ids, class, and styles to add. 
+That is, it has all the CSS parameters, which are necessary in the initial rendering process, which will produce the layout on the screen (widgets organization).
+For example, one of these objects will be example 4).
+This object will add the style of the div with id="a", with class="b". And the style that will be added is display:"block;", given by the fields, 
+property and value. To allow more than one style, the styles field is also an array of objects, with values of all properties to be added.
+If the id is null, the class field is used to select the respective div. Otherwise the id value is the one to be used. When the two values exist, 
+what happens is the creation of the attribute class, in the selected div, with the id value.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1382,7 +2210,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line428">line 428</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line709">line 709</a>
     </li></ul></dd>
     
 
@@ -1405,8 +2233,35 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget Customization.
+</div>
 
 
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Customization</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>4) {id:"a",class:"b",styles:[{property:"display",value:"block"}]}.</code></pre>
 
 
 
@@ -1416,7 +2271,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
 
     
-    <h4 class="name" id="setLastRenderingDiv"><span class="type-signature"></span>setLastRenderingDiv<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="setLastRenderingDiv"><span class="type-signature"></span>setLastRenderingDiv<span class="signature">(className)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
     
 
     
@@ -1424,7 +2279,8 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 <div class="description">
-    SetLastRenderingDiv method of the Customization widget. This method ....
+    SetLastRenderingDiv method of the Customization widget. This method adds the "last-gauge" id to all div with class=".gauge". 
+It should be invoked after creating new Gauge Widgets(Speedometer, Tachometer). This id eases the re-rendering process because it allows to easily remove previously rendered widgets.
 </div>
 
 
@@ -1433,6 +2289,50 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>className</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">(String) the name of the class where those gauges were appended.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1468,7 +2368,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line495">line 495</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line792">line 792</a>
     </li></ul></dd>
     
 
@@ -1491,6 +2391,28 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget Customization.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Customization</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1554,7 +2476,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line394">line 394</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line670">line 670</a>
     </li></ul></dd>
     
 
@@ -1604,7 +2526,7 @@ the maximum value is 24, but the pointer completes 2 laps between min and max va
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 17 2018 17:21:40 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Apr 18 2018 10:41:29 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

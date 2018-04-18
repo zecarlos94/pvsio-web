@@ -128,9 +128,9 @@ define(function (require, exports, module) {
      /**
      * @function rotateSteeringAngle
      * @description RotateSteeringAngle method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation). Default sensitivity is 100.
-     * @param gamma {Float} The value of vertical axis(up to/or down), between -90 and 90.
+     * @param gamma {Float} The value of vertical axis(up to/or down), between -90 and 90. It is used to calculate the angle in degrees calculated based on vertical axis value given by the gyroscope.
      * @memberof module:GyroscopeController
-     * @returns {angle} The angle in degrees calculated based on vertical axis value given by the gyroscope.
+     * @returns {GyroscopeController} The created instance of the widget GyroscopeController.
      * @instance
      */
     GyroscopeController.prototype.rotateSteeringAngle = function(gamma) {
@@ -150,10 +150,10 @@ define(function (require, exports, module) {
     /**
      * @function rotateSteeringAngleWithSensitivity
      * @description RotateSteeringAngleWithSensitivity method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation) and with the required sensitivity.
-     * @param gamma {Float} The value of vertical axis(up to/or down), between -90 and 90.
+     * @param gamma {Float} The value of vertical axis(up to/or down), between -90 and 90. It is used to calculate the angle in degrees calculated based on vertical axis value given by the gyroscope.
      * @param sensitivity {Integer} The value of sensitivity of the steering wheel rotation angle, between 1 and 100.
      * @memberof module:GyroscopeController
-     * @returns {angle} The angle in degrees calculated based on vertical axis value given by the gyroscope.
+     * @returns {GyroscopeController} The created instance of the widget GyroscopeController.
      * @instance
      */
     GyroscopeController.prototype.rotateSteeringAngleWithSensitivity = function(gamma,s) {
