@@ -2,10 +2,10 @@
  * @module TrackGenerator
  * @version 1.0.0
  * @author José Carlos
- * @desc This module draws the 2D TrackGenerator driving simulator, using HTML5 Canvas.
+ * @desc This module generates randomly the 2D driving simulator, straight lines only version, using HTML5 Canvas.
  *
  * @date Apr 02, 2018
- *
+ * last modified @date Apr 18, 2018
  *
  * @example <caption>Usage of TrackGenerator within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -57,8 +57,19 @@
  *                  obstacle: ["rock"], // sprite names to be drawed within the track as obstacles
  *              } // append on div 'content'
  *           );
+ * 
  *          // Render the TrackGenerator widget
  *          TrackGenerator.render();
+ * 
+ *          // Hides the TrackGenerator widget
+ *          TrackGenerator.hide();
+ * 
+ *          // Reveals the TrackGenerator widget
+ *          TrackGenerator.reveal();
+ * 
+ *          // Generates randomly the track, with only straight lines (i.e. height:0, curves:0)
+ *          TrackGenerator.generateStraightTrack()
+ * 
  *     }
  * });
  */
@@ -222,6 +233,16 @@ define(function (require, exports, module) {
      /**
      * @function generateStraightTrack
      * @description GenerateStraightTrack method of the TrackGenerator widget. This method generates the straight line simulator version.
+     * Every 50 iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
+     * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no).
+     * It also has information about the randomly generated position and the type of sprite, i.e. the sprite provided as opt from the available list (obtained in the spritesheet.json file)
+     * During the remaining iterations (which will not be considered as obstacles on the road), a value is randomly generated to decide in which side it will be placed (spriteSidesRandom).
+     * Then the position on that side is also randomly generated in spritePos (given by spritePosRightRandom or spritePosLeftRandom).
+     * Before finishing, another random number is generated to know how far to put the sprite on the selected side in relation to the landscape/track separator, in order to have
+     * sprites randomly scattered, but balanced (instead of being concentrated in a given area).
+     * After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in and whether those are obstacles or not,
+     * a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
+     * within this context on the PVSio-web platform.
      * @memberof module:TrackGenerator
      * @instance
      */
@@ -282,13 +303,11 @@ define(function (require, exports, module) {
                     });
                 }
             }
-
             generatedTrack.push({
                 height: 0,
                 curve: 0,
                 sprite: sprite
             });
-            
         }
     
         trackConfigurations.numZones = numIterations; 
