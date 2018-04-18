@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">ButtonExternalController Widget</div>
+            <div class="description">ButtonExternalController Widget. Renders based on device type (desktop, mobile), if buttonClass opt is provided(when used by VirtualKeypadController).</div>
         
 
         
@@ -60,6 +60,9 @@
 
 <dl class="details">
 
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>2.0.0</li></ul></dd>
     
 
     
@@ -197,7 +200,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line167">line 167</a>
+        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line171">line 171</a>
     </li></ul></dd>
     
 
@@ -305,7 +308,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line197">line 197</a>
+        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line201">line 201</a>
     </li></ul></dd>
     
 
@@ -409,7 +412,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line318">line 318</a>
+        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line322">line 322</a>
     </li></ul></dd>
     
 
@@ -495,7 +498,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line236">line 236</a>
+        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line240">line 240</a>
     </li></ul></dd>
     
 
@@ -581,7 +584,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line267">line 267</a>
+        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line271">line 271</a>
     </li></ul></dd>
     
 
@@ -667,7 +670,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line289">line 289</a>
+        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line293">line 293</a>
     </li></ul></dd>
     
 
@@ -753,7 +756,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line213">line 213</a>
+        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line217">line 217</a>
     </li></ul></dd>
     
 
@@ -839,7 +842,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line346">line 346</a>
+        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line350">line 350</a>
     </li></ul></dd>
     
 
@@ -925,7 +928,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line248">line 248</a>
+        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line252">line 252</a>
     </li></ul></dd>
     
 
@@ -1071,6 +1074,8 @@
          <li>axisX (String): Value of left axis of PS4 gamepad.</li>
          <li>axisY (String): Value of right axis of PS4 gamepad.</li>
          <li>buttonClass (String): Constant that allows this widget to use 'button' tags instead of 'area' when defining buttons.</li>
+         <li>arrowName (String): allows the visual appearance as on the real keyboard layout, i.e. 3 arrow keys aligned at the bottom and 1 arrow key in the middle above them. 
+         That is, when this field is not empty, it means that it is an up arrow key (default is ""). </li>
          <li>title (String): Title of Gamepad's Buttons.</li>
          <li>icon (String): JQuery-UI icon class to define VirtualKeypadController widget buttons, i.e. up, left, down, right arrows.</li></td>
         </tr>
@@ -1113,7 +1118,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line41">line 41</a>
+        <a href="ButtonExternalController.js.html">ButtonExternalController.js</a>, <a href="ButtonExternalController.js.html#line43">line 43</a>
     </li></ul></dd>
     
 
@@ -1185,7 +1190,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Apr 18 2018 11:40:48 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Apr 18 2018 12:17:30 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

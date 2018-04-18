@@ -1,12 +1,12 @@
 /**
  * @module VirtualKeypadController
- * @version 1.0.0
+ * @version 2.0.0
  * @author José Carlos
  * @desc This module helps you playing the 2D, HTML5, arcade driving simulator using
- * a virtual keypad suitable for mobile devices.
+ * a virtual keypad suitable for mobile devices. Renders based on device type(desktop, mobile).
  *
  * @date Mar 02, 2018
- *
+ * last modified @date Apr 18, 2018
  *
  * @example <caption>Usage of VirtualKeypadController within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -20,17 +20,44 @@
  *          let virtualKeypadController = new VirtualKeypadController(
  *               'example', // id of the VirtualKeypadController element that will be created
  *               { top: 800, left: 800, width: 500, height: 500 }, // coordinates object
- *               { parent: 'virtualKeyPad', 
+ *               { 
+ *                 keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
+ *                 keyboardClass: "icon keyboard",
+ *                 keyboardTopMobile: 750,
+ *                 keyboardLeftMobile: 1350,
+ *                 keyboardTopDesktop: 735,
+ *                 keyboardLeftDesktop: 1380,
+ *                 // keyboardUrl: "img/keyboard.png", // Image is located at widgets/car/configurations/img/keyboard.png by default
+ *                 keyboardHoverInitialTitle: "Click to open virtual keypad controller",
+ *                 keyboardHoverSecondTitle: "Click to close virtual keypad controller",
+ *                 // keyboardOnclickAction: "alert("Clicked");", // No action by default
+ *                 keyboardImageWidthMobile: 80,
+ *                 keyboardImageHeightMobile: 60,
+ *                 keyboardImageWidthDesktop: 50,
+ *                 keyboardImageHeightDesktop: 30,
+ *                 parent: 'virtualKeyPad', 
  *                 simulatorActions: 'simulatorActions', 
  *                 simulatorArrows: 'simulatorArrows',
  *                 floatArrows: 'floatArrows',
  *                 blockArrows: 'blockArrows',
  *                 buttonClass: 'buttonClass',
  *                 title: 'title',
+ *                 arrowKeysPVS: [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"],
+ *                 otherKeysPVS: [ "quit", "pause", "resume" ],
  *               } // options, append this widget on div class="virtualKeyPad"
  *           );
+ * 
  *          // Render the VirtualKeypadController widget
  *          virtualKeypadController.render();
+ * 
+ *          // Hides the VirtualKeypadController widget
+ *          virtualKeypadController.hide();
+ * 
+ *          // Reveals the VirtualKeypadController widget
+ *          virtualKeypadController.reveal();
+ * 
+ *          // Returns the current main div
+ *          virtualKeypadController.show(); 
  *     }
  * });
  */
@@ -60,13 +87,29 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
+     *          <li>keyboardImgDiv (String): id name of the div where to put the virtual keyboard image (default is "mobileDevicesController").</li>
+     *          <li>keyboardClass (String): virtual keyboard div class name (default is "icon keyboard").</li>
+     *          <li>keyboardTopMobile (Int): virtual keyboard div top position for mobile devices (default is 750).</li>
+     *          <li>keyboardLeftMobile (Int): virtual keyboard div left position for mobile devices (default is 1350).</li>
+     *          <li>keyboardTopDesktop (Int): virtual keyboard div top position for desktop devices (default is 735).</li>
+     *          <li>keyboardLeftDesktop (Int): virtual keyboard div left position for desktop devices (default is 1380).</li>
+     *          <li>keyboardUrl (String): virtual keyboard image path (default is "widgets/car/configurations/img/keyboard.png").</li>
+     *          <li>keyboardHoverInitialTitle (String): initial text on hover in virtual keyboard image (default is "Click to open virtual keypad controller").</li>
+     *          <li>keyboardHoverSecondTitle (String): second text(after click) on hover in virtual keyboard image (default is "Click to close virtual keypad controller").</li>
+     *          <li>keyboardOnclickAction (String): method to execute after clicking the virtual keyboard image (default is "").</li>
+     *          <li>keyboardImageWidthMobile (Int): virtual keyboard image width for mobile devices (default is 80).</li>
+     *          <li>keyboardImageHeightMobile (Int): virtual keyboard image height for mobile devices (default is 60).</li>
+     *          <li>keyboardImageWidthDesktop (Int): virtual keyboard image width for desktop devices (default is 50).</li>
+     *          <li>keyboardImageHeightDesktop (Int): virtual keyboard image height for desktop devices (default is 30).</li>
      *          <li>parent (String): the HTML element where the display will be appended (default is "virtualKeyPad").</li>
      *          <li>simulatorActions (String): the HTML element where the action buttons(pause, resume and quit) will be appended (default is "simulatorActions").</li>
      *          <li>simulatorArrows (String): the HTML element where the arrow buttons(left, up, right, down) will be appended (default is "simulatorArrows").</li>
      *          <li>floatArrows (String): the HTML element where the up arrow button will be appended (default is "floatArrows").</li>
      *          <li>blockArrows (String): the HTML element where the arrow buttons(left, right, down) will be appended (default is "blockArrows").</li>
      *          <li>buttonClass (String): the constant string that allows ButtonExternalController widget to use 'button' tags with JQuery-UI images instead of areas as Button widget implements.(default is "buttonClass").</li>
-     *          <li>title (String): the button's title(default is 'title').</li>
+     *          <li>title (String): the button's title(default is 'title').</li>       
+     *          <li>arrowKeysPVS (Array): array with the IDs of the ButtonExternalController widgets to create, that is, the names of the formal specifications in the main.pvs file for arrow keys (default is [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"]).</li>
+     *          <li>otherKeysPVS (Array): array with the IDs of the ButtonExternalController widgets to create, that is, the names of the formal specifications in the main.pvs file for the other buttons (default is [ "quit", "pause", "resume" ]).</li> 
      * @returns {VirtualKeypadController} The created instance of the widget VirtualKeypadController.
      * @memberof module:VirtualKeypadController
      * @instance
@@ -360,7 +403,7 @@ define(function (require, exports, module) {
 
     /**
      * @function hide
-     * @description hide method of the VirtualKeypadController widget. This method changes 'virtualKeyPad' div visibility to hidden.
+     * @description Hide method of the VirtualKeypadController widget. This method changes 'virtualKeyPad' div visibility to hidden.
      * @memberof module:VirtualKeypadController
      * @instance
      */
@@ -370,7 +413,7 @@ define(function (require, exports, module) {
 
     /**
      * @function reveal
-     * @description reveal method of the VirtualKeypadController widget. This method changes 'virtualKeyPad' div visibility to visible.
+     * @description Reveal method of the VirtualKeypadController widget. This method changes 'virtualKeyPad' div visibility to visible.
      * @memberof module:VirtualKeypadController
      * @instance
      */
@@ -380,7 +423,7 @@ define(function (require, exports, module) {
 
     /**
      * @function show
-     * @description show method of the VirtualKeypadController widget. This method shows the current div status, i.e. as it was created by the VirtualKeypadController constructor.
+     * @description Show method of the VirtualKeypadController widget. This method shows the current div status, i.e. as it was created by the VirtualKeypadController constructor.
      * @memberof module:VirtualKeypadController
      * @instance
      */

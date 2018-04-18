@@ -1,10 +1,12 @@
 /**
  * @module ButtonExternalController
- * @desc ButtonExternalController Widget
+ * @version 2.0.0
  * @author Patrick Oladimeji, José Carlos
+ * @desc ButtonExternalController Widget. Renders based on device type (desktop, mobile), if buttonClass opt is provided(when used by VirtualKeypadController).
+ * 
  * @date 10/31/13 11:26:16 AM
- *
  * Modified @date 10/23/17 11:23:59 AM
+ * last modified @date Apr 17, 2018
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50*/
 /*global define*/
@@ -49,6 +51,8 @@ define(function (require, exports, module) {
      *          <li>axisX (String): Value of left axis of PS4 gamepad.</li>
      *          <li>axisY (String): Value of right axis of PS4 gamepad.</li>
      *          <li>buttonClass (String): Constant that allows this widget to use 'button' tags instead of 'area' when defining buttons.</li>
+     *          <li>arrowName (String): allows the visual appearance as on the real keyboard layout, i.e. 3 arrow keys aligned at the bottom and 1 arrow key in the middle above them. 
+     *          That is, when this field is not empty, it means that it is an up arrow key (default is ""). </li>
      *          <li>title (String): Title of Gamepad's Buttons.</li>
      *          <li>icon (String): JQuery-UI icon class to define VirtualKeypadController widget buttons, i.e. up, left, down, right arrows.</li>
      * @returns {ButtonExternalController} The created instance of the widget ButtonExternalController.
