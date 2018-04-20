@@ -141,9 +141,9 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
-     *          <li>parent (String): the HTML element where the display will be appended (default is "game-window").</li>
-     *          <li>trackFilename (String): the track configuration filename, i.e. JSON file with the track that will be drawed as well as the required sprite coordinates, etc (default is "track").</li>
-     *          <li>spritesFilename (String): the spritesheet configuration filename, i.e. JSON file with the all available sprites, whose coordinates are the same in trackFilename, i.e. the track must have been generated with this JSON as well so the coordinates will match (default is "spritesheet").</li>
+     *          <li>parent {String}: the HTML element where the display will be appended (default is "game-window").</li>
+     *          <li>trackFilename {String}: the track configuration filename, i.e. JSON file with the track that will be drawed as well as the required sprite coordinates, etc (default is "track").</li>
+     *          <li>spritesFilename {String}: the spritesheet configuration filename, i.e. JSON file with the all available sprites, whose coordinates are the same in trackFilename, i.e. the track must have been generated with this JSON as well so the coordinates will match (default is "spritesheet").</li>
      * @returns {Arcade} The created instance of the widget Arcade.
      * @memberof module:Arcade
      * @instance
@@ -315,8 +315,7 @@ define(function (require, exports, module) {
 
     /**
      * @function getNrIterations
-     * @description getNrIterations method of the Arcade widget. This method computes the number of iterations required to draw the track defined in the JSON configuration file, 
-     * and updates the numZones field of trackParam with that value.
+     * @description GetNrIterations method of the Arcade widget. This method computes the number of iterations required to draw the track defined in the JSON configuration file. 
      * In the final version, the JSON structure, see example 1), will be the same, however fields 'height' and 'curve' will have other values 
      * other than 0 and 0, respectively.
      * @example 
@@ -378,7 +377,7 @@ define(function (require, exports, module) {
     /**
      * @function onPageLoad
      * @description onPageLoad method of the Arcade widget. This method starts the arcade simulation and loads the required spritesheets, with all sprites defined in track object.
-     * @param spritesFiles
+     * @param spritesFiles {Array} array of strings, with the names of the sprites images (spritesheets) to use. By default two are used, one for the objects and another for the font (text).
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
@@ -404,8 +403,10 @@ define(function (require, exports, module) {
 
     /**
      * @function renderSplashFrame
-     * @description RenderSplashFrame method of the Arcade widget. 
+     * @description RenderSplashFrame method of the Arcade widget. This method draws the simulator home page, where the commands to control the simulator are displayed. 
+     * It is also initialized the lap timer, using jchronometer lib, as soon as the user uses the command to start the simulation(renderSimulatorFrame).
      * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
      Arcade.prototype.renderSplashFrame = function () {  
@@ -423,15 +424,15 @@ define(function (require, exports, module) {
             if(readConfiguration && readSprite){
                 context.drawImage(spritesheetsImages[0],  logo.x, logo.y, logo.w, logo.h, 100, 20, 0.6*logo.w, 0.6*logo.h);
     
-                Arcade.prototype.drawText("Instructions:",{x: 100, y: 95});
-                Arcade.prototype.drawText("Click on space bar to start",{x: 40, y: 110});
-                Arcade.prototype.drawText("Click on key s to pause",{x: 40, y: 120});
-                Arcade.prototype.drawText("Click on key q to end",{x: 40, y: 130});
-                Arcade.prototype.drawText("Use left and rigth arrows",{x: 40, y: 145});
-                Arcade.prototype.drawText("to control the vehicle",{x: 70, y: 155});
-                Arcade.prototype.drawText("You can start now",{x: 90, y: 175});
-                Arcade.prototype.drawText("Credits:",{x: 125, y: 195});
-                Arcade.prototype.drawText("Jose Carlos",{x: 110, y: 205});
+                Arcade.prototype.drawText("Instructions:",{x: 100, y: 95}, 1);
+                Arcade.prototype.drawText("Click on space bar to start",{x: 40, y: 110}, 1);
+                Arcade.prototype.drawText("Click on key s to pause",{x: 40, y: 120}, 1);
+                Arcade.prototype.drawText("Click on key q to end",{x: 40, y: 130}, 1);
+                Arcade.prototype.drawText("Use left and rigth arrows",{x: 40, y: 145}, 1);
+                Arcade.prototype.drawText("to control the vehicle",{x: 70, y: 155}, 1);
+                Arcade.prototype.drawText("You can start now",{x: 90, y: 175}, 1);
+                Arcade.prototype.drawText("Credits:",{x: 125, y: 195}, 1);
+                Arcade.prototype.drawText("Jose Carlos",{x: 110, y: 205}, 1);
                 
                 if(keys[32]){
                     clearInterval(splashInterval);
@@ -461,10 +462,10 @@ define(function (require, exports, module) {
                     }
                 }
             }else{
-                Arcade.prototype.drawText("Loading Configurations...",{x: 100, y: 95}); 
+                Arcade.prototype.drawText("Loading Configurations...",{x: 100, y: 95}, 1); 
             }
         }else{
-            Arcade.prototype.drawText("Loading Parameters...",{x: 100, y: 68});  
+            Arcade.prototype.drawText("Loading Parameters...",{x: 100, y: 68}, 1);  
         }
         
         return this;
@@ -472,8 +473,10 @@ define(function (require, exports, module) {
 
     /**
      * @function renderSplashPauseFrame
-     * @description renderSplashPauseFrame method of the Arcade widget. 
+     * @description RenderSplashPauseFrame method of the Arcade widget. This method draws the simulator pause page, where the commands to control the simulator and to resume the simulation(renderSimulatorFrame) are displayed. 
+     * It is also resumed the lap timer, using jchronometer lib, as soon as the user uses the command to resume the simulation.
      * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
     Arcade.prototype.renderSplashPauseFrame = function () { 
@@ -485,9 +488,9 @@ define(function (require, exports, module) {
     
         context.drawImage(spritesheetsImages[0],  logo.x, logo.y, logo.w, logo.h, 100, 20, 0.6*logo.w, 0.6*logo.h);
     
-        Arcade.prototype.drawText("Click on space bar to resume",{x: 30, y: 110});
-        Arcade.prototype.drawText("Use left and rigth arrows",{x: 40, y: 125});
-        Arcade.prototype.drawText("to control the car",{x: 70, y: 135});
+        Arcade.prototype.drawText("Click on space bar to resume",{x: 30, y: 110}, 1);
+        Arcade.prototype.drawText("Use left and rigth arrows",{x: 40, y: 125}, 1);
+        Arcade.prototype.drawText("to control the car",{x: 70, y: 135}, 1);
         if(keys[32]){
             chronometer.start();
     
@@ -510,12 +513,15 @@ define(function (require, exports, module) {
                 ]);
             }
         }
+        return this;
     }
     
     /**
      * @function renderSplashEndFrame
-     * @description renderSplashEndFrame method of the Arcade widget. 
+     * @description RenderSplashEndFrame method of the Arcade widget. This method draws the simulator end page, where the commands to control the simulator and to start another simulation(renderSimulatorFrame) are displayed. 
+     * It is also initialized the new lap timer, using jchronometer lib, as soon as the user uses the command to start the new simulation. 
      * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
     Arcade.prototype.renderSplashEndFrame = function () { 
@@ -527,8 +533,8 @@ define(function (require, exports, module) {
     
         context.drawImage(spritesheetsImages[0],  logo.x, logo.y, logo.w, logo.h, 100, 20, 0.6*logo.w, 0.6*logo.h);
     
-        Arcade.prototype.drawText("Thank you for playing!",{x: 70, y: 110});
-        Arcade.prototype.drawText("Click on space bar to start again",{x: 40, y: 125});
+        Arcade.prototype.drawText("Thank you for playing!",{x: 70, y: 110}, 1);
+        Arcade.prototype.drawText("Click on space bar to start again",{x: 40, y: 125}, 1);
         if(keys[32]){
             clearInterval(splashInterval);
             clearInterval(simulatorInterval);
@@ -562,29 +568,44 @@ define(function (require, exports, module) {
                 ]);
             }
         }
+        return this;
     }
 
     /**
      * @function drawText
-     * @description drawText method of the Arcade widget. This method draws text using sprite letters to simulate the arcade look. That is, reading string and for each letter draw the corresponding sprite letter.
+     * @description DrawText method of the Arcade widget. This method draws text using sprite letters to simulate the arcade look. 
+     * That is, reading string and for each letter draw the corresponding sprite letter, using image spritesheetsImages[imageIndex].
+     * @param string {String} Text to be rendered with the available text font.
+     * @param pos {Object} Screen coordinates, i.e. object with x, y, width and height values.
+     * @param imageIndex {Int} spritesheetsImages (array) index, which has the text font sprite image.
      * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.drawText = function (string, pos) {
+    Arcade.prototype.drawText = function (string, pos, imageIndex) {
         string = string.toUpperCase();
         let cur = pos.x;
         for(let i=0; i < string.length; i++) {
-            context.drawImage(spritesheetsImages[1], (string.charCodeAt(i) - 32) * 8, 0, 8, 8, cur, pos.y, 8, 8);
+            context.drawImage(spritesheetsImages[imageIndex], (string.charCodeAt(i) - 32) * 8, 0, 8, 8, cur, pos.y, 8, 8);
             cur += 8;
         }
         return this;
     };
 
-
     /**
      * @function drawLanes
-     * @description drawLanes method of the Arcade widget. This method draws lanes according to numLanes defined by user (UI slider)
+     * @description DrawLanes method of the Arcade widget. This method draws lanes according to numLanes, received as argument.
+     * @param pos1 {Float} 
+     * @param scale1 {Float} 
+     * @param offset1 {Float} 
+     * @param pos2 {Float} 
+     * @param scale2 {Float} 
+     * @param offset2 {Float} 
+     * @param color {String} CSS color to render the lane, usually hexadecimal value.
+     * @param numLanes {Int} Number of lanes to be rendered.
+     * @param laneWidth {Float} The width of each lane to be rendered.
      * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
     Arcade.prototype.drawLanes = function (pos1, scale1, offset1, pos2, scale2, offset2, color, numLanes, laneWidth) {
@@ -598,12 +619,23 @@ define(function (require, exports, module) {
             Arcade.prototype.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2, -0.55+alpha, -0.55+alpha+laneWidth, color);
             Arcade.prototype.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2,  0.55-alpha-laneWidth, 0.55-alpha, color);
         }
+        return this;
     }
 
     /**
      * @function drawArrow
-     * @description drawArrow method of the Arcade widget. This method draws a guiding arrow/line
+     * @description DrawArrow method of the Arcade widget. This method draws a guiding arrow in front of the vehicle.
+     * @param pos1 {Float} 
+     * @param scale1 {Float} 
+     * @param offset1 {Float} 
+     * @param pos2 {Float} 
+     * @param scale2 {Float} 
+     * @param offset2 {Float} 
+     * @param delta1 {Float} 
+     * @param delta2 {Float}
+     * @param color {String} CSS color to render the lane, usually hexadecimal value.
      * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
     Arcade.prototype.drawArrow = function (pos1, scale1, offset1, pos2, scale2, offset2, delta1, delta2, color) {
@@ -615,39 +647,53 @@ define(function (require, exports, module) {
         context.lineTo(demiWidth + delta2 * render.width * scale2 + offset2, pos2);
         context.lineTo(demiWidth + delta2 * render.width * scale1 + offset1, pos1);
         context.fill();
+        return this;
     }
 
     /**
-     * @function drawImage
-     * @description drawImage method of the Arcade widget. This method draws an image of spritesheet
-     * @memberof module:Arcade
-     * @instance
-     */
-    Arcade.prototype.drawImage = function (image, x, y, scale) {
-        context.drawImage(spritesheetsImages[0],  image.x, image.y, image.w, image.h, x, y, scale*image.w, scale*image.h);
-    };
-
-    /**
      * @function drawSprite
-     * @description drawSprite method of the Arcade widget. This method draws a sprite, i.e. an object, of spritesheet
+     * @description DrawSprite method of the Arcade widget. This method draws an image of spritesheetsImages array. Usually it uses index 0, since this method is used to 
+     * draw objects and index 0 has the spritesheet image with all available objects. This method either receives only a sprite (and null as other arguments) or receives 
+     * an image, x, y and scale (sprite as a null argument). This allows to use render different images and sprites.
+     * @param sprite {Float} Sprite to be rendered.
+     * @param image {Float} Image to be rendered.
+     * @param x {Float} X screen coordinate, used to place the object to be rendered.
+     * @param y {Float} Y screen coordinate, used to place the object to be rendered.
+     * @param scale {Float} Scaling value to render object. It is used to enlarge or to shrink the object to better fit in the screen.
      * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.drawSprite = function (sprite) {
-        let destY = sprite.y - sprite.i.h * sprite.s;
-        let h = null
-        if(sprite.ymax < sprite.y) {
-            h = Math.min(sprite.i.h * (sprite.ymax - destY) / (sprite.i.h * sprite.s), sprite.i.h);
-        } else {
-            h = sprite.i.h;
+    Arcade.prototype.drawSprite = function (sprite, image, x, y, scale) {
+        if(sprite!==null){
+            let destY = sprite.y - sprite.i.h * sprite.s;
+            let h = null
+            if(sprite.ymax < sprite.y) {
+                h = Math.min(sprite.i.h * (sprite.ymax - destY) / (sprite.i.h * sprite.s), sprite.i.h);
+            } else {
+                h = sprite.i.h;
+            }
+            if(h > 0) context.drawImage(spritesheetsImages[0],  sprite.i.x, sprite.i.y, sprite.i.w, h, sprite.x, destY, sprite.s * sprite.i.w, sprite.s * h);
+        }else{
+            context.drawImage(spritesheetsImages[0],  image.x, image.y, image.w, image.h, x, y, scale*image.w, scale*image.h);
         }
-        if(h > 0) context.drawImage(spritesheetsImages[0],  sprite.i.x, sprite.i.y, sprite.i.w, h, sprite.x, destY, sprite.s * sprite.i.w, sprite.s * h);
+        return this;
     };
 
     /**
      * @function drawSegmentPortion
-     * @description drawSegmentPortion method of the Arcade widget. This method draws a segment portion.
+     * @description DrawSegmentPortion method of the Arcade widget. This method draws a segment portion.
+     * @param pos1 {Float} 
+     * @param scale1 {Float} 
+     * @param offset1 {Float} 
+     * @param pos2 {Float} 
+     * @param scale2 {Float} 
+     * @param offset2 {Float} 
+     * @param delta1 {Float} 
+     * @param delta2 {Float}
+     * @param color {String} CSS color to render the lane, usually hexadecimal value.
      * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
     Arcade.prototype.drawSegmentPortion = function (pos1, scale1, offset1, pos2, scale2, offset2, delta1, delta2, color) {
@@ -660,37 +706,59 @@ define(function (require, exports, module) {
         context.lineTo(demiWidth + delta2 * render.width * scale2 + offset2, pos2);
         context.lineTo(demiWidth + delta2 * render.width * scale1 + offset1, pos1);
         context.fill();
+        return this;
     }
 
     /**
      * @function drawBackground
-     * @description drawBackground method of the Arcade widget. This method draws the background
+     * @description DrawBackground method of the Arcade widget. This method draws the background image, in position 'position'.
+     * @param position {Float} Value of posx in controllable_car object, i.e. horizontal position, which is computed by adding/subtracting the turning field value every time the vehicle is turned left or right, in updateControllableCar method.
      * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
     Arcade.prototype.drawBackground = function (position) {
         let first = position / 2 % (background.w);
         //(image, x, y, scale) args
-        Arcade.prototype.drawImage(background, first-background.w +1, 0, 1);
-        Arcade.prototype.drawImage(background, first+background.w-1, 0, 1);
-        Arcade.prototype.drawImage(background, first, 0, 1);
+        Arcade.prototype.drawSprite(null, background, first-background.w +1, 0, 1);
+        Arcade.prototype.drawSprite(null, background, first+background.w-1, 0, 1);
+        Arcade.prototype.drawSprite(null, background, first, 0, 1);
+        return this;
     }
 
      /**
      * @function setColorsEndCanvas
-     * @description setColorsEndCanvas method of the Arcade widget. This method set the final colors of canvas.
+     * @description SetColorsEndCanvas method of the Arcade widget. This method set the final colors of the track segment and lane.
+     * The goal is to create the illusion of the starting/finishing line, which is black and white, and therefore, different from the colors that
+     * those two segments have during the simulation.
+     * @param track_segment {String} CSS color to render the final track segment, usually hexadecimal value.
+     * @param lane {String} CSS color to render the final lane, usually hexadecimal value.
      * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */ 
     Arcade.prototype.setColorsEndCanvas = function (track_segment, lane) {
         track_segment = track_segment;
         lane          = lane;
+        return this;
     }
     
     /**
      * @function setColorsCanvas
-     * @description setColorsCanvas method of the Arcade widget. This method set the initial colors of canvas.
+     * @description SetColorsCanvas method of the Arcade widget. This method set the initial colors of canvas, which will prevail until the end of the track is reached.
+     * @param alternate {Boolean} Value of comparison "counter < numberOfSegmentPerColor", which allows to choose the color of the segment depending on which segment is currently being rendered. 
+     * That is, numberOfSegmentPerColor has the number of sequential segments to be colored with the same color, and when reached the following segments must be rendered with another color so the simulator can
+     * offer alternate colors. This is used, for instance, to render the track separators (separates track from landscape), which is colored red and white alternately.
+     * @param border1 {String} CSS color to render the first border sequence of segments, usually hexadecimal value.
+     * @param border2 {String} CSS color to render the second border sequence of segments, usually hexadecimal value.
+     * @param outborder1 {String} CSS color to render the outborder (line that separates the track from the track separator) segments, usually hexadecimal value.
+     * @param outborder_end1 {String} CSS color to render the outborder_end (line that separates the track separator from the landscape) segments, usually hexadecimal value.
+     * @param track_segment1 {String} CSS color to render the track segments, usually hexadecimal value.
+     * @param lane1 {String} CSS color to render the first lane sequence of segments (allows discontinuous lanes), usually hexadecimal value. To have continuous lanes, lane1 and lane2 arguments must have the same value (color).
+     * @param lane2 {String} CSS color to render the second lane sequence of segments, usually hexadecimal value.
+     * @param laneArrow1 {String} CSS color to render the guiding arrow segment, usually hexadecimal value.
      * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */ 
     Arcade.prototype.setColorsCanvas = function (alternate, grass1, border1, border2, outborder1, outborder_end1, track_segment1, lane1, lane2, laneArrow1) {
@@ -701,12 +769,23 @@ define(function (require, exports, module) {
         track_segment  = track_segment1;
         lane           = (alternate) ? lane1 : lane2;
         laneArrow      = laneArrow1;
+        return this;
     }
 
     /**
      * @function drawSegment
-     * @description drawSegment method of the Arcade widget. This method draws a segment of the simulator(which corresponds to an entire strip of the canvas).
+     * @description DrawSegment method of the Arcade widget. This method draws a segment of the simulator(which corresponds to an entire strip of the canvas). 
+     * To do so, this method uses drawSegmentPortion, setColorsEndCanvas methods. The latter is used to draw the finishing line (different colors).
+     * @param position1 {Float} 
+     * @param scale1 {Float} 
+     * @param offset1 {Float} 
+     * @param position2 {Float} 
+     * @param scale2 {Float} 
+     * @param offset2 {Float} 
+     * @param finishStart {Boolean} Value of comparison "currentSegmentIndex == 2 || currentSegmentIndex == (numIterations-render.depthOfField)", which verifies if current segment
+     * is the second or the last segment, i.e. the starting segment or the final segment to be rendered.
      * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */ 
     Arcade.prototype.drawSegment = function (position1, scale1, offset1, position2, scale2, offset2, finishStart) {
@@ -744,7 +823,6 @@ define(function (require, exports, module) {
             Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.25, 0.20, "#000");
             Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.35, 0.30, "#000");
             Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.45, 0.40, "#000");
-
 
             //TODO Change arrow direction when car is off track
             // draw arrow guide
@@ -791,26 +869,25 @@ define(function (require, exports, module) {
             context.lineTo(170, 160);
             context.closePath();
             context.fill();
-
         }
+        return this;
     }
 
     /**
      * @function updateControllableCar
-     * @description updateControllableCar method of the Arcade widget. This method updates the controllable car position and speed.
+     * @description UpdateControllableCar method of the Arcade widget. This method updates the controllable car position and speed.
      * @memberof module:Arcade
+     * @returns {carSprite} The created object with car sprite (image) and its X,Y coordinates, to be rendered after current position and speed has been changed.
+     * That is, returns the new state after the action performed by the user (acceleration, braking, change of direction).
      * @instance
      */
     Arcade.prototype.updateControllableCar = function () {
-   
         //  Update the car state
-         
         // TODO understand lastDelta
         if (Math.abs(lastDelta) > 130){
             if (controllable_car.speed > 3) {
                 controllable_car.speed -= 0.2;
             }
-      
         } else {
             // readSprite acceleration controls
             soundOff = soundWidget.getSoundOff();
@@ -838,7 +915,6 @@ define(function (require, exports, module) {
       
         // car turning
         if (keys[37]) {
-           
             // 37 left
             if(controllable_car.speed > 0){
                 controllable_car.posx -= controllable_car.turning;
@@ -865,14 +941,14 @@ define(function (require, exports, module) {
                 y:190
             };
         }
-      
         return carSprite;
     }
     
     /**
      * @function renderSimulatorFrame
-     * @description renderSimulatorFrame method of the Arcade widget. This method renders one frame.
+     * @description RenderSimulatorFrame method of the Arcade widget. This method renders each frame during the simulation.
      * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
     Arcade.prototype.renderSimulatorFrame = function () {
@@ -910,9 +986,9 @@ define(function (require, exports, module) {
        
         if(absoluteIndex >= numIterations-render.depthOfField-1){
             clearInterval(simulatorInterval);
-            Arcade.prototype.drawText("Simulation Ended!", {x: 90, y: 40});
-            Arcade.prototype.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60});
-            Arcade.prototype.drawText("The Simulator", {x: 100, y: 70});
+            Arcade.prototype.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
+            Arcade.prototype.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
+            Arcade.prototype.drawText("The Simulator", {x: 100, y: 70}, 1);
             soundWidget.pauseAll();
             
             // Delayed function call by 5 seconds to reload simulator
@@ -952,9 +1028,6 @@ define(function (require, exports, module) {
             let currentScaling       = startScaling;
 
             if(currentHeight > endProjectedHeight){
-                // Setting the colors within the simulator for each segment 
-                // (alternate, grass1, border1, border2, outborder1, outborder_end1, track_segment1, lane1, lane2, laneArrow1)
-                // Arcade.prototype.setColorsCanvas(counter < numberOfSegmentPerColor, "#699864", "#e00", "#fff", "#496a46", "#474747", "#777", "#fff", "#777", "#00FF00");
                 Arcade.prototype.setColorsCanvas(counter < numberOfSegmentPerColor, grass1, border1, border2, outborder1, outborder_end1, track_segment1, lane1, lane2, laneArrow1);
                 Arcade.prototype.drawSegment(
                     render.height / 2 + currentHeight,
@@ -1029,33 +1102,35 @@ define(function (require, exports, module) {
             //     drawSprite(sptB);
             // }
 
-            Arcade.prototype.drawSprite(sptB);
+            Arcade.prototype.drawSprite(sptB, null, null, null, null);
             // console.log(sptB);
         }
     
         // console.log(spritesReadJSON);
         
         // Draw the car 
-        
-        Arcade.prototype.drawImage(carSprite.car, carSprite.x, carSprite.y, 1);
+        Arcade.prototype.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
     
         // Draw Header 
-        Arcade.prototype.drawText(""+Math.round(absoluteIndex/(numIterations-render.depthOfField)*100)+"%",{x: 10, y: 1});
+        Arcade.prototype.drawText(""+Math.round(absoluteIndex/(numIterations-render.depthOfField)*100)+"%",{x: 10, y: 1}, 1);
         
         let speed = Math.round(controllable_car.speed / controllable_car.maxSpeed * topSpeed);
         let speed_kmh = Math.round(speed * 1.60934);
-        Arcade.prototype.drawText(""+speed_kmh+" kmh", {x: 260, y: 1});
-        Arcade.prototype.drawText(""+speed+" mph", {x: 260, y: 10});
+        Arcade.prototype.drawText(""+speed_kmh+" kmh", {x: 260, y: 1}, 1);
+        Arcade.prototype.drawText(""+speed+" mph", {x: 260, y: 10}, 1);
 
         let res = time[0].split("-");
         currentTimeString = res[0] + " h:" + time[1] + " m:" + time[2] + " s:" + time[3] + " ms";
-        Arcade.prototype.drawText(currentTimeString, {x: 70, y: 1});
+        Arcade.prototype.drawText(currentTimeString, {x: 70, y: 1}, 1);
+
+        return this;
     };
 
     /**
      * @function detectBrowserType
-     * @description detectBrowserType method of the Arcade widget. This method detects current open Browser.
+     * @description DetectBrowserType method of the Arcade widget. This method detects current open Browser.
      * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
     Arcade.prototype.detectBrowserType = function () {
@@ -1076,16 +1151,14 @@ define(function (require, exports, module) {
 
      /**
      * @function init
-     * @description init method of the Arcade widget. This method inits the canvas.
+     * @description Init method of the Arcade widget. This method inits the canvas and adds the events onkeydown and onkeyup to capture the desired actions, i.e. accelerate, brake, etc.
      * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
     Arcade.prototype.init = function () {
-        // configure canvas
         canvas = document.getElementById("arcadeSimulator");
-        context = canvas.getContext('2d');
-         
-        //register key handeling:
+        context = canvas.getContext('2d');         
         window.onkeydown = function(e){
             keys[e.keyCode] = true;
         };
