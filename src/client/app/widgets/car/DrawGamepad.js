@@ -64,9 +64,9 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 0, left: 0, width: 250, height: 250 }.
      * @param opt {Object} Options:
-     *          <li>parent (String): the HTML element where the display will be appended (default is "body").</li>
-     *          <li>style (String): a valid style identifier (default is "ps4").</li>
-     *          <li>buttonsPVS (Array): the actions defined in main.pvs file, which are used to define all gamepad buttons, ButtonEVO, ids (default is [ "a", "b", "y", "x", "menu", "windows", "xbox", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ] for style "xbox" and [ "cross", "circle", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ] for style "ps4").</li>
+     *          <li>parent {String}: the HTML element where the display will be appended (default is "body").</li>
+     *          <li>style {String}: a valid style identifier (default is "ps4").</li>
+     *          <li>buttonsPVS {Array}: the actions defined in main.pvs file, which are used to define all gamepad buttons, ButtonEVO, ids (default is [ "a", "b", "y", "x", "menu", "windows", "xbox", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ] for style "xbox" and [ "cross", "circle", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ] for style "ps4").</li>
      * @returns {DrawGamepad} The created instance of the widget DrawGamepad.
      * @memberof module:DrawGamepad
      * @instance
@@ -360,7 +360,7 @@ define(function (require, exports, module) {
      /**
      * @function callPressReleasePVS
      * @description CallPressReleasePVS method of the DrawGamepad widget. This method calls a PVS press/release function in main.pvs file, based on the required buttonName.
-     * @param buttonName (String) Pressed ButtonEVO name, i.e. name of the pressed interactive button on the gamepad image, which will be used to invoke the PVS action, which is formally specified in the main.pvs file.
+     * @param buttonName {String} Pressed ButtonEVO name, i.e. name of the pressed interactive button on the gamepad image, which will be used to invoke the PVS action, which is formally specified in the main.pvs file.
      * @memberof module:DrawGamepad
      * @instance
      */
@@ -372,7 +372,7 @@ define(function (require, exports, module) {
     /**
      * @function callClickPVS
      * @description CallClickPVS method of the DrawGamepad widget. This method calls a PVS click function in main.pvs file, based on the required buttonName.
-     * @param buttonName (String) Clicked ButtonEVO name, i.e. name of the clicked interactive button on the gamepad image, which will be used to invoke the PVS action, which is formally specified in the main.pvs file.
+     * @param buttonName {String} Clicked ButtonEVO name, i.e. name of the clicked interactive button on the gamepad image, which will be used to invoke the PVS action, which is formally specified in the main.pvs file.
      * @memberof module:DrawGamepad
      * @instance
      */

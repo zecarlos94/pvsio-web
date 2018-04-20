@@ -121,18 +121,18 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
-     *          <li>parent (String): the HTML element where the display will be appended (default is "game-window").</li>
-     *          <li>spritesFilename (String): the spritesheet filename(json file) that will be loaded (default is "spritesheet").</li>
-     *          <li>render (Object): the rendering configurations, i.e. width, height, etc. (default is  {width: 320, height: 240, depthOfField: 150, camera_distance: 30, camera_height: 100}).</li>
-     *          <li>trackSegmentSize (Int): the size of the track segment (default is 5).</li>
-     *          <li>numberOfSegmentPerColor (Int): the number of segments per color, i.e. how many sequenced segments to alternate colors (default is 4).</li>
-     *          <li>numLanes (Int): the number of lanes the track will be draw (default is 3).</li>
-     *          <li>laneWidth (Float): the width of the lane separator (default is 0.02).</li>
-     *          <li>trackConfigurations (Object): the track configurations, i.e. number of zones(track length), etc (default is {maxHeight: 900, maxCurve:  400, numZones: 12, curvy: 0.8, mountainy: 0.8, zoneSize: 250}).</li>
-     *          <li>controllable_car (Object): the vehicle configurations, i.e. initial position, acceleration and deceleration values, etc (default is {position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20}).</li>
-     *          <li>topSpeed (Int): the maximum speed value that can be reached (default is 250).</li>
-     *          <li>objects (Array): the sprite names to be drawed in the landscape (default is ["tree","rock"]).</li>
-     *          <li>obstacle (Array): the sprite names to be drawed within the track as obstacles (default is ["rock"]).</li>
+     *          <li>parent {String}: the HTML element where the display will be appended (default is "game-window").</li>
+     *          <li>spritesFilename {String}: the spritesheet filename(json file) that will be loaded (default is "spritesheet").</li>
+     *          <li>render {Object}: the rendering configurations, i.e. width, height, etc. (default is  {width: 320, height: 240, depthOfField: 150, camera_distance: 30, camera_height: 100}).</li>
+     *          <li>trackSegmentSize {Int}: the size of the track segment (default is 5).</li>
+     *          <li>numberOfSegmentPerColor {Int}: the number of segments per color, i.e. how many sequenced segments to alternate colors (default is 4).</li>
+     *          <li>numLanes {Int}: the number of lanes the track will be draw (default is 3).</li>
+     *          <li>laneWidth {Float}: the width of the lane separator (default is 0.02).</li>
+     *          <li>trackConfigurations {Object}: the track configurations, i.e. number of zones(track length), etc (default is {maxHeight: 900, maxCurve:  400, numZones: 12, curvy: 0.8, mountainy: 0.8, zoneSize: 250}).</li>
+     *          <li>controllable_car {Object}: the vehicle configurations, i.e. initial position, acceleration and deceleration values, etc (default is {position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20}).</li>
+     *          <li>topSpeed {Int}: the maximum speed value that can be reached (default is 250).</li>
+     *          <li>objects {Array}: the sprite names to be drawed in the landscape (default is ["tree","rock"]).</li>
+     *          <li>obstacle {Array}: the sprite names to be drawed within the track as obstacles (default is ["rock"]).</li>
      * @returns {TrackGenerator} The created instance of the widget TrackGenerator.
      * @memberof module:TrackGenerator
      * @instance

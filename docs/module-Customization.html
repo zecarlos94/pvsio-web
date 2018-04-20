@@ -644,12 +644,12 @@
             
 
             <td class="description last">Options:
-         <li>sliderColor (String): the sliders circle color (default is "#4CAF50").</li>
-         <li>imagesSteeringWheels (Array): array of objects with all the images to insert in the imagepicker, providing the path and value fields (default values are {"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg" and default paths are "widgets/car/steering_wheels/"+{"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg").</li>
-         <li>sliderRanges (Array): array of objects with all the sliders to be created, giving the name (to put in the div), the values min, max (slider intervals) and value (default value) (default is [{name: "speedometer",min: 0,max: 400,value: 340},{name: "tachometer",min: 0,max: 20,value: 16},{name: "lanes",min: 0,max: 3,value: 0},{name: "hills",min: 0,max: 10,value: 0},{name: "obstacles",min: 0,max: 10,value: 0},{name: "other-cars",min: 0,max: 10,value: 0}]).</li>
-         <li>controlsText (Array): array of objects with information about widget control (default is ["Car controls:","[left/right arrow keys] Turn Left/Right","[up/down arrow keys] Accelerate/Brake"]).</li>
-         <li>gauges (Array): array of objects with information about gauge widgets to create (default is [{name:"speedometer-gauge",styleId:"",style:""},{name:"tachometer-gauge",styleId:"float",style:"right"}]).</li>
-         <li>gaugesStyles (Array): array of objects with CSS styles to add to the above gauge widgets (default is [{zoom: "45%",marginLeft: "370px",marginTop: "430px"}]).</li></td>
+         <li>sliderColor {String}: the sliders circle color (default is "#4CAF50").</li>
+         <li>imagesSteeringWheels {Array}: array of objects with all the images to insert in the imagepicker, providing the path and value fields (default values are {"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg" and default paths are "widgets/car/steering_wheels/"+{"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg").</li>
+         <li>sliderRanges {Array}: array of objects with all the sliders to be created, giving the name (to put in the div), the values min, max (slider intervals) and value (default value) (default is [{name: "speedometer",min: 0,max: 400,value: 340},{name: "tachometer",min: 0,max: 20,value: 16},{name: "lanes",min: 0,max: 3,value: 0},{name: "hills",min: 0,max: 10,value: 0},{name: "obstacles",min: 0,max: 10,value: 0},{name: "other-cars",min: 0,max: 10,value: 0}]).</li>
+         <li>controlsText {Array}: array of objects with information about widget control (default is ["Car controls:","[left/right arrow keys] Turn Left/Right","[up/down arrow keys] Accelerate/Brake"]).</li>
+         <li>gauges {Array}: array of objects with information about gauge widgets to create (default is [{name:"speedometer-gauge",styleId:"",style:""},{name:"tachometer-gauge",styleId:"float",style:"right"}]).</li>
+         <li>gaugesStyles {Array}: array of objects with CSS styles to add to the above gauge widgets (default is [{zoom: "45%",marginLeft: "370px",marginTop: "430px"}]).</li></td>
         </tr>
 
     
@@ -799,13 +799,18 @@ has already finished customizing.
 
             <td class="type">
             
+                
+<span class="param-type">function</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">(Function) the function provided as callback to widgets constructors that will be re-rendered. This function will be defined in the respective demo, where the Customization widget constructor was invoked.</td>
+            <td class="description last">the function provided as callback to widgets constructors that will be re-rendered. This function will be defined in the respective demo, where the Customization widget constructor was invoked.</td>
         </tr>
 
     
@@ -817,13 +822,18 @@ has already finished customizing.
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">(Object) the object with all the widgets created so far in the demo. For example, in demo driving_simulator, car has the widgets accelerate and brake Buttons, Speedometer, Tachometer, SteeringWheel, DrawGamepad, GamepadController, GyroscopeController, among other widgets. 
+            <td class="description last">the object with all the widgets created so far in the demo. For example, in demo driving_simulator, car has the widgets accelerate and brake Buttons, Speedometer, Tachometer, SteeringWheel, DrawGamepad, GamepadController, GyroscopeController, among other widgets. 
 This object is essential so that the re-rendering process can invoke all the methods of the widgets that will be re-render.
 It is essential to provide this parameter, so that is possible to create the new speedometer and tachometer, based on the values selected in the sliders, in the previous customization menu.</td>
         </tr>
@@ -837,13 +847,18 @@ It is essential to provide this parameter, so that is possible to create the new
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">(Object) array of objects with all the ids, class, and styles to update. That is, it has all the CSS parameters, which are necessary in the re-rendering process, which will produce the new layout on the screen (re-organized widgets).
+            <td class="description last">array of objects with all the ids, class, and styles to update. That is, it has all the CSS parameters, which are necessary in the re-rendering process, which will produce the new layout on the screen (re-organized widgets).
 For example, one of these objects will be example 1).
 This object will update the style of the div with id="a", with class="b". And the style that will be added is display:"block;", given by the fields, property and value. To allow more than one style, the styles field is also an array of objects, with values of all properties to be added.
 If the id is null, the class field is used to select the respective div. Otherwise the id value is the one to be used. When the two values exist, what happens is the creation of the attribute class, in the selected div, with the id value.</td>
@@ -858,13 +873,18 @@ If the id is null, the class field is used to select the respective div. Otherwi
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">(Object) the object with all objects that allows the creation of sliders as well as to store its current values. For five different sliders, this object will have five objects, where each one will have the id of the slider, which will be used to name the id of its div, and the value of that, which by default is initialized to null.</td>
+            <td class="description last">the object with all objects that allows the creation of sliders as well as to store its current values. For five different sliders, this object will have five objects, where each one will have the id of the slider, which will be used to name the id of its div, and the value of that, which by default is initialized to null.</td>
         </tr>
 
     
@@ -876,13 +896,18 @@ If the id is null, the class field is used to select the respective div. Otherwi
 
             <td class="type">
             
+                
+<span class="param-type">String</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">(String) the string with the steering wheel image name to re-render. It takes the value provided by getSteeringWheelImage method. The default value is "ferrari", which represents the file "ferrari_steering_wheel.svg".</td>
+            <td class="description last">the string with the steering wheel image name to re-render. It takes the value provided by getSteeringWheelImage method. The default value is "ferrari", which represents the file "ferrari_steering_wheel.svg".</td>
         </tr>
 
     
@@ -1206,13 +1231,18 @@ of the last selected image in the imagepicker. This content will be used to rend
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">(Object) the object with all objects that allows the creation of sliders as well as to store its current values. For five different sliders, this object will have five objects, where each one will have the id of the slider, 
+            <td class="description last">the object with all objects that allows the creation of sliders as well as to store its current values. For five different sliders, this object will have five objects, where each one will have the id of the slider, 
 which will be used to name the id of its div, and the value of that, which by default is initialized to null.</td>
         </tr>
 
@@ -1359,13 +1389,18 @@ which will be used to name the id of its div, and the value of that, which by de
 
             <td class="type">
             
+                
+<span class="param-type">String</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">(String) the div id name to be removed.</td>
+            <td class="description last">the div id name to be removed.</td>
         </tr>
 
     
@@ -1512,13 +1547,18 @@ That is, it removes all child nodes from the parent div, with id="#(argument id)
 
             <td class="type">
             
+                
+<span class="param-type">String</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">(String) the parent div id name, where all child nodes will be removed.</td>
+            <td class="description last">the parent div id name, where all child nodes will be removed.</td>
         </tr>
 
     
@@ -1750,13 +1790,18 @@ That is, it removes all child nodes from the parent div, with id="#(argument id)
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">(Object) array of objects with all the ids, class, and styles to update. 
+            <td class="description last">array of objects with all the ids, class, and styles to update. 
 That is, it has all the CSS parameters, which are necessary in the re-rendering process, which will produce the new layout on the screen (re-organized widgets).
 For example, one of these objects will be example 2).
 This object will update the style of the div with id="a", with class="b". And the style that will be added is display:"block;", given by the fields, property and value. To allow more than one style, the styles field is also an array of objects, with values of all properties to be added.
@@ -1999,13 +2044,18 @@ Also adds the value of the path field to the div with id/class provided in the a
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">(Object) the last object of initWindowCSSValues, argument of the setInitRenderingDiv method, which refers to the div where the selected image in the image picker can be highlighted, 
+            <td class="description last">the last object of initWindowCSSValues, argument of the setInitRenderingDiv method, which refers to the div where the selected image in the image picker can be highlighted, 
 as example 3) shows. This object has the id/class of that div, as well as an array of styles to add, with properties and its values.</td>
         </tr>
 
@@ -2157,13 +2207,18 @@ as example 3) shows. This object has the id/class of that div, as well as an arr
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">(Object) array of objects with all the ids, class, and styles to add. 
+            <td class="description last">array of objects with all the ids, class, and styles to add. 
 That is, it has all the CSS parameters, which are necessary in the initial rendering process, which will produce the layout on the screen (widgets organization).
 For example, one of these objects will be example 4).
 This object will add the style of the div with id="a", with class="b". And the style that will be added is display:"block;", given by the fields, 
@@ -2321,13 +2376,18 @@ It should be invoked after creating new Gauge Widgets(Speedometer, Tachometer). 
 
             <td class="type">
             
+                
+<span class="param-type">String</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">(String) the name of the class where those gauges were appended.</td>
+            <td class="description last">the name of the class where those gauges were appended.</td>
         </tr>
 
     
@@ -2526,7 +2586,7 @@ It should be invoked after creating new Gauge Widgets(Speedometer, Tachometer). 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Apr 20 2018 10:45:42 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Apr 20 2018 11:00:58 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

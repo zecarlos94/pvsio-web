@@ -48,13 +48,13 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
-     *          <li>axisX (String): Value of left axis of PS4 gamepad.</li>
-     *          <li>axisY (String): Value of right axis of PS4 gamepad.</li>
-     *          <li>buttonClass (String): Constant that allows this widget to use 'button' tags instead of 'area' when defining buttons.</li>
-     *          <li>arrowName (String): allows the visual appearance as on the real keyboard layout, i.e. 3 arrow keys aligned at the bottom and 1 arrow key in the middle above them. 
+     *          <li>axisX {String}: Value of left axis of PS4 gamepad.</li>
+     *          <li>axisY {String}: Value of right axis of PS4 gamepad.</li>
+     *          <li>buttonClass {String}: Constant that allows this widget to use 'button' tags instead of 'area' when defining buttons.</li>
+     *          <li>arrowName {String}: allows the visual appearance as on the real keyboard layout, i.e. 3 arrow keys aligned at the bottom and 1 arrow key in the middle above them. 
      *          That is, when this field is not empty, it means that it is an up arrow key (default is ""). </li>
-     *          <li>title (String): Title of Gamepad's Buttons.</li>
-     *          <li>icon (String): JQuery-UI icon class to define VirtualKeypadController widget buttons, i.e. up, left, down, right arrows.</li>
+     *          <li>title {String}: Title of Gamepad's Buttons.</li>
+     *          <li>icon {String}: JQuery-UI icon class to define VirtualKeypadController widget buttons, i.e. up, left, down, right arrows.</li>
      * @returns {ButtonExternalController} The created instance of the widget ButtonExternalController.
      * @memberof module:ButtonExternalController
      * @instance

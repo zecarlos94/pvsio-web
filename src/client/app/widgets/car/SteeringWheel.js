@@ -58,9 +58,9 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 0, left: 0, width: 250, height: 250 }.
      * @param opt {Object} Options:
-     *          <li>parent (String): the HTML element where the display will be appended (default is "body").</li>
-     *          <li>style (String): a valid style identifier, i.e., valid SVG filename (default is "ferrari").</li>
-     *          <li>z-index (String): value for the CSS property z-index (if not provided, no z-index is applied).</li>
+     *          <li>parent {String}: the HTML element where the display will be appended (default is "body").</li>
+     *          <li>style {String}: a valid style identifier, i.e., valid SVG filename (default is "ferrari").</li>
+     *          <li>z-index {String}: value for the CSS property z-index (if not provided, no z-index is applied).</li>
      * @returns {SteeringWheel} The created instance of the widget SteeringWheel.
      * @memberof module:SteeringWheel
      * @instance
@@ -178,7 +178,7 @@ define(function (require, exports, module) {
      /**
      * @function rotate
      * @description Rotate method of the SteeringWheel widget. This method rotates the steering wheel SVG, i.e. the steering wheel image, by the value of 'val'.
-     * @param val Rotation angle (degrees). Positive values indicate clockwise rotation; negative values are for counter-clockwise rotations.
+     * @param val {Float} Rotation angle (degrees). Positive values indicate clockwise rotation; negative values are for counter-clockwise rotations.
      * @memberof module:SteeringWheel
      * @instance
      */
@@ -193,7 +193,7 @@ define(function (require, exports, module) {
     /**
      * @function render
      * @description Render method of the SteeringWheel widget.
-     * @param val Rotation angle (degrees). Positive values indicate clockwise rotation; negative values are for counter-clockwise rotations.
+     * @param val {Float} Rotation angle (degrees). Positive values indicate clockwise rotation; negative values are for counter-clockwise rotations.
      * @memberof module:SteeringWheel
      * @instance
      */

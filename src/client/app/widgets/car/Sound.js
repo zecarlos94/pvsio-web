@@ -112,11 +112,11 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
-     *          <li>parent (String): the HTML element where the display will be appended (default is "tog").</li>
-     *          <li>mutedImg (String): the location of the muted image (default is "widgets/car/configurations/img/muted.png").</li>
-     *          <li>notMutedImg (String): the location of the unmuted image (default is "widgets/car/configurations/img/notMuted.png").</li>
-     *          <li>soundOff (Boolean): the boolean value that indicates whether the sound state is "off", i.e. whether it is 'off' or not. It is used in the arcade driving simulator(default is null).</li>
-     *          <li>songs (Array): the array of objects with all the songs to use in the music player, containing information about the location of the audio file and whether it is to play in loop or not (default is [{url: "song/sound.mp3",loop: false},{url: "song/loop.mp3",loop: true}]).</li>
+     *          <li>parent {String}: the HTML element where the display will be appended (default is "tog").</li>
+     *          <li>mutedImg {String}: the location of the muted image (default is "widgets/car/configurations/img/muted.png").</li>
+     *          <li>notMutedImg {String}: the location of the unmuted image (default is "widgets/car/configurations/img/notMuted.png").</li>
+     *          <li>soundOff {Boolean}: the boolean value that indicates whether the sound state is "off", i.e. whether it is 'off' or not. It is used in the arcade driving simulator(default is null).</li>
+     *          <li>songs {Array}: the array of objects with all the songs to use in the music player, containing information about the location of the audio file and whether it is to play in loop or not (default is [{url: "song/sound.mp3",loop: false},{url: "song/loop.mp3",loop: true}]).</li>
      * @returns {Sound} The created instance of the widget Sound.
      * @memberof module:Sound
      * @instance
@@ -268,8 +268,8 @@ define(function (require, exports, module) {
     /**
      * @function onEndedSound
      * @description OnEndedSound method of the Sound widget. This method plays several known sounds, given by the index parameter.
-     * @param indexOnEnded (Integer) This parameter is the index of the song that will end, given by the "onended" event.
-     * @param arrayNext (Array) This parameter is an array of objects, indexPlayNext and newVolume, which allows to play and set volume of several sounds after "indexOnEnded" sound ended.
+     * @param indexOnEnded {Int} This parameter is the index of the song that will end, given by the "onended" event.
+     * @param arrayNext {Array} This parameter is an array of objects, indexPlayNext and newVolume, which allows to play and set volume of several sounds after "indexOnEnded" sound ended.
      * @memberof module:Sound
      * @returns {Sound} The created instance of the widget Sound.
      * @instance
@@ -289,7 +289,7 @@ define(function (require, exports, module) {
      /**
      * @function playSound
      * @description PlaySound method of the Sound widget. This method plays a specific known sound, given by index parameter.
-     * @param index (Integer) This parameter is the index of the intended sound to be changed.
+     * @param index {Int} This parameter is the index of the intended sound to be changed.
      * @memberof module:Sound
      * @returns {Sound} The created instance of the widget Sound.
      * @instance
@@ -302,7 +302,7 @@ define(function (require, exports, module) {
     /**
      * @function pauseSound
      * @description PauseSound method of the Sound widget. This method pauses a specific known sound, given by index parameter.
-     * @param index (Integer) This parameter is the index of the intended sound to be changed.
+     * @param index {Int} This parameter is the index of the intended sound to be changed.
      * @memberof module:Sound
      * @returns {Sound} The created instance of the widget Sound.
      * @instance
@@ -345,8 +345,8 @@ define(function (require, exports, module) {
     /**
      * @function setVolume
      * @description SetVolume method of the Sound widget. This method changes the volume of a specific known sound, given by index parameter.
-     * @param newVolume (Float) This parameter is the new volume to be set to all known sounds.
-     * @param index (Integer) This parameter is the index of the intended sound to be changed.
+     * @param newVolume {Float} This parameter is the new volume to be set to all known sounds.
+     * @param index {Int} This parameter is the index of the intended sound to be changed.
      * @memberof module:Sound
      * @returns {Sound} The created instance of the widget Sound.
      * @instance
@@ -359,7 +359,7 @@ define(function (require, exports, module) {
     /**
      * @function setVolumeAll
      * @description SetVolumeAll method of the Sound widget. This method changes the volume of all known sounds.
-     * @param newVolume (Float) This parameter is the new volume to be set to all known sounds.
+     * @param newVolume {Float} This parameter is the new volume to be set to all known sounds.
      * @memberof module:Sound
      * @returns {Sound} The created instance of the widget Sound.
      * @instance

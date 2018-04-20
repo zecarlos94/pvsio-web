@@ -415,12 +415,12 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 0, left: 0, width: 250, height: 250 }.
      * @param opt {Object} Options:
-     *          <li>sliderColor (String): the sliders circle color (default is "#4CAF50").</li>
-     *          <li>imagesSteeringWheels (Array): array of objects with all the images to insert in the imagepicker, providing the path and value fields (default values are {"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg" and default paths are "widgets/car/steering_wheels/"+{"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg").</li>
-     *          <li>sliderRanges (Array): array of objects with all the sliders to be created, giving the name (to put in the div), the values min, max (slider intervals) and value (default value) (default is [{name: "speedometer",min: 0,max: 400,value: 340},{name: "tachometer",min: 0,max: 20,value: 16},{name: "lanes",min: 0,max: 3,value: 0},{name: "hills",min: 0,max: 10,value: 0},{name: "obstacles",min: 0,max: 10,value: 0},{name: "other-cars",min: 0,max: 10,value: 0}]).</li>
-     *          <li>controlsText (Array): array of objects with information about widget control (default is ["Car controls:","[left/right arrow keys] Turn Left/Right","[up/down arrow keys] Accelerate/Brake"]).</li>
-     *          <li>gauges (Array): array of objects with information about gauge widgets to create (default is [{name:"speedometer-gauge",styleId:"",style:""},{name:"tachometer-gauge",styleId:"float",style:"right"}]).</li>
-     *          <li>gaugesStyles (Array): array of objects with CSS styles to add to the above gauge widgets (default is [{zoom: "45%",marginLeft: "370px",marginTop: "430px"}]).</li>
+     *          <li>sliderColor {String}: the sliders circle color (default is "#4CAF50").</li>
+     *          <li>imagesSteeringWheels {Array}: array of objects with all the images to insert in the imagepicker, providing the path and value fields (default values are {"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg" and default paths are "widgets/car/steering_wheels/"+{"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg").</li>
+     *          <li>sliderRanges {Array}: array of objects with all the sliders to be created, giving the name (to put in the div), the values min, max (slider intervals) and value (default value) (default is [{name: "speedometer",min: 0,max: 400,value: 340},{name: "tachometer",min: 0,max: 20,value: 16},{name: "lanes",min: 0,max: 3,value: 0},{name: "hills",min: 0,max: 10,value: 0},{name: "obstacles",min: 0,max: 10,value: 0},{name: "other-cars",min: 0,max: 10,value: 0}]).</li>
+     *          <li>controlsText {Array}: array of objects with information about widget control (default is ["Car controls:","[left/right arrow keys] Turn Left/Right","[up/down arrow keys] Accelerate/Brake"]).</li>
+     *          <li>gauges {Array}: array of objects with information about gauge widgets to create (default is [{name:"speedometer-gauge",styleId:"",style:""},{name:"tachometer-gauge",styleId:"float",style:"right"}]).</li>
+     *          <li>gaugesStyles {Array}: array of objects with CSS styles to add to the above gauge widgets (default is [{zoom: "45%",marginLeft: "370px",marginTop: "430px"}]).</li>
      * @returns {Customization} The created instance of the widget Customization.
      * @memberof module:Customization
      * @instance
@@ -681,7 +681,7 @@ define(function (require, exports, module) {
      * @function removeParentAllChilds
      * @description RemoveParentAllChilds method of the Customization widget. This method removes all the divs(html) within the div with the received id as the argument.
      * That is, it removes all child nodes from the parent div, with id="#(argument id)".
-     * @param id (String) the parent div id name, where all child nodes will be removed.
+     * @param id {String} the parent div id name, where all child nodes will be removed.
      * @memberof module:Customization
      * @returns {Customization} The created instance of the widget Customization.
      * @instance
@@ -694,7 +694,7 @@ define(function (require, exports, module) {
     /**
      * @function removeChild
      * @description removeChild method of the Customization widget. This method removes the node, with id received as argument.
-     * @param id (String) the div id name to be removed.
+     * @param id {String} the div id name to be removed.
      * @memberof module:Customization
      * @returns {Customization} The created instance of the widget Customization.
      * @instance
@@ -709,7 +709,7 @@ define(function (require, exports, module) {
     /**
      * @function setInitRenderingDiv
      * @description SetInitRenderingDiv method of the Customization widget. This method starts the imagepicker.
-     * @param initWindowCSSValues (Object) array of objects with all the ids, class, and styles to add. 
+     * @param initWindowCSSValues {Object} array of objects with all the ids, class, and styles to add. 
      * That is, it has all the CSS parameters, which are necessary in the initial rendering process, which will produce the layout on the screen (widgets organization).
      * For example, one of these objects will be example 4).
      * This object will add the style of the div with id="a", with class="b". And the style that will be added is display:"block;", given by the fields, 
@@ -746,7 +746,7 @@ define(function (require, exports, module) {
      * @description SetImagePicker method of the Customization widget. This method is responsible for getting values related to the image selected in the imagepicker.
      * In this, it adds the name of the selected image, taken from the path field, to the div with id="#selectedSteeringWheel", so that the currently selected image can be accessed at any time.
      * Also adds the value of the path field to the div with id/class provided in the aux object, so that it can be viewed in that div (larger size, i.e. highlighted) as well as all its styles.
-     * @param aux (Object) the last object of initWindowCSSValues, argument of the setInitRenderingDiv method, which refers to the div where the selected image in the image picker can be highlighted, 
+     * @param aux {Object} the last object of initWindowCSSValues, argument of the setInitRenderingDiv method, which refers to the div where the selected image in the image picker can be highlighted, 
      * as example 3) shows. This object has the id/class of that div, as well as an array of styles to add, with properties and its values.
      * @example 3) {id: "track_img", class: null, styles: [{property: "visibility",value: "visible"}]}
      * @memberof module:Customization
@@ -793,7 +793,7 @@ define(function (require, exports, module) {
      * @function setLastRenderingDiv
      * @description SetLastRenderingDiv method of the Customization widget. This method adds the "last-gauge" id to all div with class=".gauge". 
      * It should be invoked after creating new Gauge Widgets(Speedometer, Tachometer). This id eases the re-rendering process because it allows to easily remove previously rendered widgets.
-     * @param className (String) the name of the class where those gauges were appended.
+     * @param className {String} the name of the class where those gauges were appended.
      * @memberof module:Customization
      * @returns {Customization} The created instance of the widget Customization.
      * @instance
@@ -806,7 +806,7 @@ define(function (require, exports, module) {
     /**
      * @function reRenderedWindowCSS
      * @description ReRenderedWindowCSS method of the Customization widget. This method is responsible for updating all required styles in the re-rendering process.
-     * @param reRenderedWindowCSSValues (Object) array of objects with all the ids, class, and styles to update. 
+     * @param reRenderedWindowCSSValues {Object} array of objects with all the ids, class, and styles to update. 
      * That is, it has all the CSS parameters, which are necessary in the re-rendering process, which will produce the new layout on the screen (re-organized widgets).
      * For example, one of these objects will be example 2).
      * This object will update the style of the div with id="a", with class="b". And the style that will be added is display:"block;", given by the fields, property and value. To allow more than one style, the styles field is also an array of objects, with values of all properties to be added.
@@ -839,7 +839,7 @@ define(function (require, exports, module) {
     /**
      * @function rangeEvents
      * @description RangeEvents method of the Customization widget. This method is responsible for updating the values of the sliders of the customization menu in the sliders object, received as argument, which will be returned at the end.
-     * @param sliders (Object) the object with all objects that allows the creation of sliders as well as to store its current values. For five different sliders, this object will have five objects, where each one will have the id of the slider, 
+     * @param sliders {Object} the object with all objects that allows the creation of sliders as well as to store its current values. For five different sliders, this object will have five objects, where each one will have the id of the slider, 
      * which will be used to name the id of its div, and the value of that, which by default is initialized to null.
      * @memberof module:Customization
      * @returns {Object} The updated sliders object received as argument.
@@ -867,17 +867,17 @@ define(function (require, exports, module) {
      * in the slider "End", which only takes 2 values, 0 by default, which implies that the user is still choosing 
      * customization options, and 1, when the user wants to exit the customization menu, which implies that the user 
      * has already finished customizing.
-     * @param callback (Function) the function provided as callback to widgets constructors that will be re-rendered. This function will be defined in the respective demo, where the Customization widget constructor was invoked.
-     * @param car (Object) the object with all the widgets created so far in the demo. For example, in demo driving_simulator, car has the widgets accelerate and brake Buttons, Speedometer, Tachometer, SteeringWheel, DrawGamepad, GamepadController, GyroscopeController, among other widgets. 
+     * @param callback {Function} the function provided as callback to widgets constructors that will be re-rendered. This function will be defined in the respective demo, where the Customization widget constructor was invoked.
+     * @param car {Object} the object with all the widgets created so far in the demo. For example, in demo driving_simulator, car has the widgets accelerate and brake Buttons, Speedometer, Tachometer, SteeringWheel, DrawGamepad, GamepadController, GyroscopeController, among other widgets. 
      * This object is essential so that the re-rendering process can invoke all the methods of the widgets that will be re-render.
      * It is essential to provide this parameter, so that is possible to create the new speedometer and tachometer, based on the values selected in the sliders, in the previous customization menu.
-     * @param CSSValues (Object) array of objects with all the ids, class, and styles to update. That is, it has all the CSS parameters, which are necessary in the re-rendering process, which will produce the new layout on the screen (re-organized widgets).
+     * @param CSSValues {Object} array of objects with all the ids, class, and styles to update. That is, it has all the CSS parameters, which are necessary in the re-rendering process, which will produce the new layout on the screen (re-organized widgets).
      * For example, one of these objects will be example 1).
      * This object will update the style of the div with id="a", with class="b". And the style that will be added is display:"block;", given by the fields, property and value. To allow more than one style, the styles field is also an array of objects, with values of all properties to be added.
      * If the id is null, the class field is used to select the respective div. Otherwise the id value is the one to be used. When the two values exist, what happens is the creation of the attribute class, in the selected div, with the id value.
      * @example 1) {id:"a",class:"b",styles:[{property:"display",value:"block"}]}.
-     * @param sliders (Object) the object with all objects that allows the creation of sliders as well as to store its current values. For five different sliders, this object will have five objects, where each one will have the id of the slider, which will be used to name the id of its div, and the value of that, which by default is initialized to null.
-     * @param steeringWheel (String) the string with the steering wheel image name to re-render. It takes the value provided by getSteeringWheelImage method. The default value is "ferrari", which represents the file "ferrari_steering_wheel.svg". 
+     * @param sliders {Object} the object with all objects that allows the creation of sliders as well as to store its current values. For five different sliders, this object will have five objects, where each one will have the id of the slider, which will be used to name the id of its div, and the value of that, which by default is initialized to null.
+     * @param steeringWheel {String} the string with the steering wheel image name to re-render. It takes the value provided by getSteeringWheelImage method. The default value is "ferrari", which represents the file "ferrari_steering_wheel.svg". 
      * @memberof module:Customization
      * @returns {Customization} The created instance of the widget Customization.
      * @instance

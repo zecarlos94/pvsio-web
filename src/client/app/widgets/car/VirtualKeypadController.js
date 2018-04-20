@@ -87,29 +87,29 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
-     *          <li>keyboardImgDiv (String): id name of the div where to put the virtual keyboard image (default is "mobileDevicesController").</li>
-     *          <li>keyboardClass (String): virtual keyboard div class name (default is "icon keyboard").</li>
-     *          <li>keyboardTopMobile (Int): virtual keyboard div top position for mobile devices (default is 750).</li>
-     *          <li>keyboardLeftMobile (Int): virtual keyboard div left position for mobile devices (default is 1350).</li>
-     *          <li>keyboardTopDesktop (Int): virtual keyboard div top position for desktop devices (default is 735).</li>
-     *          <li>keyboardLeftDesktop (Int): virtual keyboard div left position for desktop devices (default is 1380).</li>
-     *          <li>keyboardUrl (String): virtual keyboard image path (default is "widgets/car/configurations/img/keyboard.png").</li>
-     *          <li>keyboardHoverInitialTitle (String): initial text on hover in virtual keyboard image (default is "Click to open virtual keypad controller").</li>
-     *          <li>keyboardHoverSecondTitle (String): second text(after click) on hover in virtual keyboard image (default is "Click to close virtual keypad controller").</li>
-     *          <li>keyboardOnclickAction (String): method to execute after clicking the virtual keyboard image (default is "").</li>
-     *          <li>keyboardImageWidthMobile (Int): virtual keyboard image width for mobile devices (default is 80).</li>
-     *          <li>keyboardImageHeightMobile (Int): virtual keyboard image height for mobile devices (default is 60).</li>
-     *          <li>keyboardImageWidthDesktop (Int): virtual keyboard image width for desktop devices (default is 50).</li>
-     *          <li>keyboardImageHeightDesktop (Int): virtual keyboard image height for desktop devices (default is 30).</li>
-     *          <li>parent (String): the HTML element where the display will be appended (default is "virtualKeyPad").</li>
-     *          <li>simulatorActions (String): the HTML element where the action buttons(pause, resume and quit) will be appended (default is "simulatorActions").</li>
-     *          <li>simulatorArrows (String): the HTML element where the arrow buttons(left, up, right, down) will be appended (default is "simulatorArrows").</li>
-     *          <li>floatArrows (String): the HTML element where the up arrow button will be appended (default is "floatArrows").</li>
-     *          <li>blockArrows (String): the HTML element where the arrow buttons(left, right, down) will be appended (default is "blockArrows").</li>
-     *          <li>buttonClass (String): the constant string that allows ButtonExternalController widget to use 'button' tags with JQuery-UI images instead of areas as Button widget implements.(default is "buttonClass").</li>
-     *          <li>title (String): the button's title(default is 'title').</li>       
-     *          <li>arrowKeysPVS (Array): array with the IDs of the ButtonExternalController widgets to create, that is, the names of the formal specifications in the main.pvs file for arrow keys (default is [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"]).</li>
-     *          <li>otherKeysPVS (Array): array with the IDs of the ButtonExternalController widgets to create, that is, the names of the formal specifications in the main.pvs file for the other buttons (default is [ "quit", "pause", "resume" ]).</li> 
+     *          <li>keyboardImgDiv {String}: id name of the div where to put the virtual keyboard image (default is "mobileDevicesController").</li>
+     *          <li>keyboardClass {String}: virtual keyboard div class name (default is "icon keyboard").</li>
+     *          <li>keyboardTopMobile {Int}: virtual keyboard div top position for mobile devices (default is 750).</li>
+     *          <li>keyboardLeftMobile {Int}: virtual keyboard div left position for mobile devices (default is 1350).</li>
+     *          <li>keyboardTopDesktop {Int}: virtual keyboard div top position for desktop devices (default is 735).</li>
+     *          <li>keyboardLeftDesktop {Int}: virtual keyboard div left position for desktop devices (default is 1380).</li>
+     *          <li>keyboardUrl {String}: virtual keyboard image path (default is "widgets/car/configurations/img/keyboard.png").</li>
+     *          <li>keyboardHoverInitialTitle {String}: initial text on hover in virtual keyboard image (default is "Click to open virtual keypad controller").</li>
+     *          <li>keyboardHoverSecondTitle {String}: second text(after click) on hover in virtual keyboard image (default is "Click to close virtual keypad controller").</li>
+     *          <li>keyboardOnclickAction {String}: method to execute after clicking the virtual keyboard image (default is "").</li>
+     *          <li>keyboardImageWidthMobile {Int}: virtual keyboard image width for mobile devices (default is 80).</li>
+     *          <li>keyboardImageHeightMobile {Int}: virtual keyboard image height for mobile devices (default is 60).</li>
+     *          <li>keyboardImageWidthDesktop {Int}: virtual keyboard image width for desktop devices (default is 50).</li>
+     *          <li>keyboardImageHeightDesktop {Int}: virtual keyboard image height for desktop devices (default is 30).</li>
+     *          <li>parent {String}: the HTML element where the display will be appended (default is "virtualKeyPad").</li>
+     *          <li>simulatorActions {String}: the HTML element where the action buttons(pause, resume and quit) will be appended (default is "simulatorActions").</li>
+     *          <li>simulatorArrows {String}: the HTML element where the arrow buttons(left, up, right, down) will be appended (default is "simulatorArrows").</li>
+     *          <li>floatArrows {String}: the HTML element where the up arrow button will be appended (default is "floatArrows").</li>
+     *          <li>blockArrows {String}: the HTML element where the arrow buttons(left, right, down) will be appended (default is "blockArrows").</li>
+     *          <li>buttonClass {String}: the constant string that allows ButtonExternalController widget to use 'button' tags with JQuery-UI images instead of areas as Button widget implements.(default is "buttonClass").</li>
+     *          <li>title {String}: the button's title(default is 'title').</li>       
+     *          <li>arrowKeysPVS {Array}: array with the IDs of the ButtonExternalController widgets to create, that is, the names of the formal specifications in the main.pvs file for arrow keys (default is [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"]).</li>
+     *          <li>otherKeysPVS {Array}: array with the IDs of the ButtonExternalController widgets to create, that is, the names of the formal specifications in the main.pvs file for the other buttons (default is [ "quit", "pause", "resume" ]).</li> 
      * @returns {VirtualKeypadController} The created instance of the widget VirtualKeypadController.
      * @memberof module:VirtualKeypadController
      * @instance

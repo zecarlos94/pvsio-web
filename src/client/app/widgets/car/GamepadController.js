@@ -149,13 +149,13 @@ define(function (require, exports, module) {
      */
     let gamepadXBOX1Id = "Xbox One Controller (STANDARD GAMEPAD Vendor: 045e Product: 02ea)";
     /**
-     * @description 'g29RacingPS4ModeId' has G29 Driving Force Racing Wheel unique ID, to use the proper mapping method in PS4 mode. Available at https://www.amazon.co.uk/Logitech-Driving-Racing-Pedals-UK-Plug/dp/B00YUOVBZK
+     * @description 'g29RacingPS4ModeId' has G29 Driving Force Racing Wheel unique ID, to use the proper mapping method in PS4 mode. Available at {@link https://www.amazon.co.uk/Logitech-Driving-Racing-Pedals-UK-Plug/dp/B00YUOVBZK}
      * @memberof module:GamepadController
      * @instance
      */
     let g29RacingPS4ModeId = "G29 Driving Force Racing Wheel (Vendor: 046d Product: c260)";
     /**
-     * @description 'g29RacingPS3ModeId' has G29 Driving Force Racing Wheel unique ID, to use the proper mapping method in PS3 mode. Available at https://www.amazon.co.uk/Logitech-Driving-Racing-Pedals-UK-Plug/dp/B00YUOVBZK
+     * @description 'g29RacingPS3ModeId' has G29 Driving Force Racing Wheel unique ID, to use the proper mapping method in PS3 mode. Available at {@link https://www.amazon.co.uk/Logitech-Driving-Racing-Pedals-UK-Plug/dp/B00YUOVBZK}
      * @memberof module:GamepadController
      * @instance
      */
@@ -382,7 +382,7 @@ define(function (require, exports, module) {
     /**
      * @function mappingLogitechG29PS3ModeButtons
      * @description MappingLogitechG29PS3ModeButtons method of the GamepadController widget. This method maps all read buttons to Logitech G29 PS3 Mode buttons.
-     * @param key {Integer} The key instance, i.e. the gamepad button index to be mapped into Logitech G29 PS3 Mode names.
+     * @param key {Int} The key instance, i.e. the gamepad button index to be mapped into Logitech G29 PS3 Mode names.
      * @memberof module:GamepadController
      * @returns {String} The mapped value of key.
      * @instance
@@ -411,7 +411,7 @@ define(function (require, exports, module) {
      /**
      * @function mappingLogitechG29PS3ModeAxes
      * @description MappingLogitechG29PS3ModeAxes method of the GamepadController widget. This method maps all read axes to Logitech G29 PS3 Mode axes.
-     * @param key {Integer} The key instance, i.e. the gamepad axis index to be mapped into Logitech G29 PS3 Mode names.
+     * @param key {Int} The key instance, i.e. the gamepad axis index to be mapped into Logitech G29 PS3 Mode names.
      * @memberof module:GamepadController
      * @returns {String} The mapped value of key.
      * @instance
@@ -437,7 +437,7 @@ define(function (require, exports, module) {
     /**
      * @function mappingLogitechG29PS4ModeButtons
      * @description MappingLogitechG29PS4ModeButtons method of the GamepadController widget. This method maps all read buttons to Logitech G29 PS4 Mode buttons.
-     * @param key {Integer} The key instance, i.e. the gamepad button index to be mapped into Logitech G29 PS4 Mode names.
+     * @param key {Int} The key instance, i.e. the gamepad button index to be mapped into Logitech G29 PS4 Mode names.
      * @memberof module:GamepadController
      * @returns {String} The mapped value of key.
      * @instance
@@ -467,7 +467,7 @@ define(function (require, exports, module) {
      /**
      * @function mappingLogitechG29PS4ModeAxes
      * @description MappingLogitechG29PS4ModeAxes method of the GamepadController widget. This method maps all read axes to Logitech G29 PS4 Mode axes.
-     * @param key {Integer} The key instance, i.e. the gamepad axis index to be mapped into Logitech G29 PS4 Mode names.
+     * @param key {Int} The key instance, i.e. the gamepad axis index to be mapped into Logitech G29 PS4 Mode names.
      * @memberof module:GamepadController
      * @returns {String} The mapped value of key.
      * @instance
@@ -494,7 +494,7 @@ define(function (require, exports, module) {
     /**
      * @function mappingPS4GamepadButtons
      * @description MappingPS4GamepadButtons method of the GamepadController widget. This method maps all read buttons to PS4 buttons.
-     * @param key {Integer} The key instance, i.e. the gamepad button index to be mapped into PS4 names.
+     * @param key {Int} The key instance, i.e. the gamepad button index to be mapped into PS4 names.
      * @memberof module:GamepadController
      * @returns {String} The mapped value of key.
      * @instance
@@ -528,7 +528,7 @@ define(function (require, exports, module) {
      /**
      * @function mappingPS4GamepadAxes
      * @description MappingPS4GamepadAxes method of the GamepadController widget. This method maps all read axes to PS4 axes.
-     * @param key {Integer} The key instance, i.e. the gamepad axis index to be mapped into PS4 names.
+     * @param key {Int} The key instance, i.e. the gamepad axis index to be mapped into PS4 names.
      * @memberof module:GamepadController
      * @returns {String} The mapped value of key.
      * @instance
@@ -548,7 +548,7 @@ define(function (require, exports, module) {
     /**
      * @function mappingXBOX1GamepadButtons
      * @description MappingXBOX1GamepadButtons method of the GamepadController widget. This method maps all read buttons to XBOX1 buttons.
-     * @param key {Integer} The key instance, i.e. the gamepad button index to be mapped into XBOX1 names.
+     * @param key {Int} The key instance, i.e. the gamepad button index to be mapped into XBOX1 names.
      * @memberof module:GamepadController
      * @returns {String} The mapped value of key.
      * @instance
@@ -581,7 +581,7 @@ define(function (require, exports, module) {
     /**
      * @function mappingXBOX1GamepadAxes
      * @description MappingXBOX1GamepadAxes method of the GamepadController widget. This method maps all read axes to XBOX1 axes.
-     * @param key {Integer} The key instance, i.e. the gamepad axis index to be mapped into XBOX1 names.
+     * @param key {Int} The key instance, i.e. the gamepad axis index to be mapped into XBOX1 names.
      * @memberof module:GamepadController
      * @returns {String} The mapped value of key.
      * @instance
@@ -660,7 +660,7 @@ define(function (require, exports, module) {
      * @description CalculateRotationAngleWithSensitivity method of the GamepadController widget. This method converts angles from radians to degrees.
      * @param y {Float} The value of vertical axis(up to/or down), between -1 and 1.
      * @param x {Float} The value of horizontal axis(left to/or right), between -1 and 1. 
-     * @param sensitivity {Integer} The value of sensitivity of the steering wheel rotation angle, between 1 and 100.
+     * @param sensitivity {Int} The value of sensitivity of the steering wheel rotation angle, between 1 and 100.
      * @memberof module:GamepadController
      * @returns {Double} The angle in degrees calculated based on horizontal and vertical axis values read from gamepad.
      * @instance

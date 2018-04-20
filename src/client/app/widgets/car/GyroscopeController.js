@@ -91,8 +91,8 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
-     *          <li>parent (String): the HTML element where the display will be appended (default is "gyroscope").</li>
-     *          <li>carSteeringWheel (SteeringWheel): SteeringWheel 'steering_wheel' to rotate the current steering wheel with gyroscope rotation values.</li>
+     *          <li>parent {String}: the HTML element where the display will be appended (default is "gyroscope").</li>
+     *          <li>carSteeringWheel {SteeringWheel}: SteeringWheel 'steering_wheel' to rotate the current steering wheel with gyroscope rotation values.</li>
      * @returns {GyroscopeController} The created instance of the widget GyroscopeController.
      * @memberof module:GyroscopeController
      * @instance

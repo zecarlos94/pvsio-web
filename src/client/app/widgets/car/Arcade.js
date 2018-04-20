@@ -97,7 +97,7 @@ define(function (require, exports, module) {
 
     let splashInterval;
     let simulatorInterval;
-    let loadingTrackConfiguration;
+    let loadingTrackNrIterations;
 
     // Information regarding the tracks (auxiliary for drawTrackLoop method) loaded from the JSON file
     let track = [];
@@ -284,7 +284,7 @@ define(function (require, exports, module) {
         }
         Widget.call(this, id, coords, opt);
         Arcade.prototype.onPageLoad(this.spritesFiles);
-        loadingTrackConfiguration = setInterval(function(){ Arcade.prototype.getNrIterations(); }, 500);
+        loadingTrackNrIterations = setInterval(function(){ Arcade.prototype.getNrIterations(); }, 500);
         
         return this;
     }
@@ -365,7 +365,7 @@ define(function (require, exports, module) {
     Arcade.prototype.getNrIterations = function () {
         try {
             numIterations = trackParam.numZones * trackParam.zoneSize;
-            clearInterval(loadingTrackConfiguration);
+            clearInterval(loadingTrackNrIterations);
         } catch (error) { 
             console.log("Error Loading Track... "+error);
         }
