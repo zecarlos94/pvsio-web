@@ -99,6 +99,7 @@ require([
             parent: "game-window", // defines parent div, which is div id="game-window" by default
             trackFilename: "track", // defines track configuration filename, which is "track.json" by default
             spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+            spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
             callback: onMessageReceived
         });
 

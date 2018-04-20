@@ -5,7 +5,7 @@
  * @desc This module draws the 2D arcade driving simulator, using HTML5 Canvas.
  *
  * @date Apr 02, 2018
- *
+ * last modified @date Apr 19, 2018
  *
  * @example <caption>Usage of Arcade within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -16,16 +16,17 @@
  *
  *     function main() {
  *          // After Arcade module was loaded, initialize it
- *          let Arcade = new Arcade(
+ *          let arcade = new Arcade(
  *               'example', // id of the Arcade element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
  *               { parent: 'game-window', 
  *                 trackFilename: "track", // defines track configuration filename, which is "track.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+ *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
  *               } // append on div 'game-window'
  *           );
  *          // Render the Arcade widget
- *          Arcade.render();
+ *          arcade.render();
  *     }
  * });
  */
@@ -51,7 +52,8 @@ define(function (require, exports, module) {
     let trackJSON;
 
     let currentBrowser = { chrome: false, mozilla: false, opera: false, msie: false, safari: false};
-    let spritesheet, spritesheetText;
+
+    let spritesheetsImages = [];
     let readSprite=false;
     let readConfiguration=false;
     let readParams=false;
@@ -71,6 +73,7 @@ define(function (require, exports, module) {
     let topSpeed=null;
     let trackParam=null;
     let trackSegmentSize=null;
+    let numIterations=null;
 
     /* 
     * Start of Arcade Global Variables 
@@ -151,7 +154,8 @@ define(function (require, exports, module) {
         opt.parent = opt.parent || "game-window";
         opt.trackFilename = opt.trackFilename;
         opt.spritesFilename = opt.spritesFilename;
-    
+        opt.spritesFiles =  opt.spritesFiles;
+        
         this.id = id;
         this.top = coords.top || 100;
         this.left = coords.left || 700;
@@ -161,7 +165,8 @@ define(function (require, exports, module) {
         this.parent = (opt.parent) ? ("#" + opt.parent) : "game-window";
         this.trackFilename = (opt.trackFilename) ? ("text!widgets/car/configurations/" + opt.trackFilename + ".json") : "text!widgets/car/configurations/track.json";
         this.spritesFilename = (opt.spritesFilename) ? ("text!widgets/car/configurations/" + opt.spritesFilename + ".json") : "text!widgets/car/configurations/spritesheet.json";
-        
+        this.spritesFiles = (opt.spritesFiles) ? opt.spritesFiles : ["spritesheet","spritesheet.text"];
+
         trackJSON = require("text!widgets/car/configurations/track.json");
         spritesheetJSON = require("text!widgets/car/configurations/spritesheet.json");        
 
@@ -278,8 +283,8 @@ define(function (require, exports, module) {
             }    
         }
         Widget.call(this, id, coords, opt);
-        Arcade.prototype.onPageLoad();
-        loadingTrackConfiguration = setInterval(function(){ Arcade.prototype.loadTrackConfiguration(); }, 500);
+        Arcade.prototype.onPageLoad(this.spritesFiles);
+        loadingTrackConfiguration = setInterval(function(){ Arcade.prototype.getNrIterations(); }, 500);
         
         return this;
     }
@@ -309,57 +314,58 @@ define(function (require, exports, module) {
     };
 
     /**
-     * @function loadTrackConfiguration
-     * @description loadTrackConfiguration method of the Arcade widget. This method loads the track from local JSON file.
-     * * JSON Structure Straight Version
+     * @function getNrIterations
+     * @description getNrIterations method of the Arcade widget. This method computes the number of iterations required to draw the track defined in the JSON configuration file, 
+     * and updates the numZones field of trackParam with that value.
+     * In the final version, the JSON structure, see example 1), will be the same, however fields 'height' and 'curve' will have other values 
+     * other than 0 and 0, respectively.
+     * @example 
+     * 1) JSON Structure Straight Version
      * 
      * {
-     * "trackParam": {
-     *   "maxHeight": 900,
-     *   "maxCurve": 400,
-     *   "numZones": 12,
-     *   "curvy": 0.8,
-     *   "mountainy": 0.8,
-     *   "zoneSize": 250
-     * },
-     * "render": {
-     *   "width": 320,
-     *   "height": 240,
-     *   "depthOfField": 150,
-     *   "camera_distance": 30,
-     *   "camera_height": 100
-     * },
-     * "trackSegmentSize": 5,
-     * "numberOfSegmentPerColor": 4,
-     * "numLanes": 3,
-     * "laneWidth": 0.02,
-     * "controllable_car": {
-     *   "position": 10,
-     *   "speed": 0,
-     *   "acceleration": 0.05,
-     *   "deceleration": 0.04,
-     *   "breaking": 0.3,
-     *   "turning": 5.0,
-     *   "posx": 0,
-     *   "maxSpeed": 20
-     * },
-     * "topSpeed": 250,
-     * "track": [
-     *  {"height":0,"curve":0,"sprite":{"type":{"x":535,"y":648,"w":168,"h":248},"pos":-0.14646203875343766,"obstacle":1}},
-     *  {"height":0,"curve":0,"sprite":{"type":{"x":535,"y":648,"w":168,"h":248},"pos":3.5676653178824482,"obstacle":0}}
-     * ]
+     *     "trackParam": {
+     *       "maxHeight": 900,
+     *       "maxCurve": 400,
+     *       "numZones": 12,
+     *       "curvy": 0.8,
+     *       "mountainy": 0.8,
+     *       "zoneSize": 250
+     *     },
+     *     "render": {
+     *       "width": 320,
+     *       "height": 240,
+     *       "depthOfField": 150,
+     *       "camera_distance": 30,
+     *       "camera_height": 100
+     *     },
+     *     "trackSegmentSize": 5,
+     *     "numberOfSegmentPerColor": 4,
+     *     "numLanes": 3,
+     *     "laneWidth": 0.02,
+     *     "controllable_car": {
+     *       "position": 10,
+     *       "speed": 0,
+     *       "acceleration": 0.05,
+     *       "deceleration": 0.04,
+     *       "breaking": 0.3,
+     *       "turning": 5.0,
+     *       "posx": 0,
+     *       "maxSpeed": 20
+     *     },
+     *     "topSpeed": 250,
+     *     "track": [
+     *        {"height":0,"curve":0,"sprite":{"type":{"x":535,"y":648,"w":168,"h":248},"pos":-0.14646203875343766,"obstacle":1}},
+     *        {"height":0,"curve":0,"sprite":{"type":{"x":535,"y":648,"w":168,"h":248},"pos":3.5676653178824482,"obstacle":0}}
+     *     ]
      * }
      * 
-     * In the final version, the json structure will be the same, however fields 'height' and 'curve' will have other values 
-     * other than 0 and 0, respectively.
-     * 
      * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.loadTrackConfiguration = function () {
+    Arcade.prototype.getNrIterations = function () {
         try {
-            let numIterations = trackParam.numZones * trackParam.zoneSize;
-            trackParam.numZones = numIterations;
+            numIterations = trackParam.numZones * trackParam.zoneSize;
             clearInterval(loadingTrackConfiguration);
         } catch (error) { 
             console.log("Error Loading Track... "+error);
@@ -371,24 +377,28 @@ define(function (require, exports, module) {
 
     /**
      * @function onPageLoad
-     * @description onPageLoad method of the Arcade widget. This method starts the arcade simulation.
+     * @description onPageLoad method of the Arcade widget. This method starts the arcade simulation and loads the required spritesheets, with all sprites defined in track object.
+     * @param spritesFiles
      * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.onPageLoad = function () {
+    Arcade.prototype.onPageLoad = function (spritesFiles) {
         Arcade.prototype.detectBrowserType();
         Arcade.prototype.init();
+
+        spritesFiles.forEach(function(el,index){
+            spritesheetsImages[index] = new Image();
+        });
     
-        spritesheet = new Image();
-        spritesheetText = new Image();
-        
-        spritesheet.onload = function(){
+        spritesheetsImages[0].onload = function(){
             splashInterval = setInterval(Arcade.prototype.renderSplashFrame, 30);
         };
-    
-        spritesheet.src = "../../client/app/widgets/car/configurations/img/spritesheet.png";
-        spritesheetText.src = "../../client/app/widgets/car/configurations/img/spritesheet.text.png";
-    
+
+        spritesheetsImages.forEach(function(el,index){
+            spritesheetsImages[index].src = "../../client/app/widgets/car/configurations/img/"+spritesFiles[index]+".png";
+        });
+        
         return this;
     };
 
@@ -411,7 +421,7 @@ define(function (require, exports, module) {
             // canvas.width = render.width;
 
             if(readConfiguration && readSprite){
-                context.drawImage(spritesheet,  logo.x, logo.y, logo.w, logo.h, 100, 20, 0.6*logo.w, 0.6*logo.h);
+                context.drawImage(spritesheetsImages[0],  logo.x, logo.y, logo.w, logo.h, 100, 20, 0.6*logo.w, 0.6*logo.h);
     
                 Arcade.prototype.drawText("Instructions:",{x: 100, y: 95});
                 Arcade.prototype.drawText("Click on space bar to start",{x: 40, y: 110});
@@ -473,7 +483,7 @@ define(function (require, exports, module) {
         context.fillRect(0, 0, canvas.width, canvas.height);
         // context.fillRect(0, 0, render.width, render.height);
     
-        context.drawImage(spritesheet,  logo.x, logo.y, logo.w, logo.h, 100, 20, 0.6*logo.w, 0.6*logo.h);
+        context.drawImage(spritesheetsImages[0],  logo.x, logo.y, logo.w, logo.h, 100, 20, 0.6*logo.w, 0.6*logo.h);
     
         Arcade.prototype.drawText("Click on space bar to resume",{x: 30, y: 110});
         Arcade.prototype.drawText("Use left and rigth arrows",{x: 40, y: 125});
@@ -515,7 +525,7 @@ define(function (require, exports, module) {
         context.fillRect(0, 0, canvas.width, canvas.height);
         // context.fillRect(0, 0, render.width, render.height);
     
-        context.drawImage(spritesheet,  logo.x, logo.y, logo.w, logo.h, 100, 20, 0.6*logo.w, 0.6*logo.h);
+        context.drawImage(spritesheetsImages[0],  logo.x, logo.y, logo.w, logo.h, 100, 20, 0.6*logo.w, 0.6*logo.h);
     
         Arcade.prototype.drawText("Thank you for playing!",{x: 70, y: 110});
         Arcade.prototype.drawText("Click on space bar to start again",{x: 40, y: 125});
@@ -564,7 +574,7 @@ define(function (require, exports, module) {
         string = string.toUpperCase();
         let cur = pos.x;
         for(let i=0; i < string.length; i++) {
-            context.drawImage(spritesheetText, (string.charCodeAt(i) - 32) * 8, 0, 8, 8, cur, pos.y, 8, 8);
+            context.drawImage(spritesheetsImages[1], (string.charCodeAt(i) - 32) * 8, 0, 8, 8, cur, pos.y, 8, 8);
             cur += 8;
         }
         return this;
@@ -614,7 +624,7 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.drawImage = function (image, x, y, scale) {
-        context.drawImage(spritesheet,  image.x, image.y, image.w, image.h, x, y, scale*image.w, scale*image.h);
+        context.drawImage(spritesheetsImages[0],  image.x, image.y, image.w, image.h, x, y, scale*image.w, scale*image.h);
     };
 
     /**
@@ -631,7 +641,7 @@ define(function (require, exports, module) {
         } else {
             h = sprite.i.h;
         }
-        if(h > 0) context.drawImage(spritesheet,  sprite.i.x, sprite.i.y, sprite.i.w, h, sprite.x, destY, sprite.s * sprite.i.w, sprite.s * h);
+        if(h > 0) context.drawImage(spritesheetsImages[0],  sprite.i.x, sprite.i.y, sprite.i.w, h, sprite.x, destY, sprite.s * sprite.i.w, sprite.s * h);
     };
 
     /**
@@ -897,8 +907,8 @@ define(function (require, exports, module) {
         // Render the track
         
         let absoluteIndex = Math.floor(controllable_car.position / trackSegmentSize);
-
-        if(absoluteIndex >= trackParam.numZones-render.depthOfField-1){
+       
+        if(absoluteIndex >= numIterations-render.depthOfField-1){
             clearInterval(simulatorInterval);
             Arcade.prototype.drawText("Simulation Ended!", {x: 90, y: 40});
             Arcade.prototype.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60});
@@ -952,7 +962,7 @@ define(function (require, exports, module) {
                     render.height / 2 + endProjectedHeight,
                     endScaling,
                     nextSegment.curve - baseOffset - lastDelta * endScaling,
-                    currentSegmentIndex == 2 || currentSegmentIndex == (trackParam.numZones-render.depthOfField));
+                    currentSegmentIndex == 2 || currentSegmentIndex == (numIterations-render.depthOfField));
             }
             if(currentSegment.sprite){
                 // console.log(currentSegment.sprite.type);
@@ -1030,7 +1040,7 @@ define(function (require, exports, module) {
         Arcade.prototype.drawImage(carSprite.car, carSprite.x, carSprite.y, 1);
     
         // Draw Header 
-        Arcade.prototype.drawText(""+Math.round(absoluteIndex/(trackParam.numZones-render.depthOfField)*100)+"%",{x: 10, y: 1});
+        Arcade.prototype.drawText(""+Math.round(absoluteIndex/(numIterations-render.depthOfField)*100)+"%",{x: 10, y: 1});
         
         let speed = Math.round(controllable_car.speed / controllable_car.maxSpeed * topSpeed);
         let speed_kmh = Math.round(speed * 1.60934);

@@ -33,7 +33,7 @@
  * @desc This module draws the 2D arcade driving simulator, using HTML5 Canvas.
  *
  * @date Apr 02, 2018
- *
+ * last modified @date Apr 19, 2018
  *
  * @example &lt;caption>Usage of Arcade within a PVSio-web demo.&lt;/caption>
  * define(function (require, exports, module) {
@@ -44,7 +44,7 @@
  *
  *     function main() {
  *          // After Arcade module was loaded, initialize it
- *          let Arcade = new Arcade(
+ *          let arcade = new Arcade(
  *               'example', // id of the Arcade element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
  *               { parent: 'game-window', 
@@ -53,7 +53,7 @@
  *               } // append on div 'game-window'
  *           );
  *          // Render the Arcade widget
- *          Arcade.render();
+ *          arcade.render();
  *     }
  * });
  */
@@ -307,7 +307,7 @@ define(function (require, exports, module) {
         }
         Widget.call(this, id, coords, opt);
         Arcade.prototype.onPageLoad();
-        loadingTrackConfiguration = setInterval(function(){ Arcade.prototype.loadTrackConfiguration(); }, 500);
+        loadingTrackConfiguration = setInterval(function(){ Arcade.prototype.getNrIterations(); }, 500);
         
         return this;
     }
@@ -337,54 +337,56 @@ define(function (require, exports, module) {
     };
 
     /**
-     * @function loadTrackConfiguration
-     * @description loadTrackConfiguration method of the Arcade widget. This method loads the track from local JSON file.
-     * * JSON Structure Straight Version
+     * @function getNrIterations
+     * @description getNrIterations method of the Arcade widget. This method computes the number of iterations required to draw the track defined in the JSON configuration file, 
+     * and updates the numZones field of trackParam with that value.
+     * In the final version, the JSON structure, see example 1), will be the same, however fields 'height' and 'curve' will have other values 
+     * other than 0 and 0, respectively.
+     * @example 
+     * 1) JSON Structure Straight Version
      * 
      * {
-     * "trackParam": {
-     *   "maxHeight": 900,
-     *   "maxCurve": 400,
-     *   "numZones": 12,
-     *   "curvy": 0.8,
-     *   "mountainy": 0.8,
-     *   "zoneSize": 250
-     * },
-     * "render": {
-     *   "width": 320,
-     *   "height": 240,
-     *   "depthOfField": 150,
-     *   "camera_distance": 30,
-     *   "camera_height": 100
-     * },
-     * "trackSegmentSize": 5,
-     * "numberOfSegmentPerColor": 4,
-     * "numLanes": 3,
-     * "laneWidth": 0.02,
-     * "controllable_car": {
-     *   "position": 10,
-     *   "speed": 0,
-     *   "acceleration": 0.05,
-     *   "deceleration": 0.04,
-     *   "breaking": 0.3,
-     *   "turning": 5.0,
-     *   "posx": 0,
-     *   "maxSpeed": 20
-     * },
-     * "topSpeed": 250,
-     * "track": [
-     *  {"height":0,"curve":0,"sprite":{"type":{"x":535,"y":648,"w":168,"h":248},"pos":-0.14646203875343766,"obstacle":1}},
-     *  {"height":0,"curve":0,"sprite":{"type":{"x":535,"y":648,"w":168,"h":248},"pos":3.5676653178824482,"obstacle":0}}
-     * ]
+     *     "trackParam": {
+     *       "maxHeight": 900,
+     *       "maxCurve": 400,
+     *       "numZones": 12,
+     *       "curvy": 0.8,
+     *       "mountainy": 0.8,
+     *       "zoneSize": 250
+     *     },
+     *     "render": {
+     *       "width": 320,
+     *       "height": 240,
+     *       "depthOfField": 150,
+     *       "camera_distance": 30,
+     *       "camera_height": 100
+     *     },
+     *     "trackSegmentSize": 5,
+     *     "numberOfSegmentPerColor": 4,
+     *     "numLanes": 3,
+     *     "laneWidth": 0.02,
+     *     "controllable_car": {
+     *       "position": 10,
+     *       "speed": 0,
+     *       "acceleration": 0.05,
+     *       "deceleration": 0.04,
+     *       "breaking": 0.3,
+     *       "turning": 5.0,
+     *       "posx": 0,
+     *       "maxSpeed": 20
+     *     },
+     *     "topSpeed": 250,
+     *     "track": [
+     *        {"height":0,"curve":0,"sprite":{"type":{"x":535,"y":648,"w":168,"h":248},"pos":-0.14646203875343766,"obstacle":1}},
+     *        {"height":0,"curve":0,"sprite":{"type":{"x":535,"y":648,"w":168,"h":248},"pos":3.5676653178824482,"obstacle":0}}
+     *     ]
      * }
      * 
-     * In the final version, the json structure will be the same, however fields 'height' and 'curve' will have other values 
-     * other than 0 and 0, respectively.
-     * 
      * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.loadTrackConfiguration = function () {
+    Arcade.prototype.getNrIterations = function () {
         try {
             let numIterations = trackParam.numZones * trackParam.zoneSize;
             trackParam.numZones = numIterations;
@@ -1142,7 +1144,7 @@ define(function (require, exports, module) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Apr 18 2018 12:43:21 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Apr 20 2018 08:48:13 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>
