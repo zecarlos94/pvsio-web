@@ -23,10 +23,94 @@
  *                 trackFilename: "track", // defines track configuration filename, which is "track.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
- *               } // append on div 'game-window'
+ *                 carImgIndex: 2, // defines car sprite image suffix 
+ *                 // logoImgIndex: 1, // defines logo sprite image suffix 
+ *                 // backgroundImgIndex: 1, // defines background sprite image suffix 
+ *               }// append on div 'game-window'
  *           );
  *          // Render the Arcade widget
  *          arcade.render();
+ * 
+ *          // Loading all spritesheets (images)
+ *          arcade.onPageLoad(this.spritesFiles);
+ * 
+ *          // Loading track number of iterations to be rendered
+ *          arcade.getNrIterations();
+ *  
+ *          // Detecting current browser
+ *          arcade.detectBrowserType();
+ * 
+ *          // Init the canvas, on div with id 'arcadeSimulator'
+ *          arcade.init();
+ * 
+ *          // Drawing simulator home page
+ *          arcade.renderSplashFrame();
+ * 
+ *          // Drawing simulator pause page
+ *          arcade.renderSplashPauseFrame();
+ * 
+ *          // Drawing simulator end page
+ *          arcade.renderSplashEndFrame();
+ * 
+ *          // Draws the string "Hello" in the screen coordinates (100,100) with font available at spritesheet image (spritesheetsImages array) at index 1 
+ *          // By default index 1 has "spritesheet.text.png" image
+ *          arcade.drawText("Hello",{x: 100, y: 100}, 1);
+ * 
+ *          // Every 30ms arcade.renderSimulatorFrame method is invoked, drawing the current simulation frame
+ *          simulatorInterval = setInterval(arcade.renderSimulatorFrame, 30);
+ * 
+ *          // Updates car's current position (listening for actions: acceleration, etc)
+ *          let carSprite = arcade.updateControllableCar();
+ * 
+ *          // Draws the background image based on car's current horizontal position(posx) 
+ *          arcade.drawBackground(-posx);
+ * 
+ *          // Setting colors during simulation
+ *          arcade.setColorsCanvas(counter < numberOfSegmentPerColor, "#699864", "#e00", "#fff", "#496a46", "#474747", "#777", "#fff", "#777", "#00FF00");
+ * 
+ *          // Drawing current segment (entire horizontal stripe)
+ *          arcade.drawSegment(
+ *                   render.height / 2 + currentHeight,
+ *                   currentScaling, currentSegment.curve - baseOffset - lastDelta * currentScaling,
+ *                   render.height / 2 + endProjectedHeight,
+ *                   endScaling,
+ *                   nextSegment.curve - baseOffset - lastDelta * endScaling,
+ *                   currentSegmentIndex == 2 || currentSegmentIndex == (numIterations-render.depthOfField)
+ *          );
+ *   
+ *          // Draws sprite received as first argument
+ *          drawSprite(
+ *           {
+ *              y: render.height / 2 + startProjectedHeight,
+ *              x: render.width / 2 - currentSegment.sprite.pos * render.width * currentScaling + currentSegment.curve - baseOffset - (controllable_car.posx - baseOffset*2) * currentScaling,
+ *              ymax: render.height / 2 + lastProjectedHeight,
+ *              s: 0.5*currentScaling,
+ *              i: currentSegment.sprite.type,
+ *              pos: currentSegment.sprite.pos,
+ *              obstacle: currentSegment.sprite.obstacle
+ *           }, 
+ *           null, 
+ *           null, 
+ *           null, 
+ *           null
+ *          );
+ * 
+ *          // OR
+ *          // Draws image carSprite, in coordinates (carSprite.x, carSprite.y) with scale 1 (original size)
+ *          arcade.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
+ * 
+ *          // Sets the color of the finishing line
+ *          arcade.prototype.setColorsEndCanvas("#000", "#fff");
+ * 
+ *          // Draws the track current segment portion
+ *          arcade.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.5, 0.5, "#fff");
+ * 
+ *          // Draws the lanes
+ *          arcade.drawLanes(position1, scale1, offset1, position2, scale2, offset2, lane, 3, 0.02);
+ * 
+ *          // Draws the guiding arrow
+ *          arcade.drawArrow(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, "#00FF00");
+ * 
  *     }
  * });
  */
@@ -62,7 +146,8 @@ define(function (require, exports, module) {
     let sptB = null;
 
     // Coordinates of first blue car in spritesheet, Coordinates of second blue car in spritesheet, Coordinates of third blue car in spritesheet, Coordinates of first red car in spritesheet, Coordinates of second red car in spritesheet, Coordinates of third red car in spritesheet, Coordinates of background in spritesheet, Coordinates of tree in spritesheet, Coordinates of boulder in spritesheet, Coordinates of logo in spritesheet
-    let car_faced_front, car_faced_left, car_faced_right, car2_faced_front, car2_faced_left, car2_faced_right, background, tree, boulder, logo;
+    let car_faced_front, car_faced_left, car_faced_right, background, logo;
+    let spritesAvailable=[];
 
     // Information regarding the rendering process (what users will see/how the game is viewed)
     let controllable_car=null;
@@ -144,6 +229,10 @@ define(function (require, exports, module) {
      *          <li>parent {String}: the HTML element where the display will be appended (default is "game-window").</li>
      *          <li>trackFilename {String}: the track configuration filename, i.e. JSON file with the track that will be drawed as well as the required sprite coordinates, etc (default is "track").</li>
      *          <li>spritesFilename {String}: the spritesheet configuration filename, i.e. JSON file with the all available sprites, whose coordinates are the same in trackFilename, i.e. the track must have been generated with this JSON as well so the coordinates will match (default is "spritesheet").</li>
+     *          <li>spritesFiles {Array}: array with spritesheets(images) names (default is ["spritesheet","spritesheet.text"]).</li>
+     *          <li>carImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the car image (front, left side, right side) (default is null).</li>
+     *          <li>logoImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the logo image (default is null).</li>
+     *          <li>backgroundImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the background image (default is null).</li>
      * @returns {Arcade} The created instance of the widget Arcade.
      * @memberof module:Arcade
      * @instance
@@ -155,6 +244,9 @@ define(function (require, exports, module) {
         opt.trackFilename = opt.trackFilename;
         opt.spritesFilename = opt.spritesFilename;
         opt.spritesFiles =  opt.spritesFiles;
+        opt.carImgIndex = opt.carImgIndex;
+        opt.logoImgIndex = opt.logoImgIndex;
+        opt.backgroundImgIndex = opt.backgroundImgIndex;
         
         this.id = id;
         this.top = coords.top || 100;
@@ -166,6 +258,9 @@ define(function (require, exports, module) {
         this.trackFilename = (opt.trackFilename) ? ("text!widgets/car/configurations/" + opt.trackFilename + ".json") : "text!widgets/car/configurations/track.json";
         this.spritesFilename = (opt.spritesFilename) ? ("text!widgets/car/configurations/" + opt.spritesFilename + ".json") : "text!widgets/car/configurations/spritesheet.json";
         this.spritesFiles = (opt.spritesFiles) ? opt.spritesFiles : ["spritesheet","spritesheet.text"];
+        this.carImgIndex = (opt.carImgIndex) ? opt.carImgIndex : null;
+        this.logoImgIndex = (opt.logoImgIndex) ? opt.logoImgIndex : null;
+        this.backgroundImgIndex = (opt.backgroundImgIndex) ? opt.backgroundImgIndex : null;
 
         trackJSON = require("text!widgets/car/configurations/track.json");
         spritesheetJSON = require("text!widgets/car/configurations/spritesheet.json");        
@@ -243,45 +338,81 @@ define(function (require, exports, module) {
             track=aux.track;
             readConfiguration=true;
         }
-        
+
+        let backgroundRegex, logoRegex, frontRegex, leftRegex, rightRegex;
+
+        if(this.backgroundImgIndex!==null){
+            backgroundRegex = new RegExp("background"+this.backgroundImgIndex);
+        }else{
+            backgroundRegex = new RegExp("background");
+        }
+
+        if(this.logoImgIndex!==null){
+            logoRegex   = new RegExp("logo"+this.logoImgIndex);
+        }else{
+            logoRegex   = new RegExp("logo");
+        }
+
+        if(this.carImgIndex!==null){
+            frontRegex      = new RegExp("car"+this.carImgIndex+"_faced_front");
+            leftRegex       = new RegExp("car"+this.carImgIndex+"_faced_left");
+            rightRegex      = new RegExp("car"+this.carImgIndex+"_faced_right");
+        }else{
+            frontRegex      = new RegExp("car_faced_front");
+            leftRegex       = new RegExp("car_faced_left");
+            rightRegex      = new RegExp("car_faced_right");
+        }
+
         if(spritesheetJSON){
             spritesReadJSON = JSON.parse(spritesheetJSON);
-            // Reading The JSON Sprites Available
+            // Reading all JSON Sprites Available
             for(let k=0;k<spritesReadJSON.frames.length;k++){
-                // check if the required sprites, by name, exists
-                if(spritesReadJSON.frames[k].filename.split(".")[0]==="car_faced_front"){
-                    car_faced_front = spritesReadJSON.frames[k].frame;
-                }
-                if(spritesReadJSON.frames[k].filename.split(".")[0]==="car_faced_left"){
-                    car_faced_left = spritesReadJSON.frames[k].frame;
-                }
-                if(spritesReadJSON.frames[k].filename.split(".")[0]==="car_faced_right"){
-                    car_faced_right = spritesReadJSON.frames[k].frame;
-                }
-                if(spritesReadJSON.frames[k].filename.split(".")[0]==="car2_faced_front"){
-                    car2_faced_front = spritesReadJSON.frames[k].frame;
-                }
-                if(spritesReadJSON.frames[k].filename.split(".")[0]==="car2_faced_left"){
-                    car2_faced_left = spritesReadJSON.frames[k].frame;
-                }
-                if(spritesReadJSON.frames[k].filename.split(".")[0]==="car2_faced_right"){
-                    car2_faced_right = spritesReadJSON.frames[k].frame;
-                }
-                if(spritesReadJSON.frames[k].filename.split(".")[0]==="background"){
-                    background = spritesReadJSON.frames[k].frame;
-                }
-                if(spritesReadJSON.frames[k].filename.split(".")[0]==="tree"){
-                    tree = spritesReadJSON.frames[k].frame;
-                }
-                if(spritesReadJSON.frames[k].filename.split(".")[0]==="rock"){
-                    boulder = spritesReadJSON.frames[k].frame;
-                }
-                if(spritesReadJSON.frames[k].filename.split(".")[0]==="logo"){
-                    logo = spritesReadJSON.frames[k].frame;
-                }
-                readSprite=true;
-            }    
+                spritesAvailable[k]={
+                    name:spritesReadJSON.frames[k].filename.split(".")[0],
+                    value:spritesReadJSON.frames[k].frame
+                };
+                if(spritesAvailable[k].name.match(backgroundRegex)){
+                    background = spritesAvailable[k].value;
+                };
+                if(spritesAvailable[k].name.match(logoRegex)){
+                    logo = spritesAvailable[k].value;
+                };
+                if(spritesAvailable[k].name.match(frontRegex)){
+                    car_faced_front = spritesAvailable[k].value;
+                };
+                if(spritesAvailable[k].name.match(leftRegex)){
+                    car_faced_left = spritesAvailable[k].value;
+                };
+                if(spritesAvailable[k].name.match(rightRegex)){
+                    car_faced_right = spritesAvailable[k].value;
+                };
+            }  
+            if(background===undefined || logo===undefined || car_faced_front===undefined || car_faced_left===undefined || car_faced_right===undefined){
+                for(let k=0;k<spritesReadJSON.frames.length;k++){
+                    spritesAvailable[k]={
+                        name:spritesReadJSON.frames[k].filename.split(".")[0],
+                        value:spritesReadJSON.frames[k].frame
+                    };
+                    if(spritesAvailable[k].name.match(/background/)){
+                        background = spritesAvailable[k].value;
+                    };
+                    if(spritesAvailable[k].name.match(/logo/)){
+                        logo = spritesAvailable[k].value;
+                    };
+                    if(spritesAvailable[k].name.match(/car_faced_front/)){
+                        car_faced_front = spritesAvailable[k].value;
+                    };
+                    if(spritesAvailable[k].name.match(/car_faced_left/)){
+                        car_faced_left = spritesAvailable[k].value;
+                    };
+                    if(spritesAvailable[k].name.match(/car_faced_right/)){
+                        car_faced_right = spritesAvailable[k].value;
+                    };
+                }  
+            }
+            readSprite=true;  
         }
+
         Widget.call(this, id, coords, opt);
         Arcade.prototype.onPageLoad(this.spritesFiles);
         loadingTrackNrIterations = setInterval(function(){ Arcade.prototype.getNrIterations(); }, 500);
@@ -920,7 +1051,7 @@ define(function (require, exports, module) {
                 controllable_car.posx -= controllable_car.turning;
             }
             carSprite = {
-                car: car2_faced_left,
+                car: car_faced_left,
                 x: 125,
                 y: 190
             };
@@ -930,13 +1061,13 @@ define(function (require, exports, module) {
                 controllable_car.posx += controllable_car.turning;
             }
             carSprite = {
-                car: car2_faced_right,
+                car: car_faced_right,
                 x: 125,
                 y: 190
             };
         } else {
             carSprite = {
-                car: car2_faced_front,
+                car: car_faced_front,
                 x:125,
                 y:190
             };
