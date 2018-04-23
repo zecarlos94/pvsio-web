@@ -78,6 +78,18 @@ define(function (require, exports, module) {
      */
     let carSteeringWheel;
 
+    /**
+     * @description Button 'carAccelerate' to be pressed/released based on gyroscope values.
+     * @memberof module:GyroscopeController
+     */
+
+    let carAccelerate;
+    /**
+     * @description Button 'carBrake' to be pressed/released based on gyroscope values.
+     * @memberof module:GyroscopeController
+     */
+    let carBrake;
+
     let Widget = require("widgets/Widget"),
         ButtonExternalController = require("widgets/car/ButtonExternalController"),
         SteeringWheel = require("widgets/car/SteeringWheel"), // In order to render rotations when button clicked
@@ -101,6 +113,8 @@ define(function (require, exports, module) {
         opt = opt || {};
         opt.parent = opt.parent;
         opt.carSteeringWheel = opt.carSteeringWheel;
+        opt.carAccelerate = opt.carAccelerate;
+        opt.carBrake = opt.carBrake;
         coords = coords || {};
 
         this.id = id;
@@ -111,6 +125,8 @@ define(function (require, exports, module) {
 
         this.parent = (opt.parent) ? "#"+opt.parent : "#gyroscope";
         carSteeringWheel = (opt.carSteeringWheel) ? opt.carSteeringWheel : null;
+        carAccelerate = (opt.carAccelerate) ? opt.carAccelerate : null;
+        carBrake = (opt.carBrake) ? opt.carBrake : null;
 
         this.div = d3.select(this.parent);
         
@@ -128,41 +144,65 @@ define(function (require, exports, module) {
      /**
      * @function rotateSteeringAngle
      * @description RotateSteeringAngle method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation). Default sensitivity is 100.
+     * @param beta {Float} The value of horizontal rotation (is zero when the device is parallel to Earth’s surface), between -180 and 180. It is used to accelerate or brake(press/release opt buttons).
      * @param gamma {Float} The value of vertical axis(up to/or down), between -90 and 90. It is used to calculate the angle in degrees calculated based on vertical axis value given by the gyroscope.
      * @memberof module:GyroscopeController
      * @returns {GyroscopeController} The created instance of the widget GyroscopeController.
      * @instance
      */
-    GyroscopeController.prototype.rotateSteeringAngle = function(gamma) {
+    GyroscopeController.prototype.rotateSteeringAngle = function(beta,gamma) {
         let angle = 0;
-        if (gamma !== 0.0) {
-            angle = gamma;
-            if(angle<=-90) {
-                angle = -90; 
-            }else if(angle>=90) {
-                angle = 90;
+        if(carSteeringWheel!==null){
+            if (gamma !== 0.0) {
+                angle = gamma;
+                if(angle<=-90) {
+                    angle = -90; 
+                }else if(angle>=90) {
+                    angle = 90;
+                }
+            }
+            carSteeringWheel.rotate(angle);
+        }
+        if(carAccelerate!==null && carBrake!==null){
+            if(beta <= 0.0){
+                carBrake.press();
+                carBrake.release();
+            }else if(beta > 0.0){
+                carAccelerate.press();
+                carAccelerate.release();
             }
         }
-        carSteeringWheel.rotate(angle);
         return this;
     };
 
     /**
      * @function rotateSteeringAngleWithSensitivity
      * @description RotateSteeringAngleWithSensitivity method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation) and with the required sensitivity.
+     * @param beta {Float} The value of horizontal rotation (is zero when the device is parallel to Earth’s surface), between -180 and 180. It is used to accelerate or brake(press/release opt buttons).
      * @param gamma {Float} The value of vertical axis(up to/or down), between -90 and 90. It is used to calculate the angle in degrees calculated based on vertical axis value given by the gyroscope.
      * @param sensitivity {Integer} The value of sensitivity of the steering wheel rotation angle, between 1 and 100.
      * @memberof module:GyroscopeController
      * @returns {GyroscopeController} The created instance of the widget GyroscopeController.
      * @instance
      */
-    GyroscopeController.prototype.rotateSteeringAngleWithSensitivity = function(gamma,s) {
+    GyroscopeController.prototype.rotateSteeringAngleWithSensitivity = function(beta,gamma,s) {
         let angle = 0;
         let sensitivity = s/100;
-        if (gamma !== 0.0) {
-            angle = gamma * sensitivity;
+        if(carSteeringWheel!==null){
+            if (gamma !== 0.0) {
+                angle = gamma * sensitivity;
+            }
+            carSteeringWheel.rotate(angle);            
         }
-        carSteeringWheel.rotate(angle);
+        if(carAccelerate!==null && carBrake!==null){
+            if(beta <= 0.0){
+                carBrake.press();
+                carBrake.release();
+            }else if(beta > 0.0){
+                carAccelerate.press();
+                carAccelerate.release();
+            }
+        }
         return this;
     };
 
@@ -173,10 +213,12 @@ define(function (require, exports, module) {
      * @instance
      */
     GyroscopeController.prototype.handleOrientation = function(evt) {
+        let z = evt.alpha.toFixed(2); // In degree in the range [-360,360]
+        let x = evt.beta.toFixed(2); // In degree in the range [-180,180]
         let y = evt.gamma.toFixed(2); // In degree in the range [-90,90]
         // GyroscopeController.prototype.rotateSteeringAngle(y);
         // Higher than 75% or else the rotation will not be perceptible due to gyroscope sensor optics.        
-        GyroscopeController.prototype.rotateSteeringAngleWithSensitivity(y,80);
+        GyroscopeController.prototype.rotateSteeringAngleWithSensitivity(x,y,80);
     }
 
     /**

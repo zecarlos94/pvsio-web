@@ -588,6 +588,8 @@ require([
         }, {
             parent: "gyroscope", // defines parent div, which is div id="gyroscope" by default
             carSteeringWheel: car.steeringWheel,
+            carAccelerate: car.up,
+            carBrake: car.down,
             callback: onMessageReceived
         });
 
