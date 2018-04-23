@@ -55,6 +55,7 @@
  * });
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
+/*jshint esnext:true */
 /*global define*/
 define(function (require, exports, module) {
     "use strict";
@@ -90,10 +91,11 @@ define(function (require, exports, module) {
      */
     let carBrake;
 
-    let Widget = require("widgets/Widget"),
-        ButtonExternalController = require("widgets/car/ButtonExternalController"),
-        SteeringWheel = require("widgets/car/SteeringWheel"), // In order to render rotations when button clicked
-        ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
+    let Widget = require("widgets/Widget");
+        // ,
+        // ButtonExternalController = require("widgets/car/ButtonExternalController"),
+        // SteeringWheel = require("widgets/car/SteeringWheel"), // In order to render rotations when button clicked
+        // ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
 
     /**
      * @function constructor
@@ -135,7 +137,7 @@ define(function (require, exports, module) {
 
         Widget.call(this, id, coords, opt);
         return this;
-    };
+    }
 
     GyroscopeController.prototype = Object.create(Widget.prototype);
     GyroscopeController.prototype.constructor =GyroscopeController;
@@ -213,13 +215,13 @@ define(function (require, exports, module) {
      * @instance
      */
     GyroscopeController.prototype.handleOrientation = function(evt) {
-        let z = evt.alpha.toFixed(2); // In degree in the range [-360,360]
+        // let z = evt.alpha.toFixed(2); // In degree in the range [-360,360]
         let x = evt.beta.toFixed(2); // In degree in the range [-180,180]
         let y = evt.gamma.toFixed(2); // In degree in the range [-90,90]
         // GyroscopeController.prototype.rotateSteeringAngle(y);
         // Higher than 75% or else the rotation will not be perceptible due to gyroscope sensor optics.        
         GyroscopeController.prototype.rotateSteeringAngleWithSensitivity(x,y,80);
-    }
+    };
 
     /**
      * @function hide
