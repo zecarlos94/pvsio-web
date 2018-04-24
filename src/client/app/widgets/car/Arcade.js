@@ -115,7 +115,7 @@
  * });
  */
 /*jslint lets: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-
+/*jshint esnext:true */
 
 require.config({
     baseUrl: "../../client/app",
@@ -141,8 +141,8 @@ define(function (require, exports, module) {
     let readSprite=false;
     let readConfiguration=false;
     let readParams=false;
-    let obstacles=[];
-    let obstaclesHits = null;
+    // let obstacles=[];
+    // let obstaclesHits = null;
     let sptB = null;
 
     // Coordinates of first blue car in spritesheet, Coordinates of second blue car in spritesheet, Coordinates of third blue car in spritesheet, Coordinates of first red car in spritesheet, Coordinates of second red car in spritesheet, Coordinates of third red car in spritesheet, Coordinates of background in spritesheet, Coordinates of tree in spritesheet, Coordinates of boulder in spritesheet, Coordinates of logo in spritesheet
@@ -195,7 +195,7 @@ define(function (require, exports, module) {
     let soundWidget;
 
     // Random numbers to place sprites randomly within the landscape territory
-    let randomNumber = Math.random;
+    // let randomNumber = Math.random;
     /* 
     * End of Arcade Global Variables 
     */
@@ -373,19 +373,19 @@ define(function (require, exports, module) {
                 };
                 if(spritesAvailable[k].name.match(backgroundRegex)){
                     background = spritesAvailable[k].value;
-                };
+                }
                 if(spritesAvailable[k].name.match(logoRegex)){
                     logo = spritesAvailable[k].value;
-                };
+                }
                 if(spritesAvailable[k].name.match(frontRegex)){
                     car_faced_front = spritesAvailable[k].value;
-                };
+                }
                 if(spritesAvailable[k].name.match(leftRegex)){
                     car_faced_left = spritesAvailable[k].value;
-                };
+                }
                 if(spritesAvailable[k].name.match(rightRegex)){
                     car_faced_right = spritesAvailable[k].value;
-                };
+                }
             }  
             if(background===undefined || logo===undefined || car_faced_front===undefined || car_faced_left===undefined || car_faced_right===undefined){
                 for(let k=0;k<spritesReadJSON.frames.length;k++){
@@ -395,19 +395,19 @@ define(function (require, exports, module) {
                     };
                     if(spritesAvailable[k].name.match(/background/)){
                         background = spritesAvailable[k].value;
-                    };
+                    }
                     if(spritesAvailable[k].name.match(/logo/)){
                         logo = spritesAvailable[k].value;
-                    };
+                    }
                     if(spritesAvailable[k].name.match(/car_faced_front/)){
                         car_faced_front = spritesAvailable[k].value;
-                    };
+                    }
                     if(spritesAvailable[k].name.match(/car_faced_left/)){
                         car_faced_left = spritesAvailable[k].value;
-                    };
+                    }
                     if(spritesAvailable[k].name.match(/car_faced_right/)){
                         car_faced_right = spritesAvailable[k].value;
-                    };
+                    }
                 }  
             }
             readSprite=true;  
@@ -645,7 +645,7 @@ define(function (require, exports, module) {
             }
         }
         return this;
-    }
+    };
     
     /**
      * @function renderSplashEndFrame
@@ -700,7 +700,7 @@ define(function (require, exports, module) {
             }
         }
         return this;
-    }
+    };
 
     /**
      * @function drawText
@@ -751,7 +751,7 @@ define(function (require, exports, module) {
             Arcade.prototype.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2,  0.55-alpha-laneWidth, 0.55-alpha, color);
         }
         return this;
-    }
+    };
 
     /**
      * @function drawArrow
@@ -779,7 +779,7 @@ define(function (require, exports, module) {
         context.lineTo(demiWidth + delta2 * render.width * scale1 + offset1, pos1);
         context.fill();
         return this;
-    }
+    };
 
     /**
      * @function drawSprite
@@ -798,7 +798,7 @@ define(function (require, exports, module) {
     Arcade.prototype.drawSprite = function (sprite, image, x, y, scale) {
         if(sprite!==null){
             let destY = sprite.y - sprite.i.h * sprite.s;
-            let h = null
+            let h = null;
             if(sprite.ymax < sprite.y) {
                 h = Math.min(sprite.i.h * (sprite.ymax - destY) / (sprite.i.h * sprite.s), sprite.i.h);
             } else {
@@ -838,7 +838,7 @@ define(function (require, exports, module) {
         context.lineTo(demiWidth + delta2 * render.width * scale1 + offset1, pos1);
         context.fill();
         return this;
-    }
+    };
 
     /**
      * @function drawBackground
@@ -855,7 +855,7 @@ define(function (require, exports, module) {
         Arcade.prototype.drawSprite(null, background, first+background.w-1, 0, 1);
         Arcade.prototype.drawSprite(null, background, first, 0, 1);
         return this;
-    }
+    };
 
      /**
      * @function setColorsEndCanvas
@@ -872,7 +872,7 @@ define(function (require, exports, module) {
         track_segment = track_segment;
         lane          = lane;
         return this;
-    }
+    };
     
     /**
      * @function setColorsCanvas
@@ -901,7 +901,7 @@ define(function (require, exports, module) {
         lane           = (alternate) ? lane1 : lane2;
         laneArrow      = laneArrow1;
         return this;
-    }
+    };
 
     /**
      * @function drawSegment
@@ -1002,7 +1002,7 @@ define(function (require, exports, module) {
             context.fill();
         }
         return this;
-    }
+    };
 
     /**
      * @function updateControllableCar
@@ -1073,7 +1073,7 @@ define(function (require, exports, module) {
             };
         }
         return carSprite;
-    }
+    };
     
     /**
      * @function renderSimulatorFrame
@@ -1166,7 +1166,7 @@ define(function (require, exports, module) {
                     render.height / 2 + endProjectedHeight,
                     endScaling,
                     nextSegment.curve - baseOffset - lastDelta * endScaling,
-                    currentSegmentIndex == 2 || currentSegmentIndex == (numIterations-render.depthOfField));
+                    currentSegmentIndex === 2 || currentSegmentIndex === (numIterations-render.depthOfField));
             }
             if(currentSegment.sprite){
                 // console.log(currentSegment.sprite.type);
@@ -1221,7 +1221,7 @@ define(function (require, exports, module) {
             // console.log("There are "+obstacles.length+" obstacles in this track");
         }
 
-        while(sptB = spriteBuffer.pop()) {
+        while((sptB = spriteBuffer.pop())!==undefined) {
             // Getting the obstacles coordinates
             // if(sptB.obstacle===1){
             //     // console.log(sptB.x+","+sptB.y);

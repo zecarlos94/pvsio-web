@@ -125,6 +125,7 @@
  * });
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
+/*jshint esnext:true */
 /*global define*/
 define(function (require, exports, module) {
     "use strict";
@@ -159,7 +160,7 @@ define(function (require, exports, module) {
      * @memberof module:GamepadController
      * @instance
      */
-    let g29RacingPS3ModeId = "G29 Driving Force Racing Wheel (Vendor: 046d Product: c294)"
+    let g29RacingPS3ModeId = "G29 Driving Force Racing Wheel (Vendor: 046d Product: c294)";
     /**
      * @description ButtonExternalController 'carAccelerate' to be clicked when a certain gamepad button is pressed.
      * @memberof module:GamepadController
@@ -252,7 +253,7 @@ define(function (require, exports, module) {
      */
     gamepadEvents = window.addEventListener("gamepadconnected", ( event ) => {
         // All buttons and axes values can be accessed through
-        event.gamepad;
+        // event.gamepad;
         GamepadController.prototype.connectGamepad(event.gamepad);
         console.log("Gamepad Connected");
 
@@ -265,15 +266,16 @@ define(function (require, exports, module) {
      */
     gamepadEvents = window.addEventListener("gamepaddisconnected", ( event ) => {
         // All buttons and axes values can be accessed through
-        event.gamepad;
+        // event.gamepad;
         GamepadController.prototype.disconnectGamepad(event.gamepad);
         console.log("Gamepad Disconnected");
     });
 
-    let Widget = require("widgets/Widget"),
-        ButtonExternalController = require("widgets/car/ButtonExternalController"),
-        SteeringWheel = require("widgets/car/SteeringWheel"), // In order to render rotations when button clicked
-        ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
+    let Widget = require("widgets/Widget");
+        // ,
+        // ButtonExternalController = require("widgets/car/ButtonExternalController"),
+        // SteeringWheel = require("widgets/car/SteeringWheel"), // In order to render rotations when button clicked
+        // ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
 
 
     /**
@@ -353,7 +355,7 @@ define(function (require, exports, module) {
 
         Widget.call(this, id, coords, opt);
         return this;
-    };
+    }
 
     GamepadController.prototype = Object.create(Widget.prototype);
     GamepadController.prototype.constructor =GamepadController;
@@ -841,8 +843,8 @@ define(function (require, exports, module) {
             for (i = 0; i < controller.buttons.length; i++) {
                 let b = buttons[i];
                 let val = controller.buttons[i];
-                let pressed = val == 1.0;
-                if (typeof(val) == "object") {
+                let pressed = val === 1.0;
+                if (typeof(val) === "object") {
                     pressed = val.pressed;
                     val = val.value;
                 }
@@ -979,7 +981,7 @@ define(function (require, exports, module) {
             }
         }
         requestAnimationFrame(GamepadController.prototype.updateStatus);
-    }
+    };
 
 
     /**
@@ -999,7 +1001,7 @@ define(function (require, exports, module) {
      * @instance
      */
     GamepadController.prototype.render = function (gamepads) {
-        let gp = gamepads || null;
+        // let gp = gamepads || null;
         return this.reveal();
     };
 

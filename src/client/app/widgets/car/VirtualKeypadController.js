@@ -62,6 +62,7 @@
  * });
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
+/*jshint esnext:true */
 /*global define*/
 define(function (require, exports, module) {
     "use strict";
@@ -75,9 +76,10 @@ define(function (require, exports, module) {
         isMobile = true;
     }
     let Widget = require("widgets/Widget"),
-        ButtonExternalController = require("widgets/car/ButtonExternalController"),
-        SteeringWheel = require("widgets/car/SteeringWheel"), // In order to render rotations when button clicked
-        ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
+        ButtonExternalController = require("widgets/car/ButtonExternalController");
+        // ,
+        // SteeringWheel = require("widgets/car/SteeringWheel"), // In order to render rotations when button clicked
+        // ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
 
     /**
      * @function constructor
