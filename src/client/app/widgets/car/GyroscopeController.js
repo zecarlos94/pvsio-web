@@ -167,13 +167,13 @@ define(function (require, exports, module) {
             carSteeringWheel.rotate(angle);
         }
         if(carAccelerate!==null && carBrake!==null){
-            // if(beta <= 0.0){
-            //     carBrake.press();
-            //     carBrake.release();
-            // }else if(beta > 0.0){
-            //     carAccelerate.press();
-            //     carAccelerate.release();
-            // }
+            if(beta <= 30.0){
+                carAccelerate.press();
+                carAccelerate.release();
+            }else if(beta > 30.0){
+                carBrake.press();
+                carBrake.release();
+            }
         }
         return this;
     };
@@ -198,12 +198,12 @@ define(function (require, exports, module) {
             carSteeringWheel.rotate(angle);            
         }
         if(carAccelerate!==null && carBrake!==null){
-            if(beta <= 0.0){
-                carBrake.press();
-                carBrake.release();
-            }else if(beta > 0.0){
+            if(beta <= 30.0){
                 carAccelerate.press();
                 carAccelerate.release();
+            }else if(beta > 30.0){
+                carBrake.press();
+                carBrake.release();
             }
         }
         return this;
