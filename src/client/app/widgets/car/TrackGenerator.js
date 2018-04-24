@@ -74,7 +74,7 @@
  * });
  */
 /*jslint lets: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*jshint esnext:true */
+
 
 require.config({
     baseUrl: "../../client/app",
@@ -88,6 +88,7 @@ define(function (require, exports, module) {
     "use strict";
 
     let Widget = require("widgets/Widget");
+    let Sound = require("widgets/car/Sound");
 
     let spritesheetJSON,spritesReadJSON;
 
@@ -163,7 +164,7 @@ define(function (require, exports, module) {
         numberOfSegmentPerColor = (opt.numberOfSegmentPerColor) ? opt.numberOfSegmentPerColor : 4;
         numLanes                = (opt.numLanes) ? opt.numLanes : 3;
         laneWidth               = (opt.laneWidth) ? opt.laneWidth: 0.02;
-        trackConfigurations     = (opt.trackConfigurations) ? opt.trackConfigurations : { maxHeight: 900, maxCurve: 400, numZones: 12, /*number of different portions of the track*/ curvy: 0.8, mountainy: 0.8, zoneSize:  250 /*length of each numZones (the bigger this value. the longer it will take to finish)*/ };
+        trackConfigurations     = (opt.trackConfigurations) ? opt.trackConfigurations : { maxHeight: 900, maxCurve: 400, numZones: 12, /*number of different portions of the track*/ curvy: 0.8, mountainy: 0.8, zoneSize:  250 /*length of each numZones (the bigger this value. the longer it will take to finish)*/ }
         controllable_car        = (opt.controllable_car) ? opt.controllable_car : { position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20 };
         topSpeed                = (opt.topSpeed) ? opt.topSpeed : 250;
 
@@ -267,8 +268,8 @@ define(function (require, exports, module) {
             
             
             if(spritesAvailable[spriteTypeRandom].name.match(/car[0-9]?/)===null && spritesAvailable[spriteTypeRandom].name.match(/background[0-9]?/)===null && spritesAvailable[spriteTypeRandom].name.match(/logo[0-9]?/)===null){
-                if(i%50===0){
-                    obstacle.forEach((element) =>{
+                if(i%50==0){
+                    obstacle.forEach(function(element) {
                         let index = spritesAvailable.findIndex(el => el.name === element);
                         // each 50 iterations a new obstacle is placed within the generatedTrack
                         // console.log(spritePosgeneratedObstaclesRandom);
@@ -277,7 +278,7 @@ define(function (require, exports, module) {
                         sprite = {type: spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
                     });
                 }else{
-                    objects.forEach((element) =>{
+                    objects.forEach(function(element) {
                         let index = spritesAvailable.findIndex(el => el.name === element);
     
                         // generates random float numbers greater than 0.55
@@ -286,9 +287,9 @@ define(function (require, exports, module) {
                         spritePosLeftRandom =  (randomPos() * -0.56) - 0.56;
     
                         // choose randomly sprite size
-                        if(spriteSidesRandom === 1){
+                        if(spriteSidesRandom == 1){
                             spritePos = spritePosLeftRandom;
-                        }else if(spriteSidesRandom === 2){
+                        }else if(spriteSidesRandom == 2){
                             spritePos = spritePosRightRandom;
                         }
     

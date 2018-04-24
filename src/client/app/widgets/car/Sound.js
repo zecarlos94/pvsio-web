@@ -89,7 +89,6 @@
  * });
  */
 /*jslint lets: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*jshint esnext:true */
 
 require.config({
     baseUrl: "../../client/app",

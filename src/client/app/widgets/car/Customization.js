@@ -387,7 +387,6 @@
  * });
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*jshint esnext:true */
 /*global define*/
 
 define(function (require, exports, module) {
@@ -741,8 +740,7 @@ define(function (require, exports, module) {
         Customization.prototype.setImagePicker(aux);
         
         return this;
-    };
-
+    }
     /**
      * @function setImagePicker
      * @description SetImagePicker method of the Customization widget. This method is responsible for getting values related to the image selected in the imagepicker.
@@ -777,7 +775,7 @@ define(function (require, exports, module) {
             }
         }); 
         return this;   
-    };
+    }
 
     /**
      * @function getSteeringWheelImage
@@ -788,7 +786,7 @@ define(function (require, exports, module) {
      */
     Customization.prototype.getSteeringWheelImage = function () {        
        return d3.select("#selectedSteeringWheel")[0][0].innerHTML;
-    };
+    }
 
     
     /**
@@ -803,7 +801,7 @@ define(function (require, exports, module) {
     Customization.prototype.setLastRenderingDiv = function (className) {
         d3.selectAll("."+className).attr('id','last-gauge');
         return this;
-    };
+    }
 
     /**
      * @function reRenderedWindowCSS
@@ -891,7 +889,7 @@ define(function (require, exports, module) {
         $("#myRange-End").on("input", (e) => {
             d3.select("#demo-End")[0][0].innerHTML = $(e.target).val() ;
             maxValueEnd = d3.select("#myRange-End")[0][0].value;
-            if(maxValueEnd===1){
+            if(maxValueEnd==1){
                 Customization.prototype.removeParentAllChilds("speedometer-gauge").removeParentAllChilds("tachometer-gauge").removeChild("steering_wheel");
                 if(reRenderEnd>=0){
                     reRenderEnd++;

@@ -6,7 +6,6 @@
  * @date Mar 1, 2017
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*jshint esnext:true */
 /*global define, d3_gauge_plus*/
 
 define(function (require, exports, module) {

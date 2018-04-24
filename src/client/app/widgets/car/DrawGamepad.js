@@ -48,7 +48,6 @@
  * });
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*jshint esnext:true */
 /*global define*/
 define(function (require, exports, module) {
     "use strict";
@@ -368,7 +367,7 @@ define(function (require, exports, module) {
     DrawGamepad.prototype.callPressReleasePVS = function (buttonName) {
        ButtonActionsQueue.queueGUIAction("press_"+buttonName, this.callback);
        ButtonActionsQueue.queueGUIAction("release_"+buttonName, this.callback);
-    };
+    }
 
     /**
      * @function callClickPVS
@@ -379,7 +378,7 @@ define(function (require, exports, module) {
      */
     DrawGamepad.prototype.callClickPVS = function (buttonName) {
         ButtonActionsQueue.queueGUIAction("click_"+buttonName, this.callback);
-    };
+     }
  
     /**
      * @function render

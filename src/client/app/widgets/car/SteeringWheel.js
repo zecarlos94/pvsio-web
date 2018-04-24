@@ -42,7 +42,6 @@
  * 
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*jshint esnext:true */
 /*global define*/
 define(function (require, exports, module) {
     "use strict";
@@ -102,7 +101,7 @@ define(function (require, exports, module) {
                             _this.width / svgWidth : _this.height / svgHeight;
             _this.div.style("transform", "scale(" + ratio + ")");
             _this.steering_wheel = _this.div.select("svg");
-            _this.steering_wheel.style("transition", "transform 0.3s");
+            _this.steering_wheel.style("transition", "transform 0.3s")
             return _this;
         });
 
@@ -189,7 +188,7 @@ define(function (require, exports, module) {
             // console.log(val);
             ButtonActionsQueue.queueGUIAction(this.id() + "_rotate(" + val + ")", this.callback);
         }
-    };
+    }
 
     /**
      * @function render
