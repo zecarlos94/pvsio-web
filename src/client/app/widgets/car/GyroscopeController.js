@@ -65,14 +65,7 @@ define(function (require, exports, module) {
      * @memberof module:GyroscopeController
      */
     let gyroscopeEvents;
-    if (window.DeviceOrientationEvent) {
-        gyroscopeEvents = window.addEventListener("deviceorientation", ( event ) => {
-            GyroscopeController.prototype.handleOrientation(event);
-        }, false);
-    }else {
-        alert("Sorry, your browser doesn't support Device Orientation");
-    }
-    
+ 
     /**
      * @description SteeringWheel 'carSteeringWheel' to be rotated with gyroscope values.
      * @memberof module:GyroscopeController
@@ -131,6 +124,14 @@ define(function (require, exports, module) {
         carBrake = (opt.carBrake) ? opt.carBrake : null;
 
         this.div = d3.select(this.parent);
+
+        if (window.DeviceOrientationEvent) {
+            gyroscopeEvents = window.addEventListener("deviceorientation", ( event ) => {
+                GyroscopeController.prototype.handleOrientation(event);
+            }, false);
+        }else {
+            alert("Sorry, your browser doesn't support Device Orientation");
+        }
         
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
@@ -166,13 +167,13 @@ define(function (require, exports, module) {
             carSteeringWheel.rotate(angle);
         }
         if(carAccelerate!==null && carBrake!==null){
-            if(beta <= 0.0){
-                carBrake.press();
-                carBrake.release();
-            }else if(beta > 0.0){
-                carAccelerate.press();
-                carAccelerate.release();
-            }
+            // if(beta <= 0.0){
+            //     carBrake.press();
+            //     carBrake.release();
+            // }else if(beta > 0.0){
+            //     carAccelerate.press();
+            //     carAccelerate.release();
+            // }
         }
         return this;
     };
@@ -218,9 +219,9 @@ define(function (require, exports, module) {
         // let z = evt.alpha.toFixed(2); // In degree in the range [-360,360]
         let x = evt.beta.toFixed(2); // In degree in the range [-180,180]
         let y = evt.gamma.toFixed(2); // In degree in the range [-90,90]
-        // GyroscopeController.prototype.rotateSteeringAngle(y);
+        GyroscopeController.prototype.rotateSteeringAngle(x,y);
         // Higher than 75% or else the rotation will not be perceptible due to gyroscope sensor optics.        
-        GyroscopeController.prototype.rotateSteeringAngleWithSensitivity(x,y,80);
+        // GyroscopeController.prototype.rotateSteeringAngleWithSensitivity(x,y,80);
     };
 
     /**
