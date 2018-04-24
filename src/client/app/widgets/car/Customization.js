@@ -584,9 +584,18 @@ define(function (require, exports, module) {
                     .append("span").attr("id","demo-"+res2);
 
             if(brItr===2){
-                this.customizationDiv.append("br");
-                this.customizationDiv.append("br");
-                this.customizationDiv.append("br");
+                if(isMobile){
+                    // this.customizationDiv.append("br");
+                    // this.customizationDiv.append("br");
+                    // this.customizationDiv.append("br");
+                    // this.customizationDiv.append("br");
+                    // this.customizationDiv.append("br");
+                    // this.customizationDiv.append("br");
+                }else{
+                    this.customizationDiv.append("br");
+                    this.customizationDiv.append("br");
+                    this.customizationDiv.append("br");
+                }
                 brItr=0;
             }
         }
@@ -597,9 +606,24 @@ define(function (require, exports, module) {
                     .append("p").style("color",this.sliderColor).style("margin-left","15px").text("End")
                     .append("span").attr("id","demo-End");
                     
-        this.customizationDiv.append("br");
-        this.customizationDiv.append("br");
-        this.customizationDiv.append("br");
+        if(isMobile){
+            this.customizationDiv.append("br");
+            this.customizationDiv.append("br");
+            this.customizationDiv.append("br");
+            this.customizationDiv.append("br");
+            this.customizationDiv.append("br");
+            this.customizationDiv.append("br");
+            this.customizationDiv.append("br");
+            this.customizationDiv.append("br");
+            this.customizationDiv.append("br");
+            this.customizationDiv.append("br");
+            this.customizationDiv.append("br");
+            this.customizationDiv.append("br");
+        }else{
+            this.customizationDiv.append("br");
+            this.customizationDiv.append("br");
+            this.customizationDiv.append("br");
+        }
 
         this.dashboardWidgets=this.div.append("div").attr("class", "dashboard-widgets");
 
