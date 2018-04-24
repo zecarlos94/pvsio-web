@@ -141,8 +141,6 @@ define(function (require, exports, module) {
     let readSprite=false;
     let readConfiguration=false;
     let readParams=false;
-    // let obstacles=[];
-    // let obstaclesHits = null;
     let sptB = null;
 
     // Coordinates of first blue car in spritesheet, Coordinates of second blue car in spritesheet, Coordinates of third blue car in spritesheet, Coordinates of first red car in spritesheet, Coordinates of second red car in spritesheet, Coordinates of third red car in spritesheet, Coordinates of background in spritesheet, Coordinates of tree in spritesheet, Coordinates of boulder in spritesheet, Coordinates of logo in spritesheet
@@ -194,8 +192,6 @@ define(function (require, exports, module) {
     let soundOff=false;
     let soundWidget;
 
-    // Random numbers to place sprites randomly within the landscape territory
-    // let randomNumber = Math.random;
     /* 
     * End of Arcade Global Variables 
     */
@@ -503,7 +499,6 @@ define(function (require, exports, module) {
 
         return this;
     };
-
 
     /**
      * @function onPageLoad
@@ -1298,7 +1293,6 @@ define(function (require, exports, module) {
         };
         return this;
     };
-
 
     /**
      * @function render

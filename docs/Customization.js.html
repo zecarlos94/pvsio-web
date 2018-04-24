@@ -435,6 +435,9 @@ define(function (require, exports, module) {
     let Speedometer = require("widgets/car/Speedometer");
     let Tachometer = require("widgets/car/Tachometer");
     let SteeringWheel = require("widgets/car/SteeringWheel");
+    let GyroscopeController = require("widgets/car/GyroscopeController");
+    let VirtualKeypadController = require("widgets/car/VirtualKeypadController");
+    let GamepadController = require("widgets/car/GamepadController");
      
     /**
      * @function constructor
@@ -817,7 +820,6 @@ define(function (require, exports, module) {
     Customization.prototype.getSteeringWheelImage = function () {        
        return d3.select("#selectedSteeringWheel")[0][0].innerHTML;
     };
-
     
     /**
      * @function setLastRenderingDiv
@@ -919,7 +921,7 @@ define(function (require, exports, module) {
         $("#myRange-End").on("input", (e) => {
             d3.select("#demo-End")[0][0].innerHTML = $(e.target).val() ;
             maxValueEnd = d3.select("#myRange-End")[0][0].value;
-            if(maxValueEnd===1){
+            if(maxValueEnd==="1"){
                 Customization.prototype.removeParentAllChilds("speedometer-gauge").removeParentAllChilds("tachometer-gauge").removeChild("steering_wheel");
                 if(reRenderEnd>=0){
                     reRenderEnd++;
@@ -952,7 +954,82 @@ define(function (require, exports, module) {
                         style: steeringWheel,
                         callback: callback
                     });
+
+                    // ----------------------------- CONTROLLERS COMPONENTS --------------------------
+                    // ---------------- GAMEPAD CONTROLLER ----------------
+                    car.gamepadController = new GamepadController("gamepad_controller", {
+                        top: 1000,
+                        left: 100,
+                        width: 750,
+                        height: 750
+                    }, {
+                        carAccelerate: car.up,
+                        carBrake: car.down,
+                        carSteeringWheel: car.steeringWheel,
+                        type: "steeringWheelAndPedals", // Default is "gamepad"
+                        accelerationIndex: 0,
+                        brakeIndex: 1,
+                        leftArrowIndex: 14,
+                        rightArrowIndex: 15,
+                        accelerationPedalIndex: 1,
+                        brakePedalIndex: 1,
+                        steeringWheelIndex: 0,
+                        analogueStickIndex: 9,
+                        leftAnalogueIndex: 0,
+                        rightAnalogueIndex: 2,
+                        callback: callback
+                    });
+
+                    // ---------------- VIRTUAL KEYPAD CONTROLLER ----------------
+                    car.virtualKeypadController = new VirtualKeypadController("virtualKeypad_controller", {
+                        top: 800,
+                        left: 800,
+                        width: 750,
+                        height: 750
+                    }, {
+                        keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
+                        keyboardClass: "icon keyboard",
+                        keyboardTopMobile: 750,
+                        keyboardLeftMobile: 1350,
+                        keyboardTopDesktop: 735,
+                        keyboardLeftDesktop: 1380,
+                        // keyboardUrl: "img/keyboard.png", // Image is located at widgets/car/configurations/img/keyboard.png by default
+                        keyboardHoverInitialTitle: "Click to open virtual keypad controller",
+                        keyboardHoverSecondTitle: "Click to close virtual keypad controller",
+                        // keyboardOnclickAction: "alert("Clicked");", // No action by default
+                        keyboardImageWidthMobile: 80,
+                        keyboardImageHeightMobile: 60,
+                        keyboardImageWidthDesktop: 50,
+                        keyboardImageHeightDesktop: 30,
+                        parent: "virtualKeyPad", // defines parent div, which is div id="virtualKeyPad" by default
+                        simulatorActions: "simulatorActions",
+                        simulatorArrows: "simulatorArrows",
+                        floatArrows: "floatArrows",
+                        blockArrows: "blockArrows",
+                        buttonClass: "ui-button ui-corner-all ui-widget ui-button-icon-only",
+                        title: "Button with icon only",
+                        arrowKeysPVS: [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"],
+                        otherKeysPVS: [ "quit", "pause", "resume" ],
+                        callback: callback
+                    });
+
+                    // ----------------------------- GYROSCOPE COMPONENTS -----------------------------
+                    car.gyroscopeController = new GyroscopeController("Gyroscope_Controller", {
+                        top: 100,
+                        left: 700,
+                        width: 750,
+                        height: 750
+                    }, {
+                        parent: "gyroscope", // defines parent div, which is div id="gyroscope" by default
+                        carSteeringWheel: car.steeringWheel,
+                        carAccelerate: car.up,
+                        carBrake: car.down,
+                        callback: callback
+                    });
+
                     Customization.prototype.reRenderedWindowCSS(CSSValues);
+                    car.gamepadController.render();
+                    car.gyroscopeController.render();
                     car.drawGamepad.render();
                 }
             }
@@ -990,7 +1067,7 @@ define(function (require, exports, module) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Apr 23 2018 12:06:02 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 24 2018 16:44:49 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

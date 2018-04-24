@@ -843,7 +843,7 @@ define(function (require, exports, module) {
             for (i = 0; i < controller.buttons.length; i++) {
                 let b = buttons[i];
                 let val = controller.buttons[i];
-                let pressed = val === 1.0;
+                let pressed = (val === 1.0);
                 if (typeof(val) === "object") {
                     pressed = val.pressed;
                     val = val.value;
@@ -982,7 +982,6 @@ define(function (require, exports, module) {
         }
         requestAnimationFrame(GamepadController.prototype.updateStatus);
     };
-
 
     /**
      * @description Running listGamepads method every 500ms to update known gamepads after detecting new connections(gamepadEvents).

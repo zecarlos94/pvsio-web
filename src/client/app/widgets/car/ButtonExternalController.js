@@ -116,14 +116,11 @@ define(function (require, exports, module) {
         this.left = coords.left || 0;
         this.width = coords.width || 32;
         this.height = coords.height || 32;
-
         var x2 = this.left + this.width;
         var x3 = this.top + this.height;
         // Added property buttonClass to add JQuery UI Classes on VirtualKeypadController Widget
         if(opt.buttonClass!==""){
             this.area = (opt.area) ? opt.area.append("button") : parent.append("button");
-            // var x2 = this.left + this.width;
-            // var x3 = this.top + this.height;
 
             if(isMobile){
                 if(opt.arrowName!==""){ // this opt.arrowName is necessary to have the visual appearance in VirtualKeypadController widget as in the real keyboard, i.e., having 3 arrows aligned at the bottom and 1 arrow in the middle above them.
@@ -152,8 +149,6 @@ define(function (require, exports, module) {
             }
         } else{
             this.area = (opt.area) ? opt.area.append("area") : parent.append("area");
-            // var x2 = this.left + this.width;
-            // var x3 = this.top + this.height;
 
             this.area.attr("shape", "rect").attr("id", id).attr("class", opt.id)
             .attr("coords", this.left + "," + this.top + "," + x2 + "," + x3)

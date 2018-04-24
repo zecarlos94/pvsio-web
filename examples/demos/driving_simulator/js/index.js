@@ -495,66 +495,67 @@ require([
         car.envThermometer = new Thermometer('env-temp');
         */
 
+        
         // ----------------------------- CONTROLLERS COMPONENTS --------------------------
         // ---------------- GAMEPAD CONTROLLER ----------------
-        car.gamepadController = new GamepadController("gamepad_controller", {
-            top: 1000,
-            left: 100,
-            width: 750,
-            height: 750
-        }, {
-            carAccelerate: car.up,
-            carBrake: car.down,
-            carSteeringWheel: car.steeringWheel,
-            type: "steeringWheelAndPedals", // Default is "gamepad"
-            accelerationIndex: 0,
-            brakeIndex: 1,
-            leftArrowIndex: 14,
-            rightArrowIndex: 15,
-            accelerationPedalIndex: 1,
-            brakePedalIndex: 1,
-            steeringWheelIndex: 0,
-            analogueStickIndex: 9,
-            leftAnalogueIndex: 0,
-            rightAnalogueIndex: 2,
-            callback: onMessageReceived
-        });
+        // car.gamepadController = new GamepadController("gamepad_controller", {
+        //     top: 1000,
+        //     left: 100,
+        //     width: 750,
+        //     height: 750
+        // }, {
+        //     carAccelerate: car.up,
+        //     carBrake: car.down,
+        //     carSteeringWheel: car.steeringWheel,
+        //     type: "steeringWheelAndPedals", // Default is "gamepad"
+        //     accelerationIndex: 0,
+        //     brakeIndex: 1,
+        //     leftArrowIndex: 14,
+        //     rightArrowIndex: 15,
+        //     accelerationPedalIndex: 1,
+        //     brakePedalIndex: 1,
+        //     steeringWheelIndex: 0,
+        //     analogueStickIndex: 9,
+        //     leftAnalogueIndex: 0,
+        //     rightAnalogueIndex: 2,
+        //     callback: onMessageReceived
+        // });
 
         // car.gamepadController.listGamepads();
         // car.gamepadController.listGamepadsKnown();
 
         // ---------------- VIRTUAL KEYPAD CONTROLLER ----------------
-        car.virtualKeypadController = new VirtualKeypadController("virtualKeypad_controller", {
-            top: 800,
-            left: 800,
-            width: 750,
-            height: 750
-        }, {
-            keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
-            keyboardClass: "icon keyboard",
-            keyboardTopMobile: 750,
-            keyboardLeftMobile: 1350,
-            keyboardTopDesktop: 735,
-            keyboardLeftDesktop: 1380,
-            // keyboardUrl: "img/keyboard.png", // Image is located at widgets/car/configurations/img/keyboard.png by default
-            keyboardHoverInitialTitle: "Click to open virtual keypad controller",
-            keyboardHoverSecondTitle: "Click to close virtual keypad controller",
-            // keyboardOnclickAction: "alert("Clicked");", // No action by default
-            keyboardImageWidthMobile: 80,
-            keyboardImageHeightMobile: 60,
-            keyboardImageWidthDesktop: 50,
-            keyboardImageHeightDesktop: 30,
-            parent: "virtualKeyPad", // defines parent div, which is div id="virtualKeyPad" by default
-            simulatorActions: "simulatorActions",
-            simulatorArrows: "simulatorArrows",
-            floatArrows: "floatArrows",
-            blockArrows: "blockArrows",
-            buttonClass: "ui-button ui-corner-all ui-widget ui-button-icon-only",
-            title: "Button with icon only",
-            arrowKeysPVS: [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"],
-            otherKeysPVS: [ "quit", "pause", "resume" ],
-            callback: onMessageReceived
-        });
+        // car.virtualKeypadController = new VirtualKeypadController("virtualKeypad_controller", {
+        //     top: 800,
+        //     left: 800,
+        //     width: 750,
+        //     height: 750
+        // }, {
+        //     keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
+        //     keyboardClass: "icon keyboard",
+        //     keyboardTopMobile: 750,
+        //     keyboardLeftMobile: 1350,
+        //     keyboardTopDesktop: 735,
+        //     keyboardLeftDesktop: 1380,
+        //     // keyboardUrl: "img/keyboard.png", // Image is located at widgets/car/configurations/img/keyboard.png by default
+        //     keyboardHoverInitialTitle: "Click to open virtual keypad controller",
+        //     keyboardHoverSecondTitle: "Click to close virtual keypad controller",
+        //     // keyboardOnclickAction: "alert("Clicked");", // No action by default
+        //     keyboardImageWidthMobile: 80,
+        //     keyboardImageHeightMobile: 60,
+        //     keyboardImageWidthDesktop: 50,
+        //     keyboardImageHeightDesktop: 30,
+        //     parent: "virtualKeyPad", // defines parent div, which is div id="virtualKeyPad" by default
+        //     simulatorActions: "simulatorActions",
+        //     simulatorArrows: "simulatorArrows",
+        //     floatArrows: "floatArrows",
+        //     blockArrows: "blockArrows",
+        //     buttonClass: "ui-button ui-corner-all ui-widget ui-button-icon-only",
+        //     title: "Button with icon only",
+        //     arrowKeysPVS: [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"],
+        //     otherKeysPVS: [ "quit", "pause", "resume" ],
+        //     callback: onMessageReceived
+        // });
 
         // ----------------------------- DRAWGAMEPAD COMPONENTS -----------------------------
         // car.drawGamepad = new DrawGamepad("drawGamepad", {
@@ -580,18 +581,19 @@ require([
             callback: onMessageReceived
         });
         // ----------------------------- GYROSCOPE COMPONENTS -----------------------------
-        car.gyroscopeController = new GyroscopeController("Gyroscope_Controller", {
-            top: 100,
-            left: 700,
-            width: 750,
-            height: 750
-        }, {
-            parent: "gyroscope", // defines parent div, which is div id="gyroscope" by default
-            carSteeringWheel: car.steeringWheel,
-            carAccelerate: car.up,
-            carBrake: car.down,
-            callback: onMessageReceived
-        });
+        // car.gyroscopeController = new GyroscopeController("Gyroscope_Controller", {
+        //     top: 100,
+        //     left: 700,
+        //     width: 750,
+        //     height: 750
+        // }, {
+        //     parent: "gyroscope", // defines parent div, which is div id="gyroscope" by default
+        //     carSteeringWheel: car.steeringWheel,
+        //     carAccelerate: car.up,
+        //     carBrake: car.down,
+        //     callback: onMessageReceived
+        // });
+        
 
         // Render car dashboard components
         let render = (res) => {
@@ -599,8 +601,8 @@ require([
             car.speedometerGauge.render(evaluate(res.speed.val));
             car.tachometerGauge.render(evaluate(res.rpm));
             car.steeringWheel.render(evaluate(res.steering));
-            car.gamepadController.render();
-            car.gyroscopeController.render();
+            // car.gamepadController.render();
+            // car.gyroscopeController.render();
             // car.drawGamepad.callPressReleasePVS("accelerate");
             // car.drawGamepad.callClickPVS("leftStick");
         }

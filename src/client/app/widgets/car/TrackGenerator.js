@@ -268,7 +268,7 @@ define(function (require, exports, module) {
             
             if(spritesAvailable[spriteTypeRandom].name.match(/car[0-9]?/)===null && spritesAvailable[spriteTypeRandom].name.match(/background[0-9]?/)===null && spritesAvailable[spriteTypeRandom].name.match(/logo[0-9]?/)===null){
                 if(i%50===0){
-                    obstacle.forEach((element) =>{
+                    obstacle.forEach((element) => {
                         let index = spritesAvailable.findIndex(el => el.name === element);
                         // each 50 iterations a new obstacle is placed within the generatedTrack
                         // console.log(spritePosgeneratedObstaclesRandom);
@@ -277,7 +277,7 @@ define(function (require, exports, module) {
                         sprite = {type: spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
                     });
                 }else{
-                    objects.forEach((element) =>{
+                    objects.forEach((element) => {
                         let index = spritesAvailable.findIndex(el => el.name === element);
     
                         // generates random float numbers greater than 0.55
