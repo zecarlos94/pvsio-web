@@ -136,8 +136,11 @@
  *          // Draws the lanes
  *          arcade.drawLanes(position1, scale1, offset1, position2, scale2, offset2, lane, 3, 0.02);
  * 
- *          // Draws the guiding arrow
- *          arcade.drawArrow(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, "#00FF00");
+ *          // Draws the guiding line
+ *          arcade.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, "#00FF00");
+ * 
+ *          // Draws the guiding arrow with color rgb(100,200,187) received as argument
+ *          Arcade.prototype.drawArrowHead("rgb(100,200,187)");
  * 
  *     }
  * });
@@ -566,7 +569,7 @@ define(function (require, exports, module) {
      Arcade.prototype.renderSplashFrame = function () {  
         canvas.height = 240;
         canvas.width = 320;     
-        context.fillStyle = "rgb(0,0,0)";
+        context.fillStyle = "rgb(100,200,187)"; 
         context.fillRect(0, 0, canvas.width, canvas.height);
     
         if(readParams){
@@ -576,17 +579,18 @@ define(function (require, exports, module) {
             // canvas.width = render.width;
 
             if(readConfiguration &amp;&amp; readSprite){
-                context.drawImage(spritesheetsImages[0],  logo.x, logo.y, logo.w, logo.h, 100, 20, 0.6*logo.w, 0.6*logo.h);
+                context.drawImage(spritesheetsImages[0],  logo.x, logo.y, logo.w, logo.h, 110, 15, 0.7*logo.w, 0.7*logo.h);
     
-                Arcade.prototype.drawText("Instructions:",{x: 100, y: 95}, 1);
-                Arcade.prototype.drawText("Click on space bar to start",{x: 40, y: 110}, 1);
-                Arcade.prototype.drawText("Click on key s to pause",{x: 40, y: 120}, 1);
-                Arcade.prototype.drawText("Click on key q to end",{x: 40, y: 130}, 1);
-                Arcade.prototype.drawText("Use left and rigth arrows",{x: 40, y: 145}, 1);
-                Arcade.prototype.drawText("to control the vehicle",{x: 70, y: 155}, 1);
-                Arcade.prototype.drawText("You can start now",{x: 90, y: 175}, 1);
-                Arcade.prototype.drawText("Credits:",{x: 125, y: 195}, 1);
-                Arcade.prototype.drawText("Jose Carlos",{x: 110, y: 205}, 1);
+                Arcade.prototype.drawText("Instructions:",{x: 120, y: 90}, 1);
+                Arcade.prototype.drawText("Click on space bar to start",{x: 60, y: 110}, 1);
+                Arcade.prototype.drawText("Click on key s to pause",{x: 60, y: 120}, 1);
+                Arcade.prototype.drawText("Click on key q to end",{x: 60, y: 130}, 1);
+                Arcade.prototype.drawText("Use left and rigth arrows",{x: 80, y: 145}, 1);
+                Arcade.prototype.drawText("to control the vehicle",{x: 90, y: 155}, 1);
+                Arcade.prototype.drawText("You can start now",{x: 110, y: 175}, 1);
+                Arcade.prototype.drawText("Credits:",{x: 145, y: 195}, 1);
+                Arcade.prototype.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
+                Arcade.prototype.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
                 
                 if(keys[32]){
                     clearInterval(splashInterval);
@@ -636,15 +640,19 @@ define(function (require, exports, module) {
     Arcade.prototype.renderSplashPauseFrame = function () { 
         canvas.height = 240;
         canvas.width = 320; 
-        context.fillStyle = "rgb(0,0,0)";
+        context.fillStyle = "rgb(100,200,187)"; //"rgb(0,0,0)";
         context.fillRect(0, 0, canvas.width, canvas.height);
         // context.fillRect(0, 0, render.width, render.height);
     
-        context.drawImage(spritesheetsImages[0],  logo.x, logo.y, logo.w, logo.h, 100, 20, 0.6*logo.w, 0.6*logo.h);
+        context.drawImage(spritesheetsImages[0],  logo.x, logo.y, logo.w, logo.h, 110, 15, 0.7*logo.w, 0.7*logo.h);
     
-        Arcade.prototype.drawText("Click on space bar to resume",{x: 30, y: 110}, 1);
-        Arcade.prototype.drawText("Use left and rigth arrows",{x: 40, y: 125}, 1);
-        Arcade.prototype.drawText("to control the car",{x: 70, y: 135}, 1);
+        Arcade.prototype.drawText("Click on space bar to resume",{x: 60, y: 100}, 1);
+        Arcade.prototype.drawText("Use left and rigth arrows",{x: 70, y: 135}, 1);
+        Arcade.prototype.drawText("to control the car",{x: 100, y: 155}, 1);
+        Arcade.prototype.drawText("Credits:",{x: 145, y: 195}, 1);
+        Arcade.prototype.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
+        Arcade.prototype.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
+
         if(keys[32]){
             chronometer.start();
     
@@ -681,14 +689,18 @@ define(function (require, exports, module) {
     Arcade.prototype.renderSplashEndFrame = function () { 
         canvas.height = 240;
         canvas.width = 320; 
-        context.fillStyle = "rgb(0,0,0)";
+        context.fillStyle = "rgb(100,200,187)";//"rgb(0,0,0)";
         context.fillRect(0, 0, canvas.width, canvas.height);
         // context.fillRect(0, 0, render.width, render.height);
     
-        context.drawImage(spritesheetsImages[0],  logo.x, logo.y, logo.w, logo.h, 100, 20, 0.6*logo.w, 0.6*logo.h);
+        context.drawImage(spritesheetsImages[0],  logo.x, logo.y, logo.w, logo.h, 110, 15, 0.7*logo.w, 0.7*logo.h);
     
-        Arcade.prototype.drawText("Thank you for playing!",{x: 70, y: 110}, 1);
+        Arcade.prototype.drawText("Thank you for playing!",{x: 90, y: 100}, 1);
         Arcade.prototype.drawText("Click on space bar to start again",{x: 40, y: 125}, 1);
+        Arcade.prototype.drawText("Credits:",{x: 145, y: 195}, 1);
+        Arcade.prototype.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
+        Arcade.prototype.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
+
         if(keys[32]){
             clearInterval(splashInterval);
             clearInterval(simulatorInterval);
@@ -777,8 +789,8 @@ define(function (require, exports, module) {
     };
 
     /**
-     * @function drawArrow
-     * @description DrawArrow method of the Arcade widget. This method draws a guiding arrow in front of the vehicle.
+     * @function drawGuidingLine
+     * @description DrawGuidingLine method of the Arcade widget. This method draws a guiding line within the track.
      * @param pos1 {Float} 
      * @param scale1 {Float} 
      * @param offset1 {Float} 
@@ -792,7 +804,7 @@ define(function (require, exports, module) {
      * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.drawArrow = function (pos1, scale1, offset1, pos2, scale2, offset2, delta1, delta2, color) {
+    Arcade.prototype.drawGuidingLine = function (pos1, scale1, offset1, pos2, scale2, offset2, delta1, delta2, color) {
         let demiWidth = render.width / 2;
         context.fillStyle = color;
         context.beginPath();
@@ -801,6 +813,77 @@ define(function (require, exports, module) {
         context.lineTo(demiWidth + delta2 * render.width * scale2 + offset2, pos2);
         context.lineTo(demiWidth + delta2 * render.width * scale1 + offset1, pos1);
         context.fill();
+        return this;
+    };
+
+    /**
+     * @function drawArrowHead
+     * @description DrawArrowHead method of the Arcade widget. This method draws a guiding arrow in front of the vehicle.
+     * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
+     * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
+     * @param width {Int} Arrow width(triangle).
+     * @param height {Int} Arrow height(triangle).
+     * @param color {String} CSS color to render the lane, usually hexadecimal value.
+     * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
+     * @instance
+     */
+    Arcade.prototype.drawArrowHead = function (x, y, width, height, color){
+        context.fillStyle = color;
+        context.beginPath();
+        context.moveTo(x, y);
+        context.lineTo(x - width, y + height);
+        context.lineTo(x + width, y + height);
+        context.closePath();
+        context.fill();
+        return this;
+    };
+
+    /**
+     * @function drawArrowRight
+     * @description DrawArrowRight method of the Arcade widget. This method draws a guiding arrow, turned right, in front of the vehicle.
+     * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
+     * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
+     * @param width {Int} Arrow width(triangle).
+     * @param height {Int} Arrow height(triangle).
+     * @param color {String} CSS color to render the lane, usually hexadecimal value.
+     * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
+     * @instance
+     */
+    Arcade.prototype.drawArrowRight = function (x, y, width, height, color) {
+        context.fillStyle = color;
+        context.beginPath();
+        context.moveTo(x, y); // reposition at x (horizontal axis), y (vertical axis)
+        context.lineTo(x, y + height);  // draw straight down by height
+        context.lineTo(x - width, y + height/2); // draw up toward left
+        context.closePath(); // connect and fill
+        context.fill();
+        return this;
+    };
+
+    /**
+     * @function drawArrowLeft
+     * @description DrawArrowLeft method of the Arcade widget. This method draws a guiding arrow, turned left, in front of the vehicle.
+     * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
+     * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
+     * @param width {Int} Arrow width(triangle).
+     * @param height {Int} Arrow height(triangle).
+     * @param color {String} CSS color to render the lane, usually hexadecimal value.
+     * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
+     * @instance
+     */
+    Arcade.prototype.drawArrowLeft = function (x, y, width, height, color){
+        context.save();
+        context.fillStyle = color;
+        context.beginPath();
+        context.moveTo(x, y);
+        context.lineTo(x, y + height);
+        context.lineTo(x + width, y + height/2); 
+        context.closePath();
+        context.fill();
+        context.restore();
         return this;
     };
 
@@ -979,16 +1062,11 @@ define(function (require, exports, module) {
             Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.45, 0.40, "#000");
 
             //TODO Change arrow direction when car is off track
-            // draw arrow guide
-            // Arcade.prototype.drawArrow(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, laneArrow);
-            context.fillStyle = laneArrow;
-            context.beginPath();
-            context.moveTo(160, 150);
-            context.lineTo(150, 160);
-            context.lineTo(170, 160);
-            context.closePath();
-            context.fill();
-
+            // draw arrow or guiding line
+            // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, laneArrow);
+            Arcade.prototype.drawArrowHead(160, 150, 15, 15, laneArrow);
+            // Arcade.prototype.drawArrowLeft(30, 20, 20, 20, laneArrow);
+            // Arcade.prototype.drawArrowRight(160, 150, 20, 20, laneArrow);
         }
         else{
             //draw grass:
@@ -1014,15 +1092,11 @@ define(function (require, exports, module) {
             // draw the lane line
             Arcade.prototype.drawLanes(position1, scale1, offset1, position2, scale2, offset2, lane, numLanes, laneWidth);
 
-            // draw arrow guide
-            // Arcade.prototype.drawArrow(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, laneArrow);
-            context.fillStyle = laneArrow;
-            context.beginPath();
-            context.moveTo(160, 150);
-            context.lineTo(150, 160);
-            context.lineTo(170, 160);
-            context.closePath();
-            context.fill();
+            // draw arrow or guiding line
+            // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, laneArrow);
+            Arcade.prototype.drawArrowHead(160, 150, 15, 15, laneArrow);
+            // Arcade.prototype.drawArrowLeft(30, 20, 20, 20, laneArrow);
+            // Arcade.prototype.drawArrowRight(160, 150, 20, 20, laneArrow);
         }
         return this;
     };
@@ -1350,7 +1424,7 @@ define(function (require, exports, module) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 24 2018 17:10:10 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 02 2018 10:48:51 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>
