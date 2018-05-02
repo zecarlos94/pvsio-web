@@ -139,8 +139,26 @@
  *          // Draws the guiding line
  *          arcade.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, "#00FF00");
  * 
- *          // Draws the guiding arrow with color rgb(100,200,187) received as argument
- *          Arcade.prototype.drawArrowHead("rgb(100,200,187)");
+ *          // Draws the guiding arrow, turned front, with tail and with color rgb(100,200,187) received as arguments at (10,30) with width 20px and height also 20px
+ *          Arcade.prototype.drawArrowFront(10, 30, 20, 20, "rgb(100,200,187)", 1);
+ * 
+ *          // Draws the guiding arrow, turned left, with tail and with color rgb(100,200,187) received as arguments at (30,20) with width 20px and height also 20px
+ *          Arcade.prototype.drawArrowLeft(30, 20, 20, 20, laneArrow, 1);
+ * 
+ *          // Draws the guiding arrow, turned right, with tail and with color rgb(100,200,187) received as arguments at (160,150) with width 20px and height also 20px
+ *          Arcade.prototype.drawArrowRight(160, 150, 20, 20, laneArrow, 1);
+ * 
+ *          // Draws the simple guiding arrow, turned front, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
+ *          Arcade.prototype.drawSimpleArrowFront(canvas.width-50,30,laneArrow);
+ *          
+ *          // Draws the simple guiding arrow, turned down, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
+ *          Arcade.prototype.drawSimpleArrowDown(canvas.width-50,30,laneArrow);
+ *          
+ *          // Draws the simple guiding arrow, turned left, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
+ *          Arcade.prototype.drawSimpleArrowLeft(canvas.width-50,30,laneArrow);
+ * 
+ *          // Draws the simple guiding arrow, turned right, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
+ *          Arcade.prototype.drawSimpleArrowRight(canvas.width-50,30,laneArrow);
  * 
  *     }
  * });
@@ -173,6 +191,7 @@ define(function (require, exports, module) {
     let readConfiguration=false;
     let readParams=false;
     let sptB = null;
+    let carCurrentDirection = "front";
 
     // Coordinates of first blue car in spritesheet, Coordinates of second blue car in spritesheet, Coordinates of third blue car in spritesheet, Coordinates of first red car in spritesheet, Coordinates of second red car in spritesheet, Coordinates of third red car in spritesheet, Coordinates of background in spritesheet, Coordinates of tree in spritesheet, Coordinates of boulder in spritesheet, Coordinates of logo in spritesheet
     let car_faced_front, car_faced_left, car_faced_right, background, logo;
@@ -817,18 +836,100 @@ define(function (require, exports, module) {
     };
 
     /**
-     * @function drawArrowHead
-     * @description DrawArrowHead method of the Arcade widget. This method draws a guiding arrow in front of the vehicle.
-     * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
-     * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
-     * @param width {Int} Arrow width(triangle).
-     * @param height {Int} Arrow height(triangle).
-     * @param color {String} CSS color to render the lane, usually hexadecimal value.
+     * @function drawSimpleArrowFront
+     * @description DrawSimpleArrowFront method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
+     * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
+     * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
+     * @param color {String} CSS color to render the simple arrow, usually hexadecimal value.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.drawArrowHead = function (x, y, width, height, color){
+    Arcade.prototype.drawSimpleArrowFront = function (x,y,color){
+        context.fillStyle = color;
+        context.beginPath();
+        context.moveTo(x,y+10);
+        context.lineTo(x+10,y);
+        context.lineTo(x+20,y+10);
+        context.stroke();
+        return this;
+    };
+
+    /**
+     * @function drawSimpleArrowDown
+     * @description DrawSimpleArrowDown method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
+     * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
+     * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
+     * @param color {String} CSS color to render the simple arrow, usually hexadecimal value.
+     * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
+     * @instance
+     */
+    Arcade.prototype.drawSimpleArrowDown = function (x,y,color){
+        context.fillStyle = color;
+        context.beginPath();
+        context.moveTo(x,y);
+        context.lineTo(x+10,y+10);
+        context.lineTo(x+20,y);
+        context.stroke();
+        return this;
+    };
+
+    /**
+     * @function drawSimpleArrowLeft
+     * @description DrawSimpleArrowLeft method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
+     * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
+     * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
+     * @param color {String} CSS color to render the simple arrow, usually hexadecimal value.
+     * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
+     * @instance
+     */
+    Arcade.prototype.drawSimpleArrowLeft = function (x,y,color){
+        context.fillStyle = color;
+        context.beginPath();
+        context.moveTo(x+13,y);
+        context.lineTo(x+3,y+10);
+        context.lineTo(x+13,y+20);
+        context.stroke();
+        return this;
+    };
+
+    /**
+     * @function drawSimpleArrowRight
+     * @description DrawSimpleArrowRight method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
+     * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
+     * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
+     * @param color {String} CSS color to render the simple arrow, usually hexadecimal value.
+     * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
+     * @instance
+     */
+    Arcade.prototype.drawSimpleArrowRight = function (x,y,color){
+        context.fillStyle = color;
+        context.beginPath();
+        context.moveTo(x,y);
+        context.lineTo(x+10,y+10);
+        context.lineTo(x,y+20);
+        context.stroke();
+        return this;
+    };
+
+    /**
+     * @function drawArrowFront
+     * @description DrawArrowFront method of the Arcade widget. This method draws a guiding arrow in front of the vehicle.
+     * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
+     * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
+     * @param width {Int} Arrow width(triangle).
+     * @param height {Int} Arrow height(triangle).
+     * @param color {String} CSS color to render the arrow, usually hexadecimal value.
+     * @param withLine {Int} Boolean, i.e. value 0 does not render line(arrow tail) and 1 renders.
+     * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
+     * @instance
+     */
+    Arcade.prototype.drawArrowFront = function (x, y, width, height, color, withLine){
+        // Arrow Head
         context.fillStyle = color;
         context.beginPath();
         context.moveTo(x, y);
@@ -836,6 +937,18 @@ define(function (require, exports, module) {
         context.lineTo(x + width, y + height);
         context.closePath();
         context.fill();
+
+        if(withLine===1){
+            // Arrow Line
+            context.strokeStyle=color;
+            context.fillStyle=color;
+            context.lineWidth=6;
+            context.beginPath();	
+            context.moveTo(x, y+10);
+            context.lineTo(x, y+35);
+            context.stroke();
+            context.fill();
+        }
         return this;
     };
 
@@ -846,12 +959,13 @@ define(function (require, exports, module) {
      * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
      * @param width {Int} Arrow width(triangle).
      * @param height {Int} Arrow height(triangle).
-     * @param color {String} CSS color to render the lane, usually hexadecimal value.
+     * @param color {String} CSS color to render the arrow, usually hexadecimal value.
+     * @param withLine {Int} Boolean, i.e. value 0 does not render line(arrow tail) and 1 renders.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.drawArrowRight = function (x, y, width, height, color) {
+    Arcade.prototype.drawArrowRight = function (x, y, width, height, color, withLine) {
         context.fillStyle = color;
         context.beginPath();
         context.moveTo(x, y); // reposition at x (horizontal axis), y (vertical axis)
@@ -859,6 +973,18 @@ define(function (require, exports, module) {
         context.lineTo(x - width, y + height/2); // draw up toward left
         context.closePath(); // connect and fill
         context.fill();
+
+        if(withLine===1){
+            // Arrow Line
+            context.strokeStyle=color;
+            context.fillStyle=color;
+            context.lineWidth=6;
+            context.beginPath();	
+            context.moveTo(x + width/2 - width, y + height - 5);
+            context.lineTo(x - width + 2, y + height/2 + 20);
+            context.stroke();
+            context.fill();
+        }
         return this;
     };
 
@@ -869,12 +995,13 @@ define(function (require, exports, module) {
      * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
      * @param width {Int} Arrow width(triangle).
      * @param height {Int} Arrow height(triangle).
-     * @param color {String} CSS color to render the lane, usually hexadecimal value.
+     * @param color {String} CSS color to render the arrow, usually hexadecimal value.
+     * @param withLine {Int} Boolean, i.e. value 0 does not render line(arrow tail) and 1 renders.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.drawArrowLeft = function (x, y, width, height, color){
+    Arcade.prototype.drawArrowLeft = function (x, y, width, height, color, withLine){
         context.save();
         context.fillStyle = color;
         context.beginPath();
@@ -883,6 +1010,18 @@ define(function (require, exports, module) {
         context.lineTo(x + width, y + height/2); 
         context.closePath();
         context.fill();
+
+        if(withLine===1){
+            // Arrow Line
+            context.strokeStyle=color;
+            context.fillStyle=color;
+            context.lineWidth=6;
+            context.beginPath();	
+            context.moveTo(x + width/2, y + height - 5);
+            context.lineTo(x + width - 2, y + height/2 + 20);
+            context.stroke();
+            context.fill();
+        }
         context.restore();
         return this;
     };
@@ -1061,12 +1200,18 @@ define(function (require, exports, module) {
             Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.35, 0.30, "#000");
             Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.45, 0.40, "#000");
 
-            //TODO Change arrow direction when car is off track
             // draw arrow or guiding line
             // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, laneArrow);
-            Arcade.prototype.drawArrowHead(160, 150, 15, 15, laneArrow);
-            // Arcade.prototype.drawArrowLeft(30, 20, 20, 20, laneArrow);
-            // Arcade.prototype.drawArrowRight(160, 150, 20, 20, laneArrow);
+            if(carCurrentDirection==="front"){
+                Arcade.prototype.drawArrowFront(160, 150, 12, 18, laneArrow, 1);
+                Arcade.prototype.drawSimpleArrowFront(canvas.width-50,30,laneArrow);
+            }else if(carCurrentDirection==="right"){
+                Arcade.prototype.drawArrowLeft(160, 150, 20, 20, laneArrow, 1);
+                Arcade.prototype.drawSimpleArrowLeft(canvas.width-50,30,laneArrow);
+            }else if(carCurrentDirection==="left"){
+                Arcade.prototype.drawArrowRight(160, 150, 20, 20, laneArrow, 1);
+                Arcade.prototype.drawSimpleArrowRight(canvas.width-50,30,laneArrow);
+            }
         }
         else{
             //draw grass:
@@ -1094,9 +1239,16 @@ define(function (require, exports, module) {
 
             // draw arrow or guiding line
             // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, laneArrow);
-            Arcade.prototype.drawArrowHead(160, 150, 15, 15, laneArrow);
-            // Arcade.prototype.drawArrowLeft(30, 20, 20, 20, laneArrow);
-            // Arcade.prototype.drawArrowRight(160, 150, 20, 20, laneArrow);
+            if(carCurrentDirection==="front"){
+                Arcade.prototype.drawArrowFront(160, 150, 12, 18, laneArrow, 1);
+                Arcade.prototype.drawSimpleArrowFront(canvas.width-50,30,laneArrow);
+            }else if(carCurrentDirection==="right"){
+                Arcade.prototype.drawArrowLeft(160, 150, 20, 20, laneArrow, 1);
+                Arcade.prototype.drawSimpleArrowLeft(canvas.width-50,30,laneArrow);
+            }else if(carCurrentDirection==="left"){
+                Arcade.prototype.drawArrowRight(160, 150, 20, 20, laneArrow, 1);
+                Arcade.prototype.drawSimpleArrowRight(canvas.width-50,30,laneArrow);
+            }
         }
         return this;
     };
@@ -1143,6 +1295,7 @@ define(function (require, exports, module) {
       
         // car turning
         if (keys[37]) {
+            carCurrentDirection = "left";
             // 37 left
             if(controllable_car.speed > 0){
                 controllable_car.posx -= controllable_car.turning;
@@ -1154,6 +1307,7 @@ define(function (require, exports, module) {
             };
         } else if (keys[39]) {
             // 39 right
+            carCurrentDirection = "right";
             if(controllable_car.speed > 0){
                 controllable_car.posx += controllable_car.turning;
             }
@@ -1163,6 +1317,7 @@ define(function (require, exports, module) {
                 y: 190
             };
         } else {
+            carCurrentDirection = "front";
             carSprite = {
                 car: car_faced_front,
                 x:125,
@@ -1424,7 +1579,7 @@ define(function (require, exports, module) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 02 2018 10:48:51 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 02 2018 12:03:55 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

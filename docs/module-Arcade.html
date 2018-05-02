@@ -231,8 +231,26 @@
          // Draws the guiding line
          arcade.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, "#00FF00");
 
-         // Draws the guiding arrow with color rgb(100,200,187) received as argument
-         Arcade.prototype.drawArrowHead("rgb(100,200,187)");
+         // Draws the guiding arrow, turned front, with tail and with color rgb(100,200,187) received as arguments at (10,30) with width 20px and height also 20px
+         Arcade.prototype.drawArrowFront(10, 30, 20, 20, "rgb(100,200,187)", 1);
+
+         // Draws the guiding arrow, turned left, with tail and with color rgb(100,200,187) received as arguments at (30,20) with width 20px and height also 20px
+         Arcade.prototype.drawArrowLeft(30, 20, 20, 20, laneArrow, 1);
+
+         // Draws the guiding arrow, turned right, with tail and with color rgb(100,200,187) received as arguments at (160,150) with width 20px and height also 20px
+         Arcade.prototype.drawArrowRight(160, 150, 20, 20, laneArrow, 1);
+
+         // Draws the simple guiding arrow, turned front, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
+         Arcade.prototype.drawSimpleArrowFront(canvas.width-50,30,laneArrow);
+         
+         // Draws the simple guiding arrow, turned down, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
+         Arcade.prototype.drawSimpleArrowDown(canvas.width-50,30,laneArrow);
+         
+         // Draws the simple guiding arrow, turned left, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
+         Arcade.prototype.drawSimpleArrowLeft(canvas.width-50,30,laneArrow);
+
+         // Draws the simple guiding arrow, turned right, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
+         Arcade.prototype.drawSimpleArrowRight(canvas.width-50,30,laneArrow);
 
     }
 });</code></pre>
@@ -422,7 +440,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line220">line 220</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line239">line 239</a>
     </li></ul></dd>
     
 
@@ -530,7 +548,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1329">line 1329</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1484">line 1484</a>
     </li></ul></dd>
     
 
@@ -586,7 +604,7 @@
     
 
     
-    <h4 class="name" id="drawArrowHead"><span class="type-signature"></span>drawArrowHead<span class="signature">(x, y, width, height, color)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawArrowFront"><span class="type-signature"></span>drawArrowFront<span class="signature">(x, y, width, height, color, withLine)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
     
 
     
@@ -594,7 +612,7 @@
 
 
 <div class="description">
-    DrawArrowHead method of the Arcade widget. This method draws a guiding arrow in front of the vehicle.
+    DrawArrowFront method of the Arcade widget. This method draws a guiding arrow in front of the vehicle.
 </div>
 
 
@@ -738,7 +756,30 @@
 
             
 
-            <td class="description last">CSS color to render the lane, usually hexadecimal value.</td>
+            <td class="description last">CSS color to render the arrow, usually hexadecimal value.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>withLine</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Boolean, i.e. value 0 does not render line(arrow tail) and 1 renders.</td>
         </tr>
 
     
@@ -779,7 +820,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line791">line 791</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line890">line 890</a>
     </li></ul></dd>
     
 
@@ -835,7 +876,7 @@
     
 
     
-    <h4 class="name" id="drawArrowLeft"><span class="type-signature"></span>drawArrowLeft<span class="signature">(x, y, width, height, color)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawArrowLeft"><span class="type-signature"></span>drawArrowLeft<span class="signature">(x, y, width, height, color, withLine)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
     
 
     
@@ -987,7 +1028,30 @@
 
             
 
-            <td class="description last">CSS color to render the lane, usually hexadecimal value.</td>
+            <td class="description last">CSS color to render the arrow, usually hexadecimal value.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>withLine</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Boolean, i.e. value 0 does not render line(arrow tail) and 1 renders.</td>
         </tr>
 
     
@@ -1028,7 +1092,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line837">line 837</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line963">line 963</a>
     </li></ul></dd>
     
 
@@ -1084,7 +1148,7 @@
     
 
     
-    <h4 class="name" id="drawArrowRight"><span class="type-signature"></span>drawArrowRight<span class="signature">(x, y, width, height, color)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawArrowRight"><span class="type-signature"></span>drawArrowRight<span class="signature">(x, y, width, height, color, withLine)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
     
 
     
@@ -1236,7 +1300,30 @@
 
             
 
-            <td class="description last">CSS color to render the lane, usually hexadecimal value.</td>
+            <td class="description last">CSS color to render the arrow, usually hexadecimal value.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>withLine</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Boolean, i.e. value 0 does not render line(arrow tail) and 1 renders.</td>
         </tr>
 
     
@@ -1277,7 +1364,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line814">line 814</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line927">line 927</a>
     </li></ul></dd>
     
 
@@ -1434,7 +1521,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line921">line 921</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1060">line 1060</a>
     </li></ul></dd>
     
 
@@ -1775,7 +1862,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line763">line 763</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line782">line 782</a>
     </li></ul></dd>
     
 
@@ -2116,7 +2203,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line733">line 733</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line752">line 752</a>
     </li></ul></dd>
     
 
@@ -2413,7 +2500,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line984">line 984</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1123">line 1123</a>
     </li></ul></dd>
     
 
@@ -2754,7 +2841,819 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line892">line 892</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1031">line 1031</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget Arcade.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Arcade</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="drawSimpleArrowDown"><span class="type-signature"></span>drawSimpleArrowDown<span class="signature">(x, y, color)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    DrawSimpleArrowDown method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordinate X of starting point, i.e. where simple arrow will be drawed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordinate Y of starting point, i.e. where simple arrow will be drawed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">CSS color to render the simple arrow, usually hexadecimal value.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line830">line 830</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget Arcade.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Arcade</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="drawSimpleArrowFront"><span class="type-signature"></span>drawSimpleArrowFront<span class="signature">(x, y, color)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    DrawSimpleArrowFront method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordinate X of starting point, i.e. where simple arrow will be drawed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordinate Y of starting point, i.e. where simple arrow will be drawed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">CSS color to render the simple arrow, usually hexadecimal value.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line810">line 810</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget Arcade.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Arcade</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="drawSimpleArrowLeft"><span class="type-signature"></span>drawSimpleArrowLeft<span class="signature">(x, y, color)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    DrawSimpleArrowLeft method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordinate X of starting point, i.e. where simple arrow will be drawed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordinate Y of starting point, i.e. where simple arrow will be drawed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">CSS color to render the simple arrow, usually hexadecimal value.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line850">line 850</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget Arcade.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Arcade</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="drawSimpleArrowRight"><span class="type-signature"></span>drawSimpleArrowRight<span class="signature">(x, y, color)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    DrawSimpleArrowRight method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordinate X of starting point, i.e. where simple arrow will be drawed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordinate Y of starting point, i.e. where simple arrow will be drawed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">CSS color to render the simple arrow, usually hexadecimal value.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line870">line 870</a>
     </li></ul></dd>
     
 
@@ -3005,7 +3904,7 @@ an image, x, y and scale (sprite as a null argument). This allows to use render 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line862">line 862</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1001">line 1001</a>
     </li></ul></dd>
     
 
@@ -3209,7 +4108,7 @@ That is, reading string and for each letter draw the corresponding sprite letter
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line712">line 712</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line731">line 731</a>
     </li></ul></dd>
     
 
@@ -3319,7 +4218,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line446">line 446</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line465">line 465</a>
     </li></ul></dd>
     
 
@@ -3469,7 +4368,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line426">line 426</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line445">line 445</a>
     </li></ul></dd>
     
 
@@ -3555,7 +4454,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1352">line 1352</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1507">line 1507</a>
     </li></ul></dd>
     
 
@@ -3712,7 +4611,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line506">line 506</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line525">line 525</a>
     </li></ul></dd>
     
 
@@ -3820,7 +4719,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1371">line 1371</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1526">line 1526</a>
     </li></ul></dd>
     
 
@@ -3906,7 +4805,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1147">line 1147</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1302">line 1302</a>
     </li></ul></dd>
     
 
@@ -4015,7 +4914,7 @@ It is also initialized the new lap timer, using jchronometer lib, as soon as the
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line653">line 653</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line672">line 672</a>
     </li></ul></dd>
     
 
@@ -4124,7 +5023,7 @@ It is also initialized the lap timer, using jchronometer lib, as soon as the use
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line533">line 533</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line552">line 552</a>
     </li></ul></dd>
     
 
@@ -4233,7 +5132,7 @@ It is also resumed the lap timer, using jchronometer lib, as soon as the user us
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line604">line 604</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line623">line 623</a>
     </li></ul></dd>
     
 
@@ -4341,7 +5240,7 @@ It is also resumed the lap timer, using jchronometer lib, as soon as the user us
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line436">line 436</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line455">line 455</a>
     </li></ul></dd>
     
 
@@ -4662,7 +5561,7 @@ offer alternate colors. This is used, for instance, to render the track separato
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line955">line 955</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1094">line 1094</a>
     </li></ul></dd>
     
 
@@ -4844,7 +5743,7 @@ those two segments have during the simulation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line938">line 938</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1077">line 1077</a>
     </li></ul></dd>
     
 
@@ -4952,7 +5851,7 @@ those two segments have during the simulation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1076">line 1076</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1228">line 1228</a>
     </li></ul></dd>
     
 
@@ -5025,7 +5924,7 @@ That is, returns the new state after the action performed by the user (accelerat
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 02 2018 10:48:51 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 02 2018 12:03:55 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>
