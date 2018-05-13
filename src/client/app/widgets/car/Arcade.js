@@ -214,6 +214,10 @@ define(function (require, exports, module) {
     let soundOff=false;
     let soundWidget;
 
+    // Information regarding the number of laps of the present simulation
+    let lapNumber        = 2;
+    let currentLapNumber = 1;
+
     /* 
     * End of Arcade Global Variables 
     */
@@ -1380,18 +1384,22 @@ define(function (require, exports, module) {
 
         
         // Render the track
-        
         let absoluteIndex = Math.floor(controllable_car.position / trackSegmentSize);
        
         if(absoluteIndex >= numIterations-render.depthOfField-1){
-            clearInterval(simulatorInterval);
-            Arcade.prototype.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
-            Arcade.prototype.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
-            Arcade.prototype.drawText("The Simulator", {x: 100, y: 70}, 1);
-            soundWidget.pauseAll();
-            
-            // Delayed function call by 5 seconds to reload simulator
-            setTimeout(function() { location.reload(); }, 5000);
+            if(currentLapNumber<lapNumber){
+                currentLapNumber++;
+                controllable_car.position=10;
+            }else{
+                clearInterval(simulatorInterval);
+                Arcade.prototype.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
+                Arcade.prototype.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
+                Arcade.prototype.drawText("The Simulator", {x: 100, y: 70}, 1);
+                soundWidget.pauseAll();
+                
+                // Delayed function call by 5 seconds to reload simulator
+                setTimeout(function() { location.reload(); }, 5000);
+            }
         }
 
         let currentSegmentIndex    = (absoluteIndex - 2) % track.length;
@@ -1510,9 +1518,10 @@ define(function (require, exports, module) {
         // Draw the car 
         Arcade.prototype.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
     
-        // Draw Header 
-        Arcade.prototype.drawText(""+Math.round(absoluteIndex/(numIterations-render.depthOfField)*100)+"%",{x: 10, y: 1}, 1);
-        
+        // Draw Header
+        Arcade.prototype.drawText("Lap "+currentLapNumber+"/"+lapNumber,{x: 10, y: 1}, 1);
+        Arcade.prototype.drawText("Current Lap "+Math.round(absoluteIndex/(numIterations-render.depthOfField)*100)+"%",{x: 100, y: 1},1); 
+         
         let speed = Math.round(controllable_car.speed / controllable_car.maxSpeed * topSpeed);
         let speed_kmh = Math.round(speed * 1.60934);
         Arcade.prototype.drawText(""+speed_kmh+" kmh", {x: 260, y: 1}, 1);
@@ -1520,7 +1529,7 @@ define(function (require, exports, module) {
 
         let res = time[0].split("-");
         currentTimeString = res[0] + " h:" + time[1] + " m:" + time[2] + " s:" + time[3] + " ms";
-        Arcade.prototype.drawText(currentTimeString, {x: 70, y: 1}, 1);
+        Arcade.prototype.drawText(currentTimeString, {x: 80, y: 15}, 1);
 
         return this;
     };
