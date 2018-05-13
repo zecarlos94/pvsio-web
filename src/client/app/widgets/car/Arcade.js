@@ -127,10 +127,10 @@
  *          Arcade.prototype.drawSimpleArrowDown(canvas.width-50,30,laneArrow);
  *          
  *          // Draws the simple guiding arrow, turned left, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
- *          Arcade.prototype.drawSimpleArrowLeft(canvas.width-50,30,laneArrow);
+ *          Arcade.prototype.drawSimpleArrowLeft(canvas.width-50,30,laneArrow,{inverse:true});
  * 
  *          // Draws the simple guiding arrow, turned right, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
- *          Arcade.prototype.drawSimpleArrowRight(canvas.width-50,30,laneArrow);
+ *          Arcade.prototype.drawSimpleArrowRight(canvas.width-50,30,laneArrow,{inverse:true});
  * 
  *     }
  * });
@@ -819,6 +819,8 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.drawSimpleArrowFront = function (x,y,color){
         context.fillStyle = color;
+        context.strokeStyle = color;
+        context.lineWidth = 6;
         context.beginPath();
         context.moveTo(x,y+10);
         context.lineTo(x+10,y);
@@ -839,6 +841,8 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.drawSimpleArrowDown = function (x,y,color){
         context.fillStyle = color;
+        context.strokeStyle = color;
+        context.lineWidth = 6;
         context.beginPath();
         context.moveTo(x,y);
         context.lineTo(x+10,y+10);
@@ -853,17 +857,28 @@ define(function (require, exports, module) {
      * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
      * @param color {String} CSS color to render the simple arrow, usually hexadecimal value.
+     * @param direction {Object} Object with inverse property, which indicates whether the guide 
+     * arrow points in the opposite direction of the vehicle, i.e. if it points to the lane, 
+     * i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points 
+     * in the direction of the vehicle, i.e., points to the direction of the vehicle at the present 
+     * moment of the simulation. The abovementioned object is then {inverse:true}.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.drawSimpleArrowLeft = function (x,y,color){
-        context.fillStyle = color;
-        context.beginPath();
-        context.moveTo(x+13,y);
-        context.lineTo(x+3,y+10);
-        context.lineTo(x+13,y+20);
-        context.stroke();
+    Arcade.prototype.drawSimpleArrowLeft = function (x,y,color,direction){
+        if(direction.inverse){
+            context.fillStyle = color;
+            context.strokeStyle = color;
+            context.lineWidth = 6;
+            context.beginPath();
+            context.moveTo(x+13,y);
+            context.lineTo(x+3,y+10);
+            context.lineTo(x+13,y+20);
+            context.stroke();
+        }else {
+            Arcade.prototype.drawSimpleArrowRight(x,y,color,{inverse:true});
+        }
         return this;
     };
 
@@ -873,17 +888,28 @@ define(function (require, exports, module) {
      * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
      * @param color {String} CSS color to render the simple arrow, usually hexadecimal value.
+     * @param direction {Object} Object with inverse property, which indicates whether the guide 
+     * arrow points in the opposite direction of the vehicle, i.e. if it points to the lane, 
+     * i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points 
+     * in the direction of the vehicle, i.e., points to the direction of the vehicle at the present 
+     * moment of the simulation. The abovementioned object is then {inverse:true}.     
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.drawSimpleArrowRight = function (x,y,color){
-        context.fillStyle = color;
-        context.beginPath();
-        context.moveTo(x,y);
-        context.lineTo(x+10,y+10);
-        context.lineTo(x,y+20);
-        context.stroke();
+    Arcade.prototype.drawSimpleArrowRight = function (x,y,color,direction){
+        if(direction.inverse){
+            context.fillStyle = color;
+            context.strokeStyle = color;
+            context.lineWidth = 6;
+            context.beginPath();
+            context.moveTo(x,y);
+            context.lineTo(x+10,y+10);
+            context.lineTo(x,y+20);
+            context.stroke();
+        }else {
+            Arcade.prototype.drawSimpleArrowLeft(x,y,color,{inverse:true});
+        }
         return this;
     };
 
@@ -912,9 +938,9 @@ define(function (require, exports, module) {
 
         if(withLine===1){
             // Arrow Line
-            context.strokeStyle=color;
-            context.fillStyle=color;
-            context.lineWidth=6;
+            context.strokeStyle = color;
+            context.fillStyle = color;
+            context.lineWidth = 6;
             context.beginPath();	
             context.moveTo(x, y+10);
             context.lineTo(x, y+35);
@@ -933,29 +959,38 @@ define(function (require, exports, module) {
      * @param height {Int} Arrow height(triangle).
      * @param color {String} CSS color to render the arrow, usually hexadecimal value.
      * @param withLine {Int} Boolean, i.e. value 0 does not render line(arrow tail) and 1 renders.
+     * @param direction {Object} Object with inverse property, which indicates whether the guide 
+     * arrow points in the opposite direction of the vehicle, i.e. if it points to the lane, 
+     * i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points 
+     * in the direction of the vehicle, i.e., points to the direction of the vehicle at the present 
+     * moment of the simulation. The abovementioned object is then {inverse:true}. 
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.drawArrowRight = function (x, y, width, height, color, withLine) {
-        context.fillStyle = color;
-        context.beginPath();
-        context.moveTo(x, y); // reposition at x (horizontal axis), y (vertical axis)
-        context.lineTo(x, y + height);  // draw straight down by height
-        context.lineTo(x - width, y + height/2); // draw up toward left
-        context.closePath(); // connect and fill
-        context.fill();
-
-        if(withLine===1){
-            // Arrow Line
-            context.strokeStyle=color;
-            context.fillStyle=color;
-            context.lineWidth=6;
-            context.beginPath();	
-            context.moveTo(x + width/2 - width, y + height - 5);
-            context.lineTo(x - width + 2, y + height/2 + 20);
-            context.stroke();
+    Arcade.prototype.drawArrowRight = function (x, y, width, height, color, withLine, direction) {
+        if(direction.inverse){
+            context.fillStyle = color;
+            context.beginPath();
+            context.moveTo(x, y); // reposition at x (horizontal axis), y (vertical axis)
+            context.lineTo(x, y + height);  // draw straight down by height
+            context.lineTo(x - width, y + height/2); // draw up toward left
+            context.closePath(); // connect and fill
             context.fill();
+
+            if(withLine===1){
+                // Arrow Line
+                context.strokeStyle = color;
+                context.fillStyle = color;
+                context.lineWidth = 6;
+                context.beginPath();	
+                context.moveTo(x + width/2 - width, y + height - 5);
+                context.lineTo(x - width + 2, y + height/2 + 20);
+                context.stroke();
+                context.fill();
+            }
+        }else{
+            Arcade.prototype.drawArrowLeft(x, y, width, height, color, withLine, {inverse:true});
         }
         return this;
     };
@@ -969,32 +1004,41 @@ define(function (require, exports, module) {
      * @param height {Int} Arrow height(triangle).
      * @param color {String} CSS color to render the arrow, usually hexadecimal value.
      * @param withLine {Int} Boolean, i.e. value 0 does not render line(arrow tail) and 1 renders.
+     * @param direction {Object} Object with inverse property, which indicates whether the guide 
+     * arrow points in the opposite direction of the vehicle, i.e. if it points to the lane, 
+     * i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points 
+     * in the direction of the vehicle, i.e., points to the direction of the vehicle at the present 
+     * moment of the simulation. The abovementioned object is then {inverse:true}. 
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.drawArrowLeft = function (x, y, width, height, color, withLine){
-        context.save();
-        context.fillStyle = color;
-        context.beginPath();
-        context.moveTo(x, y);
-        context.lineTo(x, y + height);
-        context.lineTo(x + width, y + height/2); 
-        context.closePath();
-        context.fill();
-
-        if(withLine===1){
-            // Arrow Line
-            context.strokeStyle=color;
-            context.fillStyle=color;
-            context.lineWidth=6;
-            context.beginPath();	
-            context.moveTo(x + width/2, y + height - 5);
-            context.lineTo(x + width - 2, y + height/2 + 20);
-            context.stroke();
+    Arcade.prototype.drawArrowLeft = function (x, y, width, height, color, withLine, direction){
+        if(direction.inverse){
+            context.save();
+            context.fillStyle = color;
+            context.beginPath();
+            context.moveTo(x, y);
+            context.lineTo(x, y + height);
+            context.lineTo(x + width, y + height/2); 
+            context.closePath();
             context.fill();
+
+            if(withLine===1){
+                // Arrow Line
+                context.strokeStyle = color;
+                context.fillStyle = color;
+                context.lineWidth = 6;
+                context.beginPath();	
+                context.moveTo(x + width/2, y + height - 5);
+                context.lineTo(x + width - 2, y + height/2 + 20);
+                context.stroke();
+                context.fill();
+            }
+            context.restore();
+        }else{
+            Arcade.prototype.drawArrowRight(x, y, width, height, color, withLine, {inverse:true});
         }
-        context.restore();
         return this;
     };
 
@@ -1175,14 +1219,14 @@ define(function (require, exports, module) {
             // draw arrow or guiding line
             // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, laneArrow);
             if(carCurrentDirection==="front"){
-                Arcade.prototype.drawArrowFront(160, 150, 12, 18, laneArrow, 1);
+                // Arcade.prototype.drawArrowFront(160, 150, 12, 18, laneArrow, 1);
                 Arcade.prototype.drawSimpleArrowFront(canvas.width-50,30,laneArrow);
             }else if(carCurrentDirection==="right"){
-                Arcade.prototype.drawArrowLeft(160, 150, 20, 20, laneArrow, 1);
-                Arcade.prototype.drawSimpleArrowLeft(canvas.width-50,30,laneArrow);
+                // Arcade.prototype.drawArrowLeft(160, 150, 20, 20, laneArrow, 1, {inverse:false});
+                Arcade.prototype.drawSimpleArrowLeft(canvas.width-50,30,laneArrow,{inverse:false});
             }else if(carCurrentDirection==="left"){
-                Arcade.prototype.drawArrowRight(160, 150, 20, 20, laneArrow, 1);
-                Arcade.prototype.drawSimpleArrowRight(canvas.width-50,30,laneArrow);
+                // Arcade.prototype.drawArrowRight(160, 150, 20, 20, laneArrow, 1, {inverse:false});
+                Arcade.prototype.drawSimpleArrowRight(canvas.width-50,30,laneArrow,{inverse:false});
             }
         }
         else{
@@ -1212,14 +1256,14 @@ define(function (require, exports, module) {
             // draw arrow or guiding line
             // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, laneArrow);
             if(carCurrentDirection==="front"){
-                Arcade.prototype.drawArrowFront(160, 150, 12, 18, laneArrow, 1);
+                // Arcade.prototype.drawArrowFront(160, 150, 12, 18, laneArrow, 1);
                 Arcade.prototype.drawSimpleArrowFront(canvas.width-50,30,laneArrow);
             }else if(carCurrentDirection==="right"){
-                Arcade.prototype.drawArrowLeft(160, 150, 20, 20, laneArrow, 1);
-                Arcade.prototype.drawSimpleArrowLeft(canvas.width-50,30,laneArrow);
+                // Arcade.prototype.drawArrowLeft(160, 150, 20, 20, laneArrow, 1, {inverse:false});
+                Arcade.prototype.drawSimpleArrowLeft(canvas.width-50,30,laneArrow, {inverse:false});
             }else if(carCurrentDirection==="left"){
-                Arcade.prototype.drawArrowRight(160, 150, 20, 20, laneArrow, 1);
-                Arcade.prototype.drawSimpleArrowRight(canvas.width-50,30,laneArrow);
+                // Arcade.prototype.drawArrowRight(160, 150, 20, 20, laneArrow, 1, {inverse:false});
+                Arcade.prototype.drawSimpleArrowRight(canvas.width-50,30,laneArrow, {inverse:false});
             }
         }
         return this;

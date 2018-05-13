@@ -247,10 +247,10 @@
          Arcade.prototype.drawSimpleArrowDown(canvas.width-50,30,laneArrow);
          
          // Draws the simple guiding arrow, turned left, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
-         Arcade.prototype.drawSimpleArrowLeft(canvas.width-50,30,laneArrow);
+         Arcade.prototype.drawSimpleArrowLeft(canvas.width-50,30,laneArrow,{inverse:true});
 
          // Draws the simple guiding arrow, turned right, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
-         Arcade.prototype.drawSimpleArrowRight(canvas.width-50,30,laneArrow);
+         Arcade.prototype.drawSimpleArrowRight(canvas.width-50,30,laneArrow,{inverse:true});
 
     }
 });</code></pre>
@@ -548,7 +548,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1484">line 1484</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1528">line 1528</a>
     </li></ul></dd>
     
 
@@ -820,7 +820,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line890">line 890</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line916">line 916</a>
     </li></ul></dd>
     
 
@@ -876,7 +876,7 @@
     
 
     
-    <h4 class="name" id="drawArrowLeft"><span class="type-signature"></span>drawArrowLeft<span class="signature">(x, y, width, height, color, withLine)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawArrowLeft"><span class="type-signature"></span>drawArrowLeft<span class="signature">(x, y, width, height, color, withLine, direction)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
     
 
     
@@ -1055,6 +1055,33 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>direction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object with inverse property, which indicates whether the guide 
+arrow points in the opposite direction of the vehicle, i.e. if it points to the lane, 
+i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points 
+in the direction of the vehicle, i.e., points to the direction of the vehicle at the present 
+moment of the simulation. The abovementioned object is then {inverse:true}.</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -1092,7 +1119,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line963">line 963</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line998">line 998</a>
     </li></ul></dd>
     
 
@@ -1148,7 +1175,7 @@
     
 
     
-    <h4 class="name" id="drawArrowRight"><span class="type-signature"></span>drawArrowRight<span class="signature">(x, y, width, height, color, withLine)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawArrowRight"><span class="type-signature"></span>drawArrowRight<span class="signature">(x, y, width, height, color, withLine, direction)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
     
 
     
@@ -1327,6 +1354,33 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>direction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object with inverse property, which indicates whether the guide 
+arrow points in the opposite direction of the vehicle, i.e. if it points to the lane, 
+i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points 
+in the direction of the vehicle, i.e., points to the direction of the vehicle at the present 
+moment of the simulation. The abovementioned object is then {inverse:true}.</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -1364,7 +1418,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line927">line 927</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line953">line 953</a>
     </li></ul></dd>
     
 
@@ -1521,7 +1575,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1060">line 1060</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1104">line 1104</a>
     </li></ul></dd>
     
 
@@ -2500,7 +2554,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1123">line 1123</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1167">line 1167</a>
     </li></ul></dd>
     
 
@@ -2841,7 +2895,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1031">line 1031</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1075">line 1075</a>
     </li></ul></dd>
     
 
@@ -3044,7 +3098,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line830">line 830</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line832">line 832</a>
     </li></ul></dd>
     
 
@@ -3303,7 +3357,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
 
     
-    <h4 class="name" id="drawSimpleArrowLeft"><span class="type-signature"></span>drawSimpleArrowLeft<span class="signature">(x, y, color)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawSimpleArrowLeft"><span class="type-signature"></span>drawSimpleArrowLeft<span class="signature">(x, y, color, direction)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
     
 
     
@@ -3413,6 +3467,33 @@ is the second or the last segment, i.e. the starting segment or the final segmen
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>direction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object with inverse property, which indicates whether the guide 
+arrow points in the opposite direction of the vehicle, i.e. if it points to the lane, 
+i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points 
+in the direction of the vehicle, i.e., points to the direction of the vehicle at the present 
+moment of the simulation. The abovementioned object is then {inverse:true}.</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -3450,7 +3531,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line850">line 850</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line854">line 854</a>
     </li></ul></dd>
     
 
@@ -3506,7 +3587,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
 
     
-    <h4 class="name" id="drawSimpleArrowRight"><span class="type-signature"></span>drawSimpleArrowRight<span class="signature">(x, y, color)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawSimpleArrowRight"><span class="type-signature"></span>drawSimpleArrowRight<span class="signature">(x, y, color, direction)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
     
 
     
@@ -3616,6 +3697,33 @@ is the second or the last segment, i.e. the starting segment or the final segmen
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>direction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object with inverse property, which indicates whether the guide 
+arrow points in the opposite direction of the vehicle, i.e. if it points to the lane, 
+i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points 
+in the direction of the vehicle, i.e., points to the direction of the vehicle at the present 
+moment of the simulation. The abovementioned object is then {inverse:true}.</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -3653,7 +3761,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line870">line 870</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line885">line 885</a>
     </li></ul></dd>
     
 
@@ -3904,7 +4012,7 @@ an image, x, y and scale (sprite as a null argument). This allows to use render 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1001">line 1001</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1045">line 1045</a>
     </li></ul></dd>
     
 
@@ -4454,7 +4562,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1507">line 1507</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1551">line 1551</a>
     </li></ul></dd>
     
 
@@ -4719,7 +4827,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1526">line 1526</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1570">line 1570</a>
     </li></ul></dd>
     
 
@@ -4805,7 +4913,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1302">line 1302</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1346">line 1346</a>
     </li></ul></dd>
     
 
@@ -5561,7 +5669,7 @@ offer alternate colors. This is used, for instance, to render the track separato
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1094">line 1094</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1138">line 1138</a>
     </li></ul></dd>
     
 
@@ -5743,7 +5851,7 @@ those two segments have during the simulation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1077">line 1077</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1121">line 1121</a>
     </li></ul></dd>
     
 
@@ -5851,7 +5959,7 @@ those two segments have during the simulation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1228">line 1228</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1272">line 1272</a>
     </li></ul></dd>
     
 
@@ -5924,7 +6032,7 @@ That is, returns the new state after the action performed by the user (accelerat
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 02 2018 12:03:55 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun May 13 2018 09:40:25 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>
