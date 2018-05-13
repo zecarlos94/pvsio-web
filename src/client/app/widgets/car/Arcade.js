@@ -1467,47 +1467,90 @@ define(function (require, exports, module) {
         controllable_car.speed = Math.min(controllable_car.speed, controllable_car.maxSpeed); //maximum speed
         controllable_car.position += controllable_car.speed;
         let carSprite;
-        let vehicleXPosition;        
-        let vehicleYPosition;
+        let vehicleXFrontPosition;        
+        let vehicleYFrontPosition;
+
+        let vehicleXLeftPosition;        
+        let vehicleYLeftPosition;
+
+        let vehicleXRightPosition;        
+        let vehicleYRightPosition;
+
         switch (vehicleType) {
             case "airplane":
                 if(vehicleIndex===2){
-                    vehicleXPosition = 50;
-                    vehicleYPosition = 110;
+                    vehicleXFrontPosition = 50;
+                    vehicleYFrontPosition = 110;
+                    vehicleXLeftPosition= 50;        
+                    vehicleYLeftPosition= 70;
+                    vehicleXRightPosition= 50;        
+                    vehicleYRightPosition= 70;
                 }else{
-                    vehicleXPosition = 110;
-                    vehicleYPosition = 100;
+                    vehicleXFrontPosition = 110;
+                    vehicleYFrontPosition = 100;
+                    vehicleXLeftPosition= 110;        
+                    vehicleYLeftPosition= 100;
+                    vehicleXRightPosition= 110;        
+                    vehicleYRightPosition= 100;
                 }
                 break;
             case "bicycle":
                 if(vehicleRealistic){
-                    vehicleXPosition = 135;
-                    vehicleYPosition = 160;
+                    vehicleXFrontPosition = 135;
+                    vehicleYFrontPosition = 160;
+                    vehicleXLeftPosition= 135;        
+                    vehicleYLeftPosition= 160;
+                    vehicleXRightPosition= 135;        
+                    vehicleYRightPosition= 160;
                 }else{
-                    vehicleXPosition = 140;
-                    vehicleYPosition = 175;
+                    vehicleXFrontPosition = 140;
+                    vehicleYFrontPosition = 175;
+                    vehicleXLeftPosition= 140;        
+                    vehicleYLeftPosition= 175;
+                    vehicleXRightPosition= 140;        
+                    vehicleYRightPosition= 175;
                 }
                 break;
             case "car":
                 if(vehicleRealistic){
-                    vehicleXPosition = 125;
-                    vehicleYPosition = 180;
+                    vehicleXFrontPosition = 125;
+                    vehicleYFrontPosition = 180;
+                    vehicleXLeftPosition= 125;        
+                    vehicleYLeftPosition= 180;
+                    vehicleXRightPosition= 125;        
+                    vehicleYRightPosition= 180;
                 }else{
-                    vehicleXPosition = 125;
-                    vehicleYPosition = 190;
+                    vehicleXFrontPosition = 125;
+                    vehicleYFrontPosition = 190;
+                    vehicleXLeftPosition= 125;        
+                    vehicleYLeftPosition= 190;
+                    vehicleXRightPosition= 125;        
+                    vehicleYRightPosition= 190;
                 }
                 break;
             case "helicopter":
-                vehicleXPosition = 100;
-                vehicleYPosition = 90;
+                vehicleXFrontPosition = 100;
+                vehicleYFrontPosition = 90;
+                vehicleXLeftPosition= 70;        
+                vehicleYLeftPosition= 60;
+                vehicleXRightPosition= 70;        
+                vehicleYRightPosition= 60;
                 break;
             case "motorbike":
                 if(vehicleRealistic){
-                    vehicleXPosition = 130;
-                    vehicleYPosition = 160;
+                    vehicleXFrontPosition = 130;
+                    vehicleYFrontPosition = 160;
+                    vehicleXLeftPosition= 130;        
+                    vehicleYLeftPosition= 160;
+                    vehicleXRightPosition= 130;        
+                    vehicleYRightPosition= 160;
                 }else{
-                    vehicleXPosition = 150;
-                    vehicleYPosition = 175;
+                    vehicleXFrontPosition = 150;
+                    vehicleYFrontPosition = 175;
+                    vehicleXLeftPosition= 120;        
+                    vehicleYLeftPosition= 175;
+                    vehicleXRightPosition= 140;        
+                    vehicleYRightPosition= 175;
                 }
                 break;
         }
@@ -1521,8 +1564,8 @@ define(function (require, exports, module) {
             }
             carSprite = {
                 car: car_faced_left,
-                x: vehicleXPosition,
-                y: vehicleYPosition
+                x: vehicleXLeftPosition,
+                y: vehicleYLeftPosition
             };
         } else if (keys[39]) {
             // 39 right
@@ -1532,15 +1575,15 @@ define(function (require, exports, module) {
             }
             carSprite = {
                 car: car_faced_right,
-                x: vehicleXPosition,
-                y: vehicleYPosition
+                x: vehicleXRightPosition,
+                y: vehicleYRightPosition
             };
         } else {
             carCurrentDirection = "front";
             carSprite = {
                 car: car_faced_front,
-                x: vehicleXPosition,
-                y: vehicleYPosition
+                x: vehicleXFrontPosition,
+                y: vehicleYFrontPosition
             };
         }
         return carSprite;
