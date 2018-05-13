@@ -53,8 +53,8 @@
  *                      maxSpeed: 20
  *                  },
  *                  topSpeed: 250,
- *                  objects: ["tree","rock"], // sprite names to be drawed in the landscape
- *                  obstacle: ["rock"], // sprite names to be drawed within the track as obstacles
+ *                  objects: ["tree","boulder"], // sprite names to be drawed in the landscape
+ *                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
  *              } // append on div 'content'
  *           );
  * 
@@ -102,6 +102,7 @@ define(function (require, exports, module) {
     let numberOfSegmentPerColor;
     let numLanes;
     let laneWidth;
+    let trackParam;
     let trackConfigurations;
     let controllable_car;
     let topSpeed;
@@ -163,6 +164,7 @@ define(function (require, exports, module) {
         numberOfSegmentPerColor = (opt.numberOfSegmentPerColor) ? opt.numberOfSegmentPerColor : 4;
         numLanes                = (opt.numLanes) ? opt.numLanes : 3;
         laneWidth               = (opt.laneWidth) ? opt.laneWidth: 0.02;
+        trackParam              = (opt.trackConfigurations) ? opt.trackConfigurations : { maxHeight: 900, maxCurve: 400, numZones: 12, /*number of different portions of the track*/ curvy: 0.8, mountainy: 0.8, zoneSize:  250 /*length of each numZones (the bigger this value. the longer it will take to finish)*/ };        
         trackConfigurations     = (opt.trackConfigurations) ? opt.trackConfigurations : { maxHeight: 900, maxCurve: 400, numZones: 12, /*number of different portions of the track*/ curvy: 0.8, mountainy: 0.8, zoneSize:  250 /*length of each numZones (the bigger this value. the longer it will take to finish)*/ };
         controllable_car        = (opt.controllable_car) ? opt.controllable_car : { position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20 };
         topSpeed                = (opt.topSpeed) ? opt.topSpeed : 250;
@@ -195,12 +197,14 @@ define(function (require, exports, module) {
                 };
             }    
         }
+
+        // console.log(spritesAvailable);
     
         Widget.call(this, id, coords, opt);
         TrackGenerator.prototype.generateStraightTrack();
         // TODO writeFile track.json with its content with Paolo Masci new API (when it has been implemented)
-        console.log(generatedJSON);
-        // console.log(JSON.stringify(generatedJSON));
+        // console.log(generatedJSON);
+        console.log(JSON.stringify(generatedJSON));
 
         return this;
     }
@@ -270,16 +274,24 @@ define(function (require, exports, module) {
                 if(i%50===0){
                     obstacle.forEach((element) => {
                         let index = spritesAvailable.findIndex(el => el.name === element);
+                        // console.log(index);
                         // each 50 iterations a new obstacle is placed within the generatedTrack
                         // console.log(spritePosgeneratedObstaclesRandom);
                         generatedObstacles.push(spritePosgeneratedObstaclesRandom);
                         // spritePosgeneratedObstaclesRandom has the relative position of the obstacle
                         sprite = {type: spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
+                        
+                        generatedTrack.push({
+                            height: 0,
+                            curve: 0,
+                            sprite: sprite
+                        });
                     });
                 }else{
                     objects.forEach((element) => {
+                        // console.log(element);
                         let index = spritesAvailable.findIndex(el => el.name === element);
-    
+                        // console.log(index);
                         // generates random float numbers greater than 0.55
                         spritePosRightRandom = randomPos() + 0.90;
                         // generates random float numbers lesser than -0.55
@@ -299,14 +311,22 @@ define(function (require, exports, module) {
                         }else{
                             sprite = {type: spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
                         }
+
+                        // console.log(sprite.type);
+                        generatedTrack.push({
+                            height: 0,
+                            curve: 0,
+                            sprite: sprite
+                        });
                     });
                 }
             }
-            generatedTrack.push({
-                height: 0,
-                curve: 0,
-                sprite: sprite
-            });
+        
+            // generatedTrack.push({
+            //     height: 0,
+            //     curve: 0,
+            //     sprite: sprite
+            // });
         }
     
         trackConfigurations.numZones = numIterations; 
@@ -319,7 +339,7 @@ define(function (require, exports, module) {
             render: render,
             topSpeed: topSpeed,
             track: generatedTrack,
-            trackConfigurations: trackConfigurations,
+            trackParam: trackParam,
             trackSegmentSize: trackSegmentSize,
             trackColors: {
                 grass1: "#699864",

@@ -51,7 +51,7 @@
  *                 trackFilename: "track", // defines track configuration filename, which is "track.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
- *                 carImgIndex: 2, // defines car sprite image suffix 
+ *                 vehicleImgIndex: 2, // defines car sprite image suffix 
  *                 // logoImgIndex: 1, // defines logo sprite image suffix 
  *                 // backgroundImgIndex: 1, // defines background sprite image suffix 
  *               }// append on div 'game-window'
@@ -187,6 +187,7 @@ define(function (require, exports, module) {
     let currentBrowser = { chrome: false, mozilla: false, opera: false, msie: false, safari: false};
 
     let spritesheetsImages = [];
+    let realPrefix="";
     let readSprite=false;
     let readConfiguration=false;
     let readParams=false;
@@ -198,6 +199,9 @@ define(function (require, exports, module) {
     let spritesAvailable=[];
 
     // Information regarding the rendering process (what users will see/how the game is viewed)
+    let vehicleType=null;
+    let vehicleRealistic=null;
+    let vehicleIndex=null;
     let controllable_car=null;
     let laneWidth=null;
     let numLanes=null;
@@ -280,7 +284,7 @@ define(function (require, exports, module) {
      *          &lt;li>trackFilename {String}: the track configuration filename, i.e. JSON file with the track that will be drawed as well as the required sprite coordinates, etc (default is "track").&lt;/li>
      *          &lt;li>spritesFilename {String}: the spritesheet configuration filename, i.e. JSON file with the all available sprites, whose coordinates are the same in trackFilename, i.e. the track must have been generated with this JSON as well so the coordinates will match (default is "spritesheet").&lt;/li>
      *          &lt;li>spritesFiles {Array}: array with spritesheets(images) names (default is ["spritesheet","spritesheet.text"]).&lt;/li>
-     *          &lt;li>carImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the car image (front, left side, right side) (default is null).&lt;/li>
+     *          &lt;li>vehicleImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the vehicle image (front, left side, right side) (default is null).&lt;/li>
      *          &lt;li>logoImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the logo image (default is null).&lt;/li>
      *          &lt;li>backgroundImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the background image (default is null).&lt;/li>
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -294,10 +298,12 @@ define(function (require, exports, module) {
         opt.trackFilename = opt.trackFilename;
         opt.spritesFilename = opt.spritesFilename;
         opt.spritesFiles =  opt.spritesFiles;
-        opt.carImgIndex = opt.carImgIndex;
+        opt.vehicleImgIndex = opt.vehicleImgIndex;
         opt.logoImgIndex = opt.logoImgIndex;
         opt.backgroundImgIndex = opt.backgroundImgIndex;
-        
+        opt.realisticImgs = opt.realisticImgs;
+        opt.vehicle = opt.vehicle;
+
         this.id = id;
         this.top = coords.top || 100;
         this.left = coords.left || 700;
@@ -308,11 +314,17 @@ define(function (require, exports, module) {
         this.trackFilename = (opt.trackFilename) ? ("text!widgets/car/configurations/" + opt.trackFilename + ".json") : "text!widgets/car/configurations/track.json";
         this.spritesFilename = (opt.spritesFilename) ? ("text!widgets/car/configurations/" + opt.spritesFilename + ".json") : "text!widgets/car/configurations/spritesheet.json";
         this.spritesFiles = (opt.spritesFiles) ? opt.spritesFiles : ["spritesheet","spritesheet.text"];
-        this.carImgIndex = (opt.carImgIndex) ? opt.carImgIndex : null;
+        this.vehicleImgIndex = (opt.vehicleImgIndex) ? opt.vehicleImgIndex : null;
         this.logoImgIndex = (opt.logoImgIndex) ? opt.logoImgIndex : null;
         this.backgroundImgIndex = (opt.backgroundImgIndex) ? opt.backgroundImgIndex : null;
+        this.realisticImgs = (opt.realisticImgs) ? opt.realisticImgs : false;
+        this.vehicle = (opt.vehicle) ? opt.vehicle : "car"; // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
 
-        trackJSON = require("text!widgets/car/configurations/track.json");
+        vehicleType = this.vehicle;
+        vehicleRealistic = this.realisticImgs;
+        vehicleIndex = this.vehicleImgIndex;
+
+        trackJSON = require("text!widgets/car/configurations/track-straight.json");
         spritesheetJSON = require("text!widgets/car/configurations/spritesheet.json");        
 
         this.div = d3.select(this.parent)
@@ -391,27 +403,35 @@ define(function (require, exports, module) {
 
         let backgroundRegex, logoRegex, frontRegex, leftRegex, rightRegex;
 
-        if(this.backgroundImgIndex!==null){
-            backgroundRegex = new RegExp("background"+this.backgroundImgIndex);
+        if(this.realisticImgs){
+            realPrefix="real_";
         }else{
-            backgroundRegex = new RegExp("background");
+            realPrefix="";
+        }
+
+        if(this.backgroundImgIndex!==null){
+            backgroundRegex = new RegExp("^"+realPrefix+"background"+this.backgroundImgIndex+"$");
+        }else{
+            backgroundRegex = new RegExp("^"+realPrefix+"background");
         }
 
         if(this.logoImgIndex!==null){
-            logoRegex   = new RegExp("logo"+this.logoImgIndex);
+            logoRegex   = new RegExp("^"+realPrefix+"logo"+this.logoImgIndex+"$");
         }else{
-            logoRegex   = new RegExp("logo");
+            logoRegex   = new RegExp("^"+realPrefix+"logo$");
         }
 
-        if(this.carImgIndex!==null){
-            frontRegex      = new RegExp("car"+this.carImgIndex+"_faced_front");
-            leftRegex       = new RegExp("car"+this.carImgIndex+"_faced_left");
-            rightRegex      = new RegExp("car"+this.carImgIndex+"_faced_right");
+        if(this.vehicleImgIndex!==null){
+            frontRegex      = new RegExp("^"+realPrefix+this.vehicle+this.vehicleImgIndex+"_faced_front$");
+            leftRegex       = new RegExp("^"+realPrefix+this.vehicle+this.vehicleImgIndex+"_faced_left$");
+            rightRegex      = new RegExp("^"+realPrefix+this.vehicle+this.vehicleImgIndex+"_faced_right$");
         }else{
-            frontRegex      = new RegExp("car_faced_front");
-            leftRegex       = new RegExp("car_faced_left");
-            rightRegex      = new RegExp("car_faced_right");
+            frontRegex      = new RegExp("^"+realPrefix+this.vehicle+"_faced_front$");
+            leftRegex       = new RegExp("^"+realPrefix+this.vehicle+"_faced_left$");
+            rightRegex      = new RegExp("^"+realPrefix+this.vehicle+"_faced_right$");
         }
+
+        // console.log(spritesAvailable);
 
         if(spritesheetJSON){
             spritesReadJSON = JSON.parse(spritesheetJSON);
@@ -436,31 +456,158 @@ define(function (require, exports, module) {
                 if(spritesAvailable[k].name.match(rightRegex)){
                     car_faced_right = spritesAvailable[k].value;
                 }
-            }  
-            if(background===undefined || logo===undefined || car_faced_front===undefined || car_faced_left===undefined || car_faced_right===undefined){
+            } 
+          
+            if(background===undefined){
+                if(this.realisticImgs){
+                    if(this.backgroundImgIndex!==null){ // realistic image with that index does not exist
+                        backgroundRegex = new RegExp("^"+realPrefix+"background$");
+                    }else{  // realistic image does not exist
+                        backgroundRegex = new RegExp("^background");
+                    }
+                }else{
+                    backgroundRegex = new RegExp("^background");
+                }
+
                 for(let k=0;k&lt;spritesReadJSON.frames.length;k++){
                     spritesAvailable[k]={
                         name:spritesReadJSON.frames[k].filename.split(".")[0],
                         value:spritesReadJSON.frames[k].frame
                     };
-                    if(spritesAvailable[k].name.match(/background/)){
+                    if(spritesAvailable[k].name.match(backgroundRegex)){
                         background = spritesAvailable[k].value;
                     }
-                    if(spritesAvailable[k].name.match(/logo/)){
+                } 
+            }  
+
+            if(logo===undefined){
+                if(this.realisticImgs){
+                    if(this.logoImgIndex!==null){
+                        logoRegex   = new RegExp("^"+realPrefix+"logo$");
+                    }else{
+                        logoRegex   = new RegExp("^logo$");
+                    }
+                }else{
+                    logoRegex   = new RegExp("^logo$");
+                }
+
+                for(let k=0;k&lt;spritesReadJSON.frames.length;k++){
+                    spritesAvailable[k]={
+                        name:spritesReadJSON.frames[k].filename.split(".")[0],
+                        value:spritesReadJSON.frames[k].frame
+                    };
+                    if(spritesAvailable[k].name.match(logoRegex)){
                         logo = spritesAvailable[k].value;
                     }
-                    if(spritesAvailable[k].name.match(/car_faced_front/)){
+                }    
+            }  
+
+            if(car_faced_front===undefined || car_faced_left===undefined || car_faced_right===undefined){
+                if(this.realisticImgs){ 
+                    if(this.vehicleImgIndex!==null){ // Realistic image with index does not exist
+                        frontRegex      = new RegExp("^"+realPrefix+this.vehicle+"_faced_front$");
+                        leftRegex       = new RegExp("^"+realPrefix+this.vehicle+"_faced_left$");
+                        rightRegex      = new RegExp("^"+realPrefix+this.vehicle+"_faced_right$");
+                    }else{ // Realistic image without index does not exist
+                        frontRegex      = new RegExp("^"+this.vehicle+"_faced_front$");
+                        leftRegex       = new RegExp("^"+this.vehicle+"_faced_left$");
+                        rightRegex      = new RegExp("^"+this.vehicle+"_faced_right$");
+                    }
+                }
+                else{
+                    frontRegex      = new RegExp("^"+this.vehicle+"_faced_front$");
+                    leftRegex       = new RegExp("^"+this.vehicle+"_faced_left$");
+                    rightRegex      = new RegExp("^"+this.vehicle+"_faced_right$");
+                }
+
+                for(let k=0;k&lt;spritesReadJSON.frames.length;k++){
+                    spritesAvailable[k]={
+                        name:spritesReadJSON.frames[k].filename.split(".")[0],
+                        value:spritesReadJSON.frames[k].frame
+                    };
+                    if(spritesAvailable[k].name.match(frontRegex)){
                         car_faced_front = spritesAvailable[k].value;
                     }
-                    if(spritesAvailable[k].name.match(/car_faced_left/)){
+                    if(spritesAvailable[k].name.match(leftRegex)){
                         car_faced_left = spritesAvailable[k].value;
                     }
-                    if(spritesAvailable[k].name.match(/car_faced_right/)){
+                    if(spritesAvailable[k].name.match(rightRegex)){
                         car_faced_right = spritesAvailable[k].value;
                     }
-                }  
+                } 
             }
-            readSprite=true;  
+            if(background!==undefined &amp;&amp; logo!==undefined &amp;&amp; car_faced_front!==undefined &amp;&amp; car_faced_left!==undefined &amp;&amp; car_faced_right!==undefined){
+                readSprite=true;  
+            }else{
+                for(let k=0;k&lt;spritesReadJSON.frames.length;k++){
+                    spritesAvailable[k]={
+                        name:spritesReadJSON.frames[k].filename.split(".")[0],
+                        value:spritesReadJSON.frames[k].frame
+                    };
+                    if(spritesAvailable[k].name.match(/^background$/)){
+                        background = spritesAvailable[k].value;
+                    }
+                    if(spritesAvailable[k].name.match(/^logo$/)){
+                        logo = spritesAvailable[k].value;
+                    }
+                    if(this.vehicle==="airplane"){
+                        if(spritesAvailable[k].name.match(/^airplane_faced_front$/)){
+                            car_faced_front = spritesAvailable[k].value;
+                        }
+                        if(spritesAvailable[k].name.match(/^airplane_faced_left$/)){
+                            car_faced_left = spritesAvailable[k].value;
+                        }
+                        if(spritesAvailable[k].name.match(/^airplane_faced_right$/)){
+                            car_faced_right = spritesAvailable[k].value;
+                        }
+                    }
+                    else if(this.vehicle==="bicycle"){
+                        if(spritesAvailable[k].name.match(/^bicycle_faced_front$/)){
+                            car_faced_front = spritesAvailable[k].value;
+                        }
+                        if(spritesAvailable[k].name.match(/^bicycle_faced_left$/)){
+                            car_faced_left = spritesAvailable[k].value;
+                        }
+                        if(spritesAvailable[k].name.match(/^bicycle_faced_right$/)){
+                            car_faced_right = spritesAvailable[k].value;
+                        }
+                    }
+                    else if(this.vehicle==="car") {
+                        if(spritesAvailable[k].name.match(/^car_faced_front$/)){
+                            car_faced_front = spritesAvailable[k].value;
+                        }
+                        if(spritesAvailable[k].name.match(/^car_faced_left$/)){
+                            car_faced_left = spritesAvailable[k].value;
+                        }
+                        if(spritesAvailable[k].name.match(/^car_faced_right$/)){
+                            car_faced_right = spritesAvailable[k].value;
+                        }
+                    }
+                    else if(this.vehicle==="helicopter"){
+                        if(spritesAvailable[k].name.match(/^helicopter_faced_front$/)){
+                            car_faced_front = spritesAvailable[k].value;
+                        }
+                        if(spritesAvailable[k].name.match(/^helicopter_faced_left$/)){
+                            car_faced_left = spritesAvailable[k].value;
+                        }
+                        if(spritesAvailable[k].name.match(/^helicopter_faced_right$/)){
+                            car_faced_right = spritesAvailable[k].value;
+                        }
+                    }
+                    else if(this.vehicle==="motorbike"){
+                        if(spritesAvailable[k].name.match(/^motorbike_faced_front$/)){
+                            car_faced_front = spritesAvailable[k].value;
+                        }
+                        if(spritesAvailable[k].name.match(/^motorbike_faced_left$/)){
+                            car_faced_left = spritesAvailable[k].value;
+                        }
+                        if(spritesAvailable[k].name.match(/^motorbike_faced_right$/)){
+                            car_faced_right = spritesAvailable[k].value;
+                        }
+                    }
+                }
+                readSprite=true;  
+            }   
         }
 
         Widget.call(this, id, coords, opt);
@@ -737,6 +884,7 @@ define(function (require, exports, module) {
                 posx: 0,
                 maxSpeed: 15
             };
+            
     
             simulatorInterval = setInterval(Arcade.prototype.renderSimulatorFrame, 30);
             chronometer.start();
@@ -1310,6 +1458,13 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.updateControllableCar = function () {
+
+        if(car_faced_front===undefined || car_faced_left===undefined || car_faced_right===undefined){
+            console.log("Check if constructor args are correct!");
+            console.log("Maybe Vehicle Image does not exist! Check Spritesheet image and Spritesheet.json");
+            console.log("Vehicle Image Type and Realistic Image does not have a match");
+        }
+
         //  Update the car state
         // TODO understand lastDelta
         if (Math.abs(lastDelta) > 130){
@@ -1340,7 +1495,51 @@ define(function (require, exports, module) {
         controllable_car.speed = Math.min(controllable_car.speed, controllable_car.maxSpeed); //maximum speed
         controllable_car.position += controllable_car.speed;
         let carSprite;
-      
+        let vehicleXPosition;        
+        let vehicleYPosition;
+        switch (vehicleType) {
+            case "airplane":
+                if(vehicleIndex===2){
+                    vehicleXPosition = 50;
+                    vehicleYPosition = 110;
+                }else{
+                    vehicleXPosition = 110;
+                    vehicleYPosition = 100;
+                }
+                break;
+            case "bicycle":
+                if(vehicleRealistic){
+                    vehicleXPosition = 135;
+                    vehicleYPosition = 160;
+                }else{
+                    vehicleXPosition = 140;
+                    vehicleYPosition = 175;
+                }
+                break;
+            case "car":
+                if(vehicleRealistic){
+                    vehicleXPosition = 125;
+                    vehicleYPosition = 180;
+                }else{
+                    vehicleXPosition = 125;
+                    vehicleYPosition = 190;
+                }
+                break;
+            case "helicopter":
+                vehicleXPosition = 100;
+                vehicleYPosition = 90;
+                break;
+            case "motorbike":
+                if(vehicleRealistic){
+                    vehicleXPosition = 130;
+                    vehicleYPosition = 160;
+                }else{
+                    vehicleXPosition = 150;
+                    vehicleYPosition = 175;
+                }
+                break;
+        }
+
         // car turning
         if (keys[37]) {
             carCurrentDirection = "left";
@@ -1350,8 +1549,8 @@ define(function (require, exports, module) {
             }
             carSprite = {
                 car: car_faced_left,
-                x: 125,
-                y: 190
+                x: vehicleXPosition,
+                y: vehicleYPosition
             };
         } else if (keys[39]) {
             // 39 right
@@ -1361,15 +1560,15 @@ define(function (require, exports, module) {
             }
             carSprite = {
                 car: car_faced_right,
-                x: 125,
-                y: 190
+                x: vehicleXPosition,
+                y: vehicleYPosition
             };
         } else {
             carCurrentDirection = "front";
             carSprite = {
                 car: car_faced_front,
-                x:125,
-                y:190
+                x: vehicleXPosition,
+                y: vehicleYPosition
             };
         }
         return carSprite;
@@ -1493,7 +1692,7 @@ define(function (require, exports, module) {
                         y: render.height / 2 + startProjectedHeight,
                         x: render.width / 2 - currentSegment.sprite.pos * render.width * currentScaling + currentSegment.curve - baseOffset - (controllable_car.posx - baseOffset*2) * currentScaling,
                         ymax: render.height / 2 + lastProjectedHeight,
-                        s: 0.5*currentScaling,
+                        s: currentScaling, // 0.5*currentScaling,
                         i: currentSegment.sprite.type,
                         pos: currentSegment.sprite.pos,
                         obstacle: currentSegment.sprite.obstacle
@@ -1632,7 +1831,7 @@ define(function (require, exports, module) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun May 13 2018 10:21:34 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun May 13 2018 13:19:18 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

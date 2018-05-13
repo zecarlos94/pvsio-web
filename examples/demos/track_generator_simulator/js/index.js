@@ -128,8 +128,8 @@ require([
                 maxSpeed: 20
             },
             topSpeed: 250,
-            objects: ["tree","rock"],
-            obstacle: ["rock"],
+            objects: ["tree","boulder"],
+            obstacle: ["boulder"],
             callback: onMessageReceived
         });
 

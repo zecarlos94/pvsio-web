@@ -100,7 +100,9 @@ require([
             trackFilename: "track", // defines track configuration filename, which is "track.json" by default
             spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
-            carImgIndex: 1, // defines car sprite image suffix 
+            realisticImgs: false,
+            vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
+            vehicleImgIndex: 2, // defines vehicle sprite image suffix 
             // logoImgIndex: 1, // defines logo sprite image suffix 
             // backgroundImgIndex: 1, // defines background sprite image suffix 
             callback: onMessageReceived
