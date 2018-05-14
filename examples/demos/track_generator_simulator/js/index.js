@@ -130,6 +130,59 @@ require([
             topSpeed: 250,
             objects: ["tree","boulder"],
             obstacle: ["boulder"],
+            trackLayout: [ 
+                // describing the desired track, which is 2 straight lines, followed by curve to left, straight line, 
+                // curve to right, straight line, 2 up slopes, curve to left, down slope, curve to right,
+                // straight line, each with 3 zones (length) (default is []).
+                {
+                    topography: "plain",
+                    numZones: 3
+                },
+                {
+                    topography: "plain",
+                    numZones: 3
+                },
+                {
+                    topography: "left",
+                    numZones: 3
+                },
+                {
+                    topography: "plain",
+                    numZones: 3
+                },
+                {
+                    topography: "right",
+                    numZones: 3
+                },
+                {
+                    topography: "plain",
+                    numZones: 3
+                },
+                {
+                    topography: "up",
+                    numZones: 3
+                },
+                {
+                    topography: "up",
+                    numZones: 3
+                },
+                {
+                    topography: "left",
+                    numZones: 3
+                },
+                {
+                    topography: "down",
+                    numZones: 3
+                },
+                {
+                    topography: "right",
+                    numZones: 3
+                },
+                {
+                    topography: "plain",
+                    numZones: 3
+                }
+            ],
             callback: onMessageReceived
         });
 

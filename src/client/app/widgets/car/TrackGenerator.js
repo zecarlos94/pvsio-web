@@ -109,6 +109,7 @@ define(function (require, exports, module) {
     let spritesAvailable=[];
     let objects = [];
     let obstacle = [];
+    let trackLayout = [];
 
     // Has the produced JSON.
     let generatedJSON;
@@ -133,6 +134,7 @@ define(function (require, exports, module) {
      *          <li>topSpeed {Int}: the maximum speed value that can be reached (default is 250).</li>
      *          <li>objects {Array}: the sprite names to be drawed in the landscape (default is ["tree","rock"]).</li>
      *          <li>obstacle {Array}: the sprite names to be drawed within the track as obstacles (default is ["rock"]).</li>
+     *          <li>obstacle {Array}: the track layout that will be used to create the corresponding segments. (default is []).</li>
      * @returns {TrackGenerator} The created instance of the widget TrackGenerator.
      * @memberof module:TrackGenerator
      * @instance
@@ -152,6 +154,7 @@ define(function (require, exports, module) {
         opt.topSpeed = opt.topSpeed;
         opt.objects = opt.objects;
         opt.obstacle = opt.obstacle;
+        opt.trackLayout = opt.trackLayout;
 
         this.id = id;
         this.top = coords.top || 100;
@@ -171,6 +174,9 @@ define(function (require, exports, module) {
 
         objects  = (opt.objects) ? opt.objects : ["tree","boulder"];
         obstacle = (opt.obstacle) ? opt.obstacle : ["boulder"];
+        trackLayout = (opt.trackLayout) ? opt.trackLayout : [];
+
+        console.log(trackLayout);
 
         this.parent = (opt.parent) ? ("#" + opt.parent) : "game-window";
         this.spritesFilename = (opt.spritesFilename) ? ("text!widgets/car/configurations/" + opt.spritesFilename + ".json") : "text!widgets/car/configurations/spritesheet.json";

@@ -62,6 +62,13 @@
  *          // Updates car's current position (listening for actions: acceleration, etc)
  *          let carSprite = arcade.updateControllableCar();
  * 
+ *          // Calculates new speed, position, posx and vehicle sprite coordinates x,y based on current direction (listening for actions: acceleration, etc)
+ *          Arcade.prototype.calculateNewControllableCarPosition();
+ * 
+ *          // Sets new speed, position, posx and vehicle sprite coordinates x,y based on vehicleCurrentDirection, newSpeed, newPosition, newPositionX, vehicleXPosition, vehicleYPosition arguments
+ *          // Such values must be calculated or given taking into consideration the previous values.
+ *          let carSprite = Arcade.prototype.setControllableCarPosition(vehicleCurrentDirection, newSpeed, newPosition, newPositionX, vehicleXPosition, vehicleYPosition);
+ * 
  *          // Draws the background image based on car's current horizontal position(posx) 
  *          arcade.drawBackground(-posx);
  * 
@@ -213,6 +220,9 @@ define(function (require, exports, module) {
     /* 
     * Start of Arcade Global Variables 
     */
+
+    // Variables for calculating the vehicle's position, which will be provided as arguments to setControllabeCarPosition method
+    let vehicleCurrentDirectionAux, newSpeedAux, newPositionAux, newPositionXAux, vehicleXPositionAux, vehicleYPositionAux;
 
     // Information regarding the visibility of the official logo
     let showOfficialLogo;
@@ -1662,7 +1672,7 @@ define(function (require, exports, module) {
 
     /**
      * @function setControllableCarPosition
-     * @description SetControllableCarPosition method of the Arcade widget. This method updates the controllable car position and speed.
+     * @description SetControllableCarPosition method of the Arcade widget. This method sets the controllable car position, posx, speed and vehicle sprite based on current direction.
      * @param {String} vehicleCurrentDirection the current vehicle direction, that allows to select the proper vehicle sprite(faced front, left or right).
      * @param {Float} newSpeed the new value of speed.
      * @param {Float} newPosition the new value of position.
@@ -1681,46 +1691,214 @@ define(function (require, exports, module) {
             console.log("Vehicle Image Type and Realistic Image does not have a match");
         }
         
-        controllable_car.speed = Math.max(newSpeed, 0); //cannot go in reverse
-        controllable_car.speed = Math.min(newSpeed, controllable_car.maxSpeed); //maximum speed
-        // controllable_car.position += controllable_car.speed;
+        controllable_car.speed    = newSpeed;
         controllable_car.position = newPosition;
-        
-        let carSprite;
 
-        switch (vehicleCurrentDirection) {
-            case "left":
-                if(controllable_car.speed > 0){
-                    controllable_car.posx=newPositionX;
-                    // controllable_car.posx -= controllable_car.turning;
-                }
-                carSprite = {
-                    car: vehicle_faced_left,
-                    x: vehicleXPosition,
-                    y: vehicleYPosition
-                };
-                break;
-            case "right":
-                if(controllable_car.speed > 0){
-                    controllable_car.posx=newPositionX;
-                    // controllable_car.posx += controllable_car.turning;
-                }
-                carSprite = {
-                    car: vehicle_faced_right,
-                    x: vehicleXPosition,
-                    y: vehicleYPosition
-                }; 
-                break;
-            case "front":
-                carSprite = {
-                    car: vehicle_faced_front,
-                    x: vehicleXPosition,
-                    y: vehicleYPosition
-                };
-                break;
+        let carSprite;
+        
+        if(controllable_car.speed > 0){
+            controllable_car.posx = newPositionX;
+        }
+
+        if(vehicleCurrentDirection==="front"){
+            carSprite = {
+                car: vehicle_faced_front,
+                x: vehicleXPosition,
+                y: vehicleYPosition
+            };
+        }else if(vehicleCurrentDirection==="left"){
+            carSprite = {
+                car: vehicle_faced_left,
+                x: vehicleXPosition,
+                y: vehicleYPosition
+            };
+        }else if(vehicleCurrentDirection==="right"){
+            carSprite = {
+                car: vehicle_faced_right,
+                x: vehicleXPosition,
+                y: vehicleYPosition
+            };
         }
 
         return carSprite;
+    };
+
+    /**
+     * @function calculateNewControllableCarPosition
+     * @description calculateNewControllableCarPosition method of the Arcade widget. This method calculates the new controllable car position, based on
+     * its speed, current position and posx values.
+     * @returns {Arcade} The created instance of the widget Arcade. 
+     * @instance
+     */
+    Arcade.prototype.calculateNewControllableCarPosition = function () {
+        newSpeedAux=controllable_car.speed;
+        newPositionAux=controllable_car.position;
+        newPositionXAux=controllable_car.posx;
+
+        // Calculating newSpeedAux value
+        if (Math.abs(lastDelta) > 130){
+            if (newSpeedAux > 3) {
+                newSpeedAux -= 0.2;
+            }
+        } else {
+            // readSprite acceleration controls
+            soundOff = soundWidget.getSoundOff();
+            if (keys[38]) { // 38 up
+                newSpeedAux += controllable_car.acceleration;
+                if(!soundOff){
+                  soundWidget.playSound(3); //accelerating song
+                }
+            } else if (keys[40]) { // 40 down
+                newSpeedAux -= controllable_car.breaking;
+                if(!soundOff){
+                  soundWidget.pauseSound(3); //accelerating song
+                }
+            } else {
+                newSpeedAux -= controllable_car.deceleration;
+                if(!soundOff){
+                  soundWidget.pauseSound(3); //accelerating song
+                }
+            }
+        }
+
+        // car turning
+        if (keys[37]) {
+            carCurrentDirection = "left";
+            // 37 left arrow
+            if(newSpeedAux > 0){
+                newPositionXAux -= controllable_car.turning;
+            }
+        } else if (keys[39]) {
+            // 39 right arrow
+            carCurrentDirection = "right";
+            if(newSpeedAux > 0){
+                newPositionXAux += controllable_car.turning;
+            }
+        } else {
+            carCurrentDirection = "front";
+        }
+        
+        vehicleCurrentDirectionAux = carCurrentDirection;
+        newSpeedAux = Math.max(newSpeedAux, 0); //cannot go in reverse
+        newSpeedAux = Math.min(newSpeedAux, controllable_car.maxSpeed); //maximum speed
+        newPositionAux += newSpeedAux;
+
+        switch (vehicleType) {
+            case "airplane":
+                if(vehicleIndex===2){
+                    if(vehicleCurrentDirectionAux==="left"){
+                        vehicleXPositionAux= 50;        
+                        vehicleYPositionAux= 70;
+                    }else if(vehicleCurrentDirectionAux==="right"){
+                        vehicleXPositionAux= 50;        
+                        vehicleYPositionAux= 70;
+                    }else if(vehicleCurrentDirectionAux==="front"){
+                        vehicleXPositionAux = 50;
+                        vehicleYPositionAux = 110;
+                    }
+                }else{
+                    if(vehicleCurrentDirectionAux==="left"){
+                        vehicleXPositionAux= 110;        
+                        vehicleYPositionAux= 100;
+                    }else if(vehicleCurrentDirectionAux==="right"){
+                        vehicleXPositionAux= 110;        
+                        vehicleYPositionAux= 100;
+                    }else if(vehicleCurrentDirectionAux==="front"){
+                        vehicleXPositionAux = 110;
+                        vehicleYPositionAux = 100;
+                    }
+                }
+                break;
+            case "bicycle":
+                if(vehicleRealistic){
+                    if(vehicleCurrentDirectionAux==="left"){
+                        vehicleXPositionAux= 135;        
+                        vehicleYPositionAux= 160;
+                    }else if(vehicleCurrentDirectionAux==="right"){
+                        vehicleXPositionAux= 135;        
+                        vehicleYPositionAux= 160;
+                    }else if(vehicleCurrentDirectionAux==="front"){
+                        vehicleXPositionAux = 135;
+                        vehicleYPositionAux = 160;
+                    }
+                }else{
+                    if(vehicleCurrentDirectionAux==="left"){
+                        vehicleXPositionAux= 140;        
+                        vehicleYPositionAux= 175;
+                    }else if(vehicleCurrentDirectionAux==="right"){
+                        vehicleXPositionAux= 140;        
+                        vehicleYPositionAux= 175;
+                    }else if(vehicleCurrentDirectionAux==="front"){
+                        vehicleXPositionAux = 140;
+                        vehicleYPositionAux = 175;
+                    }
+                }
+                break;
+            case "car":
+                if(vehicleRealistic){
+                    if(vehicleCurrentDirectionAux==="left"){
+                        vehicleXPositionAux= 125;        
+                        vehicleYPositionAux= 180;
+                    }else if(vehicleCurrentDirectionAux==="right"){
+                        vehicleXPositionAux= 125;        
+                        vehicleYPositionAux= 180;
+                    }else if(vehicleCurrentDirectionAux==="front"){
+                        vehicleXPositionAux = 125;
+                        vehicleYPositionAux = 180;
+                    }
+                }else{
+                    if(vehicleCurrentDirectionAux==="left"){
+                        vehicleXPositionAux= 125;        
+                        vehicleYPositionAux= 190;
+                    }else if(vehicleCurrentDirectionAux==="right"){
+                        vehicleXPositionAux= 125;        
+                        vehicleYPositionAux= 190;
+                    }else if(vehicleCurrentDirectionAux==="front"){
+                        vehicleXPositionAux = 125;
+                        vehicleYPositionAux = 190;
+                    }
+                }
+                break;
+            case "helicopter":
+                if(vehicleCurrentDirectionAux==="left"){
+                    vehicleXPositionAux= 70;        
+                    vehicleYPositionAux= 60;
+                }else if(vehicleCurrentDirectionAux==="right"){
+                    vehicleXPositionAux= 70;        
+                    vehicleYPositionAux= 60;
+                }else if(vehicleCurrentDirectionAux==="front"){
+                    vehicleXPositionAux = 100;
+                    vehicleYPositionAux = 90;
+                }
+                break;
+            case "motorbike":
+                if(vehicleRealistic){
+                    if(vehicleCurrentDirectionAux==="left"){
+                        vehicleXPositionAux= 130;        
+                        vehicleYPositionAux= 160;
+                    }else if(vehicleCurrentDirectionAux==="right"){
+                        vehicleXPositionAux= 130;        
+                        vehicleYPositionAux= 160;
+                    }else if(vehicleCurrentDirectionAux==="front"){
+                        vehicleXPositionAux = 130;
+                        vehicleYPositionAux = 160;
+                    }
+                }else{
+                    if(vehicleCurrentDirectionAux==="left"){
+                        vehicleXPositionAux= 120;        
+                        vehicleYPositionAux= 175;
+                    }else if(vehicleCurrentDirectionAux==="right"){
+                        vehicleXPositionAux= 140;        
+                        vehicleYPositionAux= 175;
+                    }else if(vehicleCurrentDirectionAux==="front"){
+                        vehicleXPositionAux = 150;
+                        vehicleYPositionAux = 175;
+                    }
+                }
+                break;
+        }
+
+        return this;
     };
     
     /**
@@ -1753,7 +1931,10 @@ define(function (require, exports, module) {
         context.fillStyle = "#76665d"; // rgb(139, 120, 106)
         context.fillRect(0, 0, render.width, render.height);
 
-        let carSprite = Arcade.prototype.updateControllableCar();
+        Arcade.prototype.calculateNewControllableCarPosition();
+        let carSprite = Arcade.prototype.setControllableCarPosition(vehicleCurrentDirectionAux, newSpeedAux, newPositionAux, newPositionXAux, vehicleXPositionAux, vehicleYPositionAux);
+        // let carSprite = Arcade.prototype.updateControllableCar();
+
         Arcade.prototype.drawBackground(-controllable_car.posx);
 
         let spriteBuffer = [];
