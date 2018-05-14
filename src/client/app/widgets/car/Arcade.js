@@ -23,9 +23,25 @@
  *                 trackFilename: "track", // defines track configuration filename, which is "track.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
+ *                 trackTopography: "curves-slopes", // "straight", // defines initial position after ending 1 lap (restart position in another lap).
+ *                 realisticImgs: false,
+ *                 vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
+ *                 vehicleImgIndex: 2, // defines vehicle sprite image suffix            
  *                 vehicleImgIndex: 2, // defines car sprite image suffix 
  *                 // logoImgIndex: 1, // defines logo sprite image suffix 
  *                 // backgroundImgIndex: 1, // defines background sprite image suffix 
+ *                 stripePositions: {
+ *                    trackP1: -0.50,
+ *                    trackP2: 0.50,
+ *                    borderWidth: 0.08,
+ *                    inOutBorderWidth: 0.02,
+ *                    landscapeOutBorderWidth: 0.13,
+ *                    diffTrackBorder: 0.05,
+ *                    finishLineP1: -0.40,
+ *                    finishLineP2: 0.40,
+ *                    diffLanesFinishLine: 0.05
+ *                  },
+ *                  // showOfficialLogo: true,
  *               }// append on div 'game-window'
  *           );
  *          // Render the Arcade widget
@@ -221,6 +237,9 @@ define(function (require, exports, module) {
     * Start of Arcade Global Variables 
     */
 
+    // Information regarding the track topography to determine initial position in each lap (restart position)
+    let trackTopography;
+
     // Variables for calculating the vehicle's position, which will be provided as arguments to setControllabeCarPosition method
     let vehicleCurrentDirectionAux, newSpeedAux, newPositionAux, newPositionXAux, vehicleXPositionAux, vehicleYPositionAux;
 
@@ -319,6 +338,7 @@ define(function (require, exports, module) {
         opt.vehicle = opt.vehicle;
         opt.stripePositions = opt.stripePositions;
         opt.showOfficialLogo = opt.showOfficialLogo;
+        opt.trackTopography = opt.trackTopography;
 
         this.id = id;
         this.top = coords.top || 100;
@@ -337,6 +357,9 @@ define(function (require, exports, module) {
         this.vehicle = (opt.vehicle) ? opt.vehicle : "car"; // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
         this.stripePositions = (opt.stripePositions) ? opt.stripePositions : { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 };
         this.showOfficialLogo = (opt.showOfficialLogo) ? opt.showOfficialLogo : false;
+        this.trackTopography = (opt.trackTopography) ? opt.trackTopography : "straight"; // "curves-slopes";
+
+        trackTopography = this.trackTopography;
 
         trackP1=this.stripePositions.trackP1;
         trackP2=this.stripePositions.trackP2;
@@ -370,7 +393,8 @@ define(function (require, exports, module) {
         vehicleIndex = this.vehicleImgIndex;
         showOfficialLogo = this.showOfficialLogo;
 
-        trackJSON = require("text!widgets/car/configurations/track-straight.json");
+        // trackJSON = require("text!widgets/car/configurations/track-straight.json");
+        trackJSON = require("text!widgets/car/configurations/track-curves-slopes.json");
         spritesheetJSON = require("text!widgets/car/configurations/spritesheet.json");        
 
         this.div = d3.select(this.parent)
@@ -1942,11 +1966,16 @@ define(function (require, exports, module) {
         
         // Render the track
         let absoluteIndex = Math.floor(controllable_car.position / trackSegmentSize);
-       
+        
         if(absoluteIndex >= numIterations-render.depthOfField-1){
             if(currentLapNumber<lapNumber){
                 currentLapNumber++;
-                controllable_car.position=10;
+                if(trackTopography==="straight"){
+                    controllable_car.position=10;
+                }else if(trackTopography==="curves-slopes"){
+                    // TODO
+                    controllable_car.position = -10;
+                }
             }else{
                 clearInterval(simulatorInterval);
                 Arcade.prototype.drawText("Simulation Ended!", {x: 90, y: 40}, 1);

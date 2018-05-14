@@ -100,6 +100,7 @@ require([
             trackFilename: "track", // defines track configuration filename, which is "track.json" by default
             spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
+            trackTopography: "curves-slopes", // "straight", // defines initial position after ending 1 lap (restart position in another lap).
             realisticImgs: false,
             vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
             vehicleImgIndex: 2, // defines vehicle sprite image suffix 
