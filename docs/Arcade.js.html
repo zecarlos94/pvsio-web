@@ -211,7 +211,32 @@ define(function (require, exports, module) {
     let trackParam=null;
     let trackSegmentSize=null;
     let numIterations=null;
-
+    let trackP1=null;
+    let trackP2=null;
+    let borderWidth=null;
+    let inOutBorderWidth=null;
+    let landscapeOutBorderWidth=null;
+    let diffTrackBorder=null;
+    let borderP1=null;
+    let borderP2=null;
+    let inBorderP1=null;
+    let inBorderP2=null;
+    let outBorderP1=null;
+    let outBorderP2=null;
+    let landscapeOutBorderP1=null;
+    let landscapeOutBorderP2=null;
+    let finishLineP1=null;
+    let finishLineP2=null;
+    let diffLanesFinishLine=null;
+    let laneP1=null;
+    let laneP2=null;
+    let laneP3=null;
+    let laneP4=null;
+    let laneP5=null;
+    let laneP6=null;
+    let laneP7=null;
+    let laneP8=null;
+    
     /* 
     * Start of Arcade Global Variables 
     */
@@ -287,6 +312,9 @@ define(function (require, exports, module) {
      *          &lt;li>vehicleImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the vehicle image (front, left side, right side) (default is null).&lt;/li>
      *          &lt;li>logoImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the logo image (default is null).&lt;/li>
      *          &lt;li>backgroundImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the background image (default is null).&lt;/li>
+     *          &lt;li>realisticImgs {Bool}: value that indicates if the sprite of the vehicle to be used is a realistic image or if it is a pixelated image as in arcade games (default is "false").&lt;/li>
+     *          &lt;li>vehicle {String}: the type of vehicle to be used in the simulation. The types available are ["airplane", "bicycle", "car", "helicopter", "motorbike"]. It should be noted that these types must exist in the spritesheet if they are to be used. (default is "car").&lt;/li>
+     *          &lt;li>stripePositions {Object}: position values and respective widths (borders, track and finish line) to be rendered on a stripe. (default is { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 }).&lt;/li>
      * @returns {Arcade} The created instance of the widget Arcade.
      * @memberof module:Arcade
      * @instance
@@ -303,6 +331,7 @@ define(function (require, exports, module) {
         opt.backgroundImgIndex = opt.backgroundImgIndex;
         opt.realisticImgs = opt.realisticImgs;
         opt.vehicle = opt.vehicle;
+        opt.stripePositions = opt.stripePositions;
 
         this.id = id;
         this.top = coords.top || 100;
@@ -319,6 +348,34 @@ define(function (require, exports, module) {
         this.backgroundImgIndex = (opt.backgroundImgIndex) ? opt.backgroundImgIndex : null;
         this.realisticImgs = (opt.realisticImgs) ? opt.realisticImgs : false;
         this.vehicle = (opt.vehicle) ? opt.vehicle : "car"; // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
+        this.stripePositions = (opt.stripePositions) ? opt.stripePositions : { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 };
+
+        trackP1=this.stripePositions.trackP1;
+        trackP2=this.stripePositions.trackP2;
+        borderWidth=this.stripePositions.borderWidth;
+        inOutBorderWidth=this.stripePositions.inOutBorderWidth;
+        landscapeOutBorderWidth=this.stripePositions.landscapeOutBorderWidth;
+        diffTrackBorder=this.stripePositions.diffTrackBorder;
+        borderP1=trackP1-diffTrackBorder;
+        borderP2=trackP1-diffTrackBorder+borderWidth;
+        inBorderP1=borderP2;
+        inBorderP2=borderP2+inOutBorderWidth;
+        outBorderP1=borderP1;
+        outBorderP2=borderP1-inOutBorderWidth;
+        landscapeOutBorderP1=outBorderP2-landscapeOutBorderWidth;
+        landscapeOutBorderP2=outBorderP2;
+
+        finishLineP1=this.stripePositions.finishLineP1;
+        finishLineP2=this.stripePositions.finishLineP2;
+        diffLanesFinishLine=this.stripePositions.diffLanesFinishLine;
+        laneP1=finishLineP1;
+        laneP2=finishLineP1+diffLanesFinishLine;
+        laneP3=laneP2+diffLanesFinishLine;
+        laneP4=laneP3+diffLanesFinishLine;
+        laneP5=laneP4+diffLanesFinishLine;
+        laneP6=laneP5+diffLanesFinishLine;
+        laneP7=laneP6+diffLanesFinishLine;
+        laneP8=laneP7+diffLanesFinishLine;
 
         vehicleType = this.vehicle;
         vehicleRealistic = this.realisticImgs;
@@ -1370,31 +1427,31 @@ define(function (require, exports, module) {
             context.fillRect(0,position2,render.width,(position1-position2));
 
             // draw the track
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.5, 0.5, "#fff");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, trackP1, trackP2, "#fff");
 
             //draw the track border
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.55, -0.47, border);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.47,   0.55, border);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, borderP1, borderP2, border);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -borderP2, -borderP1, border);
 
             //draw the track outborder dark green
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.47, -0.45, outborder_end);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.70, -0.57, outborder);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.57, -0.55, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, inBorderP1, inBorderP2, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, landscapeOutBorderP1, landscapeOutBorderP2, outborder);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, outBorderP2, outBorderP1, outborder_end);
 
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.55,   0.57, outborder_end);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.57,   0.70, outborder);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.47,   0.45, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -inBorderP2, -inBorderP1, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -landscapeOutBorderP2, -landscapeOutBorderP1, outborder);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -outBorderP1, -outBorderP2, outborder_end);
 
-            // draw the lane line
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.40, -0.35, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.30, -0.25, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.20, -0.15, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.10, -0.05, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.05, 0, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.15, 0.10, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.25, 0.20, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.35, 0.30, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.45, 0.40, "#000");
+            // // draw the lane line
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, laneP1, laneP2, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, laneP3, laneP4, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, laneP5, laneP6, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, laneP7, laneP8, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -laneP8, 0, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -laneP6, -laneP7, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -laneP4, -laneP5, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -laneP2, -laneP3, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -laneP1+diffLanesFinishLine, -laneP1, "#000");
 
             // draw arrow or guiding line
             // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, laneArrow);
@@ -1415,20 +1472,20 @@ define(function (require, exports, module) {
             context.fillRect(0,position2,render.width,(position1-position2));
 
             // draw the track
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.5, 0.5, track_segment);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, trackP1, trackP2, track_segment);
 
             //draw the track border
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.55, -0.47, border);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.47,   0.55, border);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, borderP1, borderP2, border);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -borderP2, -borderP1, border);
 
             //draw the track outborder dark green
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.47, -0.45, outborder_end);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.70, -0.57, outborder);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.57, -0.55, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, inBorderP1, inBorderP2, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, landscapeOutBorderP1, landscapeOutBorderP2, outborder);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, outBorderP2, outBorderP1, outborder_end);
 
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.55,   0.57, outborder_end);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.57,   0.70, outborder);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.47,   0.45, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -inBorderP2, -inBorderP1, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -landscapeOutBorderP2, -landscapeOutBorderP1, outborder);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -outBorderP1, -outBorderP2, outborder_end);
 
             // draw the lane line
             Arcade.prototype.drawLanes(position1, scale1, offset1, position2, scale2, offset2, lane, numLanes, laneWidth);
@@ -1495,47 +1552,90 @@ define(function (require, exports, module) {
         controllable_car.speed = Math.min(controllable_car.speed, controllable_car.maxSpeed); //maximum speed
         controllable_car.position += controllable_car.speed;
         let carSprite;
-        let vehicleXPosition;        
-        let vehicleYPosition;
+        let vehicleXFrontPosition;        
+        let vehicleYFrontPosition;
+
+        let vehicleXLeftPosition;        
+        let vehicleYLeftPosition;
+
+        let vehicleXRightPosition;        
+        let vehicleYRightPosition;
+
         switch (vehicleType) {
             case "airplane":
                 if(vehicleIndex===2){
-                    vehicleXPosition = 50;
-                    vehicleYPosition = 110;
+                    vehicleXFrontPosition = 50;
+                    vehicleYFrontPosition = 110;
+                    vehicleXLeftPosition= 50;        
+                    vehicleYLeftPosition= 70;
+                    vehicleXRightPosition= 50;        
+                    vehicleYRightPosition= 70;
                 }else{
-                    vehicleXPosition = 110;
-                    vehicleYPosition = 100;
+                    vehicleXFrontPosition = 110;
+                    vehicleYFrontPosition = 100;
+                    vehicleXLeftPosition= 110;        
+                    vehicleYLeftPosition= 100;
+                    vehicleXRightPosition= 110;        
+                    vehicleYRightPosition= 100;
                 }
                 break;
             case "bicycle":
                 if(vehicleRealistic){
-                    vehicleXPosition = 135;
-                    vehicleYPosition = 160;
+                    vehicleXFrontPosition = 135;
+                    vehicleYFrontPosition = 160;
+                    vehicleXLeftPosition= 135;        
+                    vehicleYLeftPosition= 160;
+                    vehicleXRightPosition= 135;        
+                    vehicleYRightPosition= 160;
                 }else{
-                    vehicleXPosition = 140;
-                    vehicleYPosition = 175;
+                    vehicleXFrontPosition = 140;
+                    vehicleYFrontPosition = 175;
+                    vehicleXLeftPosition= 140;        
+                    vehicleYLeftPosition= 175;
+                    vehicleXRightPosition= 140;        
+                    vehicleYRightPosition= 175;
                 }
                 break;
             case "car":
                 if(vehicleRealistic){
-                    vehicleXPosition = 125;
-                    vehicleYPosition = 180;
+                    vehicleXFrontPosition = 125;
+                    vehicleYFrontPosition = 180;
+                    vehicleXLeftPosition= 125;        
+                    vehicleYLeftPosition= 180;
+                    vehicleXRightPosition= 125;        
+                    vehicleYRightPosition= 180;
                 }else{
-                    vehicleXPosition = 125;
-                    vehicleYPosition = 190;
+                    vehicleXFrontPosition = 125;
+                    vehicleYFrontPosition = 190;
+                    vehicleXLeftPosition= 125;        
+                    vehicleYLeftPosition= 190;
+                    vehicleXRightPosition= 125;        
+                    vehicleYRightPosition= 190;
                 }
                 break;
             case "helicopter":
-                vehicleXPosition = 100;
-                vehicleYPosition = 90;
+                vehicleXFrontPosition = 100;
+                vehicleYFrontPosition = 90;
+                vehicleXLeftPosition= 70;        
+                vehicleYLeftPosition= 60;
+                vehicleXRightPosition= 70;        
+                vehicleYRightPosition= 60;
                 break;
             case "motorbike":
                 if(vehicleRealistic){
-                    vehicleXPosition = 130;
-                    vehicleYPosition = 160;
+                    vehicleXFrontPosition = 130;
+                    vehicleYFrontPosition = 160;
+                    vehicleXLeftPosition= 130;        
+                    vehicleYLeftPosition= 160;
+                    vehicleXRightPosition= 130;        
+                    vehicleYRightPosition= 160;
                 }else{
-                    vehicleXPosition = 150;
-                    vehicleYPosition = 175;
+                    vehicleXFrontPosition = 150;
+                    vehicleYFrontPosition = 175;
+                    vehicleXLeftPosition= 120;        
+                    vehicleYLeftPosition= 175;
+                    vehicleXRightPosition= 140;        
+                    vehicleYRightPosition= 175;
                 }
                 break;
         }
@@ -1549,8 +1649,8 @@ define(function (require, exports, module) {
             }
             carSprite = {
                 car: car_faced_left,
-                x: vehicleXPosition,
-                y: vehicleYPosition
+                x: vehicleXLeftPosition,
+                y: vehicleYLeftPosition
             };
         } else if (keys[39]) {
             // 39 right
@@ -1560,15 +1660,15 @@ define(function (require, exports, module) {
             }
             carSprite = {
                 car: car_faced_right,
-                x: vehicleXPosition,
-                y: vehicleYPosition
+                x: vehicleXRightPosition,
+                y: vehicleYRightPosition
             };
         } else {
             carCurrentDirection = "front";
             carSprite = {
                 car: car_faced_front,
-                x: vehicleXPosition,
-                y: vehicleYPosition
+                x: vehicleXFrontPosition,
+                y: vehicleYFrontPosition
             };
         }
         return carSprite;
@@ -1831,7 +1931,7 @@ define(function (require, exports, module) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun May 13 2018 13:19:18 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon May 14 2018 10:58:07 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

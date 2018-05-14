@@ -105,6 +105,17 @@ require([
             vehicleImgIndex: 2, // defines vehicle sprite image suffix 
             // logoImgIndex: 1, // defines logo sprite image suffix 
             // backgroundImgIndex: 1, // defines background sprite image suffix 
+            stripePositions: {
+                trackP1: -0.50,
+                trackP2: 0.50,
+                borderWidth: 0.08,
+                inOutBorderWidth: 0.02,
+                landscapeOutBorderWidth: 0.13,
+                diffTrackBorder: 0.05,
+                finishLineP1: -0.40,
+                finishLineP2: 0.40,
+                diffLanesFinishLine: 0.05
+            },
             callback: onMessageReceived
         });
 

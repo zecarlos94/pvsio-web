@@ -183,7 +183,32 @@ define(function (require, exports, module) {
     let trackParam=null;
     let trackSegmentSize=null;
     let numIterations=null;
-
+    let trackP1=null;
+    let trackP2=null;
+    let borderWidth=null;
+    let inOutBorderWidth=null;
+    let landscapeOutBorderWidth=null;
+    let diffTrackBorder=null;
+    let borderP1=null;
+    let borderP2=null;
+    let inBorderP1=null;
+    let inBorderP2=null;
+    let outBorderP1=null;
+    let outBorderP2=null;
+    let landscapeOutBorderP1=null;
+    let landscapeOutBorderP2=null;
+    let finishLineP1=null;
+    let finishLineP2=null;
+    let diffLanesFinishLine=null;
+    let laneP1=null;
+    let laneP2=null;
+    let laneP3=null;
+    let laneP4=null;
+    let laneP5=null;
+    let laneP6=null;
+    let laneP7=null;
+    let laneP8=null;
+    
     /* 
     * Start of Arcade Global Variables 
     */
@@ -259,6 +284,9 @@ define(function (require, exports, module) {
      *          <li>vehicleImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the vehicle image (front, left side, right side) (default is null).</li>
      *          <li>logoImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the logo image (default is null).</li>
      *          <li>backgroundImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the background image (default is null).</li>
+     *          <li>realisticImgs {Bool}: value that indicates if the sprite of the vehicle to be used is a realistic image or if it is a pixelated image as in arcade games (default is "false").</li>
+     *          <li>vehicle {String}: the type of vehicle to be used in the simulation. The types available are ["airplane", "bicycle", "car", "helicopter", "motorbike"]. It should be noted that these types must exist in the spritesheet if they are to be used. (default is "car").</li>
+     *          <li>stripePositions {Object}: position values and respective widths (borders, track and finish line) to be rendered on a stripe. (default is { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 }).</li>
      * @returns {Arcade} The created instance of the widget Arcade.
      * @memberof module:Arcade
      * @instance
@@ -275,6 +303,7 @@ define(function (require, exports, module) {
         opt.backgroundImgIndex = opt.backgroundImgIndex;
         opt.realisticImgs = opt.realisticImgs;
         opt.vehicle = opt.vehicle;
+        opt.stripePositions = opt.stripePositions;
 
         this.id = id;
         this.top = coords.top || 100;
@@ -291,6 +320,34 @@ define(function (require, exports, module) {
         this.backgroundImgIndex = (opt.backgroundImgIndex) ? opt.backgroundImgIndex : null;
         this.realisticImgs = (opt.realisticImgs) ? opt.realisticImgs : false;
         this.vehicle = (opt.vehicle) ? opt.vehicle : "car"; // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
+        this.stripePositions = (opt.stripePositions) ? opt.stripePositions : { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 };
+
+        trackP1=this.stripePositions.trackP1;
+        trackP2=this.stripePositions.trackP2;
+        borderWidth=this.stripePositions.borderWidth;
+        inOutBorderWidth=this.stripePositions.inOutBorderWidth;
+        landscapeOutBorderWidth=this.stripePositions.landscapeOutBorderWidth;
+        diffTrackBorder=this.stripePositions.diffTrackBorder;
+        borderP1=trackP1-diffTrackBorder;
+        borderP2=trackP1-diffTrackBorder+borderWidth;
+        inBorderP1=borderP2;
+        inBorderP2=borderP2+inOutBorderWidth;
+        outBorderP1=borderP1;
+        outBorderP2=borderP1-inOutBorderWidth;
+        landscapeOutBorderP1=outBorderP2-landscapeOutBorderWidth;
+        landscapeOutBorderP2=outBorderP2;
+
+        finishLineP1=this.stripePositions.finishLineP1;
+        finishLineP2=this.stripePositions.finishLineP2;
+        diffLanesFinishLine=this.stripePositions.diffLanesFinishLine;
+        laneP1=finishLineP1;
+        laneP2=finishLineP1+diffLanesFinishLine;
+        laneP3=laneP2+diffLanesFinishLine;
+        laneP4=laneP3+diffLanesFinishLine;
+        laneP5=laneP4+diffLanesFinishLine;
+        laneP6=laneP5+diffLanesFinishLine;
+        laneP7=laneP6+diffLanesFinishLine;
+        laneP8=laneP7+diffLanesFinishLine;
 
         vehicleType = this.vehicle;
         vehicleRealistic = this.realisticImgs;
@@ -1342,31 +1399,31 @@ define(function (require, exports, module) {
             context.fillRect(0,position2,render.width,(position1-position2));
 
             // draw the track
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.5, 0.5, "#fff");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, trackP1, trackP2, "#fff");
 
             //draw the track border
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.55, -0.47, border);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.47,   0.55, border);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, borderP1, borderP2, border);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -borderP2, -borderP1, border);
 
             //draw the track outborder dark green
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.47, -0.45, outborder_end);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.70, -0.57, outborder);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.57, -0.55, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, inBorderP1, inBorderP2, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, landscapeOutBorderP1, landscapeOutBorderP2, outborder);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, outBorderP2, outBorderP1, outborder_end);
 
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.55,   0.57, outborder_end);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.57,   0.70, outborder);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.47,   0.45, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -inBorderP2, -inBorderP1, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -landscapeOutBorderP2, -landscapeOutBorderP1, outborder);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -outBorderP1, -outBorderP2, outborder_end);
 
-            // draw the lane line
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.40, -0.35, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.30, -0.25, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.20, -0.15, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.10, -0.05, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.05, 0, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.15, 0.10, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.25, 0.20, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.35, 0.30, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.45, 0.40, "#000");
+            // // draw the lane line
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, laneP1, laneP2, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, laneP3, laneP4, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, laneP5, laneP6, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, laneP7, laneP8, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -laneP8, 0, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -laneP6, -laneP7, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -laneP4, -laneP5, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -laneP2, -laneP3, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -laneP1+diffLanesFinishLine, -laneP1, "#000");
 
             // draw arrow or guiding line
             // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, laneArrow);
@@ -1387,20 +1444,20 @@ define(function (require, exports, module) {
             context.fillRect(0,position2,render.width,(position1-position2));
 
             // draw the track
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.5, 0.5, track_segment);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, trackP1, trackP2, track_segment);
 
             //draw the track border
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.55, -0.47, border);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.47,   0.55, border);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, borderP1, borderP2, border);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -borderP2, -borderP1, border);
 
             //draw the track outborder dark green
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.47, -0.45, outborder_end);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.70, -0.57, outborder);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.57, -0.55, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, inBorderP1, inBorderP2, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, landscapeOutBorderP1, landscapeOutBorderP2, outborder);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, outBorderP2, outBorderP1, outborder_end);
 
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.55,   0.57, outborder_end);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.57,   0.70, outborder);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, 0.47,   0.45, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -inBorderP2, -inBorderP1, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -landscapeOutBorderP2, -landscapeOutBorderP1, outborder);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -outBorderP1, -outBorderP2, outborder_end);
 
             // draw the lane line
             Arcade.prototype.drawLanes(position1, scale1, offset1, position2, scale2, offset2, lane, numLanes, laneWidth);

@@ -399,7 +399,10 @@
          <li>spritesFiles {Array}: array with spritesheets(images) names (default is ["spritesheet","spritesheet.text"]).</li>
          <li>vehicleImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the vehicle image (front, left side, right side) (default is null).</li>
          <li>logoImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the logo image (default is null).</li>
-         <li>backgroundImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the background image (default is null).</li></td>
+         <li>backgroundImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the background image (default is null).</li>
+         <li>realisticImgs {Bool}: value that indicates if the sprite of the vehicle to be used is a realistic image or if it is a pixelated image as in arcade games (default is "false").</li>
+         <li>vehicle {String}: the type of vehicle to be used in the simulation. The types available are ["airplane", "bicycle", "car", "helicopter", "motorbike"]. It should be noted that these types must exist in the spritesheet if they are to be used. (default is "car").</li>
+         <li>stripePositions {Object}: position values and respective widths (borders, track and finish line) to be rendered on a stripe. (default is { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 }).</li></td>
         </tr>
 
     
@@ -440,7 +443,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line247">line 247</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -548,7 +551,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1736">line 1736</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1836">line 1836</a>
     </li></ul></dd>
     
 
@@ -820,7 +823,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1068">line 1068</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1125">line 1125</a>
     </li></ul></dd>
     
 
@@ -1119,7 +1122,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1150">line 1150</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1207">line 1207</a>
     </li></ul></dd>
     
 
@@ -1418,7 +1421,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1105">line 1105</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1162">line 1162</a>
     </li></ul></dd>
     
 
@@ -1575,7 +1578,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1256">line 1256</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1313">line 1313</a>
     </li></ul></dd>
     
 
@@ -1916,7 +1919,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line934">line 934</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line991">line 991</a>
     </li></ul></dd>
     
 
@@ -2257,7 +2260,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line904">line 904</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line961">line 961</a>
     </li></ul></dd>
     
 
@@ -2554,7 +2557,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1319">line 1319</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1376">line 1376</a>
     </li></ul></dd>
     
 
@@ -2895,7 +2898,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1227">line 1227</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1284">line 1284</a>
     </li></ul></dd>
     
 
@@ -3098,7 +3101,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line984">line 984</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1041">line 1041</a>
     </li></ul></dd>
     
 
@@ -3301,7 +3304,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line962">line 962</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1019">line 1019</a>
     </li></ul></dd>
     
 
@@ -3531,7 +3534,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1006">line 1006</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1063">line 1063</a>
     </li></ul></dd>
     
 
@@ -3761,7 +3764,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1037">line 1037</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1094">line 1094</a>
     </li></ul></dd>
     
 
@@ -4012,7 +4015,7 @@ an image, x, y and scale (sprite as a null argument). This allows to use render 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1197">line 1197</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1254">line 1254</a>
     </li></ul></dd>
     
 
@@ -4216,7 +4219,7 @@ That is, reading string and for each letter draw the corresponding sprite letter
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line883">line 883</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line940">line 940</a>
     </li></ul></dd>
     
 
@@ -4326,7 +4329,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line616">line 616</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line673">line 673</a>
     </li></ul></dd>
     
 
@@ -4476,7 +4479,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line596">line 596</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line653">line 653</a>
     </li></ul></dd>
     
 
@@ -4562,7 +4565,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1759">line 1759</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1859">line 1859</a>
     </li></ul></dd>
     
 
@@ -4719,7 +4722,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line676">line 676</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line733">line 733</a>
     </li></ul></dd>
     
 
@@ -4827,7 +4830,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1778">line 1778</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1878">line 1878</a>
     </li></ul></dd>
     
 
@@ -4913,7 +4916,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1549">line 1549</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1649">line 1649</a>
     </li></ul></dd>
     
 
@@ -5022,7 +5025,7 @@ It is also initialized the new lap timer, using jchronometer lib, as soon as the
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line823">line 823</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line880">line 880</a>
     </li></ul></dd>
     
 
@@ -5131,7 +5134,7 @@ It is also initialized the lap timer, using jchronometer lib, as soon as the use
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line703">line 703</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line760">line 760</a>
     </li></ul></dd>
     
 
@@ -5240,7 +5243,7 @@ It is also resumed the lap timer, using jchronometer lib, as soon as the user us
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line774">line 774</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line831">line 831</a>
     </li></ul></dd>
     
 
@@ -5348,7 +5351,7 @@ It is also resumed the lap timer, using jchronometer lib, as soon as the user us
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line606">line 606</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line663">line 663</a>
     </li></ul></dd>
     
 
@@ -5669,7 +5672,7 @@ offer alternate colors. This is used, for instance, to render the track separato
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1290">line 1290</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1347">line 1347</a>
     </li></ul></dd>
     
 
@@ -5851,7 +5854,7 @@ those two segments have during the simulation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1273">line 1273</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1330">line 1330</a>
     </li></ul></dd>
     
 
@@ -5959,7 +5962,7 @@ those two segments have during the simulation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1424">line 1424</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1481">line 1481</a>
     </li></ul></dd>
     
 
@@ -6032,7 +6035,7 @@ That is, returns the new state after the action performed by the user (accelerat
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun May 13 2018 13:19:18 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon May 14 2018 10:58:07 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>
