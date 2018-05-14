@@ -353,7 +353,7 @@ define(function (require, exports, module) {
                     obstacle.forEach((element) => {
                         let index = spritesAvailable.findIndex(el => el.name === element);
                         // console.log(index);
-                        // each 50 iterations a new obstacle is placed within the generatedTrack
+                        // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
                         // console.log(spritePosgeneratedObstaclesRandom);
                         generatedObstacles.push(spritePosgeneratedObstaclesRandom);
                         // spritePosgeneratedObstaclesRandom has the relative position of the obstacle
@@ -550,7 +550,7 @@ define(function (require, exports, module) {
                     }
                 }
                 else if(i%obstaclePerIteration==0){
-                    // each 50 iterations a new obstacle is placed within the generatedTrack
+                    // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
 
                     // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
                     chooseIndexFromObstacle = Math.floor((randomPos() * objects.length));
