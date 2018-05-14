@@ -158,6 +158,7 @@ define(function (require, exports, module) {
 
     let currentBrowser = { chrome: false, mozilla: false, opera: false, msie: false, safari: false};
 
+    let simulatorLogo1,simulatorLogo2;
     let spritesheetsImages = [];
     let realPrefix="";
     let readSprite=false;
@@ -167,7 +168,7 @@ define(function (require, exports, module) {
     let carCurrentDirection = "front";
 
     // Coordinates of first blue car in spritesheet, Coordinates of second blue car in spritesheet, Coordinates of third blue car in spritesheet, Coordinates of first red car in spritesheet, Coordinates of second red car in spritesheet, Coordinates of third red car in spritesheet, Coordinates of background in spritesheet, Coordinates of tree in spritesheet, Coordinates of boulder in spritesheet, Coordinates of logo in spritesheet
-    let car_faced_front, car_faced_left, car_faced_right, background, logo;
+    let vehicle_faced_front, vehicle_faced_left, vehicle_faced_right, background, logo;
     let spritesAvailable=[];
 
     // Information regarding the rendering process (what users will see/how the game is viewed)
@@ -212,6 +213,9 @@ define(function (require, exports, module) {
     /* 
     * Start of Arcade Global Variables 
     */
+
+    // Information regarding the visibility of the official logo
+    let showOfficialLogo;
 
     //  Information regarding the canvas
     let canvas;
@@ -304,6 +308,7 @@ define(function (require, exports, module) {
         opt.realisticImgs = opt.realisticImgs;
         opt.vehicle = opt.vehicle;
         opt.stripePositions = opt.stripePositions;
+        opt.showOfficialLogo = opt.showOfficialLogo;
 
         this.id = id;
         this.top = coords.top || 100;
@@ -321,6 +326,7 @@ define(function (require, exports, module) {
         this.realisticImgs = (opt.realisticImgs) ? opt.realisticImgs : false;
         this.vehicle = (opt.vehicle) ? opt.vehicle : "car"; // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
         this.stripePositions = (opt.stripePositions) ? opt.stripePositions : { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 };
+        this.showOfficialLogo = (opt.showOfficialLogo) ? opt.showOfficialLogo : false;
 
         trackP1=this.stripePositions.trackP1;
         trackP2=this.stripePositions.trackP2;
@@ -352,6 +358,7 @@ define(function (require, exports, module) {
         vehicleType = this.vehicle;
         vehicleRealistic = this.realisticImgs;
         vehicleIndex = this.vehicleImgIndex;
+        showOfficialLogo = this.showOfficialLogo;
 
         trackJSON = require("text!widgets/car/configurations/track-straight.json");
         spritesheetJSON = require("text!widgets/car/configurations/spritesheet.json");        
@@ -477,13 +484,13 @@ define(function (require, exports, module) {
                     logo = spritesAvailable[k].value;
                 }
                 if(spritesAvailable[k].name.match(frontRegex)){
-                    car_faced_front = spritesAvailable[k].value;
+                    vehicle_faced_front = spritesAvailable[k].value;
                 }
                 if(spritesAvailable[k].name.match(leftRegex)){
-                    car_faced_left = spritesAvailable[k].value;
+                    vehicle_faced_left = spritesAvailable[k].value;
                 }
                 if(spritesAvailable[k].name.match(rightRegex)){
-                    car_faced_right = spritesAvailable[k].value;
+                    vehicle_faced_right = spritesAvailable[k].value;
                 }
             } 
           
@@ -531,7 +538,7 @@ define(function (require, exports, module) {
                 }    
             }  
 
-            if(car_faced_front===undefined || car_faced_left===undefined || car_faced_right===undefined){
+            if(vehicle_faced_front===undefined || vehicle_faced_left===undefined || vehicle_faced_right===undefined){
                 if(this.realisticImgs){ 
                     if(this.vehicleImgIndex!==null){ // Realistic image with index does not exist
                         frontRegex      = new RegExp("^"+realPrefix+this.vehicle+"_faced_front$");
@@ -555,17 +562,17 @@ define(function (require, exports, module) {
                         value:spritesReadJSON.frames[k].frame
                     };
                     if(spritesAvailable[k].name.match(frontRegex)){
-                        car_faced_front = spritesAvailable[k].value;
+                        vehicle_faced_front = spritesAvailable[k].value;
                     }
                     if(spritesAvailable[k].name.match(leftRegex)){
-                        car_faced_left = spritesAvailable[k].value;
+                        vehicle_faced_left = spritesAvailable[k].value;
                     }
                     if(spritesAvailable[k].name.match(rightRegex)){
-                        car_faced_right = spritesAvailable[k].value;
+                        vehicle_faced_right = spritesAvailable[k].value;
                     }
                 } 
             }
-            if(background!==undefined && logo!==undefined && car_faced_front!==undefined && car_faced_left!==undefined && car_faced_right!==undefined){
+            if(background!==undefined && logo!==undefined && vehicle_faced_front!==undefined && vehicle_faced_left!==undefined && vehicle_faced_right!==undefined){
                 readSprite=true;  
             }else{
                 for(let k=0;k<spritesReadJSON.frames.length;k++){
@@ -581,57 +588,57 @@ define(function (require, exports, module) {
                     }
                     if(this.vehicle==="airplane"){
                         if(spritesAvailable[k].name.match(/^airplane_faced_front$/)){
-                            car_faced_front = spritesAvailable[k].value;
+                            vehicle_faced_front = spritesAvailable[k].value;
                         }
                         if(spritesAvailable[k].name.match(/^airplane_faced_left$/)){
-                            car_faced_left = spritesAvailable[k].value;
+                            vehicle_faced_left = spritesAvailable[k].value;
                         }
                         if(spritesAvailable[k].name.match(/^airplane_faced_right$/)){
-                            car_faced_right = spritesAvailable[k].value;
+                            vehicle_faced_right = spritesAvailable[k].value;
                         }
                     }
                     else if(this.vehicle==="bicycle"){
                         if(spritesAvailable[k].name.match(/^bicycle_faced_front$/)){
-                            car_faced_front = spritesAvailable[k].value;
+                            vehicle_faced_front = spritesAvailable[k].value;
                         }
                         if(spritesAvailable[k].name.match(/^bicycle_faced_left$/)){
-                            car_faced_left = spritesAvailable[k].value;
+                            vehicle_faced_left = spritesAvailable[k].value;
                         }
                         if(spritesAvailable[k].name.match(/^bicycle_faced_right$/)){
-                            car_faced_right = spritesAvailable[k].value;
+                            vehicle_faced_right = spritesAvailable[k].value;
                         }
                     }
                     else if(this.vehicle==="car") {
                         if(spritesAvailable[k].name.match(/^car_faced_front$/)){
-                            car_faced_front = spritesAvailable[k].value;
+                            vehicle_faced_front = spritesAvailable[k].value;
                         }
                         if(spritesAvailable[k].name.match(/^car_faced_left$/)){
-                            car_faced_left = spritesAvailable[k].value;
+                            vehicle_faced_left = spritesAvailable[k].value;
                         }
                         if(spritesAvailable[k].name.match(/^car_faced_right$/)){
-                            car_faced_right = spritesAvailable[k].value;
+                            vehicle_faced_right = spritesAvailable[k].value;
                         }
                     }
                     else if(this.vehicle==="helicopter"){
                         if(spritesAvailable[k].name.match(/^helicopter_faced_front$/)){
-                            car_faced_front = spritesAvailable[k].value;
+                            vehicle_faced_front = spritesAvailable[k].value;
                         }
                         if(spritesAvailable[k].name.match(/^helicopter_faced_left$/)){
-                            car_faced_left = spritesAvailable[k].value;
+                            vehicle_faced_left = spritesAvailable[k].value;
                         }
                         if(spritesAvailable[k].name.match(/^helicopter_faced_right$/)){
-                            car_faced_right = spritesAvailable[k].value;
+                            vehicle_faced_right = spritesAvailable[k].value;
                         }
                     }
                     else if(this.vehicle==="motorbike"){
                         if(spritesAvailable[k].name.match(/^motorbike_faced_front$/)){
-                            car_faced_front = spritesAvailable[k].value;
+                            vehicle_faced_front = spritesAvailable[k].value;
                         }
                         if(spritesAvailable[k].name.match(/^motorbike_faced_left$/)){
-                            car_faced_left = spritesAvailable[k].value;
+                            vehicle_faced_left = spritesAvailable[k].value;
                         }
                         if(spritesAvailable[k].name.match(/^motorbike_faced_right$/)){
-                            car_faced_right = spritesAvailable[k].value;
+                            vehicle_faced_right = spritesAvailable[k].value;
                         }
                     }
                 }
@@ -741,6 +748,13 @@ define(function (require, exports, module) {
     Arcade.prototype.onPageLoad = function (spritesFiles) {
         Arcade.prototype.detectBrowserType();
         Arcade.prototype.init();
+
+
+        simulatorLogo1 = new Image();
+        simulatorLogo1.src = "../../client/app/widgets/car/configurations/img/simulatorLogo1.png";
+
+        simulatorLogo2 = new Image();
+        simulatorLogo2.src = "../../client/app/widgets/car/configurations/img/simulatorLogo2.png";
 
         spritesFiles.forEach(function(el,index){
             spritesheetsImages[index] = new Image();
@@ -1488,7 +1502,7 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.updateControllableCar = function () {
 
-        if(car_faced_front===undefined || car_faced_left===undefined || car_faced_right===undefined){
+        if(vehicle_faced_front===undefined || vehicle_faced_left===undefined || vehicle_faced_right===undefined){
             console.log("Check if constructor args are correct!");
             console.log("Maybe Vehicle Image does not exist! Check Spritesheet image and Spritesheet.json");
             console.log("Vehicle Image Type and Realistic Image does not have a match");
@@ -1620,7 +1634,7 @@ define(function (require, exports, module) {
                 controllable_car.posx -= controllable_car.turning;
             }
             carSprite = {
-                car: car_faced_left,
+                car: vehicle_faced_left,
                 x: vehicleXLeftPosition,
                 y: vehicleYLeftPosition
             };
@@ -1631,18 +1645,81 @@ define(function (require, exports, module) {
                 controllable_car.posx += controllable_car.turning;
             }
             carSprite = {
-                car: car_faced_right,
+                car: vehicle_faced_right,
                 x: vehicleXRightPosition,
                 y: vehicleYRightPosition
             };
         } else {
             carCurrentDirection = "front";
             carSprite = {
-                car: car_faced_front,
+                car: vehicle_faced_front,
                 x: vehicleXFrontPosition,
                 y: vehicleYFrontPosition
             };
         }
+        return carSprite;
+    };
+
+    /**
+     * @function setControllableCarPosition
+     * @description SetControllableCarPosition method of the Arcade widget. This method updates the controllable car position and speed.
+     * @param {String} vehicleCurrentDirection the current vehicle direction, that allows to select the proper vehicle sprite(faced front, left or right).
+     * @param {Float} newSpeed the new value of speed.
+     * @param {Float} newPosition the new value of position.
+     * @param {Float} newPositionX the new value of posx.
+     * @param {Int} vehicleXPosition the X-coordinate of the sprite of the vehicle with vehicleCurrentDirection as its current direction.
+     * @param {Int} vehicleYPosition the Y-coordinate of the sprite of the vehicle with vehicleCurrentDirection as its current direction.
+     * @returns {carSprite} The created object with car sprite (image) and its X,Y coordinates, to be rendered after current position and speed has been changed.
+     * That is, returns the new state after the action performed by the user (acceleration, braking, change of direction).
+     * @instance
+     */
+    Arcade.prototype.setControllableCarPosition = function (vehicleCurrentDirection, newSpeed, newPosition, newPositionX, vehicleXPosition, vehicleYPosition) {
+
+        if(vehicle_faced_front===undefined || vehicle_faced_left===undefined || vehicle_faced_right===undefined){
+            console.log("Check if constructor args are correct!");
+            console.log("Maybe Vehicle Image does not exist! Check Spritesheet image and Spritesheet.json");
+            console.log("Vehicle Image Type and Realistic Image does not have a match");
+        }
+        
+        controllable_car.speed = Math.max(newSpeed, 0); //cannot go in reverse
+        controllable_car.speed = Math.min(newSpeed, controllable_car.maxSpeed); //maximum speed
+        // controllable_car.position += controllable_car.speed;
+        controllable_car.position = newPosition;
+        
+        let carSprite;
+
+        switch (vehicleCurrentDirection) {
+            case "left":
+                if(controllable_car.speed > 0){
+                    controllable_car.posx=newPositionX;
+                    // controllable_car.posx -= controllable_car.turning;
+                }
+                carSprite = {
+                    car: vehicle_faced_left,
+                    x: vehicleXPosition,
+                    y: vehicleYPosition
+                };
+                break;
+            case "right":
+                if(controllable_car.speed > 0){
+                    controllable_car.posx=newPositionX;
+                    // controllable_car.posx += controllable_car.turning;
+                }
+                carSprite = {
+                    car: vehicle_faced_right,
+                    x: vehicleXPosition,
+                    y: vehicleYPosition
+                }; 
+                break;
+            case "front":
+                carSprite = {
+                    car: vehicle_faced_front,
+                    x: vehicleXPosition,
+                    y: vehicleYPosition
+                };
+                break;
+        }
+
         return carSprite;
     };
     
@@ -1821,14 +1898,29 @@ define(function (require, exports, module) {
         Arcade.prototype.drawText("Lap "+currentLapNumber+"/"+lapNumber,{x: 10, y: 1}, 1);
         Arcade.prototype.drawText("Current Lap "+Math.round(absoluteIndex/(numIterations-render.depthOfField)*100)+"%",{x: 100, y: 1},1); 
          
+        if(currentLapNumber===lapNumber){
+            Arcade.prototype.drawText("1 Lap",{x: 10, y: 15}, 1);
+            Arcade.prototype.drawText("To Go",{x: 10, y: 25}, 1);
+        }
+
+        // Draw Virtual Speedometer
         let speed = Math.round(controllable_car.speed / controllable_car.maxSpeed * topSpeed);
         let speed_kmh = Math.round(speed * 1.60934);
         Arcade.prototype.drawText(""+speed_kmh+" kmh", {x: 260, y: 1}, 1);
         Arcade.prototype.drawText(""+speed+" mph", {x: 260, y: 10}, 1);
 
+        // Draw Lap Time
         let res = time[0].split("-");
         currentTimeString = res[0] + " h:" + time[1] + " m:" + time[2] + " s:" + time[3] + " ms";
         Arcade.prototype.drawText(currentTimeString, {x: 80, y: 15}, 1);
+
+        // Draw Simulator Logo
+        if(showOfficialLogo){
+            // context.drawImage(simulatorLogo1,15,215,0.6*60,0.6*32);
+            context.drawImage(simulatorLogo2,15,215,0.6*60,0.6*32);
+            // context.drawImage(simulatorLogo1,10,225,0.4*60,0.4*32);
+            // context.drawImage(simulatorLogo2,10,225,0.4*60,0.4*32);
+        }
 
         return this;
     };
