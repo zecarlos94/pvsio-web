@@ -138,6 +138,7 @@ require([
             topSpeed: 250,
             objects: ["tree","boulder"],
             obstacle: ["boulder"],
+            obstaclePerIteration: 50,
             trackLayout: [ 
                 // describing the desired track, which is 2 straight lines, followed by curve to left, straight line, 
                 // curve to right, straight line, 2 up slopes, curve to left, down slope, curve to right,

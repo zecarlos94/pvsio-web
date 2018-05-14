@@ -63,6 +63,7 @@
  *                  topSpeed: 250,
  *                  objects: ["tree","boulder"], // sprite names to be drawed in the landscape
  *                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
+ *                  obstaclePerIteration: 50, // each 50 iterations a new obstacle will be placed within the track
  *                  trackLayout: [ 
  *                       // describing the desired track, which is 2 straight lines, followed by curve to left, straight line, 
  *                       // curve to right, straight line, 2 up slopes, curve to left, down slope, curve to right,
@@ -174,6 +175,7 @@ define(function (require, exports, module) {
     let objects = [];
     let obstacle = [];
     let trackLayout = [];
+    let obstaclePerIteration;
 
     // Has the produced JSON.
     let generatedJSON;
@@ -199,7 +201,8 @@ define(function (require, exports, module) {
      *          <li>topSpeed {Int}: the maximum speed value that can be reached (default is 250).</li>
      *          <li>objects {Array}: the sprite names to be drawed in the landscape (default is ["tree","rock"]).</li>
      *          <li>obstacle {Array}: the sprite names to be drawed within the track as obstacles (default is ["rock"]).</li>
-     *          <li>obstacle {Array}: the track layout that will be used to create the corresponding segments. (default is []).</li>
+     *          <li>trackLayout {Array}: the track layout that will be used to create the corresponding segments. (default is []).</li>
+     *          <li>obstaclePerIteration {Int}: the number of iterations where a new obstacle will be placed within the track (default is 50).</li>
      * @returns {TrackGenerator} The created instance of the widget TrackGenerator.
      * @memberof module:TrackGenerator
      * @instance
@@ -221,6 +224,7 @@ define(function (require, exports, module) {
         opt.objects = opt.objects;
         opt.obstacle = opt.obstacle;
         opt.trackLayout = opt.trackLayout;
+        opt.obstaclePerIteration = opt.obstaclePerIteration;
 
         this.id = id;
         this.top = coords.top || 100;
@@ -241,6 +245,7 @@ define(function (require, exports, module) {
         objects  = (opt.objects) ? opt.objects : ["tree","boulder"];
         obstacle = (opt.obstacle) ? opt.obstacle : ["boulder"];
         trackLayout = (opt.trackLayout) ? opt.trackLayout : [];
+        obstaclePerIteration = (opt.obstaclePerIteration) ? opt.obstaclePerIteration : 50;
 
         console.log(trackLayout);
 
@@ -344,7 +349,7 @@ define(function (require, exports, module) {
             spritePosgeneratedObstaclesRandom = randomPos() - 0.5;
             
             if(spritesAvailable[spriteTypeRandom].name.match(/car[0-9]?/)===null && spritesAvailable[spriteTypeRandom].name.match(/background[0-9]?/)===null && spritesAvailable[spriteTypeRandom].name.match(/logo[0-9]?/)===null){
-                if(i%50===0){
+                if(i%obstaclePerIteration===0){
                     obstacle.forEach((element) => {
                         let index = spritesAvailable.findIndex(el => el.name === element);
                         // console.log(index);
@@ -395,7 +400,7 @@ define(function (require, exports, module) {
                 }
             }
         }
-    
+
         params.numZones = numIterations; 
 
         generatedJSON = {
@@ -452,10 +457,15 @@ define(function (require, exports, module) {
         let spritePosRightRandom = null;
         let spritePosLeftRandom =  null;
         let spriteTypeRandom = null;
+        let chooseIndexFromObjects=null;
+        let chooseObjectFromDesiredObjects=null;
+        let chooseIndexFromObstacle=null;
+        let chooseObstacleFromDesiredObstacle=null;
         let spriteSidesRandom = null;
         let slopesTransitionRandom = null;
         let curvesTransitionRandom = null;
         let spritesAvailableLength = spritesAvailable.length;
+        let index=null;
 
         let heightType = 0; //0=plain 1=up -1=down
         let slopesTransitions = {
@@ -506,6 +516,12 @@ define(function (require, exports, module) {
             for(let i=0; i < params.zoneSize; i++){
                 // generates random integer numbers between 0 and 100(there are 101 sprites available)
                 spriteTypeRandom = Math.floor((randomPos() * 101));
+
+                // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
+                chooseIndexFromObjects = Math.floor((randomPos() * objects.length));
+                chooseObjectFromDesiredObjects=objects[chooseIndexFromObjects];
+                index = spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects);
+
                 // generates random integer numbers between 1 and 2
                 spriteSidesRandom = Math.floor((randomPos() * 2) + 1);
     
@@ -526,19 +542,24 @@ define(function (require, exports, module) {
                     }
                     // console.log(spritePos);
                     if(randomPos() < 0.25){
-                        sprite = {type: spritesAvailable[spriteTypeRandom].value, pos: spritePos-0.5, obstacle: 0};
+                        sprite = {type: spritesAvailable[index].value, pos: spritePos-0.5, obstacle: 0};
                     } if(randomPos() < 0.5){
-                        sprite = {type: spritesAvailable[spriteTypeRandom].value, pos: spritePos, obstacle: 0};
+                        sprite = {type: spritesAvailable[index].value, pos: spritePos, obstacle: 0};
                     }else{
-                        sprite = {type: spritesAvailable[spriteTypeRandom].value, pos: 3*spritePos, obstacle: 0};
+                        sprite = {type: spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
                     }
                 }
-                else if(i%50==0){
+                else if(i%obstaclePerIteration==0){
                     // each 50 iterations a new obstacle is placed within the generatedTrack
+
+                    // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
+                    chooseIndexFromObstacle = Math.floor((randomPos() * objects.length));
+                    chooseObstacleFromDesiredObstacle=objects[chooseIndexFromObstacle];
+                    index = spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle);
                     // console.log(spritePosgeneratedObstaclesRandom);
                     generatedObstacles.push(spritePosgeneratedObstaclesRandom);
                     // spritePosgeneratedObstaclesRandom has the relative position of the obstacle
-                    sprite = {type: spritesAvailable[22].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
+                    sprite = {type: spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
                 }
                 else {
                     sprite = false;
