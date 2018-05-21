@@ -179,6 +179,8 @@ define(function (require, exports, module) {
     let Widget = require("widgets/Widget");
     let Sound = require("widgets/car/Sound");
 
+    let WIDGETSTATE = null;
+
     let spritesheetJSON;
     let trackJSON;
 
@@ -850,9 +852,9 @@ define(function (require, exports, module) {
                 Arcade.prototype.drawText("You can start now",{x: 110, y: 175}, 1);
                 Arcade.prototype.drawText("Credits:",{x: 145, y: 195}, 1);
                 Arcade.prototype.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
-                Arcade.prototype.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
-                
-                if(keys[32]){
+                Arcade.prototype.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);                
+
+                if(WIDGETSTATE!==null && WIDGETSTATE.action==="resume"){
                     clearInterval(splashInterval);
                     simulatorInterval = setInterval(Arcade.prototype.renderSimulatorFrame, 30);
                     soundWidget.reveal();
@@ -914,7 +916,7 @@ define(function (require, exports, module) {
         Arcade.prototype.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
         Arcade.prototype.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
 
-        if(keys[32]){
+        if(WIDGETSTATE!==null && WIDGETSTATE.action==="resume"){
             chronometer.start();
     
             clearInterval(splashInterval);
@@ -936,6 +938,7 @@ define(function (require, exports, module) {
                 ]);
             }
         }
+
         return this;
     };
     
@@ -963,7 +966,7 @@ define(function (require, exports, module) {
         Arcade.prototype.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
         Arcade.prototype.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
 
-        if(keys[32]){
+        if(WIDGETSTATE!==null && WIDGETSTATE.action==="resume"){
             clearInterval(splashInterval);
             clearInterval(simulatorInterval);
             controllable_car = {
@@ -1992,7 +1995,7 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.renderSimulatorFrame = function () {
 
-        if(keys[81]){ // Key 'q' ends current simulator
+        if(WIDGETSTATE!==null && WIDGETSTATE.action==="quit"){ // Key 'q' ends current simulator
             chronometer.stop();
             soundWidget.hide();
             clearInterval(simulatorInterval);
@@ -2000,7 +2003,7 @@ define(function (require, exports, module) {
             soundWidget.pauseAll();
         }
 
-        if(keys[83]){ // Key 's' pauses current simulator
+        if(WIDGETSTATE!==null && WIDGETSTATE.action==="pause"){ // Key 's' pauses current simulator
             chronometer.pause();
             soundWidget.hide();
             clearInterval(simulatorInterval);
@@ -2244,7 +2247,15 @@ define(function (require, exports, module) {
      * @memberof module:Arcade
      * @instance
      */
-    Arcade.prototype.render = function () {
+    Arcade.prototype.render = function (res) {
+        WIDGETSTATE = res;
+        // console.log("WIDGET STATE: "+JSON.stringify(WIDGETSTATE));
+        console.log(WIDGETSTATE);
+        // console.log(WIDGETSTATE.action);
+        // console.log(WIDGETSTATE.speed.val);
+        // console.log(WIDGETSTATE.rpm);
+        // console.log(WIDGETSTATE.steering);
+
         return this.reveal();
     };
 

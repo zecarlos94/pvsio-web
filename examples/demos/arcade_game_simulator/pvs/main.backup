@@ -1,0 +1,36 @@
+% ---------------------------------------------------------------
+%  Theory: arcade_simulator_demo
+%  Author: José Carlos
+%          Universidade do Minho
+% ---------------------------------------------------------------
+
+main: THEORY
+ BEGIN
+
+  Action: TYPE = { idle, start, stop }
+  
+  state: TYPE = [#
+    action: Action
+  #]
+
+  %-- initial state
+  init(x: real): state = (#
+    action := idle
+  #)
+    
+  start(st: state): state = (#
+    action := start
+  #)
+
+  stop(st: state): state = (#
+    action := stop
+  #)
+
+  %-- APIs
+  press_start(st: state): state = start(st) WITH [ action := start ]
+  release_start(st: state): state = st WITH [ action := idle ]
+
+  press_stop(st: state): state = stop(st) WITH [ action := stop ]
+  release_stop(st: state): state = st WITH [ action := idle ]
+
+END main

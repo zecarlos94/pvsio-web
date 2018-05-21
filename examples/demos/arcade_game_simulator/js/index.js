@@ -7,6 +7,7 @@
 require.config({
     baseUrl: "../../client/app",
     paths: {
+        "jquery-ui": "../lib/jquery-ui",
         d3: "../lib/d3",
         "pvsioweb": "plugins/prototypebuilder",
         "imagemapper": "../lib/imagemapper",
@@ -14,24 +15,38 @@ require.config({
         "lib": "../lib",
         "cm": "../lib/cm",
         stateParser: './util/PVSioStateParser',
+        "image-picker": "../lib/image-picker",
         jchronometer: '../lib/jchronometer/jchronometer.js'
     }
 });
 
 require([
-        "widgets/Button",
+        "widgets/car/ButtonExternalController",
         "widgets/TouchscreenButton",
         "widgets/TouchscreenDisplay",
         "widgets/BasicDisplay",
         "widgets/NumericDisplay",
         "widgets/LED",
+
+        // Added car components here
+        "widgets/car/Speedometer",
+        "widgets/car/Tachometer",
+        // "widgets/car/Shift",
+        // "widgets/car/Clock",
+        // "widgets/car/Thermometer",
+        "widgets/car/SteeringWheel",
+        "widgets/car/VirtualKeypadController",
+        "widgets/car/GamepadController",
+        "widgets/car/DrawGamepad",
+        "widgets/car/GyroscopeController",
+        "widgets/car/Customization",
         "widgets/car/Arcade",
 
         "widgets/ButtonActionsQueue",
         "stateParser",
         "PVSioWebClient"
     ], function (
-        Button,
+        ButtonExternalController,
         TouchscreenButton,
         TouchscreenDisplay,
         BasicDisplay,
@@ -39,6 +54,18 @@ require([
         LED,
 
         // Added Arcade Widget Components here
+        // Added car components here
+        Speedometer,
+        Tachometer,
+        // Shift,
+        // Clock,
+        // Thermometer,
+        SteeringWheel,
+        VirtualKeypadController,
+        GamepadController,
+        DrawGamepad,
+        GyroscopeController,
+        Customization,
         Arcade,
 
         ButtonActionsQueue,
@@ -68,7 +95,7 @@ require([
                 v = +args[0] / +args[1];
             }
             var ans = (v < 100) ? v.toFixed(1).toString() : v.toFixed(0).toString();
-            console.log(ans);
+            // console.log(ans);
             return parseFloat(ans);
         }
 
@@ -81,14 +108,61 @@ require([
                 var res = event.data.toString();
                 if (res.indexOf("(#") === 0) {
                     render(stateParser.parse(res));
-                    console.log(res);
+                    // console.log(res);
                 }
             } else {
-                console.log(err);
+                // console.log(err);
             }
         }
 
         var arcade = {};
+
+        // ----------------------------- DASHBOARD INTERACTION -----------------------------
+        arcade.up = new ButtonExternalController("accelerate", { width: 0, height: 0 }, {
+            callback: onMessageReceived,
+            evts: ['press/release'],
+            keyCode: 38 // key up
+        });
+        arcade.down = new ButtonExternalController("brake", { width: 0, height: 0 }, {
+            callback: onMessageReceived,
+            evts: ['press/release'],
+            keyCode: 40 // key down
+        });
+
+        // ----------------------------- DASHBOARD COMPONENTS -----------------------------
+        // ---------------- SPEEDOMETER ----------------
+        arcade.speedometerGauge = new Speedometer('speedometer-gauge', {
+            label: "kmh",
+            max: 260,
+            min: 0
+        });
+        // ---------------- TACHOMETER ----------------
+        arcade.tachometerGauge = new Tachometer('tachometer-gauge', {
+            max: 9,
+            min: 0,
+            label: "x1000/min"
+        });
+        
+        // ---------------- STEERING WHEEL ----------------
+        arcade.steeringWheel = new SteeringWheel("steering_wheel", {
+            top: 140,
+            left: 30,
+            width: 600,
+            height: 600
+        }, {
+            style: "ferrari",
+            callback: onMessageReceived
+        });
+
+        /*
+        // ---------------- CURRENT SHIFT -------------------------
+        arcade.shiftDisplay = new Shift('current-shift');
+        // ---------------- CLOCK ----------------------------------
+        arcade.clockDisplay = new Clock('clock');
+        // ---------------- ENVIRONMENT TEMPERATURE ----------------
+        arcade.envThermometer = new Thermometer('env-temp');
+        */
+
         // ----------------------------- ARCADE GAME COMPONENTS -----------------------------
         arcade.arcadeWidget = new Arcade("arcadeWidget", {
             top: 80,
@@ -123,20 +197,28 @@ require([
         });
 
         // ----------------------------- ARCADE GAME INTERACTION -----------------------------
-        arcade.start = new Button("start", { width: 0, height: 0 }, {
+        arcade.resume = new ButtonExternalController("resume", { width: 0, height: 0 }, {
             callback: onMessageReceived,
             evts: ['press/release'],
             keyCode: 49 // key 1
         });
-        arcade.stop = new Button("stop", { width: 0, height: 0 }, {
+        arcade.pause = new ButtonExternalController("pause", { width: 0, height: 0 }, {
             callback: onMessageReceived,
             evts: ['press/release'],
             keyCode: 50 // key 2
         });
+        arcade.quit = new ButtonExternalController("quit", { width: 0, height: 0 }, {
+            callback: onMessageReceived,
+            evts: ['press/release'],
+            keyCode: 51 // key 3
+        });
 
         // Render arcade game components
         function render(res) {
-            arcade.arcadeWidget.render();
+            arcade.speedometerGauge.render(evaluate(res.speed.val));
+            arcade.tachometerGauge.render(evaluate(res.rpm));
+            arcade.steeringWheel.render(evaluate(res.steering));
+            arcade.arcadeWidget.render(res);
         }
 
         var demoFolder = "arcade_game_simulator";
