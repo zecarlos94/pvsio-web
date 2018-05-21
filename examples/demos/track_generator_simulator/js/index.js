@@ -108,14 +108,6 @@ require([
             numberOfSegmentPerColor: 4,
             numLanes: 3,
             laneWidth: 0.02,
-            params: {
-                maxHeight: 900,
-                maxCurve:  400,
-                numZones:    12, // number of different portions of the track
-                curvy:     0.8,
-                mountainy: 0.8,
-                zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
-            },
             trackParam: {
                 maxHeight: 900,
                 maxCurve:  400,

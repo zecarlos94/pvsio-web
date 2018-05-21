@@ -33,14 +33,6 @@
  *                  numberOfSegmentPerColor: 4,
  *                  numLanes: 3,
  *                  laneWidth: 0.02,
- *                  params: {
- *                      maxHeight: 900,
- *                      maxCurve:  400,
- *                      numZones:    12, // number of different portions of the track
- *                      curvy:     0.8,
- *                      mountainy: 0.8,
- *                      zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
- *                  },
  *                  trackParam: {
  *                      maxHeight: 900,
  *                      maxCurve:  400,
@@ -195,8 +187,7 @@ define(function (require, exports, module) {
      *          <li>numberOfSegmentPerColor {Int}: the number of segments per color, i.e. how many sequenced segments to alternate colors (default is 4).</li>
      *          <li>numLanes {Int}: the number of lanes the track will be draw (default is 3).</li>
      *          <li>laneWidth {Float}: the width of the lane separator (default is 0.02).</li>
-     *          <li>params {Object}: the track configurations, i.e. number of zones(track length), etc (default is {maxHeight: 900, maxCurve:  400, numZones: 12, curvy: 0.8, mountainy: 0.8, zoneSize: 250}).</li>
-    *           <li>trackParam {Object}: the track configurations, i.e. number of zones(track length), etc (default is {maxHeight: 900, maxCurve:  400, numZones: 12, curvy: 0.8, mountainy: 0.8, zoneSize: 250}).</li>
+     *          <li>trackParam {Object}: the track configurations, i.e. number of zones(track length), etc (default is {maxHeight: 900, maxCurve:  400, numZones: 12, curvy: 0.8, mountainy: 0.8, zoneSize: 250}).</li>
      *          <li>controllable_car {Object}: the vehicle configurations, i.e. initial position, acceleration and deceleration values, etc (default is {position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20}).</li>
      *          <li>topSpeed {Int}: the maximum speed value that can be reached (default is 250).</li>
      *          <li>objects {Array}: the sprite names to be drawed in the landscape (default is ["tree","rock"]).</li>
@@ -217,7 +208,7 @@ define(function (require, exports, module) {
         opt.numberOfSegmentPerColor = opt.numberOfSegmentPerColor;
         opt.numLanes = opt.numLanes;
         opt.laneWidth = opt.laneWidth;
-        opt.params = opt.params;
+        // opt.params = opt.params;
         opt.trackParam = opt.trackParam; 
         opt.controllable_car = opt.controllable_car;
         opt.topSpeed = opt.topSpeed;
@@ -237,8 +228,9 @@ define(function (require, exports, module) {
         numberOfSegmentPerColor = (opt.numberOfSegmentPerColor) ? opt.numberOfSegmentPerColor : 4;
         numLanes                = (opt.numLanes) ? opt.numLanes : 3;
         laneWidth               = (opt.laneWidth) ? opt.laneWidth: 0.02;
-        params                  = (opt.params) ? opt.params : { maxHeight: 900, maxCurve: 400, numZones: 12, /*number of different portions of the track*/ curvy: 0.8, mountainy: 0.8, zoneSize:  250 /*length of each numZones (the bigger this value. the longer it will take to finish)*/ };        
-        trackParam              = (opt.trackParam) ? opt.trackParam : { maxHeight: 900, maxCurve: 400, numZones: 12, /*number of different portions of the track*/ curvy: 0.8, mountainy: 0.8, zoneSize:  250 /*length of each numZones (the bigger this value. the longer it will take to finish)*/ };
+        trackParam              = (opt.trackParam) ? opt.trackParam : { maxHeight: 900, maxCurve: 400, numZones: 12, /*number of different portions of the track*/ curvy: 0.8, mountainy: 0.8, zoneSize:  250 /*length of each numZones (the bigger this value. the longer it will take to finish)*/ };        
+        // params                  = (opt.params) ? opt.params : { maxHeight: 900, maxCurve: 400, numZones: 12, /*number of different portions of the track*/ curvy: 0.8, mountainy: 0.8, zoneSize:  250 /*length of each numZones (the bigger this value. the longer it will take to finish)*/ };        
+        params=JSON.parse(JSON.stringify(trackParam));
         controllable_car        = (opt.controllable_car) ? opt.controllable_car : { position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20 };
         topSpeed                = (opt.topSpeed) ? opt.topSpeed : 250;
 
