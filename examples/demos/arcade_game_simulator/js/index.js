@@ -117,6 +117,7 @@ require([
                 finishLineP2: 0.40,
                 diffLanesFinishLine: 0.05
             },
+            lapNumber: 2,
             // showOfficialLogo: true,
             callback: onMessageReceived
         });
