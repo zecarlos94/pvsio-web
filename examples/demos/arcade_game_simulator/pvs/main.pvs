@@ -42,7 +42,7 @@ main: THEORY
     units: Temp_Units
   #]
 
-  POSITION_INIT: real = 0.0
+  POSITION_INIT: real = 10.0
   Position: TYPE = [#
     val: real
   #]
@@ -53,6 +53,7 @@ main: THEORY
   #]
 
   Action: TYPE = { idle, acc, brake, left, right, straight, pause, resume, quit }
+  Sound: TYPE = { unmute, mute }
   Time: TYPE = [# hour: int, min: int #]
 
   state: TYPE = [#
@@ -65,7 +66,8 @@ main: THEORY
     steering: real,
     position: Position,
     posx: PosX,
-    action: Action
+    action: Action,
+    sound: Sound
   #]
 
   get_current_time: Time = (# hour := get_time`hour, min := get_time`minute #)
@@ -81,7 +83,8 @@ main: THEORY
     steering := 0,
     position := (# val := POSITION_INIT  #),
     posx := (# val := POSX_INIT #),
-    action := idle
+    action := idle,
+    sound := unmute
   #)
 
   %-- utility functions
@@ -138,7 +141,7 @@ main: THEORY
              THEN st WITH [ speed := speed(st) WITH [ val:= speed(st)`val + step ]]
 	     ELSE st WITH [ speed := speed(st) WITH [ val:= MAX_SPEED ]] ENDIF,
 	new_rpm = getRPM(st),
-	st = st WITH [ rpm := new_rpm ]
+	st = st WITH [ rpm := new_rpm, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
      IN IF rpm(st) > 6 THEN gearUP(st) ELSE st ENDIF
 
   brake(st: state): state =
@@ -154,7 +157,7 @@ main: THEORY
 				  THEN speed(st)`val - step`speed
 				  ELSE 0 ENDIF ]] ENDIF,
 	new_rpm = getRPM(st),
-        st = st WITH [ rpm := new_rpm ]
+        st = st WITH [ rpm := new_rpm, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
      IN IF rpm(st) < 4 THEN gearDOWN(st) ELSE st ENDIF
 
   FRICTION: Speed_Val = 0.6
@@ -183,20 +186,28 @@ main: THEORY
   press_brake(st: state): state = brake(st) WITH [ action := brake ]
   release_brake(st: state): state = st WITH [ action := idle ]
 
+  POSX_STEP: real = 5.0 
   STEERING_STEP: real = 20 %deg
-  steering_wheel_right(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP, action := right]
-  steering_wheel_left(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP, action := left ]
+  steering_wheel_right(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val + POSX_STEP ], action := right]
+  steering_wheel_left(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val - POSX_STEP ], action := left ]
   steering_wheel_straight(st: state): state = st WITH [ steering := 0, action := straight ]
   steering_wheel_rotate(x: real)(st: state): state = st WITH [ steering := x, action := IF x > 0 THEN right ELSE left ENDIF]
 
+  %-- API for sound controls 
+  press_mute(st: state): state = st WITH [ sound := mute ]
+  release_mute(st: state): state = st WITH [ sound := mute ]
+  
+  press_unmute(st: state): state = st WITH [ sound := unmute ]
+  release_unmute(st: state): state = st WITH [ sound := unmute ]
+  
   %-- API for virtual Keypad controller 
   %-- TODO create the interactions with Arcade Driving Simulator
   press_quit(st: state): state = st WITH [ action := quit ]
-  release_quit(st: state): state = st WITH [ action := quit ]
+  release_quit(st: state): state = st WITH [ action := idle ]
   press_pause(st: state): state = st WITH [ action := pause ]
-  release_pause(st: state): state = st WITH [ action := pause ]
+  release_pause(st: state): state = st WITH [ action := idle ]
   press_resume(st: state): state = st WITH [ action := resume ]
-  release_resume(st: state): state = st WITH [ action := resume ]
+  release_resume(st: state): state = st WITH [ action := idle ]
 
   %-- API for external controllers such as PS4 gamepad
   click_accelerate(st: state): state = accelerate(st) WITH [ action := acc ]

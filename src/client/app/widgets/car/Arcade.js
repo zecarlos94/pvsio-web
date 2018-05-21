@@ -182,6 +182,9 @@ define(function (require, exports, module) {
     let WIDGETSTATE = null;
     let lastSpeedPVS = null;
     let lastRPMPVS = null;
+    let lastPositionPVS = 10;
+    let lastPosXPVS = 0;
+    let loadPVSSpeedPositions = null;
 
     let spritesheetJSON;
     let trackJSON;
@@ -326,6 +329,7 @@ define(function (require, exports, module) {
      *          <li>realisticImgs {Bool}: value that indicates if the sprite of the vehicle to be used is a realistic image or if it is a pixelated image as in arcade games (default is "false").</li>
      *          <li>vehicle {String}: the type of vehicle to be used in the simulation. The types available are ["airplane", "bicycle", "car", "helicopter", "motorbike"]. It should be noted that these types must exist in the spritesheet if they are to be used. (default is "car").</li>
      *          <li>stripePositions {Object}: position values and respective widths (borders, track and finish line) to be rendered on a stripe. (default is { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 }).</li>
+     *          <li>loadPVSSpeedPositions {Bool}: allows to use PVS calculated positions and speed in the simulation. (default is true).</li>
      * @returns {Arcade} The created instance of the widget Arcade.
      * @memberof module:Arcade
      * @instance
@@ -346,6 +350,7 @@ define(function (require, exports, module) {
         opt.showOfficialLogo = opt.showOfficialLogo;
         opt.trackTopography = opt.trackTopography;
         opt.lapNumber = opt.lapNumber;
+        opt.loadPVSSpeedPositions = opt.loadPVSSpeedPositions;
 
         this.id = id;
         this.top = coords.top || 100;
@@ -365,10 +370,12 @@ define(function (require, exports, module) {
         this.stripePositions = (opt.stripePositions) ? opt.stripePositions : { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 };
         this.showOfficialLogo = (opt.showOfficialLogo) ? opt.showOfficialLogo : false;
         this.trackTopography = (opt.trackTopography) ? opt.trackTopography : "straight"; // "curves-slopes";
-        this.lapNumber = (opt.lapNumber) ? opt.lapNumber : 2;
-                
+        this.lapNumber = (opt.lapNumber) ? opt.lapNumber : 2;        
+        this.loadPVSSpeedPositions = (opt.loadPVSSpeedPositions) ? opt.loadPVSSpeedPositions : true;
+
         trackTopography = this.trackTopography;
         lapNumber = this.lapNumber;
+        loadPVSSpeedPositions = this.loadPVSSpeedPositions;
 
         trackP1=this.stripePositions.trackP1;
         trackP2=this.stripePositions.trackP2;
@@ -879,6 +886,12 @@ define(function (require, exports, module) {
                             }
                         ]);
                     }
+                    if(WIDGETSTATE.sound==="mute"){
+                        soundWidget.mute();
+                    }
+                    else if(WIDGETSTATE.sound==="unmute"){
+                        soundWidget.unmute();
+                    }
                 }
             }else{
                 Arcade.prototype.drawText("Loading Configurations...",{x: 100, y: 95}, 1); 
@@ -935,6 +948,12 @@ define(function (require, exports, module) {
                     newVolume: 1.0
                     }
                 ]);
+            }
+            if(WIDGETSTATE.sound==="mute"){
+                soundWidget.mute();
+            }
+            else if(WIDGETSTATE.sound==="unmute"){
+                soundWidget.unmute();
             }
         }
 
@@ -997,6 +1016,12 @@ define(function (require, exports, module) {
                     newVolume: 1.0
                     }
                 ]);
+            }
+            if(WIDGETSTATE.sound==="mute"){
+                soundWidget.mute();
+            }
+            else if(WIDGETSTATE.sound==="unmute"){
+                soundWidget.unmute();
             }
         }
         return this;
@@ -1608,12 +1633,12 @@ define(function (require, exports, module) {
         } else {
             // readSprite acceleration controls
             soundOff = soundWidget.getSoundOff();
-            if (WIDGETSTATE.action==="acc") { 
+            if (WIDGETSTATE!==null && WIDGETSTATE.action==="acc") { 
                 controllable_car.speed += controllable_car.acceleration;
                 if(!soundOff){
                   soundWidget.playSound(3); //accelerating song
                 }
-            } else if (WIDGETSTATE.action==="brake") { 
+            } else if (WIDGETSTATE!==null && WIDGETSTATE.action==="brake") { 
                 controllable_car.speed -= controllable_car.breaking;
                 if(!soundOff){
                   soundWidget.pauseSound(3); //accelerating song
@@ -1718,7 +1743,7 @@ define(function (require, exports, module) {
         }
 
         // car turning
-        if (WIDGETSTATE.action==="left") {
+        if (WIDGETSTATE!==null && WIDGETSTATE.action==="left") {
             carCurrentDirection = "left";
             if(controllable_car.speed > 0){
                 controllable_car.posx -= controllable_car.turning;
@@ -1728,7 +1753,7 @@ define(function (require, exports, module) {
                 x: vehicleXLeftPosition,
                 y: vehicleYLeftPosition
             };
-        } else if (WIDGETSTATE.action==="right") {
+        } else if (WIDGETSTATE!==null && WIDGETSTATE.action==="right") {
             carCurrentDirection = "right";
             if(controllable_car.speed > 0){
                 controllable_car.posx += controllable_car.turning;
@@ -1812,67 +1837,124 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.calculateNewControllableCarPosition = function () {
-        newSpeedAux=controllable_car.speed;
-        newPositionAux=controllable_car.position;
-        newPositionXAux=controllable_car.posx;
-
-        // console.log(lastDelta);
-
-        // Calculating newSpeedAux value
-        // if (Math.abs(lastDelta) > 130){
-        //     if (newSpeedAux > 3) {
-        //         newSpeedAux -= 0.2;
-        //     }
-        // } else {
-        //     // readSprite acceleration controls
-        //     soundOff = soundWidget.getSoundOff();
-        //     if (WIDGETSTATE.action==="acc") { 
-        //         newSpeedAux += controllable_car.acceleration;
-        //         if(!soundOff){
-        //           soundWidget.playSound(3); //accelerating song
-        //         }
-        //     } else if (WIDGETSTATE.action==="brake") { 
-        //         newSpeedAux -= controllable_car.breaking;
-        //         if(!soundOff){
-        //           soundWidget.pauseSound(3); //accelerating song
-        //         }
-        //     } else {
-        //         newSpeedAux -= controllable_car.deceleration;
-        //         if(!soundOff){
-        //           soundWidget.pauseSound(3); //accelerating song
-        //         }
-        //     }
-        // }
-        
-        if(WIDGETSTATE.speed.val!=="0"){
-            let currentSpeedPVS = WIDGETSTATE.speed.val;
-            let arraySpeed = currentSpeedPVS.split("/");
-            let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
-            if(!isNaN(speedValue)){
-                lastSpeedPVS = Math.ceil(speedValue);
+        if(loadPVSSpeedPositions){
+            if(WIDGETSTATE!==null && WIDGETSTATE.speed.val!=="0"){
+                // readSprite acceleration controls
+                soundOff = soundWidget.getSoundOff();
+                let currentSpeedPVS = WIDGETSTATE.speed.val;
+                let arraySpeed = currentSpeedPVS.split("/");
+                let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
+                if(!isNaN(speedValue)){
+                    lastSpeedPVS = Math.ceil(speedValue);
+                }
+                if(Math.abs(lastDelta) > 130){
+                    if (newSpeedAux > 150) {
+                        newSpeedAux -= lastSpeedPVS*0.10;
+                    }
+                }else{
+                    newSpeedAux = lastSpeedPVS*0.10;
+                }
+                if (WIDGETSTATE!==null && WIDGETSTATE.action==="acc") { 
+                    if(!soundOff){
+                        soundWidget.playSound(3); //accelerating song
+                    }
+                } else if (WIDGETSTATE!==null && WIDGETSTATE.action==="brake") { 
+                    if(!soundOff){
+                        soundWidget.pauseSound(3); //accelerating song
+                    }
+                } else if (WIDGETSTATE!==null && WIDGETSTATE.action==="idle"){
+                    if(!soundOff){
+                        soundWidget.pauseSound(3); //accelerating song
+                    }
+                }
             }
-            newSpeedAux = lastSpeedPVS*0.10;
+
+            if(WIDGETSTATE.sound==="mute"){
+                soundWidget.mute();
+            }
+            else if(WIDGETSTATE.sound==="unmute"){
+                soundWidget.unmute();
+            }
+
+            // car turning
+            if (WIDGETSTATE!==null && WIDGETSTATE.action==="left") {
+                carCurrentDirection = "left";
+            } else if (WIDGETSTATE!==null && WIDGETSTATE.action==="right") {
+                carCurrentDirection = "right";
+            } else {
+                carCurrentDirection = "front";
+            }
+
+            if(WIDGETSTATE!==null && WIDGETSTATE.posx.val!=="0.0"){
+                let currentPositionXPVS = WIDGETSTATE.posx.val;
+                let positionXValue = parseInt(currentPositionXPVS);
+                if(!isNaN(positionXValue)){
+                    lastPosXPVS = Math.ceil(positionXValue);
+                }
+                newPositionXAux = lastPosXPVS;
+            }
+            
+            vehicleCurrentDirectionAux = carCurrentDirection;
+            if(WIDGETSTATE!==null && WIDGETSTATE.position.val!=="10.0"){
+                let currentPositionPVS = WIDGETSTATE.position.val;
+                let arrayPosition = currentPositionPVS.split("/");
+                let positionValue = parseInt(arrayPosition[0])/parseInt(arrayPosition[1]);
+                if(!isNaN(positionValue)){
+                    lastPositionPVS = Math.ceil(positionValue);
+                }
+                newPositionAux = lastPositionPVS;
+            }
+        }else{
+            newSpeedAux=controllable_car.speed;
+            newPositionAux=controllable_car.position;
+            newPositionXAux=controllable_car.posx;
+    
+            // Calculating newSpeedAux value
+            if (Math.abs(lastDelta) > 130){
+                if (newSpeedAux > 3) {
+                    newSpeedAux -= 0.2;
+                }
+            } else {
+                // readSprite acceleration controls
+                soundOff = soundWidget.getSoundOff();
+                if (WIDGETSTATE!==null && WIDGETSTATE.action==="acc") { 
+                    newSpeedAux += controllable_car.acceleration;
+                    if(!soundOff){
+                      soundWidget.playSound(3); //accelerating song
+                    }
+                } else if(WIDGETSTATE!==null && WIDGETSTATE.action==="brake") { 
+                    newSpeedAux -= controllable_car.breaking;
+                    if(!soundOff){
+                      soundWidget.pauseSound(3); //accelerating song
+                    }
+                } else {
+                    newSpeedAux -= controllable_car.deceleration;
+                    if(!soundOff){
+                      soundWidget.pauseSound(3); //accelerating song
+                    }
+                }
+            }
+    
+            // car turning
+            if (WIDGETSTATE!==null && WIDGETSTATE.action==="left") {
+                carCurrentDirection = "left";
+                if(newSpeedAux > 0){
+                    newPositionXAux -= controllable_car.turning;
+                }
+            } else if(WIDGETSTATE!==null && WIDGETSTATE.action==="right") {
+                carCurrentDirection = "right";
+                if(newSpeedAux > 0){
+                    newPositionXAux += controllable_car.turning;
+                }
+            } else {
+                carCurrentDirection = "front";
+            }
+            
+            vehicleCurrentDirectionAux = carCurrentDirection;
+            newSpeedAux = Math.max(newSpeedAux, 0); //cannot go in reverse
+            newSpeedAux = Math.min(newSpeedAux, controllable_car.maxSpeed); //maximum speed
+            newPositionAux += newSpeedAux;
         }
-
-        // car turning
-        if (WIDGETSTATE.action==="left") {
-            carCurrentDirection = "left";
-            if(newSpeedAux > 0){
-                newPositionXAux -= controllable_car.turning;
-            }
-        } else if (WIDGETSTATE.action==="right") {
-            carCurrentDirection = "right";
-            if(newSpeedAux > 0){
-                newPositionXAux += controllable_car.turning;
-            }
-        } else {
-            carCurrentDirection = "front";
-        }
-        
-        vehicleCurrentDirectionAux = carCurrentDirection;
-        // newSpeedAux = Math.max(newSpeedAux, 0); //cannot go in reverse
-        // newSpeedAux = Math.min(newSpeedAux, controllable_car.maxSpeed); //maximum speed
-        newPositionAux += newSpeedAux;
 
         switch (vehicleType) {
             case "airplane":

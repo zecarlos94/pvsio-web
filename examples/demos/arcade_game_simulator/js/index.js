@@ -193,6 +193,7 @@ require([
             },
             lapNumber: 2,
             // showOfficialLogo: true,
+            // loadPVSSpeedPositions: true,
             callback: onMessageReceived
         });
 
@@ -211,6 +212,16 @@ require([
             callback: onMessageReceived,
             evts: ['press/release'],
             keyCode: 51 // key 3
+        });
+        arcade.mute = new ButtonExternalController("mute", { width: 0, height: 0 }, {
+            callback: onMessageReceived,
+            evts: ['press/release'],
+            keyCode: 77 // key m
+        });
+        arcade.unmute = new ButtonExternalController("unmute", { width: 0, height: 0 }, {
+            callback: onMessageReceived,
+            evts: ['press/release'],
+            keyCode: 85 // key u
         });
 
         // Render arcade game components
