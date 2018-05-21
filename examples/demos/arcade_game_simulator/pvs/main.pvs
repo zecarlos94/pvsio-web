@@ -42,6 +42,16 @@ main: THEORY
     units: Temp_Units
   #]
 
+  POSITION_INIT: real = 0.0
+  Position: TYPE = [#
+    val: real
+  #]
+
+  POSX_INIT: real = 0.0
+  PosX: TYPE = [#
+    val: real
+  #]
+
   Action: TYPE = { idle, acc, brake, left, right, straight, pause, resume, quit }
   Time: TYPE = [# hour: int, min: int #]
 
@@ -53,6 +63,8 @@ main: THEORY
     temp: Temp,
     time: Time,
     steering: real,
+    position: Position,
+    posx: PosX,
     action: Action
   #]
 
@@ -67,6 +79,8 @@ main: THEORY
     temp := (# val := TEMP_AMB, units := C #),
     time := get_current_time,
     steering := 0,
+    position := (# val := POSITION_INIT  #),
+    posx := (# val := POSX_INIT #),
     action := idle
   #)
 

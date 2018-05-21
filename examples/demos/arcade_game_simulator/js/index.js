@@ -95,7 +95,7 @@ require([
                 v = +args[0] / +args[1];
             }
             var ans = (v < 100) ? v.toFixed(1).toString() : v.toFixed(0).toString();
-            // console.log(ans);
+            console.log(ans);
             return parseFloat(ans);
         }
 
@@ -108,10 +108,10 @@ require([
                 var res = event.data.toString();
                 if (res.indexOf("(#") === 0) {
                     render(stateParser.parse(res));
-                    // console.log(res);
+                    console.log(res);
                 }
             } else {
-                // console.log(err);
+                console.log(err);
             }
         }
 

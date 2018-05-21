@@ -794,27 +794,27 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.onPageLoad = function (spritesFiles) {
         Arcade.prototype.detectBrowserType();
-        Arcade.prototype.init();
+        if(currentBrowser.chrome || currentBrowser.safari){ // can be ensured that all CSS will work as it is supposed!!!
+            Arcade.prototype.init();
 
+            simulatorLogo1 = new Image();
+            simulatorLogo1.src = "../../client/app/widgets/car/configurations/img/simulatorLogo1.png";
 
-        simulatorLogo1 = new Image();
-        simulatorLogo1.src = "../../client/app/widgets/car/configurations/img/simulatorLogo1.png";
+            simulatorLogo2 = new Image();
+            simulatorLogo2.src = "../../client/app/widgets/car/configurations/img/simulatorLogo2.png";
 
-        simulatorLogo2 = new Image();
-        simulatorLogo2.src = "../../client/app/widgets/car/configurations/img/simulatorLogo2.png";
-
-        spritesFiles.forEach(function(el,index){
-            spritesheetsImages[index] = new Image();
-        });
-    
-        spritesheetsImages[0].onload = function(){
-            splashInterval = setInterval(Arcade.prototype.renderSplashFrame, 30);
-        };
-
-        spritesheetsImages.forEach(function(el,index){
-            spritesheetsImages[index].src = "../../client/app/widgets/car/configurations/img/"+spritesFiles[index]+".png";
-        });
+            spritesFiles.forEach(function(el,index){
+                spritesheetsImages[index] = new Image();
+            });
         
+            spritesheetsImages[0].onload = function(){
+                splashInterval = setInterval(Arcade.prototype.renderSplashFrame, 30);
+            };
+
+            spritesheetsImages.forEach(function(el,index){
+                spritesheetsImages[index].src = "../../client/app/widgets/car/configurations/img/"+spritesFiles[index]+".png";
+            });
+        }
         return this;
     };
 
@@ -1816,30 +1816,42 @@ define(function (require, exports, module) {
         newPositionAux=controllable_car.position;
         newPositionXAux=controllable_car.posx;
 
+        // console.log(lastDelta);
+
         // Calculating newSpeedAux value
-        if (Math.abs(lastDelta) > 130){
-            if (newSpeedAux > 3) {
-                newSpeedAux -= 0.2;
+        // if (Math.abs(lastDelta) > 130){
+        //     if (newSpeedAux > 3) {
+        //         newSpeedAux -= 0.2;
+        //     }
+        // } else {
+        //     // readSprite acceleration controls
+        //     soundOff = soundWidget.getSoundOff();
+        //     if (WIDGETSTATE.action==="acc") { 
+        //         newSpeedAux += controllable_car.acceleration;
+        //         if(!soundOff){
+        //           soundWidget.playSound(3); //accelerating song
+        //         }
+        //     } else if (WIDGETSTATE.action==="brake") { 
+        //         newSpeedAux -= controllable_car.breaking;
+        //         if(!soundOff){
+        //           soundWidget.pauseSound(3); //accelerating song
+        //         }
+        //     } else {
+        //         newSpeedAux -= controllable_car.deceleration;
+        //         if(!soundOff){
+        //           soundWidget.pauseSound(3); //accelerating song
+        //         }
+        //     }
+        // }
+        
+        if(WIDGETSTATE.speed.val!=="0"){
+            let currentSpeedPVS = WIDGETSTATE.speed.val;
+            let arraySpeed = currentSpeedPVS.split("/");
+            let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
+            if(!isNaN(speedValue)){
+                lastSpeedPVS = Math.ceil(speedValue);
             }
-        } else {
-            // readSprite acceleration controls
-            soundOff = soundWidget.getSoundOff();
-            if (WIDGETSTATE.action==="acc") { 
-                newSpeedAux += controllable_car.acceleration;
-                if(!soundOff){
-                  soundWidget.playSound(3); //accelerating song
-                }
-            } else if (WIDGETSTATE.action==="brake") { 
-                newSpeedAux -= controllable_car.breaking;
-                if(!soundOff){
-                  soundWidget.pauseSound(3); //accelerating song
-                }
-            } else {
-                newSpeedAux -= controllable_car.deceleration;
-                if(!soundOff){
-                  soundWidget.pauseSound(3); //accelerating song
-                }
-            }
+            newSpeedAux = lastSpeedPVS*0.10;
         }
 
         // car turning
@@ -1858,8 +1870,8 @@ define(function (require, exports, module) {
         }
         
         vehicleCurrentDirectionAux = carCurrentDirection;
-        newSpeedAux = Math.max(newSpeedAux, 0); //cannot go in reverse
-        newSpeedAux = Math.min(newSpeedAux, controllable_car.maxSpeed); //maximum speed
+        // newSpeedAux = Math.max(newSpeedAux, 0); //cannot go in reverse
+        // newSpeedAux = Math.min(newSpeedAux, controllable_car.maxSpeed); //maximum speed
         newPositionAux += newSpeedAux;
 
         switch (vehicleType) {
