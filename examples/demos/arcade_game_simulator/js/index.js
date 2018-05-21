@@ -193,7 +193,7 @@ require([
             },
             lapNumber: 2,
             // showOfficialLogo: true,
-            // loadPVSSpeedPositions: true,
+            // loadPVSSpeedPositions: false,
             callback: onMessageReceived
         });
 
@@ -201,27 +201,27 @@ require([
         arcade.resume = new ButtonExternalController("resume", { width: 0, height: 0 }, {
             callback: onMessageReceived,
             evts: ['press/release'],
-            keyCode: 49 // key 1
+            keyCode: 32 // key space
         });
         arcade.pause = new ButtonExternalController("pause", { width: 0, height: 0 }, {
             callback: onMessageReceived,
             evts: ['press/release'],
-            keyCode: 50 // key 2
+            keyCode: 83 // key 's'
         });
         arcade.quit = new ButtonExternalController("quit", { width: 0, height: 0 }, {
             callback: onMessageReceived,
             evts: ['press/release'],
-            keyCode: 51 // key 3
+            keyCode: 81 // key 'q'
         });
         arcade.mute = new ButtonExternalController("mute", { width: 0, height: 0 }, {
             callback: onMessageReceived,
             evts: ['press/release'],
-            keyCode: 77 // key m
+            keyCode: 77 // key 'm'
         });
         arcade.unmute = new ButtonExternalController("unmute", { width: 0, height: 0 }, {
             callback: onMessageReceived,
             evts: ['press/release'],
-            keyCode: 85 // key u
+            keyCode: 85 // key 'u'
         });
 
         // Render arcade game components

@@ -41,6 +41,7 @@
  *                    diffLanesFinishLine: 0.05
  *                  },
  *                  // showOfficialLogo: true,
+ *                  // loadPVSSpeedPositions: true,
  *               }// append on div 'game-window'
  *           );
  *          // Render the Arcade widget
@@ -291,7 +292,6 @@ define(function (require, exports, module) {
     /* 
     * End of Arcade Global Variables 
     */
-
 
     /* 
     * Start of Arcade Colors 
@@ -875,7 +875,7 @@ define(function (require, exports, module) {
                     });
                     chronometer.start();
                     soundOff = soundWidget.getSoundOff();
-                    if(!soundOff){
+                    if(!soundOff && WIDGETSTATE.sound==="unmute"){
                         soundWidget.playSound(2); //startup song
                         soundWidget.playSound(0); //background song
                         soundWidget.setVolume(0.4,0);
@@ -885,12 +885,6 @@ define(function (require, exports, module) {
                             newVolume: 1.0
                             }
                         ]);
-                    }
-                    if(WIDGETSTATE.sound==="mute"){
-                        soundWidget.mute();
-                    }
-                    else if(WIDGETSTATE.sound==="unmute"){
-                        soundWidget.unmute();
                     }
                 }
             }else{
@@ -948,12 +942,6 @@ define(function (require, exports, module) {
                     newVolume: 1.0
                     }
                 ]);
-            }
-            if(WIDGETSTATE.sound==="mute"){
-                soundWidget.mute();
-            }
-            else if(WIDGETSTATE.sound==="unmute"){
-                soundWidget.unmute();
             }
         }
 
@@ -1016,12 +1004,6 @@ define(function (require, exports, module) {
                     newVolume: 1.0
                     }
                 ]);
-            }
-            if(WIDGETSTATE.sound==="mute"){
-                soundWidget.mute();
-            }
-            else if(WIDGETSTATE.sound==="unmute"){
-                soundWidget.unmute();
             }
         }
         return this;
@@ -1854,26 +1836,20 @@ define(function (require, exports, module) {
                 }else{
                     newSpeedAux = lastSpeedPVS*0.10;
                 }
+
                 if (WIDGETSTATE!==null && WIDGETSTATE.action==="acc") { 
                     if(!soundOff){
                         soundWidget.playSound(3); //accelerating song
                     }
-                } else if (WIDGETSTATE!==null && WIDGETSTATE.action==="brake") { 
+                }else if (WIDGETSTATE!==null && WIDGETSTATE.action==="brake") { 
                     if(!soundOff){
                         soundWidget.pauseSound(3); //accelerating song
                     }
-                } else if (WIDGETSTATE!==null && WIDGETSTATE.action==="idle"){
+                }else if (WIDGETSTATE!==null && WIDGETSTATE.action==="idle"){
                     if(!soundOff){
                         soundWidget.pauseSound(3); //accelerating song
                     }
                 }
-            }
-
-            if(WIDGETSTATE.sound==="mute"){
-                soundWidget.mute();
-            }
-            else if(WIDGETSTATE.sound==="unmute"){
-                soundWidget.unmute();
             }
 
             // car turning
@@ -2084,6 +2060,25 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.renderSimulatorFrame = function () {
 
+        // Sometimes it causes exceptions on console.log, but it is a bug in chrome browser
+        // see more at: https://github.com/sampotts/plyr/issues/331
+        if(WIDGETSTATE!==null && WIDGETSTATE.sound==="mute"){
+            soundWidget.mute();
+        }else if(WIDGETSTATE!==null && WIDGETSTATE.sound==="unmute"){
+            soundWidget.reveal();
+            soundWidget.unmute();
+            soundWidget.pauseAll();
+            soundWidget.playSound(2); //startup song
+            soundWidget.playSound(0); //background song
+            soundWidget.setVolume(0.4,0);
+            soundWidget.onEndedSound(2,[
+                {
+                indexPlayNext: 1, //idle song
+                newVolume: 1.0
+                }
+            ]);
+        }
+
         if(WIDGETSTATE!==null && WIDGETSTATE.action==="quit"){ // Key 'q' ends current simulator
             chronometer.stop();
             soundWidget.hide();
@@ -2105,8 +2100,11 @@ define(function (require, exports, module) {
         context.fillStyle = "#76665d"; // rgb(139, 120, 106)
         context.fillRect(0, 0, render.width, render.height);
 
+        // Using PVS results
         Arcade.prototype.calculateNewControllableCarPosition();
         let carSprite = Arcade.prototype.setControllableCarPosition(vehicleCurrentDirectionAux, newSpeedAux, newPositionAux, newPositionXAux, vehicleXPositionAux, vehicleYPositionAux);
+        
+        // Using only JS to update rendered vehicle
         // let carSprite = Arcade.prototype.updateControllableCar();
 
         Arcade.prototype.drawBackground(-controllable_car.posx);
@@ -2359,8 +2357,6 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.render = function (pvsState) {
         WIDGETSTATE = pvsState;
-        console.log(WIDGETSTATE);
-        // console.log(WIDGETSTATE.steering);
         return this.reveal();
     };
 
