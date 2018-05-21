@@ -133,6 +133,9 @@
  *     // Draws the lanes
  *     Arcade.prototype.drawLanes(position1, scale1, offset1, position2, scale2, offset2, lane, 3, 0.02);
  * 
+ *     // Draws one lane at position 0 (i.e. in middle of the track) with width laneWidth
+ *     Arcade.prototype.drawLanePos(position1, scale1, offset1, position2, scale2, offset2, lane, 0, laneWidth);
+ * 
  *     // Draws the guiding line
  *     Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, "#00FF00");
  * 
@@ -1020,6 +1023,28 @@ define(function (require, exports, module) {
     };
 
     /**
+     * @function drawLanePos
+     * @protected 
+     * @description DrawLanePos method of the Arcade widget. This method draws one lane in the desired position, received as argument.
+     * @param pos1 {Float} 
+     * @param scale1 {Float} 
+     * @param offset1 {Float} 
+     * @param pos2 {Float} 
+     * @param scale2 {Float} 
+     * @param offset2 {Float} 
+     * @param color {String} CSS color to render the lane, usually hexadecimal value.
+     * @param indexPos {Float} Desired position where lane will be rendered.
+     * @param laneWidth {Float} The width of each lane to be rendered.
+     * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
+     * @instance
+     */
+    Arcade.prototype.drawLanePos = function (pos1, scale1, offset1, pos2, scale2, offset2, color, indexPos, laneWidth) {
+        Arcade.prototype.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2,  indexPos-laneWidth, indexPos, color);
+        return this;
+    };
+
+    /**
      * @function drawLanes
      * @protected 
      * @description DrawLanes method of the Arcade widget. This method draws lanes according to numLanes, received as argument.
@@ -1537,6 +1562,7 @@ define(function (require, exports, module) {
 
             // draw the lane line
             Arcade.prototype.drawLanes(position1, scale1, offset1, position2, scale2, offset2, lane, numLanes, laneWidth);
+            // Arcade.prototype.drawLanePos(position1, scale1, offset1, position2, scale2, offset2, lane, 0, laneWidth);
 
             // draw arrow or guiding line
             // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, laneArrow);
