@@ -302,7 +302,7 @@ define(function (require, exports, module) {
 
         this.press(opt);
         timerTickFunction = function () {
-            console.log("timer ticked_" + f);
+            // console.log("timer ticked_" + f);
             ButtonActionsQueue.queueGUIAction("press_" + f, opt.callback);
             anim();
             //record action

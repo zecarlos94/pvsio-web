@@ -42,7 +42,7 @@ main: THEORY
     units: Temp_Units
   #]
 
-  Action: TYPE = { idle, acc, brake, pause, resume, quit }
+  Action: TYPE = { idle, acc, brake, left, right, straight, pause, resume, quit }
   Time: TYPE = [# hour: int, min: int #]
 
   state: TYPE = [#
@@ -170,10 +170,10 @@ main: THEORY
   release_brake(st: state): state = st WITH [ action := idle ]
 
   STEERING_STEP: real = 20 %deg
-  steering_wheel_right(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP ]
-  steering_wheel_left(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP ]
-  steering_wheel_straight(st: state): state = st WITH [ steering := 0 ]
-  steering_wheel_rotate(x: real)(st: state): state = st WITH [ steering := x ]
+  steering_wheel_right(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP, action := right]
+  steering_wheel_left(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP, action := left ]
+  steering_wheel_straight(st: state): state = st WITH [ steering := 0, action := straight ]
+  steering_wheel_rotate(x: real)(st: state): state = st WITH [ steering := x, action := IF x > 0 THEN right ELSE left ENDIF]
 
   %-- API for virtual Keypad controller 
   %-- TODO create the interactions with Arcade Driving Simulator

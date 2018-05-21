@@ -180,6 +180,8 @@ define(function (require, exports, module) {
     let Sound = require("widgets/car/Sound");
 
     let WIDGETSTATE = null;
+    let lastSpeedPVS = null;
+    let lastRPMPVS = null;
 
     let spritesheetJSON;
     let trackJSON;
@@ -255,8 +257,6 @@ define(function (require, exports, module) {
     let canvas;
     //  Information regarding the context of the above canvas (2D driving simulator)
     let context;
-    //  Pressed Keys during the simulator
-    let keys = [];
 
     //  Keep tracking controllable_car's lap time
     let chronometer;
@@ -282,7 +282,6 @@ define(function (require, exports, module) {
     let soundWidget;
 
     // Information regarding the number of laps of the present simulation
-    // let lapNumber        = 2;
     let lapNumber        = null;
     let currentLapNumber = 1;
 
@@ -1609,12 +1608,12 @@ define(function (require, exports, module) {
         } else {
             // readSprite acceleration controls
             soundOff = soundWidget.getSoundOff();
-            if (keys[38]) { // 38 up
+            if (WIDGETSTATE.action==="acc") { 
                 controllable_car.speed += controllable_car.acceleration;
                 if(!soundOff){
                   soundWidget.playSound(3); //accelerating song
                 }
-            } else if (keys[40]) { // 40 down
+            } else if (WIDGETSTATE.action==="brake") { 
                 controllable_car.speed -= controllable_car.breaking;
                 if(!soundOff){
                   soundWidget.pauseSound(3); //accelerating song
@@ -1719,9 +1718,8 @@ define(function (require, exports, module) {
         }
 
         // car turning
-        if (keys[37]) {
+        if (WIDGETSTATE.action==="left") {
             carCurrentDirection = "left";
-            // 37 left
             if(controllable_car.speed > 0){
                 controllable_car.posx -= controllable_car.turning;
             }
@@ -1730,8 +1728,7 @@ define(function (require, exports, module) {
                 x: vehicleXLeftPosition,
                 y: vehicleYLeftPosition
             };
-        } else if (keys[39]) {
-            // 39 right
+        } else if (WIDGETSTATE.action==="right") {
             carCurrentDirection = "right";
             if(controllable_car.speed > 0){
                 controllable_car.posx += controllable_car.turning;
@@ -1827,12 +1824,12 @@ define(function (require, exports, module) {
         } else {
             // readSprite acceleration controls
             soundOff = soundWidget.getSoundOff();
-            if (keys[38]) { // 38 up
+            if (WIDGETSTATE.action==="acc") { 
                 newSpeedAux += controllable_car.acceleration;
                 if(!soundOff){
                   soundWidget.playSound(3); //accelerating song
                 }
-            } else if (keys[40]) { // 40 down
+            } else if (WIDGETSTATE.action==="brake") { 
                 newSpeedAux -= controllable_car.breaking;
                 if(!soundOff){
                   soundWidget.pauseSound(3); //accelerating song
@@ -1846,14 +1843,12 @@ define(function (require, exports, module) {
         }
 
         // car turning
-        if (keys[37]) {
+        if (WIDGETSTATE.action==="left") {
             carCurrentDirection = "left";
-            // 37 left arrow
             if(newSpeedAux > 0){
                 newPositionXAux -= controllable_car.turning;
             }
-        } else if (keys[39]) {
-            // 39 right arrow
+        } else if (WIDGETSTATE.action==="right") {
             carCurrentDirection = "right";
             if(newSpeedAux > 0){
                 newPositionXAux += controllable_car.turning;
@@ -2175,10 +2170,36 @@ define(function (require, exports, module) {
         }
 
         // Draw Virtual Speedometer
-        let speed = Math.round(controllable_car.speed / controllable_car.maxSpeed * topSpeed);
-        let speed_kmh = Math.round(speed * 1.60934);
-        Arcade.prototype.drawText(""+speed_kmh+" kmh", {x: 260, y: 1}, 1);
-        Arcade.prototype.drawText(""+speed+" mph", {x: 260, y: 10}, 1);
+        // let speed = Math.round(controllable_car.speed / controllable_car.maxSpeed * topSpeed);
+        // let speed_kmh = Math.round(speed * 1.60934);
+        // Arcade.prototype.drawText(""+speed_kmh+" kmh", {x: 260, y: 1}, 1);
+        // Arcade.prototype.drawText(""+speed+" mph", {x: 260, y: 10}, 1);
+
+        // Draw Virtual Speedometer and Tachometer based on Speedometer, Tachometer Widgets
+        if(WIDGETSTATE!==null){
+            if(WIDGETSTATE.speed.val!=="0"){
+                let currentSpeedPVS = WIDGETSTATE.speed.val;
+                let arraySpeed = currentSpeedPVS.split("/");
+                let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
+                if(!isNaN(speedValue)){
+                    lastSpeedPVS = Math.ceil(speedValue);
+                }
+                Arcade.prototype.drawText(""+lastSpeedPVS+" kmh", {x: 260, y: 1}, 1);
+            }else{
+                Arcade.prototype.drawText(""+0+" kmh", {x: 260, y: 1}, 1);
+            }
+            if(WIDGETSTATE.rpm!=="0"){
+                let currentRPMPVS = WIDGETSTATE.rpm;
+                let arrayRPM = currentRPMPVS.split("/");
+                let rpmValue = parseInt(arrayRPM[0])/parseInt(arrayRPM[1]);
+                if(!isNaN(rpmValue)){
+                    lastRPMPVS = Math.ceil(rpmValue);
+                }
+                Arcade.prototype.drawText(""+lastRPMPVS+" rpm", {x: 260, y: 10}, 1);
+            }else{
+                Arcade.prototype.drawText(""+0+" rpm", {x: 260, y: 10}, 1);
+            }
+        }
 
         // Draw Lap Time
         let res = time[0].split("-");
@@ -2231,12 +2252,6 @@ define(function (require, exports, module) {
     Arcade.prototype.init = function () {
         canvas = document.getElementById("arcadeSimulator");
         context = canvas.getContext('2d');         
-        window.onkeydown = function(e){
-            keys[e.keyCode] = true;
-        };
-        window.onkeyup = function(e){
-            keys[e.keyCode] = false;
-        };
         return this;
     };
 
@@ -2244,18 +2259,14 @@ define(function (require, exports, module) {
      * @function render
      * @public 
      * @description Render method of the Arcade widget. 
+     * @param pvsState {Float} the new PVS state.
      * @memberof module:Arcade
      * @instance
      */
-    Arcade.prototype.render = function (res) {
-        WIDGETSTATE = res;
-        // console.log("WIDGET STATE: "+JSON.stringify(WIDGETSTATE));
+    Arcade.prototype.render = function (pvsState) {
+        WIDGETSTATE = pvsState;
         console.log(WIDGETSTATE);
-        // console.log(WIDGETSTATE.action);
-        // console.log(WIDGETSTATE.speed.val);
-        // console.log(WIDGETSTATE.rpm);
         // console.log(WIDGETSTATE.steering);
-
         return this.reveal();
     };
 
