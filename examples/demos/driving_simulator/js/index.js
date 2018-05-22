@@ -87,16 +87,8 @@ require([
                 id: "Lanes",
                 value: null
             },
-            maxValueHills: {
-                id: "Hills",
-                value: null
-            },
             maxValueObstacles: {
                 id: "Obstacles",
-                value: null
-            },
-            maxValueOtherCars: {
-                id: "Other-Cars",
                 value: null
             }
         };
@@ -235,11 +227,31 @@ require([
                     },
                     {
                         property: "margin-top",
-                        value: "-740px"
+                        value: "-910px"
                     },
                     {
                         property: "visibility",
                         value: "visible"
+                    }
+                ]
+            },
+            {
+                id: "writeTopography",
+                class: null,
+                styles: [
+                    {
+                        property: "display",
+                        value: "none"
+                    }
+                ]
+            },
+            {
+                id: "colorPicker",
+                class: null,
+                styles: [
+                    {
+                        property: "display",
+                        value: "none"
                     }
                 ]
             },
@@ -257,7 +269,7 @@ require([
                     },
                     {   
                         property: "margin-top",
-                        value: "-810px"
+                        value: "-1180px"
                     },
                     {
                         property: "visibility",
@@ -396,25 +408,13 @@ require([
                 {
                     name: "lanes",
                     min: 0,
-                    max: 3,
-                    value: 0
-                },
-                {
-                    name: "hills",
-                    min: 0,
                     max: 10,
                     value: 0
                 },
                 {
                     name: "obstacles",
                     min: 0,
-                    max: 10,
-                    value: 0
-                },
-                {
-                    name: "other-cars",
-                    min: 0,
-                    max: 10,
+                    max: 100,
                     value: 0
                 }
             ],

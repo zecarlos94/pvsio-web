@@ -28,17 +28,9 @@
  *                maxValueLanes: {
  *                    id: "Lanes",
  *                    value: null
- *                },
- *                maxValueHills: {
- *                    id: "Hills",
- *                    value: null
- *                },
+ *                }
  *                maxValueObstacles: {
  *                    id: "Obstacles",
- *                    value: null
- *                },
- *                maxValueOtherCars: {
- *                    id: "Other-Cars",
  *                    value: null
  *                }
  *            };
@@ -177,13 +169,33 @@
  *                        },
  *                        {
  *                            property: "margin-top",
- *                            value: "-740px"
+ *                            value: "-910px"
  *                        },
  *                        {
  *                            property: "visibility",
  *                            value: "visible"
  *                        }
  *                    ]
+ *                },
+ *                {
+ *                   id: "writeTopography",
+ *                   class: null,
+ *                   styles: [
+ *                       {
+ *                           property: "display",
+ *                           value: "none"
+ *                       }
+ *                   ]
+ *               },
+ *               {
+ *                   id: "colorPicker",
+ *                   class: null,
+ *                   styles: [
+ *                       {
+ *                          property: "display",
+ *                          value: "none"
+ *                       }
+ *                   ]
  *                },
  *                {
  *                    id: "gauges",
@@ -199,7 +211,7 @@
  *                        },
  *                        {   
  *                            property: "margin-top",
- *                            value: "-810px"
+ *                            value: "-1180px"
  *                        },
  *                        {
  *                            property: "visibility",
@@ -298,19 +310,7 @@
  *               value: 0
  *             },
  *             {
- *               name: "hills",
- *               min: 0,
- *               max: 10,
- *               value: 0
- *             },
- *             {
  *               name: "obstacles",
- *               min: 0,
- *               max: 10,
- *               value: 0
- *             },
- *             {
- *               name: "other-cars",
  *               min: 0,
  *               max: 10,
  *               value: 0
@@ -471,19 +471,7 @@ define(function (require, exports, module) {
                 value: 0
             },
             {
-                name: "hills",
-                min: 0,
-                max: 10,
-                value: 0
-            },
-            {
                 name: "obstacles",
-                min: 0,
-                max: 10,
-                value: 0
-            },
-            {
-                name: "other-cars",
                 min: 0,
                 max: 10,
                 value: 0
@@ -537,11 +525,11 @@ define(function (require, exports, module) {
                         .style("position", "absolute")
                         .style("margin-left", "0px")
                         .style("margin-top", "0px");
-        
+                        
         this.div.append("br");
         
         this.customizationDiv = this.div.append("div").attr("class","customization");
-        
+
         this.customizationDiv.append("h4").style("margin-left","5px").text("Select Steering Wheel");
         
         this.customizationDiv.append("br");
@@ -553,6 +541,329 @@ define(function (require, exports, module) {
             this.optionsSelect.append("option").attr("data-img-src",this.imagesSteeringWheels[iterator].path).attr("value",this.imagesSteeringWheels[iterator].value).text(this.imagesSteeringWheels[iterator].value);
         }
        
+        this.customizationDiv.append("br");
+
+        this.customizationDiv.append("h4").style("margin-left","5px").text("Select Track Colors");
+        this.customizationDiv.append("br");
+
+        this.selectColors=this.customizationDiv.append("div").attr("id","colorPicker");
+
+        let default_grass1 = "#699864";
+        let default_border1 = "#e00";
+        let default_border2 = "#fff";
+        let default_outborder = "#496a46";
+        let default_outborder_end = "#474747";
+        let default_track_segment = "#777";
+        let default_track_segment_end = "#000";        
+        let default_lane1 = "#fff";
+        let default_lane2 = "#777";
+        let default_laneArrow = "#00FF00";
+        let default_lane_end = "#fff";
+
+        this.selectColors.append("input").attr("type","color").attr("value",default_grass1).attr("id","colorGrass").style("margin-left","40px");        
+        this.selectColors.append("label").attr("for","colorGrass").style("margin-left","10px").text("Grass");
+        this.selectColors.append("p").attr("id","hex1").text("Hex: "+default_grass1).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+
+        this.selectColors.append("input").attr("type","color").attr("value",default_outborder).attr("id","colorOutborder").style("margin-left","30px");
+        this.selectColors.append("label").attr("for","colorOutborder").style("margin-left","10px").text("Outborder");
+        this.selectColors.append("p").attr("id","hex4").text("Hex: "+default_outborder).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+
+        this.selectColors.append("br");
+        this.selectColors.append("br");
+        this.selectColors.append("br");
+        
+        this.selectColors.append("input").attr("type","color").attr("value",default_border1).attr("id","colorBorder1").style("margin-left","40px");
+        this.selectColors.append("label").attr("for","colorBorder1").style("margin-left","10px").text("Border1");
+        this.selectColors.append("p").attr("id","hex2").text("Hex: "+default_border1).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+
+        this.selectColors.append("input").attr("type","color").attr("value",default_outborder_end).attr("id","colorOutborderEnd").style("margin-left","40px");
+        this.selectColors.append("label").attr("for","colorOutborderEnd").style("margin-left","10px").text("OutborderEnd");
+        this.selectColors.append("p").attr("id","hex5").text("Hex: "+default_outborder_end).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+
+        this.selectColors.append("br");
+        this.selectColors.append("br");
+        this.selectColors.append("br");
+
+        this.selectColors.append("input").attr("type","color").attr("value",default_border2).attr("id","colorBorder2").style("margin-left","40px");
+        this.selectColors.append("label").attr("for","colorBorder2").style("margin-left","10px").text("Border2");
+        this.selectColors.append("p").attr("id","hex3").text("Hex: "+default_border2).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+
+        this.selectColors.append("input").attr("type","color").attr("value",default_track_segment).attr("id","colorTrackSegment").style("margin-left","40px");
+        this.selectColors.append("label").attr("for","colorTrackSegment").style("margin-left","10px").text("TrackSegment");
+        this.selectColors.append("p").attr("id","hex6").text("Hex: "+default_track_segment).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+
+        this.selectColors.append("br");
+        this.selectColors.append("br");
+        this.selectColors.append("br");
+
+        this.selectColors.append("input").attr("type","color").attr("value",default_lane1).attr("id","colorLane1").style("margin-left","40px");
+        this.selectColors.append("label").attr("for","colorLane1").style("margin-left","10px").text("Lane1");
+        this.selectColors.append("p").attr("id","hex8").text("Hex: "+default_lane1).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+
+        this.selectColors.append("input").attr("type","color").attr("value",default_track_segment_end).attr("id","colorTrackSegmentEnd").style("margin-left","55px");
+        this.selectColors.append("label").attr("for","colorTrackSegmentEnd").style("margin-left","10px").text("TrackSegmentEnd");
+        this.selectColors.append("p").attr("id","hex7").text("Hex: "+default_track_segment_end).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+        
+        this.selectColors.append("br");
+        this.selectColors.append("br");
+        this.selectColors.append("br");
+
+        this.selectColors.append("input").attr("type","color").attr("value",default_lane2).attr("id","colorLane2").style("margin-left","40px");
+        this.selectColors.append("label").attr("for","colorLane2").style("margin-left","10px").text("Lane2");
+        this.selectColors.append("p").attr("id","hex9").text("Hex: "+default_lane2).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+
+        this.selectColors.append("input").attr("type","color").attr("value",default_laneArrow).attr("id","colorLaneArrow").style("margin-left","55px");
+        this.selectColors.append("label").attr("for","colorLaneArrow").style("margin-left","10px").text("LaneArrow");
+        this.selectColors.append("p").attr("id","hex10").text("Hex: "+default_laneArrow).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+
+        this.selectColors.append("br");
+        this.selectColors.append("br");
+        this.selectColors.append("br");
+
+        this.selectColors.append("input").attr("type","color").attr("value",default_lane_end).attr("id","colorLaneEnd").style("margin-left","40px");
+        this.selectColors.append("label").attr("for","colorLaneEnd").style("margin-left","10px").text("LaneEnd");
+        this.selectColors.append("p").attr("id","hex11").text("Hex: "+default_lane_end).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+
+        let colorGrass;
+        let colorBorder1;
+        let colorBorder2;
+        let colorOutborder;
+        let colorOutborderEnd;
+        let colorTrackSegment;
+        let colorTrackSegmentEnd;
+        let colorLane1;
+        let colorLane2;
+        let colorLaneArrow;
+        let colorLaneEnd;
+        
+        window.addEventListener("load", startup, false);
+        function startup() {
+          colorGrass = document.querySelector("#colorGrass");
+          colorGrass.value = default_grass1;
+          colorGrass.addEventListener("input", updateFirstGrass, false);
+          colorGrass.addEventListener("change", updateAllGrass, false);
+          colorGrass.select();
+
+          colorBorder1 = document.querySelector("#colorBorder1");
+          colorBorder1.value = default_border1;
+          colorBorder1.addEventListener("input", updateFirstBorder1, false);
+          colorBorder1.addEventListener("change", updateAllBorder1, false);
+          colorBorder1.select();
+
+          colorBorder2 = document.querySelector("#colorBorder2");
+          colorBorder2.value = default_border2;
+          colorBorder2.addEventListener("input", updateFirstBorder2, false);
+          colorBorder2.addEventListener("change", updateAllBorder2, false);
+          colorBorder2.select();
+
+          colorOutborder = document.querySelector("#colorOutborder");
+          colorOutborder.value = default_outborder;
+          colorOutborder.addEventListener("input", updateFirstOutborder, false);
+          colorOutborder.addEventListener("change", updateAllOutborder, false);
+          colorOutborder.select();
+
+          colorOutborderEnd = document.querySelector("#colorOutborderEnd");
+          colorOutborderEnd.value = default_outborder_end;
+          colorOutborderEnd.addEventListener("input", updateFirstOutborderEnd, false);
+          colorOutborderEnd.addEventListener("change", updateAllOutborderEnd, false);
+          colorOutborderEnd.select();
+
+          colorTrackSegment = document.querySelector("#colorTrackSegment");
+          colorTrackSegment.value = default_track_segment;
+          colorTrackSegment.addEventListener("input", updateFirstTrackSegment, false);
+          colorTrackSegment.addEventListener("change", updateAllTrackSegment, false);
+          colorTrackSegment.select();
+
+          colorTrackSegmentEnd = document.querySelector("#colorTrackSegmentEnd");
+          colorTrackSegmentEnd.value = default_track_segment_end;
+          colorTrackSegmentEnd.addEventListener("input", updateFirstTrackSegmentEnd, false);
+          colorTrackSegmentEnd.addEventListener("change", updateAllTrackSegmentEnd, false);
+          colorTrackSegmentEnd.select();
+
+          colorLane1 = document.querySelector("#colorLane1");
+          colorLane1.value = default_lane1;
+          colorLane1.addEventListener("input", updateFirstLane1, false);
+          colorLane1.addEventListener("change", updateAllLane1, false);
+          colorLane1.select();
+
+          colorLane2 = document.querySelector("#colorLane2");
+          colorLane2.value = default_lane2;
+          colorLane2.addEventListener("input", updateFirstLane2, false);
+          colorLane2.addEventListener("change", updateAllLane2, false);
+          colorLane2.select();
+
+          colorLaneArrow = document.querySelector("#colorLaneArrow");
+          colorLaneArrow.value = default_laneArrow;
+          colorLaneArrow.addEventListener("input", updateFirstLaneArrow, false);
+          colorLaneArrow.addEventListener("change", updateAllLaneArrow, false);
+          colorLaneArrow.select();
+
+          colorLaneEnd = document.querySelector("#colorLaneEnd");
+          colorLaneEnd.value = default_lane_end;
+          colorLaneEnd.addEventListener("input", updateFirstLaneEnd, false);
+          colorLaneEnd.addEventListener("change", updateAllLaneEnd, false);
+          colorLaneEnd.select();
+        }
+
+        function updateFirstGrass(event) {
+            let p1 = document.querySelector('[id=hex1]');
+            if (p1) {
+                p1.innerHTML = "Hex: "+event.target.value;
+            }
+        }
+
+        function updateAllGrass(event) {
+            document.querySelectorAll('[id=hex1]').forEach(function(p1) {
+                p1.innerHTML = "Hex: "+event.target.value;
+            });
+        }
+
+        function updateFirstBorder1(event) {
+            let p2 = document.querySelector('[id=hex2]');
+            if (p2) {
+                p2.innerHTML = "Hex: "+event.target.value;
+            }
+        }
+
+        function updateAllBorder1(event) {
+            document.querySelectorAll('[id=hex2]').forEach(function(p2) {
+                p2.innerHTML = "Hex: "+event.target.value;
+            });
+        }
+        function updateFirstBorder2(event) {
+            let p3 = document.querySelector('[id=hex3]');
+            if (p3) {
+                p3.innerHTML = "Hex: "+event.target.value;
+            }
+        }
+
+        function updateAllBorder2(event) {
+            document.querySelectorAll('[id=hex3]').forEach(function(p3) {
+                p3.innerHTML = "Hex: "+event.target.value;
+            });
+        }
+
+        function updateFirstOutborder(event) {
+            let p4 = document.querySelector('[id=hex4]');
+            if (p4) {
+                p4.innerHTML = "Hex: "+event.target.value;
+            }
+        }
+
+        function updateAllOutborder(event) {
+            document.querySelectorAll('[id=hex4]').forEach(function(p4) {
+                p4.innerHTML = "Hex: "+event.target.value;
+            });
+        }
+
+        function updateFirstOutborderEnd(event) {
+            let p5 = document.querySelector('[id=hex5]');
+            if (p5) {
+                p5.innerHTML = "Hex: "+event.target.value;
+            }
+        }
+
+        function updateAllOutborderEnd(event) {
+            document.querySelectorAll('[id=hex5]').forEach(function(p5) {
+                p5.innerHTML = "Hex: "+event.target.value;
+            });
+        }
+
+        function updateFirstTrackSegment(event) {
+            let p6 = document.querySelector('[id=hex6]');
+            if (p6) {
+                p6.innerHTML = "Hex: "+event.target.value;
+            }
+        }
+
+        function updateAllTrackSegment(event) {
+            document.querySelectorAll('[id=hex6]').forEach(function(p6) {
+                p6.innerHTML = "Hex: "+event.target.value;
+            });
+        }
+        
+        function updateFirstTrackSegmentEnd(event) {
+            let p7 = document.querySelector('[id=hex7]');
+            if (p7) {
+                p7.innerHTML = "Hex: "+event.target.value;
+            }
+        }
+
+        function updateAllTrackSegmentEnd(event) {
+            document.querySelectorAll('[id=hex7]').forEach(function(p7) {
+                p7.innerHTML = "Hex: "+event.target.value;
+            });
+        }
+
+        function updateFirstLane1(event) {
+            let p8 = document.querySelector('[id=hex8]');
+            if (p8) {
+                p8.innerHTML = "Hex: "+event.target.value;
+            }
+        }
+
+        function updateAllLane1(event) {
+            document.querySelectorAll('[id=hex8]').forEach(function(p8) {
+                p8.innerHTML = "Hex: "+event.target.value;
+            });
+        }
+
+        function updateFirstLane2(event) {
+            let p9 = document.querySelector('[id=hex9]');
+            if (p9) {
+                p9.innerHTML = "Hex: "+event.target.value;
+            }
+        }
+
+        function updateAllLane2(event) {
+            document.querySelectorAll('[id=hex9]').forEach(function(p9) {
+                p9.innerHTML = "Hex: "+event.target.value;
+            });
+        }
+        
+        function updateFirstLaneArrow(event) {
+            let p10 = document.querySelector('[id=hex10]');
+            if (p10) {
+                p10.innerHTML = "Hex: "+event.target.value;
+            }
+        }
+
+        function updateAllLaneArrow(event) {
+            document.querySelectorAll('[id=hex10]').forEach(function(p10) {
+                p10.innerHTML = "Hex: "+event.target.value;
+            });
+        }
+
+        function updateFirstLaneEnd(event) {
+            let p11 = document.querySelector('[id=hex11]');
+            if (p11) {
+                p11.innerHTML = "Hex: "+event.target.value;
+            }
+        }
+
+        function updateAllLaneEnd(event) {
+            document.querySelectorAll('[id=hex11]').forEach(function(p11) {
+                p11.innerHTML = "Hex: "+event.target.value;
+            });
+        }
+
+        this.customizationDiv.append("br");
+        this.customizationDiv.append("br");
+        this.customizationDiv.append("br");
+
+        this.customizationDiv.append("h4").style("margin-left","5px").text("Track Topography");
+        this.customizationDiv.append("br");
+        this.writeTopography=this.customizationDiv.append("div").attr("id","writeTopography");
+        
+        this.writeTopography.append("p").style("margin-left","40px")
+                             .text("Use keywords: 'left', 'right', 'straight', 'up', 'down'");
+        this.writeTopography.append("p").style("margin-left","40px")
+                             .text("to describe the track");
+        this.writeTopography.append("textarea").attr("id","topography").attr("rows","2").attr("cols","60").style("margin-left","40px")
+                             .text("[]");
+
+        this.customizationDiv.append("br");
+        this.customizationDiv.append("br");
         this.customizationDiv.append("br");
         
         this.customizationDiv.append("h4").style("margin-left","5px").text("Customize");
@@ -580,8 +891,13 @@ define(function (require, exports, module) {
                     .attr("class","slider")
                     .attr("id","myRange-"+res2);
 
-            this.aux.append("p").style("color",this.sliderColor).style("margin-left","15px").text("Value of "+res+":")
-                    .append("span").attr("id","demo-"+res2);
+            if(res.match(/Obstacles/)){
+                this.aux.append("p").style("color",this.sliderColor).style("margin-left","15px").text("Frequence of "+res+":")
+                        .append("span").attr("id","demo-"+res2);
+            }else{
+                this.aux.append("p").style("color",this.sliderColor).style("margin-left","15px").text("Value of "+res+":")
+                        .append("span").attr("id","demo-"+res2);
+            }
 
             if(brItr===2){
                 if(isMobile){
@@ -663,7 +979,7 @@ define(function (require, exports, module) {
                              .attr("id","selectedSteeringWheel")
                              .style("visibility", "hidden")
                              .text("");
-
+     
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
 
@@ -913,15 +1229,35 @@ define(function (require, exports, module) {
     Customization.prototype.endRange = function (callback,car,CSSValues,sliders,steeringWheel) {
         let reRenderEnd=0;
         let maxValueEnd=d3.select("#myRange-End")[0][0].value;
-        
+
         $("#myRange-End").on("input", (e) => {
             d3.select("#demo-End")[0][0].innerHTML = $(e.target).val() ;
             maxValueEnd = d3.select("#myRange-End")[0][0].value;
             if(maxValueEnd==="1"){
                 Customization.prototype.removeParentAllChilds("speedometer-gauge").removeParentAllChilds("tachometer-gauge").removeChild("steering_wheel");
+ 
+                // Get final selected colors
+                let colorGrass_Final=d3.select("#hex1")[0][0].innerText;
+                let colorBorder1_Final=d3.select("#hex2")[0][0].innerText;
+                let colorBorder2_Final=d3.select("#hex3")[0][0].innerText;
+                let colorOutborder_Final=d3.select("#hex4")[0][0].innerText;
+                let colorOutborderEnd_Final=d3.select("#hex5")[0][0].innerText;
+                let colorTrackSegment_Final=d3.select("#hex6")[0][0].innerText;
+                let colorTrackSegmentEnd_Final=d3.select("#hex7")[0][0].innerText;
+                let colorLane1_Final=d3.select("#hex8")[0][0].innerText;
+                let colorLane2_Final=d3.select("#hex9")[0][0].innerText;
+                let colorLaneArrow_Final=d3.select("#hex10")[0][0].innerText;
+                let colorLaneEnd_Final=d3.select("#hex11")[0][0].innerText;
+                let topography_Final=d3.select("#topography")[0][0].value;
+
                 if(reRenderEnd>=0){
                     reRenderEnd++;
                     sliders=Customization.prototype.rangeEvents(sliders);
+
+                    let numLanes_Final=sliders.maxValueLanes.value;
+                    let freqObstacles_Final=sliders.maxValueObstacles.value;
+
+                    // TODO send this values to TrackGenerator Widget to create the desired track
 
                     // ---------------- SPEEDOMETER ----------------
                     car.speedometerGauge = new Speedometer('speedometer-gauge', {
