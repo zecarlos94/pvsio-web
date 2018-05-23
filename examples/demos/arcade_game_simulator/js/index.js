@@ -171,7 +171,7 @@ require([
             height: 650
         }, {
             parent: "game-window", // defines parent div, which is div id="game-window" by default
-            trackFilename: "track", // defines track configuration filename, which is "track.json" by default
+            trackFilename: "track-straight", // track-curves-slopes, // defines track configuration filename, which is "track-curves-slopes.json" by default
             spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
             trackTopography: "curves-slopes", // "straight", // defines initial position after ending 1 lap (restart position in another lap).
@@ -223,6 +223,8 @@ require([
             evts: ['press/release'],
             keyCode: 85 // key 'u'
         });
+
+        arcade.arcadeWidget.startSimulation();
 
         // Render arcade game components
         function render(res) {

@@ -44,8 +44,12 @@
  *                  // loadPVSSpeedPositions: true,
  *               }// append on div 'game-window'
  *           );
- *          // Render the Arcade widget
+ * 
+ *          // Render the Arcade widget, updating Widget status with PVS status (vehicle position, posx and speed)
  *          arcade.render();
+ * 
+ *          // Starts the simulation using constructor's opt fields (arguments)
+ *          Arcade.prototype.startSimulation();
  *     }
  * });
  * 
@@ -188,7 +192,10 @@ define(function (require, exports, module) {
     let loadPVSSpeedPositions = null;
 
     let spritesheetJSON;
+    let spritesheetJSONPredefined;
     let trackJSON;
+    let trackStraightJSONPredefined;
+    let trackCurvesSlopesJSONPredefined;
 
     let currentBrowser = { chrome: false, mozilla: false, opera: false, msie: false, safari: false};
 
@@ -209,6 +216,8 @@ define(function (require, exports, module) {
     let vehicleType=null;
     let vehicleRealistic=null;
     let vehicleIndex=null;
+    let logoIndex=null;
+    let backgroundIndex=null;
     let controllable_car=null;
     let laneWidth=null;
     let numLanes=null;
@@ -248,6 +257,9 @@ define(function (require, exports, module) {
     * Start of Arcade Global Variables 
     */
 
+    // Information regarding the PNG spritesheets with all objects and letters that allows the desired renderization
+    let spritesFiles;
+    
     // Information regarding the track topography to determine initial position in each lap (restart position)
     let trackTopography;
 
@@ -359,7 +371,7 @@ define(function (require, exports, module) {
         this.height = coords.height || 750;
 
         this.parent = (opt.parent) ? ("#" + opt.parent) : "game-window";
-        this.trackFilename = (opt.trackFilename) ? ("text!widgets/car/configurations/" + opt.trackFilename + ".json") : "text!widgets/car/configurations/track.json";
+        this.trackFilename = (opt.trackFilename) ? ("text!widgets/car/configurations/" + opt.trackFilename + ".json") : "text!widgets/car/configurations/track-curves-slopes.json";
         this.spritesFilename = (opt.spritesFilename) ? ("text!widgets/car/configurations/" + opt.spritesFilename + ".json") : "text!widgets/car/configurations/spritesheet.json";
         this.spritesFiles = (opt.spritesFiles) ? opt.spritesFiles : ["spritesheet","spritesheet.text"];
         this.vehicleImgIndex = (opt.vehicleImgIndex) ? opt.vehicleImgIndex : null;
@@ -373,6 +385,7 @@ define(function (require, exports, module) {
         this.lapNumber = (opt.lapNumber) ? opt.lapNumber : 2;        
         this.loadPVSSpeedPositions = (opt.loadPVSSpeedPositions) ? opt.loadPVSSpeedPositions : true;
 
+        spritesFiles = this.spritesFiles;
         trackTopography = this.trackTopography;
         lapNumber = this.lapNumber;
         loadPVSSpeedPositions = this.loadPVSSpeedPositions;
@@ -407,12 +420,27 @@ define(function (require, exports, module) {
         vehicleType = this.vehicle;
         vehicleRealistic = this.realisticImgs;
         vehicleIndex = this.vehicleImgIndex;
+        logoIndex = this.logoImgIndex;
+        backgroundIndex = this.backgroundImgIndex;
         showOfficialLogo = this.showOfficialLogo;
 
-        // trackJSON = require("text!widgets/car/configurations/track-straight.json");
-        trackJSON = require("text!widgets/car/configurations/track-curves-slopes.json");
-        spritesheetJSON = require("text!widgets/car/configurations/spritesheet.json");        
+        // Loading track and spritesheet based on trackFilename and spritesFilename options
+        let _this = this;        
+        require([this.trackFilename], function(track) {
+            _this.div.append("div").attr("id", "track_file_loaded_opt_field").style("visibility","hidden").text(track);
+            return _this;
+        });
 
+        require([this.spritesFilename], function(spritesheet) {
+            _this.div.append("div").attr("id", "spritesheet_file_loaded_opt_field").style("visibility","hidden").text(spritesheet);
+            return _this;
+        });
+
+        // Requiring predefined JSON files 
+        trackStraightJSONPredefined = require("text!widgets/car/configurations/track-straight.json");
+        trackCurvesSlopesJSONPredefined = require("text!widgets/car/configurations/track-curves-slopes.json");
+        spritesheetJSONPredefined = require("text!widgets/car/configurations/spritesheet.json");   
+        
         this.div = d3.select(this.parent)
                         .attr("class","container game_view")
                         .style("position", "absolute")
@@ -461,100 +489,86 @@ define(function (require, exports, module) {
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
 
-        if(trackJSON){
-            let aux = JSON.parse(trackJSON);
-            controllable_car=aux.controllable_car;
-            laneWidth=aux.laneWidth;
-            numLanes=aux.numLanes;
-            numberOfSegmentPerColor=aux.numberOfSegmentPerColor;
-            render=aux.render;
-            topSpeed=aux.topSpeed;
-            trackParam=aux.trackParam;
-            trackSegmentSize=aux.trackSegmentSize;
-            grass1=aux.trackColors.grass1;
-            border1=aux.trackColors.border1;
-            border2=aux.trackColors.border2;
-            outborder1=aux.trackColors.outborder1;
-            outborder_end1=aux.trackColors.outborder_end1;
-            track_segment1=aux.trackColors.track_segment1;
-            lane1=aux.trackColors.lane1;
-            lane2=aux.trackColors.lane2;
-            laneArrow1=aux.trackColors.laneArrow1;
-            track_segment_end=aux.trackColors.track_segment_end;
-            lane_end=aux.trackColors.lane_end;
-            readParams=true;
-            track=aux.track;
-            readConfiguration=true;
-        }
+        Widget.call(this, id, coords, opt);
+       
+        return this;
+    }
 
-        let backgroundRegex, logoRegex, frontRegex, leftRegex, rightRegex;
+    Arcade.prototype = Object.create(Widget.prototype);
+    Arcade.prototype.constructor = Arcade;
+    Arcade.prototype.parentClass = Widget.prototype;
 
-        if(this.realisticImgs){
-            realPrefix="real_";
-        }else{
-            realPrefix="";
-        }
+     /**
+     * @function startSimulation
+     * @description StartSimulation method of the Arcade widget. This method loads the desired JSON Files and starts the corresponding simulation.
+     * @memberof module:Arcade
+     * @instance
+     */
+    Arcade.prototype.startSimulation = function () {
+        setTimeout(function(){ 
+            trackJSON = document.getElementById("track_file_loaded_opt_field").innerHTML;
+            spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field").innerHTML;
+            if(trackJSON){
+                let aux = JSON.parse(trackJSON);
+                controllable_car=aux.controllable_car;
+                laneWidth=aux.laneWidth;
+                numLanes=aux.numLanes;
+                numberOfSegmentPerColor=aux.numberOfSegmentPerColor;
+                render=aux.render;
+                topSpeed=aux.topSpeed;
+                trackParam=aux.trackParam;
+                trackSegmentSize=aux.trackSegmentSize;
+                grass1=aux.trackColors.grass1;
+                border1=aux.trackColors.border1;
+                border2=aux.trackColors.border2;
+                outborder1=aux.trackColors.outborder1;
+                outborder_end1=aux.trackColors.outborder_end1;
+                track_segment1=aux.trackColors.track_segment1;
+                lane1=aux.trackColors.lane1;
+                lane2=aux.trackColors.lane2;
+                laneArrow1=aux.trackColors.laneArrow1;
+                track_segment_end=aux.trackColors.track_segment_end;
+                lane_end=aux.trackColors.lane_end;
+                readParams=true;
+                track=aux.track;
+                readConfiguration=true;
+            }
 
-        if(this.backgroundImgIndex!==null){
-            backgroundRegex = new RegExp("^"+realPrefix+"background"+this.backgroundImgIndex+"$");
-        }else{
-            backgroundRegex = new RegExp("^"+realPrefix+"background");
-        }
+            let backgroundRegex, logoRegex, frontRegex, leftRegex, rightRegex;
 
-        if(this.logoImgIndex!==null){
-            logoRegex   = new RegExp("^"+realPrefix+"logo"+this.logoImgIndex+"$");
-        }else{
-            logoRegex   = new RegExp("^"+realPrefix+"logo$");
-        }
+            if(vehicleRealistic){
+                realPrefix="real_";
+            }else{
+                realPrefix="";
+            }
 
-        if(this.vehicleImgIndex!==null){
-            frontRegex      = new RegExp("^"+realPrefix+this.vehicle+this.vehicleImgIndex+"_faced_front$");
-            leftRegex       = new RegExp("^"+realPrefix+this.vehicle+this.vehicleImgIndex+"_faced_left$");
-            rightRegex      = new RegExp("^"+realPrefix+this.vehicle+this.vehicleImgIndex+"_faced_right$");
-        }else{
-            frontRegex      = new RegExp("^"+realPrefix+this.vehicle+"_faced_front$");
-            leftRegex       = new RegExp("^"+realPrefix+this.vehicle+"_faced_left$");
-            rightRegex      = new RegExp("^"+realPrefix+this.vehicle+"_faced_right$");
-        }
+            if(backgroundIndex!==null){
+                backgroundRegex = new RegExp("^"+realPrefix+"background"+this.backgroundImgIndex+"$");
+            }else{
+                backgroundRegex = new RegExp("^"+realPrefix+"background");
+            }
 
-        // console.log(spritesAvailable);
+            if(logoIndex!==null){
+                logoRegex   = new RegExp("^"+realPrefix+"logo"+this.logoImgIndex+"$");
+            }else{
+                logoRegex   = new RegExp("^"+realPrefix+"logo$");
+            }
 
-        if(spritesheetJSON){
-            spritesReadJSON = JSON.parse(spritesheetJSON);
-            // Reading all JSON Sprites Available
-            for(let k=0;k<spritesReadJSON.frames.length;k++){
-                spritesAvailable[k]={
-                    name:spritesReadJSON.frames[k].filename.split(".")[0],
-                    value:spritesReadJSON.frames[k].frame
-                };
-                if(spritesAvailable[k].name.match(backgroundRegex)){
-                    background = spritesAvailable[k].value;
-                }
-                if(spritesAvailable[k].name.match(logoRegex)){
-                    logo = spritesAvailable[k].value;
-                }
-                if(spritesAvailable[k].name.match(frontRegex)){
-                    vehicle_faced_front = spritesAvailable[k].value;
-                }
-                if(spritesAvailable[k].name.match(leftRegex)){
-                    vehicle_faced_left = spritesAvailable[k].value;
-                }
-                if(spritesAvailable[k].name.match(rightRegex)){
-                    vehicle_faced_right = spritesAvailable[k].value;
-                }
-            } 
-          
-            if(background===undefined){
-                if(this.realisticImgs){
-                    if(this.backgroundImgIndex!==null){ // realistic image with that index does not exist
-                        backgroundRegex = new RegExp("^"+realPrefix+"background$");
-                    }else{  // realistic image does not exist
-                        backgroundRegex = new RegExp("^background");
-                    }
-                }else{
-                    backgroundRegex = new RegExp("^background");
-                }
+            if(vehicleIndex!==null){
+                frontRegex      = new RegExp("^"+realPrefix+this.vehicle+this.vehicleImgIndex+"_faced_front$");
+                leftRegex       = new RegExp("^"+realPrefix+this.vehicle+this.vehicleImgIndex+"_faced_left$");
+                rightRegex      = new RegExp("^"+realPrefix+this.vehicle+this.vehicleImgIndex+"_faced_right$");
+            }else{
+                frontRegex      = new RegExp("^"+realPrefix+this.vehicle+"_faced_front$");
+                leftRegex       = new RegExp("^"+realPrefix+this.vehicle+"_faced_left$");
+                rightRegex      = new RegExp("^"+realPrefix+this.vehicle+"_faced_right$");
+            }
 
+            // console.log(spritesAvailable);
+
+            if(spritesheetJSON){
+                spritesReadJSON = JSON.parse(spritesheetJSON);
+                // Reading all JSON Sprites Available
                 for(let k=0;k<spritesReadJSON.frames.length;k++){
                     spritesAvailable[k]={
                         name:spritesReadJSON.frames[k].filename.split(".")[0],
@@ -563,54 +577,9 @@ define(function (require, exports, module) {
                     if(spritesAvailable[k].name.match(backgroundRegex)){
                         background = spritesAvailable[k].value;
                     }
-                } 
-            }  
-
-            if(logo===undefined){
-                if(this.realisticImgs){
-                    if(this.logoImgIndex!==null){
-                        logoRegex   = new RegExp("^"+realPrefix+"logo$");
-                    }else{
-                        logoRegex   = new RegExp("^logo$");
-                    }
-                }else{
-                    logoRegex   = new RegExp("^logo$");
-                }
-
-                for(let k=0;k<spritesReadJSON.frames.length;k++){
-                    spritesAvailable[k]={
-                        name:spritesReadJSON.frames[k].filename.split(".")[0],
-                        value:spritesReadJSON.frames[k].frame
-                    };
                     if(spritesAvailable[k].name.match(logoRegex)){
                         logo = spritesAvailable[k].value;
                     }
-                }    
-            }  
-
-            if(vehicle_faced_front===undefined || vehicle_faced_left===undefined || vehicle_faced_right===undefined){
-                if(this.realisticImgs){ 
-                    if(this.vehicleImgIndex!==null){ // Realistic image with index does not exist
-                        frontRegex      = new RegExp("^"+realPrefix+this.vehicle+"_faced_front$");
-                        leftRegex       = new RegExp("^"+realPrefix+this.vehicle+"_faced_left$");
-                        rightRegex      = new RegExp("^"+realPrefix+this.vehicle+"_faced_right$");
-                    }else{ // Realistic image without index does not exist
-                        frontRegex      = new RegExp("^"+this.vehicle+"_faced_front$");
-                        leftRegex       = new RegExp("^"+this.vehicle+"_faced_left$");
-                        rightRegex      = new RegExp("^"+this.vehicle+"_faced_right$");
-                    }
-                }
-                else{
-                    frontRegex      = new RegExp("^"+this.vehicle+"_faced_front$");
-                    leftRegex       = new RegExp("^"+this.vehicle+"_faced_left$");
-                    rightRegex      = new RegExp("^"+this.vehicle+"_faced_right$");
-                }
-
-                for(let k=0;k<spritesReadJSON.frames.length;k++){
-                    spritesAvailable[k]={
-                        name:spritesReadJSON.frames[k].filename.split(".")[0],
-                        value:spritesReadJSON.frames[k].frame
-                    };
                     if(spritesAvailable[k].name.match(frontRegex)){
                         vehicle_faced_front = spritesAvailable[k].value;
                     }
@@ -621,91 +590,164 @@ define(function (require, exports, module) {
                         vehicle_faced_right = spritesAvailable[k].value;
                     }
                 } 
-            }
-            if(background!==undefined && logo!==undefined && vehicle_faced_front!==undefined && vehicle_faced_left!==undefined && vehicle_faced_right!==undefined){
-                readSprite=true;  
-            }else{
-                for(let k=0;k<spritesReadJSON.frames.length;k++){
-                    spritesAvailable[k]={
-                        name:spritesReadJSON.frames[k].filename.split(".")[0],
-                        value:spritesReadJSON.frames[k].frame
-                    };
-                    if(spritesAvailable[k].name.match(/^background$/)){
-                        background = spritesAvailable[k].value;
+            
+                if(background===undefined){
+                    if(vehicleRealistic){
+                        if(backgroundIndex!==null){ // realistic image with that index does not exist
+                            backgroundRegex = new RegExp("^"+realPrefix+"background$");
+                        }else{  // realistic image does not exist
+                            backgroundRegex = new RegExp("^background");
+                        }
+                    }else{
+                        backgroundRegex = new RegExp("^background");
                     }
-                    if(spritesAvailable[k].name.match(/^logo$/)){
-                        logo = spritesAvailable[k].value;
+
+                    for(let k=0;k<spritesReadJSON.frames.length;k++){
+                        spritesAvailable[k]={
+                            name:spritesReadJSON.frames[k].filename.split(".")[0],
+                            value:spritesReadJSON.frames[k].frame
+                        };
+                        if(spritesAvailable[k].name.match(backgroundRegex)){
+                            background = spritesAvailable[k].value;
+                        }
+                    } 
+                }  
+
+                if(logo===undefined){
+                    if(vehicleRealistic){
+                        if(logoIndex!==null){
+                            logoRegex   = new RegExp("^"+realPrefix+"logo$");
+                        }else{
+                            logoRegex   = new RegExp("^logo$");
+                        }
+                    }else{
+                        logoRegex   = new RegExp("^logo$");
                     }
-                    if(this.vehicle==="airplane"){
-                        if(spritesAvailable[k].name.match(/^airplane_faced_front$/)){
+
+                    for(let k=0;k<spritesReadJSON.frames.length;k++){
+                        spritesAvailable[k]={
+                            name:spritesReadJSON.frames[k].filename.split(".")[0],
+                            value:spritesReadJSON.frames[k].frame
+                        };
+                        if(spritesAvailable[k].name.match(logoRegex)){
+                            logo = spritesAvailable[k].value;
+                        }
+                    }    
+                }  
+
+                if(vehicle_faced_front===undefined || vehicle_faced_left===undefined || vehicle_faced_right===undefined){
+                    if(vehicleRealistic){ 
+                        if(vehicleIndex!==null){ // Realistic image with index does not exist
+                            frontRegex      = new RegExp("^"+realPrefix+vehicleType+"_faced_front$");
+                            leftRegex       = new RegExp("^"+realPrefix+vehicleType+"_faced_left$");
+                            rightRegex      = new RegExp("^"+realPrefix+vehicleType+"_faced_right$");
+                        }else{ // Realistic image without index does not exist
+                            frontRegex      = new RegExp("^"+vehicleType+"_faced_front$");
+                            leftRegex       = new RegExp("^"+vehicleType+"_faced_left$");
+                            rightRegex      = new RegExp("^"+vehicleType+"_faced_right$");
+                        }
+                    }
+                    else{
+                        frontRegex      = new RegExp("^"+vehicleType+"_faced_front$");
+                        leftRegex       = new RegExp("^"+vehicleType+"_faced_left$");
+                        rightRegex      = new RegExp("^"+vehicleType+"_faced_right$");
+                    }
+
+                    for(let k=0;k<spritesReadJSON.frames.length;k++){
+                        spritesAvailable[k]={
+                            name:spritesReadJSON.frames[k].filename.split(".")[0],
+                            value:spritesReadJSON.frames[k].frame
+                        };
+                        if(spritesAvailable[k].name.match(frontRegex)){
                             vehicle_faced_front = spritesAvailable[k].value;
                         }
-                        if(spritesAvailable[k].name.match(/^airplane_faced_left$/)){
+                        if(spritesAvailable[k].name.match(leftRegex)){
                             vehicle_faced_left = spritesAvailable[k].value;
                         }
-                        if(spritesAvailable[k].name.match(/^airplane_faced_right$/)){
+                        if(spritesAvailable[k].name.match(rightRegex)){
                             vehicle_faced_right = spritesAvailable[k].value;
                         }
-                    }
-                    else if(this.vehicle==="bicycle"){
-                        if(spritesAvailable[k].name.match(/^bicycle_faced_front$/)){
-                            vehicle_faced_front = spritesAvailable[k].value;
-                        }
-                        if(spritesAvailable[k].name.match(/^bicycle_faced_left$/)){
-                            vehicle_faced_left = spritesAvailable[k].value;
-                        }
-                        if(spritesAvailable[k].name.match(/^bicycle_faced_right$/)){
-                            vehicle_faced_right = spritesAvailable[k].value;
-                        }
-                    }
-                    else if(this.vehicle==="car") {
-                        if(spritesAvailable[k].name.match(/^car_faced_front$/)){
-                            vehicle_faced_front = spritesAvailable[k].value;
-                        }
-                        if(spritesAvailable[k].name.match(/^car_faced_left$/)){
-                            vehicle_faced_left = spritesAvailable[k].value;
-                        }
-                        if(spritesAvailable[k].name.match(/^car_faced_right$/)){
-                            vehicle_faced_right = spritesAvailable[k].value;
-                        }
-                    }
-                    else if(this.vehicle==="helicopter"){
-                        if(spritesAvailable[k].name.match(/^helicopter_faced_front$/)){
-                            vehicle_faced_front = spritesAvailable[k].value;
-                        }
-                        if(spritesAvailable[k].name.match(/^helicopter_faced_left$/)){
-                            vehicle_faced_left = spritesAvailable[k].value;
-                        }
-                        if(spritesAvailable[k].name.match(/^helicopter_faced_right$/)){
-                            vehicle_faced_right = spritesAvailable[k].value;
-                        }
-                    }
-                    else if(this.vehicle==="motorbike"){
-                        if(spritesAvailable[k].name.match(/^motorbike_faced_front$/)){
-                            vehicle_faced_front = spritesAvailable[k].value;
-                        }
-                        if(spritesAvailable[k].name.match(/^motorbike_faced_left$/)){
-                            vehicle_faced_left = spritesAvailable[k].value;
-                        }
-                        if(spritesAvailable[k].name.match(/^motorbike_faced_right$/)){
-                            vehicle_faced_right = spritesAvailable[k].value;
-                        }
-                    }
+                    } 
                 }
-                readSprite=true;  
-            }   
-        }
+                if(background!==undefined && logo!==undefined && vehicle_faced_front!==undefined && vehicle_faced_left!==undefined && vehicle_faced_right!==undefined){
+                    readSprite=true;  
+                }else{
+                    for(let k=0;k<spritesReadJSON.frames.length;k++){
+                        spritesAvailable[k]={
+                            name:spritesReadJSON.frames[k].filename.split(".")[0],
+                            value:spritesReadJSON.frames[k].frame
+                        };
+                        if(spritesAvailable[k].name.match(/^background$/)){
+                            background = spritesAvailable[k].value;
+                        }
+                        if(spritesAvailable[k].name.match(/^logo$/)){
+                            logo = spritesAvailable[k].value;
+                        }
+                        if(vehicleType==="airplane"){
+                            if(spritesAvailable[k].name.match(/^airplane_faced_front$/)){
+                                vehicle_faced_front = spritesAvailable[k].value;
+                            }
+                            if(spritesAvailable[k].name.match(/^airplane_faced_left$/)){
+                                vehicle_faced_left = spritesAvailable[k].value;
+                            }
+                            if(spritesAvailable[k].name.match(/^airplane_faced_right$/)){
+                                vehicle_faced_right = spritesAvailable[k].value;
+                            }
+                        }
+                        else if(vehicleType==="bicycle"){
+                            if(spritesAvailable[k].name.match(/^bicycle_faced_front$/)){
+                                vehicle_faced_front = spritesAvailable[k].value;
+                            }
+                            if(spritesAvailable[k].name.match(/^bicycle_faced_left$/)){
+                                vehicle_faced_left = spritesAvailable[k].value;
+                            }
+                            if(spritesAvailable[k].name.match(/^bicycle_faced_right$/)){
+                                vehicle_faced_right = spritesAvailable[k].value;
+                            }
+                        }
+                        else if(vehicleType==="car") {
+                            if(spritesAvailable[k].name.match(/^car_faced_front$/)){
+                                vehicle_faced_front = spritesAvailable[k].value;
+                            }
+                            if(spritesAvailable[k].name.match(/^car_faced_left$/)){
+                                vehicle_faced_left = spritesAvailable[k].value;
+                            }
+                            if(spritesAvailable[k].name.match(/^car_faced_right$/)){
+                                vehicle_faced_right = spritesAvailable[k].value;
+                            }
+                        }
+                        else if(vehicleType==="helicopter"){
+                            if(spritesAvailable[k].name.match(/^helicopter_faced_front$/)){
+                                vehicle_faced_front = spritesAvailable[k].value;
+                            }
+                            if(spritesAvailable[k].name.match(/^helicopter_faced_left$/)){
+                                vehicle_faced_left = spritesAvailable[k].value;
+                            }
+                            if(spritesAvailable[k].name.match(/^helicopter_faced_right$/)){
+                                vehicle_faced_right = spritesAvailable[k].value;
+                            }
+                        }
+                        else if(vehicleType==="motorbike"){
+                            if(spritesAvailable[k].name.match(/^motorbike_faced_front$/)){
+                                vehicle_faced_front = spritesAvailable[k].value;
+                            }
+                            if(spritesAvailable[k].name.match(/^motorbike_faced_left$/)){
+                                vehicle_faced_left = spritesAvailable[k].value;
+                            }
+                            if(spritesAvailable[k].name.match(/^motorbike_faced_right$/)){
+                                vehicle_faced_right = spritesAvailable[k].value;
+                            }
+                        }
+                    }
+                    readSprite=true;  
+                }   
+            }
 
-        Widget.call(this, id, coords, opt);
-        Arcade.prototype.onPageLoad(this.spritesFiles);
-        loadingTrackNrIterations = setInterval(function(){ Arcade.prototype.getNrIterations(); }, 500);
-        
+            Arcade.prototype.onPageLoad(spritesFiles);
+            loadingTrackNrIterations = setInterval(function(){ Arcade.prototype.getNrIterations(); }, 500);
+        }, 50);
         return this;
-    }
-
-    Arcade.prototype = Object.create(Widget.prototype);
-    Arcade.prototype.constructor = Arcade;
-    Arcade.prototype.parentClass = Widget.prototype;
+    };
 
     /**
      * @function hide
