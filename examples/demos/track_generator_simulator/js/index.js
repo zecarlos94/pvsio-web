@@ -204,6 +204,10 @@ require([
             trackGenerator.trackGeneratorWidget.render();
         }
 
+        // API to generate track with parameters received as argument by the constructor, i.e. new TrackGenerator()
+        // trackGenerator.trackGeneratorWidget.generateStraightTrack();
+        // trackGenerator.trackGeneratorWidget.generateTrackCurvesSlopes();
+
         var demoFolder = "track_generator_simulator";
         //register event listener for websocket connection from the client
         client.addListener('WebSocketConnectionOpened', function (e) {
