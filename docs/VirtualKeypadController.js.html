@@ -34,7 +34,7 @@
  * a virtual keypad suitable for mobile devices. Renders based on device type(desktop, mobile).
  *
  * @date Mar 02, 2018
- * last modified @date Apr 18, 2018
+ * last modified @date May 23, 2018
  *
  * @example &lt;caption>Usage of VirtualKeypadController within a PVSio-web demo.&lt;/caption>
  * define(function (require, exports, module) {
@@ -75,19 +75,71 @@
  *               } // options, append this widget on div class="virtualKeyPad"
  *           );
  * 
+ *          // Available methods:
  *          // Render the VirtualKeypadController widget
  *          virtualKeypadController.render();
+ * 
+ *          // OR
  * 
  *          // Hides the VirtualKeypadController widget
  *          virtualKeypadController.hide();
  * 
+ *          // OR
+ * 
  *          // Reveals the VirtualKeypadController widget
  *          virtualKeypadController.reveal();
+ * 
+ *          // OR
  * 
  *          // Returns the current main div
  *          virtualKeypadController.show(); 
  *     }
  * });
+ * 
+ * @example &lt;caption>Usage of API to create a Virtual Keypad.&lt;/caption>
+ * define(function (require, exports, module) {
+ *     "use strict";
+ *
+ *     // Require the VirtualKeypadController module
+ *     require("widgets/car/VirtualKeypadController");
+ *
+ *     function main() {
+ *          // After VirtualKeypadController module was loaded, initialize it
+ *          let virtualKeypadController = new VirtualKeypadController(
+ *               'example', // id of the VirtualKeypadController element that will be created
+ *               { top: 800, left: 800, width: 500, height: 500 }, // coordinates object
+ *               { 
+ *                 keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
+ *                 keyboardClass: "icon keyboard",
+ *                 keyboardTopMobile: 750,
+ *                 keyboardLeftMobile: 1350,
+ *                 keyboardTopDesktop: 735,
+ *                 keyboardLeftDesktop: 1380,
+ *                 // keyboardUrl: "img/keyboard.png", // Image is located at widgets/car/configurations/img/keyboard.png by default
+ *                 keyboardHoverInitialTitle: "Click to open virtual keypad controller",
+ *                 keyboardHoverSecondTitle: "Click to close virtual keypad controller",
+ *                 // keyboardOnclickAction: "alert("Clicked");", // No action by default
+ *                 keyboardImageWidthMobile: 80,
+ *                 keyboardImageHeightMobile: 60,
+ *                 keyboardImageWidthDesktop: 50,
+ *                 keyboardImageHeightDesktop: 30,
+ *                 parent: 'virtualKeyPad', 
+ *                 simulatorActions: 'simulatorActions', 
+ *                 simulatorArrows: 'simulatorArrows',
+ *                 floatArrows: 'floatArrows',
+ *                 blockArrows: 'blockArrows',
+ *                 buttonClass: 'buttonClass',
+ *                 title: 'title',
+ *                 arrowKeysPVS: [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"],
+ *                 otherKeysPVS: [ "quit", "pause", "resume" ],
+ *               } // options, append this widget on div class="virtualKeyPad"
+ *           );
+ * 
+ *          // Render the VirtualKeypadController widget
+ *          virtualKeypadController.render();
+ *     }
+ * });
+ * 
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*jshint esnext:true */
@@ -111,6 +163,7 @@ define(function (require, exports, module) {
 
     /**
      * @function constructor
+     * @public
      * @description Constructor for the VirtualKeypadController widget.
      * @param id {String} The id of the widget instance.
      * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
@@ -433,6 +486,7 @@ define(function (require, exports, module) {
 
     /**
      * @function hide
+     * @public
      * @description Hide method of the VirtualKeypadController widget. This method changes 'virtualKeyPad' div visibility to hidden.
      * @memberof module:VirtualKeypadController
      * @instance
@@ -443,6 +497,7 @@ define(function (require, exports, module) {
 
     /**
      * @function reveal
+     * @public
      * @description Reveal method of the VirtualKeypadController widget. This method changes 'virtualKeyPad' div visibility to visible.
      * @memberof module:VirtualKeypadController
      * @instance
@@ -453,6 +508,7 @@ define(function (require, exports, module) {
 
     /**
      * @function show
+     * @public
      * @description Show method of the VirtualKeypadController widget. This method shows the current div status, i.e. as it was created by the VirtualKeypadController constructor.
      * @memberof module:VirtualKeypadController
      * @instance
@@ -463,6 +519,7 @@ define(function (require, exports, module) {
 
     /**
      * @function render
+     * @public
      * @description Render method of the VirtualKeypadController widget. This method renders this.div, i.e. the div produced by this widget constructor.
      * @memberof module:VirtualKeypadController
      * @instance
@@ -489,7 +546,7 @@ define(function (require, exports, module) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 09:32:07 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 11:33:14 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

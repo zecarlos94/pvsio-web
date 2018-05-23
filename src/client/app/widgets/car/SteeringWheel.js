@@ -7,7 +7,7 @@
  * can be found in main.pvs file in the demonstration where the widget's constructor was invoked.
  *
  * @date October 6, 2017
- * last modified @date Apr 17, 2018
+ * last modified @date May 23, 2018
  *
  * @example <caption>Usage of SteeringWheel within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -26,17 +26,66 @@
  *               // 'ferrari' will use "ferrari_steering_wheel.svg" as SVG image.
  *           );
  *
+ *          // Available methods:
  *          // Render the SteeringWheel widget, provinding a rotation value in degrees
  *          wheel.render(-45); // rotates 45 degrees counter-clockwise
+ * 
+ *          // OR
  * 
  *          // Hides the SteeringWheel widget
  *          wheel.hide();
  * 
+ *          // OR
+ * 
  *          // Reveals/Shows the SteeringWheel widget
  *          wheel.reveal();
  * 
+ *          // OR
+ * 
  *          // Rotates the SteeringWheel widget, provinding a rotation value in degrees
  *          wheel.rotate(45); // rotates 45 degrees clockwise
+ *     }
+ * });
+ * 
+ * @example <caption>Usage of API to create a new Steering Wheel, as well as to rotate it 45 degrees counter-clockwise.</caption>
+ *   define(function (require, exports, module) {
+ *     "use strict";
+ *
+ *     // Require the SteeringWheel module
+ *     require("widgets/car/SteeringWheel");
+ *
+ *     function main() {
+ *          // After SteeringWheel module was loaded, initialize it
+ *          let wheel = new SteeringWheel(
+ *               'example', // id of the gauge element that will be created
+ *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
+ *               { style: 'ferrari' }
+ *               // options, in this case, style represents the SVG image name, available at steering_wheels folder.
+ *               // 'ferrari' will use "ferrari_steering_wheel.svg" as SVG image.
+ *           );
+ *
+ *          wheel.rotate(-45); 
+ *     }
+ * });
+ * 
+ * @example <caption>Usage of API to create a new Steering Wheel, as well as to rotate it 90 degrees clockwise.</caption>
+ *   define(function (require, exports, module) {
+ *     "use strict";
+ *
+ *     // Require the SteeringWheel module
+ *     require("widgets/car/SteeringWheel");
+ *
+ *     function main() {
+ *          // After SteeringWheel module was loaded, initialize it
+ *          let wheel = new SteeringWheel(
+ *               'example', // id of the gauge element that will be created
+ *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
+ *               { style: 'ferrari' }
+ *               // options, in this case, style represents the SVG image name, available at steering_wheels folder.
+ *               // 'ferrari' will use "ferrari_steering_wheel.svg" as SVG image.
+ *           );
+ *
+ *          wheel.rotate(90); 
  *     }
  * });
  * 
@@ -53,6 +102,7 @@ define(function (require, exports, module) {
 
     /**
      * @function constructor
+     * @public
      * @description Constructor for the SteeringWheel widget.
      * @param id {String} The id of the widget instance.
      * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
@@ -158,6 +208,7 @@ define(function (require, exports, module) {
 
     /**
      * @function hide
+     * @public
      * @description Hide method of the SteeringWheel widget. This method changes parent div display to none.
      * @memberof module:SteeringWheel
      * @instance
@@ -168,6 +219,7 @@ define(function (require, exports, module) {
 
     /**
      * @function reveal
+     * @public
      * @description Reveal method of the SteeringWheel widget. This method changes parent div display to block.
      * @memberof module:SteeringWheel
      * @instance
@@ -178,6 +230,7 @@ define(function (require, exports, module) {
 
      /**
      * @function rotate
+     * @public
      * @description Rotate method of the SteeringWheel widget. This method rotates the steering wheel SVG, i.e. the steering wheel image, by the value of 'val'.
      * @param val {Float} Rotation angle (degrees). Positive values indicate clockwise rotation; negative values are for counter-clockwise rotations.
      * @memberof module:SteeringWheel
@@ -193,6 +246,7 @@ define(function (require, exports, module) {
 
     /**
      * @function render
+     * @public
      * @description Render method of the SteeringWheel widget.
      * @param val {Float} Rotation angle (degrees). Positive values indicate clockwise rotation; negative values are for counter-clockwise rotations.
      * @memberof module:SteeringWheel

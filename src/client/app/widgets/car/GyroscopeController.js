@@ -4,10 +4,12 @@
  * @author José Carlos
  * @desc This module helps you playing the 2D, HTML5, arcade driving simulator
  * using Device Orientation available at
- * {@link https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Processing_orientation_events}
+ * {@link https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Processing_orientation_events}.
+ * That is, this module allows to control both steering wheel rotations as well as accelerating/braking, i.e. changing
+ * the speedometer values displayed.
  *
  * @date Apr 05, 2018
- * last modified @date Apr 17, 2018
+ * last modified @date May 23, 2018
  *
  *
  * @example <caption>Usage of GyroscopeController within a PVSio-web demo.</caption>
@@ -28,31 +30,118 @@
  *               }
  *           );
  *
+ *          // Available methods:
  *          // Render the GyroscopeController widget
  *          gyroscope.render();
+ * 
+ *          // OR
  * 
  *          // Hides the GyroscopeController widget
  *          gyroscope.hide();
  * 
+ *          // OR
+ * 
  *          // Reveals/Shows the GyroscopeController widget
  *          gyroscope.reveal();
  * 
- *          // Rotates "carSteeringWheel" left to right and vice-versa, based on gamma values. 
- *          // That is, "gamma" value represents the motion of the device around the y axis, represented in degrees with values 
- *          // ranging from -90 to 90. This represents a left to right motion of the device. 
- *          gyroscope.rotateSteeringAngle(gamma);
+ *          // OR
  * 
- *          // Rotates "carSteeringWheel" left to right and vice-versa, based on gamma values with sensitivity. 
- *          // That is, "gamma" value represents the motion of the device around the y axis, represented in degrees with values 
- *          // ranging from -90*sensitivity to 90*sensitivity. This represents a left to right motion of the device. 
+ *          // Rotates "carSteeringWheel" left to right, and vice-versa, and presses/releases the "carAccelerate"/"carBrake", based on x,y values. 
+ *          // That is, "x" value represents the motion of the device around the x axis, represented in degrees with values 
+ *          // ranging from -180 to 180. This represents a front to back motion of the device or vice-versa. 
+ *          // That is, "y" value represents the motion of the device around the y axis, represented in degrees with values 
+ *          // ranging from -90 to 90. This represents a left to right motion of the device or vice-versa.  
+ *          gyroscope.rotateSteeringAngle(x,y);
+ * 
+ *          // OR
+ * 
+ *          // Rotates "carSteeringWheel" left to right, and vice-versa, and presses/releases the "carAccelerate"/"carBrake", based on x,y values, with sensitivity. 
+ *          // That is, "x" value represents the motion of the device around the x axis, represented in degrees with values 
+ *          // ranging from -180 to 180. This represents a front to back motion of the device or vice-versa. 
+ *          // That is, "y" value represents the motion of the device around the y axis, represented in degrees with values 
+ *          // ranging from -90*sensitivity to 90*sensitivity. This represents a left to right motion of the device or vice-versa.
  *          // Sensitivity "sensitivity" values range from 0% to 100%.
- *          gyroscope.rotateSteeringAngleWithSensitivity(gamma, sensitivity);
+ *          gyroscope.rotateSteeringAngleWithSensitivity(x,y,sensitivity);
+ * 
+ *          // OR
  * 
  *          // Method that is invoked whenever "deviceorientation" events occur.
  *          gyroscope.handleOrientation(event);
  * 
  *     }
  * });
+ * 
+ * @example <caption>Usage of <strong>Protected API</strong> within GyroscopeController Widget. That is, API which is only used internally by the GyroscopeController Widget to handle the events captured.</caption>
+ *          // Method that is invoked whenever "deviceorientation" events occur.
+ *          gyroscope.handleOrientation(event);
+ * 
+ * @example <caption>Usage of API to create a new Gyroscope Widget, to listen events "deviceorientation" within a PVSio-web demo.
+ * This widget is also self-contained, i.e., the event handler function will call the rotate method for each captured event.</caption>
+ * define(function (require, exports, module) {
+ *     "use strict";
+ *
+ *     // Require the GyroscopeController module
+ *     require("widgets/car/GyroscopeController");
+ *
+ *     function main() {
+ *          // After GyroscopeController module was loaded, initialize it
+ *          let gyroscope = new GyroscopeController(
+ *               'example', // id of the GyroscopeController element that will be created
+ *               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
+ *               {
+ *                  parent: "gyroscope",
+ *                  carSteeringWheel: car.steeringWheel 
+ *               }
+ *           );
+ *      }
+ * });
+ * 
+ * @example <caption>Usage of API to create a new Gyroscope Widget, to listen events "deviceorientation" within a PVSio-web demo and
+ * to rotate steering wheel Widget received as opt field without sensitivity.</caption>
+ * define(function (require, exports, module) {
+ *     "use strict";
+ *
+ *     // Require the GyroscopeController module
+ *     require("widgets/car/GyroscopeController");
+ *
+ *     function main() {
+ *          // After GyroscopeController module was loaded, initialize it
+ *          let gyroscope = new GyroscopeController(
+ *               'example', // id of the GyroscopeController element that will be created
+ *               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
+ *               {
+ *                  parent: "gyroscope",
+ *                  carSteeringWheel: car.steeringWheel 
+ *               }
+ *           );
+ * 
+ *          gyroscope.rotateSteeringAngle(x,y);
+ *      }
+ * });
+ * 
+ * @example <caption>Usage of API to create a new Gyroscope Widget, to listen events "deviceorientation" within a PVSio-web demo and
+ * to rotate steering wheel Widget received as opt field with sensitivity of 75%.</caption>
+ * define(function (require, exports, module) {
+ *     "use strict";
+ *
+ *     // Require the GyroscopeController module
+ *     require("widgets/car/GyroscopeController");
+ *
+ *     function main() {
+ *          // After GyroscopeController module was loaded, initialize it
+ *          let gyroscope = new GyroscopeController(
+ *               'example', // id of the GyroscopeController element that will be created
+ *               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
+ *               {
+ *                  parent: "gyroscope",
+ *                  carSteeringWheel: car.steeringWheel 
+ *               }
+ *           );
+ * 
+ *          gyroscope.rotateSteeringAngleWithSensitivity(x,y,75);
+ *     }
+ * });
+ * 
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*jshint esnext:true */
@@ -92,6 +181,7 @@ define(function (require, exports, module) {
 
     /**
      * @function constructor
+     * @public
      * @description Constructor for the GyroscopeController widget.
      * @param id {String} The id of the widget instance.
      * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
@@ -146,6 +236,7 @@ define(function (require, exports, module) {
 
      /**
      * @function rotateSteeringAngle
+     * @public
      * @description RotateSteeringAngle method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation). Default sensitivity is 100.
      * @param beta {Float} The value of horizontal rotation (is zero when the device is parallel to Earth’s surface), between -180 and 180. It is used to accelerate or brake(press/release opt buttons).
      * @param gamma {Float} The value of vertical axis(up to/or down), between -90 and 90. It is used to calculate the angle in degrees calculated based on vertical axis value given by the gyroscope.
@@ -180,6 +271,7 @@ define(function (require, exports, module) {
 
     /**
      * @function rotateSteeringAngleWithSensitivity
+     * @public
      * @description RotateSteeringAngleWithSensitivity method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation) and with the required sensitivity.
      * @param beta {Float} The value of horizontal rotation (is zero when the device is parallel to Earth’s surface), between -180 and 180. It is used to accelerate or brake(press/release opt buttons).
      * @param gamma {Float} The value of vertical axis(up to/or down), between -90 and 90. It is used to calculate the angle in degrees calculated based on vertical axis value given by the gyroscope.
@@ -211,6 +303,7 @@ define(function (require, exports, module) {
 
     /**
      * @function handleOrientation
+     * @protected
      * @description HandleOrientation method of the GyroscopeController widget. This method changes the object orientation based on its rotation angle.
      * @memberof module:GyroscopeController
      * @instance
@@ -226,6 +319,7 @@ define(function (require, exports, module) {
 
     /**
      * @function hide
+     * @public
      * @description Hide method of the GyroscopeController widget. This method changes 'gyroscope' div visibility to hidden.
      * @memberof module:GyroscopeController
      * @instance
@@ -236,6 +330,7 @@ define(function (require, exports, module) {
 
     /**
      * @function reveal
+     * @public
      * @description Reveal method of the GyroscopeController widget. This method changes 'gyroscope' div visibility to visible.
      * @memberof module:GyroscopeController
      * @instance
@@ -246,6 +341,7 @@ define(function (require, exports, module) {
 
     /**
      * @function render
+     * @public
      * @description Render method of the GyroscopeController widget.
      * @memberof module:GyroscopeController
      * @instance

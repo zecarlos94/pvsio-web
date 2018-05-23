@@ -126,7 +126,7 @@ can be found in main.pvs file in the demonstration where the widget's constructo
 
 
 
-    <h5>Example</h5>
+    <h5>Examples</h5>
     
         <p class="code-caption">Usage of SteeringWheel within a PVSio-web demo.</p>
     
@@ -146,17 +146,68 @@ can be found in main.pvs file in the demonstration where the widget's constructo
               // 'ferrari' will use "ferrari_steering_wheel.svg" as SVG image.
           );
 
+         // Available methods:
          // Render the SteeringWheel widget, provinding a rotation value in degrees
          wheel.render(-45); // rotates 45 degrees counter-clockwise
+
+         // OR
 
          // Hides the SteeringWheel widget
          wheel.hide();
 
+         // OR
+
          // Reveals/Shows the SteeringWheel widget
          wheel.reveal();
 
+         // OR
+
          // Rotates the SteeringWheel widget, provinding a rotation value in degrees
          wheel.rotate(45); // rotates 45 degrees clockwise
+    }
+});</code></pre>
+
+        <p class="code-caption">Usage of API to create a new Steering Wheel, as well as to rotate it 45 degrees counter-clockwise.</p>
+    
+    <pre class="prettyprint"><code>  define(function (require, exports, module) {
+    "use strict";
+
+    // Require the SteeringWheel module
+    require("widgets/car/SteeringWheel");
+
+    function main() {
+         // After SteeringWheel module was loaded, initialize it
+         let wheel = new SteeringWheel(
+              'example', // id of the gauge element that will be created
+              { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
+              { style: 'ferrari' }
+              // options, in this case, style represents the SVG image name, available at steering_wheels folder.
+              // 'ferrari' will use "ferrari_steering_wheel.svg" as SVG image.
+          );
+
+         wheel.rotate(-45); 
+    }
+});</code></pre>
+
+        <p class="code-caption">Usage of API to create a new Steering Wheel, as well as to rotate it 90 degrees clockwise.</p>
+    
+    <pre class="prettyprint"><code>  define(function (require, exports, module) {
+    "use strict";
+
+    // Require the SteeringWheel module
+    require("widgets/car/SteeringWheel");
+
+    function main() {
+         // After SteeringWheel module was loaded, initialize it
+         let wheel = new SteeringWheel(
+              'example', // id of the gauge element that will be created
+              { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
+              { style: 'ferrari' }
+              // options, in this case, style represents the SVG image name, available at steering_wheels folder.
+              // 'ferrari' will use "ferrari_steering_wheel.svg" as SVG image.
+          );
+
+         wheel.rotate(90); 
     }
 });</code></pre>
 
@@ -341,7 +392,7 @@ can be found in main.pvs file in the demonstration where the widget's constructo
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line54">line 54</a>
+        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -449,7 +500,7 @@ can be found in main.pvs file in the demonstration where the widget's constructo
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line159">line 159</a>
+        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line209">line 209</a>
     </li></ul></dd>
     
 
@@ -584,7 +635,7 @@ can be found in main.pvs file in the demonstration where the widget's constructo
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line194">line 194</a>
+        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line247">line 247</a>
     </li></ul></dd>
     
 
@@ -670,7 +721,7 @@ can be found in main.pvs file in the demonstration where the widget's constructo
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line169">line 169</a>
+        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line220">line 220</a>
     </li></ul></dd>
     
 
@@ -805,7 +856,7 @@ can be found in main.pvs file in the demonstration where the widget's constructo
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line179">line 179</a>
+        <a href="SteeringWheel.js.html">SteeringWheel.js</a>, <a href="SteeringWheel.js.html#line231">line 231</a>
     </li></ul></dd>
     
 
@@ -855,7 +906,7 @@ can be found in main.pvs file in the demonstration where the widget's constructo
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 09:32:07 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 11:33:14 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

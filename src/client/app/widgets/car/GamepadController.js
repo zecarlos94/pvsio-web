@@ -11,7 +11,7 @@
  * {@link https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_API}
  *
  * @date October 23, 2017
- * last modified @date Apr 18, 2018
+ * last modified @date May 23, 2018
  *
  * @example <caption>Usage of GamepadController within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -43,15 +43,29 @@
  *               }
  *           );
  *
+ *          // Available methods:
  *          // Render the GamepadController widget
  *          gamepadController.render();
+ * 
+ *          //OR
  * 
  *          // Hides the GamepadController widget
  *          gamepadController.hide();
  * 
+ *          //OR
+ * 
  *          // Reveals the GamepadController widget
  *          gamepadController.reveal();
  * 
+ *          //OR
+ * 
+ *          // Logs all known gamepads(saved up until that invocation)
+ *          gamepadController.listGamepadsKnown();
+ *     }
+ * });
+ * 
+ * @example <caption>Usage of <strong>Protected API</strong> within GamepadController Widget. That is, API which is only used internally by the GamepadController Widget to handle the events captured.</caption>
+ *  
  *          // Connects the gamepad captured by "gamepadconnected" event
  *          gamepadController.connectGamepad(event.gamepad);
  * 
@@ -72,9 +86,6 @@
  * 
  *          // Updates all gamepads known, i.e. loads all connected gamepads (captured by the proper event)
  *          gamepadController.listGamepads();
- * 
- *          // Logs all known gamepads(saved up until that invocation)
- *          gamepadController.listGamepadsKnown();
  * 
  *          // Removes gamepad g, captured by the "gamepaddisconnected" event
  *          gamepadController.removeGamepad(g);
@@ -121,8 +132,77 @@
  *          // Maps axis key of Logitech G29 on PS3 Mode racing steering wheel external controller 
  *          mappedAxis = GamepadController.prototype.mappingLogitechG29PS3ModeAxes(key);
  * 
+ * 
+ * @example <caption>Usage of API to create a new GamepadController Widget, to listen events "gamepadconnected" and "gamepaddisconnected" within a PVSio-web demo.
+ * This widget is also self-contained, i.e., the event handler function will call the rotate and the press/release methods for each click event captured.</caption>
+ *  define(function (require, exports, module) {
+ *     "use strict";
+ *
+ *     // Require the GamepadController module
+ *     require("widgets/car/GamepadController");
+ *
+ *     function main() {
+ *          // After GamepadController module was loaded, initialize it
+ *          let gamepadController = new GamepadController(
+ *               'example', // id of the GamepadController element that will be created
+ *               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
+ *               {
+ *                  carAccelerate: car.up, 
+ *                  carBrake: car.down,
+ *                  carSteeringWheel: car.steeringWheel 
+ *                  type: "steeringWheelAndPedals", // Default is "gamepad"
+ *                  accelerationIndex: 0,
+ *                  brakeIndex: 1,
+ *                  leftArrowIndex: 14,
+ *                  rightArrowIndex: 15,
+ *                  accelerationPedalIndex: 1,
+ *                  brakePedalIndex: 1,
+ *                  steeringWheelIndex: 0,
+ *                  analogueStickIndex: 9,
+ *                  leftAnalogueIndex: 0,
+ *                  rightAnalogueIndex: 2,
+ *               }
+ *           );
+ *
+ *          gamepadController.render();
  *     }
  * });
+ * 
+ * @example <caption>Usage of API to list all gamepads known, i.e. currently connected.</caption>
+ *  define(function (require, exports, module) {
+ *     "use strict";
+ *
+ *     // Require the GamepadController module
+ *     require("widgets/car/GamepadController");
+ *
+ *     function main() {
+ *          // After GamepadController module was loaded, initialize it
+ *          let gamepadController = new GamepadController(
+ *               'example', // id of the GamepadController element that will be created
+ *               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
+ *               {
+ *                  carAccelerate: car.up, 
+ *                  carBrake: car.down,
+ *                  carSteeringWheel: car.steeringWheel 
+ *                  type: "steeringWheelAndPedals", // Default is "gamepad"
+ *                  accelerationIndex: 0,
+ *                  brakeIndex: 1,
+ *                  leftArrowIndex: 14,
+ *                  rightArrowIndex: 15,
+ *                  accelerationPedalIndex: 1,
+ *                  brakePedalIndex: 1,
+ *                  steeringWheelIndex: 0,
+ *                  analogueStickIndex: 9,
+ *                  leftAnalogueIndex: 0,
+ *                  rightAnalogueIndex: 2,
+ *               }
+ *           );
+ *
+ *          gamepadController.listGamepadsKnown();
+ *     }
+ * });
+ * 
+ * 
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*jshint esnext:true */
@@ -132,6 +212,7 @@ define(function (require, exports, module) {
 
     /**
      * @description Array 'gamepadsKnown' has all connected gamepads.
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
@@ -139,108 +220,126 @@ define(function (require, exports, module) {
     let gamepadEvents;
     /**
      * @description 'gamepadPS4Id' has PS4 gamepad unique ID, to use the proper mapping method.
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
     let gamepadPS4Id = "Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 09cc)";
     /**
      * @description 'gamepadXBOX1Id' has Xbox One gamepad unique ID, to use the proper mapping method.
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
     let gamepadXBOX1Id = "Xbox One Controller (STANDARD GAMEPAD Vendor: 045e Product: 02ea)";
     /**
      * @description 'g29RacingPS4ModeId' has G29 Driving Force Racing Wheel unique ID, to use the proper mapping method in PS4 mode. Available at {@link https://www.amazon.co.uk/Logitech-Driving-Racing-Pedals-UK-Plug/dp/B00YUOVBZK}
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
     let g29RacingPS4ModeId = "G29 Driving Force Racing Wheel (Vendor: 046d Product: c260)";
     /**
      * @description 'g29RacingPS3ModeId' has G29 Driving Force Racing Wheel unique ID, to use the proper mapping method in PS3 mode. Available at {@link https://www.amazon.co.uk/Logitech-Driving-Racing-Pedals-UK-Plug/dp/B00YUOVBZK}
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
     let g29RacingPS3ModeId = "G29 Driving Force Racing Wheel (Vendor: 046d Product: c294)";
     /**
      * @description ButtonExternalController 'carAccelerate' to be clicked when a certain gamepad button is pressed.
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
     let carAccelerate;
     /**
      * @description ButtonExternalController 'carBrake' to be clicked when a certain gamepad button is pressed.
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
     let carBrake;
     /**
      * @description SteeringWheel 'carSteeringWheel' to be rotated with gamepad axes values.
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
     let carSteeringWheel;
     /**
      * @description Field 'type' allows to differentiate the axes of the external controller, i.e. to differentiate between gamepad axes and a more complex controller such as steeringWheelAndPedals axes. 
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
     let type;
     /**
      * @description Index 'accelerationIndex' is the external controller index where acceleration action will be invoked.
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
     let accelerationIndex;
     /**
      * @description Index 'brakeIndex' is the external controller index where brake action will be invoked.
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
     let brakeIndex;
     /**
      * @description Index 'leftArrowIndex' is the external controller index where turn left action(steering wheel left rotation) will be invoked.
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
     let leftArrowIndex;
     /**
      * @description Index 'rightArrowIndex' is the external controller index where turn right action(steering wheel right rotation) will be invoked.
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
     let rightArrowIndex;
     /**
      * @description Index 'accelerationPedalIndex' is the external controller(pedals external controller) index where acceleration action will be invoked.
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
     let accelerationPedalIndex;
     /**
      * @description Index 'brakePedalIndex' is the external controller(pedals external controller) index where brake action will be invoked.
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
     let brakePedalIndex;
     /**
      * @description Index 'steeringWheelIndex' is the external controller(steering wheel external controller) index where steeringWheel widget rotate method will be invoked.
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
     let steeringWheelIndex;
     /**
      * @description Index 'analogueStickIndex' is the external controller index where steeringWheel widget rotate method will be invoked, based on X axis calculated angle.
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
     let analogueStickIndex;
     /**
      * @description Index 'leftAnalogueIndex' is the external controller index where steeringWheel widget rotate method will be invoked, based on X,Y axes calculated angle.
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
     let leftAnalogueIndex;
     /**
      * @description Index 'rightAnalogueIndex' is the external controller index where steeringWheel widget rotate method will be invoked, based on X,Y axes calculated angle.
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
@@ -248,6 +347,7 @@ define(function (require, exports, module) {
 
     /**
      * @description Listening for event 'gamepadconnected' to update known gamepads array.
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
@@ -261,6 +361,7 @@ define(function (require, exports, module) {
 
     /**
      * @description Listening for event 'gamepaddisconnected' to update known gamepads array.
+     * @protected
      * @memberof module:GamepadController
      * @instance
      */
@@ -280,6 +381,7 @@ define(function (require, exports, module) {
 
     /**
      * @function constructor
+     * @public
      * @description Constructor for the GamepadController widget.
      * @param id {String} The id of the widget instance.
      * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
@@ -363,6 +465,7 @@ define(function (require, exports, module) {
 
     /**
      * @function hide
+     * @public
      * @description Hide method of the GamepadController widget. This method changes 'gamepads' div visibility to hidden.
      * @memberof module:GamepadController
      * @instance
@@ -373,6 +476,7 @@ define(function (require, exports, module) {
 
     /**
      * @function reveal
+     * @public
      * @description Reveal method of the GamepadController widget. This method changes 'gamepads' div visibility to visible.
      * @memberof module:GamepadController
      * @instance
@@ -383,6 +487,7 @@ define(function (require, exports, module) {
 
     /**
      * @function mappingLogitechG29PS3ModeButtons
+     * @protected
      * @description MappingLogitechG29PS3ModeButtons method of the GamepadController widget. This method maps all read buttons to Logitech G29 PS3 Mode buttons.
      * @param key {Int} The key instance, i.e. the gamepad button index to be mapped into Logitech G29 PS3 Mode names.
      * @memberof module:GamepadController
@@ -412,6 +517,7 @@ define(function (require, exports, module) {
 
      /**
      * @function mappingLogitechG29PS3ModeAxes
+     * @protected
      * @description MappingLogitechG29PS3ModeAxes method of the GamepadController widget. This method maps all read axes to Logitech G29 PS3 Mode axes.
      * @param key {Int} The key instance, i.e. the gamepad axis index to be mapped into Logitech G29 PS3 Mode names.
      * @memberof module:GamepadController
@@ -438,6 +544,7 @@ define(function (require, exports, module) {
 
     /**
      * @function mappingLogitechG29PS4ModeButtons
+     * @protected
      * @description MappingLogitechG29PS4ModeButtons method of the GamepadController widget. This method maps all read buttons to Logitech G29 PS4 Mode buttons.
      * @param key {Int} The key instance, i.e. the gamepad button index to be mapped into Logitech G29 PS4 Mode names.
      * @memberof module:GamepadController
@@ -468,6 +575,7 @@ define(function (require, exports, module) {
 
      /**
      * @function mappingLogitechG29PS4ModeAxes
+     * @protected
      * @description MappingLogitechG29PS4ModeAxes method of the GamepadController widget. This method maps all read axes to Logitech G29 PS4 Mode axes.
      * @param key {Int} The key instance, i.e. the gamepad axis index to be mapped into Logitech G29 PS4 Mode names.
      * @memberof module:GamepadController
@@ -495,6 +603,7 @@ define(function (require, exports, module) {
 
     /**
      * @function mappingPS4GamepadButtons
+     * @protected
      * @description MappingPS4GamepadButtons method of the GamepadController widget. This method maps all read buttons to PS4 buttons.
      * @param key {Int} The key instance, i.e. the gamepad button index to be mapped into PS4 names.
      * @memberof module:GamepadController
@@ -529,6 +638,7 @@ define(function (require, exports, module) {
 
      /**
      * @function mappingPS4GamepadAxes
+     * @protected
      * @description MappingPS4GamepadAxes method of the GamepadController widget. This method maps all read axes to PS4 axes.
      * @param key {Int} The key instance, i.e. the gamepad axis index to be mapped into PS4 names.
      * @memberof module:GamepadController
@@ -549,6 +659,7 @@ define(function (require, exports, module) {
 
     /**
      * @function mappingXBOX1GamepadButtons
+     * @protected
      * @description MappingXBOX1GamepadButtons method of the GamepadController widget. This method maps all read buttons to XBOX1 buttons.
      * @param key {Int} The key instance, i.e. the gamepad button index to be mapped into XBOX1 names.
      * @memberof module:GamepadController
@@ -582,6 +693,7 @@ define(function (require, exports, module) {
 
     /**
      * @function mappingXBOX1GamepadAxes
+     * @protected
      * @description MappingXBOX1GamepadAxes method of the GamepadController widget. This method maps all read axes to XBOX1 axes.
      * @param key {Int} The key instance, i.e. the gamepad axis index to be mapped into XBOX1 names.
      * @memberof module:GamepadController
@@ -602,6 +714,7 @@ define(function (require, exports, module) {
 
     /**
      * @function degToRadians
+     * @protected
      * @description DegToRadians method of the GamepadController widget. This method converts angles from degrees to radians.
      * @param deg {Float} The angle in degrees instance.
      * @memberof module:GamepadController
@@ -614,6 +727,7 @@ define(function (require, exports, module) {
     
     /**
      * @function radiansToDegrees
+     * @protected
      * @description RadiansToDegrees method of the GamepadController widget. This method converts angles from radians to degrees.
      * @param rad {Float} The angle in radians instance.
      * @memberof module:GamepadController
@@ -626,6 +740,7 @@ define(function (require, exports, module) {
 
      /**
      * @function calculateRotationAngle
+     * @protected
      * @description CalculateRotationAngle method of the GamepadController widget. This method converts angles from radians to degrees. Default sensitivity is 100.
      * @param y {Float} The value of vertical axis(up to/or down), between -1 and 1.
      * @param x {Float} The value of horizontal axis(left to/or right), between -1 and 1.  
@@ -659,6 +774,7 @@ define(function (require, exports, module) {
 
     /**
      * @function calculateRotationAngleWithSensitivity
+     * @protected
      * @description CalculateRotationAngleWithSensitivity method of the GamepadController widget. This method converts angles from radians to degrees.
      * @param y {Float} The value of vertical axis(up to/or down), between -1 and 1.
      * @param x {Float} The value of horizontal axis(left to/or right), between -1 and 1. 
@@ -682,6 +798,7 @@ define(function (require, exports, module) {
 
     /**
      * @function listGamepads
+     * @protected
      * @description ListGamepads method of the GamepadController widget. This method lists all connected gamepads and saved those on gamepadsKnown array.
      * @memberof module:GamepadController
      * @returns {GamepadController} The created instance of the widget GamepadController.
@@ -701,6 +818,7 @@ define(function (require, exports, module) {
 
     /**
      * @function listGamepadsKnown
+     * @public
      * @description ListGamepadsKnown method of the GamepadController widget. This method lists all saved gamepads, i.e. currently connected.
      * @memberof module:GamepadController
      * @returns {GamepadController} The created instance of the widget GamepadController.
@@ -717,6 +835,7 @@ define(function (require, exports, module) {
 
     /**
      * @function disconnectGamepad
+     * @protected
      * @description DisconnectGamepad method of the GamepadController widget. This method disconnects 'gamepad'.
      * @param gamepad {Gamepad} The gamepad instance, i.e. its buttons, axes, unique id, among others.
      * @memberof module:GamepadController
@@ -730,6 +849,7 @@ define(function (require, exports, module) {
       
     /**
      * @function removeGamepad
+     * @protected
      * @description RemoveGamepad method of the GamepadController widget. This method removes 'gamepad' from gamepadsKnown array and removes its div on the frontend demo.
      * @param gamepad {Gamepad} The gamepad instance, i.e. its buttons, axes, unique id, among others.
      * @memberof module:GamepadController
@@ -745,6 +865,7 @@ define(function (require, exports, module) {
   
     /**
      * @function connectGamepad
+     * @protected
      * @description ConnectGamepad method of the GamepadController widget. This method connects 'gamepad'.
      * @param gamepad {Gamepad} The gamepad instance, i.e. its buttons, axes, unique id, among others.
      * @memberof module:GamepadController
@@ -762,6 +883,7 @@ define(function (require, exports, module) {
 
     /**
      * @function saveGamepad
+     * @protected
      * @description SaveGamepad method of the GamepadController widget. This method add 'gamepad' to gamepadsKnown array and add its div on the frontend demo.
      * Also invokes updateStatus method to continuously update the aforementioned div with the current values of pressed buttons and angles read from gamepad axes.
      * @param gamepad {Gamepad} The gamepad instance, i.e. its buttons, axes, unique id, among others.
@@ -825,6 +947,7 @@ define(function (require, exports, module) {
 
      /**
      * @function updateStatus
+     * @protected
      * @description UpdateStatus method of the GamepadController widget. This method updates all connected gamepads divs with their current values of pressed buttons and of angles read from gamepad axes.
      * @memberof module:GamepadController
      * @instance
@@ -994,6 +1117,7 @@ define(function (require, exports, module) {
 
     /**
      * @function render
+     * @public
      * @description Render method of the GamepadController widget.
      * @param gamepads {Gamepad[]} The array of gamepad instance, i.e. all gamepads currently detected in user's browser.
      * @memberof module:GamepadController

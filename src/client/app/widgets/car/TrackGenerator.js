@@ -5,7 +5,7 @@
  * @desc This module generates randomly the 2D driving simulator, straight lines only version, using HTML5 Canvas.
  *
  * @date Apr 02, 2018
- * last modified @date Apr 18, 2018
+ * last modified @date May 23, 2018
  *
  * @example <caption>Usage of TrackGenerator within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -16,7 +16,7 @@
  *
  *     function main() {
  *          // After TrackGenerator module was loaded, initialize it
- *          let TrackGenerator = new TrackGenerator(
+ *          let trackGenerator = new TrackGenerator(
  *               'example', // id of the TrackGenerator element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
  *               { 
@@ -61,11 +61,11 @@
  *                       // curve to right, straight line, 2 up slopes, curve to left, down slope, curve to right,
  *                       // straight line, each with 3 zones (length) (default is []).
  *                       {
- *                           topography: "plain",
+ *                           topography: "straight",
  *                           numZones: 3
  *                       },
  *                       {
- *                           topography: "plain",
+ *                           topography: "straight",
  *                           numZones: 3
  *                       },
  *                       {
@@ -73,7 +73,7 @@
  *                           numZones: 3
  *                       },
  *                       {
- *                           topography: "plain",
+ *                           topography: "straight",
  *                           numZones: 3
  *                       },
  *                       {
@@ -81,7 +81,7 @@
  *                           numZones: 3
  *                       },
  *                       {
- *                           topography: "plain",
+ *                           topography: "straight",
  *                           numZones: 3
  *                       },
  *                       {
@@ -105,33 +105,218 @@
  *                           numZones: 3
  *                       },
  *                       {
- *                           topography: "plain",
+ *                           topography: "straight",
  *                           numZones: 3
  *                       }
  *                   ],
  *              } // append on div 'content'
  *           );
  * 
- *          // Render the TrackGenerator widget
- *          TrackGenerator.render();
- * 
+ *          // Available methods:
  *          // Hides the TrackGenerator widget
- *          TrackGenerator.hide();
+ *          trackGenerator.hide();
+ * 
+ *          // OR
  * 
  *          // Reveals the TrackGenerator widget
- *          TrackGenerator.reveal();
+ *          trackGenerator.reveal();
  * 
- *          // Loads the JSON file received as opt field
- *          TrackGenerator.prototype.loadFile();
+ *          // OR
+ * 
+ *          // Render the TrackGenerator widget
+ *          trackGenerator.render();
+ * 
+ *          // OR
  * 
  *          // Generates randomly the track, with only straight lines (i.e. height:0, curves:0)
- *          TrackGenerator.generateStraightTrack();
+ *          trackGenerator.generateStraightTrack();
+ * 
+ *          // OR
  * 
  *          // Generates randomly the track, with straight lines, curves and slopes
- *          TrackGenerator.generateTrackCurvesSlopes();
+ *          trackGenerator.generateTrackCurvesSlopes();
  * 
  *     }
  * });
+ * 
+ * @example <caption>Usage of <strong>Protected API</strong> within TrackGenerator Widget. That is, API which is only used internally by the TrackGenerator Widget to create the desired track</caption>
+ *          // Loads the JSON file received as opt field
+ *          trackGenerator.prototype.loadFile();
+ * 
+ * @example <caption>Usage of API to create a new track, with only straight lines</caption>
+ *  define(function (require, exports, module) {
+ *     "use strict";
+ *
+ *     // Require the TrackGenerator module
+ *     require("widgets/car/TrackGenerator");
+ *
+ *     function main() {
+ *          // After TrackGenerator module was loaded, initialize it
+ *          let trackGenerator = new TrackGenerator(
+ *               'example', // id of the TrackGenerator element that will be created
+ *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
+ *               { 
+ *                  parent: "content", // defines parent div, which is div id="content" by default
+ *                  spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+ *                  render: {
+ *                      width: 320,
+ *                      height: 240,
+ *                      depthOfField: 150,
+ *                      camera_distance: 30,
+ *                      camera_height: 100
+ *                  },
+ *                  trackSegmentSize: 5,
+ *                  numberOfSegmentPerColor: 4,
+ *                  numLanes: 3,
+ *                  laneWidth: 0.02,
+ *                  trackParam: {
+ *                      maxHeight: 900,
+ *                      maxCurve:  400,
+ *                      numZones:    12, // number of different portions of the track
+ *                      curvy:     0.8,
+ *                      mountainy: 0.8,
+ *                      zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
+ *                  },
+ *                  // Information regarding current controllable_car's car
+ *                  controllable_car: {
+ *                      position: 10,
+ *                      speed: 0,
+ *                      acceleration: 0.05,
+ *                      deceleration: 0.04,
+ *                      breaking: 0.3,
+ *                      turning: 5.0,
+ *                      posx: 0,
+ *                      maxSpeed: 20
+ *                  },
+ *                  topSpeed: 250,
+ *                  objects: ["tree","boulder"], // sprite names to be drawed in the landscape
+ *                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
+ *                  obstaclePerIteration: 50, // each 50 iterations a new obstacle will be placed within the track
+ *                  trackLayout: [ 
+ *                       // describing the desired track, which is 12 straight lines (length) (default is []).
+ *                       {
+ *                           topography: "straight",
+ *                           numZones: 12
+ *                       }
+ *                   ],
+ *              } // append on div 'content'
+ *           );
+ * 
+ *          // Generates randomly the track, with only straight lines (i.e. height:0, curves:0)
+ *          trackGenerator.generateStraightTrack();
+ *     }
+ * });
+ * 
+ * @example <caption>Usage of API to create a new track, with curves and slopes</caption>
+ *  define(function (require, exports, module) {
+ *     "use strict";
+ *
+ *     // Require the TrackGenerator module
+ *     require("widgets/car/TrackGenerator");
+ *
+ *     function main() {
+ *          // After TrackGenerator module was loaded, initialize it
+ *          let trackGenerator = new TrackGenerator(
+ *               'example', // id of the TrackGenerator element that will be created
+ *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
+ *               { 
+ *                  parent: "content", // defines parent div, which is div id="content" by default
+ *                  spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+ *                  render: {
+ *                      width: 320,
+ *                      height: 240,
+ *                      depthOfField: 150,
+ *                      camera_distance: 30,
+ *                      camera_height: 100
+ *                  },
+ *                  trackSegmentSize: 5,
+ *                  numberOfSegmentPerColor: 4,
+ *                  numLanes: 3,
+ *                  laneWidth: 0.02,
+ *                  trackParam: {
+ *                      maxHeight: 900,
+ *                      maxCurve:  400,
+ *                      numZones:    12, // number of different portions of the track
+ *                      curvy:     0.8,
+ *                      mountainy: 0.8,
+ *                      zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
+ *                  },
+ *                  // Information regarding current controllable_car's car
+ *                  controllable_car: {
+ *                      position: 10,
+ *                      speed: 0,
+ *                      acceleration: 0.05,
+ *                      deceleration: 0.04,
+ *                      breaking: 0.3,
+ *                      turning: 5.0,
+ *                      posx: 0,
+ *                      maxSpeed: 20
+ *                  },
+ *                  topSpeed: 250,
+ *                  objects: ["tree","boulder"], // sprite names to be drawed in the landscape
+ *                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
+ *                  obstaclePerIteration: 50, // each 50 iterations a new obstacle will be placed within the track
+ *                  trackLayout: [ 
+ *                       // describing the desired track, which is 2 straight lines, followed by curve to left, straight line, 
+ *                       // curve to right, straight line, 2 up slopes, curve to left, down slope, curve to right,
+ *                       // straight line, each with 3 zones (length) (default is []).
+ *                       {
+ *                           topography: "straight",
+ *                           numZones: 3
+ *                       },
+ *                       {
+ *                           topography: "straight",
+ *                           numZones: 3
+ *                       },
+ *                       {
+ *                           topography: "left",
+ *                           numZones: 3
+ *                       },
+ *                       {
+ *                           topography: "straight",
+ *                           numZones: 3
+ *                       },
+ *                       {
+ *                           topography: "right",
+ *                           numZones: 3
+ *                       },
+ *                       {
+ *                           topography: "straight",
+ *                           numZones: 3
+ *                       },
+ *                       {
+ *                           topography: "up",
+ *                           numZones: 3
+ *                       },
+ *                       {
+ *                           topography: "up",
+ *                           numZones: 3
+ *                       },
+ *                       {
+ *                           topography: "left",
+ *                           numZones: 3
+ *                       },
+ *                       {
+ *                           topography: "down",
+ *                           numZones: 3
+ *                       },
+ *                       {
+ *                           topography: "right",
+ *                           numZones: 3
+ *                       },
+ *                       {
+ *                           topography: "straight",
+ *                           numZones: 3
+ *                       }
+ *                   ],
+ *              } // append on div 'content'
+ *           );
+ * 
+ *          // Generates randomly the track, with straight lines, curves and slopes
+ *          trackGenerator.generateTrackCurvesSlopes();
+ *     }
+ * });
+ * 
  */
 /*jslint lets: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*jshint esnext:true */
@@ -177,6 +362,7 @@ define(function (require, exports, module) {
 
     /**
      * @function constructor
+     * @public
      * @description Constructor for the TrackGenerator widget.
      * @param id {String} The id of the widget instance.
      * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
@@ -274,6 +460,7 @@ define(function (require, exports, module) {
 
     /**
      * @function loadFile
+     * @protected
      * @description LoadFile method of the TrackGenerator widget. This method loads the desired JSON File.
      * @memberof module:TrackGenerator
      * @instance
@@ -297,6 +484,7 @@ define(function (require, exports, module) {
 
     /**
      * @function hide
+     * @public 
      * @description Hide method of the TrackGenerator widget. This method changes the current main div visibility to 'hidden'.
      * @memberof module:TrackGenerator
      * @instance
@@ -307,6 +495,7 @@ define(function (require, exports, module) {
 
     /**
      * @function reveal
+     * @public 
      * @description Reveal method of the TrackGenerator widget. This method changes the current main div visibility to 'visible'.
      * @memberof module:TrackGenerator
      * @instance
@@ -317,6 +506,7 @@ define(function (require, exports, module) {
 
      /**
      * @function generateStraightTrack
+     * @public 
      * @description GenerateStraightTrack method of the TrackGenerator widget. This method generates the straight line simulator version.
      * Every 50 iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
      * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no).
@@ -446,6 +636,7 @@ define(function (require, exports, module) {
 
     /**
      * @function generateTrackCurvesSlopes
+     * @public  
      * @description GenerateTrackCurvesSlopes method of the TrackGenerator widget. This method generates the straight line simulator version.
      * Every 50 iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
      * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no).
@@ -664,6 +855,7 @@ define(function (require, exports, module) {
 
     /**
      * @function render
+     * @public
      * @description Render method of the TrackGenerator widget. 
      * @memberof module:TrackGenerator
      * @instance

@@ -124,7 +124,7 @@
 
 
 
-    <h5>Example</h5>
+    <h5>Examples</h5>
     
         <p class="code-caption">Usage of Customization within a PVSio-web demo.</p>
     
@@ -460,14 +460,21 @@
          } // options
          );
 
+         // Available methods:
          // Render the Customization widget
          customization.render();
+
+         // OR
 
          // Reveals the Customization widget
          customization.reveal();
 
+         // OR
+
          // Hides the Customization widget
          customization.hide();
+
+         // OR
 
          // Returns the current main div
          customization.show();
@@ -475,18 +482,26 @@
          // Starts the imagepicker, and sets all initial CSS styles.
          customization.setInitRenderingDiv(initWindowCSSValues);
 
-         // Sets the imagepicker actions, and sets all CSS styles
-         let aux = initWindowCSSValues[initWindowCSSValues.length - 1];
-         customization.setImagePicker(aux);
-
          // Updates all sliders (ranges values)
          sliders=customization.rangeEvents(sliders);
 
-         // Updates the last selected steering wheel image (imagepicker)
-         steeringWheel = customization.getSteeringWheelImage();
-
          // Adds the "last-gauge" id to all div with class "gauge"
          customization.setLastRenderingDiv("gauge");
+
+         // Re-renders new widgets and sets new layout (new CSS styles)
+         customization.endRange(onMessageReceived,car,reRenderedWindowCSSValues,sliders,steeringWheel);
+
+    }
+});</code></pre>
+
+        <p class="code-caption">Usage of <strong>Protected API</strong> within Customization Widget. That is, API which is only used internally by the Customization Widget to create the customization menu.</p>
+    
+    <pre class="prettyprint"><code>         // Sets the imagepicker actions, and sets all CSS styles
+         let aux = initWindowCSSValues[initWindowCSSValues.length - 1];
+         customization.setImagePicker(aux);
+
+         // Updates the last selected steering wheel image (imagepicker)
+         steeringWheel = customization.getSteeringWheelImage();
 
          // Removes all divs(html) within div "speedometer-gauge"
          customization.removeParentAllChilds("speedometer-gauge");
@@ -498,11 +513,353 @@
          customization.removeChild("steering_wheel");
 
          // Sets all reRendered CSS styles.
-         customization.reRenderedWindowCSS(CSSValues);
+         customization.reRenderedWindowCSS(CSSValues);</code></pre>
+
+        <p class="code-caption">Usage of API to create a new customization menu.</p>
+    
+    <pre class="prettyprint"><code>  define(function (require, exports, module) {
+    "use strict";
+
+    // Require the Customization module
+    require("widgets/car/Customization");
+
+    function main() {
+           let steeringWheel = "ferrari";
+           let sliders = {
+               maxValueSpeedometer: {
+                   id: "Speedometer",
+                   value: null
+               },
+               maxValueTachometer: {
+                   id: "Tachometer",
+                   value: null
+               },
+               maxValueLanes: {
+                   id: "Lanes",
+                   value: null
+               }
+               maxValueObstacles: {
+                   id: "Obstacles",
+                   value: null
+               }
+           };
+           let initWindowCSSValues = [
+               {
+                   id: "mySidenav",
+                   class: null,
+                   styles: [
+                       {
+                           property: "width",
+                           value: "630px"
+                       }
+                   ]
+               },
+               {
+                   id: "menu",
+                   class: null,
+                   styles: [
+                       {
+                           property: "margin-left",
+                           value: "450px"
+                       },
+                       {
+                           property: "visibility",
+                           value: "hidden"
+                       }
+                   ]
+               },
+               {
+                   id: "game-window",
+                   class: null,
+                   styles: [
+                       {
+                           property: "border",
+                           value: "5px solid black"
+                       }
+                   ]
+               },
+               {
+                   id: "instructions",
+                   class: null,
+                   styles: [
+                       {
+                           property: "margin-left",
+                           value: "-60px"
+                       }
+                   ]
+               },
+               {
+                   id: null,
+                   class: "dashboard-widgets",
+                   styles: [
+                       {
+                           property: "visibility",
+                           value: "hidden"
+                       }
+                   ]
+               },
+               {
+                   id: "steering_wheel",
+                   class: "last-steering_wheel",
+                   styles: [
+                       {
+                           property: "visibility",
+                           value: "hidden"
+                       }
+                   ]
+               },
+               {
+                   id: "track_img",
+                   class: null,
+                   styles: [
+                       {
+                           property: "visibility",
+                           value: "visible"
+                       }
+                   ]
+               }
+           ];
+           let reRenderedWindowCSSValues = [
+               {
+                   id: "steering_wheel",
+                   class: "last-steering_wheel",
+                   styles: [
+                       {
+                           property: "display",
+                           value: "block"
+                       }
+                   ]
+               },
+               {
+                   id: "mySidenav",
+                   class: null,
+                   styles: [
+                       {
+                           property: "width",
+                           value: "0px"
+                       }
+                   ]
+               },
+               {
+                   id: "menu",
+                   class: null,
+                   styles: [
+                       {
+                           property: "margin-left",
+                           value: "-170px"
+                       },
+                       {
+                           property: "margin-left",
+                           value: "0px"
+                       },
+                       {
+                           property: "visibility",
+                           value: "visible"
+                       }
+                   ]
+               },
+               {
+                   id: "track_img",
+                   class: null,
+                   styles: [
+                       {
+                           property: "visibility",
+                           value: "hidden"
+                       }
+                   ]
+               },
+               {
+                   id: "instructions",
+                   class: null,
+                   styles: [
+                       {
+                           property: "margin-left",
+                           value: "650px"
+                       },
+                       {
+                           property: "margin-top",
+                           value: "-910px"
+                       },
+                       {
+                           property: "visibility",
+                           value: "visible"
+                       }
+                   ]
+               },
+               {
+                  id: "writeTopography",
+                  class: null,
+                  styles: [
+                      {
+                          property: "display",
+                          value: "none"
+                      }
+                  ]
+              },
+              {
+                  id: "colorPicker",
+                  class: null,
+                  styles: [
+                      {
+                         property: "display",
+                         value: "none"
+                      }
+                  ]
+               },
+               {
+                   id: "gauges",
+                   class: null,
+                   styles: [
+                       {
+                           property: "position",
+                           value: "absolute"
+                       },
+                       {
+                           property: "margin-left",
+                           value: "350px"
+                       },
+                       {   
+                           property: "margin-top",
+                           value: "-1180px"
+                       },
+                       {
+                           property: "visibility",
+                           value: "visible"
+                       }
+                   ]
+               },
+               {
+                   id: "steering_wheel",
+                   class: null,
+                   styles: [
+                       {
+                           property: "margin-top",
+                           value: "200px"
+                       },
+                       {
+                           property: "visibility",
+                           value: "visible"
+                       }
+                   ]
+               },
+               {
+                   id: "gamepadImage",
+                   class: null,
+                   styles: [
+                       {
+                           property: "visibility",
+                           value: "visible"
+                       }
+                   ]
+               },
+               {
+                   id: null,
+                   class: "dashboard-widgets",
+                   styles: [
+                       {
+                           property: "margin-top",
+                           value: "200px"
+                       }
+                   ]
+               },
+               {
+                   id: null,
+                   class: "customization",
+                   styles: [
+                       {
+                           property: "visibility",
+                           value: "hidden"
+                       }
+                   ]
+               },
+           ];
+
+         // After Customization module was loaded, initialize it
+         let customization = new Customization(
+         "customization-widget",  // id of the gauge element that will be created
+         {top: 100, left: 700, width: 750, height: 750}, // coordinates object
+         {
+           parent: "dashboard", // defines parent div, which is div id="dashboard" by default
+           sliderColor: "#4CAF50",
+           imagesSteeringWheels: [
+           {
+             path: "../../../client/app/widgets/car/steering_wheels/basic_steering_wheel.svg",
+             value: "basic_steering_wheel.svg",
+           },
+           {
+             path: "../../../client/app/widgets/car/steering_wheels/ferrari_steering_wheel.svg",
+             value: "ferrari_steering_wheel.svg",
+           },
+           {
+             path: "../../../client/app/widgets/car/steering_wheels/porsche_steering_wheel.svg",
+             value: "porsche_steering_wheel.svg",
+           },
+           {
+             path: "../../../client/app/widgets/car/steering_wheels/sparco_steering_wheel.svg",
+             value: "sparco_steering_wheel.svg",
+           }
+           ],
+           sliderRanges: [
+           {
+             name: "speedometer",
+             min: 0,
+             max: 400,
+             value: 340
+            },
+            {
+             name: "tachometer",
+             min: 0,
+             max: 20,
+             value: 16
+            },
+            {
+              name: "lanes",
+              min: 0,
+              max: 3,
+              value: 0
+            },
+            {
+              name: "obstacles",
+              min: 0,
+              max: 10,
+              value: 0
+            }
+            ],
+            controlsText: ["Car controls:", "[left/right arrow keys] Turn Left/Right", "[up/down arrow keys] Accelerate/Brake" ],
+            gauges: [
+            {
+              name: "speedometer-gauge",
+              styleId: "",
+              style: ""
+            },
+            {
+              name: "tachometer-gauge",
+              styleId: "float",
+              style: "right"
+            }
+            ],
+            gaugesStyles: [
+            {
+              zoom: "45%",
+              marginLeft: "370px",
+              marginTop: "430px"
+            }
+            ],
+            callback: onMessageReceived
+         } // options
+         );
+
+         // Adds the "last-gauge" id to all div with class "gauge"
+         customization.setLastRenderingDiv("gauge");
+
+         // Starts the imagepicker, and sets all initial CSS styles.
+         customization.setInitRenderingDiv(initWindowCSSValues);
+
+         // Updates all sliders (ranges values)
+         sliders=customization.rangeEvents(sliders);
 
          // Re-renders new widgets and sets new layout (new CSS styles)
          customization.endRange(onMessageReceived,car,reRenderedWindowCSSValues,sliders,steeringWheel);
-
     }
 });</code></pre>
 
@@ -690,7 +1047,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line414">line 414</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line771">line 771</a>
     </li></ul></dd>
     
 
@@ -948,7 +1305,7 @@ If the id is null, the class field is used to select the respective div. Otherwi
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1207">line 1207</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1576">line 1576</a>
     </li></ul></dd>
     
 
@@ -1009,7 +1366,7 @@ If the id is null, the class field is used to select the respective div. Otherwi
     
 
     
-    <h4 class="name" id="getSteeringWheelImage"><span class="type-signature"></span>getSteeringWheelImage<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="getSteeringWheelImage"><span class="type-signature">(protected) </span>getSteeringWheelImage<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -1062,7 +1419,7 @@ of the last selected image in the imagepicker. This content will be used to rend
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1125">line 1125</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1490">line 1490</a>
     </li></ul></dd>
     
 
@@ -1148,7 +1505,7 @@ of the last selected image in the imagepicker. This content will be used to rend
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line994">line 994</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1352">line 1352</a>
     </li></ul></dd>
     
 
@@ -1284,7 +1641,7 @@ which will be used to name the id of its div, and the value of that, which by de
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1183">line 1183</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1551">line 1551</a>
     </li></ul></dd>
     
 
@@ -1340,7 +1697,7 @@ which will be used to name the id of its div, and the value of that, which by de
     
 
     
-    <h4 class="name" id="removeChild"><span class="type-signature"></span>removeChild<span class="signature">(id)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
+    <h4 class="name" id="removeChild"><span class="type-signature">(protected) </span>removeChild<span class="signature">(id)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
     
 
     
@@ -1441,7 +1798,7 @@ which will be used to name the id of its div, and the value of that, which by de
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1038">line 1038</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1400">line 1400</a>
     </li></ul></dd>
     
 
@@ -1497,7 +1854,7 @@ which will be used to name the id of its div, and the value of that, which by de
     
 
     
-    <h4 class="name" id="removeParentAllChilds"><span class="type-signature"></span>removeParentAllChilds<span class="signature">(id)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
+    <h4 class="name" id="removeParentAllChilds"><span class="type-signature">(protected) </span>removeParentAllChilds<span class="signature">(id)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
     
 
     
@@ -1599,7 +1956,7 @@ That is, it removes all child nodes from the parent div, with id="#(argument id)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1024">line 1024</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1385">line 1385</a>
     </li></ul></dd>
     
 
@@ -1707,7 +2064,7 @@ That is, it removes all child nodes from the parent div, with id="#(argument id)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1375">line 1375</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1745">line 1745</a>
     </li></ul></dd>
     
 
@@ -1741,7 +2098,7 @@ That is, it removes all child nodes from the parent div, with id="#(argument id)
     
 
     
-    <h4 class="name" id="reRenderedWindowCSS"><span class="type-signature"></span>reRenderedWindowCSS<span class="signature">(reRenderedWindowCSSValues)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
+    <h4 class="name" id="reRenderedWindowCSS"><span class="type-signature">(protected) </span>reRenderedWindowCSS<span class="signature">(reRenderedWindowCSSValues)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
     
 
     
@@ -1846,7 +2203,7 @@ If the id is null, the class field is used to select the respective div. Otherwi
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1150">line 1150</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1517">line 1517</a>
     </li></ul></dd>
     
 
@@ -1959,7 +2316,7 @@ If the id is null, the class field is used to select the respective div. Otherwi
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1004">line 1004</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1363">line 1363</a>
     </li></ul></dd>
     
 
@@ -1993,7 +2350,7 @@ If the id is null, the class field is used to select the respective div. Otherwi
     
 
     
-    <h4 class="name" id="setImagePicker"><span class="type-signature"></span>setImagePicker<span class="signature">(aux)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
+    <h4 class="name" id="setImagePicker"><span class="type-signature">(protected) </span>setImagePicker<span class="signature">(aux)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
     
 
     
@@ -2097,7 +2454,7 @@ as example 3) shows. This object has the id/class of that div, as well as an arr
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1089">line 1089</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1453">line 1453</a>
     </li></ul></dd>
     
 
@@ -2265,7 +2622,7 @@ what happens is the creation of the attribute class, in the selected div, with t
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1053">line 1053</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1416">line 1416</a>
     </li></ul></dd>
     
 
@@ -2428,7 +2785,7 @@ It should be invoked after creating new Gauge Widgets(Speedometer, Tachometer). 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1136">line 1136</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1502">line 1502</a>
     </li></ul></dd>
     
 
@@ -2536,7 +2893,7 @@ It should be invoked after creating new Gauge Widgets(Speedometer, Tachometer). 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1014">line 1014</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1374">line 1374</a>
     </li></ul></dd>
     
 
@@ -2586,7 +2943,7 @@ It should be invoked after creating new Gauge Widgets(Speedometer, Tachometer). 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 09:32:07 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 11:33:14 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

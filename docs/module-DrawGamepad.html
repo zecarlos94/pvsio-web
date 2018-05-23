@@ -126,7 +126,7 @@ ButtonEVO Widget.</div>
 
 
 
-    <h5>Example</h5>
+    <h5>Examples</h5>
     
         <p class="code-caption">Usage of DrawGamepad within a PVSio-web demo.</p>
     
@@ -149,23 +149,110 @@ ButtonEVO Widget.</div>
               } // options
           );
 
+         // Available methods:
          // Render the DrawGamepad widget
          drawGamepad.render();
+
+         // OR
 
          // Hides the DrawGamepad widget
          drawGamepad.hide();
 
+         // OR
+
          // Reveals/Shows the DrawGamepad widget
          drawGamepad.reveal();
 
+         // OR
+
          // Triggers action "click_rightStick", using ButtonActionsQueue instance.
          drawGamepad.callClickPVS("rightStick");
+
+         // OR
 
          // Triggers actions "press_accelerate" and "release_accelerate", using ButtonActionsQueue instance.
          drawGamepad.callPressReleasePVS("accelerate");
 
     }
 });</code></pre>
+
+        <p class="code-caption">Usage of API to draw an interactive xbox gamepad.</p>
+    
+    <pre class="prettyprint"><code>define(function (require, exports, module) {
+    "use strict";
+
+    // Require the DrawGamepad module
+    require("widgets/car/DrawGamepad");
+
+    function main() {
+         // After DrawGamepad module was loaded, initialize it
+         let drawGamepad = new DrawGamepad(
+              'example', // id of the gauge element that will be created
+              { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
+              { 
+                 style: 'xbox', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
+                 buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+                 // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_accelerate"/"release_accelerate".
+                 // Left and Right sticks are not defined as ['press/release'] events, so actions will be "click_rightStick".
+              } // options
+          );
+
+         drawGamepad.render();
+    }
+});</code></pre>
+
+        <p class="code-caption">Usage of API to invoke a press/release event on button "accelerate", using a ButtonActionsQueue instance.
+button "accelerate" will only be created by the constructor if "accelerate" is present in buttonsPVS opt field, by default is.</p>
+    
+    <pre class="prettyprint"><code> define(function (require, exports, module) {
+    "use strict";
+
+    // Require the DrawGamepad module
+    require("widgets/car/DrawGamepad");
+
+    function main() {
+         // After DrawGamepad module was loaded, initialize it
+         let drawGamepad = new DrawGamepad(
+              'example', // id of the gauge element that will be created
+              { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
+              { 
+                 style: 'ps4', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
+                 buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+                 // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_accelerate"/"release_accelerate".
+                 // Left and Right sticks are not defined as ['press/release'] events, so actions will be "click_rightStick".
+              } // options
+          );
+
+         drawGamepad.callPressReleasePVS("accelerate");
+    }
+});</code></pre>
+
+        <p class="code-caption">Usage of API to invoke a click event on button "rightStick", using a ButtonActionsQueue instance.
+button "rightStick" will only be created by the constructor if "rightStick" is present in buttonsPVS opt field, by default is.</p>
+    
+    <pre class="prettyprint"><code> define(function (require, exports, module) {
+    "use strict";
+
+    // Require the DrawGamepad module
+    require("widgets/car/DrawGamepad");
+
+    function main() {
+         // After DrawGamepad module was loaded, initialize it
+         let drawGamepad = new DrawGamepad(
+              'example', // id of the gauge element that will be created
+              { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
+              { 
+                 style: 'ps4', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
+                 buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+                 // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_accelerate"/"release_accelerate".
+                 // Left and Right sticks are not defined as ['press/release'] events, so actions will be "click_rightStick".
+              } // options
+          );
+
+         drawGamepad.callClickPVS("rightStick");
+    }
+});
+ </code></pre>
 
 
 
@@ -297,7 +384,7 @@ ButtonEVO Widget.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line373">line 373</a>
+        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line462">line 462</a>
     </li></ul></dd>
     
 
@@ -432,7 +519,7 @@ ButtonEVO Widget.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line361">line 361</a>
+        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line449">line 449</a>
     </li></ul></dd>
     
 
@@ -618,7 +705,7 @@ ButtonEVO Widget.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line60">line 60</a>
+        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line145">line 145</a>
     </li></ul></dd>
     
 
@@ -726,7 +813,7 @@ ButtonEVO Widget.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line341">line 341</a>
+        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line427">line 427</a>
     </li></ul></dd>
     
 
@@ -812,7 +899,7 @@ ButtonEVO Widget.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line384">line 384</a>
+        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line474">line 474</a>
     </li></ul></dd>
     
 
@@ -898,7 +985,7 @@ ButtonEVO Widget.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line351">line 351</a>
+        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line438">line 438</a>
     </li></ul></dd>
     
 
@@ -948,7 +1035,7 @@ ButtonEVO Widget.</div>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 09:32:07 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 11:33:14 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -6,7 +6,7 @@
  * It was developed so that more than one song can be played in the arcade driving simulator (Arcade widget).
  *
  * @date Mar 10, 2018
- * last modified @date Apr 17, 2018
+ * last modified @date May 23, 2018
  *
  * @example <caption>Usage of Sound within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -35,23 +35,37 @@
  *                       ],
  *               } // append on div 'tog'
  *           );
+ * 
+ *          // Available methods:
  *          // Render the Sound widget
  *          sound.render();
+ * 
+ *          // OR
  * 
  *          // Hides the Sound widget
  *          sound.hide();
  * 
+ *          // OR
+ * 
  *          // Reveals/Shows the Sound widget
  *          sound.reveal();
+ * 
+ *          // OR
  * 
  *          // Returns the Sound widget div
  *          sound.show();
  * 
+ *          // OR
+ * 
  *          // Silences all audio and swaps "not muted" image to "muted" image.
  *          sound.mute();
  * 
+ *          // OR
+ * 
  *          // Plays all audio and swaps "muted" image to "not muted" image.
  *          sound.unmute();
+ * 
+ *          // OR
  * 
  *          // Sets the current volume of all audio divs. Must be a number between 0.0 and 1.0.
  *          // 1.0 is highest volume (100%. This is default)
@@ -59,34 +73,117 @@
  *          // 0.0 is silent (same as mute)
  *          sound.setVolumeAll(newVolume);
  * 
+ *          // OR
+ * 
  *          // Sets the current volume of audio with div id="audio"+index. Must be a number between 0.0 and 1.0.
  *          // 1.0 is highest volume (100%. This is default)
  *          // 0.5 is half volume (50%)
  *          // 0.0 is silent (same as mute)
  *          sound.setVolume(newVolume, index);
  * 
+ *          // OR
+ * 
  *          // Plays the music with index "index", present in the audio div with id="audio"+index. 
  *          // For example, playing music with index 2, represents play the music present in the audio div with id="audio2"
  *          sound.playSound(index);
  * 
+ *          // OR
+ * 
  *          // Plays all songs
  *          sound.playAll();
+ * 
+ *          // OR
  * 
  *          // Pauses the music with index "index", present in the audio div with id="audio"+index. 
  *          // For example, stopping music with index 2, represents stop the music present in the audio div with id="audio2"
  *          sound.pauseSound(index);
  * 
+ *          // OR
+ * 
  *          // Pauses all songs
  *          sound.pauseAll();
  * 
+ *          // OR
+ * 
  *          // Allows to play all songs in "arrayNext" array, after the song with index indexOnEnded has finished.
  *          sound.onEndedSound(indexOnEnded, arrayNext);
+ * 
+ *          // OR
  * 
  *          // Allows to collect the value of the div with id="soundOff", in order to check if sounds are muted or not, in the arcade driving simulator.
  *          sound.getSoundOff();
  * 
  *     }
  * });
+ * 
+ * 
+ * @example <caption>Usage of API to play all audio files and to set volume 0.8 to the second audio file playing.</caption>
+ * define(function (require, exports, module) {
+ *     "use strict";
+ *
+ *     // Require the Sound module
+ *     require("widgets/car/Sound");
+ *
+ *     function main() {
+ *          // After Sound module was loaded, initialize it
+ *          let sound = new Sound(
+ *               'example', // id of the Sound element that will be created
+ *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
+ *               { parent: 'tog', 
+ *                 mutedImg: "img/muted.png", 
+ *                 notMutedImg: "img/notMuted.png", 
+ *                 songs: [
+ *                           {
+ *                               url: "song/sound.mp3",
+ *                               loop: false
+ *                           },
+ *                           {
+ *                               url: "song/loop.mp3",
+ *                               loop: true
+ *                           }
+ *                       ],
+ *               } // append on div 'tog'
+ *           );
+ *         
+ *          sound.playAll();
+ *          sound.setVolume(0.8, 2);
+ *     }
+ * });
+ * 
+ * 
+ * @example <caption>Usage of API to pause the first audio file playing.</caption>
+ * define(function (require, exports, module) {
+ *     "use strict";
+ *
+ *     // Require the Sound module
+ *     require("widgets/car/Sound");
+ *
+ *     function main() {
+ *          // After Sound module was loaded, initialize it
+ *          let sound = new Sound(
+ *               'example', // id of the Sound element that will be created
+ *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
+ *               { parent: 'tog', 
+ *                 mutedImg: "img/muted.png", 
+ *                 notMutedImg: "img/notMuted.png", 
+ *                 songs: [
+ *                           {
+ *                               url: "song/sound.mp3",
+ *                               loop: false
+ *                           },
+ *                           {
+ *                               url: "song/loop.mp3",
+ *                               loop: true
+ *                           }
+ *                       ],
+ *               } // append on div 'tog'
+ *           );
+ *         
+ *          sound.pauseSound(1);
+ *     }
+ * });
+ * 
+ * 
  */
 /*jslint lets: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*jshint esnext:true */
@@ -107,6 +204,7 @@ define(function (require, exports, module) {
     
     /**
      * @function constructor
+     * @public
      * @description Constructor for the Sound widget.
      * @param id {String} The id of the widget instance.
      * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
@@ -236,6 +334,7 @@ define(function (require, exports, module) {
 
     /**
      * @function hide
+     * @public
      * @description Hide method of the Sound widget. This method changes the current main div visibility to 'hidden'.
      * @memberof module:Sound
      * @instance
@@ -246,6 +345,7 @@ define(function (require, exports, module) {
 
     /**
      * @function reveal
+     * @public
      * @description Reveal method of the Sound widget. This method changes the current main div visibility to 'visible'.
      * @memberof module:Sound
      * @instance
@@ -256,6 +356,7 @@ define(function (require, exports, module) {
 
     /**
      * @function show
+     * @public
      * @description Show method of the Sound widget. This method displays the current main div as it is.
      * @memberof module:Sound
      * @returns {Sound} The created instance of the widget Sound.
@@ -268,6 +369,7 @@ define(function (require, exports, module) {
   
     /**
      * @function onEndedSound
+     * @public
      * @description OnEndedSound method of the Sound widget. This method plays several known sounds, given by the index parameter.
      * @param indexOnEnded {Int} This parameter is the index of the song that will end, given by the "onended" event.
      * @param arrayNext {Array} This parameter is an array of objects, indexPlayNext and newVolume, which allows to play and set volume of several sounds after "indexOnEnded" sound ended.
@@ -289,6 +391,7 @@ define(function (require, exports, module) {
 
      /**
      * @function playSound
+     * @public
      * @description PlaySound method of the Sound widget. This method plays a specific known sound, given by index parameter.
      * @param index {Int} This parameter is the index of the intended sound to be changed.
      * @memberof module:Sound
@@ -302,6 +405,7 @@ define(function (require, exports, module) {
 
     /**
      * @function pauseSound
+     * @public
      * @description PauseSound method of the Sound widget. This method pauses a specific known sound, given by index parameter.
      * @param index {Int} This parameter is the index of the intended sound to be changed.
      * @memberof module:Sound
@@ -315,6 +419,7 @@ define(function (require, exports, module) {
 
     /**
      * @function playAll
+     * @public
      * @description PlayAll method of the Sound widget. This method plays all known sounds.
      * @memberof module:Sound
      * @returns {Sound} The created instance of the widget Sound.
@@ -330,6 +435,7 @@ define(function (require, exports, module) {
 
     /**
      * @function pauseAll
+     * @public
      * @description PauseAll method of the Sound widget. This method pauses all known sounds playing.
      * @memberof module:Sound
      * @returns {Sound} The created instance of the widget Sound.
@@ -345,6 +451,7 @@ define(function (require, exports, module) {
 
     /**
      * @function setVolume
+     * @public
      * @description SetVolume method of the Sound widget. This method changes the volume of a specific known sound, given by index parameter.
      * @param newVolume {Float} This parameter is the new volume to be set to all known sounds.
      * @param index {Int} This parameter is the index of the intended sound to be changed.
@@ -359,6 +466,7 @@ define(function (require, exports, module) {
 
     /**
      * @function setVolumeAll
+     * @public
      * @description SetVolumeAll method of the Sound widget. This method changes the volume of all known sounds.
      * @param newVolume {Float} This parameter is the new volume to be set to all known sounds.
      * @memberof module:Sound
@@ -375,6 +483,7 @@ define(function (require, exports, module) {
 
     /**
      * @function mute
+     * @public
      * @description Mute method of the Sound widget. This method changes the displayed image and pauses all sounds known.
      * @memberof module:Sound
      * @returns {Sound} The created instance of the widget Sound.
@@ -395,6 +504,7 @@ define(function (require, exports, module) {
 
     /**
      * @function unmute
+     * @public
      * @description Unmute method of the Sound widget. This method changes the displayed image and plays all sounds known.
      * @memberof module:Sound
      * @returns {Sound} The created instance of the widget Sound.
@@ -415,6 +525,7 @@ define(function (require, exports, module) {
 
     /**
      * @function getSoundOff
+     * @public
      * @description GetSoundOff method of the Sound widget. This method returns the value of div with id="soundOff".
      * @memberof module:Sound
      * @returns {Sound} The created instance of the widget Sound.
@@ -430,6 +541,7 @@ define(function (require, exports, module) {
 
     /**
      * @function render
+     * @public
      * @description Render method of the Sound widget. 
      * @memberof module:Sound
      * @instance
