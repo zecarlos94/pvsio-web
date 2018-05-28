@@ -229,11 +229,11 @@ main: THEORY
   press_b(st: state): state = brake(st) WITH [ action := brake ]
   release_b(st: state): state = st WITH [ action := idle ]
 
-  press_rightArrow(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP ]
-  release_rightArrow(st: state): state = st WITH [ action := idle ]
+  press_rightArrow(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val + POSX_STEP ], action := right]
+  release_rightArrow(st: state): state = st WITH [ action := right ]
 
-  press_leftArrow(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP ]
-  release_leftArrow(st: state): state = st WITH [ action := idle ]
+  press_leftArrow(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val - POSX_STEP ], action := left ]
+  release_leftArrow(st: state): state = st WITH [ action := left ]
 
 END main
 

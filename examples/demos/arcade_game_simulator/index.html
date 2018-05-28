@@ -21,18 +21,18 @@
     </head>
     <body>
         <div id="content" class="content" style="display:none;">
-            <div class="container dashboard-container" style="zoom:50%;margin-left:250px;">
-                <div class="col-xs-4" style="margin-top:330px;margin-left:40px;">
+            <div id="gamepadImage" style="zoom:75%;visibility:hidden;">
+                <!--
+                DrawGamepad widget will append DrawGamepad HTML here
+                -->
+            </div>
+            <div class="container dashboard-container" style="zoom:50%;margin-left: 240px;">
+                <div class="col-xs-4" >
                     <span id="speedometer-gauge"></span>
                 </div>
-                <div class="col-xs-4" style="margin-top:330px;margin-left:-40px;">
+                <div class="col-xs-4">
                     <span id="tachometer-gauge" style="float:right;"></span>
                 </div>
-            </div>
-            <div id="tog">
-                <!--
-                    SoundWidget widget will append SoundWidget HTML here
-                --> 
             </div>
             <div id="mobileDevicesController">
                 <!--
@@ -42,6 +42,11 @@
             <div id="virtualKeyPad">
                 <!--
                 VirtualKeypadController widget will append VirtualKeypadController HTML here
+                -->
+            </div> 
+            <div id="tog">
+                <!--
+                    SoundWidget widget will append SoundWidget HTML here
                 -->
             </div>
             <div id="game-window">

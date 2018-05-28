@@ -36,16 +36,16 @@ body{
 
 
 /* Added CSS */
-div.version {
+/* div.version {
     text-align: center;
-}
+} */
 
-div.dashboard-container {
+/* div.dashboard-container {
     margin-top: 15%;
-}
+} */
 
 /* Current shift styling */
-#current-shift {
+/* #current-shift {
     padding: 1px 7px;
     border: 2px solid white;
 }
@@ -53,28 +53,27 @@ div.dashboard-container {
 
 div#clock-div, div#env-temp-div {
     font-size: 20px;
-}
+} */
 
 
 /* Control panel stuff */
-div#control-panel-container {
+/* div#control-panel-container {
     background-color: black;
     color: white;
     padding: 0;
-}
-
+} */
+/* 
 div#odometer-container {
     padding: 10px 0;
-}
+} */
 
-
-div.dash-top-container {
+/* div.dash-top-container {
     border-bottom: 2px solid white;
 }
 
 div.dash-bottom-container, div.dash-central-container {
     padding: 20px 0;
-}
+} */
 
 /* Global helper classes */
 .font-xl {

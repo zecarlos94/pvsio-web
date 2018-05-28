@@ -117,6 +117,32 @@ require([
 
         var arcade = {};
 
+        // ----------------------------- DRAWGAMEPAD COMPONENTS -----------------------------
+        // arcade.drawGamepad = new DrawGamepad("drawGamepad", {
+        //     top: 100,
+        //     left: 350,
+        //     width: 750,
+        //     height: 750
+        // }, {
+        //     parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
+        //     style: "xbox", // defines parent div, which is "ps4" by default
+        //     // buttonsPVS: [ "accelerate", "brake", "y", "x", "menu", "windows", "xbox", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+        //     callback: onMessageReceived
+        // });
+        arcade.drawGamepad = new DrawGamepad("drawGamepad", {
+            top: 100,
+            left: 350,
+            width: 750,
+            height: 750
+        }, {
+            parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
+            style: "ps4", // defines parent div, which is "ps4" by default
+            // buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+            callback: onMessageReceived
+        });
+
+        document.getElementById("gamepadImage").style.visibility = "visible";
+
         // ---------------- VIRTUAL KEYPAD CONTROLLER ----------------
         arcade.virtualKeypadController = new VirtualKeypadController("virtualKeypad_controller", {
             top: 800,
@@ -168,8 +194,8 @@ require([
         
         // ---------------- STEERING WHEEL ----------------
         arcade.steeringWheel = new SteeringWheel("steering_wheel", {
-            top: 340,
-            left: 30,
+            top: 300,
+            left: 10,
             width: 600,
             height: 600
         }, {
@@ -247,14 +273,18 @@ require([
             keyCode: 85 // key 'u'
         });
 
+        document.getElementById("tog").style.left = "625px";
         arcade.arcadeWidget.startSimulation();
-
+        
         // Render arcade game components
         function render(res) {
             arcade.speedometerGauge.render(evaluate(res.speed.val));
             arcade.tachometerGauge.render(evaluate(res.rpm));
             arcade.steeringWheel.render(evaluate(res.steering));
             arcade.arcadeWidget.render(res);
+            arcade.drawGamepad.render();
+            // arcade.drawGamepad.callPressReleasePVS("accelerate");
+            // arcade.drawGamepad.callClickPVS("leftStick");
         }
 
         var demoFolder = "arcade_game_simulator";
