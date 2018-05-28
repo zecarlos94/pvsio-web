@@ -15,7 +15,27 @@ Guide step-by-step to create a new track with TrackGenerator Widget and, then, r
 
 <img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectTrackTopography.png" alt="selectTrackTopography" width="700" style="margin-left: 150px" >
 
-5. **Select other customization options for the dashboard widgets, which will be used during the simulation, and other rendering aspects using the following set of ranges.**
+5. **Insert the spritesheet JSON filename.**
+
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectSpritesheetJSON.png" alt="selectSpritesheetJSON" width="700" style="margin-left: 150px" >
+
+6. **Insert the spritesheet images filename, one with only letters and other with all objects/obstacles.**
+
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectSpritesheetImages.png" alt="selectSpritesheetImages" width="700" style="margin-left: 150px" >
+
+7. **Insert within the square brackets the landscape sprites, separated by ','.**
+
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectLandscapeObjects.png" alt="selectLandscapeObjects" width="700" style="margin-left: 150px" >
+
+8. **Insert within the square brackets the track sprites (obstacles), separated by ','.**
+
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectTrackObstacles.png" alt="selectTrackObstacles" width="700" style="margin-left: 150px" >
+
+9. **Fill within the brackets each track parameters, after ':'.**
+
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectTrackParams.png" alt="selectTrackParams" width="700" style="margin-left: 150px" >
+
+10. **Select other customization options for the dashboard widgets, which will be used during the simulation, and other rendering aspects using the following set of ranges.**
 
 <img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectRanges.png" alt="selectRanges" width="700" style="margin-left: 150px" >
 
