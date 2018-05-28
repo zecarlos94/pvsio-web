@@ -149,11 +149,11 @@ require([
                 // curve to right, straight line, 2 up slopes, curve to left, down slope, curve to right,
                 // straight line, each with 3 zones (length) (default is []).
                 {
-                    topography: "plain",
+                    topography: "straight",
                     numZones: 3
                 },
                 {
-                    topography: "plain",
+                    topography: "straight",
                     numZones: 3
                 },
                 {
@@ -161,7 +161,7 @@ require([
                     numZones: 3
                 },
                 {
-                    topography: "plain",
+                    topography: "straight",
                     numZones: 3
                 },
                 {
@@ -169,7 +169,7 @@ require([
                     numZones: 3
                 },
                 {
-                    topography: "plain",
+                    topography: "straight",
                     numZones: 3
                 },
                 {
@@ -193,7 +193,7 @@ require([
                     numZones: 3
                 },
                 {
-                    topography: "plain",
+                    topography: "straight",
                     numZones: 3
                 }
             ],

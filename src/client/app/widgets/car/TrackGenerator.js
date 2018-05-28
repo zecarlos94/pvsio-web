@@ -497,19 +497,22 @@ define(function (require, exports, module) {
      * @instance
      */
     TrackGenerator.prototype.loadFile = function () {
-        spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field").innerHTML;
-        if(spritesheetJSON){
-            spritesReadJSON = JSON.parse(spritesheetJSON);
-            // Reading all JSON Sprites Available
-            for(let k=0;k<spritesReadJSON.frames.length;k++){
-                spritesAvailable[k]={
-                    name:spritesReadJSON.frames[k].filename.split(".")[0],
-                    value:spritesReadJSON.frames[k].frame
-                };
-            }    
-        }
+        setTimeout(function(){ 
+            spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field").innerHTML;
+            if(spritesheetJSON){
+                spritesReadJSON = JSON.parse(spritesheetJSON);
+                // Reading all JSON Sprites Available
+                for(let k=0;k<spritesReadJSON.frames.length;k++){
+                    spritesAvailable[k]={
+                        name:spritesReadJSON.frames[k].filename.split(".")[0],
+                        value:spritesReadJSON.frames[k].frame
+                    };
+                }    
+            }
+    
+            // console.log(spritesAvailable);
+        },150);
 
-        // console.log(spritesAvailable);
         return this;
     };
 
@@ -553,8 +556,8 @@ define(function (require, exports, module) {
      * @instance
      */
     TrackGenerator.prototype.generateStraightTrack = () => {
+        TrackGenerator.prototype.loadFile();
         setTimeout(function(){ 
-            TrackGenerator.prototype.loadFile();
             // Generate current Zone
             let numIterations = params.numZones * params.zoneSize;
             let sprite = false;
@@ -661,7 +664,7 @@ define(function (require, exports, module) {
                 // console.log(generatedJSON);
                 console.log(JSON.stringify(generatedJSON));
             }, 1000);
-        }, 50);
+        }, 150);
         return this;
     };
 
@@ -683,8 +686,8 @@ define(function (require, exports, module) {
      * @instance
      */
     TrackGenerator.prototype.generateTrackCurvesSlopes = () => {
+        TrackGenerator.prototype.loadFile();
         setTimeout(function(){ 
-            TrackGenerator.prototype.loadFile();
             // Generate current Zone
             let sprite = false;
             let spritePos = null;
@@ -799,7 +802,7 @@ define(function (require, exports, module) {
                     else {
                         sprite = false;
                     }
-        
+                   
                     // console.log(sprite);
         
                     generatedTrack.push({
@@ -880,7 +883,7 @@ define(function (require, exports, module) {
                 // console.log(generatedJSON);
                 console.log(JSON.stringify(generatedJSON));
             }, 1000);
-        }, 50);
+        }, 150);
         return this;
     };
 

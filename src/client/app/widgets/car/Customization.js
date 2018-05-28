@@ -767,6 +767,8 @@ define(function (require, exports, module) {
     let GyroscopeController = require("widgets/car/GyroscopeController");
     let VirtualKeypadController = require("widgets/car/VirtualKeypadController");
     let GamepadController = require("widgets/car/GamepadController");
+
+    let TrackGenerator = require("widgets/car/TrackGenerator");
      
     /**
      * @function constructor
@@ -1214,11 +1216,13 @@ define(function (require, exports, module) {
         this.writeTopography=this.customizationDiv.append("div").attr("id","writeTopography");
         
         this.writeTopography.append("p").style("margin-left","40px")
-                             .text("Use keywords: 'left', 'right', 'straight', 'up', 'down'");
+                             .text("Use keywords: \"left\", \"right\", \"straight\", \"up\", \"down\" after topography\:");
         this.writeTopography.append("p").style("margin-left","40px")
                              .text("to describe the track");
+        this.writeTopography.append("p").style("margin-left","40px")
+                             .text("Set each topography zone length after numZones\:");
         this.writeTopography.append("textarea").attr("id","topography").attr("rows","2").attr("cols","60").style("margin-left","40px")
-                             .text("[]");
+                            .text("[{\"topography\":\"\", \"numZones\":}]");
 
         this.customizationDiv.append("br");
         this.customizationDiv.append("br");
@@ -1806,6 +1810,101 @@ define(function (require, exports, module) {
                     car.gamepadController.render();
                     car.gyroscopeController.render();
                     car.drawGamepad.render();
+
+
+                    (spritesheetJSONFilename_Final==="") ? spritesheetJSONFilename_Final = "spritesheet" : spritesheetJSONFilename_Final;
+                    (numZones_Final==="") ? numZones_Final = 12 : numZones_Final;
+                    (zoneSize_Final==="") ? zoneSize_Final = 250 : numZones_Final;
+                    (landscapeObjects_Final==="[]") ? landscapeObjects_Final = "[\"tree\",\"boulder\"]" : landscapeObjects_Final;
+                    (trackObstacles_Final==="[]") ? trackObstacles_Final = "[\"boulder\"]" : trackObstacles_Final;
+                    (topography_Final==="[{\"topography\":\"\", \"numZones\":}]") ? topography_Final = "[ \
+                        {\"topography\":\"straight\", \"numZones\":3}, \
+                        {\"topography\":\"left\", \"numZones\":3}, \
+                        {\"topography\":\"straight\", \"numZones\":3}, \
+                        {\"topography\":\"right\", \"numZones\":3}, \
+                        {\"topography\":\"straight\", \"numZones\":3}, \
+                        {\"topography\":\"up\", \"numZones\":3}, \
+                        {\"topography\":\"up\", \"numZones\":3}, \
+                        {\"topography\":\"left\", \"numZones\":3}, \
+                        {\"topography\":\"down\", \"numZones\":3}, \
+                        {\"topography\":\"right\", \"numZones\":3}, \
+                        {\"topography\":\"straight\", \"numZones\":3} \
+                    ]" : topography_Final;
+
+                    // console.log(spritesheetJSONFilename_Final);
+                    // console.log(parseInt(numLanes_Final));
+                    // console.log(parseInt(numZones_Final));
+                    // console.log(parseInt(zoneSize_Final));
+                    // console.log(JSON.parse(landscapeObjects_Final));
+                    // console.log(JSON.parse(trackObstacles_Final));
+                    // console.log(parseInt(freqObstacles_Final));
+                    // console.log(JSON.parse(topography_Final));
+                    // console.log(JSON.parse(topography_Final)[2].topography + ", " + JSON.parse(topography_Final)[2].numZones);
+
+                    // -----------------------------  TRACK GENERATOR COMPONENTS -----------------------------
+                    car.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget", {
+                        top: 80,
+                        left: 650,
+                        width: 780,
+                        height: 650
+                    }, {
+                        parent: "content", // defines parent div, which is div id="content" by default
+                        spritesFilename: spritesheetJSONFilename_Final, // defines spritesheet configuration filename, which is "spritesheet.json" by default
+                        render: {
+                            width: 320,
+                            height: 240,
+                            depthOfField: 150,
+                            camera_distance: 30,
+                            camera_height: 100
+                        },
+                        trackSegmentSize: 5,
+                        numberOfSegmentPerColor: 4,
+                        numLanes: parseInt(numLanes_Final),
+                        laneWidth: 0.02,
+                        trackParam: {
+                            maxHeight: 900,
+                            maxCurve:  400,
+                            numZones:  parseInt(numZones_Final), // number of different portions of the track
+                            curvy:     0.8,
+                            mountainy: 0.8,
+                            zoneSize:  parseInt(zoneSize_Final) // length of each numZones (the bigger this value. the longer it will take to finish)
+                        },
+                        // Information regarding current controllable_car's car
+                        controllable_car: {
+                            position: 10,
+                            speed: 0,
+                            acceleration: 0.05,
+                            deceleration: 0.04,
+                            breaking: 0.3,
+                            turning: 5.0,
+                            posx: 0,
+                            maxSpeed: 20
+                        },
+                        topSpeed: 250,
+                        objects: JSON.parse(landscapeObjects_Final),
+                        obstacle: JSON.parse(trackObstacles_Final),
+                        obstaclePerIteration: parseInt(freqObstacles_Final),
+                        trackColors: {
+                            grass1: colorGrass_Final,
+                            border1: colorBorder1_Final,
+                            border2: colorBorder2_Final,
+                            outborder1: colorOutborder_Final,
+                            outborder_end1: colorOutborderEnd_Final,
+                            track_segment1: colorTrackSegment_Final,
+                            lane1: colorLane1_Final,
+                            lane2: colorLane2_Final,
+                            laneArrow1: colorLaneArrow_Final,
+                            track_segment_end: colorTrackSegmentEnd_Final,
+                            lane_end: colorLaneEnd_Final
+                        },
+                        trackLayout: JSON.parse(topography_Final),
+                        callback: callback
+                    });
+
+                    car.trackGeneratorWidget.hide();
+                    // API to generate track with parameters received as argument by the constructor, i.e. new TrackGenerator()
+                    // car.trackGeneratorWidget.generateStraightTrack();
+                    car.trackGeneratorWidget.generateTrackCurvesSlopes();
                 }
             }
         });
