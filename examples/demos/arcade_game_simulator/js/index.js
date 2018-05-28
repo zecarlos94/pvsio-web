@@ -117,6 +117,29 @@ require([
 
         var arcade = {};
 
+        // ---------------- VIRTUAL KEYPAD CONTROLLER ----------------
+        arcade.virtualKeypadController = new VirtualKeypadController("virtualKeypad_controller", {
+            top: 800,
+            left: 800,
+            width: 750,
+            height: 750
+        }, {
+            keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
+            keyboardClass: "icon keyboard",
+            keyboardLeftDesktop: 1370,
+            keyboardHoverInitialTitle: "Click to open virtual keypad controller",
+            keyboardHoverSecondTitle: "Click to close virtual keypad controller",
+            parent: "virtualKeyPad", // defines parent div, which is div id="virtualKeyPad" by default
+            simulatorActions: "simulatorActions",
+            simulatorArrows: "simulatorArrows",
+            floatArrows: "floatArrows",
+            blockArrows: "blockArrows",
+            buttonClass: "ui-button ui-corner-all ui-widget ui-button-icon-only",
+            arrowKeysPVS: [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"],
+            otherKeysPVS: [ "quit", "pause", "resume" ],
+            callback: onMessageReceived
+        });
+
         // ----------------------------- DASHBOARD INTERACTION -----------------------------
         arcade.up = new ButtonExternalController("accelerate", { width: 0, height: 0 }, {
             callback: onMessageReceived,
@@ -132,9 +155,9 @@ require([
         // ----------------------------- DASHBOARD COMPONENTS -----------------------------
         // ---------------- SPEEDOMETER ----------------
         arcade.speedometerGauge = new Speedometer('speedometer-gauge', {
-            label: "kmh",
             max: 260,
-            min: 0
+            min: 0,
+            label: "kmh"            
         });
         // ---------------- TACHOMETER ----------------
         arcade.tachometerGauge = new Tachometer('tachometer-gauge', {
@@ -145,7 +168,7 @@ require([
         
         // ---------------- STEERING WHEEL ----------------
         arcade.steeringWheel = new SteeringWheel("steering_wheel", {
-            top: 140,
+            top: 340,
             left: 30,
             width: 600,
             height: 600
