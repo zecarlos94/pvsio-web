@@ -227,7 +227,7 @@ require([
                     },
                     {
                         property: "margin-top",
-                        value: "-910px"
+                        value: "-1500px"
                     },
                     {
                         property: "visibility",
@@ -237,6 +237,56 @@ require([
             },
             {
                 id: "writeTopography",
+                class: null,
+                styles: [
+                    {
+                        property: "display",
+                        value: "none"
+                    }
+                ]
+            },
+            {
+                id: "writeSpritesheetJSONFilename",
+                class: null,
+                styles: [
+                    {
+                        property: "display",
+                        value: "none"
+                    }
+                ]
+            },
+            {
+                id: "writeSpritesheetImages",
+                class: null,
+                styles: [
+                    {
+                        property: "display",
+                        value: "none"
+                    }
+                ]
+            },
+            {
+                id: "writeLandscapeObjects",
+                class: null,
+                styles: [
+                    {
+                        property: "display",
+                        value: "none"
+                    }
+                ]
+            },
+            {
+                id: "writeTrackObstacles",
+                class: null,
+                styles: [
+                    {
+                        property: "display",
+                        value: "none"
+                    }
+                ]
+            },
+            {
+                id: "writeTrackParams",
                 class: null,
                 styles: [
                     {
@@ -269,7 +319,7 @@ require([
                     },
                     {   
                         property: "margin-top",
-                        value: "-1180px"
+                        value: "-2500px"
                     },
                     {
                         property: "visibility",

@@ -1223,6 +1223,71 @@ define(function (require, exports, module) {
         this.customizationDiv.append("br");
         this.customizationDiv.append("br");
         this.customizationDiv.append("br");
+
+        this.customizationDiv.append("h4").style("margin-left","5px").text("Spritesheet JSON Filename");
+        this.customizationDiv.append("br");
+        this.writeSpritesheetJSONFilename=this.customizationDiv.append("div").attr("id","writeSpritesheetJSONFilename");
+        this.writeSpritesheetJSONFilename.append("p").style("margin-left","40px")
+                             .text("Do not add file extension! JSON only!");
+        this.writeSpritesheetJSONFilename.append("textarea").attr("id","spritesheetJSONFilename").attr("rows","2").attr("cols","60").style("margin-left","40px")
+                             .text("");
+
+        this.customizationDiv.append("br");
+        this.customizationDiv.append("br");
+        this.customizationDiv.append("br");
+
+        this.customizationDiv.append("h4").style("margin-left","5px").text("Spritesheet Images");
+        this.customizationDiv.append("br");
+        this.writeSpritesheetImages=this.customizationDiv.append("div").attr("id","writeSpritesheetImages");
+        
+        this.writeSpritesheetImages.append("p").style("margin-left","40px")
+                             .text("Do not add file extension! PNG only!");
+        this.writeSpritesheetImages.append("textarea").attr("id","spritesheetImages").attr("rows","2").attr("cols","60").style("margin-left","40px")
+                             .text("");
+
+        this.customizationDiv.append("br");
+        this.customizationDiv.append("br");
+        this.customizationDiv.append("br");
+        
+        this.customizationDiv.append("h4").style("margin-left","5px").text("Landscape Objects");
+        this.customizationDiv.append("br");
+        this.writeLandscapeObjects=this.customizationDiv.append("div").attr("id","writeLandscapeObjects");
+        this.writeLandscapeObjects.append("p").style("margin-left","40px")
+        .text("Add \"\" to each object");
+        this.writeLandscapeObjects.append("textarea").attr("id","landscapeObjects").attr("rows","2").attr("cols","60").style("margin-left","40px")
+                             .text("[]");
+
+        this.customizationDiv.append("br");
+        this.customizationDiv.append("br");
+        this.customizationDiv.append("br");
+
+        this.customizationDiv.append("h4").style("margin-left","5px").text("Track Obstacles");
+        this.customizationDiv.append("br");
+        this.writeTrackObstacles=this.customizationDiv.append("div").attr("id","writeTrackObstacles");
+        this.writeTrackObstacles.append("p").style("margin-left","40px")
+        .text("Add \"\" to each obstacle");
+        this.writeTrackObstacles.append("textarea").attr("id","trackObstacles").attr("rows","2").attr("cols","60").style("margin-left","40px")
+                             .text("[]");
+
+        this.customizationDiv.append("br");
+        this.customizationDiv.append("br");
+        this.customizationDiv.append("br");
+
+        this.customizationDiv.append("h4").style("margin-left","5px").text("Track Params");
+        this.customizationDiv.append("br");
+        this.writeTrackParams=this.customizationDiv.append("div").attr("id","writeTrackParams");
+        this.writeTrackParams.append("p").style("margin-left","40px")
+        .text("Add value after \:");
+        this.writeTrackParams.append("p").style("margin-left","40px")
+        .text("numZones is the number of different portions of the track");
+        this.writeTrackParams.append("p").style("margin-left","40px")
+        .text("zoneSize is the length of each numZones");
+        this.writeTrackParams.append("textarea").attr("id","trackParams").attr("rows","2").attr("cols","60").style("margin-left","40px")
+                             .text("{numZones:, zoneSize:}");
+
+        this.customizationDiv.append("br");
+        this.customizationDiv.append("br");
+        this.customizationDiv.append("br");
         
         this.customizationDiv.append("h4").style("margin-left","5px").text("Customize");
 
@@ -1619,6 +1684,14 @@ define(function (require, exports, module) {
                 let colorLaneArrow_Final=d3.select("#hex10")[0][0].innerText;
                 let colorLaneEnd_Final=d3.select("#hex11")[0][0].innerText;
                 let topography_Final=d3.select("#topography")[0][0].value;
+                let spritesheetJSONFilename_Final=d3.select("#spritesheetJSONFilename")[0][0].value;
+                let spritesheetImages_Final=d3.select("#spritesheetImages")[0][0].value;
+                let landscapeObjects_Final=d3.select("#landscapeObjects")[0][0].value;
+                let trackObstacles_Final=d3.select("#trackObstacles")[0][0].value;
+                let trackParams_Final=d3.select("#trackParams")[0][0].value;
+                let numZones_Final=trackParams_Final.split(",")[0].split(":")[1];
+                let zoneSize_Final=trackParams_Final.split(",")[1].split(":")[1].slice(0, -1);
+                
 
                 if(reRenderEnd>=0){
                     reRenderEnd++;

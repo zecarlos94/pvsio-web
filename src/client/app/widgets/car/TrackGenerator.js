@@ -192,6 +192,19 @@
  *                  objects: ["tree","boulder"], // sprite names to be drawed in the landscape
  *                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
  *                  obstaclePerIteration: 50, // each 50 iterations a new obstacle will be placed within the track
+ *                  trackColors: {
+ *                      grass1: "#699864",
+ *                      border1: "#e00",
+ *                      border2: "#fff",
+ *                      outborder1: "#496a46",
+ *                      outborder_end1: "#474747",
+ *                      track_segment1: "#777",
+ *                      lane1: "#fff",
+ *                      lane2: "#777",
+ *                      laneArrow1: "#00FF00",
+ *                      track_segment_end:"#000",
+ *                      lane_end: "#fff"
+ *                  },                 
  *                  trackLayout: [ 
  *                       // describing the desired track, which is 12 straight lines (length) (default is []).
  *                       {
@@ -256,6 +269,19 @@
  *                  objects: ["tree","boulder"], // sprite names to be drawed in the landscape
  *                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
  *                  obstaclePerIteration: 50, // each 50 iterations a new obstacle will be placed within the track
+ *                  trackColors: {
+ *                      grass1: "#699864",
+ *                      border1: "#e00",
+ *                      border2: "#fff",
+ *                      outborder1: "#496a46",
+ *                      outborder_end1: "#474747",
+ *                      track_segment1: "#777",
+ *                      lane1: "#fff",
+ *                      lane2: "#777",
+ *                      laneArrow1: "#00FF00",
+ *                      track_segment_end:"#000",
+ *                      lane_end: "#fff"
+ *                  },
  *                  trackLayout: [ 
  *                       // describing the desired track, which is 2 straight lines, followed by curve to left, straight line, 
  *                       // curve to right, straight line, 2 up slopes, curve to left, down slope, curve to right,
@@ -355,6 +381,7 @@ define(function (require, exports, module) {
     let objects = [];
     let obstacle = [];
     let trackLayout = [];
+    let trackColors = [];
     let obstaclePerIteration;
 
     // Has the produced JSON.
@@ -382,6 +409,7 @@ define(function (require, exports, module) {
      *          <li>objects {Array}: the sprite names to be drawed in the landscape (default is ["tree","rock"]).</li>
      *          <li>obstacle {Array}: the sprite names to be drawed within the track as obstacles (default is ["rock"]).</li>
      *          <li>trackLayout {Array}: the track layout that will be used to create the corresponding segments. (default is []).</li>
+     *          <li>trackColors {Array}: the track colors that will be used to color the segments in each stripe. (default is {grass1: "#699864", border1: "#e00", border2: "#fff", outborder1: "#496a46", outborder_end1: "#474747", track_segment1: "#777", lane1: "#fff", lane2: "#777", laneArrow1: "#00FF00", track_segment_end:"#000", lane_end: "#fff"}).</li>
      *          <li>obstaclePerIteration {Int}: the number of iterations where a new obstacle will be placed within the track (default is 50).</li>
      * @returns {TrackGenerator} The created instance of the widget TrackGenerator.
      * @memberof module:TrackGenerator
@@ -403,6 +431,7 @@ define(function (require, exports, module) {
         opt.objects = opt.objects;
         opt.obstacle = opt.obstacle;
         opt.trackLayout = opt.trackLayout;
+        opt.trackColors = opt.trackColors;
         opt.obstaclePerIteration = opt.obstaclePerIteration;
 
         this.id = id;
@@ -424,9 +453,11 @@ define(function (require, exports, module) {
         objects  = (opt.objects) ? opt.objects : ["tree","boulder"];
         obstacle = (opt.obstacle) ? opt.obstacle : ["boulder"];
         trackLayout = (opt.trackLayout) ? opt.trackLayout : [];
+        trackColors = (opt.trackColors) ? opt.trackColors : [];
         obstaclePerIteration = (opt.obstaclePerIteration) ? opt.obstaclePerIteration : 50;
 
         // console.log(trackLayout);
+        // console.log(trackColors);
 
         this.parent = (opt.parent) ? ("#" + opt.parent) : "game-window";
         this.spritesFilename = (opt.spritesFilename) ? ("text!widgets/car/configurations/" + opt.spritesFilename + ".json") : "text!widgets/car/configurations/spritesheet.json";

@@ -314,6 +314,19 @@
                  objects: ["tree","boulder"], // sprite names to be drawed in the landscape
                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
                  obstaclePerIteration: 50, // each 50 iterations a new obstacle will be placed within the track
+                 trackColors: {
+                     grass1: "#699864",
+                     border1: "#e00",
+                     border2: "#fff",
+                     outborder1: "#496a46",
+                     outborder_end1: "#474747",
+                     track_segment1: "#777",
+                     lane1: "#fff",
+                     lane2: "#777",
+                     laneArrow1: "#00FF00",
+                     track_segment_end:"#000",
+                     lane_end: "#fff"
+                 },                 
                  trackLayout: [ 
                       // describing the desired track, which is 12 straight lines (length) (default is []).
                       {
@@ -379,6 +392,19 @@
                  objects: ["tree","boulder"], // sprite names to be drawed in the landscape
                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
                  obstaclePerIteration: 50, // each 50 iterations a new obstacle will be placed within the track
+                 trackColors: {
+                     grass1: "#699864",
+                     border1: "#e00",
+                     border2: "#fff",
+                     outborder1: "#496a46",
+                     outborder_end1: "#474747",
+                     track_segment1: "#777",
+                     lane1: "#fff",
+                     lane2: "#777",
+                     laneArrow1: "#00FF00",
+                     track_segment_end:"#000",
+                     lane_end: "#fff"
+                 },
                  trackLayout: [ 
                       // describing the desired track, which is 2 straight lines, followed by curve to left, straight line, 
                       // curve to right, straight line, 2 up slopes, curve to left, down slope, curve to right,
@@ -591,6 +617,7 @@
          <li>objects {Array}: the sprite names to be drawed in the landscape (default is ["tree","rock"]).</li>
          <li>obstacle {Array}: the sprite names to be drawed within the track as obstacles (default is ["rock"]).</li>
          <li>trackLayout {Array}: the track layout that will be used to create the corresponding segments. (default is []).</li>
+         <li>trackColors {Array}: the track colors that will be used to color the segments in each stripe. (default is {grass1: "#699864", border1: "#e00", border2: "#fff", outborder1: "#496a46", outborder_end1: "#474747", track_segment1: "#777", lane1: "#fff", lane2: "#777", laneArrow1: "#00FF00", track_segment_end:"#000", lane_end: "#fff"}).</li>
          <li>obstaclePerIteration {Int}: the number of iterations where a new obstacle will be placed within the track (default is 50).</li></td>
         </tr>
 
@@ -632,7 +659,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line363">line 363</a>
+        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line390">line 390</a>
     </li></ul></dd>
     
 
@@ -750,7 +777,7 @@ within this context on the PVSio-web platform.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line507">line 507</a>
+        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line538">line 538</a>
     </li></ul></dd>
     
 
@@ -846,7 +873,7 @@ within this context on the PVSio-web platform.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line637">line 637</a>
+        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line668">line 668</a>
     </li></ul></dd>
     
 
@@ -932,7 +959,7 @@ within this context on the PVSio-web platform.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line485">line 485</a>
+        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line516">line 516</a>
     </li></ul></dd>
     
 
@@ -1018,7 +1045,7 @@ within this context on the PVSio-web platform.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line461">line 461</a>
+        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line492">line 492</a>
     </li></ul></dd>
     
 
@@ -1104,7 +1131,7 @@ within this context on the PVSio-web platform.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line856">line 856</a>
+        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line887">line 887</a>
     </li></ul></dd>
     
 
@@ -1190,7 +1217,7 @@ within this context on the PVSio-web platform.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line496">line 496</a>
+        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line527">line 527</a>
     </li></ul></dd>
     
 
@@ -1240,7 +1267,7 @@ within this context on the PVSio-web platform.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 17:01:22 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon May 28 2018 12:00:54 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

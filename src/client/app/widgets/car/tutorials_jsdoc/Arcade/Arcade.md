@@ -94,6 +94,19 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     objects: ["tree","boulder"],
     obstacle: ["boulder"],
     obstaclePerIteration: 50,
+    trackColors: {
+        grass1: "#699864",
+        border1: "#e00",
+        border2: "#fff",
+        outborder1: "#496a46",
+        outborder_end1: "#474747",
+        track_segment1: "#777",
+        lane1: "#fff",
+        lane2: "#777",
+        laneArrow1: "#00FF00",
+        track_segment_end:"#000",
+        lane_end: "#fff"
+    },
     trackLayout: [ 
         // describing the desired track, which is 2 straight lines, followed by curve to left, straight line, 
         // curve to right, straight line, 2 up slopes, curve to left, down slope, curve to right,
@@ -210,6 +223,19 @@ topSpeed: 250,
 objects: ["tree","boulder"],
 obstacle: ["boulder"],
 obstaclePerIteration: 50,
+trackColors: {
+    grass1: "#699864",
+    border1: "#e00",
+    border2: "#fff",
+    outborder1: "#496a46",
+    outborder_end1: "#474747",
+    track_segment1: "#777",
+    lane1: "#fff",
+    lane2: "#777",
+    laneArrow1: "#00FF00",
+    track_segment_end:"#000",
+    lane_end: "#fff"
+},
 trackLayout: []
 ```
 
