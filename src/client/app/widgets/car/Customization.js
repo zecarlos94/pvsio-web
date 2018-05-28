@@ -1339,11 +1339,11 @@ define(function (require, exports, module) {
             }
         }
 
-        this.customizationDiv.append("div").attr("class","game-customisation-end")
-                    .append("div").attr("class","col-xs-12").attr("id","slidecontainer-end")
-                    .append("input").attr("type","range").attr("min","0").attr("max","1").attr("value","0").attr("class","slider").attr("id","myRange-End")
-                    .append("p").style("color",this.sliderColor).style("margin-left","15px").text("End")
-                    .append("span").attr("id","demo-End");
+        this.endRangeSliderDiv=this.customizationDiv.append("div").attr("class","game-customisation-end")
+                                   .append("div").attr("class","col-xs-12").attr("id","slidecontainer-end");
+        this.endRangeSliderDiv.append("input").attr("type","range").attr("min","0").attr("max","1").attr("value","0").attr("class","slider").attr("id","myRange-End");
+        this.endRangeSliderDiv.append("p").style("color",this.sliderColor).style("margin-left","15px").text("End:")
+                              .append("span").attr("id","demo-End");
                     
         if(isMobile){
             this.customizationDiv.append("br");
