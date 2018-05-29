@@ -211,24 +211,9 @@ main: THEORY
 
   %-- API for external controllers such as PS4 gamepad
   click_accelerate(st: state): state = accelerate(st) WITH [ action := acc ]
-
   click_brake(st: state): state = brake(st) WITH [ action := brake ]
 
   %-- API for external controller interactive image
-  %-- PS4
-  press_cross(st: state): state = accelerate(st) WITH [ action := acc ]
-  release_cross(st: state): state = st WITH [ action := idle ]
-
-  press_circle(st: state): state = brake(st) WITH [ action := brake ]
-  release_circle(st: state): state = st WITH [ action := idle ]
-  
-  %-- XBOX1
-  press_a(st: state): state = accelerate(st) WITH [ action := acc ]
-  release_a(st: state): state = st WITH [ action := idle ]
-
-  press_b(st: state): state = brake(st) WITH [ action := brake ]
-  release_b(st: state): state = st WITH [ action := idle ]
-
   press_rightArrow(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val + POSX_STEP ], action := right]
   release_rightArrow(st: state): state = st WITH [ action := right ]
 

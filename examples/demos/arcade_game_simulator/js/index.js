@@ -126,7 +126,7 @@ require([
         // }, {
         //     parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
         //     style: "xbox", // defines parent div, which is "ps4" by default
-        //     // buttonsPVS: [ "accelerate", "brake", "y", "x", "menu", "windows", "xbox", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+        //     buttonsPVS: [ "accelerate", "brake", "mute", "unmute", "pause", "quit", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
         //     callback: onMessageReceived
         // });
         arcade.drawGamepad = new DrawGamepad("drawGamepad", {
@@ -137,7 +137,7 @@ require([
         }, {
             parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
             style: "ps4", // defines parent div, which is "ps4" by default
-            // buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+            buttonsPVS: [ "accelerate", "brake", "unmute", "mute", "pause", "quit", "resume", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
             callback: onMessageReceived
         });
 
