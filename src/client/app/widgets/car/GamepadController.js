@@ -400,6 +400,41 @@ define(function (require, exports, module) {
      * @instance
      */
     let unmuteIndex;
+     /**
+     * @description String 'pauseInstructionPVS' is the pause menu pvs instruction name.
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let pauseInstructionPVS;
+    /**
+     * @description String 'quitInstructionPVS' is the quit menu pvs instruction name.
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let quitInstructionPVS;        
+    /**
+     * @description String 'resumeInstructionPVS' is the resume menu pvs instruction name.
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let resumeInstructionPVS;
+    /**
+     * @description String 'muteInstructionPVS' is the mute pvs instruction name.
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let muteInstructionPVS;
+    /**
+     * @description String 'unmuteInstructionPVS' is the unmute pvs instruction name.
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let unmuteInstructionPVS;
     /**
      * @description Boolean 'useSensitivity' is the variable that allows to change between the two rotations APIs (with an without sensitivity)
      * @protected
@@ -479,11 +514,11 @@ define(function (require, exports, module) {
      *          <li>analogueStickIndex (Int): Index 'analogueStickIndex' is the external controller index where steeringWheel widget rotate method will be invoked, based on X axis calculated angle (Default is 9).</li>
      *          <li>leftAnalogueIndex (Int): Index 'leftAnalogueIndex' is the external controller index where steeringWheel widget rotate method will be invoked, based on X,Y axes calculated angle (Default is 0).</li>
      *          <li>rightAnalogueIndex (Int): Index 'rightAnalogueIndex' is the external controller index where steeringWheel widget rotate method will be invoked, based on X,Y axes calculated angle (Default is 2).</li> 
-     *          <li>pauseIndex (Int): Index 'pauseIndex' is the external controller index where pause menu pvs instruction will be invoked (Default is 9).</li> 
-     *          <li>quitIndex (Int): Index 'quitIndex' is the external controller index where quit menu pvs instruction will be invoked (Default is 8).</li> 
-     *          <li>resumeIndex (Int): Index 'resumeIndex' is the external controller index where resume menu pvs instruction will be invoked (Default is 16).</li> 
-     *          <li>muteIndex (Int): Index 'muteIndex' is the external controller index where mute pvs instruction will be invoked (Default is 4).</li> 
-     *          <li>unmuteIndex (Int): Index 'unmuteIndex' is the external controller index where unmute pvs instruction will be invoked (Default is 5).</li> 
+     *          <li>pauseAction (Object): Object with index 'pauseIndex', the external controller index where pause menu pvs instruction will be invoked, and string instructionPVS, which is the name of the pvs instruction for this action (Default is 9 and "pause").</li> 
+     *          <li>quitAction (Object): Object with index 'quitIndex', the external controller index where quit menu pvs instruction will be invoked, and string instructionPVS, which is the name of the pvs instruction for this action (Default is 8 and "quit").</li> 
+     *          <li>resumeAction (Object): Object with index 'resumeIndex', the external controller index where resume menu pvs instruction will be invoked, and string instructionPVS, which is the name of the pvs instruction for this action (Default is 16 and "resume").</li> 
+     *          <li>muteAction (Object): Object with index 'muteIndex', the external controller index where mute pvs instruction will be invoked, and string instructionPVS, which is the name of the pvs instruction for this action (Default is 4 and "mute").</li> 
+     *          <li>unmuteAction (Object): Object with index 'unmuteIndex', the external controller index where unmute pvs instruction will be invoked, and string instructionPVS, which is the name of the pvs instruction for this action (Default is 5 and "unmute").</li> 
      *          <li>useSensitivity {Boolean}: boolean to determine which rotation API will be invoked, i.e., with or without sensitivity (default is false).</li>
      *          <li>sensitivityValue {Int}: the sensivity value to be provided to the rotation API with sensitivity (default is "gyroscope").</li>
      * @returns {GamepadController} The created instance of the widget GamepadController.
@@ -510,11 +545,11 @@ define(function (require, exports, module) {
         opt.leftAnalogueIndex = opt.leftAnalogueIndex || 0;
         opt.rightAnalogueIndex = opt.rightAnalogueIndex || 2;
 
-        opt.pauseIndex = opt.pauseIndex;
-        opt.quitIndex = opt.quitIndex;
-        opt.resumeIndex = opt.resumeIndex;
-        opt.muteIndex = opt.muteIndex;
-        opt.unmuteIndex = opt.unmuteIndex;
+        opt.pauseAction = opt.pauseAction;
+        opt.quitAction = opt.quitAction;
+        opt.resumeAction = opt.resumeAction;
+        opt.muteAction = opt.muteAction;
+        opt.unmuteAction = opt.unmuteAction;
         opt.useSensitivity = opt.useSensitivity || false;
         opt.sensitivityValue = opt.sensitivityValue || 40;
 
@@ -541,11 +576,17 @@ define(function (require, exports, module) {
         leftAnalogueIndex = (opt.leftAnalogueIndex) ? opt.leftAnalogueIndex : 0;
         rightAnalogueIndex = (opt.rightAnalogueIndex) ? opt.rightAnalogueIndex : 2;
 
-        pauseIndex = (opt.pauseIndex) ? opt.pauseIndex : 9;
-        quitIndex = (opt.quitIndex) ? opt.quitIndex : 8;
-        resumeIndex = (opt.resumeIndex) ? opt.resumeIndex : 16;
-        muteIndex = (opt.muteIndex) ? opt.muteIndex : 4;
-        unmuteIndex = (opt.unmuteIndex) ? opt.unmuteIndex : 5;
+        pauseIndex = (opt.pauseAction) ? opt.pauseAction.pauseIndex : 9;
+        quitIndex = (opt.quitAction) ? opt.quitAction.quitIndex : 8;
+        resumeIndex = (opt.resumeAction) ? opt.resumeAction.resumeIndex : 16;
+        muteIndex = (opt.muteAction) ? opt.muteAction.muteIndex : 4;
+        unmuteIndex = (opt.unmuteAction) ? opt.unmuteAction.unmuteIndex : 5;
+        pauseInstructionPVS = (opt.pauseAction) ? opt.pauseAction.instructionPVS : "pause";
+        quitInstructionPVS = (opt.quitAction) ? opt.quitAction.instructionPVS : "quit";
+        resumeInstructionPVS = (opt.resumeAction) ? opt.resumeAction.instructionPVS : "resume";
+        muteInstructionPVS = (opt.muteAction) ? opt.muteAction.instructionPVS : "mute";
+        unmuteInstructionPVS = (opt.unmuteAction) ? opt.unmuteAction.instructionPVS : "unmute";
+
         useSensitivity = (opt.useSensitivity) ? opt.useSensitivity : false;
         sensitivityValue = (opt.sensitivityValue) ? opt.sensitivityValue : 40;
 
@@ -1130,36 +1171,36 @@ define(function (require, exports, module) {
                         }
                         else if(i===pauseIndex){ 
                             if(!clickedOnce){
-                                ButtonActionsQueue.queueGUIAction("press_pause", callback);
-                                ButtonActionsQueue.queueGUIAction("release_pause", callback);
+                                ButtonActionsQueue.queueGUIAction("press_"+pauseInstructionPVS, callback);
+                                ButtonActionsQueue.queueGUIAction("release_"+pauseInstructionPVS, callback);
                                 clickedOnce=true;
                             }
                         }   
                         else if(i===quitIndex){ 
                             if(!clickedOnce){
-                                ButtonActionsQueue.queueGUIAction("press_quit", callback);
-                                ButtonActionsQueue.queueGUIAction("release_quit", callback);
+                                ButtonActionsQueue.queueGUIAction("press_"+quitInstructionPVS, callback);
+                                ButtonActionsQueue.queueGUIAction("release_"+quitInstructionPVS, callback);
                                 clickedOnce=true;
                             }
                         }   
                         else if(i===resumeIndex){ 
                             if(!clickedOnce){
-                                ButtonActionsQueue.queueGUIAction("press_resume", callback);
-                                ButtonActionsQueue.queueGUIAction("release_resume", callback);
+                                ButtonActionsQueue.queueGUIAction("press_"+resumeInstructionPVS, callback);
+                                ButtonActionsQueue.queueGUIAction("release_"+resumeInstructionPVS, callback);
                                 clickedOnce=true;
                             }
                         }  
                         else if(i===muteIndex){ 
                             if(!clickedOnce){
-                                ButtonActionsQueue.queueGUIAction("press_mute", callback);
-                                ButtonActionsQueue.queueGUIAction("release_mute", callback);
+                                ButtonActionsQueue.queueGUIAction("press_"+muteInstructionPVS, callback);
+                                ButtonActionsQueue.queueGUIAction("release_"+muteInstructionPVS, callback);
                                 clickedOnce=true;
                             }
                         }  
                         else if(i===unmuteIndex){ 
                             if(!clickedOnce){
-                                ButtonActionsQueue.queueGUIAction("press_unmute", callback);
-                                ButtonActionsQueue.queueGUIAction("release_unmute", callback);
+                                ButtonActionsQueue.queueGUIAction("press_"+unmuteInstructionPVS, callback);
+                                ButtonActionsQueue.queueGUIAction("release_"+unmuteInstructionPVS, callback);
                                 clickedOnce=true;
                             }
                         }                                

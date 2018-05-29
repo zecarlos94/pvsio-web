@@ -224,11 +224,26 @@ require([
             analogueStickIndex: 9,
             leftAnalogueIndex: 0,
             rightAnalogueIndex: 2,
-            pauseIndex: 9,
-            quitIndex: 8,
-            resumeIndex: 16,
-            muteIndex: 4,
-            unmuteIndex: 5,
+            pauseAction: {
+                pauseIndex: 9,
+                instructionPVS: "pause"
+            },
+            quitAction: {
+                quitIndex: 8,
+                instructionPVS: "quit"
+            },
+            resumeAction: {
+                resumeIndex: 16,
+                instructionPVS: "resume"
+            },
+            muteAction: {
+                muteIndex: 4,
+                instructionPVS: "mute"
+            },
+            unmuteAction: {
+                unmuteIndex: 5,
+                instructionPVS: "unmute"
+            },
             useSensitivity: false, // Default is false
             // sensitivityValue: 50, // Default is 40%
             callback: onMessageReceived
