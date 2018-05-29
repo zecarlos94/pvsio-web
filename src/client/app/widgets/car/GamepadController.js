@@ -344,6 +344,63 @@ define(function (require, exports, module) {
      * @instance
      */
     let rightAnalogueIndex;
+    
+    /**
+     * @description Index 'pauseIndex' is the external controller index where pause menu pvs instruction will be invoked.
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let pauseIndex;
+    /**
+     * @description Index 'quitIndex' is the external controller index where quit menu pvs instruction will be invoked.
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let quitIndex;        
+    /**
+     * @description Index 'resumeIndex' is the external controller index where resume menu pvs instruction will be invoked.
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let resumeIndex;
+    /**
+     * @description Index 'muteIndex' is the external controller index where mute pvs instruction will be invoked.
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let muteIndex;
+    /**
+     * @description Index 'unmuteIndex' is the external controller index where unmute pvs instruction will be invoked.
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let unmuteIndex;
+    /**
+     * @description Boolean 'useSensitivity' is the variable that allows to change between the two rotations APIs (with an without sensitivity)
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let useSensitivity;
+    /**
+     * @description Integer 'sensitivityValue' is the sensitivity value to be applied on the rotation API with sensitivity
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let sensitivityValue;
+    /**
+     * @description Function 'callback' is the callback to apply to ButtonActionsQueue.queueGUIAction()
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let callback;
 
     /**
      * @description Listening for event 'gamepadconnected' to update known gamepads array.
@@ -372,11 +429,10 @@ define(function (require, exports, module) {
         console.log("Gamepad Disconnected");
     });
 
-    let Widget = require("widgets/Widget");
-        // ,
+    let Widget = require("widgets/Widget"),
+        ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
         // ButtonExternalController = require("widgets/car/ButtonExternalController"),
-        // SteeringWheel = require("widgets/car/SteeringWheel"), // In order to render rotations when button clicked
-        // ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
+        // SteeringWheel = require("widgets/car/SteeringWheel"); // In order to render rotations when button clicked
 
 
     /**
@@ -427,6 +483,14 @@ define(function (require, exports, module) {
         opt.leftAnalogueIndex = opt.leftAnalogueIndex || 0;
         opt.rightAnalogueIndex = opt.rightAnalogueIndex || 2;
 
+        opt.pauseIndex = opt.pauseIndex;
+        opt.quitIndex = opt.quitIndex;
+        opt.resumeIndex = opt.resumeIndex;
+        opt.muteIndex = opt.muteIndex;
+        opt.unmuteIndex = opt.unmuteIndex;
+        opt.useSensitivity = opt.useSensitivity || false;
+        opt.sensitivityValue = opt.sensitivityValue || 40;
+
         coords = coords || {};
 
         this.id = id;
@@ -450,10 +514,19 @@ define(function (require, exports, module) {
         leftAnalogueIndex = (opt.leftAnalogueIndex) ? opt.leftAnalogueIndex : 0;
         rightAnalogueIndex = (opt.rightAnalogueIndex) ? opt.rightAnalogueIndex : 2;
 
+        pauseIndex = (opt.pauseIndex) ? opt.pauseIndex : 9;
+        quitIndex = (opt.quitIndex) ? opt.quitIndex : 8;
+        resumeIndex = (opt.resumeIndex) ? opt.resumeIndex : 16;
+        muteIndex = (opt.muteIndex) ? opt.muteIndex : 4;
+        unmuteIndex = (opt.unmuteIndex) ? opt.unmuteIndex : 5;
+        useSensitivity = (opt.useSensitivity) ? opt.useSensitivity : false;
+        sensitivityValue = (opt.sensitivityValue) ? opt.sensitivityValue : 40;
+
         this.div = d3.select("#gamepads");
 
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
+        callback = this.callback;
 
         Widget.call(this, id, coords, opt);
         return this;
@@ -1027,7 +1100,37 @@ define(function (require, exports, module) {
                                 carSteeringWheel.btn_rotate_right.click();
                                 clickedOnce=true;
                             }
-                        }                            
+                        }
+                        else if(i===pauseIndex){ 
+                            if(!clickedOnce){
+                                ButtonActionsQueue.queueGUIAction("press_pause", callback);
+                                clickedOnce=true;
+                            }
+                        }   
+                        else if(i===quitIndex){ 
+                            if(!clickedOnce){
+                                ButtonActionsQueue.queueGUIAction("press_quit", callback);
+                                clickedOnce=true;
+                            }
+                        }   
+                        else if(i===resumeIndex){ 
+                            if(!clickedOnce){
+                                ButtonActionsQueue.queueGUIAction("press_resume", callback);
+                                clickedOnce=true;
+                            }
+                        }  
+                        else if(i===muteIndex){ 
+                            if(!clickedOnce){
+                                ButtonActionsQueue.queueGUIAction("press_mute", callback);
+                                clickedOnce=true;
+                            }
+                        }  
+                        else if(i===unmuteIndex){ 
+                            if(!clickedOnce){
+                                ButtonActionsQueue.queueGUIAction("press_unmute", callback);
+                                clickedOnce=true;
+                            }
+                        }                                
                     }
                 } else {
                     b.setAttribute("name", "button");
@@ -1064,20 +1167,23 @@ define(function (require, exports, module) {
                             // For Logitech G29 PS3 Mode and PS4 Mode External Controller
                             // Idle values varies from -0.0118 to -0.0510 and achieves value of -1 (full left) and of 1 (full right)
                             if(i===steeringWheelIndex){ // steering wheel left/right rotation
-                                angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(null, controller.axes[i].toFixed(4));
-                                // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(null, controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
+                                if(useSensitivity){
+                                    angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(null, controller.axes[i].toFixed(4), sensitivityValue); // sensitivityValue% sensitivity, means less rotation, i.e. lower rotation angle.
+                                }else{
+                                    angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(null, controller.axes[i].toFixed(4));
+                                }
                                 carSteeringWheel.rotate(angleRotationSteeringWheel);
                             }else if(i===accelerationPedalIndex || i===brakePedalIndex){ // pedals(brake and accelerator)
                                 // Idle value of -0.0039 and achieves value of 1(full brake) and of -1 (full accelerator)
                                 if(controller.axes[i].toFixed(4)>0 && controller.axes[i].toFixed(4)<=1){
                                     // carBrake.click();
                                     carBrake.press();
-                                    carBrake.release();
+                                    // carBrake.release();
                                 }
                                 else if(controller.axes[i].toFixed(4)<0 && controller.axes[i].toFixed(4)>=-1){
                                     // carAccelerate.click();
                                     carAccelerate.press();
-                                    carAccelerate.release();
+                                    // carAccelerate.release();
                                 }
                             }else if(i===analogueStickIndex){ // stick
                                 // Idle values varies from 1.20 to 1.30 and achieves value of 0.71 (full left) and of -0.71 (full right)
@@ -1090,12 +1196,20 @@ define(function (require, exports, module) {
                             }   
                         }else if(type==="gamepad"){
                             if(i===leftAnalogueIndex){ // left stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
-                                angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
-                                // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
+                                if(useSensitivity){
+                                    angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), sensitivityValue); // sensitivityValue% sensitivity, means less rotation, i.e. lower rotation angle.
+                                }
+                                else{
+                                    angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
+                                }
                                 carSteeringWheel.rotate(angleRotationSteeringWheel);
                             }else if(i===rightAnalogueIndex){ // right stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
-                                angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
-                                // angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), 40); // 40% sensitivity, means less rotation, i.e. lower rotation angle.
+                                if(useSensitivity){
+                                    angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), sensitivityValue); // sensitivityValue% sensitivity, means less rotation, i.e. lower rotation angle.
+                                }
+                                else{
+                                    angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
+                                }
                                 carSteeringWheel.rotate(angleRotationSteeringWheel);
                             }
                         }

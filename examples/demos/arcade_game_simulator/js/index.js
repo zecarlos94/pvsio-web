@@ -203,6 +203,37 @@ require([
             callback: onMessageReceived
         });
 
+        // ---------------- GAMEPAD CONTROLLER ----------------
+        arcade.gamepadController = new GamepadController("gamepad_controller", {
+            top: 1000,
+            left: 100,
+            width: 750,
+            height: 750
+        }, {
+            carAccelerate: arcade.up,
+            carBrake: arcade.down,
+            carSteeringWheel: arcade.steeringWheel,
+            type: "steeringWheelAndPedals", // Default is "gamepad"
+            accelerationIndex: 0,
+            brakeIndex: 1,
+            leftArrowIndex: 14,
+            rightArrowIndex: 15,
+            accelerationPedalIndex: 1,
+            brakePedalIndex: 1,
+            steeringWheelIndex: 0,
+            analogueStickIndex: 9,
+            leftAnalogueIndex: 0,
+            rightAnalogueIndex: 2,
+            pauseIndex: 9,
+            quitIndex: 8,
+            resumeIndex: 16,
+            muteIndex: 4,
+            unmuteIndex: 5,
+            useSensitivity: false, // Default is false
+            // sensitivityValue: 50, // Default is 40%
+            callback: onMessageReceived
+        });
+
         /*
         // ---------------- CURRENT SHIFT -------------------------
         arcade.shiftDisplay = new Shift('current-shift');
@@ -281,6 +312,7 @@ require([
             arcade.speedometerGauge.render(evaluate(res.speed.val));
             arcade.tachometerGauge.render(evaluate(res.rpm));
             arcade.steeringWheel.render(evaluate(res.steering));
+            arcade.gamepadController.render();            
             arcade.arcadeWidget.render(res);
             arcade.drawGamepad.render();
             // arcade.drawGamepad.callPressReleasePVS("accelerate");
