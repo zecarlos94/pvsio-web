@@ -216,7 +216,8 @@ require([
             accelerateInstructionPVS: "accelerate",
             brakeInstructionPVS: "brake",
             steeringWheelInstructionPVS: "steering_wheel",
-            useButtonActionsQueue: true, // Default is false
+            useButtonActionsQueue: false, // Default is false
+            usePressReleasePVS: true, // Default is true
             type: "gamepad", // "steeringWheelAndPedals", // Default is "gamepad"
             accelerationIndex: 0,
             brakeIndex: 1,
