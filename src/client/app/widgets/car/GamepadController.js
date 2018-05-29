@@ -456,6 +456,34 @@ define(function (require, exports, module) {
      * @instance
      */
     let callback;
+    /**
+     * @description String 'accelerateInstructionPVS' is the accelerate pvs instruction name.
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let accelerateInstructionPVS;
+    /**
+     * @description String 'brakeInstructionPVS' is the brake pvs instruction name.
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let brakeInstructionPVS;
+    /**
+     * @description String 'steeringWheelInstructionPVS' is the steeringWheelInstructionPVS pvs instruction name.
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let steeringWheelInstructionPVS;
+    /**
+     * @description Boolean 'useButtonActionsQueue' is the variable that allows to change press()/release() object invocations and ButtonActionsQueue invocations.
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let useButtonActionsQueue;
 
     /**
      * @description Listening for event 'gamepadconnected' to update known gamepads array.
@@ -502,6 +530,10 @@ define(function (require, exports, module) {
      *          <li>carAccelerate (ButtonExternalController): Button 'accelerate' to accelerate when a certain gamepad button is pressed.</li>
      *          <li>carBrake (ButtonExternalController): Button 'brake' to brake when a certain gamepad button is pressed.</li>
      *          <li>carSteeringWheel (SteeringWheel): SteeringWheel 'steering_wheel' to rotate the current steering wheel with gamepad axes values.</li>
+     *          <li>accelerateInstructionPVS (String): String with the name of the pvs instruction for 'accelerate' action (Default is "accelerate").</li> 
+     *          <li>brakeInstructionPVS (String): String with the name of the pvs instruction for 'brake' action (Default is "brake").</li> 
+     *          <li>steeringWheelInstructionPVS (String): String with the name of the pvs instruction prefix regarding the direction changes with steering wheel (Default is "steering_wheel").</li> 
+     *          <li>useButtonActionsQueue (Bool): is the variable that allows to change press()/release() object invocations and ButtonActionsQueue invocations (Default is false).</li>
      *          <li>type (String): Field 'type' allows to differentiate the axes of the external controller, i.e. to differentiate between gamepad axes and a more complex controller 
      *          such as steeringWheelAndPedals axes (Default is "gamepad". Other possible value is "steeringWheelAndPedals").</li>
      *          <li>accelerationIndex (Int): Index 'accelerationIndex' is the external controller index where acceleration action will be invoked (Default is 0).</li>
@@ -532,8 +564,11 @@ define(function (require, exports, module) {
         opt.carAccelerate = opt.carAccelerate;
         opt.carBrake = opt.carBrake;
         opt.carSteeringWheel = opt.carSteeringWheel;
+        opt.accelerateInstructionPVS = opt.accelerateInstructionPVS || "accelerate";
+        opt.brakeInstructionPVS = opt.brakeInstructionPVS || "brake";
+        opt.steeringWheelInstructionPVS = opt.steeringWheelInstructionPVS || "steering_wheel";
+        opt.useButtonActionsQueue = opt.useButtonActionsQueue;
         opt.type = opt.type || "gamepad";
-
         opt.accelerationIndex = opt.accelerationIndex || 0;
         opt.brakeIndex = opt.brakeIndex || 1;
         opt.leftArrowIndex = opt.leftArrowIndex || 14;
@@ -544,7 +579,6 @@ define(function (require, exports, module) {
         opt.analogueStickIndex = opt.analogueStickIndex || 9;
         opt.leftAnalogueIndex = opt.leftAnalogueIndex || 0;
         opt.rightAnalogueIndex = opt.rightAnalogueIndex || 2;
-
         opt.pauseAction = opt.pauseAction;
         opt.quitAction = opt.quitAction;
         opt.resumeAction = opt.resumeAction;
@@ -552,7 +586,6 @@ define(function (require, exports, module) {
         opt.unmuteAction = opt.unmuteAction;
         opt.useSensitivity = opt.useSensitivity || false;
         opt.sensitivityValue = opt.sensitivityValue || 40;
-
         coords = coords || {};
 
         this.id = id;
@@ -563,7 +596,10 @@ define(function (require, exports, module) {
         carAccelerate = (opt.carAccelerate) ? opt.carAccelerate : null;
         carBrake = (opt.carBrake) ? opt.carBrake : null;
         carSteeringWheel = (opt.carSteeringWheel) ? opt.carSteeringWheel : null;
-
+        accelerateInstructionPVS = (opt.accelerateInstructionPVS) ? opt.accelerateInstructionPVS : "accelerate";
+        brakeInstructionPVS = (opt.brakeInstructionPVS) ? opt.brakeInstructionPVS : "brake";
+        steeringWheelInstructionPVS = (opt.steeringWheelInstructionPVS) ? opt.steeringWheelInstructionPVS : "steering_wheel";
+        useButtonActionsQueue = (opt.useButtonActionsQueue) ? opt.useButtonActionsQueue : false;
         type = (opt.type) ? opt.type : "gamepad";
         accelerationIndex = (opt.accelerationIndex) ? opt.accelerationIndex : 0;
         brakeIndex = (opt.brakeIndex) ? opt.brakeIndex : 1;
@@ -575,7 +611,6 @@ define(function (require, exports, module) {
         analogueStickIndex = (opt.analogueStickIndex) ? opt.analogueStickIndex : 9;
         leftAnalogueIndex = (opt.leftAnalogueIndex) ? opt.leftAnalogueIndex : 0;
         rightAnalogueIndex = (opt.rightAnalogueIndex) ? opt.rightAnalogueIndex : 2;
-
         pauseIndex = (opt.pauseAction) ? opt.pauseAction.pauseIndex : 9;
         quitIndex = (opt.quitAction) ? opt.quitAction.quitIndex : 8;
         resumeIndex = (opt.resumeAction) ? opt.resumeAction.resumeIndex : 16;
@@ -586,10 +621,9 @@ define(function (require, exports, module) {
         resumeInstructionPVS = (opt.resumeAction) ? opt.resumeAction.instructionPVS : "resume";
         muteInstructionPVS = (opt.muteAction) ? opt.muteAction.instructionPVS : "mute";
         unmuteInstructionPVS = (opt.unmuteAction) ? opt.unmuteAction.instructionPVS : "unmute";
-
         useSensitivity = (opt.useSensitivity) ? opt.useSensitivity : false;
         sensitivityValue = (opt.sensitivityValue) ? opt.sensitivityValue : 40;
-
+        
         this.div = d3.select("#gamepads");
 
         opt.callback = opt.callback || function () {};
@@ -1140,8 +1174,13 @@ define(function (require, exports, module) {
                             // Button A - XBOX1 Gamepad/External Controller
                             if(!clickedOnce){
                                 // carAccelerate.click();
-                                carAccelerate.press();
-                                // carAccelerate.release();
+                                if(useButtonActionsQueue){
+                                    ButtonActionsQueue.queueGUIAction("press_"+accelerateInstructionPVS, callback);
+                                    ButtonActionsQueue.queueGUIAction("release_"+accelerateInstructionPVS, callback);
+                                }else{
+                                    carAccelerate.press();
+                                    // carAccelerate.release();
+                                }
                                 clickedOnce=true;
                             }
                         }else if(i===brakeIndex){ 
@@ -1150,22 +1189,33 @@ define(function (require, exports, module) {
                             // Button B - XBOX1 Gamepad/External Controller
                             if(!clickedOnce){
                                 // carBrake.click();
-                                carBrake.press();
-                                // carBrake.release();
+                                if(useButtonActionsQueue){
+                                    ButtonActionsQueue.queueGUIAction("press_"+brakeInstructionPVS, callback);
+                                    ButtonActionsQueue.queueGUIAction("release_"+brakeInstructionPVS, callback);
+                                }else{
+                                    carBrake.press();
+                                    carBrake.release();
+                                }
                                 clickedOnce=true;
                             }
                         }else if(i===leftArrowIndex){ // Left Arrow - PS4 and XBOX1 Gamepad/External Controller
                             // Logitech G29 PS4 Mode External Controller does not have this button
                             if(!clickedOnce){
-                                // console.log("rotate left");
-                                carSteeringWheel.btn_rotate_left.click();
+                                if(useButtonActionsQueue){
+                                    ButtonActionsQueue.queueGUIAction(steeringWheelInstructionPVS+"_left", callback);
+                                }else{
+                                    carSteeringWheel.btn_rotate_left.click();
+                                }
                                 clickedOnce=true;
                             }
                         }else if(i===rightArrowIndex){ // Right Arrow - PS4 and XBOX1 Gamepad/External Controller
                             // Logitech G29 PS4 Mode External Controller does not have this button
                             if(!clickedOnce){
-                                // console.log("rotate right");
-                                carSteeringWheel.btn_rotate_right.click();
+                                if(useButtonActionsQueue){
+                                    ButtonActionsQueue.queueGUIAction(steeringWheelInstructionPVS+"_right", callback);
+                                }else{
+                                    carSteeringWheel.btn_rotate_right.click();
+                                }
                                 clickedOnce=true;
                             }
                         }
@@ -1245,26 +1295,48 @@ define(function (require, exports, module) {
                                 }else{
                                     angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(null, controller.axes[i].toFixed(4));
                                 }
-                                carSteeringWheel.rotate(angleRotationSteeringWheel);
+                                if(useButtonActionsQueue){
+                                    ButtonActionsQueue.queueGUIAction(steeringWheelInstructionPVS+"_rotate(" + angleRotationSteeringWheel + ")", callback);
+                                }else{
+                                    carSteeringWheel.rotate(angleRotationSteeringWheel);
+                                }
                             }else if(i===accelerationPedalIndex || i===brakePedalIndex){ // pedals(brake and accelerator)
                                 // Idle value of -0.0039 and achieves value of 1(full brake) and of -1 (full accelerator)
                                 if(controller.axes[i].toFixed(4)>0 && controller.axes[i].toFixed(4)<=1){
                                     // carBrake.click();
-                                    carBrake.press();
-                                    // carBrake.release();
+                                    if(useButtonActionsQueue){
+                                        ButtonActionsQueue.queueGUIAction("press_"+brakeInstructionPVS, callback);
+                                        ButtonActionsQueue.queueGUIAction("release_"+brakeInstructionPVS, callback);
+                                    }else{
+                                        carBrake.press();
+                                        // carBrake.release();
+                                    }
                                 }
                                 else if(controller.axes[i].toFixed(4)<0 && controller.axes[i].toFixed(4)>=-1){
                                     // carAccelerate.click();
-                                    carAccelerate.press();
-                                    // carAccelerate.release();
+                                    if(useButtonActionsQueue){
+                                        ButtonActionsQueue.queueGUIAction("press_"+accelerateInstructionPVS, callback);
+                                        ButtonActionsQueue.queueGUIAction("release_"+accelerateInstructionPVS, callback);
+                                    }else{
+                                        carAccelerate.press();
+                                        // carAccelerate.release();
+                                    }
                                 }
                             }else if(i===analogueStickIndex){ // stick
                                 // Idle values varies from 1.20 to 1.30 and achieves value of 0.71 (full left) and of -0.71 (full right)
                                 if(controller.axes[i].toFixed(4)>0 && controller.axes[i].toFixed(4)<1){
-                                    carSteeringWheel.btn_rotate_left.click();
+                                    if(useButtonActionsQueue){
+                                        ButtonActionsQueue.queueGUIAction(steeringWheelInstructionPVS+"_left", callback);
+                                    }else{
+                                        carSteeringWheel.btn_rotate_left.click();
+                                    }
                                 }
                                 else if(controller.axes[i].toFixed(4)<0 && controller.axes[i].toFixed(4)>-1){
-                                    carSteeringWheel.btn_rotate_right.click();
+                                    if(useButtonActionsQueue){
+                                        ButtonActionsQueue.queueGUIAction(steeringWheelInstructionPVS+"_right", callback);
+                                    }else{
+                                        carSteeringWheel.btn_rotate_right.click();
+                                    }
                                 }
                             }   
                         }else if(type==="gamepad"){
@@ -1275,7 +1347,11 @@ define(function (require, exports, module) {
                                 else{
                                     angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
                                 }
-                                carSteeringWheel.rotate(angleRotationSteeringWheel);
+                                if(useButtonActionsQueue){
+                                    ButtonActionsQueue.queueGUIAction(steeringWheelInstructionPVS+"_rotate(" + angleRotationSteeringWheel + ")", callback);
+                                }else{
+                                    carSteeringWheel.rotate(angleRotationSteeringWheel);
+                                }
                             }else if(i===rightAnalogueIndex){ // right stick - PS4, XBOX1 and other Gamepad/External Controllers (Standard positions with 2 sticks)
                                 if(useSensitivity){
                                     angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngleWithSensitivity(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4), sensitivityValue); // sensitivityValue% sensitivity, means less rotation, i.e. lower rotation angle.
@@ -1283,7 +1359,12 @@ define(function (require, exports, module) {
                                 else{
                                     angleRotationSteeringWheel = GamepadController.prototype.calculateRotationAngle(controller.axes[i+1].toFixed(4), controller.axes[i].toFixed(4));
                                 }
-                                carSteeringWheel.rotate(angleRotationSteeringWheel);
+                                if(useButtonActionsQueue){
+                                    ButtonActionsQueue.queueGUIAction(steeringWheelInstructionPVS+"_rotate(" + angleRotationSteeringWheel + ")", callback);
+                                }
+                                else{
+                                    carSteeringWheel.rotate(angleRotationSteeringWheel);
+                                }
                             }
                         }
                     }

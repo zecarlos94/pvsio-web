@@ -213,6 +213,10 @@ require([
             carAccelerate: arcade.up,
             carBrake: arcade.down,
             carSteeringWheel: arcade.steeringWheel,
+            accelerateInstructionPVS: "accelerate",
+            brakeInstructionPVS: "brake",
+            steeringWheelInstructionPVS: "steering_wheel",
+            useButtonActionsQueue: true, // Default is false
             type: "gamepad", // "steeringWheelAndPedals", // Default is "gamepad"
             accelerationIndex: 0,
             brakeIndex: 1,
