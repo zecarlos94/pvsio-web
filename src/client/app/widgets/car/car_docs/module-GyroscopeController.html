@@ -145,7 +145,11 @@ the speedometer values displayed.</div>
               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
               {
                  parent: "gyroscope",
-                 carSteeringWheel: car.steeringWheel 
+                 carSteeringWheel: car.steeringWheel,
+                 carAccelerate: arcade.up,
+                 carBrake: arcade.down,
+                 useSensitivity: false, // Default is false
+                 sensitivityValue: 50 // Default is 40%   
               }
           );
 
@@ -211,7 +215,11 @@ This widget is also self-contained, i.e., the event handler function will call t
               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
               {
                  parent: "gyroscope",
-                 carSteeringWheel: car.steeringWheel 
+                 carSteeringWheel: car.steeringWheel,
+                 carAccelerate: arcade.up,
+                 carBrake: arcade.down,
+                 useSensitivity: false, // Default is false
+                 sensitivityValue: 50 // Default is 40%  
               }
           );
      }
@@ -233,7 +241,11 @@ to rotate steering wheel Widget received as opt field without sensitivity.</p>
               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
               {
                  parent: "gyroscope",
-                 carSteeringWheel: car.steeringWheel 
+                 carSteeringWheel: car.steeringWheel,
+                 carAccelerate: arcade.up,
+                 carBrake: arcade.down,
+                 useSensitivity: false, // Default is false
+                 sensitivityValue: 50 // Default is 40% 
               }
           );
 
@@ -332,7 +344,7 @@ to rotate steering wheel Widget received as opt field with sensitivity of 75%.</
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line169">line 169</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line181">line 181</a>
     </li></ul></dd>
     
 
@@ -394,7 +406,7 @@ to rotate steering wheel Widget received as opt field with sensitivity of 75%.</
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line174">line 174</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line186">line 186</a>
     </li></ul></dd>
     
 
@@ -456,7 +468,7 @@ to rotate steering wheel Widget received as opt field with sensitivity of 75%.</
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line162">line 162</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line174">line 174</a>
     </li></ul></dd>
     
 
@@ -518,7 +530,7 @@ to rotate steering wheel Widget received as opt field with sensitivity of 75%.</
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line156">line 156</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line168">line 168</a>
     </li></ul></dd>
     
 
@@ -656,7 +668,11 @@ to rotate steering wheel Widget received as opt field with sensitivity of 75%.</
 
             <td class="description last">Options:
          <li>parent {String}: the HTML element where the display will be appended (default is "gyroscope").</li>
-         <li>carSteeringWheel {SteeringWheel}: SteeringWheel 'steering_wheel' to rotate the current steering wheel with gyroscope rotation values.</li></td>
+         <li>carSteeringWheel {SteeringWheel}: SteeringWheel 'steering_wheel' to rotate the current steering wheel with gyroscope rotation values.</li>
+         <li>carAccelerate (ButtonExternalController): Button 'accelerate' to accelerate when a certain gamepad button is pressed.</li>
+         <li>carBrake (ButtonExternalController): Button 'brake' to brake when a certain gamepad button is pressed.</li>
+         <li>useSensitivity {Boolean}: boolean to determine which rotation API will be invoked, i.e., with or without sensitivity (default is false).</li>
+         <li>sensitivityValue {Int}: the sensivity value to be provided to the rotation API with sensitivity (default is "gyroscope").</li></td>
         </tr>
 
     
@@ -697,7 +713,7 @@ to rotate steering wheel Widget received as opt field with sensitivity of 75%.</
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line182">line 182</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line210">line 210</a>
     </li></ul></dd>
     
 
@@ -805,7 +821,7 @@ to rotate steering wheel Widget received as opt field with sensitivity of 75%.</
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line304">line 304</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line342">line 342</a>
     </li></ul></dd>
     
 
@@ -891,7 +907,7 @@ to rotate steering wheel Widget received as opt field with sensitivity of 75%.</
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line320">line 320</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line361">line 361</a>
     </li></ul></dd>
     
 
@@ -977,7 +993,7 @@ to rotate steering wheel Widget received as opt field with sensitivity of 75%.</
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line342">line 342</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line383">line 383</a>
     </li></ul></dd>
     
 
@@ -1063,7 +1079,7 @@ to rotate steering wheel Widget received as opt field with sensitivity of 75%.</
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line331">line 331</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line372">line 372</a>
     </li></ul></dd>
     
 
@@ -1221,7 +1237,7 @@ to rotate steering wheel Widget received as opt field with sensitivity of 75%.</
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line237">line 237</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line275">line 275</a>
     </li></ul></dd>
     
 
@@ -1424,7 +1440,7 @@ to rotate steering wheel Widget received as opt field with sensitivity of 75%.</
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line272">line 272</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line310">line 310</a>
     </li></ul></dd>
     
 
@@ -1496,7 +1512,7 @@ to rotate steering wheel Widget received as opt field with sensitivity of 75%.</
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon May 28 2018 12:00:54 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue May 29 2018 14:44:15 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

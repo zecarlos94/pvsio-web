@@ -137,7 +137,7 @@ require([
         }, {
             parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
             style: "ps4", // defines parent div, which is "ps4" by default
-            buttonsPVS: [ "accelerate", "brake", "unmute", "mute", "pause", "quit", "resume", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+            buttonsPVS: [ "accelerate", "brake", "unmute", "mute", "pause", "quit", "touchpad", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
             callback: onMessageReceived
         });
 
@@ -213,7 +213,7 @@ require([
             carAccelerate: arcade.up,
             carBrake: arcade.down,
             carSteeringWheel: arcade.steeringWheel,
-            type: "steeringWheelAndPedals", // Default is "gamepad"
+            type: "gamepad", // "steeringWheelAndPedals", // Default is "gamepad"
             accelerationIndex: 0,
             brakeIndex: 1,
             leftArrowIndex: 14,
@@ -229,6 +229,22 @@ require([
             resumeIndex: 16,
             muteIndex: 4,
             unmuteIndex: 5,
+            useSensitivity: false, // Default is false
+            // sensitivityValue: 50, // Default is 40%
+            callback: onMessageReceived
+        });
+
+        // ----------------------------- GYROSCOPE COMPONENTS -----------------------------
+        arcade.gyroscopeController = new GyroscopeController("Gyroscope_Controller", {
+            top: 100,
+            left: 700,
+            width: 750,
+            height: 750
+        }, {
+            parent: "gyroscope", // defines parent div, which is div id="gyroscope" by default
+            carSteeringWheel: arcade.steeringWheel,
+            carAccelerate: arcade.up,
+            carBrake: arcade.down,
             useSensitivity: false, // Default is false
             // sensitivityValue: 50, // Default is 40%
             callback: onMessageReceived
@@ -312,7 +328,8 @@ require([
             arcade.speedometerGauge.render(evaluate(res.speed.val));
             arcade.tachometerGauge.render(evaluate(res.rpm));
             arcade.steeringWheel.render(evaluate(res.steering));
-            arcade.gamepadController.render();            
+            arcade.gamepadController.render();  
+            arcade.gyroscopeController.render();          
             arcade.arcadeWidget.render(res);
             arcade.drawGamepad.render();
             // arcade.drawGamepad.callPressReleasePVS("accelerate");

@@ -26,7 +26,11 @@
  *               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
  *               {
  *                  parent: "gyroscope",
- *                  carSteeringWheel: car.steeringWheel 
+ *                  carSteeringWheel: car.steeringWheel,
+ *                  carAccelerate: arcade.up,
+ *                  carBrake: arcade.down,
+ *                  useSensitivity: false, // Default is false
+ *                  sensitivityValue: 50 // Default is 40%   
  *               }
  *           );
  *
@@ -90,7 +94,11 @@
  *               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
  *               {
  *                  parent: "gyroscope",
- *                  carSteeringWheel: car.steeringWheel 
+ *                  carSteeringWheel: car.steeringWheel,
+ *                  carAccelerate: arcade.up,
+ *                  carBrake: arcade.down,
+ *                  useSensitivity: false, // Default is false
+ *                  sensitivityValue: 50 // Default is 40%  
  *               }
  *           );
  *      }
@@ -111,7 +119,11 @@
  *               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
  *               {
  *                  parent: "gyroscope",
- *                  carSteeringWheel: car.steeringWheel 
+ *                  carSteeringWheel: car.steeringWheel,
+ *                  carAccelerate: arcade.up,
+ *                  carBrake: arcade.down,
+ *                  useSensitivity: false, // Default is false
+ *                  sensitivityValue: 50 // Default is 40% 
  *               }
  *           );
  * 
@@ -173,6 +185,22 @@ define(function (require, exports, module) {
      */
     let carBrake;
 
+    /**
+     * @description Boolean 'useSensitivity' is the variable that allows to change between the two rotations APIs (with an without sensitivity)
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let useSensitivity;
+
+    /**
+     * @description Integer 'sensitivityValue' is the sensitivity value to be applied on the rotation API with sensitivity
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let sensitivityValue;
+
     let Widget = require("widgets/Widget");
         // ,
         // ButtonExternalController = require("widgets/car/ButtonExternalController"),
@@ -190,6 +218,10 @@ define(function (require, exports, module) {
      * @param opt {Object} Options:
      *          <li>parent {String}: the HTML element where the display will be appended (default is "gyroscope").</li>
      *          <li>carSteeringWheel {SteeringWheel}: SteeringWheel 'steering_wheel' to rotate the current steering wheel with gyroscope rotation values.</li>
+     *          <li>carAccelerate (ButtonExternalController): Button 'accelerate' to accelerate when a certain gamepad button is pressed.</li>
+     *          <li>carBrake (ButtonExternalController): Button 'brake' to brake when a certain gamepad button is pressed.</li>
+     *          <li>useSensitivity {Boolean}: boolean to determine which rotation API will be invoked, i.e., with or without sensitivity (default is false).</li>
+     *          <li>sensitivityValue {Int}: the sensivity value to be provided to the rotation API with sensitivity (default is "gyroscope").</li>
      * @returns {GyroscopeController} The created instance of the widget GyroscopeController.
      * @memberof module:GyroscopeController
      * @instance
@@ -200,6 +232,9 @@ define(function (require, exports, module) {
         opt.carSteeringWheel = opt.carSteeringWheel;
         opt.carAccelerate = opt.carAccelerate;
         opt.carBrake = opt.carBrake;
+        opt.useSensitivity = opt.useSensitivity || false;
+        opt.sensitivityValue = opt.sensitivityValue || 40;
+
         coords = coords || {};
 
         this.id = id;
@@ -212,6 +247,9 @@ define(function (require, exports, module) {
         carSteeringWheel = (opt.carSteeringWheel) ? opt.carSteeringWheel : null;
         carAccelerate = (opt.carAccelerate) ? opt.carAccelerate : null;
         carBrake = (opt.carBrake) ? opt.carBrake : null;
+ 
+        useSensitivity = (opt.useSensitivity) ? opt.useSensitivity : false;
+        sensitivityValue = (opt.sensitivityValue) ? opt.sensitivityValue : 40;
 
         this.div = d3.select(this.parent);
 
@@ -312,9 +350,12 @@ define(function (require, exports, module) {
         // let z = evt.alpha.toFixed(2); // In degree in the range [-360,360]
         let x = evt.beta.toFixed(2); // In degree in the range [-180,180]
         let y = evt.gamma.toFixed(2); // In degree in the range [-90,90]
-        GyroscopeController.prototype.rotateSteeringAngle(x,y);
-        // Higher than 75% or else the rotation will not be perceptible due to gyroscope sensor optics.        
-        // GyroscopeController.prototype.rotateSteeringAngleWithSensitivity(x,y,80);
+        if(useSensitivity){
+            // sensitivityValue higher than 75% or else the rotation will not be perceptible due to gyroscope sensor optics.        
+            GyroscopeController.prototype.rotateSteeringAngleWithSensitivity(x,y,sensitivityValue);
+        }else{
+            GyroscopeController.prototype.rotateSteeringAngle(x,y);
+        }
     };
 
     /**

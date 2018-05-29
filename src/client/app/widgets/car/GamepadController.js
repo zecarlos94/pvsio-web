@@ -40,6 +40,13 @@
  *                  analogueStickIndex: 9,
  *                  leftAnalogueIndex: 0,
  *                  rightAnalogueIndex: 2,
+ *                  pauseIndex: 9,
+ *                  quitIndex: 8,
+ *                  resumeIndex: 16,
+ *                  muteIndex: 4,
+ *                  unmuteIndex: 5,
+ *                  useSensitivity: false, // Default is false
+ *                  sensitivityValue: 50 // Default is 40%
  *               }
  *           );
  *
@@ -161,6 +168,13 @@
  *                  analogueStickIndex: 9,
  *                  leftAnalogueIndex: 0,
  *                  rightAnalogueIndex: 2,
+ *                  pauseIndex: 9,
+ *                  quitIndex: 8,
+ *                  resumeIndex: 16,
+ *                  muteIndex: 4,
+ *                  unmuteIndex: 5,
+ *                  useSensitivity: false, // Default is false
+ *                  sensitivityValue: 50 // Default is 40%
  *               }
  *           );
  *
@@ -195,6 +209,13 @@
  *                  analogueStickIndex: 9,
  *                  leftAnalogueIndex: 0,
  *                  rightAnalogueIndex: 2,
+ *                  pauseIndex: 9,
+ *                  quitIndex: 8,
+ *                  resumeIndex: 16,
+ *                  muteIndex: 4,
+ *                  unmuteIndex: 5,
+ *                  useSensitivity: false, // Default is false
+ *                  sensitivityValue: 50 // Default is 40%
  *               }
  *           );
  *
@@ -344,7 +365,6 @@ define(function (require, exports, module) {
      * @instance
      */
     let rightAnalogueIndex;
-    
     /**
      * @description Index 'pauseIndex' is the external controller index where pause menu pvs instruction will be invoked.
      * @protected
@@ -459,6 +479,13 @@ define(function (require, exports, module) {
      *          <li>analogueStickIndex (Int): Index 'analogueStickIndex' is the external controller index where steeringWheel widget rotate method will be invoked, based on X axis calculated angle (Default is 9).</li>
      *          <li>leftAnalogueIndex (Int): Index 'leftAnalogueIndex' is the external controller index where steeringWheel widget rotate method will be invoked, based on X,Y axes calculated angle (Default is 0).</li>
      *          <li>rightAnalogueIndex (Int): Index 'rightAnalogueIndex' is the external controller index where steeringWheel widget rotate method will be invoked, based on X,Y axes calculated angle (Default is 2).</li> 
+     *          <li>pauseIndex (Int): Index 'pauseIndex' is the external controller index where pause menu pvs instruction will be invoked (Default is 9).</li> 
+     *          <li>quitIndex (Int): Index 'quitIndex' is the external controller index where quit menu pvs instruction will be invoked (Default is 8).</li> 
+     *          <li>resumeIndex (Int): Index 'resumeIndex' is the external controller index where resume menu pvs instruction will be invoked (Default is 16).</li> 
+     *          <li>muteIndex (Int): Index 'muteIndex' is the external controller index where mute pvs instruction will be invoked (Default is 4).</li> 
+     *          <li>unmuteIndex (Int): Index 'unmuteIndex' is the external controller index where unmute pvs instruction will be invoked (Default is 5).</li> 
+     *          <li>useSensitivity {Boolean}: boolean to determine which rotation API will be invoked, i.e., with or without sensitivity (default is false).</li>
+     *          <li>sensitivityValue {Int}: the sensivity value to be provided to the rotation API with sensitivity (default is "gyroscope").</li>
      * @returns {GamepadController} The created instance of the widget GamepadController.
      * @memberof module:GamepadController
      * @instance
@@ -1073,7 +1100,7 @@ define(function (require, exports, module) {
                             if(!clickedOnce){
                                 // carAccelerate.click();
                                 carAccelerate.press();
-                                carAccelerate.release();
+                                // carAccelerate.release();
                                 clickedOnce=true;
                             }
                         }else if(i===brakeIndex){ 
@@ -1083,7 +1110,7 @@ define(function (require, exports, module) {
                             if(!clickedOnce){
                                 // carBrake.click();
                                 carBrake.press();
-                                carBrake.release();
+                                // carBrake.release();
                                 clickedOnce=true;
                             }
                         }else if(i===leftArrowIndex){ // Left Arrow - PS4 and XBOX1 Gamepad/External Controller
@@ -1104,30 +1131,35 @@ define(function (require, exports, module) {
                         else if(i===pauseIndex){ 
                             if(!clickedOnce){
                                 ButtonActionsQueue.queueGUIAction("press_pause", callback);
+                                ButtonActionsQueue.queueGUIAction("release_pause", callback);
                                 clickedOnce=true;
                             }
                         }   
                         else if(i===quitIndex){ 
                             if(!clickedOnce){
                                 ButtonActionsQueue.queueGUIAction("press_quit", callback);
+                                ButtonActionsQueue.queueGUIAction("release_quit", callback);
                                 clickedOnce=true;
                             }
                         }   
                         else if(i===resumeIndex){ 
                             if(!clickedOnce){
                                 ButtonActionsQueue.queueGUIAction("press_resume", callback);
+                                ButtonActionsQueue.queueGUIAction("release_resume", callback);
                                 clickedOnce=true;
                             }
                         }  
                         else if(i===muteIndex){ 
                             if(!clickedOnce){
                                 ButtonActionsQueue.queueGUIAction("press_mute", callback);
+                                ButtonActionsQueue.queueGUIAction("release_mute", callback);
                                 clickedOnce=true;
                             }
                         }  
                         else if(i===unmuteIndex){ 
                             if(!clickedOnce){
                                 ButtonActionsQueue.queueGUIAction("press_unmute", callback);
+                                ButtonActionsQueue.queueGUIAction("release_unmute", callback);
                                 clickedOnce=true;
                             }
                         }                                
