@@ -767,8 +767,8 @@ define(function (require, exports, module) {
     let GyroscopeController = require("widgets/car/GyroscopeController");
     let VirtualKeypadController = require("widgets/car/VirtualKeypadController");
     let GamepadController = require("widgets/car/GamepadController");
-
     let TrackGenerator = require("widgets/car/TrackGenerator");
+    let Arcade = require("widgets/car/Arcade");
      
     /**
      * @function constructor
@@ -1650,6 +1650,7 @@ define(function (require, exports, module) {
      * in the slider "End", which only takes 2 values, 0 by default, which implies that the user is still choosing 
      * customization options, and 1, when the user wants to exit the customization menu, which implies that the user 
      * has already finished customizing.
+     * @param lastResPVS {Array} the last state that PVSio-web back-end sends, parsed with stateParser parse method. 
      * @param callback {Function} the function provided as callback to widgets constructors that will be re-rendered. This function will be defined in the respective demo, where the Customization widget constructor was invoked.
      * @param car {Object} the object with all the widgets created so far in the demo. For example, in demo driving_simulator, car has the widgets accelerate and brake Buttons, Speedometer, Tachometer, SteeringWheel, DrawGamepad, GamepadController, GyroscopeController, among other widgets. 
      * This object is essential so that the re-rendering process can invoke all the methods of the widgets that will be re-render.
@@ -1665,7 +1666,7 @@ define(function (require, exports, module) {
      * @returns {Customization} The created instance of the widget Customization.
      * @instance
      */
-    Customization.prototype.endRange = function (callback,car,CSSValues,sliders,steeringWheel) {
+    Customization.prototype.endRange = function (lastResPVS,callback,car,CSSValues,sliders,steeringWheel) {
         let reRenderEnd=0;
         let maxValueEnd=d3.select("#myRange-End")[0][0].value;
 
@@ -1708,9 +1709,9 @@ define(function (require, exports, module) {
 
                     // ---------------- SPEEDOMETER ----------------
                     car.speedometerGauge = new Speedometer('speedometer-gauge', {
-                                label: "kmh",
                                 max: sliders.maxValueSpeedometer.value,
                                 min: 0,
+                                label: "kmh",
                                 callback: callback
                             });
                     // ---------------- TACHOMETER ----------------
@@ -1726,7 +1727,7 @@ define(function (require, exports, module) {
                     // ---------------- STEERING WHEEL ----------------
                     car.steeringWheel = new SteeringWheel("steering_wheel", {
                         top: 140,
-                        left: 30,
+                        left: 10,
                         width: 600,
                         height: 600
                     }, {
@@ -1745,7 +1746,12 @@ define(function (require, exports, module) {
                         carAccelerate: car.up,
                         carBrake: car.down,
                         carSteeringWheel: car.steeringWheel,
-                        type: "steeringWheelAndPedals", // Default is "gamepad"
+                        accelerateInstructionPVS: "accelerate",
+                        brakeInstructionPVS: "brake",
+                        steeringWheelInstructionPVS: "steering_wheel",
+                        useButtonActionsQueue: false, // Default is false
+                        usePressReleasePVS: true, // Default is true
+                        type: "gamepad", // "steeringWheelAndPedals", // Default is "gamepad"
                         accelerationIndex: 0,
                         brakeIndex: 1,
                         leftArrowIndex: 14,
@@ -1756,6 +1762,28 @@ define(function (require, exports, module) {
                         analogueStickIndex: 9,
                         leftAnalogueIndex: 0,
                         rightAnalogueIndex: 2,
+                        pauseAction: {
+                            pauseIndex: 9,
+                            instructionPVS: "pause"
+                        },
+                        quitAction: {
+                            quitIndex: 8,
+                            instructionPVS: "quit"
+                        },
+                        resumeAction: {
+                            resumeIndex: 16,
+                            instructionPVS: "resume"
+                        },
+                        muteAction: {
+                            muteIndex: 4,
+                            instructionPVS: "mute"
+                        },
+                        unmuteAction: {
+                            unmuteIndex: 5,
+                            instructionPVS: "unmute"
+                        },
+                        useSensitivity: false, // Default is false
+                        sensitivityValue: 50, // Default is 40%
                         callback: callback
                     });
 
@@ -1768,25 +1796,15 @@ define(function (require, exports, module) {
                     }, {
                         keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
                         keyboardClass: "icon keyboard",
-                        keyboardTopMobile: 750,
-                        keyboardLeftMobile: 1350,
-                        keyboardTopDesktop: 735,
-                        keyboardLeftDesktop: 1380,
-                        // keyboardUrl: "img/keyboard.png", // Image is located at widgets/car/configurations/img/keyboard.png by default
+                        keyboardLeftDesktop: 1370,
                         keyboardHoverInitialTitle: "Click to open virtual keypad controller",
                         keyboardHoverSecondTitle: "Click to close virtual keypad controller",
-                        // keyboardOnclickAction: "alert("Clicked");", // No action by default
-                        keyboardImageWidthMobile: 80,
-                        keyboardImageHeightMobile: 60,
-                        keyboardImageWidthDesktop: 50,
-                        keyboardImageHeightDesktop: 30,
                         parent: "virtualKeyPad", // defines parent div, which is div id="virtualKeyPad" by default
                         simulatorActions: "simulatorActions",
                         simulatorArrows: "simulatorArrows",
                         floatArrows: "floatArrows",
                         blockArrows: "blockArrows",
                         buttonClass: "ui-button ui-corner-all ui-widget ui-button-icon-only",
-                        title: "Button with icon only",
                         arrowKeysPVS: [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"],
                         otherKeysPVS: [ "quit", "pause", "resume" ],
                         callback: callback
@@ -1803,6 +1821,8 @@ define(function (require, exports, module) {
                         carSteeringWheel: car.steeringWheel,
                         carAccelerate: car.up,
                         carBrake: car.down,
+                        useSensitivity: false, // Default is false
+                        sensitivityValue: 50, // Default is 40%
                         callback: callback
                     });
 
@@ -1905,6 +1925,50 @@ define(function (require, exports, module) {
                     // API to generate track with parameters received as argument by the constructor, i.e. new TrackGenerator()
                     // car.trackGeneratorWidget.generateStraightTrack();
                     car.trackGeneratorWidget.generateTrackCurvesSlopes();
+
+                    // ----------------------------- ARCADE GAME COMPONENTS -----------------------------
+                    car.arcadeWidget = new Arcade("arcadeWidget", {
+                        top: 80,
+                        left: 650,
+                        width: 780,
+                        height: 650
+                    }, {
+                        parent: "game-window", // defines parent div, which is div id="game-window" by default
+                        trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
+                        spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+                        spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
+                        trackTopography: "curves-slopes", // "straight", // defines initial position after ending 1 lap (restart position in another lap).
+                        realisticImgs: false,
+                        vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
+                        vehicleImgIndex: 2, // defines vehicle sprite image suffix 
+                        // logoImgIndex: 1, // defines logo sprite image suffix 
+                        // backgroundImgIndex: 1, // defines background sprite image suffix 
+                        stripePositions: {
+                            trackP1: -0.50,
+                            trackP2: 0.50,
+                            borderWidth: 0.08,
+                            inOutBorderWidth: 0.02,
+                            landscapeOutBorderWidth: 0.13,
+                            diffTrackBorder: 0.05,
+                            finishLineP1: -0.40,
+                            finishLineP2: 0.40,
+                            diffLanesFinishLine: 0.05
+                        },
+                        lapNumber: 2,
+                        // showOfficialLogo: true,
+                        // loadPVSSpeedPositions: false,
+                        callback: callback
+                    });
+
+                    d3.select("#arcadeSimulator")
+                        .style("margin-top", "0px")
+                        .style("margin-left", "0px")
+                        .style("position", "absolute")
+                        .style("top", "165px")
+                        .style("left", "225px");
+
+                    car.arcadeWidget.startSimulation();
+                    car.arcadeWidget.render(lastResPVS);
                 }
             }
         });

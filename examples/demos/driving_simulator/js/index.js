@@ -16,6 +16,7 @@ require.config({
         "cm": "../lib/cm",
         stateParser: './util/PVSioStateParser',
         "image-picker": "../lib/image-picker",
+        jchronometer: '../lib/jchronometer/jchronometer.js'
     }
 });
 
@@ -218,6 +219,16 @@ require([
                 ]
             },
             {
+                id: "game-window",
+                class: null,
+                styles: [
+                    {
+                        property: "border",
+                        value: "none"
+                    }
+                ]
+            },
+            {
                 id: "instructions",
                 class: null,
                 styles: [
@@ -315,7 +326,7 @@ require([
                     },
                     {
                         property: "margin-left",
-                        value: "350px"
+                        value: "300px"
                     },
                     {   
                         property: "margin-top",
@@ -507,6 +518,33 @@ require([
             keyCode: 40 // key down
         });
 
+        // ----------------------------- ARCADE GAME INTERACTION -----------------------------
+        car.resume = new ButtonExternalController("resume", { width: 0, height: 0 }, {
+            callback: onMessageReceived,
+            evts: ['press/release'],
+            keyCode: 32 // key space
+        });
+        car.pause = new ButtonExternalController("pause", { width: 0, height: 0 }, {
+            callback: onMessageReceived,
+            evts: ['press/release'],
+            keyCode: 83 // key 's'
+        });
+        car.quit = new ButtonExternalController("quit", { width: 0, height: 0 }, {
+            callback: onMessageReceived,
+            evts: ['press/release'],
+            keyCode: 81 // key 'q'
+        });
+        car.mute = new ButtonExternalController("mute", { width: 0, height: 0 }, {
+            callback: onMessageReceived,
+            evts: ['press/release'],
+            keyCode: 77 // key 'm'
+        });
+        car.unmute = new ButtonExternalController("unmute", { width: 0, height: 0 }, {
+            callback: onMessageReceived,
+            evts: ['press/release'],
+            keyCode: 85 // key 'u'
+        });
+
         // ----------------------------- DASHBOARD COMPONENTS -----------------------------
         // ---------------- SPEEDOMETER ----------------
         car.speedometerGauge = new Speedometer('speedometer-gauge', {
@@ -555,7 +593,7 @@ require([
         // }, {
         //     parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
         //     style: "xbox", // defines parent div, which is "ps4" by default
-        //     // buttonsPVS: [ "accelerate", "brake", "y", "x", "menu", "windows", "xbox", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+        //     buttonsPVS: [ "accelerate", "brake", "mute", "unmute", "pause", "quit", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
         //     callback: onMessageReceived
         // });
         car.drawGamepad = new DrawGamepad("drawGamepad", {
@@ -566,28 +604,26 @@ require([
         }, {
             parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
             style: "ps4", // defines parent div, which is "ps4" by default
-            // buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+            buttonsPVS: [ "accelerate", "brake", "unmute", "mute", "pause", "quit", "touchpad", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
             callback: onMessageReceived
         });
 
         // Render car dashboard components
+        let lastResPVS;
         let render = (res) => {
+            lastResPVS = res;
             car.customization.render();
             car.speedometerGauge.render(evaluate(res.speed.val));
             car.tachometerGauge.render(evaluate(res.rpm));
             car.steeringWheel.render(evaluate(res.steering));
-            // car.drawGamepad.callPressReleasePVS("accelerate");
-            // car.drawGamepad.callClickPVS("leftStick");
+            if(parseInt(d3.select("#demo-End")[0][0].innerHTML)===1){
+                car.arcadeWidget.render(res);
+            }
         }
-
-        // // Full Left
-        // console.log("Full Left Angle: ", car.gamepadController.calculateRotationAngle(-0.16, -1.0));
-        // // Full Right
-        // console.log("Full Right Angle: ", car.gamepadController.calculateRotationAngle(-0.08, 1.0));
 
         sliders=car.customization.rangeEvents(sliders);
 
-        car.customization.endRange(onMessageReceived,car,reRenderedWindowCSSValues,sliders,steeringWheel);
+        car.customization.endRange(lastResPVS,onMessageReceived,car,reRenderedWindowCSSValues,sliders,steeringWheel);
 
         let demoFolder = "driving_simulator";
         //register event listener for websocket connection from the client
