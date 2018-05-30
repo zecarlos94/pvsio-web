@@ -823,7 +823,7 @@ define(function (require, exports, module) {
                 min: 0,
                 max: 20,
                 value: 16
-            },
+            }, 
             {
                 name: "lanes",
                 min: 0,
@@ -834,6 +834,18 @@ define(function (require, exports, module) {
                 name: "obstacles",
                 min: 0,
                 max: 10,
+                value: 0
+            },
+            {
+                name: "laps",
+                min: 0,
+                max: 3,
+                value: 0
+            },
+            {
+                name: "pvs",
+                min: 0,
+                max: 1,
                 value: 0
             }
         ];
@@ -1292,6 +1304,27 @@ define(function (require, exports, module) {
         this.customizationDiv.append("br");
         this.customizationDiv.append("br");
         this.customizationDiv.append("br");
+
+        this.customizationDiv.append("h4").style("margin-left","5px").text("Arcade Vehicle");
+        this.customizationDiv.append("br");
+        this.writeArcadeVehicle=this.customizationDiv.append("div").attr("id","writeArcadeVehicle");
+        this.writeArcadeVehicle.append("p").style("margin-left","40px")
+                             .text("Write: if arcade widget will use realistic vehicle image or not (Bool), ");
+        this.writeArcadeVehicle.append("p").style("margin-left","40px")
+                             .text("the desired vehicle and the vehicle index available on spritesheet JSON");
+        this.writeArcadeVehicle.append("p").style("margin-left","40px")
+                             .text("file provided earlier, separated by commas!");
+        this.writeArcadeVehicle.append("p").style("margin-left","40px")
+                             .text("Supported Vehicles are: \"airplane\",\"bicycle\",\"car\",\"helicopter\"");
+        this.writeArcadeVehicle.append("p").style("margin-left","40px")
+                             .text("and \"motorbike\"");
+        this.writeArcadeVehicle.append("textarea").attr("id","arcadeVehicle").attr("rows","2").attr("cols","60").style("margin-left","40px")
+                             .text("");
+
+        this.customizationDiv.append("br");
+        this.customizationDiv.append("br");
+        this.customizationDiv.append("br");
+
         
         this.customizationDiv.append("h4").style("margin-left","5px").text("Customize");
 
@@ -1320,6 +1353,16 @@ define(function (require, exports, module) {
 
             if(res.match(/Obstacles/)){
                 this.aux.append("p").style("color",this.sliderColor).style("margin-left","15px").text("Frequence of "+res+":")
+                        .append("span").attr("id","demo-"+res2);
+            }else if(res.match(/Lanes/)){
+                this.aux.append("p").style("color",this.sliderColor).style("margin-left","15px").text("Number of "+res+":")
+                        .append("span").attr("id","demo-"+res2);
+            }
+            else if(res.match(/Lap/)){
+                this.aux.append("p").style("color",this.sliderColor).style("margin-left","15px").text("Number of "+res+":")
+                        .append("span").attr("id","demo-"+res2);
+            }else if(res.match(/Pvs/)){
+                this.aux.append("p").style("color",this.sliderColor).style("margin-left","15px").text("Use "+res.toUpperCase()+" Instructions:")
                         .append("span").attr("id","demo-"+res2);
             }else{
                 this.aux.append("p").style("color",this.sliderColor).style("margin-left","15px").text("Value of "+res+":")
@@ -1650,7 +1693,7 @@ define(function (require, exports, module) {
      * in the slider "End", which only takes 2 values, 0 by default, which implies that the user is still choosing 
      * customization options, and 1, when the user wants to exit the customization menu, which implies that the user 
      * has already finished customizing.
-     * @param lastResPVS {Array} the last state that PVSio-web back-end sends, parsed with stateParser parse method. 
+     * @param initalPVSState {Array} the initial state that PVSio-web back-end sends, parsed with stateParser parse method. 
      * @param callback {Function} the function provided as callback to widgets constructors that will be re-rendered. This function will be defined in the respective demo, where the Customization widget constructor was invoked.
      * @param car {Object} the object with all the widgets created so far in the demo. For example, in demo driving_simulator, car has the widgets accelerate and brake Buttons, Speedometer, Tachometer, SteeringWheel, DrawGamepad, GamepadController, GyroscopeController, among other widgets. 
      * This object is essential so that the re-rendering process can invoke all the methods of the widgets that will be re-render.
@@ -1666,7 +1709,7 @@ define(function (require, exports, module) {
      * @returns {Customization} The created instance of the widget Customization.
      * @instance
      */
-    Customization.prototype.endRange = function (lastResPVS,callback,car,CSSValues,sliders,steeringWheel) {
+    Customization.prototype.endRange = function (initalPVSState,callback,car,CSSValues,sliders,steeringWheel) {
         let reRenderEnd=0;
         let maxValueEnd=d3.select("#myRange-End")[0][0].value;
 
@@ -1696,7 +1739,7 @@ define(function (require, exports, module) {
                 let trackParams_Final=d3.select("#trackParams")[0][0].value;
                 let numZones_Final=trackParams_Final.split(",")[0].split(":")[1];
                 let zoneSize_Final=trackParams_Final.split(",")[1].split(":")[1].slice(0, -1);
-                
+                let arcadeVehicle_Final=d3.select("#arcadeVehicle")[0][0].value;
 
                 if(reRenderEnd>=0){
                     reRenderEnd++;
@@ -1704,6 +1747,8 @@ define(function (require, exports, module) {
 
                     let numLanes_Final=sliders.maxValueLanes.value;
                     let freqObstacles_Final=sliders.maxValueObstacles.value;
+                    let numLaps_Final=sliders.maxValueLapNumber.value;
+                    let usePVS_Final=sliders.maxValuePVSInstructions.value;
 
                     // TODO send this values to TrackGenerator Widget to create the desired track
 
@@ -1833,6 +1878,7 @@ define(function (require, exports, module) {
 
 
                     (spritesheetJSONFilename_Final==="") ? spritesheetJSONFilename_Final = "spritesheet" : spritesheetJSONFilename_Final;
+                    (spritesheetImages_Final==="") ? spritesheetImages_Final = "[\"spritesheet\",\"spritesheet.text\"]" : spritesheetImages_Final;
                     (numZones_Final==="") ? numZones_Final = 12 : numZones_Final;
                     (zoneSize_Final==="") ? zoneSize_Final = 250 : numZones_Final;
                     (landscapeObjects_Final==="[]") ? landscapeObjects_Final = "[\"tree\",\"boulder\"]" : landscapeObjects_Final;
@@ -1850,8 +1896,15 @@ define(function (require, exports, module) {
                         {\"topography\":\"right\", \"numZones\":3}, \
                         {\"topography\":\"straight\", \"numZones\":3} \
                     ]" : topography_Final;
+                    (arcadeVehicle_Final==="") ? arcadeVehicle_Final = "false,car,2" : arcadeVehicle_Final;
+
+                    let realisticImgs_Final = JSON.parse(arcadeVehicle_Final.split(",")[0]);
+                    let vehicle_Final = arcadeVehicle_Final.split(",")[1];
+                    let vehicleImgIndex_Final = parseInt(arcadeVehicle_Final.split(",")[2]);
+                    let loadPVSSpeedPositions_Final = (parseInt(usePVS_Final)===0) ? false : true;
 
                     // console.log(spritesheetJSONFilename_Final);
+                    // console.log(JSON.parse(spritesheetImages_Final));
                     // console.log(parseInt(numLanes_Final));
                     // console.log(parseInt(numZones_Final));
                     // console.log(parseInt(zoneSize_Final));
@@ -1860,6 +1913,10 @@ define(function (require, exports, module) {
                     // console.log(parseInt(freqObstacles_Final));
                     // console.log(JSON.parse(topography_Final));
                     // console.log(JSON.parse(topography_Final)[2].topography + ", " + JSON.parse(topography_Final)[2].numZones);
+                    // console.log(arcadeVehicle_Final.split(","));
+                    // console.log(realisticImgs_Final);
+                    // console.log(vehicle_Final);
+                    // console.log(vehicleImgIndex_Final);
 
                     // -----------------------------  TRACK GENERATOR COMPONENTS -----------------------------
                     car.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget", {
@@ -1935,12 +1992,12 @@ define(function (require, exports, module) {
                     }, {
                         parent: "game-window", // defines parent div, which is div id="game-window" by default
                         trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
-                        spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
-                        spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
+                        spritesFilename: spritesheetJSONFilename_Final, // defines spritesheet configuration filename, which is "spritesheet.json" by default
+                        spritesFiles: JSON.parse(spritesheetImages_Final), // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
                         trackTopography: "curves-slopes", // "straight", // defines initial position after ending 1 lap (restart position in another lap).
-                        realisticImgs: false,
-                        vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
-                        vehicleImgIndex: 2, // defines vehicle sprite image suffix 
+                        realisticImgs: realisticImgs_Final,
+                        vehicle: vehicle_Final, // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
+                        vehicleImgIndex: vehicleImgIndex_Final, // defines vehicle sprite image suffix 
                         // logoImgIndex: 1, // defines logo sprite image suffix 
                         // backgroundImgIndex: 1, // defines background sprite image suffix 
                         stripePositions: {
@@ -1954,12 +2011,12 @@ define(function (require, exports, module) {
                             finishLineP2: 0.40,
                             diffLanesFinishLine: 0.05
                         },
-                        lapNumber: 2,
+                        lapNumber: parseInt(numLaps_Final),
                         // showOfficialLogo: true,
-                        // loadPVSSpeedPositions: false,
+                        loadPVSSpeedPositions: loadPVSSpeedPositions_Final,
                         callback: callback
                     });
-
+                    
                     d3.select("#arcadeSimulator")
                         .style("margin-top", "0px")
                         .style("margin-left", "0px")
@@ -1968,7 +2025,7 @@ define(function (require, exports, module) {
                         .style("left", "225px");
 
                     car.arcadeWidget.startSimulation();
-                    car.arcadeWidget.render(lastResPVS);
+                    car.arcadeWidget.render(initalPVSState);
                 }
             }
         });

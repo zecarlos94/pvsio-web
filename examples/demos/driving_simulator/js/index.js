@@ -91,6 +91,14 @@ require([
             maxValueObstacles: {
                 id: "Obstacles",
                 value: null
+            },
+            maxValueLapNumber: {
+                id: "Laps",
+                value: null
+            },
+            maxValuePVSInstructions: {
+                id: "Pvs",
+                value: null
             }
         };
         let initWindowCSSValues = [
@@ -238,7 +246,7 @@ require([
                     },
                     {
                         property: "margin-top",
-                        value: "-1500px"
+                        value: "-900px"
                     },
                     {
                         property: "visibility",
@@ -307,6 +315,16 @@ require([
                 ]
             },
             {
+                id: "writeArcadeVehicle",
+                class: null,
+                styles: [
+                    {
+                        property: "display",
+                        value: "none"
+                    }
+                ]
+            },
+            {
                 id: "colorPicker",
                 class: null,
                 styles: [
@@ -330,7 +348,7 @@ require([
                     },
                     {   
                         property: "margin-top",
-                        value: "-2500px"
+                        value: "-2900px"
                     },
                     {
                         property: "visibility",
@@ -383,7 +401,7 @@ require([
                 ]
             },
         ];
-                              
+              
         let start_tick = () => {
             //if (!tick) {
             //    tick = setInterval(function () {
@@ -415,6 +433,7 @@ require([
                 client.getWebSocket().lastState(event.data);
                 // parse and render new state
                 let res = event.data.toString();
+                
                 if (res.indexOf("(#") === 0) {
                     render(stateParser.parse(res));
                     console.log(res);
@@ -476,6 +495,18 @@ require([
                     name: "obstacles",
                     min: 0,
                     max: 100,
+                    value: 0
+                },
+                {
+                    name: "laps",
+                    min: 0,
+                    max: 3,
+                    value: 0
+                },
+                {
+                    name: "pvs",
+                    min: 0,
+                    max: 1,
                     value: 0
                 }
             ],
@@ -609,21 +640,20 @@ require([
         });
 
         // Render car dashboard components
-        let lastResPVS;
+        let initalPVSState=null;
         let render = (res) => {
-            lastResPVS = res;
             car.customization.render();
             car.speedometerGauge.render(evaluate(res.speed.val));
             car.tachometerGauge.render(evaluate(res.rpm));
             car.steeringWheel.render(evaluate(res.steering));
+            initalPVSState=res;
             if(parseInt(d3.select("#demo-End")[0][0].innerHTML)===1){
                 car.arcadeWidget.render(res);
             }
         }
 
         sliders=car.customization.rangeEvents(sliders);
-
-        car.customization.endRange(lastResPVS,onMessageReceived,car,reRenderedWindowCSSValues,sliders,steeringWheel);
+        car.customization.endRange(initalPVSState,onMessageReceived,car,reRenderedWindowCSSValues,sliders,steeringWheel);
 
         let demoFolder = "driving_simulator";
         //register event listener for websocket connection from the client
