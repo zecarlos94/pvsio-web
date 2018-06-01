@@ -371,6 +371,16 @@ require([
                 ]
             },
             {
+                id: "mobileDevicesController",
+                class: null,
+                styles: [
+                    {
+                        property: "visibility",
+                        value: "visible"
+                    }
+                ]
+            },
+            {
                 id: "gamepadImage",
                 class: null,
                 styles: [

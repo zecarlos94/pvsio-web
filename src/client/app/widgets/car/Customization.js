@@ -1083,13 +1083,21 @@ define(function (require, exports, module) {
         this.writeTopography=this.customizationDiv.append("div").attr("id","writeTopography");
         
         this.writeTopography.append("p").style("margin-left","40px")
-                             .text("Use keywords: \"left\", \"right\", \"straight\", \"up\", \"down\" after topography\:");
+                             .text("Use keywords: \"left\", \"right\" and \"straight\" after \"name\:\"");
         this.writeTopography.append("p").style("margin-left","40px")
-                             .text("to describe the track");
+                             .text("to describe the topography name of the track");
+        this.writeTopography.append("p").style("margin-left","40px")
+                             .text("Use 0, 90 and -90 after \"curvature\:\"");
+        this.writeTopography.append("p").style("margin-left","40px")
+                             .text("to describe the curvature degrees of that segment");
+        this.writeTopography.append("p").style("margin-left","40px")
+                             .text("Use keywords: \"flat\", \"up\" and \"down\" after \"profile\:\"");
+        this.writeTopography.append("p").style("margin-left","40px")
+                             .text("to describe the profile of the track");
         this.writeTopography.append("p").style("margin-left","40px")
                              .text("Set each topography zone length after numZones\:");
         this.writeTopography.append("textarea").attr("id","topography").attr("rows","2").attr("cols","60").style("margin-left","40px")
-                            .text("[{\"topography\":\"\", \"numZones\":}]");
+                            .text("[{\"topography\":{\"name\":\"\",\"curvature\":},\"profile\":\"\",\"numZones\":}]");
 
         this.customizationDiv.append("br");
         this.customizationDiv.append("br");
@@ -1740,6 +1748,7 @@ define(function (require, exports, module) {
                     });
 
                     Customization.prototype.reRenderedWindowCSS(CSSValues);
+                    car.virtualKeypadController.render();
                     car.gamepadController.render();
                     car.gyroscopeController.render();
                     car.drawGamepad.render();
@@ -1751,19 +1760,13 @@ define(function (require, exports, module) {
                     (zoneSize_Final==="") ? zoneSize_Final = 250 : numZones_Final;
                     (landscapeObjects_Final==="[]") ? landscapeObjects_Final = "[\"tree\",\"boulder\"]" : landscapeObjects_Final;
                     (trackObstacles_Final==="[]") ? trackObstacles_Final = "[\"boulder\"]" : trackObstacles_Final;
-                    (topography_Final==="[{\"topography\":\"\", \"numZones\":}]") ? topography_Final = "[ \
-                        {\"topography\":\"straight\", \"numZones\":3}, \
-                        {\"topography\":\"left\", \"numZones\":3}, \
-                        {\"topography\":\"straight\", \"numZones\":3}, \
-                        {\"topography\":\"right\", \"numZones\":3}, \
-                        {\"topography\":\"straight\", \"numZones\":3}, \
-                        {\"topography\":\"up\", \"numZones\":3}, \
-                        {\"topography\":\"up\", \"numZones\":3}, \
-                        {\"topography\":\"left\", \"numZones\":3}, \
-                        {\"topography\":\"down\", \"numZones\":3}, \
-                        {\"topography\":\"right\", \"numZones\":3}, \
-                        {\"topography\":\"straight\", \"numZones\":3} \
-                    ]" : topography_Final;
+                    (topography_Final==="[{\"topography\":{\"name\":\"\",\"curvature\":},\"profile\":\"\",\"numZones\":}]") ? topography_Final = "[ \
+                        {\"topography\":{\"name\":\"straight\",\"curvature\":0},\"profile\":\"flat\",\"numZones\":3}, \
+                        {\"topography\":{\"name\":\"left\",\"curvature\":90},\"profile\":\"flat\",\"numZones\":3}, \
+                        {\"topography\":{\"name\":\"straight\",\"curvature\":0},\"profile\":\"up\",\"numZones\":3}, \
+                        {\"topography\":{\"name\":\"right\",\"curvature\":-90},\"profile\":\"flat\",\"numZones\":3}, \
+                        {\"topography\":{\"name\":\"straight\",\"curvature\":0},\"profile\":\"down\",\"numZones\":3}, \
+                        {\"topography\":{\"name\":\"left\",\"curvature\":90},\"profile\":\"flat\",\"numZones\":3}]" : topography_Final;
                     (arcadeVehicle_Final==="") ? arcadeVehicle_Final = "false,car,2" : arcadeVehicle_Final;
 
                     let realisticImgs_Final = JSON.parse(arcadeVehicle_Final.split(",")[0]);

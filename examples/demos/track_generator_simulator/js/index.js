@@ -145,55 +145,55 @@ require([
                 lane_end: "#fff"
             },
             trackLayout: [ 
-                // describing the desired track, which is 2 straight lines, followed by curve to left, straight line, 
-                // curve to right, straight line, 2 up slopes, curve to left, down slope, curve to right,
-                // straight line, each with 3 zones (length) (default is []).
+                // describing the desired track, which is straight line, followed by curve to left, straight line, 
+                // curve to right, straight line and curve to left each with 3 zones (length) and with different 
+                // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
                 {
-                    topography: "straight",
+                    topography: {
+                        name:"straight",
+                        curvature: 0
+                    },
+                    profile: "flat",
+                    numZones: 3,
+                },
+                {
+                    topography: {
+                        name:"left",
+                        curvature: 90
+                    },
+                    profile: "flat",
+                    numZones: 3,
+                },
+                {
+                    topography: {
+                        name:"straight",
+                        curvature: 0
+                    },
+                    profile: "up",
                     numZones: 3
                 },
                 {
-                    topography: "straight",
+                    topography: {
+                        name:"right",
+                        curvature: -90
+                    },
+                    profile: "flat",
                     numZones: 3
                 },
                 {
-                    topography: "left",
+                    topography: {
+                        name:"straight",
+                        curvature: 0
+                    },
+                    profile: "down",
                     numZones: 3
                 },
                 {
-                    topography: "straight",
-                    numZones: 3
-                },
-                {
-                    topography: "right",
-                    numZones: 3
-                },
-                {
-                    topography: "straight",
-                    numZones: 3
-                },
-                {
-                    topography: "up",
-                    numZones: 3
-                },
-                {
-                    topography: "up",
-                    numZones: 3
-                },
-                {
-                    topography: "left",
-                    numZones: 3
-                },
-                {
-                    topography: "down",
-                    numZones: 3
-                },
-                {
-                    topography: "right",
-                    numZones: 3
-                },
-                {
-                    topography: "straight",
+                    topography: {
+                        name:"left",
+                        curvature: 90
+                    },
+                    profile: "flat",
                     numZones: 3
                 }
             ],
