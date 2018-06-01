@@ -453,7 +453,19 @@ define(function (require, exports, module) {
         objects  = (opt.objects) ? opt.objects : ["tree","boulder"];
         obstacle = (opt.obstacle) ? opt.obstacle : ["boulder"];
         trackLayout = (opt.trackLayout) ? opt.trackLayout : [];
-        trackColors = (opt.trackColors) ? opt.trackColors : [];
+        trackColors = (opt.trackColors) ? opt.trackColors : {
+            grass1: "#699864",
+            border1: "#e00",
+            border2: "#fff",
+            outborder1: "#496a46",
+            outborder_end1: "#474747",
+            track_segment1: "#777",
+            lane1: "#fff",
+            lane2: "#777",
+            laneArrow1: "#00FF00",
+            track_segment_end:"#000",
+            lane_end: "#fff"
+        };
         obstaclePerIteration = (opt.obstaclePerIteration) ? opt.obstaclePerIteration : 50;
 
         // console.log(trackLayout);
@@ -642,19 +654,7 @@ define(function (require, exports, module) {
                 track: generatedTrack,
                 trackParam: trackParam,
                 trackSegmentSize: trackSegmentSize,
-                trackColors: {
-                    grass1: "#699864",
-                    border1: "#e00",
-                    border2: "#fff",
-                    outborder1: "#496a46",
-                    outborder_end1: "#474747",
-                    track_segment1: "#777",
-                    lane1: "#fff",
-                    lane2: "#777",
-                    laneArrow1: "#00FF00",
-                    track_segment_end:"#000",
-                    lane_end: "#fff"
-                }
+                trackColors: trackColors
             };
 
             setTimeout(function(){ 
@@ -861,19 +861,7 @@ define(function (require, exports, module) {
                 track: generatedTrack,
                 trackParam: trackParam,
                 trackSegmentSize: trackSegmentSize,
-                trackColors: {
-                    grass1: "#699864",
-                    border1: "#e00",
-                    border2: "#fff",
-                    outborder1: "#496a46",
-                    outborder_end1: "#474747",
-                    track_segment1: "#777",
-                    lane1: "#fff",
-                    lane2: "#777",
-                    laneArrow1: "#00FF00",
-                    track_segment_end:"#000",
-                    lane_end: "#fff"
-                }
+                trackColors: trackColors
             };
 
             setTimeout(function(){ 

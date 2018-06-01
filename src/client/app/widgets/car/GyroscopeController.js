@@ -347,14 +347,16 @@ define(function (require, exports, module) {
      * @instance
      */
     GyroscopeController.prototype.handleOrientation = function(evt) {
-        // let z = evt.alpha.toFixed(2); // In degree in the range [-360,360]
-        let x = evt.beta.toFixed(2); // In degree in the range [-180,180]
-        let y = evt.gamma.toFixed(2); // In degree in the range [-90,90]
-        if(useSensitivity){
-            // sensitivityValue higher than 75% or else the rotation will not be perceptible due to gyroscope sensor optics.        
-            GyroscopeController.prototype.rotateSteeringAngleWithSensitivity(x,y,sensitivityValue);
-        }else{
-            GyroscopeController.prototype.rotateSteeringAngle(x,y);
+        if(evt.beta!==null && evt.gamma!==null){
+            // let z = evt.alpha.toFixed(2); // In degree in the range [-360,360]
+            let x = evt.beta.toFixed(2); // In degree in the range [-180,180]
+            let y = evt.gamma.toFixed(2); // In degree in the range [-90,90]
+            if(useSensitivity){
+                // sensitivityValue higher than 75% or else the rotation will not be perceptible due to gyroscope sensor optics.        
+                GyroscopeController.prototype.rotateSteeringAngleWithSensitivity(x,y,sensitivityValue);
+            }else{
+                GyroscopeController.prototype.rotateSteeringAngle(x,y);
+            }
         }
     };
 
