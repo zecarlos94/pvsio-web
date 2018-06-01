@@ -57,58 +57,61 @@
  *                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
  *                  obstaclePerIteration: 50, // each 50 iterations a new obstacle will be placed within the track
  *                  trackLayout: [ 
- *                       // describing the desired track, which is 2 straight lines, followed by curve to left, straight line, 
- *                       // curve to right, straight line, 2 up slopes, curve to left, down slope, curve to right,
- *                       // straight line, each with 3 zones (length) (default is []).
- *                       {
- *                           topography: "straight",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "straight",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "left",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "straight",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "right",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "straight",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "up",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "up",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "left",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "down",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "right",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "straight",
- *                           numZones: 3
- *                       }
- *                   ],
+ *                      // describing the desired track, which is straight line, followed by curve to left, straight line, 
+ *                      // curve to right, straight line and curve to left each with 3 zones (length) and with different 
+ *                      // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
+ *                      // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
+ *                      // those angles to define different curvatures, instead of generating the same curvature for the same
+ *                      // side
+ *                      {
+ *                          topography: {
+ *                              name:"straight",
+ *                              curvature: 0
+ *                          },
+ *                          profile: "flat",
+ *                          numZones: 3,
+ *                      },
+ *                      {
+ *                          topography: {
+ *                              name:"left",
+ *                              curvature: 90
+ *                          },
+ *                          profile: "flat",
+ *                          numZones: 3,
+ *                      },
+ *                      {
+ *                          topography: {
+ *                              name:"straight",
+ *                              curvature: 0
+ *                          },
+ *                          profile: "up",
+ *                          numZones: 3
+ *                      },
+ *                      {
+ *                          topography: {
+ *                              name:"right",
+ *                              curvature: -90
+ *                          },
+ *                          profile: "flat",
+ *                          numZones: 3
+ *                      },
+ *                      {
+ *                          topography: {
+ *                              name:"straight",
+ *                              curvature: 0
+ *                          },
+ *                          profile: "down",
+ *                          numZones: 3
+ *                      },
+ *                      {
+ *                          topography: {
+ *                              name:"left",
+ *                              curvature: 90
+ *                          },
+ *                          profile: "flat",
+ *                          numZones: 3
+ *                      }
+ *                  ],
  *              } // append on div 'content'
  *           );
  * 
@@ -206,12 +209,16 @@
  *                      lane_end: "#fff"
  *                  },                 
  *                  trackLayout: [ 
- *                       // describing the desired track, which is 12 straight lines (length) (default is []).
- *                       {
- *                           topography: "straight",
- *                           numZones: 12
- *                       }
- *                   ],
+ *                      // describing the desired track, which is a 12-zone straight line, i.e. track with only straight lines with length 12. 
+ *                      {
+ *                          topography: {
+ *                              name:"straight",
+ *                              curvature: 0
+ *                          },
+ *                          profile: "flat",
+ *                          numZones: 12,
+ *                      }
+ *                  ],
  *              } // append on div 'content'
  *           );
  * 
@@ -283,58 +290,61 @@
  *                      lane_end: "#fff"
  *                  },
  *                  trackLayout: [ 
- *                       // describing the desired track, which is 2 straight lines, followed by curve to left, straight line, 
- *                       // curve to right, straight line, 2 up slopes, curve to left, down slope, curve to right,
- *                       // straight line, each with 3 zones (length) (default is []).
- *                       {
- *                           topography: "straight",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "straight",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "left",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "straight",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "right",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "straight",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "up",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "up",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "left",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "down",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "right",
- *                           numZones: 3
- *                       },
- *                       {
- *                           topography: "straight",
- *                           numZones: 3
- *                       }
- *                   ],
+ *                      // describing the desired track, which is straight line, followed by curve to left, straight line, 
+ *                      // curve to right, straight line and curve to left each with 3 zones (length) and with different 
+ *                      // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
+ *                      // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
+ *                      // those angles to define different curvatures, instead of generating the same curvature for the same
+ *                      // side
+ *                      {
+ *                          topography: {
+ *                              name:"straight",
+ *                              curvature: 0
+ *                          },
+ *                          profile: "flat",
+ *                          numZones: 3,
+ *                      },
+ *                      {
+ *                          topography: {
+ *                              name:"left",
+ *                              curvature: 90
+ *                          },
+ *                          profile: "flat",
+ *                          numZones: 3,
+ *                      },
+ *                      {
+ *                          topography: {
+ *                              name:"straight",
+ *                              curvature: 0
+ *                          },
+ *                          profile: "up",
+ *                          numZones: 3
+ *                      },
+ *                      {
+ *                          topography: {
+ *                              name:"right",
+ *                              curvature: -90
+ *                          },
+ *                          profile: "flat",
+ *                          numZones: 3
+ *                      },
+ *                      {
+ *                          topography: {
+ *                              name:"straight",
+ *                              curvature: 0
+ *                          },
+ *                          profile: "down",
+ *                          numZones: 3
+ *                      },
+ *                      {
+ *                          topography: {
+ *                              name:"left",
+ *                              curvature: 90
+ *                          },
+ *                          profile: "flat",
+ *                          numZones: 3
+ *                      }
+ *                  ],
  *              } // append on div 'content'
  *           );
  * 

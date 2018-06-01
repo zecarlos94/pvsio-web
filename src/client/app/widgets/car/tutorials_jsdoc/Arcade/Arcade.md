@@ -11,7 +11,7 @@ Guide step-by-step to create a new track with TrackGenerator Widget and, then, r
 
 <img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectTrackColors.png" alt="selectTrackColors" width="700" style="margin-left: 150px" >
 
-4. **Insert within the square brackets the topography of the lane that you intend to use in the simulation, i.e., the lane that will be constructed and rendered. Use only the keywords: 'left', 'right', 'straight', 'up', 'down' to describe this track, separated by ','.**
+4. **Insert within the square brackets the topography of the lane that you intend to use in the simulation, i.e., the lane that will be constructed and rendered. Use only the keywords: 'left', 'right' and 'straight' to describe the topography of the track, after "name:". Use only the keywords: 'flat', 'up' and 'down' to describe the profile/height of the track after "profile:". Use angles, in degrees, to define the curvature angle after "curvature". The angle 0 represents a straight line. To represent left curvatures the angle must be between 0 and 90. To represent right curvatures the angle must be between 0 and -90.**
 
 <img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectTrackTopography.png" alt="selectTrackTopography" width="700" style="margin-left: 150px" >
 
@@ -35,7 +35,11 @@ Guide step-by-step to create a new track with TrackGenerator Widget and, then, r
 
 <img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectTrackParams.png" alt="selectTrackParams" width="700" style="margin-left: 150px" >
 
-10. **Select other customization options for the dashboard widgets, which will be used during the simulation, and other rendering aspects using the following set of ranges.**
+10. **Select arcade vehicle, present in both provided spritesheet JSON and png files, in steps 5 and 6.**
+
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectArcadeVehicle.png" alt="selectArcadeVehicle" width="700" style="margin-left: 150px" >
+
+11. **Select other customization options for the dashboard widgets, which will be used during the simulation, and other rendering aspects using the following set of ranges.**
 
 <img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectRanges.png" alt="selectRanges" width="700" style="margin-left: 150px" >
 
@@ -56,6 +60,14 @@ Guide step-by-step to create a new track with TrackGenerator Widget and, then, r
 
 <img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectRangesObstacles.png" alt="selectRangesObstacles" width="200" style="margin-left: 300px" >
 
+> Select the desired number of laps, to be rendered by Arcade widget during the simulation.
+
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectLaps.png" alt="selectLaps" width="200" style="margin-left: 300px" >
+
+> Choose if Arcade widget will use the PVS instructions during the simulation. By default, i.e. value 0, this widget will use PVS instructions to update the vehicle status during the simulation. This slider allows to test the difference in the rendering processs speed, since PVS instructions turns the simulation much slower than using a self-contained widget that calculates those values.
+
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectPVS.png" alt="selectPVS" width="200" style="margin-left: 300px" >
+
 > To finish the customization, slide the last range to the right.
 
 <img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/endRange.png" alt="EndRange" width="50" style="margin-left: 400px" >
@@ -66,6 +78,8 @@ Guide step-by-step to create a new track with TrackGenerator Widget and, then, r
 ### User Steps, with only manual configurations ( harder )
 
 > In this section we present the steps to create a new simulation, using only the Widget APIs developed, which requires a more 'conscious' user. The following steps will be the necessary steps to create a new demo within PVSio-web.
+
+> Currently it is possible to test the functional demo 'arcade', <http://localhost:8082/demos/arcade_game_simulator/>, i.e., to test the interactions PVS-Arcade Widget. That is, to use PVS instructions to maintain the simulation state.
 
 1. **Create the desired track either using methods that generate the track randomly or using methods that generate the track based on the provided layout.**
 
@@ -128,55 +142,58 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
         lane_end: "#fff"
     },
     trackLayout: [ 
-        // describing the desired track, which is 2 straight lines, followed by curve to left, straight line, 
-        // curve to right, straight line, 2 up slopes, curve to left, down slope, curve to right,
-        // straight line, each with 3 zones (length) (default is []).
+        // describing the desired track, which is straight line, followed by curve to left, straight line, 
+        // curve to right, straight line and curve to left each with 3 zones (length) and with different 
+        // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
+        // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
+        // those angles to define different curvatures, instead of generating the same curvature for the same
+        // side
         {
-            topography: "plain",
+            topography: {
+                name:"straight",
+                curvature: 0
+            },
+            profile: "flat",
+            numZones: 3,
+        },
+        {
+            topography: {
+                name:"left",
+                curvature: 90
+            },
+            profile: "flat",
+            numZones: 3,
+        },
+        {
+            topography: {
+                name:"straight",
+                curvature: 0
+            },
+            profile: "up",
             numZones: 3
         },
         {
-            topography: "plain",
+            topography: {
+                name:"right",
+                curvature: -90
+            },
+            profile: "flat",
             numZones: 3
         },
         {
-            topography: "left",
+            topography: {
+                name:"straight",
+                curvature: 0
+            },
+            profile: "down",
             numZones: 3
         },
         {
-            topography: "plain",
-            numZones: 3
-        },
-        {
-            topography: "right",
-            numZones: 3
-        },
-        {
-            topography: "plain",
-            numZones: 3
-        },
-        {
-            topography: "up",
-            numZones: 3
-        },
-        {
-            topography: "up",
-            numZones: 3
-        },
-        {
-            topography: "left",
-            numZones: 3
-        },
-        {
-            topography: "down",
-            numZones: 3
-        },
-        {
-            topography: "right",
-            numZones: 3
-        },
-        {
-            topography: "plain",
+            topography: {
+                name:"left",
+                curvature: 90
+            },
+            profile: "flat",
             numZones: 3
         }
     ],
@@ -274,23 +291,11 @@ generatedJSON = {
     track: generatedTrack,
     trackParam: trackParam,
     trackSegmentSize: trackSegmentSize,
-    trackColors: {
-        grass1: "#699864",
-        border1: "#e00",
-        border2: "#fff",
-        outborder1: "#496a46",
-        outborder_end1: "#474747",
-        track_segment1: "#777",
-        lane1: "#fff",
-        lane2: "#777",
-        laneArrow1: "#00FF00",
-        track_segment_end:"#000",
-        lane_end: "#fff"
-    }
+    trackColors: trackColors
 };
 ```
 
-> Currently, PVSio-web does not have any file-writing APIs in the context of widgets, and as such, the TrackGenerator widget is not able to write the JSON file. Then, the user needs to perform ```console.log(JSON.stringify(generatedJSON))``` and copy/paste the result into a JSON file, that is, the user needs to perform the non-existent API process manually. Predefined file names are "track-straight.json" or "track-curves-slopes.json", however it is possible to use other file names, since the Arcade widget receives the filename as optional field. When the file-writing API exists, it should be added on lines 628 and 847 with ```console.log(JSON.stringify(generatedJSON))```, as well as the filename, as arguments, in TrackGenerator.js file.
+> Currently, PVSio-web does not have any file-writing APIs in the context of widgets, and as such, the TrackGenerator widget is not able to write the JSON file. Then, the user needs to perform ```console.log(JSON.stringify(generatedJSON))``` and copy/paste the result into a JSON file, that is, the user needs to perform the non-existent API process manually. Predefined file names are "track-straight.json" or "track-curves-slopes.json", however it is possible to use other file names, since the Arcade widget receives the filename as optional field. When the file-writing API exists, it should be added on lines 628 and 847 with ```console.log(JSON.stringify(generatedJSON))```, as well as the filename, as arguments, in TrackGenerator.js file. This file-writing API, must return the filename just created, so it can be used in the pipeline Customization Widget -> TrackGenerator Widget -> Arcade Widget automatically, for more detailed information see <https://github.com/zecarlos94/pvsio-web/tree/gaming/src/client/app/widgets/car/Customization.js> (line 1855 to 1865).
 
 > Once the JSON file with the desired track has been created, it will be possible to render it using the Arcade widget.
 
@@ -728,5 +733,3 @@ state: TYPE = [#
 ```
 
 > Position, PosX and Speed allows to set the vehicle's position and speed during the simulation. Sound allows the Arcade widget to know when to mute/unmute the audio files, using the Sound widget API. PosX value changes based on the steering wheel rotation. Position value changes based on actions 'accelerate'/'brake' and the current speed value. Actions 'pause','resume' and 'quit' allows the Arcade widget to reveal the 'pause','resume' and 'quit' menus, respetively. 
-
-> Currently it is possible to test the functional demo 'arcade', <http://localhost:8082/demos/arcade_game_simulator/>, i.e., to test the interactions PVS-Arcade Widget. That is, to use PVS instructions to maintain the simulation state.

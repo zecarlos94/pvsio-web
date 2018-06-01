@@ -148,6 +148,9 @@ require([
                 // describing the desired track, which is straight line, followed by curve to left, straight line, 
                 // curve to right, straight line and curve to left each with 3 zones (length) and with different 
                 // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
+                // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
+                // those angles to define different curvatures, instead of generating the same curvature for the same
+                // side
                 {
                     topography: {
                         name:"straight",

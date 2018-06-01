@@ -39,7 +39,7 @@
 </ol>
 <p><img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectTrackColors.png" alt="selectTrackColors" width="700" style="margin-left: 150px" ></p>
 <ol start="4">
-<li><strong>Insert within the square brackets the topography of the lane that you intend to use in the simulation, i.e., the lane that will be constructed and rendered. Use only the keywords: 'left', 'right', 'straight', 'up', 'down' to describe this track, separated by ','.</strong></li>
+<li><strong>Insert within the square brackets the topography of the lane that you intend to use in the simulation, i.e., the lane that will be constructed and rendered. Use only the keywords: 'left', 'right' and 'straight' to describe the topography of the track, after &quot;name:&quot;. Use only the keywords: 'flat', 'up' and 'down' to describe the profile/height of the track after &quot;profile:&quot;. Use angles, in degrees, to define the curvature angle after &quot;curvature&quot;. The angle 0 represents a straight line. To represent left curvatures the angle must be between 0 and 90. To represent right curvatures the angle must be between 0 and -90.</strong></li>
 </ol>
 <p><img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectTrackTopography.png" alt="selectTrackTopography" width="700" style="margin-left: 150px" ></p>
 <ol start="5">
@@ -63,6 +63,10 @@
 </ol>
 <p><img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectTrackParams.png" alt="selectTrackParams" width="700" style="margin-left: 150px" ></p>
 <ol start="10">
+<li><strong>Select arcade vehicle, present in both provided spritesheet JSON and png files, in steps 5 and 6.</strong></li>
+</ol>
+<p><img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectArcadeVehicle.png" alt="selectArcadeVehicle" width="700" style="margin-left: 150px" ></p>
+<ol start="11">
 <li><strong>Select other customization options for the dashboard widgets, which will be used during the simulation, and other rendering aspects using the following set of ranges.</strong></li>
 </ol>
 <p><img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectRanges.png" alt="selectRanges" width="700" style="margin-left: 150px" ></p>
@@ -83,6 +87,14 @@
 </blockquote>
 <p><img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectRangesObstacles.png" alt="selectRangesObstacles" width="200" style="margin-left: 300px" ></p>
 <blockquote>
+<p>Select the desired number of laps, to be rendered by Arcade widget during the simulation.</p>
+</blockquote>
+<p><img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectLaps.png" alt="selectLaps" width="200" style="margin-left: 300px" ></p>
+<blockquote>
+<p>Choose if Arcade widget will use the PVS instructions during the simulation. By default, i.e. value 0, this widget will use PVS instructions to update the vehicle status during the simulation. This slider allows to test the difference in the rendering processs speed, since PVS instructions turns the simulation much slower than using a self-contained widget that calculates those values.</p>
+</blockquote>
+<p><img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectPVS.png" alt="selectPVS" width="200" style="margin-left: 300px" ></p>
+<blockquote>
 <p>To finish the customization, slide the last range to the right.</p>
 </blockquote>
 <p><img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/endRange.png" alt="EndRange" width="50" style="margin-left: 400px" ></p>
@@ -91,6 +103,9 @@
 </blockquote>
 <h3>User Steps, with only manual configurations ( harder )</h3><blockquote>
 <p>In this section we present the steps to create a new simulation, using only the Widget APIs developed, which requires a more 'conscious' user. The following steps will be the necessary steps to create a new demo within PVSio-web.</p>
+</blockquote>
+<blockquote>
+<p>Currently it is possible to test the functional demo 'arcade', <a href="http://localhost:8082/demos/arcade_game_simulator/">http://localhost:8082/demos/arcade_game_simulator/</a>, i.e., to test the interactions PVS-Arcade Widget. That is, to use PVS instructions to maintain the simulation state.</p>
 </blockquote>
 <ol>
 <li><strong>Create the desired track either using methods that generate the track randomly or using methods that generate the track based on the provided layout.</strong></li>
@@ -153,55 +168,58 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
         lane_end: &quot;#fff&quot;
     },
     trackLayout: [ 
-        // describing the desired track, which is 2 straight lines, followed by curve to left, straight line, 
-        // curve to right, straight line, 2 up slopes, curve to left, down slope, curve to right,
-        // straight line, each with 3 zones (length) (default is []).
+        // describing the desired track, which is straight line, followed by curve to left, straight line, 
+        // curve to right, straight line and curve to left each with 3 zones (length) and with different 
+        // profiles, i.e. &quot;flat&quot; or &quot;up&quot; or &quot;down&quot; allows to define slopes within each zone (default is []).
+        // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
+        // those angles to define different curvatures, instead of generating the same curvature for the same
+        // side
         {
-            topography: &quot;plain&quot;,
+            topography: {
+                name:&quot;straight&quot;,
+                curvature: 0
+            },
+            profile: &quot;flat&quot;,
+            numZones: 3,
+        },
+        {
+            topography: {
+                name:&quot;left&quot;,
+                curvature: 90
+            },
+            profile: &quot;flat&quot;,
+            numZones: 3,
+        },
+        {
+            topography: {
+                name:&quot;straight&quot;,
+                curvature: 0
+            },
+            profile: &quot;up&quot;,
             numZones: 3
         },
         {
-            topography: &quot;plain&quot;,
+            topography: {
+                name:&quot;right&quot;,
+                curvature: -90
+            },
+            profile: &quot;flat&quot;,
             numZones: 3
         },
         {
-            topography: &quot;left&quot;,
+            topography: {
+                name:&quot;straight&quot;,
+                curvature: 0
+            },
+            profile: &quot;down&quot;,
             numZones: 3
         },
         {
-            topography: &quot;plain&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;right&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;plain&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;up&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;up&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;left&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;down&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;right&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;plain&quot;,
+            topography: {
+                name:&quot;left&quot;,
+                curvature: 90
+            },
+            profile: &quot;flat&quot;,
             numZones: 3
         }
     ],
@@ -287,21 +305,9 @@ trackLayout: []</code></pre></blockquote>
     track: generatedTrack,
     trackParam: trackParam,
     trackSegmentSize: trackSegmentSize,
-    trackColors: {
-        grass1: &quot;#699864&quot;,
-        border1: &quot;#e00&quot;,
-        border2: &quot;#fff&quot;,
-        outborder1: &quot;#496a46&quot;,
-        outborder_end1: &quot;#474747&quot;,
-        track_segment1: &quot;#777&quot;,
-        lane1: &quot;#fff&quot;,
-        lane2: &quot;#777&quot;,
-        laneArrow1: &quot;#00FF00&quot;,
-        track_segment_end:&quot;#000&quot;,
-        lane_end: &quot;#fff&quot;
-    }
+    trackColors: trackColors
 };</code></pre><blockquote>
-<p>Currently, PVSio-web does not have any file-writing APIs in the context of widgets, and as such, the TrackGenerator widget is not able to write the JSON file. Then, the user needs to perform <code>console.log(JSON.stringify(generatedJSON))</code> and copy/paste the result into a JSON file, that is, the user needs to perform the non-existent API process manually. Predefined file names are &quot;track-straight.json&quot; or &quot;track-curves-slopes.json&quot;, however it is possible to use other file names, since the Arcade widget receives the filename as optional field. When the file-writing API exists, it should be added on lines 628 and 847 with <code>console.log(JSON.stringify(generatedJSON))</code>, as well as the filename, as arguments, in TrackGenerator.js file.</p>
+<p>Currently, PVSio-web does not have any file-writing APIs in the context of widgets, and as such, the TrackGenerator widget is not able to write the JSON file. Then, the user needs to perform <code>console.log(JSON.stringify(generatedJSON))</code> and copy/paste the result into a JSON file, that is, the user needs to perform the non-existent API process manually. Predefined file names are &quot;track-straight.json&quot; or &quot;track-curves-slopes.json&quot;, however it is possible to use other file names, since the Arcade widget receives the filename as optional field. When the file-writing API exists, it should be added on lines 628 and 847 with <code>console.log(JSON.stringify(generatedJSON))</code>, as well as the filename, as arguments, in TrackGenerator.js file. This file-writing API, must return the filename just created, so it can be used in the pipeline Customization Widget -&gt; TrackGenerator Widget -&gt; Arcade Widget automatically, for more detailed information see <a href="https://github.com/zecarlos94/pvsio-web/tree/gaming/src/client/app/widgets/car/Customization.js">https://github.com/zecarlos94/pvsio-web/tree/gaming/src/client/app/widgets/car/Customization.js</a> (line 1855 to 1865).</p>
 </blockquote>
 <blockquote>
 <p>Once the JSON file with the desired track has been created, it will be possible to render it using the Arcade widget.</p>
@@ -730,9 +736,6 @@ state: TYPE = [#
 #]</code></pre><blockquote>
 <p>Position, PosX and Speed allows to set the vehicle's position and speed during the simulation. Sound allows the Arcade widget to know when to mute/unmute the audio files, using the Sound widget API. PosX value changes based on the steering wheel rotation. Position value changes based on actions 'accelerate'/'brake' and the current speed value. Actions 'pause','resume' and 'quit' allows the Arcade widget to reveal the 'pause','resume' and 'quit' menus, respetively. </p>
 </blockquote>
-<blockquote>
-<p>Currently it is possible to test the functional demo 'arcade', <a href="http://localhost:8082/demos/arcade_game_simulator/">http://localhost:8082/demos/arcade_game_simulator/</a>, i.e., to test the interactions PVS-Arcade Widget. That is, to use PVS instructions to maintain the simulation state.</p>
-</blockquote>
 </article>
 
 </section>
@@ -740,13 +743,13 @@ state: TYPE = [#
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Arcade.html">Arcade</a></li><li><a href="module-TrackGenerator.html">TrackGenerator</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Arcade.html">Create a New Simulation</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Arcade.html">Arcade</a></li><li><a href="module-Customization.html">Customization</a></li><li><a href="module-TrackGenerator.html">TrackGenerator</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Arcade.html">Create a New Simulation</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon May 28 2018 12:11:51 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Jun 01 2018 11:31:29 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

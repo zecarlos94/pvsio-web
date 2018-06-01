@@ -1,32 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>JSDoc: Source: Customization.js</title>
-
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
-</head>
-
-<body>
-
-<div id="main">
-
-    <h1 class="page-title">Source: Customization.js</h1>
-
-    
-
-
-
-    
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
+/**
  * @module Customization
  * @version 2.0.0
  * @author José Carlos
@@ -35,7 +7,7 @@
  * @date Apr 04, 2018
  * last modified @date May 23, 2018
  *
- * @example &lt;caption>Usage of Customization within a PVSio-web demo.&lt;/caption>
+ * @example <caption>Usage of Customization within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
  *     "use strict";
  *
@@ -402,7 +374,7 @@
  *     }
  * });
  * 
- * @example &lt;caption>Usage of &lt;strong>Protected API&lt;/strong> within Customization Widget. That is, API which is only used internally by the Customization Widget to create the customization menu.&lt;/caption>
+ * @example <caption>Usage of <strong>Protected API</strong> within Customization Widget. That is, API which is only used internally by the Customization Widget to create the customization menu.</caption>
  *          
  *          // Sets the imagepicker actions, and sets all CSS styles
  *          let aux = initWindowCSSValues[initWindowCSSValues.length - 1];
@@ -423,7 +395,7 @@
  *          // Sets all reRendered CSS styles.
  *          customization.reRenderedWindowCSS(CSSValues);
  * 
- * @example &lt;caption>Usage of API to create a new customization menu.&lt;/caption>
+ * @example <caption>Usage of API to create a new customization menu.</caption>
  *   define(function (require, exports, module) {
  *     "use strict";
  *
@@ -807,12 +779,12 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 0, left: 0, width: 250, height: 250 }.
      * @param opt {Object} Options:
-     *          &lt;li>sliderColor {String}: the sliders circle color (default is "#4CAF50").&lt;/li>
-     *          &lt;li>imagesSteeringWheels {Array}: array of objects with all the images to insert in the imagepicker, providing the path and value fields (default values are {"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg" and default paths are "widgets/car/steering_wheels/"+{"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg").&lt;/li>
-     *          &lt;li>sliderRanges {Array}: array of objects with all the sliders to be created, giving the name (to put in the div), the values min, max (slider intervals) and value (default value) (default is [{name: "speedometer",min: 0,max: 400,value: 340},{name: "tachometer",min: 0,max: 20,value: 16},{name: "lanes",min: 0,max: 3,value: 0},{name: "hills",min: 0,max: 10,value: 0},{name: "obstacles",min: 0,max: 10,value: 0},{name: "other-cars",min: 0,max: 10,value: 0}]).&lt;/li>
-     *          &lt;li>controlsText {Array}: array of objects with information about widget control (default is ["Car controls:","[left/right arrow keys] Turn Left/Right","[up/down arrow keys] Accelerate/Brake"]).&lt;/li>
-     *          &lt;li>gauges {Array}: array of objects with information about gauge widgets to create (default is [{name:"speedometer-gauge",styleId:"",style:""},{name:"tachometer-gauge",styleId:"float",style:"right"}]).&lt;/li>
-     *          &lt;li>gaugesStyles {Array}: array of objects with CSS styles to add to the above gauge widgets (default is [{zoom: "45%",marginLeft: "370px",marginTop: "430px"}]).&lt;/li>
+     *          <li>sliderColor {String}: the sliders circle color (default is "#4CAF50").</li>
+     *          <li>imagesSteeringWheels {Array}: array of objects with all the images to insert in the imagepicker, providing the path and value fields (default values are {"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg" and default paths are "widgets/car/steering_wheels/"+{"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg").</li>
+     *          <li>sliderRanges {Array}: array of objects with all the sliders to be created, giving the name (to put in the div), the values min, max (slider intervals) and value (default value) (default is [{name: "speedometer",min: 0,max: 400,value: 340},{name: "tachometer",min: 0,max: 20,value: 16},{name: "lanes",min: 0,max: 3,value: 0},{name: "hills",min: 0,max: 10,value: 0},{name: "obstacles",min: 0,max: 10,value: 0},{name: "other-cars",min: 0,max: 10,value: 0}]).</li>
+     *          <li>controlsText {Array}: array of objects with information about widget control (default is ["Car controls:","[left/right arrow keys] Turn Left/Right","[up/down arrow keys] Accelerate/Brake"]).</li>
+     *          <li>gauges {Array}: array of objects with information about gauge widgets to create (default is [{name:"speedometer-gauge",styleId:"",style:""},{name:"tachometer-gauge",styleId:"float",style:"right"}]).</li>
+     *          <li>gaugesStyles {Array}: array of objects with CSS styles to add to the above gauge widgets (default is [{zoom: "45%",marginLeft: "370px",marginTop: "430px"}]).</li>
      * @returns {Customization} The created instance of the widget Customization.
      * @memberof module:Customization
      * @instance
@@ -937,7 +909,7 @@ define(function (require, exports, module) {
         this.select=this.customizationDiv.append("div").style("margin-left","35px");
         this.optionsSelect=this.select.append("select").attr("id","selectImage").attr("class","image-picker");
         this.optionsSelect.append("option").attr("value","");
-        for(iterator=0; iterator&lt;this.imagesSteeringWheels.length; iterator++){
+        for(iterator=0; iterator<this.imagesSteeringWheels.length; iterator++){
             this.optionsSelect.append("option").attr("data-img-src",this.imagesSteeringWheels[iterator].path).attr("value",this.imagesSteeringWheels[iterator].value).text(this.imagesSteeringWheels[iterator].value);
         }
        
@@ -1221,7 +1193,7 @@ define(function (require, exports, module) {
 
         this.customizationDiv.append("br");
         let aux="",res="",res2="";
-        for(iterator=0; iterator&lt;this.sliderRanges.length; iterator++){
+        for(iterator=0; iterator<this.sliderRanges.length; iterator++){
             brItr++;
             this.aux=this.customizationDiv.append("div").attr("class","game-customisation-"+this.sliderRanges[iterator].name)
                                  .append("div").attr("class","col-xs-12").attr("id","slidecontainer-"+this.sliderRanges[iterator].name);
@@ -1308,7 +1280,7 @@ define(function (require, exports, module) {
                     .attr("id","instructions")
                     .text(this.controlsText[0]);
 
-        for(iterator=1; iterator&lt;this.controlsText.length; iterator++){
+        for(iterator=1; iterator<this.controlsText.length; iterator++){
             this.controls.append("br");
             this.controls.append("span").text(this.controlsText[iterator]);
         }
@@ -1322,7 +1294,7 @@ define(function (require, exports, module) {
                     .style("margin-top", this.gaugesStyles[0].marginTop)
                     .style("zoom", this.gaugesStyles[0].zoom);
                     
-        for(iterator=0; iterator&lt;this.gauges.length; iterator++){
+        for(iterator=0; iterator<this.gauges.length; iterator++){
             if(this.gauges[iterator].styleId!==""){
                 this.svg.append("span").attr("id",this.gauges[iterator].name).style(this.gauges[iterator].styleId,this.gauges[iterator].style);
             }else{
@@ -1946,26 +1918,4 @@ define(function (require, exports, module) {
     };
 
     module.exports = Customization;
-});</code></pre>
-        </article>
-    </section>
-
-
-
-
-</div>
-
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Arcade.html">Arcade</a></li><li><a href="module-ButtonExternalController.html">ButtonExternalController</a></li><li><a href="module-Customization.html">Customization</a></li><li><a href="module-DrawGamepad.html">DrawGamepad</a></li><li><a href="module-GamepadController.html">GamepadController</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-GyroscopeController.html">GyroscopeController</a></li><li><a href="module-Sound.html">Sound</a></li><li><a href="module-Speedometer.html">Speedometer</a></li><li><a href="module-SteeringWheel.html">SteeringWheel</a></li><li><a href="module-Tachometer.html">Tachometer</a></li><li><a href="module-TrackGenerator.html">TrackGenerator</a></li><li><a href="module-VirtualKeypadController.html">VirtualKeypadController</a></li></ul>
-</nav>
-
-<br class="clear">
-
-<footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Jun 01 2018 11:32:18 GMT+0100 (WEST)
-</footer>
-
-<script> prettyPrint(); </script>
-<script src="scripts/linenumber.js"> </script>
-</body>
-</html>
+});
