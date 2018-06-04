@@ -310,7 +310,7 @@ require([
             lapNumber: 2,
             // showOfficialLogo: true,
             // loadPVSSpeedPositions: false,
-            // predefinedTracks: 5,
+            // predefinedTracks: 7,
             callback: onMessageReceived
         });
 

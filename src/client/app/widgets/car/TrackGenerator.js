@@ -997,7 +997,56 @@ define(function (require, exports, module) {
                     }
 
                     for(let i=0; i < params.zoneSize; i++){
-                        sprite = false;
+                        // generates random integer numbers between 0 and 100(there are 101 sprites available)
+                        spriteTypeRandom = Math.floor((randomPos() * 101));
+
+                        // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
+                        chooseIndexFromObjects = Math.floor((randomPos() * objects.length));
+                        chooseObjectFromDesiredObjects=objects[chooseIndexFromObjects];
+                        index = spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects);
+
+                        // generates random integer numbers between 1 and 2
+                        spriteSidesRandom = Math.floor((randomPos() * 2) + 1);
+
+                        spritePosgeneratedObstaclesRandom = randomPos() - 0.5;
+
+                        if(spriteTypeRandom >= 0 && spriteTypeRandom <= 99){
+                            // choose randomly sprite image
+                            // generates random float numbers greater than 0.55
+                            spritePosRightRandom = randomPos() + 0.90;
+                            // generates random float numbers lesser than -0.55
+                            spritePosLeftRandom =  (randomPos() * -0.56) - 0.56;
+
+                            // choose randomly sprite size
+                            if(spriteSidesRandom == 1){
+                                spritePos = spritePosLeftRandom;
+                            }else if(spriteSidesRandom == 2){
+                                spritePos = spritePosRightRandom;
+                            }
+                            // console.log(spritePos);
+                            if(randomPos() < 0.25){
+                                sprite = {type: spritesAvailable[index].value, pos: spritePos-0.5, obstacle: 0};
+                            } if(randomPos() < 0.5){
+                                sprite = {type: spritesAvailable[index].value, pos: spritePos, obstacle: 0};
+                            }else{
+                                sprite = {type: spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
+                            }
+                        }
+                        else if(i%obstaclePerIteration==0){
+                            // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
+
+                            // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
+                            chooseIndexFromObstacle = Math.floor((randomPos() * objects.length));
+                            chooseObstacleFromDesiredObstacle=objects[chooseIndexFromObstacle];
+                            index = spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle);
+                            // console.log(spritePosgeneratedObstaclesRandom);
+                            generatedObstacles.push(spritePosgeneratedObstaclesRandom);
+                            // spritePosgeneratedObstaclesRandom has the relative position of the obstacle
+                            sprite = {type: spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
+                        }
+                        else {
+                            sprite = false;
+                        }
                         
                         generatedTrack.push({
                             height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/params.zoneSize * Math.PI-Math.PI/2)),

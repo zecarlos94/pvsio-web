@@ -886,6 +886,216 @@ define(function (require, exports, module) {
     };
 
     /**
+     * @function generateTrackBasedOnTrackLayoutOptField
+     * @public  
+     * @description GenerateTrackBasedOnTrackLayoutOptField method of the TrackGenerator widget. This method generates the track present in the trackLayout opt field.
+     * Every 50 iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
+     * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no).
+     * It also has information about the randomly generated position and the type of sprite, i.e. the sprite provided as opt from the available list (obtained in the spritesheet.json file)
+     * During the remaining iterations (which will not be considered as obstacles on the road), a value is randomly generated to decide in which side it will be placed (spriteSidesRandom).
+     * Then the position on that side is also randomly generated in spritePos (given by spritePosRightRandom or spritePosLeftRandom).
+     * Before finishing, another random number is generated to know how far to put the sprite on the selected side in relation to the landscape/track separator, in order to have
+     * sprites randomly scattered, but balanced (instead of being concentrated in a given area).
+     * After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in and whether those are obstacles or not,
+     * a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
+     * within this context on the PVSio-web platform.
+     * @memberof module:TrackGenerator
+     * @instance
+     */
+    TrackGenerator.prototype.generateTrackBasedOnTrackLayoutOptField = () => {
+        TrackGenerator.prototype.loadFile();
+        setTimeout(function(){ 
+            let sprite = false;
+            let spritePos = null;
+            let spritePosgeneratedObstaclesRandom = null;
+            let spritePosRightRandom = null;
+            let spritePosLeftRandom =  null;
+            let spriteTypeRandom = null;
+            let chooseIndexFromObjects=null;
+            let chooseObjectFromDesiredObjects=null;
+            let chooseIndexFromObstacle=null;
+            let chooseObstacleFromDesiredObstacle=null;
+            let spriteSidesRandom = null;
+            let slopesTransitionRandom = null;
+            let curvesTransitionRandom = null;
+            let spritesAvailableLength = spritesAvailable.length;
+            let index=null;
+            let iter = 0;
+            let finalNumZones = 0;
+            trackLayout.forEach(el => iter+=el.numZones);
+            finalNumZones = iter;
+            
+            let trackLayoutProfile = 0; //0=flat 1=up -1=down
+            let profileTransitions = {
+                plainToUpToDownTransition: [0,1,-1],
+                plainToDownToDownTransition: [0,-1,-1],
+                plainToUpToUpTransition: [0,1,1]
+            };
+
+            let trackLayoutTopographyName = 0; //0=straight 1=left -1=right
+            let topographyNameTransitions = {
+                straightToLeftToRightTransition: [0,1,-1],
+                straightToRightToRightTransition: [0,-1,-1],
+                straightToLeftToLeftTransition: [0,1,1]
+            };
+
+            let currentZone = {
+                height: 0,
+                curve: 0
+            };
+
+            let tmpIter=1;
+            let tmpPos=1;
+            
+            while(iter){
+                if(tmpIter<=trackLayout[trackLayout.length-tmpPos].numZones){
+                    // console.log(trackLayout[trackLayout.length-tmpPos]);
+                    // console.log("trackLayoutProfile: "+trackLayout[trackLayout.length-tmpPos].profile);
+                    // console.log("trackLayoutTopographyName: "+trackLayout[trackLayout.length-tmpPos].topography.name);
+                    // console.log("trackLayoutTopographyCurvatureAngle: "+trackLayout[trackLayout.length-tmpPos].topography.curvature);
+                    switch(trackLayout[trackLayout.length-tmpPos].profile){
+                        case "flat":
+                            trackLayoutProfile=0;
+                            break; 
+                        case "up": 
+                            trackLayoutProfile=1;
+                            break;
+                        case "down": 
+                            trackLayoutProfile=-1;
+                            break;  
+                    }
+                    switch(trackLayout[trackLayout.length-tmpPos].topography.name){
+                        case "straight":
+                            trackLayoutTopographyName=0;
+                            break; 
+                        case "left": 
+                            trackLayoutTopographyName=1;
+                            break;
+                        case "right": 
+                            trackLayoutTopographyName=-1;
+                            break;  
+                    }
+                    
+                    // Generate current Zone
+                    let intendedHeightForCurrentZone;
+                    switch(trackLayoutProfile){
+                        case 0:
+                            intendedHeightForCurrentZone = 0; break;
+                        case 1:
+                            intendedHeightForCurrentZone = params.maxHeight * randomPos(); break;
+                        case -1:
+                            intendedHeightForCurrentZone = - params.maxHeight * randomPos(); break;
+                    }
+                    let intendedCurveForCurrentZone;
+                    switch(trackLayoutTopographyName){
+                        case 0:
+                            intendedCurveForCurrentZone = 0; break;
+                        case 1:
+                            intendedCurveForCurrentZone = - params.maxCurve * randomPos(); break;
+                        case -1:
+                            intendedCurveForCurrentZone = params.maxCurve * randomPos(); break;
+                    }
+
+                    for(let i=0; i < params.zoneSize; i++){
+                        // generates random integer numbers between 0 and 100(there are 101 sprites available)
+                        spriteTypeRandom = Math.floor((randomPos() * 101));
+
+                        // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
+                        chooseIndexFromObjects = Math.floor((randomPos() * objects.length));
+                        chooseObjectFromDesiredObjects=objects[chooseIndexFromObjects];
+                        index = spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects);
+
+                        // generates random integer numbers between 1 and 2
+                        spriteSidesRandom = Math.floor((randomPos() * 2) + 1);
+
+                        spritePosgeneratedObstaclesRandom = randomPos() - 0.5;
+
+                        if(spriteTypeRandom >= 0 && spriteTypeRandom <= 99){
+                            // choose randomly sprite image
+                            // generates random float numbers greater than 0.55
+                            spritePosRightRandom = randomPos() + 0.90;
+                            // generates random float numbers lesser than -0.55
+                            spritePosLeftRandom =  (randomPos() * -0.56) - 0.56;
+
+                            // choose randomly sprite size
+                            if(spriteSidesRandom == 1){
+                                spritePos = spritePosLeftRandom;
+                            }else if(spriteSidesRandom == 2){
+                                spritePos = spritePosRightRandom;
+                            }
+                            // console.log(spritePos);
+                            if(randomPos() < 0.25){
+                                sprite = {type: spritesAvailable[index].value, pos: spritePos-0.5, obstacle: 0};
+                            } if(randomPos() < 0.5){
+                                sprite = {type: spritesAvailable[index].value, pos: spritePos, obstacle: 0};
+                            }else{
+                                sprite = {type: spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
+                            }
+                        }
+                        else if(i%obstaclePerIteration==0){
+                            // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
+
+                            // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
+                            chooseIndexFromObstacle = Math.floor((randomPos() * objects.length));
+                            chooseObstacleFromDesiredObstacle=objects[chooseIndexFromObstacle];
+                            index = spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle);
+                            // console.log(spritePosgeneratedObstaclesRandom);
+                            generatedObstacles.push(spritePosgeneratedObstaclesRandom);
+                            // spritePosgeneratedObstaclesRandom has the relative position of the obstacle
+                            sprite = {type: spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
+                        }
+                        else {
+                            sprite = false;
+                        }
+                        
+                        generatedTrack.push({
+                            height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/params.zoneSize * Math.PI-Math.PI/2)),
+                            curve: currentZone.curve+intendedCurveForCurrentZone / 2 * (1 + Math.sin(i/params.zoneSize * Math.PI-Math.PI/2)),
+                            sprite: sprite
+                        })
+                    }
+
+                    currentZone.height += intendedHeightForCurrentZone;
+                    currentZone.curve += intendedCurveForCurrentZone;
+
+                    tmpIter++;
+                    iter--;
+                }else{
+                    tmpIter=1;
+                    if(tmpPos<=trackLayout.length) {
+                        tmpPos++;
+                    }
+                }
+            }
+            params.numZones = finalNumZones * params.zoneSize;
+
+            trackParam.numZones = finalNumZones;
+        
+            generatedJSON = {
+                controllable_car: controllable_car,
+                laneWidth: laneWidth,
+                numLanes: numLanes,
+                numberOfSegmentPerColor: numberOfSegmentPerColor,
+                render: render,
+                topSpeed: topSpeed,
+                track: generatedTrack,
+                trackParam: trackParam,
+                trackSegmentSize: trackSegmentSize,
+                trackColors: trackColors
+            };
+
+            setTimeout(function(){ 
+                d3.select("#created").text("Success: True"); 
+
+                // TODO writeFile track.json with its content with Paolo Masci new API (when it has been implemented)
+                // console.log(generatedJSON);
+                console.log(JSON.stringify(generatedJSON));
+            }, 1000);
+        }, 150);
+        return this;
+    };
+
+    /**
      * @function render
      * @public
      * @description Render method of the TrackGenerator widget. 
