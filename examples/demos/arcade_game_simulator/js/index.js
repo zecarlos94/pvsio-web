@@ -287,7 +287,7 @@ require([
             height: 650
         }, {
             parent: "game-window", // defines parent div, which is div id="game-window" by default
-            trackFilename: "track-curves-slopes-random", // "track-straight-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
+            trackFilename: "trackLayout2",// "track-curves-slopes-random", // "track-straight-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
             spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
             trackTopography: "curves-slopes", // "straight", // defines initial position after ending 1 lap (restart position in another lap).
