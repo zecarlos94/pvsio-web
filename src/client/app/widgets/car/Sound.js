@@ -200,7 +200,10 @@ define(function (require, exports, module) {
     "use strict";
 
     let Widget = require("widgets/Widget");
+    let ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
     let sounds = [];
+    let callback = null;
+    let invokePVS = false;
     
     /**
      * @function constructor
@@ -229,7 +232,8 @@ define(function (require, exports, module) {
         opt.songs = opt.songs || {};
         opt.soundOff = opt.soundOff;
         this.numberSongs = (opt.songs) ? opt.songs.length : 0;
-    
+        opt.invokePVS = (opt.invokePVS) ? opt.invokePVS : false;
+
         this.id = id;
         this.top = coords.top || 1000;
         this.left = coords.left || 100;
@@ -242,6 +246,8 @@ define(function (require, exports, module) {
         this.notMutedImg = (opt.notMutedImg) ? opt.notMutedImg : "../../client/app/widgets/car/configurations/img/notMuted.png";
 
         this.parent = (opt.parent) ? ("#" + opt.parent) : "tog";
+
+        this.invokePVS = opt.invokePVS;
        
         this.div = d3.select(this.parent)
                         .style("position", "absolute")
@@ -313,6 +319,8 @@ define(function (require, exports, module) {
       
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
+        callback = this.callback;
+        invokePVS = this.invokePVS;
 
         document.getElementById('mute').addEventListener('click', function (e) {
             Sound.prototype.unmute();
@@ -490,6 +498,9 @@ define(function (require, exports, module) {
      * @instance
      */
     Sound.prototype.mute = function () {
+        if(invokePVS){
+            ButtonActionsQueue.queueGUIAction("press_mute", callback);
+        }
         if(this.soundOff!==null){
             this.soundOffDiv = d3.select("#soundOff");
             this.soundOffDiv.text("true");
@@ -511,6 +522,9 @@ define(function (require, exports, module) {
      * @instance
      */
     Sound.prototype.unmute = function () {
+        if(invokePVS){
+            ButtonActionsQueue.queueGUIAction("press_unmute", callback);
+        }
         if(this.soundOff!==null){
             this.soundOffDiv = d3.select("#soundOff");
             this.soundOffDiv.text("false");

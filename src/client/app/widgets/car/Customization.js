@@ -764,6 +764,7 @@ define(function (require, exports, module) {
     let Speedometer = require("widgets/car/Speedometer");
     let Tachometer = require("widgets/car/Tachometer");
     let SteeringWheel = require("widgets/car/SteeringWheel");
+    let DrawGamepad = require("widgets/car/DrawGamepad");
     let GyroscopeController = require("widgets/car/GyroscopeController");
     let VirtualKeypadController = require("widgets/car/VirtualKeypadController");
     let GamepadController = require("widgets/car/GamepadController");
@@ -1653,6 +1654,30 @@ define(function (require, exports, module) {
                         height: 600
                     }, {
                         style: steeringWheel,
+                        callback: callback
+                    });
+
+                    // ----------------------------- DRAWGAMEPAD COMPONENTS -----------------------------
+                    // car.drawGamepad = new DrawGamepad("drawGamepad", {
+                    //     top: 100,
+                    //     left: 350,
+                    //     width: 750,
+                    //     height: 750
+                    // }, {
+                    //     parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
+                    //     style: "xbox", // defines parent div, which is "ps4" by default
+                    //     buttonsPVS: [ "accelerate", "brake", "mute", "unmute", "pause", "quit", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+                    //     callback: callback
+                    // });
+                    car.drawGamepad = new DrawGamepad("drawGamepad", {
+                        top: 100,
+                        left: 350,
+                        width: 750,
+                        height: 750
+                    }, {
+                        parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
+                        style: "ps4", // defines parent div, which is "ps4" by default
+                        buttonsPVS: [ "accelerate", "brake", "unmute", "mute", "pause", "quit", "touchpad", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
                         callback: callback
                     });
 

@@ -108,24 +108,13 @@ require([
                     loop: true
                 }
             ],
+            invokePVS: true,
             callback: onMessageReceived
-        });
-
-        // ----------------------------- SOUND INTERACTION -----------------------------
-        sound.mute = new Button("mute", { width: 0, height: 0 }, {
-            callback: onMessageReceived,
-            evts: ['press/release'],
-            keyCode: 77 // key m
-        });
-        sound.unmute = new Button("unmute", { width: 0, height: 0 }, {
-            callback: onMessageReceived,
-            evts: ['press/release'],
-            keyCode: 85 // key u
         });
 
         // Render sound components
         function render(res) {
-            sound.soundWidget.render();
+            sound.soundWidget.render(res);
         }
 
         // sound.soundWidget.playSound(0).setVolume(0.2,0);

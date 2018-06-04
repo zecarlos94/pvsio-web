@@ -5,5 +5,5 @@
 * Unmute (image)
 
 ### Sound controls
-* **[M]** Mute
-* **[U]** Unmute
+* First Click Unute
+* Second Click Mute
