@@ -43,6 +43,7 @@
  *                  lapNumber: 2,
  *                  // showOfficialLogo: true,
  *                  // loadPVSSpeedPositions: true,
+ *                  // predefinedTracks: 5,
  *               }// append on div 'game-window'
  *           );
  * 
@@ -217,6 +218,7 @@
  *                  lapNumber: 2,
  *                  // showOfficialLogo: true,
  *                  // loadPVSSpeedPositions: true,
+ *                  // predefinedTracks: 5,
  *               }// append on div 'game-window'
  *           );
  * 
@@ -269,6 +271,7 @@
  *                  lapNumber: 2,
  *                  // showOfficialLogo: true,
  *                  // loadPVSSpeedPositions: true,
+ *                  // predefinedTracks: 5,
  *               }// append on div 'game-window'
  *           );
  * 
@@ -312,8 +315,15 @@ define(function (require, exports, module) {
     let spritesheetJSON;
     let spritesheetJSONPredefined;
     let trackJSON;
+    let predefinedTracks;
     let trackStraightJSONPredefined;
     let trackCurvesSlopesJSONPredefined;
+    let trackLayout1Predefined;
+    let trackLayout2Predefined;
+    let trackLayout3Predefined;
+    let trackLayout4Predefined;
+    let trackLayout5Predefined;
+    let trackLayout6Predefined;
 
     let currentBrowser = { chrome: false, mozilla: false, opera: false, msie: false, safari: false};
 
@@ -463,6 +473,7 @@ define(function (require, exports, module) {
      *          <li>lapNumber {Int}: the number of desired laps in the simulation (default is 2 laps).</li>
      *          <li>showOfficialLogo {Bool}: the option to render extra image, on the bottom-left corner, which is the PVSio-web logo created in this thesis (default is false).</li>
      *          <li>loadPVSSpeedPositions {Bool}: allows to use PVS calculated positions and speed in the simulation. (default is true).</li>
+     *          <li>predefinedTracks {Int}: allows to use predefined tracks, present on JSON files with filename "trackLayout"+predefined+".json", in car/configurations/ directory. (default is null).</li>
      * @returns {Arcade} The created instance of the widget Arcade.
      * @memberof module:Arcade
      * @instance
@@ -484,6 +495,7 @@ define(function (require, exports, module) {
         opt.trackTopography = opt.trackTopography;
         opt.lapNumber = opt.lapNumber;
         opt.loadPVSSpeedPositions = opt.loadPVSSpeedPositions;
+        opt.predefinedTracks = opt.predefinedTracks;
 
         this.id = id;
         this.top = coords.top || 100;
@@ -492,7 +504,7 @@ define(function (require, exports, module) {
         this.height = coords.height || 750;
 
         this.parent = (opt.parent) ? ("#" + opt.parent) : "game-window";
-        this.trackFilename = (opt.trackFilename) ? ("text!widgets/car/configurations/" + opt.trackFilename + ".json") : "text!widgets/car/configurations/track-curves-slopes.json";
+        this.trackFilename = (opt.trackFilename) ? ("text!widgets/car/configurations/" + opt.trackFilename + ".json") : "text!widgets/car/configurations/track-curves-slopes-random.json";
         this.spritesFilename = (opt.spritesFilename) ? ("text!widgets/car/configurations/" + opt.spritesFilename + ".json") : "text!widgets/car/configurations/spritesheet.json";
         this.spritesFiles = (opt.spritesFiles) ? opt.spritesFiles : ["spritesheet","spritesheet.text"];
         this.vehicleImgIndex = (opt.vehicleImgIndex) ? opt.vehicleImgIndex : null;
@@ -505,11 +517,13 @@ define(function (require, exports, module) {
         this.trackTopography = (opt.trackTopography) ? opt.trackTopography : "curves-slopes"; // "straight"; 
         this.lapNumber = (opt.lapNumber) ? opt.lapNumber : 2;        
         this.loadPVSSpeedPositions = (opt.loadPVSSpeedPositions) ? opt.loadPVSSpeedPositions : true;
+        this.predefinedTracks = (opt.predefinedTracks) ? opt.predefinedTracks : null;
 
         spritesFiles = this.spritesFiles;
         trackTopography = this.trackTopography;
         lapNumber = this.lapNumber;
         loadPVSSpeedPositions = this.loadPVSSpeedPositions;
+        predefinedTracks = this.predefinedTracks;
 
         trackP1=this.stripePositions.trackP1;
         trackP2=this.stripePositions.trackP2;
@@ -557,11 +571,19 @@ define(function (require, exports, module) {
             return _this;
         });
 
+        // Set of tracks built with TrackGenerator widget using trackLayout opt field 
+        trackLayout1Predefined = require("text!widgets/car/configurations/trackLayout1.json");
+        trackLayout2Predefined = require("text!widgets/car/configurations/trackLayout2.json");
+        trackLayout3Predefined = require("text!widgets/car/configurations/trackLayout3.json");
+        trackLayout4Predefined = require("text!widgets/car/configurations/trackLayout4.json");
+        trackLayout5Predefined = require("text!widgets/car/configurations/trackLayout5.json");
+        trackLayout6Predefined = require("text!widgets/car/configurations/trackLayout6.json");
+
         // Requiring predefined JSON files 
-        trackStraightJSONPredefined = require("text!widgets/car/configurations/track-straight.json");
-        trackCurvesSlopesJSONPredefined = require("text!widgets/car/configurations/track-curves-slopes.json");
+        trackStraightJSONPredefined = require("text!widgets/car/configurations/track-straight-random.json");
+        trackCurvesSlopesJSONPredefined = require("text!widgets/car/configurations/track-curves-slopes-random.json");
         spritesheetJSONPredefined = require("text!widgets/car/configurations/spritesheet.json");   
-        
+ 
         this.div = d3.select(this.parent)
                         .attr("class","container game_view")
                         .style("position", "absolute")
@@ -628,8 +650,38 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.startSimulation = function () {
         setTimeout(function(){ 
-            trackJSON = document.getElementById("track_file_loaded_opt_field").innerHTML;
-            spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field").innerHTML;
+            if(predefinedTracks!==null){
+                switch(predefinedTracks){
+                    case 1:
+                        trackJSON = trackLayout1Predefined;
+                        break;
+                    case 2:
+                        trackJSON = trackLayout2Predefined;
+                        break;
+                    case 3:
+                        trackJSON = trackLayout3Predefined;
+                        break;
+                    case 4:
+                        trackJSON = trackLayout4Predefined;
+                        break;
+                    case 5:
+                        trackJSON = trackLayout5Predefined;
+                        break;
+                    case 6:
+                        trackJSON = trackLayout6Predefined;
+                        break;
+                    case -1:
+                        trackJSON = trackStraightJSONPredefined;
+                        break;
+                    case -2:
+                        trackJSON = trackCurvesSlopesJSONPredefined;
+                        break;
+                }
+                spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field").innerHTML;
+            }else{
+                trackJSON = document.getElementById("track_file_loaded_opt_field").innerHTML;
+                spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field").innerHTML;
+            }
             if(trackJSON){
                 let aux = JSON.parse(trackJSON);
                 controllable_car=aux.controllable_car;
@@ -2265,11 +2317,11 @@ define(function (require, exports, module) {
         context.fillRect(0, 0, render.width, render.height);
 
         // Using PVS results
-        Arcade.prototype.calculateNewControllableCarPosition();
-        let carSprite = Arcade.prototype.setControllableCarPosition(vehicleCurrentDirectionAux, newSpeedAux, newPositionAux, newPositionXAux, vehicleXPositionAux, vehicleYPositionAux);
+        // Arcade.prototype.calculateNewControllableCarPosition();
+        // let carSprite = Arcade.prototype.setControllableCarPosition(vehicleCurrentDirectionAux, newSpeedAux, newPositionAux, newPositionXAux, vehicleXPositionAux, vehicleYPositionAux);
         
         // Using only JS to update rendered vehicle
-        // let carSprite = Arcade.prototype.updateControllableCar();
+        let carSprite = Arcade.prototype.updateControllableCar();
 
         Arcade.prototype.drawBackground(-controllable_car.posx);
 
