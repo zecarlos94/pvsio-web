@@ -128,9 +128,9 @@ require([
                 maxSpeed: 20
             },
             topSpeed: 250,
-            objects: ["tree","boulder"],
-            obstacle: ["boulder"],
-            obstaclePerIteration: 50,
+            objects: ["tree","stump","boulder","tree2","brunetteGirlBack","bush2","hatManBack"],
+            obstacle: ["dead_tree2","column","dearRight"],
+            obstaclePerIteration: 20,
             trackColors: {
                 grass1: "#699864",
                 border1: "#e00",

@@ -325,6 +325,7 @@ define(function (require, exports, module) {
     let trackLayout5Predefined;
     let trackLayout6Predefined;
     let trackLayout7Predefined;
+    let trackLayout8Predefined;
 
     let currentBrowser = { chrome: false, mozilla: false, opera: false, msie: false, safari: false};
 
@@ -580,6 +581,7 @@ define(function (require, exports, module) {
         trackLayout5Predefined = require("text!widgets/car/configurations/trackLayout5.json");
         trackLayout6Predefined = require("text!widgets/car/configurations/trackLayout6.json");
         trackLayout7Predefined = require("text!widgets/car/configurations/trackLayout7.json");
+        trackLayout8Predefined = require("text!widgets/car/configurations/trackLayout8.json");
 
         // Requiring predefined JSON files 
         trackStraightJSONPredefined = require("text!widgets/car/configurations/track-straight-random.json");
@@ -674,6 +676,9 @@ define(function (require, exports, module) {
                         break;
                     case 7:
                         trackJSON = trackLayout7Predefined;
+                        break;
+                    case 8:
+                        trackJSON = trackLayout8Predefined;
                         break;
                     case -1:
                         trackJSON = trackStraightJSONPredefined;
