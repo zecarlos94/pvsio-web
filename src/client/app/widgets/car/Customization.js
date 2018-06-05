@@ -1877,7 +1877,8 @@ define(function (require, exports, module) {
                     car.trackGeneratorWidget.hide();
                     // API to generate track with parameters received as argument by the constructor, i.e. new TrackGenerator()
                     // car.trackGeneratorWidget.generateStraightTrack();
-                    car.trackGeneratorWidget.generateTrackCurvesSlopes();
+                    // car.trackGeneratorWidget.generateTrackCurvesSlopes();
+                    car.trackGeneratorWidget.generateTrackBasedOnTrackLayoutOptField();
 
                     // ----------------------------- ARCADE GAME COMPONENTS -----------------------------
                     car.arcadeWidget = new Arcade("arcadeWidget", {
