@@ -23,7 +23,6 @@
  *                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
- *                 trackTopography: "curves-slopes", // "straight", // defines initial position after ending 1 lap (restart position in another lap).
  *                 realisticImgs: false,
  *                 vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
  *                 vehicleImgIndex: 2, // defines vehicle sprite image suffix            
@@ -198,7 +197,6 @@
  *                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
- *                 trackTopography: "curves-slopes", // "straight", // defines initial position after ending 1 lap (restart position in another lap).
  *                 realisticImgs: false,
  *                 vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
  *                 vehicleImgIndex: 2, // defines vehicle sprite image suffix            
@@ -251,7 +249,6 @@
  *                 trackFilename: "track-straight", // "track-curves-slopes", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
- *                 trackTopography: "straight", //  "curves-slopes", // defines initial position after ending 1 lap (restart position in another lap).
  *                 realisticImgs: false,
  *                 vehicle: "helicopter", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
  *                 vehicleImgIndex: 1, // defines vehicle sprite image suffix            
@@ -391,9 +388,6 @@ define(function (require, exports, module) {
 
     // Information regarding the PNG spritesheets with all objects and letters that allows the desired renderization
     let spritesFiles;
-    
-    // Information regarding the track topography to determine initial position in each lap (restart position)
-    let trackTopography;
 
     // Variables for calculating the vehicle's position, which will be provided as arguments to setControllabeCarPosition method
     let vehicleCurrentDirectionAux, newSpeedAux, newPositionAux, newPositionXAux, vehicleXPositionAux, vehicleYPositionAux;
@@ -431,6 +425,7 @@ define(function (require, exports, module) {
 
     // Information regarding the number of laps of the present simulation
     let lapNumber        = null;
+    let lastLapNumber = 1;
     let currentLapNumber = 1;
     let callback;
     let counterAux = 0;
@@ -470,7 +465,6 @@ define(function (require, exports, module) {
      *          <li>trackFilename {String}: the track configuration filename, i.e. JSON file with the track that will be drawed as well as the required sprite coordinates, etc (default is "track").</li>
      *          <li>spritesFilename {String}: the spritesheet configuration filename, i.e. JSON file with the all available sprites, whose coordinates are the same in trackFilename, i.e. the track must have been generated with this JSON as well so the coordinates will match (default is "spritesheet").</li>
      *          <li>spritesFiles {Array}: array with spritesheets(images) names (default is ["spritesheet","spritesheet.text"]).</li>
-     *          <li>trackTopography {String}: the track topography created with TrackGenerator widget previously (default is "curves-slopes").</li>
      *          <li>vehicleImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the vehicle image (front, left side, right side) (default is null).</li>
      *          <li>logoImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the logo image (default is null).</li>
      *          <li>backgroundImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the background image (default is null).</li>
@@ -499,7 +493,6 @@ define(function (require, exports, module) {
         opt.vehicle = opt.vehicle;
         opt.stripePositions = opt.stripePositions;
         opt.showOfficialLogo = opt.showOfficialLogo;
-        opt.trackTopography = opt.trackTopography;
         opt.lapNumber = opt.lapNumber;
         opt.loadPVSSpeedPositions = opt.loadPVSSpeedPositions;
         opt.predefinedTracks = opt.predefinedTracks;
@@ -521,13 +514,11 @@ define(function (require, exports, module) {
         this.vehicle = (opt.vehicle) ? opt.vehicle : "car"; // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
         this.stripePositions = (opt.stripePositions) ? opt.stripePositions : { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 };
         this.showOfficialLogo = (opt.showOfficialLogo) ? opt.showOfficialLogo : false;
-        this.trackTopography = (opt.trackTopography) ? opt.trackTopography : "curves-slopes"; // "straight"; 
         this.lapNumber = (opt.lapNumber) ? opt.lapNumber : 2;        
         this.loadPVSSpeedPositions = (opt.loadPVSSpeedPositions) ? opt.loadPVSSpeedPositions : true;
         this.predefinedTracks = (opt.predefinedTracks) ? opt.predefinedTracks : null;
 
         spritesFiles = this.spritesFiles;
-        trackTopography = this.trackTopography;
         lapNumber = this.lapNumber;
         loadPVSSpeedPositions = this.loadPVSSpeedPositions;
         predefinedTracks = this.predefinedTracks;
@@ -2382,14 +2373,17 @@ define(function (require, exports, module) {
 
         if(WIDGETSTATE!==null){
             currentLapNumber = parseInt(WIDGETSTATE.lap.val);
-        
-            // console.log(absoluteIndex);
 
             if(absoluteIndex >= numIterations-render.depthOfField-1){
                 if(currentLapNumber<=lapNumber && counterAux===0){
                     ButtonActionsQueue.queueGUIAction("new_lap", callback);
                 }
-                counterAux++;
+                counterAux=1;
+            }
+
+            if(lastLapNumber===currentLapNumber-1){
+                lastLapNumber=currentLapNumber;
+                counterAux=0;
             }
 
             if(currentLapNumber===lapNumber){

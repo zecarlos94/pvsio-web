@@ -41,6 +41,7 @@ require([
         "widgets/car/GyroscopeController",
         "widgets/car/Customization",
         "widgets/car/Arcade",
+        "widgets/car/ArcadeWithoutLaps",
 
         "widgets/ButtonActionsQueue",
         "stateParser",
@@ -67,6 +68,7 @@ require([
         GyroscopeController,
         Customization,
         Arcade,
+        ArcadeWithoutLaps,
 
         ButtonActionsQueue,
         stateParser,
@@ -290,7 +292,6 @@ require([
             trackFilename: "trackLayout2",// "track-curves-slopes-random", // "track-straight-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
             spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
-            trackTopography: "curves-slopes", // "straight", // defines initial position after ending 1 lap (restart position in another lap).
             realisticImgs: false,
             vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
             vehicleImgIndex: 2, // defines vehicle sprite image suffix 
@@ -307,12 +308,43 @@ require([
                 finishLineP2: 0.40,
                 diffLanesFinishLine: 0.05
             },
-            lapNumber: 1,
+            lapNumber: 3,
             // showOfficialLogo: true,
             loadPVSSpeedPositions: false,
             // predefinedTracks: 7,
             callback: onMessageReceived
         });
+        // arcade.arcadeWidget = new ArcadeWithoutLaps("arcadeWidget", {
+        //     top: 80,
+        //     left: 650,
+        //     width: 780,
+        //     height: 650
+        // }, {
+        //     parent: "game-window", // defines parent div, which is div id="game-window" by default
+        //     trackFilename: "trackLayout2",// "track-curves-slopes-random", // "track-straight-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
+        //     spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+        //     spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
+        //     realisticImgs: false,
+        //     vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
+        //     vehicleImgIndex: 2, // defines vehicle sprite image suffix 
+        //     // logoImgIndex: 1, // defines logo sprite image suffix 
+        //     // backgroundImgIndex: 1, // defines background sprite image suffix 
+        //     stripePositions: {
+        //         trackP1: -0.50,
+        //         trackP2: 0.50,
+        //         borderWidth: 0.08,
+        //         inOutBorderWidth: 0.02,
+        //         landscapeOutBorderWidth: 0.13,
+        //         diffTrackBorder: 0.05,
+        //         finishLineP1: -0.40,
+        //         finishLineP2: 0.40,
+        //         diffLanesFinishLine: 0.05
+        //     },
+        //     // showOfficialLogo: true,
+        //     loadPVSSpeedPositions: false,
+        //     // predefinedTracks: 7,
+        //     callback: onMessageReceived
+        // });
 
         // ----------------------------- ARCADE GAME INTERACTION -----------------------------
         arcade.resume = new ButtonExternalController("resume", { width: 0, height: 0 }, {
