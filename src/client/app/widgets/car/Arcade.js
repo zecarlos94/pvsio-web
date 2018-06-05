@@ -433,6 +433,8 @@ define(function (require, exports, module) {
     let lapNumber        = null;
     let currentLapNumber = 1;
     let callback;
+    let counterAux = 0;
+    let currentPercentage = 0;
 
     /* 
     * End of Arcade Global Variables 
@@ -1035,7 +1037,7 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.onPageLoad = function (spritesFiles) {
         Arcade.prototype.detectBrowserType();
-        if(currentBrowser.chrome || currentBrowser.safari){ // can be ensured that all CSS will work as it is supposed!!!
+        if(currentBrowser.chrome){ // can be ensured that all CSS will work as it is supposed!!!
             Arcade.prototype.init();
 
             simulatorLogo1 = new Image();
@@ -2300,26 +2302,7 @@ define(function (require, exports, module) {
 
         // Render the track
         let absoluteIndex = Math.floor(controllable_car.position / trackSegmentSize);
-        
-        if(absoluteIndex >= numIterations-render.depthOfField-1){
-            ButtonActionsQueue.queueGUIAction("finish_simulation", callback);
-            // if(currentLapNumber<lapNumber){
-            //     currentLapNumber++;
-            //     ButtonActionsQueue.queueGUIAction("new_lap", callback);
-            // }
-            // else{
-            //     clearInterval(simulatorInterval);
-            //     Arcade.prototype.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
-            //     Arcade.prototype.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
-            //     Arcade.prototype.drawText("The Simulator", {x: 100, y: 70}, 1);
-            //     soundWidget.pauseAll();
-                
-            //     // Delayed function call by 5 seconds to reload simulator
-            //     setTimeout(function() { location.reload(); }, 5000);
-            // }
-            
-        }
-
+       
         let currentSegmentIndex    = (absoluteIndex - 2) % track.length;
         let currentSegmentPosition = (absoluteIndex - 2) * trackSegmentSize - controllable_car.position;
         let currentSegment         = track[currentSegmentIndex];
@@ -2394,25 +2377,50 @@ define(function (require, exports, module) {
             
         // Draw the car 
         Arcade.prototype.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
+
+        currentPercentage = Math.round(absoluteIndex/(numIterations-render.depthOfField)*100);
+
+        if(WIDGETSTATE!==null){
+            currentLapNumber = parseInt(WIDGETSTATE.lap.val);
+        
+            // console.log(absoluteIndex);
+
+            if(absoluteIndex >= numIterations-render.depthOfField-1){
+                if(currentLapNumber<=lapNumber && counterAux===0){
+                    ButtonActionsQueue.queueGUIAction("new_lap", callback);
+                }
+                counterAux++;
+            }
+
+            if(currentLapNumber===lapNumber){
+                Arcade.prototype.drawText("1 Lap",{x: 10, y: 15}, 1);
+                Arcade.prototype.drawText("To Go",{x: 10, y: 25}, 1);
+            }
+
+            if(currentLapNumber===lapNumber && currentPercentage>=100){
+                clearInterval(simulatorInterval);
+                Arcade.prototype.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
+                Arcade.prototype.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
+                Arcade.prototype.drawText("The Simulator", {x: 100, y: 70}, 1);
+                soundWidget.pauseAll();
+
+                // Delayed function call by 5 seconds to reload simulator
+                setTimeout(function() { location.reload(); }, 5000);
+            }
+        }
     
         // Draw Header
-        Arcade.prototype.drawText("Lap "+currentLapNumber+"/"+lapNumber,{x: 10, y: 1}, 1);
+        if(currentLapNumber<lapNumber){
+            Arcade.prototype.drawText("Lap "+currentLapNumber+"/"+lapNumber,{x: 10, y: 1}, 1);
+        }else{
+            Arcade.prototype.drawText("Lap "+lapNumber+"/"+lapNumber,{x: 10, y: 1}, 1);
+        }
 
-        let currentPercentage = Math.round(absoluteIndex/(numIterations-render.depthOfField)*100);
+        // currentPercentage = Math.round(absoluteIndex/(numIterations-render.depthOfField)*100);
         if(currentPercentage>100){
             Arcade.prototype.drawText("Current Lap 100%",{x: 100, y: 1},1); 
         }else{
             Arcade.prototype.drawText("Current Lap "+currentPercentage+"%",{x: 100, y: 1},1); 
-        }
-
-        if(currentLapNumber===lapNumber){
-            Arcade.prototype.drawText("1 Lap",{x: 10, y: 15}, 1);
-            Arcade.prototype.drawText("To Go",{x: 10, y: 25}, 1);
-        }
-
-        if(currentLapNumber>lapNumber){
-            Arcade.prototype.drawText("0 Lap",{x: 10, y: 15}, 1);
-            Arcade.prototype.drawText("To Go",{x: 10, y: 25}, 1);
         }
 
         // Draw Virtual Speedometer and Tachometer based on Speedometer, Tachometer Widgets
@@ -2452,19 +2460,6 @@ define(function (require, exports, module) {
             context.drawImage(simulatorLogo2,15,215,0.6*60,0.6*32);
             // context.drawImage(simulatorLogo1,10,225,0.4*60,0.4*32);
             // context.drawImage(simulatorLogo2,10,225,0.4*60,0.4*32);
-        }
-
-        if(WIDGETSTATE!==null){
-            if(WIDGETSTATE.action==="finished"){
-                clearInterval(simulatorInterval);
-                Arcade.prototype.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
-                Arcade.prototype.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
-                Arcade.prototype.drawText("The Simulator", {x: 100, y: 70}, 1);
-                soundWidget.pauseAll();
-                
-                // Delayed function call by 5 seconds to reload simulator
-                setTimeout(function() { location.reload(); }, 5000);
-            }
         }
 
         return this;
