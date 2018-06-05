@@ -332,6 +332,7 @@ define(function (require, exports, module) {
 
     let Widget = require("widgets/Widget");
     let Sound = require("widgets/car/Sound");
+    let ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
 
     let WIDGETSTATE = null;
     let lastSpeedPVS = null;
@@ -353,6 +354,8 @@ define(function (require, exports, module) {
     let trackLayout5Predefined;
     let trackLayout6Predefined;
     let trackLayout7Predefined;
+    let trackLayout8Predefined;
+    let trackLayout9Predefined;
 
     let currentBrowser = { chrome: false, mozilla: false, opera: false, msie: false, safari: false};
 
@@ -457,6 +460,7 @@ define(function (require, exports, module) {
     // Information regarding the number of laps of the present simulation
     let lapNumber        = null;
     let currentLapNumber = 1;
+    let callback;
 
     /* 
     * End of Arcade Global Variables 
@@ -608,6 +612,8 @@ define(function (require, exports, module) {
         trackLayout5Predefined = require("text!widgets/car/configurations/trackLayout5.json");
         trackLayout6Predefined = require("text!widgets/car/configurations/trackLayout6.json");
         trackLayout7Predefined = require("text!widgets/car/configurations/trackLayout7.json");
+        trackLayout8Predefined = require("text!widgets/car/configurations/trackLayout8.json");
+        trackLayout9Predefined = require("text!widgets/car/configurations/trackLayout9.json");
 
         // Requiring predefined JSON files 
         trackStraightJSONPredefined = require("text!widgets/car/configurations/track-straight-random.json");
@@ -661,6 +667,7 @@ define(function (require, exports, module) {
 
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
+        callback = this.callback;
 
         Widget.call(this, id, coords, opt);
        
@@ -702,6 +709,12 @@ define(function (require, exports, module) {
                         break;
                     case 7:
                         trackJSON = trackLayout7Predefined;
+                        break;
+                    case 8:
+                        trackJSON = trackLayout8Predefined;
+                        break;
+                    case 9:
+                        trackJSON = trackLayout9Predefined;
                         break;
                     case -1:
                         trackJSON = trackStraightJSONPredefined;
@@ -2068,117 +2081,66 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.calculateNewControllableCarPosition = function () {
-        if(loadPVSSpeedPositions){
-            if(WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.speed.val!=="0"){
-                // readSprite acceleration controls
-                soundOff = soundWidget.getSoundOff();
-                let currentSpeedPVS = WIDGETSTATE.speed.val;
-                let arraySpeed = currentSpeedPVS.split("/");
-                let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
-                if(!isNaN(speedValue)){
-                    lastSpeedPVS = Math.ceil(speedValue);
+        
+        if(WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.speed.val!=="0"){
+            // readSprite acceleration controls
+            soundOff = soundWidget.getSoundOff();
+            let currentSpeedPVS = WIDGETSTATE.speed.val;
+            let arraySpeed = currentSpeedPVS.split("/");
+            let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
+            if(!isNaN(speedValue)){
+                lastSpeedPVS = Math.ceil(speedValue);
+            }
+            if(Math.abs(lastDelta) > 130){
+                if (newSpeedAux > 150) {
+                    newSpeedAux -= lastSpeedPVS*0.10;
                 }
-                if(Math.abs(lastDelta) > 130){
-                    if (newSpeedAux > 150) {
-                        newSpeedAux -= lastSpeedPVS*0.10;
-                    }
-                }else{
-                    newSpeedAux = lastSpeedPVS*0.10;
-                }
-
-                if (WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.action==="acc") { 
-                    if(!soundOff){
-                        soundWidget.playSound(3); //accelerating song
-                    }
-                }else if (WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.action==="brake") { 
-                    if(!soundOff){
-                        soundWidget.pauseSound(3); //accelerating song
-                    }
-                }else if (WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.action==="idle"){
-                    if(!soundOff){
-                        soundWidget.pauseSound(3); //accelerating song
-                    }
-                }
+            }else{
+                newSpeedAux = lastSpeedPVS*0.10;
             }
 
-            // car turning
-            if (WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.action==="left") {
-                carCurrentDirection = "left";
-            } else if (WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.action==="right") {
-                carCurrentDirection = "right";
-            } else {
-                carCurrentDirection = "front";
+            if (WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.action==="acc") { 
+                if(!soundOff){
+                    soundWidget.playSound(3); //accelerating song
+                }
+            }else if (WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.action==="brake") { 
+                if(!soundOff){
+                    soundWidget.pauseSound(3); //accelerating song
+                }
+            }else if (WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.action==="idle"){
+                if(!soundOff){
+                    soundWidget.pauseSound(3); //accelerating song
+                }
             }
+        }
 
-            if(WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.posx.val!=="0.0"){
-                let currentPositionXPVS = WIDGETSTATE.posx.val;
-                let positionXValue = parseInt(currentPositionXPVS);
-                if(!isNaN(positionXValue)){
-                    lastPosXPVS = Math.ceil(positionXValue);
-                }
-                newPositionXAux = lastPosXPVS;
+        // car turning
+        if (WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.action==="left") {
+            carCurrentDirection = "left";
+        } else if (WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.action==="right") {
+            carCurrentDirection = "right";
+        } else {
+            carCurrentDirection = "front";
+        }
+
+        if(WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.posx.val!=="0.0"){
+            let currentPositionXPVS = WIDGETSTATE.posx.val;
+            let positionXValue = parseInt(currentPositionXPVS);
+            if(!isNaN(positionXValue)){
+                lastPosXPVS = Math.ceil(positionXValue);
             }
-            
-            vehicleCurrentDirectionAux = carCurrentDirection;
-            if(WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.position.val!=="10.0"){
-                let currentPositionPVS = WIDGETSTATE.position.val;
-                let arrayPosition = currentPositionPVS.split("/");
-                let positionValue = parseInt(arrayPosition[0])/parseInt(arrayPosition[1]);
-                if(!isNaN(positionValue)){
-                    lastPositionPVS = Math.ceil(positionValue);
-                }
-                newPositionAux = lastPositionPVS;
+            newPositionXAux = lastPosXPVS;
+        }
+        
+        vehicleCurrentDirectionAux = carCurrentDirection;
+        if(WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.position.val!=="10.0"){
+            let currentPositionPVS = WIDGETSTATE.position.val;
+            let arrayPosition = currentPositionPVS.split("/");
+            let positionValue = parseInt(arrayPosition[0])/parseInt(arrayPosition[1]);
+            if(!isNaN(positionValue)){
+                lastPositionPVS = Math.ceil(positionValue);
             }
-        }else{
-            newSpeedAux=controllable_car.speed;
-            newPositionAux=controllable_car.position;
-            newPositionXAux=controllable_car.posx;
-    
-            // Calculating newSpeedAux value
-            if (Math.abs(lastDelta) > 130){
-                if (newSpeedAux > 3) {
-                    newSpeedAux -= 0.2;
-                }
-            } else {
-                // readSprite acceleration controls
-                soundOff = soundWidget.getSoundOff();
-                if (WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.action==="acc") { 
-                    newSpeedAux += controllable_car.acceleration;
-                    if(!soundOff){
-                      soundWidget.playSound(3); //accelerating song
-                    }
-                } else if(WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.action==="brake") { 
-                    newSpeedAux -= controllable_car.breaking;
-                    if(!soundOff){
-                      soundWidget.pauseSound(3); //accelerating song
-                    }
-                } else {
-                    newSpeedAux -= controllable_car.deceleration;
-                    if(!soundOff){
-                      soundWidget.pauseSound(3); //accelerating song
-                    }
-                }
-            }
-    
-            // car turning
-            if (WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.action==="left") {
-                carCurrentDirection = "left";
-                if(newSpeedAux > 0){
-                    newPositionXAux -= controllable_car.turning;
-                }
-            } else if(WIDGETSTATE!==null &amp;&amp; WIDGETSTATE.action==="right") {
-                carCurrentDirection = "right";
-                if(newSpeedAux > 0){
-                    newPositionXAux += controllable_car.turning;
-                }
-            } else {
-                carCurrentDirection = "front";
-            }
-            
-            vehicleCurrentDirectionAux = carCurrentDirection;
-            newSpeedAux = Math.max(newSpeedAux, 0); //cannot go in reverse
-            newSpeedAux = Math.min(newSpeedAux, controllable_car.maxSpeed); //maximum speed
-            newPositionAux += newSpeedAux;
+            newPositionAux = lastPositionPVS;
         }
 
         switch (vehicleType) {
@@ -2349,40 +2311,41 @@ define(function (require, exports, module) {
         context.fillStyle = "#76665d"; // rgb(139, 120, 106)
         context.fillRect(0, 0, render.width, render.height);
 
-        // Using PVS results
-        // Arcade.prototype.calculateNewControllableCarPosition();
-        // let carSprite = Arcade.prototype.setControllableCarPosition(vehicleCurrentDirectionAux, newSpeedAux, newPositionAux, newPositionXAux, vehicleXPositionAux, vehicleYPositionAux);
-        
-        // Using only JS to update rendered vehicle
-        let carSprite = Arcade.prototype.updateControllableCar();
+        let carSprite = null;
+
+        if(loadPVSSpeedPositions){
+            // Using PVS results
+            Arcade.prototype.calculateNewControllableCarPosition();
+            carSprite = Arcade.prototype.setControllableCarPosition(vehicleCurrentDirectionAux, newSpeedAux, newPositionAux, newPositionXAux, vehicleXPositionAux, vehicleYPositionAux);
+        }else{
+            // Using only JS to update rendered vehicle
+            carSprite = Arcade.prototype.updateControllableCar();
+        }
 
         Arcade.prototype.drawBackground(-controllable_car.posx);
 
         let spriteBuffer = [];
 
-        
         // Render the track
         let absoluteIndex = Math.floor(controllable_car.position / trackSegmentSize);
         
         if(absoluteIndex >= numIterations-render.depthOfField-1){
-            if(currentLapNumber&lt;lapNumber){
-                currentLapNumber++;
-                if(trackTopography==="straight"){
-                    controllable_car.position=10;
-                }else if(trackTopography==="curves-slopes"){
-                    // TODO
-                    controllable_car.position = -10;
-                }
-            }else{
-                clearInterval(simulatorInterval);
-                Arcade.prototype.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
-                Arcade.prototype.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
-                Arcade.prototype.drawText("The Simulator", {x: 100, y: 70}, 1);
-                soundWidget.pauseAll();
+            ButtonActionsQueue.queueGUIAction("finish_simulation", callback);
+            // if(currentLapNumber&lt;lapNumber){
+            //     currentLapNumber++;
+            //     ButtonActionsQueue.queueGUIAction("new_lap", callback);
+            // }
+            // else{
+            //     clearInterval(simulatorInterval);
+            //     Arcade.prototype.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
+            //     Arcade.prototype.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
+            //     Arcade.prototype.drawText("The Simulator", {x: 100, y: 70}, 1);
+            //     soundWidget.pauseAll();
                 
-                // Delayed function call by 5 seconds to reload simulator
-                setTimeout(function() { location.reload(); }, 5000);
-            }
+            //     // Delayed function call by 5 seconds to reload simulator
+            //     setTimeout(function() { location.reload(); }, 5000);
+            // }
+            
         }
 
         let currentSegmentIndex    = (absoluteIndex - 2) % track.length;
@@ -2428,27 +2391,12 @@ define(function (require, exports, module) {
                     currentSegmentIndex === 2 || currentSegmentIndex === (numIterations-render.depthOfField));
             }
             if(currentSegment.sprite){
-                // console.log(currentSegment.sprite.type);
-
-                // if(currentSegment.sprite.obstacle===1){
-                //     console.log(currentSegment.sprite.pos);
-                // }
-
-                // if(controllable_carPosRelative==currentSegment.sprite.pos){
-                //     console.log("hit");
-                // }
-
-                // TODO Fix current car position detection
-                // console.log(controllable_carPosRelative)
-
-                // console.log(currentSegment.sprite);
-
                 spriteBuffer.push(
                     {
                         y: render.height / 2 + startProjectedHeight,
                         x: render.width / 2 - currentSegment.sprite.pos * render.width * currentScaling + currentSegment.curve - baseOffset - (controllable_car.posx - baseOffset*2) * currentScaling,
                         ymax: render.height / 2 + lastProjectedHeight,
-                        s: currentScaling, // 0.5*currentScaling,
+                        s: currentScaling,
                         i: currentSegment.sprite.type,
                         pos: currentSegment.sprite.pos,
                         obstacle: currentSegment.sprite.obstacle
@@ -2466,55 +2414,34 @@ define(function (require, exports, module) {
             currentSegmentPosition += trackSegmentSize;
 
             counter = (counter + 1) % (2 * numberOfSegmentPerColor);
-
-            // console.log(controllable_carPosRelative)
-
-            // obstacles.forEach(function(element) {
-            //     // console.log(element);
-            //     console.log(controllable_carPosRelative+","+element);
-            //     // if(controllable_carPosRelative)
-            //   });
-            
-            // obstacles has the list of all obstacles positions
-            // console.log(obstacles);
-            // console.log("There are "+obstacles.length+" obstacles in this track");
         }
 
         while((sptB = spriteBuffer.pop())!==undefined) {
-            // Getting the obstacles coordinates
-            // if(sptB.obstacle===1){
-            //     // console.log(sptB.x+","+sptB.y);
-            //     // console.log(sptB.pos);
-            // }
-            
-            // It only draws the obstacles within the track
-            // if(sptB.obstacle===1){
-            //     drawSprite(sptB);
-            // }
-
             Arcade.prototype.drawSprite(sptB, null, null, null, null);
-            // console.log(sptB);
         }
-    
-        // console.log(spritesReadJSON);
-        
+            
         // Draw the car 
         Arcade.prototype.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
     
         // Draw Header
         Arcade.prototype.drawText("Lap "+currentLapNumber+"/"+lapNumber,{x: 10, y: 1}, 1);
-        Arcade.prototype.drawText("Current Lap "+Math.round(absoluteIndex/(numIterations-render.depthOfField)*100)+"%",{x: 100, y: 1},1); 
-         
+
+        let currentPercentage = Math.round(absoluteIndex/(numIterations-render.depthOfField)*100);
+        if(currentPercentage>100){
+            Arcade.prototype.drawText("Current Lap 100%",{x: 100, y: 1},1); 
+        }else{
+            Arcade.prototype.drawText("Current Lap "+currentPercentage+"%",{x: 100, y: 1},1); 
+        }
+
         if(currentLapNumber===lapNumber){
             Arcade.prototype.drawText("1 Lap",{x: 10, y: 15}, 1);
             Arcade.prototype.drawText("To Go",{x: 10, y: 25}, 1);
         }
 
-        // Draw Virtual Speedometer
-        // let speed = Math.round(controllable_car.speed / controllable_car.maxSpeed * topSpeed);
-        // let speed_kmh = Math.round(speed * 1.60934);
-        // Arcade.prototype.drawText(""+speed_kmh+" kmh", {x: 260, y: 1}, 1);
-        // Arcade.prototype.drawText(""+speed+" mph", {x: 260, y: 10}, 1);
+        if(currentLapNumber>lapNumber){
+            Arcade.prototype.drawText("0 Lap",{x: 10, y: 15}, 1);
+            Arcade.prototype.drawText("To Go",{x: 10, y: 25}, 1);
+        }
 
         // Draw Virtual Speedometer and Tachometer based on Speedometer, Tachometer Widgets
         if(WIDGETSTATE!==null){
@@ -2553,6 +2480,19 @@ define(function (require, exports, module) {
             context.drawImage(simulatorLogo2,15,215,0.6*60,0.6*32);
             // context.drawImage(simulatorLogo1,10,225,0.4*60,0.4*32);
             // context.drawImage(simulatorLogo2,10,225,0.4*60,0.4*32);
+        }
+
+        if(WIDGETSTATE!==null){
+            if(WIDGETSTATE.action==="finished"){
+                clearInterval(simulatorInterval);
+                Arcade.prototype.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
+                Arcade.prototype.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
+                Arcade.prototype.drawText("The Simulator", {x: 100, y: 70}, 1);
+                soundWidget.pauseAll();
+                
+                // Delayed function call by 5 seconds to reload simulator
+                setTimeout(function() { location.reload(); }, 5000);
+            }
         }
 
         return this;
@@ -2627,7 +2567,7 @@ define(function (require, exports, module) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Jun 04 2018 11:28:22 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jun 05 2018 12:55:08 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

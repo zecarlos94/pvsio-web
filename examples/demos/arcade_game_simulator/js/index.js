@@ -307,9 +307,9 @@ require([
                 finishLineP2: 0.40,
                 diffLanesFinishLine: 0.05
             },
-            lapNumber: 2,
+            lapNumber: 3,
             // showOfficialLogo: true,
-            // loadPVSSpeedPositions: false,
+            loadPVSSpeedPositions: false,
             // predefinedTracks: 7,
             callback: onMessageReceived
         });
