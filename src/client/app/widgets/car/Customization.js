@@ -1887,10 +1887,9 @@ define(function (require, exports, module) {
                         height: 650
                     }, {
                         parent: "game-window", // defines parent div, which is div id="game-window" by default
-                        trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
+                        trackFilename: "track-curves-slopes-random", // "track-straight", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
                         spritesFilename: spritesheetJSONFilename_Final, // defines spritesheet configuration filename, which is "spritesheet.json" by default
                         spritesFiles: JSON.parse(spritesheetImages_Final), // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
-                        trackTopography: "curves-slopes", // "straight", // defines initial position after ending 1 lap (restart position in another lap).
                         realisticImgs: realisticImgs_Final,
                         vehicle: vehicle_Final, // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
                         vehicleImgIndex: vehicleImgIndex_Final, // defines vehicle sprite image suffix 

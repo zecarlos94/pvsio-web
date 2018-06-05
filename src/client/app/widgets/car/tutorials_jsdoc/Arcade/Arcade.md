@@ -565,7 +565,6 @@ arcade.arcadeWidget = new Arcade("arcadeWidget", {
     trackFilename: "track-curves-slopes-random", // "track-straight-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
     spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
     spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
-    trackTopography: "curves-slopes", // "straight", // defines initial position after ending 1 lap (restart position in another lap).
     realisticImgs: false,
     vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
     vehicleImgIndex: 2, // defines vehicle sprite image suffix 
@@ -644,7 +643,6 @@ parent: "game-window",
 trackFilename: "track-curves-slopes-random", 
 spritesFilename: "spritesheet", 
 spritesFiles: ["spritesheet","spritesheet.text"], 
-trackTopography: "curves-slopes",
 realisticImgs: false,
 vehicle: "car", 
 vehicleImgIndex: null, 
@@ -677,7 +675,7 @@ predefinedTracks: null
 ```
 % ---------------------------------------------------------------
 %  Theory: car_demo
-%  Author: Paolo Masci, José Carlos
+%  Author: Paolo Masci
 %          INESC TEC and Universidade do Minho
 % ---------------------------------------------------------------
 
@@ -729,6 +727,11 @@ main: THEORY
     val: real
   #]
 
+  LAP_INIT: real = 1.0
+  Lap: TYPE = [#
+    val: real
+  #]
+
   Action: TYPE = { idle, acc, brake, left, right, straight, pause, resume, quit }
   Sound: TYPE = { unmute, mute }
   Time: TYPE = [# hour: int, min: int #]
@@ -744,7 +747,8 @@ main: THEORY
     position: Position,
     posx: PosX,
     action: Action,
-    sound: Sound
+    sound: Sound,
+    lap: Lap
   #]
 
   get_current_time: Time = (# hour := get_time`hour, min := get_time`minute #)
@@ -761,7 +765,8 @@ main: THEORY
     position := (# val := POSITION_INIT  #),
     posx := (# val := POSX_INIT #),
     action := idle,
-    sound := unmute
+    sound := unmute,
+    lap := (# val := LAP_INIT #)
   #)
 
   %-- utility functions
@@ -867,8 +872,12 @@ main: THEORY
   STEERING_STEP: real = 20 %deg
   steering_wheel_right(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val + POSX_STEP ], action := right]
   steering_wheel_left(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val - POSX_STEP ], action := left ]
-  steering_wheel_straight(st: state): state = st WITH [ steering := 0, action := straight ]
-  steering_wheel_rotate(x: real)(st: state): state = st WITH [ steering := x, action := IF x > 0 THEN right ELSE left ENDIF]
+  steering_wheel_straight(st: state): state = st WITH [ steering := 0, posx := posx(st) WITH [ val:= posx(st)`val ], action := straight ]
+  steering_wheel_rotate(x: real)(st: state): state = st WITH [ steering := x, posx := posx(st) WITH [ val:= IF x > 0 THEN posx(st)`val + POSX_STEP ELSE posx(st)`val - POSX_STEP ENDIF ], action := IF x > 0 THEN right ELSE left ENDIF]
+
+  %-- API for new laps
+  LAP_STEP: real = 1.0 
+  new_lap(st: state): state = st WITH [  position := (# val := POSITION_INIT  #), lap := lap(st) WITH [ val:= lap(st)`val + LAP_STEP ] ]
 
   %-- API for sound controls 
   press_mute(st: state): state = st WITH [ sound := mute ]
@@ -888,29 +897,14 @@ main: THEORY
 
   %-- API for external controllers such as PS4 gamepad
   click_accelerate(st: state): state = accelerate(st) WITH [ action := acc ]
-
   click_brake(st: state): state = brake(st) WITH [ action := brake ]
 
   %-- API for external controller interactive image
-  %-- PS4
-  press_cross(st: state): state = accelerate(st) WITH [ action := acc ]
-  release_cross(st: state): state = st WITH [ action := idle ]
+  press_rightArrow(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val + POSX_STEP ], action := right]
+  release_rightArrow(st: state): state = st WITH [ action := right ]
 
-  press_circle(st: state): state = brake(st) WITH [ action := brake ]
-  release_circle(st: state): state = st WITH [ action := idle ]
-  
-  %-- XBOX1
-  press_a(st: state): state = accelerate(st) WITH [ action := acc ]
-  release_a(st: state): state = st WITH [ action := idle ]
-
-  press_b(st: state): state = brake(st) WITH [ action := brake ]
-  release_b(st: state): state = st WITH [ action := idle ]
-
-  press_rightArrow(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP ]
-  release_rightArrow(st: state): state = st WITH [ action := idle ]
-
-  press_leftArrow(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP ]
-  release_leftArrow(st: state): state = st WITH [ action := idle ]
+  press_leftArrow(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val - POSX_STEP ], action := left ]
+  release_leftArrow(st: state): state = st WITH [ action := left ]
 
 END main
 ```

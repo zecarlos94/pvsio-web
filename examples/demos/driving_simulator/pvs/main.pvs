@@ -52,6 +52,11 @@ main: THEORY
     val: real
   #]
 
+  LAP_INIT: real = 1.0
+  Lap: TYPE = [#
+    val: real
+  #]
+
   Action: TYPE = { idle, acc, brake, left, right, straight, pause, resume, quit }
   Sound: TYPE = { unmute, mute }
   Time: TYPE = [# hour: int, min: int #]
@@ -67,7 +72,8 @@ main: THEORY
     position: Position,
     posx: PosX,
     action: Action,
-    sound: Sound
+    sound: Sound,
+    lap: Lap
   #]
 
   get_current_time: Time = (# hour := get_time`hour, min := get_time`minute #)
@@ -84,7 +90,8 @@ main: THEORY
     position := (# val := POSITION_INIT  #),
     posx := (# val := POSX_INIT #),
     action := idle,
-    sound := unmute
+    sound := unmute,
+    lap := (# val := LAP_INIT #)
   #)
 
   %-- utility functions
@@ -193,6 +200,10 @@ main: THEORY
   steering_wheel_straight(st: state): state = st WITH [ steering := 0, posx := posx(st) WITH [ val:= posx(st)`val ], action := straight ]
   steering_wheel_rotate(x: real)(st: state): state = st WITH [ steering := x, posx := posx(st) WITH [ val:= IF x > 0 THEN posx(st)`val + POSX_STEP ELSE posx(st)`val - POSX_STEP ENDIF ], action := IF x > 0 THEN right ELSE left ENDIF]
 
+  %-- API for new laps
+  LAP_STEP: real = 1.0 
+  new_lap(st: state): state = st WITH [  position := (# val := POSITION_INIT  #), lap := lap(st) WITH [ val:= lap(st)`val + LAP_STEP ] ]
+
   %-- API for sound controls 
   press_mute(st: state): state = st WITH [ sound := mute ]
   release_mute(st: state): state = st WITH [ sound := mute ]
@@ -221,3 +232,4 @@ main: THEORY
   release_leftArrow(st: state): state = st WITH [ action := left ]
 
 END main
+

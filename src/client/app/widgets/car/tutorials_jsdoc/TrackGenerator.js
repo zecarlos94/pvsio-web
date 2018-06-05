@@ -762,9 +762,6 @@ define(function (require, exports, module) {
                 }
                 
                 for(let i=0; i < params.zoneSize; i++){
-                    // generates random integer numbers between 0 and 100(there are 101 sprites available)
-                    spriteTypeRandom = Math.floor((randomPos() * 101));
-
                     // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
                     chooseIndexFromObjects = Math.floor((randomPos() * objects.length));
                     chooseObjectFromDesiredObjects=objects[chooseIndexFromObjects];
@@ -774,8 +771,19 @@ define(function (require, exports, module) {
                     spriteSidesRandom = Math.floor((randomPos() * 2) + 1);
         
                     spritePosgeneratedObstaclesRandom = randomPos() - 0.5;
-
-                    if(spriteTypeRandom >= 0 && spriteTypeRandom <= 99){
+                    
+                    if(i%obstaclePerIteration==0){
+                        // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
+                        // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
+                        chooseIndexFromObstacle = Math.floor((randomPos() * obstacle.length));
+                        chooseObstacleFromDesiredObstacle=obstacle[chooseIndexFromObstacle];
+                        index = spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle);
+                        // console.log(spritePosgeneratedObstaclesRandom);
+                        generatedObstacles.push(spritePosgeneratedObstaclesRandom);
+                        // spritePosgeneratedObstaclesRandom has the relative position of the obstacle
+                        sprite = {type: spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
+                    }
+                    else {
                         // choose randomly sprite image
                         // generates random float numbers greater than 0.55
                         spritePosRightRandom = randomPos() + 0.90;
@@ -796,21 +804,6 @@ define(function (require, exports, module) {
                         }else{
                             sprite = {type: spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
                         }
-                    }
-                    else if(i%obstaclePerIteration==0){
-                        // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
-
-                        // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
-                        chooseIndexFromObstacle = Math.floor((randomPos() * objects.length));
-                        chooseObstacleFromDesiredObstacle=objects[chooseIndexFromObstacle];
-                        index = spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle);
-                        // console.log(spritePosgeneratedObstaclesRandom);
-                        generatedObstacles.push(spritePosgeneratedObstaclesRandom);
-                        // spritePosgeneratedObstaclesRandom has the relative position of the obstacle
-                        sprite = {type: spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
-                    }
-                    else {
-                        sprite = false;
                     }
                    
                     // console.log(sprite);
@@ -916,8 +909,6 @@ define(function (require, exports, module) {
             let chooseIndexFromObstacle=null;
             let chooseObstacleFromDesiredObstacle=null;
             let spriteSidesRandom = null;
-            let slopesTransitionRandom = null;
-            let curvesTransitionRandom = null;
             let spritesAvailableLength = spritesAvailable.length;
             let index=null;
             let iter = 0;
@@ -926,19 +917,7 @@ define(function (require, exports, module) {
             finalNumZones = iter;
             
             let trackLayoutProfile = 0; //0=flat 1=up -1=down
-            let profileTransitions = {
-                plainToUpToDownTransition: [0,1,-1],
-                plainToDownToDownTransition: [0,-1,-1],
-                plainToUpToUpTransition: [0,1,1]
-            };
-
             let trackLayoutTopographyName = 0; //0=straight 1=left -1=right
-            let topographyNameTransitions = {
-                straightToLeftToRightTransition: [0,1,-1],
-                straightToRightToRightTransition: [0,-1,-1],
-                straightToLeftToLeftTransition: [0,1,1]
-            };
-
             let currentZone = {
                 height: 0,
                 curve: 0
@@ -997,9 +976,6 @@ define(function (require, exports, module) {
                     }
 
                     for(let i=0; i < params.zoneSize; i++){
-                        // generates random integer numbers between 0 and 100(there are 101 sprites available)
-                        spriteTypeRandom = Math.floor((randomPos() * 101));
-
                         // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
                         chooseIndexFromObjects = Math.floor((randomPos() * objects.length));
                         chooseObjectFromDesiredObjects=objects[chooseIndexFromObjects];
@@ -1008,14 +984,26 @@ define(function (require, exports, module) {
                         // generates random integer numbers between 1 and 2
                         spriteSidesRandom = Math.floor((randomPos() * 2) + 1);
 
-                        spritePosgeneratedObstaclesRandom = randomPos() - 0.5;
+                        spritePosgeneratedObstaclesRandom = (randomPos() * 0.50) - 0.25;
 
-                        if(spriteTypeRandom >= 0 && spriteTypeRandom <= 99){
+                        if(i%obstaclePerIteration==0){
+                            // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
+                            // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
+                            chooseIndexFromObstacle = Math.floor((randomPos() * obstacle.length));
+                            chooseObstacleFromDesiredObstacle=obstacle[chooseIndexFromObstacle];
+                            index = spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle);
+                            // console.log(spritePosgeneratedObstaclesRandom);
+                            // console.log(spritesAvailable[index]);
+                            generatedObstacles.push(spritePosgeneratedObstaclesRandom);
+                            // spritePosgeneratedObstaclesRandom has the relative position of the obstacle
+                            sprite = {type: spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
+                        }
+                        else {
                             // choose randomly sprite image
                             // generates random float numbers greater than 0.55
                             spritePosRightRandom = randomPos() + 0.90;
                             // generates random float numbers lesser than -0.55
-                            spritePosLeftRandom =  (randomPos() * -0.56) - 0.56;
+                            spritePosLeftRandom =  (randomPos() * -0.55) - 0.55;
 
                             // choose randomly sprite size
                             if(spriteSidesRandom == 1){
@@ -1032,22 +1020,7 @@ define(function (require, exports, module) {
                                 sprite = {type: spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
                             }
                         }
-                        else if(i%obstaclePerIteration==0){
-                            // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
 
-                            // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
-                            chooseIndexFromObstacle = Math.floor((randomPos() * objects.length));
-                            chooseObstacleFromDesiredObstacle=objects[chooseIndexFromObstacle];
-                            index = spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle);
-                            // console.log(spritePosgeneratedObstaclesRandom);
-                            generatedObstacles.push(spritePosgeneratedObstaclesRandom);
-                            // spritePosgeneratedObstaclesRandom has the relative position of the obstacle
-                            sprite = {type: spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
-                        }
-                        else {
-                            sprite = false;
-                        }
-                        
                         generatedTrack.push({
                             height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/params.zoneSize * Math.PI-Math.PI/2)),
                             curve: currentZone.curve+intendedCurveForCurrentZone / 2 * (1 + Math.sin(i/params.zoneSize * Math.PI-Math.PI/2)),
