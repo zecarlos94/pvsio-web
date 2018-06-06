@@ -923,23 +923,29 @@ PosX: TYPE = [#
     val: real
 #]
 
+LAP_INIT: real = 1.0
+Lap: TYPE = [#
+	val: real
+#]
+
 Action: TYPE = { idle, acc, brake, left, right, straight, pause, resume, quit }
 
 Sound: TYPE = { unmute, mute }
 
 state: TYPE = [#
-    speed: Speed, % Km/h
-    gear: Gear,
-    rpm: Rpm, % x1000/min
-    odo: Odo, % Km
-    temp: Temp,
-    time: Time,
-    steering: real,
-    position: Position,
-    posx: PosX,
-    action: Action,
-    sound: Sound
+	speed: Speed, % Km/h
+	gear: Gear,
+	rpm: Rpm, % x1000/min
+	odo: Odo, % Km
+	temp: Temp,
+	time: Time,
+	steering: real,
+	position: Position,
+	posx: PosX,
+	action: Action,
+	sound: Sound,
+	lap: Lap
 #]
 ```
 
-> Position, PosX and Speed allows to set the vehicle's position and speed during the simulation. Sound allows the Arcade widget to know when to mute/unmute the audio files, using the Sound widget API. PosX value changes based on the steering wheel rotation. Position value changes based on actions 'accelerate'/'brake' and the current speed value. Actions 'pause','resume' and 'quit' allows the Arcade widget to reveal the 'pause','resume' and 'quit' menus, respetively. 
+> Position, PosX and Speed allows to set the vehicle's position and speed during the simulation. Sound allows the Arcade widget to know when to mute/unmute the audio files, using the Sound widget API. PosX value changes based on the steering wheel rotation. Position value changes based on actions 'accelerate'/'brake' and the current speed value. Actions 'pause','resume' and 'quit' allows the Arcade widget to reveal the 'pause','resume' and 'quit' menus, respetively. Lap allows to set multiple laps in the simulation, updating the current lap number when new_lap function is invoked.
