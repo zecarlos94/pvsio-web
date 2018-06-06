@@ -1910,6 +1910,7 @@ define(function (require, exports, module) {
                         lapNumber: parseInt(numLaps_Final),
                         // showOfficialLogo: true,
                         loadPVSSpeedPositions: loadPVSSpeedPositions_Final,
+                        // predefinedTracks: 4,
                         callback: callback
                     });
                     

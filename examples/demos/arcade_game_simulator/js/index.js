@@ -311,7 +311,7 @@ require([
             lapNumber: 3,
             // showOfficialLogo: true,
             loadPVSSpeedPositions: false,
-            // predefinedTracks: 4,
+            predefinedTracks: 4,
             callback: onMessageReceived
         });
         // arcade.arcadeWidget = new ArcadeWithoutLaps("arcadeWidget", {
@@ -342,7 +342,7 @@ require([
         //     },
         //     // showOfficialLogo: true,
         //     loadPVSSpeedPositions: false,
-        //     // predefinedTracks: 7,
+        //     // predefinedTracks: 4,
         //     callback: onMessageReceived
         // });
 
