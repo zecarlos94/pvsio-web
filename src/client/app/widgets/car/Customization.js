@@ -1835,11 +1835,7 @@ define(function (require, exports, module) {
                         numLanes: parseInt(numLanes_Final),
                         laneWidth: 0.02,
                         trackParam: {
-                            maxHeight: 900,
-                            maxCurve:  400,
                             numZones:  parseInt(numZones_Final), // number of different portions of the track
-                            curvy:     0.8,
-                            mountainy: 0.8,
                             zoneSize:  parseInt(zoneSize_Final) // length of each numZones (the bigger this value. the longer it will take to finish)
                         },
                         // Information regarding current controllable_car's car

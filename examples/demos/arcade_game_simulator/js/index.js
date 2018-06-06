@@ -81,7 +81,7 @@ require([
             if (!tick) {
                  tick = setInterval(function () {
                      ButtonActionsQueue.getInstance().queueGUIAction("tick", onMessageReceived);
-                 }, 250);
+                 }, 120);
             }
         }
         function stop_tick() {
@@ -311,7 +311,7 @@ require([
             lapNumber: 3,
             // showOfficialLogo: true,
             loadPVSSpeedPositions: false,
-            predefinedTracks: 4,
+            // predefinedTracks: 4,
             callback: onMessageReceived
         });
         // arcade.arcadeWidget = new ArcadeWithoutLaps("arcadeWidget", {

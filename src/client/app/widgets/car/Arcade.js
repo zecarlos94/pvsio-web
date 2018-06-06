@@ -971,11 +971,7 @@ define(function (require, exports, module) {
      *
      * {
      *     "trackParam": {
-     *       "maxHeight": 900,
-     *       "maxCurve": 400,
      *       "numZones": 12,
-     *       "curvy": 0.8,
-     *       "mountainy": 0.8,
      *       "zoneSize": 250
      *     },
      *     "render": {

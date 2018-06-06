@@ -204,8 +204,8 @@ main: THEORY
   release_brake(st: state): state = st WITH [ action := idle ]
 
   STEERING_STEP: real = 20 %deg
-  steering_wheel_right(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP ]
-  steering_wheel_left(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP ]
+  steering_wheel_right(st: state): state = st WITH [ steering := IF steering(st) < 90 THEN steering(st) + STEERING_STEP ELSE 90 ENDIF ]
+  steering_wheel_left(st: state): state = st WITH [ steering := IF steering(st) > -90 THEN steering(st) - STEERING_STEP ELSE -90 ENDIF ]
   steering_wheel_straight(st: state): state = st WITH [ steering := 0, posx := posx(st) WITH [ val:= posx(st)`val ], direction := straight ]
   steering_wheel_rotate(x: real)(st: state): state = st WITH [ steering := x ]
 

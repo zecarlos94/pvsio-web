@@ -34,11 +34,7 @@
  *                  numLanes: 3,
  *                  laneWidth: 0.02,
  *                  trackParam: {
- *                      maxHeight: 900,
- *                      maxCurve:  400,
  *                      numZones:    12, // number of different portions of the track
- *                      curvy:     0.8,
- *                      mountainy: 0.8,
  *                      zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
  *                  },
  *                  // Information regarding current controllable_car's car
@@ -83,7 +79,7 @@
  *                     {
  *                         topography: {
  *                             name:"left",
- *                             curvature: 90
+ *                             curvature: -90
  *                         },
  *                         profile: "flat",
  *                         numZones: 3
@@ -99,7 +95,7 @@
  *                     {
  *                         topography: {
  *                             name:"right",
- *                             curvature: -90
+ *                             curvature: 90
  *                         },
  *                         profile: "flat",
  *                         numZones: 3
@@ -115,7 +111,7 @@
  *                     {
  *                         topography: {
  *                             name:"left",
- *                             curvature: 90
+ *                             curvature: -90
  *                         },
  *                         profile: "flat",
  *                         numZones: 3,
@@ -148,7 +144,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"left",
- *                  //             curvature: 90
+ *                  //             curvature: -90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1,
@@ -164,7 +160,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"right",
- *                  //             curvature: -90
+ *                  //             curvature: 90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1
@@ -180,7 +176,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"left",
- *                  //             curvature: 90
+ *                  //             curvature: -90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1
@@ -197,7 +193,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"right",
- *                  //             curvature: -90
+ *                  //             curvature: 90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 4
@@ -214,7 +210,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"left",
- *                  //             curvature: 90
+ *                  //             curvature: -90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1
@@ -230,7 +226,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"left",
- *                  //             curvature: 90
+ *                  //             curvature: -90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1
@@ -246,7 +242,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"left",
- *                  //             curvature: 90
+ *                  //             curvature: -90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1
@@ -262,7 +258,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"left",
- *                  //             curvature: 90
+ *                  //             curvature: -90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1
@@ -287,7 +283,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"left",
- *                  //             curvature: 90
+ *                  //             curvature: -90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1
@@ -303,7 +299,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"right",
- *                  //             curvature: -90
+ *                  //             curvature: 90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1
@@ -319,7 +315,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"left",
- *                  //             curvature: 90
+ *                  //             curvature: -90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1
@@ -336,7 +332,7 @@
  *                  //      {
  *                  //          topography: {
  *                  //              name:"left",
- *                  //              curvature: 90
+ *                  //              curvature: -90
  *                  //          },
  *                  //          profile: "flat",
  *                  //          numZones: 4
@@ -353,7 +349,7 @@
  *                  //      {
  *                  //          topography: {
  *                  //              name:"right",
- *                  //              curvature: -90
+ *                  //              curvature: 90
  *                  //          },
  *                  //          profile: "flat",
  *                  //          numZones: 1
@@ -369,7 +365,7 @@
  *                  //      {
  *                  //          topography: {
  *                  //              name:"left",
- *                  //              curvature: 90
+ *                  //              curvature: -90
  *                  //          },
  *                  //          profile: "flat",
  *                  //          numZones: 1
@@ -385,7 +381,7 @@
  *                  //      {
  *                  //          topography: {
  *                  //              name:"right",
- *                  //              curvature: -90
+ *                  //              curvature: 90
  *                  //          },
  *                  //          profile: "flat",
  *                  //          numZones: 1
@@ -402,7 +398,7 @@
  *                  //      {
  *                  //          topography: {
  *                  //              name:"right",
- *                  //              curvature: -90
+ *                  //              curvature: 90
  *                  //          },
  *                  //          profile: "flat",
  *                  //          numZones: 1
@@ -418,7 +414,7 @@
  *                  //      {
  *                  //          topography: {
  *                  //              name:"right",
- *                  //              curvature: -90
+ *                  //              curvature: 90
  *                  //          },
  *                  //          profile: "flat",
  *                  //          numZones: 1
@@ -434,7 +430,7 @@
  *                  //      {
  *                  //          topography: {
  *                  //              name:"right",
- *                  //              curvature: -90
+ *                  //              curvature: 90
  *                  //          },
  *                  //          profile: "flat",
  *                  //          numZones: 1
@@ -450,7 +446,7 @@
  *                  //      {
  *                  //          topography: {
  *                  //              name:"right",
- *                  //              curvature: -90
+ *                  //              curvature: 90
  *                  //          },
  *                  //          profile: "flat",
  *                  //          numZones: 1
@@ -528,11 +524,7 @@
  *                  numLanes: 3,
  *                  laneWidth: 0.02,
  *                  trackParam: {
- *                      maxHeight: 900,
- *                      maxCurve:  400,
  *                      numZones:    12, // number of different portions of the track
- *                      curvy:     0.8,
- *                      mountainy: 0.8,
  *                      zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
  *                  },
  *                  // Information regarding current controllable_car's car
@@ -609,11 +601,7 @@
  *                  numLanes: 3,
  *                  laneWidth: 0.02,
  *                  trackParam: {
- *                      maxHeight: 900,
- *                      maxCurve:  400,
  *                      numZones:    12, // number of different portions of the track
- *                      curvy:     0.8,
- *                      mountainy: 0.8,
  *                      zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
  *                  },
  *                  // Information regarding current controllable_car's car
@@ -679,11 +667,7 @@
  *                  numLanes: 3,
  *                  laneWidth: 0.02,
  *                  trackParam: {
- *                      maxHeight: 900,
- *                      maxCurve:  400,
  *                      numZones:    12, // number of different portions of the track
- *                      curvy:     0.8,
- *                      mountainy: 0.8,
  *                      zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
  *                  },
  *                  // Information regarding current controllable_car's car
@@ -741,7 +725,7 @@
  *                     {
  *                         topography: {
  *                             name:"left",
- *                             curvature: 90
+ *                             curvature: -90
  *                         },
  *                         profile: "flat",
  *                         numZones: 3
@@ -757,7 +741,7 @@
  *                     {
  *                         topography: {
  *                             name:"right",
- *                             curvature: -90
+ *                             curvature: 90
  *                         },
  *                         profile: "flat",
  *                         numZones: 3
@@ -773,7 +757,7 @@
  *                     {
  *                         topography: {
  *                             name:"left",
- *                             curvature: 90
+ *                             curvature: -90
  *                         },
  *                         profile: "flat",
  *                         numZones: 3,
@@ -806,7 +790,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"left",
- *                  //             curvature: 90
+ *                  //             curvature: -90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1,
@@ -822,7 +806,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"right",
- *                  //             curvature: -90
+ *                  //             curvature: 90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1
@@ -838,7 +822,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"left",
- *                  //             curvature: 90
+ *                  //             curvature: -90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1
@@ -855,7 +839,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"right",
- *                  //             curvature: -90
+ *                  //             curvature: 90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 4
@@ -872,7 +856,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"left",
- *                  //             curvature: 90
+ *                  //             curvature: -90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1
@@ -888,7 +872,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"left",
- *                  //             curvature: 90
+ *                  //             curvature: -90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1
@@ -904,7 +888,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"left",
- *                  //             curvature: 90
+ *                  //             curvature: -90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1
@@ -920,7 +904,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"left",
- *                  //             curvature: 90
+ *                  //             curvature: -90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1
@@ -945,7 +929,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"left",
- *                  //             curvature: 90
+ *                  //             curvature: -90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1
@@ -961,7 +945,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"right",
- *                  //             curvature: -90
+ *                  //             curvature: 90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1
@@ -977,7 +961,7 @@
  *                  //     {
  *                  //         topography: {
  *                  //             name:"left",
- *                  //             curvature: 90
+ *                  //             curvature: -90
  *                  //         },
  *                  //         profile: "flat",
  *                  //         numZones: 1
@@ -994,7 +978,7 @@
  *                  //      {
  *                  //          topography: {
  *                  //              name:"left",
- *                  //              curvature: 90
+ *                  //              curvature: -90
  *                  //          },
  *                  //          profile: "flat",
  *                  //          numZones: 4
@@ -1011,7 +995,7 @@
  *                  //      {
  *                  //          topography: {
  *                  //              name:"right",
- *                  //              curvature: -90
+ *                  //              curvature: 90
  *                  //          },
  *                  //          profile: "flat",
  *                  //          numZones: 1
@@ -1027,7 +1011,7 @@
  *                  //      {
  *                  //          topography: {
  *                  //              name:"left",
- *                  //              curvature: 90
+ *                  //              curvature: -90
  *                  //          },
  *                  //          profile: "flat",
  *                  //          numZones: 1
@@ -1043,7 +1027,7 @@
  *                  //      {
  *                  //          topography: {
  *                  //              name:"right",
- *                  //              curvature: -90
+ *                  //              curvature: 90
  *                  //          },
  *                  //          profile: "flat",
  *                  //          numZones: 1
@@ -1060,7 +1044,7 @@
  *                  //      {
  *                  //          topography: {
  *                  //              name:"right",
- *                  //              curvature: -90
+ *                  //              curvature: 90
  *                  //          },
  *                  //          profile: "flat",
  *                  //          numZones: 1
@@ -1076,7 +1060,7 @@
  *                  //      {
  *                  //          topography: {
  *                  //              name:"right",
- *                  //              curvature: -90
+ *                  //              curvature: 90
  *                  //          },
  *                  //          profile: "flat",
  *                  //          numZones: 1
@@ -1092,7 +1076,7 @@
  *                  //      {
  *                  //          topography: {
  *                  //              name:"right",
- *                  //              curvature: -90
+ *                  //              curvature: 90
  *                  //          },
  *                  //          profile: "flat",
  *                  //          numZones: 1
@@ -1108,7 +1092,7 @@
  *                  //      {
  *                  //          topography: {
  *                  //              name:"right",
- *                  //              curvature: -90
+ *                  //              curvature: 90
  *                  //          },
  *                  //          profile: "flat",
  *                  //          numZones: 1
@@ -1157,11 +1141,7 @@
  *                  numLanes: 3,
  *                  laneWidth: 0.02,
  *                  trackParam: {
- *                      maxHeight: 900,
- *                      maxCurve:  400,
  *                      numZones:    12, // number of different portions of the track
- *                      curvy:     0.8,
- *                      mountainy: 0.8,
  *                      zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
  *                  },
  *                  // Information regarding current controllable_car's car
@@ -1260,7 +1240,7 @@ define(function (require, exports, module) {
      *          <li>numberOfSegmentPerColor {Int}: the number of segments per color, i.e. how many sequenced segments to alternate colors (default is 4).</li>
      *          <li>numLanes {Int}: the number of lanes the track will be draw (default is 3).</li>
      *          <li>laneWidth {Float}: the width of the lane separator (default is 0.02).</li>
-     *          <li>trackParam {Object}: the track configurations, i.e. number of zones(track length), etc (default is {maxHeight: 900, maxCurve:  400, numZones: 12, curvy: 0.8, mountainy: 0.8, zoneSize: 250}).</li>
+     *          <li>trackParam {Object}: the track configurations, i.e. number of zones(track length), etc (default is {numZones: 12, zoneSize: 250}).</li>
      *          <li>controllable_car {Object}: the vehicle configurations, i.e. initial position, acceleration and deceleration values, etc (default is {position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20}).</li>
      *          <li>topSpeed {Int}: the maximum speed value that can be reached (default is 250).</li>
      *          <li>objects {Array}: the sprite names to be drawed in the landscape (default is ["tree","rock"]).</li>
@@ -1302,7 +1282,7 @@ define(function (require, exports, module) {
         numberOfSegmentPerColor = (opt.numberOfSegmentPerColor) ? opt.numberOfSegmentPerColor : 4;
         numLanes                = (opt.numLanes) ? opt.numLanes : 3;
         laneWidth               = (opt.laneWidth) ? opt.laneWidth: 0.02;
-        trackParam              = (opt.trackParam) ? opt.trackParam : { maxHeight: 900, maxCurve: 400, numZones: 12, /*number of different portions of the track*/ curvy: 0.8, mountainy: 0.8, zoneSize:  250 /*length of each numZones (the bigger this value. the longer it will take to finish)*/ };        
+        trackParam              = (opt.trackParam) ? opt.trackParam : { numZones: 12, /*number of different portions of the track*/ zoneSize:  250 /*length of each numZones (the bigger this value. the longer it will take to finish)*/ };        
         params                  = JSON.parse(JSON.stringify(trackParam));
         controllable_car        = (opt.controllable_car) ? opt.controllable_car : { position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20 };
         topSpeed                = (opt.topSpeed) ? opt.topSpeed : 250;
@@ -1600,18 +1580,18 @@ define(function (require, exports, module) {
                     case 0:
                         intendedHeightForCurrentZone = 0; break;
                     case 1:
-                        intendedHeightForCurrentZone = params.maxHeight * randomPos(); break;
+                        intendedHeightForCurrentZone = 900 * randomPos(); break;
                     case -1:
-                        intendedHeightForCurrentZone = - params.maxHeight * randomPos(); break;
+                        intendedHeightForCurrentZone = - 900 * randomPos(); break;
                 }
                 let intendedCurveForCurrentZone;
                 switch(curveType){
                     case 0:
                         intendedCurveForCurrentZone = 0; break;
                     case 1:
-                        intendedCurveForCurrentZone = - params.maxCurve * randomPos(); break;
+                        intendedCurveForCurrentZone = - 400 * randomPos(); break;
                     case -1:
-                        intendedCurveForCurrentZone = params.maxCurve * randomPos(); break;
+                        intendedCurveForCurrentZone = 400 * randomPos(); break;
                 }
                 
                 for(let i=0; i < params.zoneSize; i++){
@@ -1671,13 +1651,13 @@ define(function (require, exports, module) {
                 currentZone.curve += intendedCurveForCurrentZone;
         
                 // Find next zone
-                if(randomPos() < params.mountainy){
+                if(randomPos() < 0.8){
                     slopesTransitionRandom = 1+Math.round(randomPos());
                 }else {
                     slopesTransitionRandom = 0;
                 }
         
-                if(randomPos() < params.curvy){
+                if(randomPos() < 0.8){
                     curvesTransitionRandom = 1+Math.round(randomPos());
                 }else {
                     curvesTransitionRandom = 0;
@@ -1781,53 +1761,21 @@ define(function (require, exports, module) {
             
             while(iter){
                 if(tmpIter<=trackLayout[trackLayout.length-tmpPos].numZones){
-                    // console.log(trackLayout[trackLayout.length-tmpPos]);
-                    // console.log("trackLayoutProfile: "+trackLayout[trackLayout.length-tmpPos].profile);
-                    // console.log("trackLayoutTopographyName: "+trackLayout[trackLayout.length-tmpPos].topography.name);
-                    // console.log("trackLayoutTopographyCurvatureAngle: "+trackLayout[trackLayout.length-tmpPos].topography.curvature);
-                    switch(trackLayout[trackLayout.length-tmpPos].profile){
-                        case "flat":
-                            trackLayoutProfile=0;
-                            break; 
-                        case "up": 
-                            trackLayoutProfile=1;
-                            break;
-                        case "down": 
-                            trackLayoutProfile=-1;
-                            break;  
-                    }
-                    switch(trackLayout[trackLayout.length-tmpPos].topography.name){
-                        case "straight":
-                            trackLayoutTopographyName=0;
-                            break; 
-                        case "left": 
-                            trackLayoutTopographyName=1;
-                            break;
-                        case "right": 
-                            trackLayoutTopographyName=-1;
-                            break;  
-                    }
-                    
                     // Generate current Zone
                     let intendedHeightForCurrentZone;
-                    switch(trackLayoutProfile){
-                        case 0:
-                            intendedHeightForCurrentZone = 0; break;
-                        case 1:
-                            intendedHeightForCurrentZone = params.maxHeight * randomPos(); break;
-                        case -1:
-                            intendedHeightForCurrentZone = - params.maxHeight * randomPos(); break;
+                    let intendedCurveForCurrentZone = parseInt(trackLayout[trackLayout.length-tmpPos].topography.curvature);
+                    switch(trackLayout[trackLayout.length-tmpPos].profile){
+                        case "flat":
+                            intendedHeightForCurrentZone=0;
+                            break; 
+                        case "up": 
+                            intendedHeightForCurrentZone = 900 * randomPos(); // Ease vertical transitions
+                            break;
+                        case "down": 
+                            intendedHeightForCurrentZone = -900 * randomPos();
+                            break;  
                     }
-                    let intendedCurveForCurrentZone;
-                    switch(trackLayoutTopographyName){
-                        case 0:
-                            intendedCurveForCurrentZone = 0; break;
-                        case 1:
-                            intendedCurveForCurrentZone = - params.maxCurve * randomPos(); break;
-                        case -1:
-                            intendedCurveForCurrentZone = params.maxCurve * randomPos(); break;
-                    }
-
+                   
                     for(let i=0; i < params.zoneSize; i++){
                         // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
                         chooseIndexFromObjects = Math.floor((randomPos() * objects.length));
@@ -1873,6 +1821,12 @@ define(function (require, exports, module) {
                                 sprite = {type: spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
                             }
                         }
+
+                        // Draw segments next to each other with 'i/params.zoneSize'
+                        // Avoid horizontal gaps with 'Math.PI-Math.PI/2'
+                        // Avoid vertical gaps with '1 +' 
+                        // Better perspective with '2*'
+                        // 2 * (1 + Math.sin(i/params.zoneSize *))
 
                         generatedTrack.push({
                             height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/params.zoneSize * Math.PI-Math.PI/2)),

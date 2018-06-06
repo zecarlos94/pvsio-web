@@ -11,7 +11,7 @@ Guide step-by-step to create a new track with TrackGenerator Widget and, then, r
 
 <img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectTrackColors.png" alt="selectTrackColors" width="700" style="margin-left: 150px" >
 
-4. **Insert within the square brackets the topography of the lane that you intend to use in the simulation, i.e., the lane that will be constructed and rendered. Use only the keywords: 'left', 'right' and 'straight' to describe the topography of the track, after "name:". Use only the keywords: 'flat', 'up' and 'down' to describe the profile/height of the track after "profile:". Use angles, in degrees, to define the curvature angle after "curvature". The angle 0 represents a straight line. To represent left curvatures the angle must be between 0 and 90. To represent right curvatures the angle must be between 0 and -90.**
+4. **Insert within the square brackets the topography of the lane that you intend to use in the simulation, i.e., the lane that will be constructed and rendered. Use only the keywords: 'left', 'right' and 'straight' to describe the topography of the track, after "name:". Use only the keywords: 'flat', 'up' and 'down' to describe the profile/height of the track after "profile:". Use angles, in degrees, to define the curvature angle after "curvature". The angle 0 represents a straight line. To represent left curvatures the angle must be between 0 and -90. To represent right curvatures the angle must be between 0 and 90.**
 
 <img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectTrackTopography.png" alt="selectTrackTopography" width="700" style="margin-left: 150px" >
 
@@ -106,11 +106,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     numLanes: 3,
     laneWidth: 0.02,
     trackParam: {
-        maxHeight: 900,
-        maxCurve:  400,
         numZones:    12, // number of different portions of the track
-        curvy:     0.8,
-        mountainy: 0.8,
         zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
     },
     // Information regarding current controllable_car's car
@@ -125,8 +121,8 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
         maxSpeed: 20
     },
     topSpeed: 250,
-    objects: ["tree","boulder"],
-    obstacle: ["boulder"],
+    objects: ["tree","stump","boulder","tree2","brunetteGirlBack","bush2","hatManBack"],
+    obstacle: ["dead_tree2","column","dearRight"],
     obstaclePerIteration: 50,
     trackColors: {
         grass1: "#699864",
@@ -168,7 +164,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"left",
-    //             curvature: 90
+    //             curvature: -90
     //         },
     //         profile: "flat",
     //         numZones: 3
@@ -184,7 +180,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"right",
-    //             curvature: -90
+    //             curvature: 90
     //         },
     //         profile: "flat",
     //         numZones: 3
@@ -200,7 +196,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"left",
-    //             curvature: 90
+    //             curvature: -90
     //         },
     //         profile: "flat",
     //         numZones: 3,
@@ -233,7 +229,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"left",
-    //             curvature: 90
+    //             curvature: -90
     //         },
     //         profile: "flat",
     //         numZones: 1,
@@ -249,7 +245,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"right",
-    //             curvature: -90
+    //             curvature: 90
     //         },
     //         profile: "flat",
     //         numZones: 1
@@ -265,7 +261,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"left",
-    //             curvature: 90
+    //             curvature: -90
     //         },
     //         profile: "flat",
     //         numZones: 1
@@ -282,7 +278,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
         {
             topography: {
                 name:"right",
-                curvature: -90
+                curvature: 90
             },
             profile: "flat",
             numZones: 4
@@ -299,7 +295,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"left",
-    //             curvature: 90
+    //             curvature: -90
     //         },
     //         profile: "flat",
     //         numZones: 1
@@ -315,7 +311,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"left",
-    //             curvature: 90
+    //             curvature: -90
     //         },
     //         profile: "flat",
     //         numZones: 1
@@ -331,7 +327,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"left",
-    //             curvature: 90
+    //             curvature: -90
     //         },
     //         profile: "flat",
     //         numZones: 1
@@ -347,7 +343,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"left",
-    //             curvature: 90
+    //             curvature: -90
     //         },
     //         profile: "flat",
     //         numZones: 1
@@ -372,7 +368,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"left",
-    //             curvature: 90
+    //             curvature: -90
     //         },
     //         profile: "flat",
     //         numZones: 1
@@ -388,7 +384,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"right",
-    //             curvature: -90
+    //             curvature: 90
     //         },
     //         profile: "flat",
     //         numZones: 1
@@ -404,7 +400,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"left",
-    //             curvature: 90
+    //             curvature: -90
     //         },
     //         profile: "flat",
     //         numZones: 1
@@ -421,7 +417,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"left",
-    //             curvature: 90
+    //             curvature: -90
     //         },
     //         profile: "flat",
     //         numZones: 4
@@ -438,7 +434,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"right",
-    //             curvature: -90
+    //             curvature: 90
     //         },
     //         profile: "flat",
     //         numZones: 1
@@ -454,7 +450,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"left",
-    //             curvature: 90
+    //             curvature: -90
     //         },
     //         profile: "flat",
     //         numZones: 1
@@ -470,7 +466,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"right",
-    //             curvature: -90
+    //             curvature: 90
     //         },
     //         profile: "flat",
     //         numZones: 1
@@ -487,7 +483,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"right",
-    //             curvature: -90
+    //             curvature: 90
     //         },
     //         profile: "flat",
     //         numZones: 1
@@ -503,7 +499,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"right",
-    //             curvature: -90
+    //             curvature: 90
     //         },
     //         profile: "flat",
     //         numZones: 1
@@ -519,7 +515,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"right",
-    //             curvature: -90
+    //             curvature: 90
     //         },
     //         profile: "flat",
     //         numZones: 1
@@ -535,7 +531,7 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     {
     //         topography: {
     //             name:"right",
-    //             curvature: -90
+    //             curvature: 90
     //         },
     //         profile: "flat",
     //         numZones: 1
@@ -591,11 +587,7 @@ numberOfSegmentPerColor: 4,
 numLanes: 3,
 laneWidth: 0.02,
 trackParam: {
-    maxHeight: 900,
-    maxCurve:  400,
     numZones:    12,
-    curvy:     0.8,
-    mountainy: 0.8,
     zoneSize:  250
 },
 controllable_car: {
