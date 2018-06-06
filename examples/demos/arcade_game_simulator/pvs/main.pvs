@@ -193,7 +193,7 @@ main: THEORY
   press_brake(st: state): state = brake(st) WITH [ action := brake ]
   release_brake(st: state): state = st WITH [ action := idle ]
 
-  POSX_STEP: real = 5.0 
+  POSX_STEP: real = 25.0 
   STEERING_STEP: real = 20 %deg
   steering_wheel_right(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val + POSX_STEP ], action := right]
   steering_wheel_left(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val - POSX_STEP ], action := left ]

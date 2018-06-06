@@ -146,9 +146,8 @@ require([
             },
             // trackLayout: [ 
             //     // trackLayout1.json File
-            //     // describing the desired track, which is straight line, followed by curve to left, straight line, 
-            //     // curve to right, straight line and curve to left each with 3 zones (length) and with different 
-            //     // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
+            //     // describing the desired track, which is straight line, with 8 zones (8 blocks) and with 
+            //     // profiles "flat".
             //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
             //     // those angles to define different curvatures, instead of generating the same curvature for the same
             //     // side
@@ -163,34 +162,26 @@ require([
             // ],
             // trackLayout: [ 
             //     // trackLayout2.json File
-            //     // describing the desired track, which is straight line, followed by curve to left, straight line, 
-            //     // curve to right, straight line and curve to left each with 3 zones (length) and with different 
+            //     // describing the desired track, which is curve to left, straight line, 
+            //     // curve to right, straight line, curve to left and straight line each with 3 zones (blocks) and with different 
             //     // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
             //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
             //     // those angles to define different curvatures, instead of generating the same curvature for the same
             //     // side
             //     {
             //         topography: {
-            //             name:"straight",
-            //             curvature: 0
-            //         },
-            //         profile: "flat",
-            //         numZones: 3,
-            //     },
-            //     {
-            //         topography: {
             //             name:"left",
             //             curvature: 90
             //         },
             //         profile: "flat",
-            //         numZones: 3,
+            //         numZones: 3
             //     },
             //     {
             //         topography: {
             //             name:"straight",
             //             curvature: 0
             //         },
-            //         profile: "up",
+            //         profile: "down",
             //         numZones: 3
             //     },
             //     {
@@ -206,7 +197,7 @@ require([
             //             name:"straight",
             //             curvature: 0
             //         },
-            //         profile: "down",
+            //         profile: "up",
             //         numZones: 3
             //     },
             //     {
@@ -215,13 +206,21 @@ require([
             //             curvature: 90
             //         },
             //         profile: "flat",
-            //         numZones: 3
+            //         numZones: 3,
+            //     },
+            //     {
+            //         topography: {
+            //             name:"straight",
+            //             curvature: 0
+            //         },
+            //         profile: "flat",
+            //         numZones: 3,
             //     }
             // ],
             // trackLayout: [ 
             //     // trackLayout3.json File
             //     // describing the desired track, which is straight line, followed by curve to left, straight line, 
-            //     // curve to right, straight line and curve to left each with 3 zones (length) and with different 
+            //     // curve to right, straight line and curve to left each with 3 zones (blocks) and with different 
             //     // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
             //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
             //     // those angles to define different curvatures, instead of generating the same curvature for the same
@@ -277,9 +276,9 @@ require([
             // ],
             trackLayout: [ 
                 // trackLayout4.json File
-                // describing the desired track, which is straight line, followed by curve to left, straight line, 
-                // curve to right, straight line and curve to left each with 3 zones (length) and with different 
-                // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
+                // describing the desired track, which is curve to right, with 4 zones (blocks) and with  
+                // profile "flat". This layout allows to render a closed circular track (with 4 curves to right 
+                // where a new curve starts after the previous ends) 
                 // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
                 // those angles to define different curvatures, instead of generating the same curvature for the same
                 // side
@@ -294,9 +293,9 @@ require([
             ],
             // trackLayout: [ 
             //     // trackLayout5.json File
-            //     // describing the desired track, which is straight line, followed by curve to left, straight line, 
-            //     // curve to right, straight line and curve to left each with 3 zones (length) and with different 
-            //     // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
+            //     // describing the desired track, which is curve to left, straight line, 
+            //     // curve to left, straight line, curve to left, straight line, curve to left and straight line,
+            //     // each with 1 zone (block) and with profile "flat".
             //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
             //     // those angles to define different curvatures, instead of generating the same curvature for the same
             //     // side
@@ -367,8 +366,8 @@ require([
             // ],
             // trackLayout: [ 
             //     // trackLayout6.json File
-            //     // describing the desired track, which is straight line, followed by curve to left, straight line, 
-            //     // curve to right, straight line and curve to left each with 3 zones (length) and with different 
+            //     // describing the desired track, which is curve to left, straight line, 
+            //     // curve to right, straight line and curve to left each with 1 zone (block) and with different 
             //     // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
             //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
             //     // those angles to define different curvatures, instead of generating the same curvature for the same
