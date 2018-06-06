@@ -109,8 +109,6 @@ require([
             numLanes: 3,
             laneWidth: 0.02,
             trackParam: {
-                maxHeight: 900,
-                maxCurve:  400,
                 numZones:    12, // number of different portions of the track
                 curvy:     0.8,
                 mountainy: 0.8,
