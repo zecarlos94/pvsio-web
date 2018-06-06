@@ -764,6 +764,7 @@ define(function (require, exports, module) {
     let Speedometer = require("widgets/car/Speedometer");
     let Tachometer = require("widgets/car/Tachometer");
     let SteeringWheel = require("widgets/car/SteeringWheel");
+    let DrawGamepad = require("widgets/car/DrawGamepad");
     let GyroscopeController = require("widgets/car/GyroscopeController");
     let VirtualKeypadController = require("widgets/car/VirtualKeypadController");
     let GamepadController = require("widgets/car/GamepadController");
@@ -918,306 +919,161 @@ define(function (require, exports, module) {
         this.customizationDiv.append("h4").style("margin-left","5px").text("Select Track Colors");
         this.customizationDiv.append("br");
 
-        this.selectColors=this.customizationDiv.append("div").attr("id","colorPicker");
+        this.setColors = this.customizationDiv.append("div").attr("id","colorPicker").style("margin-left","40px");
 
         let default_grass1 = "#699864";
-        let default_border1 = "#e00";
-        let default_border2 = "#fff";
+        let default_border1 = "#ee0000";
+        let default_border2 = "#ffffff";
         let default_outborder = "#496a46";
         let default_outborder_end = "#474747";
-        let default_track_segment = "#777";
-        let default_track_segment_end = "#000";        
-        let default_lane1 = "#fff";
-        let default_lane2 = "#777";
+        let default_track_segment = "#777777";
+        let default_track_segment_end = "#000000";        
+        let default_lane1 = "#ffffff";
+        let default_lane2 = "#777777";
         let default_laneArrow = "#00FF00";
-        let default_lane_end = "#fff";
+        let default_lane_end = "#ffffff";
 
-        this.selectColors.append("input").attr("type","color").attr("value",default_grass1).attr("id","colorGrass").style("margin-left","40px");        
-        this.selectColors.append("label").attr("for","colorGrass").style("margin-left","10px").text("Grass");
-        this.selectColors.append("p").attr("id","hex1").text("Hex: "+default_grass1).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+        this.setColors.append("input").attr("id","grass").attr("type","color").attr("value",default_grass1);
+        this.setColors.append("span").text("Grass").style("margin-left","10px");
+        this.setColors.append("span").attr("id","hex1").text(default_grass1).style("margin-left","10px");
 
-        this.selectColors.append("input").attr("type","color").attr("value",default_outborder).attr("id","colorOutborder").style("margin-left","30px");
-        this.selectColors.append("label").attr("for","colorOutborder").style("margin-left","10px").text("Outborder");
-        this.selectColors.append("p").attr("id","hex4").text("Hex: "+default_outborder).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+        let grassInput = document.getElementById("grass");
+        let grassColor = document.getElementById("hex1");
 
-        this.selectColors.append("br");
-        this.selectColors.append("br");
-        this.selectColors.append("br");
-        
-        this.selectColors.append("input").attr("type","color").attr("value",default_border1).attr("id","colorBorder1").style("margin-left","40px");
-        this.selectColors.append("label").attr("for","colorBorder1").style("margin-left","10px").text("Border1");
-        this.selectColors.append("p").attr("id","hex2").text("Hex: "+default_border1).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+        grassInput.addEventListener("input", function() {
+            grassColor.innerHTML = grassInput.value;
+        }, false); 
 
-        this.selectColors.append("input").attr("type","color").attr("value",default_outborder_end).attr("id","colorOutborderEnd").style("margin-left","40px");
-        this.selectColors.append("label").attr("for","colorOutborderEnd").style("margin-left","10px").text("OutborderEnd");
-        this.selectColors.append("p").attr("id","hex5").text("Hex: "+default_outborder_end).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+        this.setColors.append("input").attr("id","outborder").attr("type","color").attr("value",default_outborder).style("margin-left","55px");
+        this.setColors.append("span").text("Outborder").style("margin-left","10px");
+        this.setColors.append("span").attr("id","hex2").text(default_outborder).style("margin-left","10px");
 
-        this.selectColors.append("br");
-        this.selectColors.append("br");
-        this.selectColors.append("br");
+        let outborderInput = document.getElementById("outborder");
+        let outborderColor = document.getElementById("hex2");
 
-        this.selectColors.append("input").attr("type","color").attr("value",default_border2).attr("id","colorBorder2").style("margin-left","40px");
-        this.selectColors.append("label").attr("for","colorBorder2").style("margin-left","10px").text("Border2");
-        this.selectColors.append("p").attr("id","hex3").text("Hex: "+default_border2).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+        outborderInput.addEventListener("input", function() {
+            outborderColor.innerHTML = outborderInput.value;
+        }, false); 
 
-        this.selectColors.append("input").attr("type","color").attr("value",default_track_segment).attr("id","colorTrackSegment").style("margin-left","40px");
-        this.selectColors.append("label").attr("for","colorTrackSegment").style("margin-left","10px").text("TrackSegment");
-        this.selectColors.append("p").attr("id","hex6").text("Hex: "+default_track_segment).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+        this.setColors.append("br");
+        this.setColors.append("br");
+        this.setColors.append("br");
 
-        this.selectColors.append("br");
-        this.selectColors.append("br");
-        this.selectColors.append("br");
+        this.setColors.append("input").attr("id","border1").attr("type","color").attr("value",default_border1);
+        this.setColors.append("span").text("Border1").style("margin-left","10px");        
+        this.setColors.append("span").attr("id","hex3").text(default_border1).style("margin-left","10px");
 
-        this.selectColors.append("input").attr("type","color").attr("value",default_lane1).attr("id","colorLane1").style("margin-left","40px");
-        this.selectColors.append("label").attr("for","colorLane1").style("margin-left","10px").text("Lane1");
-        this.selectColors.append("p").attr("id","hex8").text("Hex: "+default_lane1).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+        let border1Input = document.getElementById("border1");
+        let border1Color = document.getElementById("hex3");
 
-        this.selectColors.append("input").attr("type","color").attr("value",default_track_segment_end).attr("id","colorTrackSegmentEnd").style("margin-left","55px");
-        this.selectColors.append("label").attr("for","colorTrackSegmentEnd").style("margin-left","10px").text("TrackSegmentEnd");
-        this.selectColors.append("p").attr("id","hex7").text("Hex: "+default_track_segment_end).style("visibility","visible").style("margin-left","10px").style("display","inline");        
-        
-        this.selectColors.append("br");
-        this.selectColors.append("br");
-        this.selectColors.append("br");
+        border1Input.addEventListener("input", function() {
+            border1Color.innerHTML = border1Input.value;
+        }, false); 
 
-        this.selectColors.append("input").attr("type","color").attr("value",default_lane2).attr("id","colorLane2").style("margin-left","40px");
-        this.selectColors.append("label").attr("for","colorLane2").style("margin-left","10px").text("Lane2");
-        this.selectColors.append("p").attr("id","hex9").text("Hex: "+default_lane2).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+        this.setColors.append("input").attr("id","outborderEnd").attr("type","color").attr("value",default_outborder_end).style("margin-left","40px");
+        this.setColors.append("span").text("OutborderEnd").style("margin-left","10px");        
+        this.setColors.append("span").attr("id","hex4").text(default_outborder_end).style("margin-left","10px");
 
-        this.selectColors.append("input").attr("type","color").attr("value",default_laneArrow).attr("id","colorLaneArrow").style("margin-left","55px");
-        this.selectColors.append("label").attr("for","colorLaneArrow").style("margin-left","10px").text("LaneArrow");
-        this.selectColors.append("p").attr("id","hex10").text("Hex: "+default_laneArrow).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+        let outborderEndInput = document.getElementById("outborderEnd");
+        let outborderEndColor = document.getElementById("hex4");
 
-        this.selectColors.append("br");
-        this.selectColors.append("br");
-        this.selectColors.append("br");
+        outborderEndInput.addEventListener("input", function() {
+            outborderEndColor.innerHTML = outborderEndInput.value;
+        }, false); 
 
-        this.selectColors.append("input").attr("type","color").attr("value",default_lane_end).attr("id","colorLaneEnd").style("margin-left","40px");
-        this.selectColors.append("label").attr("for","colorLaneEnd").style("margin-left","10px").text("LaneEnd");
-        this.selectColors.append("p").attr("id","hex11").text("Hex: "+default_lane_end).style("visibility","visible").style("margin-left","10px").style("display","inline");        
+        this.setColors.append("br");
+        this.setColors.append("br");
+        this.setColors.append("br");
 
-        let colorGrass;
-        let colorBorder1;
-        let colorBorder2;
-        let colorOutborder;
-        let colorOutborderEnd;
-        let colorTrackSegment;
-        let colorTrackSegmentEnd;
-        let colorLane1;
-        let colorLane2;
-        let colorLaneArrow;
-        let colorLaneEnd;
-        
-        window.addEventListener("load", startup, false);
-        function startup() {
-          colorGrass = document.querySelector("#colorGrass");
-          colorGrass.value = default_grass1;
-          colorGrass.addEventListener("input", updateFirstGrass, false);
-          colorGrass.addEventListener("change", updateAllGrass, false);
-          colorGrass.select();
+        this.setColors.append("input").attr("id","border2").attr("type","color").attr("value",default_border2);
+        this.setColors.append("span").text("Border2").style("margin-left","10px");        
+        this.setColors.append("span").attr("id","hex5").text(default_border2).style("margin-left","10px");
 
-          colorBorder1 = document.querySelector("#colorBorder1");
-          colorBorder1.value = default_border1;
-          colorBorder1.addEventListener("input", updateFirstBorder1, false);
-          colorBorder1.addEventListener("change", updateAllBorder1, false);
-          colorBorder1.select();
+        let border2Input = document.getElementById("border2");
+        let border2Color = document.getElementById("hex5");
 
-          colorBorder2 = document.querySelector("#colorBorder2");
-          colorBorder2.value = default_border2;
-          colorBorder2.addEventListener("input", updateFirstBorder2, false);
-          colorBorder2.addEventListener("change", updateAllBorder2, false);
-          colorBorder2.select();
+        border2Input.addEventListener("input", function() {
+            border2Color.innerHTML = border2Input.value;
+        }, false);
 
-          colorOutborder = document.querySelector("#colorOutborder");
-          colorOutborder.value = default_outborder;
-          colorOutborder.addEventListener("input", updateFirstOutborder, false);
-          colorOutborder.addEventListener("change", updateAllOutborder, false);
-          colorOutborder.select();
 
-          colorOutborderEnd = document.querySelector("#colorOutborderEnd");
-          colorOutborderEnd.value = default_outborder_end;
-          colorOutborderEnd.addEventListener("input", updateFirstOutborderEnd, false);
-          colorOutborderEnd.addEventListener("change", updateAllOutborderEnd, false);
-          colorOutborderEnd.select();
+        this.setColors.append("input").attr("id","trackSegment").attr("type","color").attr("value",default_track_segment).style("margin-left","40px");
+        this.setColors.append("span").text("TrackSegment").style("margin-left","10px");        
+        this.setColors.append("span").attr("id","hex6").text(default_track_segment).style("margin-left","10px");
 
-          colorTrackSegment = document.querySelector("#colorTrackSegment");
-          colorTrackSegment.value = default_track_segment;
-          colorTrackSegment.addEventListener("input", updateFirstTrackSegment, false);
-          colorTrackSegment.addEventListener("change", updateAllTrackSegment, false);
-          colorTrackSegment.select();
+        let trackSegmentInput = document.getElementById("trackSegment");
+        let trackSegmentColor = document.getElementById("hex6");
 
-          colorTrackSegmentEnd = document.querySelector("#colorTrackSegmentEnd");
-          colorTrackSegmentEnd.value = default_track_segment_end;
-          colorTrackSegmentEnd.addEventListener("input", updateFirstTrackSegmentEnd, false);
-          colorTrackSegmentEnd.addEventListener("change", updateAllTrackSegmentEnd, false);
-          colorTrackSegmentEnd.select();
+        trackSegmentInput.addEventListener("input", function() {
+            trackSegmentColor.innerHTML = trackSegmentInput.value;
+        }, false);
 
-          colorLane1 = document.querySelector("#colorLane1");
-          colorLane1.value = default_lane1;
-          colorLane1.addEventListener("input", updateFirstLane1, false);
-          colorLane1.addEventListener("change", updateAllLane1, false);
-          colorLane1.select();
+        this.setColors.append("br");
+        this.setColors.append("br");
+        this.setColors.append("br");
 
-          colorLane2 = document.querySelector("#colorLane2");
-          colorLane2.value = default_lane2;
-          colorLane2.addEventListener("input", updateFirstLane2, false);
-          colorLane2.addEventListener("change", updateAllLane2, false);
-          colorLane2.select();
+        this.setColors.append("input").attr("id","lane1").attr("type","color").attr("value",default_lane1);
+        this.setColors.append("span").text("Lane1").style("margin-left","10px");        
+        this.setColors.append("span").attr("id","hex7").text(default_lane1).style("margin-left","10px");
 
-          colorLaneArrow = document.querySelector("#colorLaneArrow");
-          colorLaneArrow.value = default_laneArrow;
-          colorLaneArrow.addEventListener("input", updateFirstLaneArrow, false);
-          colorLaneArrow.addEventListener("change", updateAllLaneArrow, false);
-          colorLaneArrow.select();
+        let lane1Input = document.getElementById("lane1");
+        let lane1Color = document.getElementById("hex7");
 
-          colorLaneEnd = document.querySelector("#colorLaneEnd");
-          colorLaneEnd.value = default_lane_end;
-          colorLaneEnd.addEventListener("input", updateFirstLaneEnd, false);
-          colorLaneEnd.addEventListener("change", updateAllLaneEnd, false);
-          colorLaneEnd.select();
-        }
+        lane1Input.addEventListener("input", function() {
+            lane1Color.innerHTML = lane1Input.value;
+        }, false); 
 
-        function updateFirstGrass(event) {
-            let p1 = document.querySelector('[id=hex1]');
-            if (p1) {
-                p1.innerHTML = "Hex: "+event.target.value;
-            }
-        }
+        this.setColors.append("input").attr("id","trackSegmentEnd").attr("type","color").attr("value",default_track_segment_end).style("margin-left","55px");
+        this.setColors.append("span").text("TrackSegmentEnd").style("margin-left","10px");        
+        this.setColors.append("span").attr("id","hex8").text(default_track_segment_end).style("margin-left","10px");
 
-        function updateAllGrass(event) {
-            document.querySelectorAll('[id=hex1]').forEach(function(p1) {
-                p1.innerHTML = "Hex: "+event.target.value;
-            });
-        }
+        let trackSegmentEndInput = document.getElementById("trackSegmentEnd");
+        let trackSegmentEndColor = document.getElementById("hex8");
 
-        function updateFirstBorder1(event) {
-            let p2 = document.querySelector('[id=hex2]');
-            if (p2) {
-                p2.innerHTML = "Hex: "+event.target.value;
-            }
-        }
+        trackSegmentEndInput.addEventListener("input", function() {
+            trackSegmentEndColor.innerHTML = trackSegmentEndInput.value;
+        }, false);
 
-        function updateAllBorder1(event) {
-            document.querySelectorAll('[id=hex2]').forEach(function(p2) {
-                p2.innerHTML = "Hex: "+event.target.value;
-            });
-        }
-        function updateFirstBorder2(event) {
-            let p3 = document.querySelector('[id=hex3]');
-            if (p3) {
-                p3.innerHTML = "Hex: "+event.target.value;
-            }
-        }
+        this.setColors.append("br");
+        this.setColors.append("br");
+        this.setColors.append("br");
 
-        function updateAllBorder2(event) {
-            document.querySelectorAll('[id=hex3]').forEach(function(p3) {
-                p3.innerHTML = "Hex: "+event.target.value;
-            });
-        }
+        this.setColors.append("input").attr("id","lane2").attr("type","color").attr("value",default_lane2);
+        this.setColors.append("span").text("Lane2").style("margin-left","10px");        
+        this.setColors.append("span").attr("id","hex9").text(default_lane2).style("margin-left","10px");
 
-        function updateFirstOutborder(event) {
-            let p4 = document.querySelector('[id=hex4]');
-            if (p4) {
-                p4.innerHTML = "Hex: "+event.target.value;
-            }
-        }
+        let lane2Input = document.getElementById("lane2");
+        let lane2Color = document.getElementById("hex9");
 
-        function updateAllOutborder(event) {
-            document.querySelectorAll('[id=hex4]').forEach(function(p4) {
-                p4.innerHTML = "Hex: "+event.target.value;
-            });
-        }
+        lane2Input.addEventListener("input", function() {
+            lane2Color.innerHTML = lane2Input.value;
+        }, false); 
 
-        function updateFirstOutborderEnd(event) {
-            let p5 = document.querySelector('[id=hex5]');
-            if (p5) {
-                p5.innerHTML = "Hex: "+event.target.value;
-            }
-        }
+        this.setColors.append("input").attr("id","laneArrow").attr("type","color").attr("value",default_laneArrow).style("margin-left","55px");
+        this.setColors.append("span").text("LaneArrow").style("margin-left","10px");        
+        this.setColors.append("span").attr("id","hex10").text(default_laneArrow).style("margin-left","10px");
 
-        function updateAllOutborderEnd(event) {
-            document.querySelectorAll('[id=hex5]').forEach(function(p5) {
-                p5.innerHTML = "Hex: "+event.target.value;
-            });
-        }
+        let laneArrowInput = document.getElementById("laneArrow");
+        let laneArrowColor = document.getElementById("hex10");
 
-        function updateFirstTrackSegment(event) {
-            let p6 = document.querySelector('[id=hex6]');
-            if (p6) {
-                p6.innerHTML = "Hex: "+event.target.value;
-            }
-        }
+        laneArrowInput.addEventListener("input", function() {
+            laneArrowColor.innerHTML = laneArrowInput.value;
+        }, false); 
 
-        function updateAllTrackSegment(event) {
-            document.querySelectorAll('[id=hex6]').forEach(function(p6) {
-                p6.innerHTML = "Hex: "+event.target.value;
-            });
-        }
-        
-        function updateFirstTrackSegmentEnd(event) {
-            let p7 = document.querySelector('[id=hex7]');
-            if (p7) {
-                p7.innerHTML = "Hex: "+event.target.value;
-            }
-        }
+        this.setColors.append("br");
+        this.setColors.append("br");
+        this.setColors.append("br");
 
-        function updateAllTrackSegmentEnd(event) {
-            document.querySelectorAll('[id=hex7]').forEach(function(p7) {
-                p7.innerHTML = "Hex: "+event.target.value;
-            });
-        }
+        this.setColors.append("input").attr("id","laneEnd").attr("type","color").attr("value",default_lane_end);
+        this.setColors.append("span").text("LaneEnd").style("margin-left","10px");        
+        this.setColors.append("span").attr("id","hex11").text(default_lane_end).style("margin-left","10px");
 
-        function updateFirstLane1(event) {
-            let p8 = document.querySelector('[id=hex8]');
-            if (p8) {
-                p8.innerHTML = "Hex: "+event.target.value;
-            }
-        }
+        let laneEndInput = document.getElementById("laneEnd");
+        let laneEndColor = document.getElementById("hex11");
 
-        function updateAllLane1(event) {
-            document.querySelectorAll('[id=hex8]').forEach(function(p8) {
-                p8.innerHTML = "Hex: "+event.target.value;
-            });
-        }
-
-        function updateFirstLane2(event) {
-            let p9 = document.querySelector('[id=hex9]');
-            if (p9) {
-                p9.innerHTML = "Hex: "+event.target.value;
-            }
-        }
-
-        function updateAllLane2(event) {
-            document.querySelectorAll('[id=hex9]').forEach(function(p9) {
-                p9.innerHTML = "Hex: "+event.target.value;
-            });
-        }
-        
-        function updateFirstLaneArrow(event) {
-            let p10 = document.querySelector('[id=hex10]');
-            if (p10) {
-                p10.innerHTML = "Hex: "+event.target.value;
-            }
-        }
-
-        function updateAllLaneArrow(event) {
-            document.querySelectorAll('[id=hex10]').forEach(function(p10) {
-                p10.innerHTML = "Hex: "+event.target.value;
-            });
-        }
-
-        function updateFirstLaneEnd(event) {
-            let p11 = document.querySelector('[id=hex11]');
-            if (p11) {
-                p11.innerHTML = "Hex: "+event.target.value;
-            }
-        }
-
-        function updateAllLaneEnd(event) {
-            document.querySelectorAll('[id=hex11]').forEach(function(p11) {
-                p11.innerHTML = "Hex: "+event.target.value;
-            });
-        }
+        laneEndInput.addEventListener("input", function() {
+            laneEndColor.innerHTML = laneEndInput.value;
+        }, false); 
 
         this.customizationDiv.append("br");
         this.customizationDiv.append("br");
@@ -1228,13 +1084,21 @@ define(function (require, exports, module) {
         this.writeTopography=this.customizationDiv.append("div").attr("id","writeTopography");
         
         this.writeTopography.append("p").style("margin-left","40px")
-                             .text("Use keywords: \"left\", \"right\", \"straight\", \"up\", \"down\" after topography\:");
+                             .text("Use keywords: \"left\", \"right\" and \"straight\" after \"name\:\"");
         this.writeTopography.append("p").style("margin-left","40px")
-                             .text("to describe the track");
+                             .text("to describe the topography name of the track");
+        this.writeTopography.append("p").style("margin-left","40px")
+                             .text("Use 0, 90 and -90 after \"curvature\:\"");
+        this.writeTopography.append("p").style("margin-left","40px")
+                             .text("to describe the curvature degrees of that segment");
+        this.writeTopography.append("p").style("margin-left","40px")
+                             .text("Use keywords: \"flat\", \"up\" and \"down\" after \"profile\:\"");
+        this.writeTopography.append("p").style("margin-left","40px")
+                             .text("to describe the profile of the track");
         this.writeTopography.append("p").style("margin-left","40px")
                              .text("Set each topography zone length after numZones\:");
         this.writeTopography.append("textarea").attr("id","topography").attr("rows","2").attr("cols","60").style("margin-left","40px")
-                            .text("[{\"topography\":\"\", \"numZones\":}]");
+                            .text("[{\"topography\":{\"name\":\"\",\"curvature\":},\"profile\":\"\",\"numZones\":}]");
 
         this.customizationDiv.append("br");
         this.customizationDiv.append("br");
@@ -1721,16 +1585,29 @@ define(function (require, exports, module) {
  
                 // Get final selected colors
                 let colorGrass_Final=d3.select("#hex1")[0][0].innerText;
-                let colorBorder1_Final=d3.select("#hex2")[0][0].innerText;
-                let colorBorder2_Final=d3.select("#hex3")[0][0].innerText;
-                let colorOutborder_Final=d3.select("#hex4")[0][0].innerText;
-                let colorOutborderEnd_Final=d3.select("#hex5")[0][0].innerText;
+                let colorBorder1_Final=d3.select("#hex3")[0][0].innerText;
+                let colorBorder2_Final=d3.select("#hex5")[0][0].innerText;
+                let colorOutborder_Final=d3.select("#hex2")[0][0].innerText;
+                let colorOutborderEnd_Final=d3.select("#hex4")[0][0].innerText;
                 let colorTrackSegment_Final=d3.select("#hex6")[0][0].innerText;
-                let colorTrackSegmentEnd_Final=d3.select("#hex7")[0][0].innerText;
-                let colorLane1_Final=d3.select("#hex8")[0][0].innerText;
+                let colorTrackSegmentEnd_Final=d3.select("#hex8")[0][0].innerText;
+                let colorLane1_Final=d3.select("#hex7")[0][0].innerText;
                 let colorLane2_Final=d3.select("#hex9")[0][0].innerText;
                 let colorLaneArrow_Final=d3.select("#hex10")[0][0].innerText;
                 let colorLaneEnd_Final=d3.select("#hex11")[0][0].innerText;
+
+                // console.log(colorGrass_Final);
+                // console.log(colorBorder1_Final);
+                // console.log(colorBorder2_Final);
+                // console.log(colorOutborder_Final);
+                // console.log(colorOutborderEnd_Final);
+                // console.log(colorTrackSegment_Final);
+                // console.log(colorTrackSegmentEnd_Final);
+                // console.log(colorLane1_Final);
+                // console.log(colorLane2_Final);
+                // console.log(colorLaneArrow_Final);
+                // console.log(colorLaneEnd_Final);
+
                 let topography_Final=d3.select("#topography")[0][0].value;
                 let spritesheetJSONFilename_Final=d3.select("#spritesheetJSONFilename")[0][0].value;
                 let spritesheetImages_Final=d3.select("#spritesheetImages")[0][0].value;
@@ -1777,6 +1654,30 @@ define(function (require, exports, module) {
                         height: 600
                     }, {
                         style: steeringWheel,
+                        callback: callback
+                    });
+
+                    // ----------------------------- DRAWGAMEPAD COMPONENTS -----------------------------
+                    // car.drawGamepad = new DrawGamepad("drawGamepad", {
+                    //     top: 100,
+                    //     left: 350,
+                    //     width: 750,
+                    //     height: 750
+                    // }, {
+                    //     parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
+                    //     style: "xbox", // defines parent div, which is "ps4" by default
+                    //     buttonsPVS: [ "accelerate", "brake", "mute", "unmute", "pause", "quit", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+                    //     callback: callback
+                    // });
+                    car.drawGamepad = new DrawGamepad("drawGamepad", {
+                        top: 100,
+                        left: 350,
+                        width: 750,
+                        height: 750
+                    }, {
+                        parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
+                        style: "ps4", // defines parent div, which is "ps4" by default
+                        buttonsPVS: [ "accelerate", "brake", "unmute", "mute", "pause", "quit", "touchpad", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
                         callback: callback
                     });
 
@@ -1872,6 +1773,7 @@ define(function (require, exports, module) {
                     });
 
                     Customization.prototype.reRenderedWindowCSS(CSSValues);
+                    car.virtualKeypadController.render();
                     car.gamepadController.render();
                     car.gyroscopeController.render();
                     car.drawGamepad.render();
@@ -1883,19 +1785,13 @@ define(function (require, exports, module) {
                     (zoneSize_Final==="") ? zoneSize_Final = 250 : numZones_Final;
                     (landscapeObjects_Final==="[]") ? landscapeObjects_Final = "[\"tree\",\"boulder\"]" : landscapeObjects_Final;
                     (trackObstacles_Final==="[]") ? trackObstacles_Final = "[\"boulder\"]" : trackObstacles_Final;
-                    (topography_Final==="[{\"topography\":\"\", \"numZones\":}]") ? topography_Final = "[ \
-                        {\"topography\":\"straight\", \"numZones\":3}, \
-                        {\"topography\":\"left\", \"numZones\":3}, \
-                        {\"topography\":\"straight\", \"numZones\":3}, \
-                        {\"topography\":\"right\", \"numZones\":3}, \
-                        {\"topography\":\"straight\", \"numZones\":3}, \
-                        {\"topography\":\"up\", \"numZones\":3}, \
-                        {\"topography\":\"up\", \"numZones\":3}, \
-                        {\"topography\":\"left\", \"numZones\":3}, \
-                        {\"topography\":\"down\", \"numZones\":3}, \
-                        {\"topography\":\"right\", \"numZones\":3}, \
-                        {\"topography\":\"straight\", \"numZones\":3} \
-                    ]" : topography_Final;
+                    (topography_Final==="[{\"topography\":{\"name\":\"\",\"curvature\":},\"profile\":\"\",\"numZones\":}]") ? topography_Final = "[ \
+                        {\"topography\":{\"name\":\"straight\",\"curvature\":0},\"profile\":\"flat\",\"numZones\":3}, \
+                        {\"topography\":{\"name\":\"left\",\"curvature\":90},\"profile\":\"flat\",\"numZones\":3}, \
+                        {\"topography\":{\"name\":\"straight\",\"curvature\":0},\"profile\":\"up\",\"numZones\":3}, \
+                        {\"topography\":{\"name\":\"right\",\"curvature\":-90},\"profile\":\"flat\",\"numZones\":3}, \
+                        {\"topography\":{\"name\":\"straight\",\"curvature\":0},\"profile\":\"down\",\"numZones\":3}, \
+                        {\"topography\":{\"name\":\"left\",\"curvature\":90},\"profile\":\"flat\",\"numZones\":3}]" : topography_Final;
                     (arcadeVehicle_Final==="") ? arcadeVehicle_Final = "false,car,2" : arcadeVehicle_Final;
 
                     let realisticImgs_Final = JSON.parse(arcadeVehicle_Final.split(",")[0]);
@@ -1981,7 +1877,8 @@ define(function (require, exports, module) {
                     car.trackGeneratorWidget.hide();
                     // API to generate track with parameters received as argument by the constructor, i.e. new TrackGenerator()
                     // car.trackGeneratorWidget.generateStraightTrack();
-                    car.trackGeneratorWidget.generateTrackCurvesSlopes();
+                    // car.trackGeneratorWidget.generateTrackCurvesSlopes();
+                    car.trackGeneratorWidget.generateTrackBasedOnTrackLayoutOptField();
 
                     // ----------------------------- ARCADE GAME COMPONENTS -----------------------------
                     car.arcadeWidget = new Arcade("arcadeWidget", {
@@ -1991,10 +1888,9 @@ define(function (require, exports, module) {
                         height: 650
                     }, {
                         parent: "game-window", // defines parent div, which is div id="game-window" by default
-                        trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
+                        trackFilename: "track-curves-slopes-random", // "track-straight", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
                         spritesFilename: spritesheetJSONFilename_Final, // defines spritesheet configuration filename, which is "spritesheet.json" by default
                         spritesFiles: JSON.parse(spritesheetImages_Final), // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
-                        trackTopography: "curves-slopes", // "straight", // defines initial position after ending 1 lap (restart position in another lap).
                         realisticImgs: realisticImgs_Final,
                         vehicle: vehicle_Final, // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
                         vehicleImgIndex: vehicleImgIndex_Final, // defines vehicle sprite image suffix 
@@ -2014,6 +1910,7 @@ define(function (require, exports, module) {
                         lapNumber: parseInt(numLaps_Final),
                         // showOfficialLogo: true,
                         loadPVSSpeedPositions: loadPVSSpeedPositions_Final,
+                        // predefinedTracks: 4,
                         callback: callback
                     });
                     

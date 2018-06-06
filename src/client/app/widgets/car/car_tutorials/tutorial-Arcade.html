@@ -39,7 +39,7 @@
 </ol>
 <p><img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectTrackColors.png" alt="selectTrackColors" width="700" style="margin-left: 150px" ></p>
 <ol start="4">
-<li><strong>Insert within the square brackets the topography of the lane that you intend to use in the simulation, i.e., the lane that will be constructed and rendered. Use only the keywords: 'left', 'right', 'straight', 'up', 'down' to describe this track, separated by ','.</strong></li>
+<li><strong>Insert within the square brackets the topography of the lane that you intend to use in the simulation, i.e., the lane that will be constructed and rendered. Use only the keywords: 'left', 'right' and 'straight' to describe the topography of the track, after &quot;name:&quot;. Use only the keywords: 'flat', 'up' and 'down' to describe the profile/height of the track after &quot;profile:&quot;. Use angles, in degrees, to define the curvature angle after &quot;curvature&quot;. The angle 0 represents a straight line. To represent left curvatures the angle must be between 0 and 90. To represent right curvatures the angle must be between 0 and -90.</strong></li>
 </ol>
 <p><img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectTrackTopography.png" alt="selectTrackTopography" width="700" style="margin-left: 150px" ></p>
 <ol start="5">
@@ -63,6 +63,10 @@
 </ol>
 <p><img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectTrackParams.png" alt="selectTrackParams" width="700" style="margin-left: 150px" ></p>
 <ol start="10">
+<li><strong>Select arcade vehicle, present in both provided spritesheet JSON and png files, in steps 5 and 6.</strong></li>
+</ol>
+<p><img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectArcadeVehicle.png" alt="selectArcadeVehicle" width="700" style="margin-left: 150px" ></p>
+<ol start="11">
 <li><strong>Select other customization options for the dashboard widgets, which will be used during the simulation, and other rendering aspects using the following set of ranges.</strong></li>
 </ol>
 <p><img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectRanges.png" alt="selectRanges" width="700" style="margin-left: 150px" ></p>
@@ -83,6 +87,14 @@
 </blockquote>
 <p><img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectRangesObstacles.png" alt="selectRangesObstacles" width="200" style="margin-left: 300px" ></p>
 <blockquote>
+<p>Select the desired number of laps, to be rendered by Arcade widget during the simulation.</p>
+</blockquote>
+<p><img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectLaps.png" alt="selectLaps" width="200" style="margin-left: 300px" ></p>
+<blockquote>
+<p>Choose if Arcade widget will use the PVS instructions during the simulation. By default, i.e. value 0, this widget will use PVS instructions to update the vehicle status during the simulation. This slider allows to test the difference in the rendering processs speed, since PVS instructions turns the simulation much slower than using a self-contained widget that calculates those values.</p>
+</blockquote>
+<p><img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectPVS.png" alt="selectPVS" width="200" style="margin-left: 300px" ></p>
+<blockquote>
 <p>To finish the customization, slide the last range to the right.</p>
 </blockquote>
 <p><img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/endRange.png" alt="EndRange" width="50" style="margin-left: 400px" ></p>
@@ -91,6 +103,9 @@
 </blockquote>
 <h3>User Steps, with only manual configurations ( harder )</h3><blockquote>
 <p>In this section we present the steps to create a new simulation, using only the Widget APIs developed, which requires a more 'conscious' user. The following steps will be the necessary steps to create a new demo within PVSio-web.</p>
+</blockquote>
+<blockquote>
+<p>Currently it is possible to test the functional demo 'arcade', <a href="http://localhost:8082/demos/arcade_game_simulator/">http://localhost:8082/demos/arcade_game_simulator/</a>, i.e., to test the interactions PVS-Arcade Widget. That is, to use PVS instructions to maintain the simulation state.</p>
 </blockquote>
 <ol>
 <li><strong>Create the desired track either using methods that generate the track randomly or using methods that generate the track based on the provided layout.</strong></li>
@@ -152,59 +167,414 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
         track_segment_end:&quot;#000&quot;,
         lane_end: &quot;#fff&quot;
     },
+    // trackLayout: [ 
+    //     // trackLayout1.json File
+    //     // describing the desired track, which is straight line, with 8 zones (8 blocks) and with 
+    //     // profiles &quot;flat&quot;.
+    //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
+    //     // those angles to define different curvatures, instead of generating the same curvature for the same
+    //     // side
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 8,
+    //     }
+    // ],
+    // trackLayout: [ 
+    //     // trackLayout2.json File
+    //     // describing the desired track, which is curve to left, straight line, 
+    //     // curve to right, straight line, curve to left and straight line each with 3 zones (blocks) and with different 
+    //     // profiles, i.e. &quot;flat&quot; or &quot;up&quot; or &quot;down&quot; allows to define slopes within each zone (default is []).
+    //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
+    //     // those angles to define different curvatures, instead of generating the same curvature for the same
+    //     // side
+    //     {
+    //         topography: {
+    //             name:&quot;left&quot;,
+    //             curvature: 90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 3
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;down&quot;,
+    //         numZones: 3
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;right&quot;,
+    //             curvature: -90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 3
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;up&quot;,
+    //         numZones: 3
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;left&quot;,
+    //             curvature: 90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 3,
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 3,
+    //     }
+    // ],
+    // trackLayout: [ 
+    //     // trackLayout3.json File
+    //     // describing the desired track, which is straight line, followed by curve to left, straight line, 
+    //     // curve to right, straight line and curve to left each with 3 zones (blocks) and with different 
+    //     // profiles, i.e. &quot;flat&quot; or &quot;up&quot; or &quot;down&quot; allows to define slopes within each zone (default is []).
+    //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
+    //     // those angles to define different curvatures, instead of generating the same curvature for the same
+    //     // side
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1,
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;left&quot;,
+    //             curvature: 90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1,
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;up&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;right&quot;,
+    //             curvature: -90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;down&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;left&quot;,
+    //             curvature: 90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     }
+    // ],
     trackLayout: [ 
-        // describing the desired track, which is 2 straight lines, followed by curve to left, straight line, 
-        // curve to right, straight line, 2 up slopes, curve to left, down slope, curve to right,
-        // straight line, each with 3 zones (length) (default is []).
+        // trackLayout4.json File
+        // describing the desired track, which is curve to right, with 4 zones (blocks) and with  
+        // profile &quot;flat&quot;. This layout allows to render a closed circular track (with 4 curves to right 
+        // where a new curve starts after the previous ends) 
+        // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
+        // those angles to define different curvatures, instead of generating the same curvature for the same
+        // side
         {
-            topography: &quot;plain&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;plain&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;left&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;plain&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;right&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;plain&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;up&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;up&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;left&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;down&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;right&quot;,
-            numZones: 3
-        },
-        {
-            topography: &quot;plain&quot;,
-            numZones: 3
+            topography: {
+                name:&quot;right&quot;,
+                curvature: -90
+            },
+            profile: &quot;flat&quot;,
+            numZones: 4
         }
     ],
+    // trackLayout: [ 
+    //     // trackLayout5.json File
+    //     // describing the desired track, which is curve to left, straight line, 
+    //     // curve to left, straight line, curve to left, straight line, curve to left and straight line,
+    //     // each with 1 zone (block) and with profile &quot;flat&quot;.
+    //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
+    //     // those angles to define different curvatures, instead of generating the same curvature for the same
+    //     // side
+    //     {
+    //         topography: {
+    //             name:&quot;left&quot;,
+    //             curvature: 90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;left&quot;,
+    //             curvature: 90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;left&quot;,
+    //             curvature: 90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;left&quot;,
+    //             curvature: 90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     }
+    // ],
+    // trackLayout: [ 
+    //     // trackLayout6.json File
+    //     // describing the desired track, which is curve to left, straight line, 
+    //     // curve to right, straight line and curve to left each with 1 zone (block) and with different 
+    //     // profiles, i.e. &quot;flat&quot; or &quot;up&quot; or &quot;down&quot; allows to define slopes within each zone (default is []).
+    //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
+    //     // those angles to define different curvatures, instead of generating the same curvature for the same
+    //     // side
+    //     {
+    //         topography: {
+    //             name:&quot;left&quot;,
+    //             curvature: 90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;down&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;right&quot;,
+    //             curvature: -90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;up&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;left&quot;,
+    //             curvature: 90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     }
+    // ],
+    // trackLayout: [ 
+    //     // trackLayout7.json File
+    //     // describing the desired track, which is curve to left, with 4 zones (blocks) and with  
+    //     // profile &quot;flat&quot;. This layout allows to render a closed circular track (with 4 curves to left 
+    //     // where a new curve starts after the previous ends) 
+    //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
+    //     // those angles to define different curvatures, instead of generating the same curvature for the same
+    //     // side
+    //     {
+    //         topography: {
+    //             name:&quot;left&quot;,
+    //             curvature: 90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 4
+    //    }
+    // ],
+    // trackLayout: [ 
+    //     // trackLayout8.json File
+    //     // describing the desired track, which is curve to right, straight line, 
+    //     // curve to left, straight line and curve to right each with 1 zone (block) and with different 
+    //     // profiles, i.e. &quot;flat&quot; or &quot;up&quot; or &quot;down&quot; allows to define slopes within each zone (default is []).
+    //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
+    //     // those angles to define different curvatures, instead of generating the same curvature for the same
+    //     // side
+    //     {
+    //         topography: {
+    //             name:&quot;right&quot;,
+    //             curvature: -90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;down&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;left&quot;,
+    //             curvature: 90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;up&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;right&quot;,
+    //             curvature: -90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     }
+    // ],
+    // trackLayout: [ 
+    //     // trackLayout9.json File
+    //     // describing the desired track, which is curve to right, straight line, 
+    //     // curve to right, straight line, curve to right, straight line, curve to right and straight line,
+    //     // each with 1 zone (block) and with profile &quot;flat&quot;.
+    //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
+    //     // those angles to define different curvatures, instead of generating the same curvature for the same
+    //     // side
+    //     {
+    //         topography: {
+    //             name:&quot;right&quot;,
+    //             curvature: -90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;right&quot;,
+    //             curvature: -90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;right&quot;,
+    //             curvature: -90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;right&quot;,
+    //             curvature: -90
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     },
+    //     {
+    //         topography: {
+    //             name:&quot;straight&quot;,
+    //             curvature: 0
+    //         },
+    //         profile: &quot;flat&quot;,
+    //         numZones: 1
+    //     }
+    // ],
     callback: onMessageReceived
 });</code></pre><blockquote>
 <p>The render method only makes visible the widget div</p>
@@ -218,8 +588,8 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
 <p>The API needed to create, randomly, a track, with straight lines, curves and slopes is</p>
 <pre class="prettyprint source"><code>trackGenerator.trackGeneratorWidget.generateTrackCurvesSlopes();</code></pre></blockquote>
 <blockquote>
-<p>The API needed to create the desired track is (currently in development)</p>
-<pre class="prettyprint source"><code>trackGenerator.trackGeneratorWidget.generateDesiredTrack();</code></pre></blockquote>
+<p>The API needed to create the desired track, based on trackLayout opt field provided, is </p>
+<pre class="prettyprint source"><code>trackGenerator.trackGeneratorWidget.generateTrackBasedOnTrackLayoutOptField();</code></pre></blockquote>
 <blockquote>
 <p>To create the track is then only necessary, create the constructor with the optional fields that you want, if none is inserted, the widget will use the following predefined values,</p>
 <pre class="prettyprint source"><code>parent: &quot;game-window&quot;,
@@ -285,23 +655,12 @@ trackLayout: []</code></pre></blockquote>
     render: render,
     topSpeed: topSpeed,
     track: generatedTrack,
-    trackParam: trackParam,
+    trackParam: trackParam, // after updating trackParam.numZones with total sum of numZones 
+    // in trackLayout opt field
     trackSegmentSize: trackSegmentSize,
-    trackColors: {
-        grass1: &quot;#699864&quot;,
-        border1: &quot;#e00&quot;,
-        border2: &quot;#fff&quot;,
-        outborder1: &quot;#496a46&quot;,
-        outborder_end1: &quot;#474747&quot;,
-        track_segment1: &quot;#777&quot;,
-        lane1: &quot;#fff&quot;,
-        lane2: &quot;#777&quot;,
-        laneArrow1: &quot;#00FF00&quot;,
-        track_segment_end:&quot;#000&quot;,
-        lane_end: &quot;#fff&quot;
-    }
+    trackColors: trackColors
 };</code></pre><blockquote>
-<p>Currently, PVSio-web does not have any file-writing APIs in the context of widgets, and as such, the TrackGenerator widget is not able to write the JSON file. Then, the user needs to perform <code>console.log(JSON.stringify(generatedJSON))</code> and copy/paste the result into a JSON file, that is, the user needs to perform the non-existent API process manually. Predefined file names are &quot;track-straight.json&quot; or &quot;track-curves-slopes.json&quot;, however it is possible to use other file names, since the Arcade widget receives the filename as optional field. When the file-writing API exists, it should be added on lines 628 and 847 with <code>console.log(JSON.stringify(generatedJSON))</code>, as well as the filename, as arguments, in TrackGenerator.js file.</p>
+<p>Currently, PVSio-web does not have any file-writing APIs in the context of widgets, and as such, the TrackGenerator widget is not able to write the JSON file. Then, the user needs to perform <code>console.log(JSON.stringify(generatedJSON))</code> and copy/paste the result into a JSON file, that is, the user needs to perform the non-existent API process manually. Predefined file names are &quot;track-straight.json&quot; or &quot;track-curves-slopes.json&quot;, however it is possible to use other file names, since the Arcade widget receives the filename as optional field. When the file-writing API exists, it should be added on lines 628 and 847 with <code>console.log(JSON.stringify(generatedJSON))</code>, as well as the filename, as arguments, in TrackGenerator.js file. This file-writing API, must return the filename just created, so it can be used in the pipeline Customization Widget -&gt; TrackGenerator Widget -&gt; Arcade Widget automatically, for more detailed information see <a href="https://github.com/zecarlos94/pvsio-web/tree/gaming/src/client/app/widgets/car/Customization.js">https://github.com/zecarlos94/pvsio-web/tree/gaming/src/client/app/widgets/car/Customization.js</a> (line 1855 to 1865).</p>
 </blockquote>
 <blockquote>
 <p>Once the JSON file with the desired track has been created, it will be possible to render it using the Arcade widget.</p>
@@ -355,10 +714,9 @@ arcade.arcadeWidget = new Arcade(&quot;arcadeWidget&quot;, {
     height: 650
 }, {
     parent: &quot;game-window&quot;, // defines parent div, which is div id=&quot;game-window&quot; by default
-    trackFilename: &quot;track-curves-slopes&quot;, // &quot;track-straight&quot;, // defines track configuration filename, which is &quot;track-curves-slopes.json&quot; by default
+    trackFilename: &quot;track-curves-slopes-random&quot;, // &quot;track-straight-random&quot;, // defines track configuration filename, which is &quot;track-curves-slopes-random.json&quot; by default
     spritesFilename: &quot;spritesheet&quot;, // defines spritesheet configuration filename, which is &quot;spritesheet.json&quot; by default
     spritesFiles: [&quot;spritesheet&quot;,&quot;spritesheet.text&quot;], // defines all spritesheets(images). Default are &quot;spritesheet.png&quot; and &quot;spritesheet.text.png&quot;
-    trackTopography: &quot;curves-slopes&quot;, // &quot;straight&quot;, // defines initial position after ending 1 lap (restart position in another lap).
     realisticImgs: false,
     vehicle: &quot;car&quot;, // available vehicles: [&quot;airplane&quot;,&quot;bicycle&quot;,&quot;car&quot;,&quot;helicopter&quot;,&quot;motorbike&quot;]
     vehicleImgIndex: 2, // defines vehicle sprite image suffix 
@@ -378,6 +736,7 @@ arcade.arcadeWidget = new Arcade(&quot;arcadeWidget&quot;, {
     lapNumber: 2,
     // showOfficialLogo: true,
     // loadPVSSpeedPositions: false,
+    // predefinedTracks: 4,
     callback: onMessageReceived
 });
 
@@ -429,10 +788,9 @@ arcade.unmute = new ButtonExternalController(&quot;unmute&quot;, { width: 0, hei
 <blockquote>
 <p>To render the track is then only necessary, create the constructor with the optional fields that you want, if none is inserted, the widget will use the following predefined values,</p>
 <pre class="prettyprint source"><code>parent: &quot;game-window&quot;, 
-trackFilename: &quot;track-curves-slopes&quot;, 
+trackFilename: &quot;track-curves-slopes-random&quot;, 
 spritesFilename: &quot;spritesheet&quot;, 
 spritesFiles: [&quot;spritesheet&quot;,&quot;spritesheet.text&quot;], 
-trackTopography: &quot;curves-slopes&quot;,
 realisticImgs: false,
 vehicle: &quot;car&quot;, 
 vehicleImgIndex: null, 
@@ -451,9 +809,10 @@ stripePositions: {
 },
 lapNumber: 2,
 showOfficialLogo: false,
-loadPVSSpeedPositions: true</code></pre></blockquote>
+loadPVSSpeedPositions: true,
+predefinedTracks: null</code></pre></blockquote>
 <blockquote>
-<p>Predefined file name is &quot;track-curves-slopes.json&quot;, which has the arcade simulation with all different topographies.</p>
+<p>Predefined file name is &quot;track-curves-slopes-random.json&quot;, which has the arcade simulation with all different topographies. If user wants to use predefined tracks, it is only necessary to add the integer suffix of the corresponding file in predefinedTracks opt field. That is, to use trackLayout6.json, the user must set 'predefinedTracks: 6' and the Arcade widget will render the track present in trackLayout6.json file.</p>
 </blockquote>
 <ol start="3">
 <li><strong>Necessary PVS Code</strong></li>
@@ -463,7 +822,7 @@ loadPVSSpeedPositions: true</code></pre></blockquote>
 </blockquote>
 <pre class="prettyprint source"><code>% ---------------------------------------------------------------
 %  Theory: car_demo
-%  Author: Paolo Masci, José Carlos
+%  Author: Paolo Masci
 %          INESC TEC and Universidade do Minho
 % ---------------------------------------------------------------
 
@@ -515,6 +874,11 @@ main: THEORY
     val: real
   #]
 
+  LAP_INIT: real = 1.0
+  Lap: TYPE = [#
+    val: real
+  #]
+
   Action: TYPE = { idle, acc, brake, left, right, straight, pause, resume, quit }
   Sound: TYPE = { unmute, mute }
   Time: TYPE = [# hour: int, min: int #]
@@ -530,7 +894,8 @@ main: THEORY
     position: Position,
     posx: PosX,
     action: Action,
-    sound: Sound
+    sound: Sound,
+    lap: Lap
   #]
 
   get_current_time: Time = (# hour := get_time`hour, min := get_time`minute #)
@@ -547,7 +912,8 @@ main: THEORY
     position := (# val := POSITION_INIT  #),
     posx := (# val := POSX_INIT #),
     action := idle,
-    sound := unmute
+    sound := unmute,
+    lap := (# val := LAP_INIT #)
   #)
 
   %-- utility functions
@@ -649,12 +1015,16 @@ main: THEORY
   press_brake(st: state): state = brake(st) WITH [ action := brake ]
   release_brake(st: state): state = st WITH [ action := idle ]
 
-  POSX_STEP: real = 5.0 
+  POSX_STEP: real = 25.0 
   STEERING_STEP: real = 20 %deg
   steering_wheel_right(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val + POSX_STEP ], action := right]
   steering_wheel_left(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val - POSX_STEP ], action := left ]
-  steering_wheel_straight(st: state): state = st WITH [ steering := 0, action := straight ]
-  steering_wheel_rotate(x: real)(st: state): state = st WITH [ steering := x, action := IF x > 0 THEN right ELSE left ENDIF]
+  steering_wheel_straight(st: state): state = st WITH [ steering := 0, posx := posx(st) WITH [ val:= posx(st)`val ], action := straight ]
+  steering_wheel_rotate(x: real)(st: state): state = st WITH [ steering := x, posx := posx(st) WITH [ val:= IF x > 0 THEN posx(st)`val + POSX_STEP ELSE posx(st)`val - POSX_STEP ENDIF ], action := IF x > 0 THEN right ELSE left ENDIF]
+
+  %-- API for new laps
+  LAP_STEP: real = 1.0 
+  new_lap(st: state): state = st WITH [  position := (# val := POSITION_INIT  #), lap := lap(st) WITH [ val:= lap(st)`val + LAP_STEP ] ]
 
   %-- API for sound controls 
   press_mute(st: state): state = st WITH [ sound := mute ]
@@ -674,29 +1044,14 @@ main: THEORY
 
   %-- API for external controllers such as PS4 gamepad
   click_accelerate(st: state): state = accelerate(st) WITH [ action := acc ]
-
   click_brake(st: state): state = brake(st) WITH [ action := brake ]
 
   %-- API for external controller interactive image
-  %-- PS4
-  press_cross(st: state): state = accelerate(st) WITH [ action := acc ]
-  release_cross(st: state): state = st WITH [ action := idle ]
+  press_rightArrow(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val + POSX_STEP ], action := right]
+  release_rightArrow(st: state): state = st WITH [ action := right ]
 
-  press_circle(st: state): state = brake(st) WITH [ action := brake ]
-  release_circle(st: state): state = st WITH [ action := idle ]
-
-  %-- XBOX1
-  press_a(st: state): state = accelerate(st) WITH [ action := acc ]
-  release_a(st: state): state = st WITH [ action := idle ]
-
-  press_b(st: state): state = brake(st) WITH [ action := brake ]
-  release_b(st: state): state = st WITH [ action := idle ]
-
-  press_rightArrow(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP ]
-  release_rightArrow(st: state): state = st WITH [ action := idle ]
-
-  press_leftArrow(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP ]
-  release_leftArrow(st: state): state = st WITH [ action := idle ]
+  press_leftArrow(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val - POSX_STEP ], action := left ]
+  release_leftArrow(st: state): state = st WITH [ action := left ]
 
 END main</code></pre><blockquote>
 <p>This set of specifications was leveraged from the demo 'car', <a href="http://localhost:8082/demos/car/">http://localhost:8082/demos/car/</a>, and developed in order to add the necessary parameters, to maintain the state of the simulation. The modifications that were added were,</p>
@@ -708,6 +1063,11 @@ Position: TYPE = [#
 
 POSX_INIT: real = 0.0
 PosX: TYPE = [#
+    val: real
+#]
+
+LAP_INIT: real = 1.0
+Lap: TYPE = [#
     val: real
 #]
 
@@ -726,12 +1086,10 @@ state: TYPE = [#
     position: Position,
     posx: PosX,
     action: Action,
-    sound: Sound
+    sound: Sound,
+    lap: Lap
 #]</code></pre><blockquote>
-<p>Position, PosX and Speed allows to set the vehicle's position and speed during the simulation. Sound allows the Arcade widget to know when to mute/unmute the audio files, using the Sound widget API. PosX value changes based on the steering wheel rotation. Position value changes based on actions 'accelerate'/'brake' and the current speed value. Actions 'pause','resume' and 'quit' allows the Arcade widget to reveal the 'pause','resume' and 'quit' menus, respetively. </p>
-</blockquote>
-<blockquote>
-<p>Currently it is possible to test the functional demo 'arcade', <a href="http://localhost:8082/demos/arcade_game_simulator/">http://localhost:8082/demos/arcade_game_simulator/</a>, i.e., to test the interactions PVS-Arcade Widget. That is, to use PVS instructions to maintain the simulation state.</p>
+<p>Position, PosX and Speed allows to set the vehicle's position and speed during the simulation. Sound allows the Arcade widget to know when to mute/unmute the audio files, using the Sound widget API. PosX value changes based on the steering wheel rotation. Position value changes based on actions 'accelerate'/'brake' and the current speed value. Actions 'pause','resume' and 'quit' allows the Arcade widget to reveal the 'pause','resume' and 'quit' menus, respetively. Lap allows to set multiple laps in the simulation, updating the current lap number when new_lap function is invoked.</p>
 </blockquote>
 </article>
 
@@ -740,13 +1098,13 @@ state: TYPE = [#
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Arcade.html">Arcade</a></li><li><a href="module-TrackGenerator.html">TrackGenerator</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Arcade.html">Create a New Simulation</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Arcade.html">Arcade</a></li><li><a href="module-Customization.html">Customization</a></li><li><a href="module-TrackGenerator.html">TrackGenerator</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Arcade.html">Create a New Simulation</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon May 28 2018 12:11:51 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jun 06 2018 15:19:56 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

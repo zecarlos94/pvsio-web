@@ -371,6 +371,16 @@ require([
                 ]
             },
             {
+                id: "mobileDevicesController",
+                class: null,
+                styles: [
+                    {
+                        property: "visibility",
+                        value: "visible"
+                    }
+                ]
+            },
+            {
                 id: "gamepadImage",
                 class: null,
                 styles: [
@@ -614,31 +624,6 @@ require([
         car.envThermometer = new Thermometer('env-temp');
         */
         
-        // ----------------------------- CONTROLLERS COMPONENTS --------------------------
-        // ----------------------------- DRAWGAMEPAD COMPONENTS -----------------------------
-        // car.drawGamepad = new DrawGamepad("drawGamepad", {
-        //     top: 100,
-        //     left: 350,
-        //     width: 750,
-        //     height: 750
-        // }, {
-        //     parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
-        //     style: "xbox", // defines parent div, which is "ps4" by default
-        //     buttonsPVS: [ "accelerate", "brake", "mute", "unmute", "pause", "quit", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
-        //     callback: onMessageReceived
-        // });
-        car.drawGamepad = new DrawGamepad("drawGamepad", {
-            top: 100,
-            left: 350,
-            width: 750,
-            height: 750
-        }, {
-            parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
-            style: "ps4", // defines parent div, which is "ps4" by default
-            buttonsPVS: [ "accelerate", "brake", "unmute", "mute", "pause", "quit", "touchpad", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
-            callback: onMessageReceived
-        });
-
         // Render car dashboard components
         let initalPVSState=null;
         let render = (res) => {

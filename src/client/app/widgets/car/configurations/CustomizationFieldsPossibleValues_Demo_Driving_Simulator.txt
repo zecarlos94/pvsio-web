@@ -1,0 +1,6 @@
+[{"topography":{"name":"straight","curvature":0},"profile":"flat","numZones":3},{"topography":{"name":"left","curvature":90},"profile":"flat","numZones":3},{"topography":{"name":"straight","curvature":0},"profile":"up","numZones":3},{"topography":{"name":"right","curvature":-90},"profile":"flat","numZones":3},{"topography":{"name":"straight","curvature":0},"profile":"down","numZones":3},{"topography":{"name":"left","curvature":90},"profile":"flat","numZones":3}]
+spritesheet
+spritesheet,spritesheet.text
+["tree","boulder"]
+["boulder"]
+{numZones: 20, zoneSize: 400}

@@ -23,7 +23,6 @@
  *                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
- *                 trackTopography: "curves-slopes", // "straight", // defines initial position after ending 1 lap (restart position in another lap).
  *                 realisticImgs: false,
  *                 vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
  *                 vehicleImgIndex: 2, // defines vehicle sprite image suffix            
@@ -43,6 +42,7 @@
  *                  lapNumber: 2,
  *                  // showOfficialLogo: true,
  *                  // loadPVSSpeedPositions: true,
+ *                  // predefinedTracks: 5,
  *               }// append on div 'game-window'
  *           );
  * 
@@ -197,7 +197,6 @@
  *                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
- *                 trackTopography: "curves-slopes", // "straight", // defines initial position after ending 1 lap (restart position in another lap).
  *                 realisticImgs: false,
  *                 vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
  *                 vehicleImgIndex: 2, // defines vehicle sprite image suffix            
@@ -217,6 +216,7 @@
  *                  lapNumber: 2,
  *                  // showOfficialLogo: true,
  *                  // loadPVSSpeedPositions: true,
+ *                  // predefinedTracks: 5,
  *               }// append on div 'game-window'
  *           );
  * 
@@ -249,7 +249,6 @@
  *                 trackFilename: "track-straight", // "track-curves-slopes", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
- *                 trackTopography: "straight", //  "curves-slopes", // defines initial position after ending 1 lap (restart position in another lap).
  *                 realisticImgs: false,
  *                 vehicle: "helicopter", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
  *                 vehicleImgIndex: 1, // defines vehicle sprite image suffix            
@@ -269,6 +268,7 @@
  *                  lapNumber: 2,
  *                  // showOfficialLogo: true,
  *                  // loadPVSSpeedPositions: true,
+ *                  // predefinedTracks: 5,
  *               }// append on div 'game-window'
  *           );
  * 
@@ -301,6 +301,7 @@ define(function (require, exports, module) {
 
     let Widget = require("widgets/Widget");
     let Sound = require("widgets/car/Sound");
+    let ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
 
     let WIDGETSTATE = null;
     let lastSpeedPVS = null;
@@ -312,8 +313,18 @@ define(function (require, exports, module) {
     let spritesheetJSON;
     let spritesheetJSONPredefined;
     let trackJSON;
+    let predefinedTracks;
     let trackStraightJSONPredefined;
     let trackCurvesSlopesJSONPredefined;
+    let trackLayout1Predefined;
+    let trackLayout2Predefined;
+    let trackLayout3Predefined;
+    let trackLayout4Predefined;
+    let trackLayout5Predefined;
+    let trackLayout6Predefined;
+    let trackLayout7Predefined;
+    let trackLayout8Predefined;
+    let trackLayout9Predefined;
 
     let currentBrowser = { chrome: false, mozilla: false, opera: false, msie: false, safari: false};
 
@@ -377,9 +388,6 @@ define(function (require, exports, module) {
 
     // Information regarding the PNG spritesheets with all objects and letters that allows the desired renderization
     let spritesFiles;
-    
-    // Information regarding the track topography to determine initial position in each lap (restart position)
-    let trackTopography;
 
     // Variables for calculating the vehicle's position, which will be provided as arguments to setControllabeCarPosition method
     let vehicleCurrentDirectionAux, newSpeedAux, newPositionAux, newPositionXAux, vehicleXPositionAux, vehicleYPositionAux;
@@ -417,7 +425,11 @@ define(function (require, exports, module) {
 
     // Information regarding the number of laps of the present simulation
     let lapNumber        = null;
+    let lastLapNumber = 1;
     let currentLapNumber = 1;
+    let callback;
+    let counterAux = 0;
+    let currentPercentage = 0;
 
     /* 
     * End of Arcade Global Variables 
@@ -453,7 +465,6 @@ define(function (require, exports, module) {
      *          <li>trackFilename {String}: the track configuration filename, i.e. JSON file with the track that will be drawed as well as the required sprite coordinates, etc (default is "track").</li>
      *          <li>spritesFilename {String}: the spritesheet configuration filename, i.e. JSON file with the all available sprites, whose coordinates are the same in trackFilename, i.e. the track must have been generated with this JSON as well so the coordinates will match (default is "spritesheet").</li>
      *          <li>spritesFiles {Array}: array with spritesheets(images) names (default is ["spritesheet","spritesheet.text"]).</li>
-     *          <li>trackTopography {String}: the track topography created with TrackGenerator widget previously (default is "curves-slopes").</li>
      *          <li>vehicleImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the vehicle image (front, left side, right side) (default is null).</li>
      *          <li>logoImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the logo image (default is null).</li>
      *          <li>backgroundImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the background image (default is null).</li>
@@ -463,6 +474,7 @@ define(function (require, exports, module) {
      *          <li>lapNumber {Int}: the number of desired laps in the simulation (default is 2 laps).</li>
      *          <li>showOfficialLogo {Bool}: the option to render extra image, on the bottom-left corner, which is the PVSio-web logo created in this thesis (default is false).</li>
      *          <li>loadPVSSpeedPositions {Bool}: allows to use PVS calculated positions and speed in the simulation. (default is true).</li>
+     *          <li>predefinedTracks {Int}: allows to use predefined tracks, present on JSON files with filename "trackLayout"+predefined+".json", in car/configurations/ directory. (default is null).</li>
      * @returns {Arcade} The created instance of the widget Arcade.
      * @memberof module:Arcade
      * @instance
@@ -481,9 +493,9 @@ define(function (require, exports, module) {
         opt.vehicle = opt.vehicle;
         opt.stripePositions = opt.stripePositions;
         opt.showOfficialLogo = opt.showOfficialLogo;
-        opt.trackTopography = opt.trackTopography;
         opt.lapNumber = opt.lapNumber;
         opt.loadPVSSpeedPositions = opt.loadPVSSpeedPositions;
+        opt.predefinedTracks = opt.predefinedTracks;
 
         this.id = id;
         this.top = coords.top || 100;
@@ -492,7 +504,7 @@ define(function (require, exports, module) {
         this.height = coords.height || 750;
 
         this.parent = (opt.parent) ? ("#" + opt.parent) : "game-window";
-        this.trackFilename = (opt.trackFilename) ? ("text!widgets/car/configurations/" + opt.trackFilename + ".json") : "text!widgets/car/configurations/track-curves-slopes.json";
+        this.trackFilename = (opt.trackFilename) ? ("text!widgets/car/configurations/" + opt.trackFilename + ".json") : "text!widgets/car/configurations/track-curves-slopes-random.json";
         this.spritesFilename = (opt.spritesFilename) ? ("text!widgets/car/configurations/" + opt.spritesFilename + ".json") : "text!widgets/car/configurations/spritesheet.json";
         this.spritesFiles = (opt.spritesFiles) ? opt.spritesFiles : ["spritesheet","spritesheet.text"];
         this.vehicleImgIndex = (opt.vehicleImgIndex) ? opt.vehicleImgIndex : null;
@@ -502,14 +514,14 @@ define(function (require, exports, module) {
         this.vehicle = (opt.vehicle) ? opt.vehicle : "car"; // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
         this.stripePositions = (opt.stripePositions) ? opt.stripePositions : { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 };
         this.showOfficialLogo = (opt.showOfficialLogo) ? opt.showOfficialLogo : false;
-        this.trackTopography = (opt.trackTopography) ? opt.trackTopography : "curves-slopes"; // "straight"; 
         this.lapNumber = (opt.lapNumber) ? opt.lapNumber : 2;        
         this.loadPVSSpeedPositions = (opt.loadPVSSpeedPositions) ? opt.loadPVSSpeedPositions : true;
+        this.predefinedTracks = (opt.predefinedTracks) ? opt.predefinedTracks : null;
 
         spritesFiles = this.spritesFiles;
-        trackTopography = this.trackTopography;
         lapNumber = this.lapNumber;
         loadPVSSpeedPositions = this.loadPVSSpeedPositions;
+        predefinedTracks = this.predefinedTracks;
 
         trackP1=this.stripePositions.trackP1;
         trackP2=this.stripePositions.trackP2;
@@ -557,11 +569,22 @@ define(function (require, exports, module) {
             return _this;
         });
 
+        // Set of tracks built with TrackGenerator widget using trackLayout opt field 
+        trackLayout1Predefined = require("text!widgets/car/configurations/trackLayout1.json");
+        trackLayout2Predefined = require("text!widgets/car/configurations/trackLayout2.json");
+        trackLayout3Predefined = require("text!widgets/car/configurations/trackLayout3.json");
+        trackLayout4Predefined = require("text!widgets/car/configurations/trackLayout4.json");
+        trackLayout5Predefined = require("text!widgets/car/configurations/trackLayout5.json");
+        trackLayout6Predefined = require("text!widgets/car/configurations/trackLayout6.json");
+        trackLayout7Predefined = require("text!widgets/car/configurations/trackLayout7.json");
+        trackLayout8Predefined = require("text!widgets/car/configurations/trackLayout8.json");
+        trackLayout9Predefined = require("text!widgets/car/configurations/trackLayout9.json");
+
         // Requiring predefined JSON files 
-        trackStraightJSONPredefined = require("text!widgets/car/configurations/track-straight.json");
-        trackCurvesSlopesJSONPredefined = require("text!widgets/car/configurations/track-curves-slopes.json");
+        trackStraightJSONPredefined = require("text!widgets/car/configurations/track-straight-random.json");
+        trackCurvesSlopesJSONPredefined = require("text!widgets/car/configurations/track-curves-slopes-random.json");
         spritesheetJSONPredefined = require("text!widgets/car/configurations/spritesheet.json");   
-        
+ 
         this.div = d3.select(this.parent)
                         .attr("class","container game_view")
                         .style("position", "absolute")
@@ -609,6 +632,7 @@ define(function (require, exports, module) {
 
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
+        callback = this.callback;
 
         Widget.call(this, id, coords, opt);
        
@@ -628,8 +652,47 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.startSimulation = function () {
         setTimeout(function(){ 
-            trackJSON = document.getElementById("track_file_loaded_opt_field").innerHTML;
-            spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field").innerHTML;
+            if(predefinedTracks!==null){
+                switch(predefinedTracks){
+                    case 1:
+                        trackJSON = trackLayout1Predefined;
+                        break;
+                    case 2:
+                        trackJSON = trackLayout2Predefined;
+                        break;
+                    case 3:
+                        trackJSON = trackLayout3Predefined;
+                        break;
+                    case 4:
+                        trackJSON = trackLayout4Predefined;
+                        break;
+                    case 5:
+                        trackJSON = trackLayout5Predefined;
+                        break;
+                    case 6:
+                        trackJSON = trackLayout6Predefined;
+                        break;
+                    case 7:
+                        trackJSON = trackLayout7Predefined;
+                        break;
+                    case 8:
+                        trackJSON = trackLayout8Predefined;
+                        break;
+                    case 9:
+                        trackJSON = trackLayout9Predefined;
+                        break;
+                    case -1:
+                        trackJSON = trackStraightJSONPredefined;
+                        break;
+                    case -2:
+                        trackJSON = trackCurvesSlopesJSONPredefined;
+                        break;
+                }
+                spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field").innerHTML;
+            }else{
+                trackJSON = document.getElementById("track_file_loaded_opt_field").innerHTML;
+                spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field").innerHTML;
+            }
             if(trackJSON){
                 let aux = JSON.parse(trackJSON);
                 controllable_car=aux.controllable_car;
@@ -965,7 +1028,7 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.onPageLoad = function (spritesFiles) {
         Arcade.prototype.detectBrowserType();
-        if(currentBrowser.chrome || currentBrowser.safari){ // can be ensured that all CSS will work as it is supposed!!!
+        if(currentBrowser.chrome){ // can be ensured that all CSS will work as it is supposed!!!
             Arcade.prototype.init();
 
             simulatorLogo1 = new Image();
@@ -1983,117 +2046,66 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.calculateNewControllableCarPosition = function () {
-        if(loadPVSSpeedPositions){
-            if(WIDGETSTATE!==null && WIDGETSTATE.speed.val!=="0"){
-                // readSprite acceleration controls
-                soundOff = soundWidget.getSoundOff();
-                let currentSpeedPVS = WIDGETSTATE.speed.val;
-                let arraySpeed = currentSpeedPVS.split("/");
-                let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
-                if(!isNaN(speedValue)){
-                    lastSpeedPVS = Math.ceil(speedValue);
+        
+        if(WIDGETSTATE!==null && WIDGETSTATE.speed.val!=="0"){
+            // readSprite acceleration controls
+            soundOff = soundWidget.getSoundOff();
+            let currentSpeedPVS = WIDGETSTATE.speed.val;
+            let arraySpeed = currentSpeedPVS.split("/");
+            let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
+            if(!isNaN(speedValue)){
+                lastSpeedPVS = Math.ceil(speedValue);
+            }
+            if(Math.abs(lastDelta) > 130){
+                if (newSpeedAux > 150) {
+                    newSpeedAux -= lastSpeedPVS*0.10;
                 }
-                if(Math.abs(lastDelta) > 130){
-                    if (newSpeedAux > 150) {
-                        newSpeedAux -= lastSpeedPVS*0.10;
-                    }
-                }else{
-                    newSpeedAux = lastSpeedPVS*0.10;
-                }
-
-                if (WIDGETSTATE!==null && WIDGETSTATE.action==="acc") { 
-                    if(!soundOff){
-                        soundWidget.playSound(3); //accelerating song
-                    }
-                }else if (WIDGETSTATE!==null && WIDGETSTATE.action==="brake") { 
-                    if(!soundOff){
-                        soundWidget.pauseSound(3); //accelerating song
-                    }
-                }else if (WIDGETSTATE!==null && WIDGETSTATE.action==="idle"){
-                    if(!soundOff){
-                        soundWidget.pauseSound(3); //accelerating song
-                    }
-                }
+            }else{
+                newSpeedAux = lastSpeedPVS*0.10;
             }
 
-            // car turning
-            if (WIDGETSTATE!==null && WIDGETSTATE.action==="left") {
-                carCurrentDirection = "left";
-            } else if (WIDGETSTATE!==null && WIDGETSTATE.action==="right") {
-                carCurrentDirection = "right";
-            } else {
-                carCurrentDirection = "front";
+            if (WIDGETSTATE!==null && WIDGETSTATE.action==="acc") { 
+                if(!soundOff){
+                    soundWidget.playSound(3); //accelerating song
+                }
+            }else if (WIDGETSTATE!==null && WIDGETSTATE.action==="brake") { 
+                if(!soundOff){
+                    soundWidget.pauseSound(3); //accelerating song
+                }
+            }else if (WIDGETSTATE!==null && WIDGETSTATE.action==="idle"){
+                if(!soundOff){
+                    soundWidget.pauseSound(3); //accelerating song
+                }
             }
+        }
 
-            if(WIDGETSTATE!==null && WIDGETSTATE.posx.val!=="0.0"){
-                let currentPositionXPVS = WIDGETSTATE.posx.val;
-                let positionXValue = parseInt(currentPositionXPVS);
-                if(!isNaN(positionXValue)){
-                    lastPosXPVS = Math.ceil(positionXValue);
-                }
-                newPositionXAux = lastPosXPVS;
+        // car turning
+        if (WIDGETSTATE!==null && WIDGETSTATE.action==="left") {
+            carCurrentDirection = "left";
+        } else if (WIDGETSTATE!==null && WIDGETSTATE.action==="right") {
+            carCurrentDirection = "right";
+        } else {
+            carCurrentDirection = "front";
+        }
+
+        if(WIDGETSTATE!==null && WIDGETSTATE.posx.val!=="0.0"){
+            let currentPositionXPVS = WIDGETSTATE.posx.val;
+            let positionXValue = parseInt(currentPositionXPVS);
+            if(!isNaN(positionXValue)){
+                lastPosXPVS = Math.ceil(positionXValue);
             }
-            
-            vehicleCurrentDirectionAux = carCurrentDirection;
-            if(WIDGETSTATE!==null && WIDGETSTATE.position.val!=="10.0"){
-                let currentPositionPVS = WIDGETSTATE.position.val;
-                let arrayPosition = currentPositionPVS.split("/");
-                let positionValue = parseInt(arrayPosition[0])/parseInt(arrayPosition[1]);
-                if(!isNaN(positionValue)){
-                    lastPositionPVS = Math.ceil(positionValue);
-                }
-                newPositionAux = lastPositionPVS;
+            newPositionXAux = lastPosXPVS;
+        }
+        
+        vehicleCurrentDirectionAux = carCurrentDirection;
+        if(WIDGETSTATE!==null && WIDGETSTATE.position.val!=="10.0"){
+            let currentPositionPVS = WIDGETSTATE.position.val;
+            let arrayPosition = currentPositionPVS.split("/");
+            let positionValue = parseInt(arrayPosition[0])/parseInt(arrayPosition[1]);
+            if(!isNaN(positionValue)){
+                lastPositionPVS = Math.ceil(positionValue);
             }
-        }else{
-            newSpeedAux=controllable_car.speed;
-            newPositionAux=controllable_car.position;
-            newPositionXAux=controllable_car.posx;
-    
-            // Calculating newSpeedAux value
-            if (Math.abs(lastDelta) > 130){
-                if (newSpeedAux > 3) {
-                    newSpeedAux -= 0.2;
-                }
-            } else {
-                // readSprite acceleration controls
-                soundOff = soundWidget.getSoundOff();
-                if (WIDGETSTATE!==null && WIDGETSTATE.action==="acc") { 
-                    newSpeedAux += controllable_car.acceleration;
-                    if(!soundOff){
-                      soundWidget.playSound(3); //accelerating song
-                    }
-                } else if(WIDGETSTATE!==null && WIDGETSTATE.action==="brake") { 
-                    newSpeedAux -= controllable_car.breaking;
-                    if(!soundOff){
-                      soundWidget.pauseSound(3); //accelerating song
-                    }
-                } else {
-                    newSpeedAux -= controllable_car.deceleration;
-                    if(!soundOff){
-                      soundWidget.pauseSound(3); //accelerating song
-                    }
-                }
-            }
-    
-            // car turning
-            if (WIDGETSTATE!==null && WIDGETSTATE.action==="left") {
-                carCurrentDirection = "left";
-                if(newSpeedAux > 0){
-                    newPositionXAux -= controllable_car.turning;
-                }
-            } else if(WIDGETSTATE!==null && WIDGETSTATE.action==="right") {
-                carCurrentDirection = "right";
-                if(newSpeedAux > 0){
-                    newPositionXAux += controllable_car.turning;
-                }
-            } else {
-                carCurrentDirection = "front";
-            }
-            
-            vehicleCurrentDirectionAux = carCurrentDirection;
-            newSpeedAux = Math.max(newSpeedAux, 0); //cannot go in reverse
-            newSpeedAux = Math.min(newSpeedAux, controllable_car.maxSpeed); //maximum speed
-            newPositionAux += newSpeedAux;
+            newPositionAux = lastPositionPVS;
         }
 
         switch (vehicleType) {
@@ -2264,42 +2276,24 @@ define(function (require, exports, module) {
         context.fillStyle = "#76665d"; // rgb(139, 120, 106)
         context.fillRect(0, 0, render.width, render.height);
 
-        // Using PVS results
-        Arcade.prototype.calculateNewControllableCarPosition();
-        let carSprite = Arcade.prototype.setControllableCarPosition(vehicleCurrentDirectionAux, newSpeedAux, newPositionAux, newPositionXAux, vehicleXPositionAux, vehicleYPositionAux);
-        
-        // Using only JS to update rendered vehicle
-        // let carSprite = Arcade.prototype.updateControllableCar();
+        let carSprite = null;
+
+        if(loadPVSSpeedPositions){
+            // Using PVS results
+            Arcade.prototype.calculateNewControllableCarPosition();
+            carSprite = Arcade.prototype.setControllableCarPosition(vehicleCurrentDirectionAux, newSpeedAux, newPositionAux, newPositionXAux, vehicleXPositionAux, vehicleYPositionAux);
+        }else{
+            // Using only JS to update rendered vehicle
+            carSprite = Arcade.prototype.updateControllableCar();
+        }
 
         Arcade.prototype.drawBackground(-controllable_car.posx);
 
         let spriteBuffer = [];
 
-        
         // Render the track
         let absoluteIndex = Math.floor(controllable_car.position / trackSegmentSize);
-        
-        if(absoluteIndex >= numIterations-render.depthOfField-1){
-            if(currentLapNumber<lapNumber){
-                currentLapNumber++;
-                if(trackTopography==="straight"){
-                    controllable_car.position=10;
-                }else if(trackTopography==="curves-slopes"){
-                    // TODO
-                    controllable_car.position = -10;
-                }
-            }else{
-                clearInterval(simulatorInterval);
-                Arcade.prototype.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
-                Arcade.prototype.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
-                Arcade.prototype.drawText("The Simulator", {x: 100, y: 70}, 1);
-                soundWidget.pauseAll();
-                
-                // Delayed function call by 5 seconds to reload simulator
-                setTimeout(function() { location.reload(); }, 5000);
-            }
-        }
-
+       
         let currentSegmentIndex    = (absoluteIndex - 2) % track.length;
         let currentSegmentPosition = (absoluteIndex - 2) * trackSegmentSize - controllable_car.position;
         let currentSegment         = track[currentSegmentIndex];
@@ -2343,27 +2337,12 @@ define(function (require, exports, module) {
                     currentSegmentIndex === 2 || currentSegmentIndex === (numIterations-render.depthOfField));
             }
             if(currentSegment.sprite){
-                // console.log(currentSegment.sprite.type);
-
-                // if(currentSegment.sprite.obstacle===1){
-                //     console.log(currentSegment.sprite.pos);
-                // }
-
-                // if(controllable_carPosRelative==currentSegment.sprite.pos){
-                //     console.log("hit");
-                // }
-
-                // TODO Fix current car position detection
-                // console.log(controllable_carPosRelative)
-
-                // console.log(currentSegment.sprite);
-
                 spriteBuffer.push(
                     {
                         y: render.height / 2 + startProjectedHeight,
                         x: render.width / 2 - currentSegment.sprite.pos * render.width * currentScaling + currentSegment.curve - baseOffset - (controllable_car.posx - baseOffset*2) * currentScaling,
                         ymax: render.height / 2 + lastProjectedHeight,
-                        s: currentScaling, // 0.5*currentScaling,
+                        s: currentScaling,
                         i: currentSegment.sprite.type,
                         pos: currentSegment.sprite.pos,
                         obstacle: currentSegment.sprite.obstacle
@@ -2381,55 +2360,62 @@ define(function (require, exports, module) {
             currentSegmentPosition += trackSegmentSize;
 
             counter = (counter + 1) % (2 * numberOfSegmentPerColor);
-
-            // console.log(controllable_carPosRelative)
-
-            // obstacles.forEach(function(element) {
-            //     // console.log(element);
-            //     console.log(controllable_carPosRelative+","+element);
-            //     // if(controllable_carPosRelative)
-            //   });
-            
-            // obstacles has the list of all obstacles positions
-            // console.log(obstacles);
-            // console.log("There are "+obstacles.length+" obstacles in this track");
         }
 
         while((sptB = spriteBuffer.pop())!==undefined) {
-            // Getting the obstacles coordinates
-            // if(sptB.obstacle===1){
-            //     // console.log(sptB.x+","+sptB.y);
-            //     // console.log(sptB.pos);
-            // }
-            
-            // It only draws the obstacles within the track
-            // if(sptB.obstacle===1){
-            //     drawSprite(sptB);
-            // }
-
             Arcade.prototype.drawSprite(sptB, null, null, null, null);
-            // console.log(sptB);
         }
-    
-        // console.log(spritesReadJSON);
-        
+            
         // Draw the car 
         Arcade.prototype.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
+
+        currentPercentage = Math.round(absoluteIndex/(numIterations-render.depthOfField)*100);
+
+        if(WIDGETSTATE!==null){
+            currentLapNumber = parseInt(WIDGETSTATE.lap.val);
+
+            if(absoluteIndex >= numIterations-render.depthOfField-1){
+                if(currentLapNumber<=lapNumber && counterAux===0){
+                    ButtonActionsQueue.queueGUIAction("new_lap", callback);
+                }
+                counterAux=1;
+            }
+
+            if(lastLapNumber===currentLapNumber-1){
+                lastLapNumber=currentLapNumber;
+                counterAux=0;
+            }
+
+            if(currentLapNumber===lapNumber){
+                Arcade.prototype.drawText("1 Lap",{x: 10, y: 15}, 1);
+                Arcade.prototype.drawText("To Go",{x: 10, y: 25}, 1);
+            }
+
+            if(currentLapNumber===lapNumber && currentPercentage>=100){
+                clearInterval(simulatorInterval);
+                Arcade.prototype.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
+                Arcade.prototype.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
+                Arcade.prototype.drawText("The Simulator", {x: 100, y: 70}, 1);
+                soundWidget.pauseAll();
+
+                // Delayed function call by 5 seconds to reload simulator
+                setTimeout(function() { location.reload(); }, 5000);
+            }
+        }
     
         // Draw Header
-        Arcade.prototype.drawText("Lap "+currentLapNumber+"/"+lapNumber,{x: 10, y: 1}, 1);
-        Arcade.prototype.drawText("Current Lap "+Math.round(absoluteIndex/(numIterations-render.depthOfField)*100)+"%",{x: 100, y: 1},1); 
-         
-        if(currentLapNumber===lapNumber){
-            Arcade.prototype.drawText("1 Lap",{x: 10, y: 15}, 1);
-            Arcade.prototype.drawText("To Go",{x: 10, y: 25}, 1);
+        if(currentLapNumber<lapNumber){
+            Arcade.prototype.drawText("Lap "+currentLapNumber+"/"+lapNumber,{x: 10, y: 1}, 1);
+        }else{
+            Arcade.prototype.drawText("Lap "+lapNumber+"/"+lapNumber,{x: 10, y: 1}, 1);
         }
 
-        // Draw Virtual Speedometer
-        // let speed = Math.round(controllable_car.speed / controllable_car.maxSpeed * topSpeed);
-        // let speed_kmh = Math.round(speed * 1.60934);
-        // Arcade.prototype.drawText(""+speed_kmh+" kmh", {x: 260, y: 1}, 1);
-        // Arcade.prototype.drawText(""+speed+" mph", {x: 260, y: 10}, 1);
+        // currentPercentage = Math.round(absoluteIndex/(numIterations-render.depthOfField)*100);
+        if(currentPercentage>100){
+            Arcade.prototype.drawText("Current Lap 100%",{x: 100, y: 1},1); 
+        }else{
+            Arcade.prototype.drawText("Current Lap "+currentPercentage+"%",{x: 100, y: 1},1); 
+        }
 
         // Draw Virtual Speedometer and Tachometer based on Speedometer, Tachometer Widgets
         if(WIDGETSTATE!==null){

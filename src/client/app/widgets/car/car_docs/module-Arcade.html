@@ -143,7 +143,6 @@
                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
-                trackTopography: "curves-slopes", // "straight", // defines initial position after ending 1 lap (restart position in another lap).
                 realisticImgs: false,
                 vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
                 vehicleImgIndex: 2, // defines vehicle sprite image suffix            
@@ -163,6 +162,7 @@
                  lapNumber: 2,
                  // showOfficialLogo: true,
                  // loadPVSSpeedPositions: true,
+                 // predefinedTracks: 5,
               }// append on div 'game-window'
           );
 
@@ -319,7 +319,6 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
-                trackTopography: "curves-slopes", // "straight", // defines initial position after ending 1 lap (restart position in another lap).
                 realisticImgs: false,
                 vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
                 vehicleImgIndex: 2, // defines vehicle sprite image suffix            
@@ -339,6 +338,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
                  lapNumber: 2,
                  // showOfficialLogo: true,
                  // loadPVSSpeedPositions: true,
+                 // predefinedTracks: 5,
               }// append on div 'game-window'
           );
 
@@ -372,7 +372,6 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
                 trackFilename: "track-straight", // "track-curves-slopes", // defines track configuration filename, which is "track-curves-slopes.json" by default
                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
-                trackTopography: "straight", //  "curves-slopes", // defines initial position after ending 1 lap (restart position in another lap).
                 realisticImgs: false,
                 vehicle: "helicopter", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
                 vehicleImgIndex: 1, // defines vehicle sprite image suffix            
@@ -392,6 +391,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
                  lapNumber: 2,
                  // showOfficialLogo: true,
                  // loadPVSSpeedPositions: true,
+                 // predefinedTracks: 5,
               }// append on div 'game-window'
           );
 
@@ -488,7 +488,7 @@ its speed, current position and posx values updated by the render method, using 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1977">line 1977</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2040">line 2040</a>
     </li></ul></dd>
     
 
@@ -657,7 +657,6 @@ its speed, current position and posx values updated by the render method, using 
          <li>trackFilename {String}: the track configuration filename, i.e. JSON file with the track that will be drawed as well as the required sprite coordinates, etc (default is "track").</li>
          <li>spritesFilename {String}: the spritesheet configuration filename, i.e. JSON file with the all available sprites, whose coordinates are the same in trackFilename, i.e. the track must have been generated with this JSON as well so the coordinates will match (default is "spritesheet").</li>
          <li>spritesFiles {Array}: array with spritesheets(images) names (default is ["spritesheet","spritesheet.text"]).</li>
-         <li>trackTopography {String}: the track topography created with TrackGenerator widget previously (default is "curves-slopes").</li>
          <li>vehicleImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the vehicle image (front, left side, right side) (default is null).</li>
          <li>logoImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the logo image (default is null).</li>
          <li>backgroundImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the background image (default is null).</li>
@@ -666,7 +665,8 @@ its speed, current position and posx values updated by the render method, using 
          <li>stripePositions {Object}: position values and respective widths (borders, track and finish line) to be rendered on a stripe. (default is { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 }).</li>
          <li>lapNumber {Int}: the number of desired laps in the simulation (default is 2 laps).</li>
          <li>showOfficialLogo {Bool}: the option to render extra image, on the bottom-left corner, which is the PVSio-web logo created in this thesis (default is false).</li>
-         <li>loadPVSSpeedPositions {Bool}: allows to use PVS calculated positions and speed in the simulation. (default is true).</li></td>
+         <li>loadPVSSpeedPositions {Bool}: allows to use PVS calculated positions and speed in the simulation. (default is true).</li>
+         <li>predefinedTracks {Int}: allows to use predefined tracks, present on JSON files with filename "trackLayout"+predefined+".json", in car/configurations/ directory. (default is null).</li></td>
         </tr>
 
     
@@ -707,7 +707,7 @@ its speed, current position and posx values updated by the render method, using 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line443">line 443</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line455">line 455</a>
     </li></ul></dd>
     
 
@@ -815,7 +815,7 @@ its speed, current position and posx values updated by the render method, using 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2476">line 2476</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2462">line 2462</a>
     </li></ul></dd>
     
 
@@ -1087,7 +1087,7 @@ its speed, current position and posx values updated by the render method, using 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1390">line 1390</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1453">line 1453</a>
     </li></ul></dd>
     
 
@@ -1386,7 +1386,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1474">line 1474</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1537">line 1537</a>
     </li></ul></dd>
     
 
@@ -1685,7 +1685,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1428">line 1428</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1491">line 1491</a>
     </li></ul></dd>
     
 
@@ -1842,7 +1842,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1583">line 1583</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1646">line 1646</a>
     </li></ul></dd>
     
 
@@ -2183,7 +2183,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1251">line 1251</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1314">line 1314</a>
     </li></ul></dd>
     
 
@@ -2524,7 +2524,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1198">line 1198</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1261">line 1261</a>
     </li></ul></dd>
     
 
@@ -2865,7 +2865,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1220">line 1220</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1283">line 1283</a>
     </li></ul></dd>
     
 
@@ -3162,7 +3162,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1649">line 1649</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1712">line 1712</a>
     </li></ul></dd>
     
 
@@ -3503,7 +3503,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1553">line 1553</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1616">line 1616</a>
     </li></ul></dd>
     
 
@@ -3706,7 +3706,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1303">line 1303</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1366">line 1366</a>
     </li></ul></dd>
     
 
@@ -3909,7 +3909,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1280">line 1280</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1343">line 1343</a>
     </li></ul></dd>
     
 
@@ -4139,7 +4139,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1326">line 1326</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1389">line 1389</a>
     </li></ul></dd>
     
 
@@ -4369,7 +4369,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1358">line 1358</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1421">line 1421</a>
     </li></ul></dd>
     
 
@@ -4620,7 +4620,7 @@ an image, x, y and scale (sprite as a null argument). This allows to use render 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1522">line 1522</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1585">line 1585</a>
     </li></ul></dd>
     
 
@@ -4824,7 +4824,7 @@ That is, reading string and for each letter draw the corresponding sprite letter
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1176">line 1176</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1239">line 1239</a>
     </li></ul></dd>
     
 
@@ -4934,7 +4934,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line896">line 896</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line959">line 959</a>
     </li></ul></dd>
     
 
@@ -5084,7 +5084,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line874">line 874</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line937">line 937</a>
     </li></ul></dd>
     
 
@@ -5170,7 +5170,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2500">line 2500</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2486">line 2486</a>
     </li></ul></dd>
     
 
@@ -5327,7 +5327,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line957">line 957</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1020">line 1020</a>
     </li></ul></dd>
     
 
@@ -5484,7 +5484,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2514">line 2514</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2500">line 2500</a>
     </li></ul></dd>
     
 
@@ -5570,7 +5570,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2217">line 2217</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2229">line 2229</a>
     </li></ul></dd>
     
 
@@ -5679,7 +5679,7 @@ It is also initialized the new lap timer, using jchronometer lib, as soon as the
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1115">line 1115</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1178">line 1178</a>
     </li></ul></dd>
     
 
@@ -5788,7 +5788,7 @@ It is also initialized the lap timer, using jchronometer lib, as soon as the use
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line992">line 992</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1055">line 1055</a>
     </li></ul></dd>
     
 
@@ -5897,7 +5897,7 @@ It is also resumed the lap timer, using jchronometer lib, as soon as the user us
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1064">line 1064</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1127">line 1127</a>
     </li></ul></dd>
     
 
@@ -6005,7 +6005,7 @@ It is also resumed the lap timer, using jchronometer lib, as soon as the user us
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line885">line 885</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line948">line 948</a>
     </li></ul></dd>
     
 
@@ -6326,7 +6326,7 @@ offer alternate colors. This is used, for instance, to render the track separato
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1619">line 1619</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1682">line 1682</a>
     </li></ul></dd>
     
 
@@ -6508,7 +6508,7 @@ those two segments have during the simulation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1601">line 1601</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1664">line 1664</a>
     </li></ul></dd>
     
 
@@ -6780,7 +6780,7 @@ those two segments have during the simulation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1923">line 1923</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1986">line 1986</a>
     </li></ul></dd>
     
 
@@ -6889,7 +6889,7 @@ That is, returns the new state after the action performed by the user (accelerat
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line622">line 622</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line646">line 646</a>
     </li></ul></dd>
     
 
@@ -6975,7 +6975,7 @@ That is, returns the new state after the action performed by the user (accelerat
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1756">line 1756</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1819">line 1819</a>
     </li></ul></dd>
     
 
@@ -7042,13 +7042,13 @@ That is, returns the new state after the action performed by the user (accelerat
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Arcade.html">Arcade</a></li><li><a href="module-ButtonExternalController.html">ButtonExternalController</a></li><li><a href="module-Customization.html">Customization</a></li><li><a href="module-DrawGamepad.html">DrawGamepad</a></li><li><a href="module-GamepadController.html">GamepadController</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-GyroscopeController.html">GyroscopeController</a></li><li><a href="module-Sound.html">Sound</a></li><li><a href="module-Speedometer.html">Speedometer</a></li><li><a href="module-SteeringWheel.html">SteeringWheel</a></li><li><a href="module-Tachometer.html">Tachometer</a></li><li><a href="module-TrackGenerator.html">TrackGenerator</a></li><li><a href="module-VirtualKeypadController.html">VirtualKeypadController</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Arcade.html">Arcade</a></li><li><a href="module-ArcadeWithoutLaps.html">ArcadeWithoutLaps</a></li><li><a href="module-ButtonExternalController.html">ButtonExternalController</a></li><li><a href="module-Customization.html">Customization</a></li><li><a href="module-DrawGamepad.html">DrawGamepad</a></li><li><a href="module-GamepadController.html">GamepadController</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-GyroscopeController.html">GyroscopeController</a></li><li><a href="module-Sound.html">Sound</a></li><li><a href="module-Speedometer.html">Speedometer</a></li><li><a href="module-SteeringWheel.html">SteeringWheel</a></li><li><a href="module-Tachometer.html">Tachometer</a></li><li><a href="module-TrackGenerator.html">TrackGenerator</a></li><li><a href="module-VirtualKeypadController.html">VirtualKeypadController</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 30 2018 11:56:13 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jun 06 2018 15:19:50 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: Arcade</title>
+    <title>JSDoc: Module: ArcadeWithoutLaps</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: Arcade</h1>
+    <h1 class="page-title">Module: ArcadeWithoutLaps</h1>
 
     
 
@@ -95,6 +95,11 @@
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
 
     
 
@@ -121,18 +126,18 @@
 
     <h5>Examples</h5>
     
-        <p class="code-caption">Usage of Arcade within a PVSio-web demo.</p>
+        <p class="code-caption">Usage of ArcadeWithoutLaps within a PVSio-web demo.</p>
     
     <pre class="prettyprint"><code>define(function (require, exports, module) {
     "use strict";
 
-    // Require the Arcade module
-    require("widgets/car/Arcade");
+    // Require the ArcadeWithoutLaps module
+    require("widgets/car/ArcadeWithoutLaps");
 
     function main() {
-         // After Arcade module was loaded, initialize it
-         let arcade = new Arcade(
-              'example', // id of the Arcade element that will be created
+         // After ArcadeWithoutLaps module was loaded, initialize it
+         let arcade = new ArcadeWithoutLaps(
+              'example', // id of the ArcadeWithoutLaps element that will be created
               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
               { parent: 'game-window', 
                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
@@ -154,7 +159,6 @@
                    finishLineP2: 0.40,
                    diffLanesFinishLine: 0.05
                  },
-                 lapNumber: 2,
                  // showOfficialLogo: true,
                  // loadPVSSpeedPositions: true,
                  // predefinedTracks: 5,
@@ -165,24 +169,24 @@
          // Starts the simulation using constructor's opt fields (arguments)
          arcade.startSimulation();
 
-         // Render the Arcade widget, updating Widget status with PVS status (vehicle position, posx and speed)
+         // Render the ArcadeWithoutLaps widget, updating Widget status with PVS status (vehicle position, posx and speed)
          // This API will be called by onMessageReceived callback, which processes PVS status within a PVSio-web demo, so
          // each new pvs status can be propagated to the widget.
          arcade.render();
 
          // OR
 
-         // Hides the Arcade widget
+         // Hides the ArcadeWithoutLaps widget
          arcade.hide();
 
          // OR
 
-         // Reveals the Arcade widget
+         // Reveals the ArcadeWithoutLaps widget
          arcade.reveal();
     }
 });</code></pre>
 
-        <p class="code-caption">Usage of <strong>Protected API</strong> within Arcade Widget. That is, API which is only used internally by the Arcade Widget to create the desired simulation</p>
+        <p class="code-caption">Usage of <strong>Protected API</strong> within ArcadeWithoutLaps Widget. That is, API which is only used internally by the ArcadeWithoutLaps Widget to create the desired simulation</p>
     
     <pre class="prettyprint"><code>    // Loading all spritesheets (images)
     arcade.onPageLoad(this.spritesFiles);
@@ -302,13 +306,13 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
     <pre class="prettyprint"><code>  define(function (require, exports, module) {
     "use strict";
 
-    // Require the Arcade module
-    require("widgets/car/Arcade");
+    // Require the ArcadeWithoutLaps module
+    require("widgets/car/ArcadeWithoutLaps");
 
     function main() {
-         // After Arcade module was loaded, initialize it
-         let arcade = new Arcade(
-              'example', // id of the Arcade element that will be created
+         // After ArcadeWithoutLaps module was loaded, initialize it
+         let arcade = new ArcadeWithoutLaps(
+              'example', // id of the ArcadeWithoutLaps element that will be created
               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
               { parent: 'game-window', 
                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
@@ -330,7 +334,6 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
                    finishLineP2: 0.40,
                    diffLanesFinishLine: 0.05
                  },
-                 lapNumber: 2,
                  // showOfficialLogo: true,
                  // loadPVSSpeedPositions: true,
                  // predefinedTracks: 5,
@@ -340,7 +343,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
          // Starts the simulation using constructor's opt fields (arguments)
          arcade.startSimulation();
 
-         // Render the Arcade widget, updating Widget status with PVS status (vehicle position, posx and speed)
+         // Render the ArcadeWithoutLaps widget, updating Widget status with PVS status (vehicle position, posx and speed)
          // This API will be called by onMessageReceived callback, which processes PVS status within a PVSio-web demo, so
          // each new pvs status can be propagated to the widget.
          arcade.render();
@@ -355,13 +358,13 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
     <pre class="prettyprint"><code>  define(function (require, exports, module) {
     "use strict";
 
-    // Require the Arcade module
-    require("widgets/car/Arcade");
+    // Require the ArcadeWithoutLaps module
+    require("widgets/car/ArcadeWithoutLaps");
 
     function main() {
-         // After Arcade module was loaded, initialize it
-         let arcade = new Arcade(
-              'example', // id of the Arcade element that will be created
+         // After ArcadeWithoutLaps module was loaded, initialize it
+         let arcade = new ArcadeWithoutLaps(
+              'example', // id of the ArcadeWithoutLaps element that will be created
               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
               { parent: 'game-window', 
                 trackFilename: "track-straight", // "track-curves-slopes", // defines track configuration filename, which is "track-curves-slopes.json" by default
@@ -383,7 +386,6 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
                    finishLineP2: 0.40,
                    diffLanesFinishLine: 0.05
                  },
-                 lapNumber: 2,
                  // showOfficialLogo: true,
                  // loadPVSSpeedPositions: true,
                  // predefinedTracks: 5,
@@ -393,7 +395,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
          // Starts the simulation using constructor's opt fields (arguments)
          arcade.startSimulation();
 
-         // Render the Arcade widget, updating Widget status with PVS status (vehicle position, posx and speed)
+         // Render the ArcadeWithoutLaps widget, updating Widget status with PVS status (vehicle position, posx and speed)
          // This API will be called by onMessageReceived callback, which processes PVS status within a PVSio-web demo, so
          // each new pvs status can be propagated to the widget.
          arcade.render();
@@ -430,7 +432,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
     
 
     
-    <h4 class="name" id="calculateNewControllableCarPosition"><span class="type-signature">(protected) </span>calculateNewControllableCarPosition<span class="signature">()</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="calculateNewControllableCarPosition"><span class="type-signature">(protected) </span>calculateNewControllableCarPosition<span class="signature">()</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -438,7 +440,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
 
 
 <div class="description">
-    calculateNewControllableCarPosition method of the Arcade widget. This method calculates the new controllable car position, based on
+    calculateNewControllableCarPosition method of the ArcadeWithoutLaps widget. This method calculates the new controllable car position, based on
 its speed, current position and posx values updated by the render method, using PVS status.
 </div>
 
@@ -481,6 +483,11 @@ its speed, current position and posx values updated by the render method, using 
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line2026">line 2026</a>
+    </li></ul></dd>
+    
 
     
 
@@ -505,7 +512,7 @@ its speed, current position and posx values updated by the render method, using 
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -516,7 +523,7 @@ its speed, current position and posx values updated by the render method, using 
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -534,7 +541,7 @@ its speed, current position and posx values updated by the render method, using 
     
 
     
-    <h4 class="name" id="constructor"><span class="type-signature"></span>constructor<span class="signature">(id, coords, opt)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="constructor"><span class="type-signature"></span>constructor<span class="signature">(id, coords, opt)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -542,7 +549,7 @@ its speed, current position and posx values updated by the render method, using 
 
 
 <div class="description">
-    Constructor for the Arcade widget.
+    Constructor for the ArcadeWithoutLaps widget.
 </div>
 
 
@@ -653,7 +660,6 @@ its speed, current position and posx values updated by the render method, using 
          <li>realisticImgs {Bool}: value that indicates if the sprite of the vehicle to be used is a realistic image or if it is a pixelated image as in arcade games (default is "false").</li>
          <li>vehicle {String}: the type of vehicle to be used in the simulation. The types available are ["airplane", "bicycle", "car", "helicopter", "motorbike"]. It should be noted that these types must exist in the spritesheet if they are to be used. (default is "car").</li>
          <li>stripePositions {Object}: position values and respective widths (borders, track and finish line) to be rendered on a stripe. (default is { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 }).</li>
-         <li>lapNumber {Int}: the number of desired laps in the simulation (default is 2 laps).</li>
          <li>showOfficialLogo {Bool}: the option to render extra image, on the bottom-left corner, which is the PVSio-web logo created in this thesis (default is false).</li>
          <li>loadPVSSpeedPositions {Bool}: allows to use PVS calculated positions and speed in the simulation. (default is true).</li>
          <li>predefinedTracks {Int}: allows to use predefined tracks, present on JSON files with filename "trackLayout"+predefined+".json", in car/configurations/ directory. (default is null).</li></td>
@@ -695,6 +701,11 @@ its speed, current position and posx values updated by the render method, using 
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line445">line 445</a>
+    </li></ul></dd>
+    
 
     
 
@@ -719,7 +730,7 @@ its speed, current position and posx values updated by the render method, using 
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -730,7 +741,7 @@ its speed, current position and posx values updated by the render method, using 
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -748,7 +759,7 @@ its speed, current position and posx values updated by the render method, using 
     
 
     
-    <h4 class="name" id="detectBrowserType"><span class="type-signature">(protected) </span>detectBrowserType<span class="signature">()</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="detectBrowserType"><span class="type-signature">(protected) </span>detectBrowserType<span class="signature">()</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -756,7 +767,7 @@ its speed, current position and posx values updated by the render method, using 
 
 
 <div class="description">
-    DetectBrowserType method of the Arcade widget. This method detects current open Browser.
+    DetectBrowserType method of the ArcadeWithoutLaps widget. This method detects current open Browser.
 </div>
 
 
@@ -798,6 +809,11 @@ its speed, current position and posx values updated by the render method, using 
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line2419">line 2419</a>
+    </li></ul></dd>
+    
 
     
 
@@ -822,7 +838,7 @@ its speed, current position and posx values updated by the render method, using 
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -833,7 +849,7 @@ its speed, current position and posx values updated by the render method, using 
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -851,7 +867,7 @@ its speed, current position and posx values updated by the render method, using 
     
 
     
-    <h4 class="name" id="drawArrowFront"><span class="type-signature">(protected) </span>drawArrowFront<span class="signature">(x, y, width, height, color, withLine)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawArrowFront"><span class="type-signature">(protected) </span>drawArrowFront<span class="signature">(x, y, width, height, color, withLine)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -859,7 +875,7 @@ its speed, current position and posx values updated by the render method, using 
 
 
 <div class="description">
-    DrawArrowFront method of the Arcade widget. This method draws a guiding arrow in front of the vehicle.
+    DrawArrowFront method of the ArcadeWithoutLaps widget. This method draws a guiding arrow in front of the vehicle.
 </div>
 
 
@@ -1065,299 +1081,10 @@ its speed, current position and posx values updated by the render method, using 
     
 
     
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    The created instance of the widget Arcade.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Arcade</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="drawArrowLeft"><span class="type-signature">(protected) </span>drawArrowLeft<span class="signature">(x, y, width, height, color, withLine, direction)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    DrawArrowLeft method of the Arcade widget. This method draws a guiding arrow, turned left, in front of the vehicle.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>x</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Int</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Coordinate X of starting point, i.e. where arrow apex will be drawed.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Int</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Coordinate Y of starting point, i.e. where arrow apex will be drawed.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>width</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Int</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Arrow width(triangle).</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>height</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Int</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Arrow height(triangle).</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>color</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">CSS color to render the arrow, usually hexadecimal value.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>withLine</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Int</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Boolean, i.e. value 0 does not render line(arrow tail) and 1 renders.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>direction</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object with inverse property, which indicates whether the guide 
-arrow points in the opposite direction of the vehicle, i.e. if it points to the lane, 
-i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points 
-in the direction of the vehicle, i.e., points to the direction of the vehicle at the present 
-moment of the simulation. The abovementioned object is then {inverse:true}.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1439">line 1439</a>
+    </li></ul></dd>
     
 
     
@@ -1383,7 +1110,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -1394,7 +1121,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -1412,7 +1139,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
 
     
-    <h4 class="name" id="drawArrowRight"><span class="type-signature">(protected) </span>drawArrowRight<span class="signature">(x, y, width, height, color, withLine, direction)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawArrowLeft"><span class="type-signature">(protected) </span>drawArrowLeft<span class="signature">(x, y, width, height, color, withLine, direction)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -1420,7 +1147,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
 
 <div class="description">
-    DrawArrowRight method of the Arcade widget. This method draws a guiding arrow, turned right, in front of the vehicle.
+    DrawArrowLeft method of the ArcadeWithoutLaps widget. This method draws a guiding arrow, turned left, in front of the vehicle.
 </div>
 
 
@@ -1653,6 +1380,11 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1523">line 1523</a>
+    </li></ul></dd>
+    
 
     
 
@@ -1677,7 +1409,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -1688,7 +1420,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -1706,7 +1438,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
 
     
-    <h4 class="name" id="drawBackground"><span class="type-signature">(protected) </span>drawBackground<span class="signature">(position)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawArrowRight"><span class="type-signature">(protected) </span>drawArrowRight<span class="signature">(x, y, width, height, color, withLine, direction)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -1714,7 +1446,306 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
 
 <div class="description">
-    DrawBackground method of the Arcade widget. This method draws the background image, in position 'position'.
+    DrawArrowRight method of the ArcadeWithoutLaps widget. This method draws a guiding arrow, turned right, in front of the vehicle.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordinate X of starting point, i.e. where arrow apex will be drawed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordinate Y of starting point, i.e. where arrow apex will be drawed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>width</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Arrow width(triangle).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>height</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Arrow height(triangle).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">CSS color to render the arrow, usually hexadecimal value.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>withLine</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Boolean, i.e. value 0 does not render line(arrow tail) and 1 renders.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>direction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object with inverse property, which indicates whether the guide 
+arrow points in the opposite direction of the vehicle, i.e. if it points to the lane, 
+i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points 
+in the direction of the vehicle, i.e., points to the direction of the vehicle at the present 
+moment of the simulation. The abovementioned object is then {inverse:true}.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1477">line 1477</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget ArcadeWithoutLaps.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ArcadeWithoutLaps</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="drawBackground"><span class="type-signature">(protected) </span>drawBackground<span class="signature">(position)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    DrawBackground method of the ArcadeWithoutLaps widget. This method draws the background image, in position 'position'.
 </div>
 
 
@@ -1805,6 +1836,11 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1632">line 1632</a>
+    </li></ul></dd>
+    
 
     
 
@@ -1829,7 +1865,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -1840,7 +1876,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -1858,7 +1894,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
 
     
-    <h4 class="name" id="drawGuidingLine"><span class="type-signature">(protected) </span>drawGuidingLine<span class="signature">(pos1, scale1, offset1, pos2, scale2, offset2, delta1, delta2, color)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawGuidingLine"><span class="type-signature">(protected) </span>drawGuidingLine<span class="signature">(pos1, scale1, offset1, pos2, scale2, offset2, delta1, delta2, color)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -1866,7 +1902,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
 
 <div class="description">
-    DrawGuidingLine method of the Arcade widget. This method draws a guiding line within the track.
+    DrawGuidingLine method of the ArcadeWithoutLaps widget. This method draws a guiding line within the track.
 </div>
 
 
@@ -2141,6 +2177,11 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1300">line 1300</a>
+    </li></ul></dd>
+    
 
     
 
@@ -2165,7 +2206,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -2176,7 +2217,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -2194,7 +2235,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
 
     
-    <h4 class="name" id="drawLanePos"><span class="type-signature">(protected) </span>drawLanePos<span class="signature">(pos1, scale1, offset1, pos2, scale2, offset2, color, indexPos, laneWidth)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawLanePos"><span class="type-signature">(protected) </span>drawLanePos<span class="signature">(pos1, scale1, offset1, pos2, scale2, offset2, color, indexPos, laneWidth)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -2202,7 +2243,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
 
 <div class="description">
-    DrawLanePos method of the Arcade widget. This method draws one lane in the desired position, received as argument.
+    DrawLanePos method of the ArcadeWithoutLaps widget. This method draws one lane in the desired position, received as argument.
 </div>
 
 
@@ -2477,6 +2518,11 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1247">line 1247</a>
+    </li></ul></dd>
+    
 
     
 
@@ -2501,7 +2547,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -2512,7 +2558,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -2530,7 +2576,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
 
     
-    <h4 class="name" id="drawLanes"><span class="type-signature">(protected) </span>drawLanes<span class="signature">(pos1, scale1, offset1, pos2, scale2, offset2, color, numLanes, laneWidth)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawLanes"><span class="type-signature">(protected) </span>drawLanes<span class="signature">(pos1, scale1, offset1, pos2, scale2, offset2, color, numLanes, laneWidth)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -2538,7 +2584,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
 
 <div class="description">
-    DrawLanes method of the Arcade widget. This method draws lanes according to numLanes, received as argument.
+    DrawLanes method of the ArcadeWithoutLaps widget. This method draws lanes according to numLanes, received as argument.
 </div>
 
 
@@ -2813,6 +2859,11 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1269">line 1269</a>
+    </li></ul></dd>
+    
 
     
 
@@ -2837,7 +2888,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -2848,7 +2899,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -2866,7 +2917,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
 
     
-    <h4 class="name" id="drawSegment"><span class="type-signature">(protected) </span>drawSegment<span class="signature">(position1, scale1, offset1, position2, scale2, offset2, finishStart)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawSegment"><span class="type-signature">(protected) </span>drawSegment<span class="signature">(position1, scale1, offset1, position2, scale2, offset2, finishStart)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -2874,7 +2925,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
 
 <div class="description">
-    DrawSegment method of the Arcade widget. This method draws a segment of the simulator(which corresponds to an entire strip of the canvas). 
+    DrawSegment method of the ArcadeWithoutLaps widget. This method draws a segment of the simulator(which corresponds to an entire strip of the canvas). 
 To do so, this method uses drawSegmentPortion, setColorsEndCanvas methods. The latter is used to draw the finishing line (different colors).
 </div>
 
@@ -3105,6 +3156,11 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1698">line 1698</a>
+    </li></ul></dd>
+    
 
     
 
@@ -3129,7 +3185,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -3140,7 +3196,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -3158,7 +3214,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
 
     
-    <h4 class="name" id="drawSegmentPortion"><span class="type-signature">(protected) </span>drawSegmentPortion<span class="signature">(pos1, scale1, offset1, pos2, scale2, offset2, delta1, delta2, color)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawSegmentPortion"><span class="type-signature">(protected) </span>drawSegmentPortion<span class="signature">(pos1, scale1, offset1, pos2, scale2, offset2, delta1, delta2, color)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -3166,7 +3222,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
 
 
 <div class="description">
-    DrawSegmentPortion method of the Arcade widget. This method draws a segment portion.
+    DrawSegmentPortion method of the ArcadeWithoutLaps widget. This method draws a segment portion.
 </div>
 
 
@@ -3441,6 +3497,11 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1602">line 1602</a>
+    </li></ul></dd>
+    
 
     
 
@@ -3465,7 +3526,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -3476,7 +3537,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -3494,7 +3555,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
 
     
-    <h4 class="name" id="drawSimpleArrowDown"><span class="type-signature">(protected) </span>drawSimpleArrowDown<span class="signature">(x, y, color)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawSimpleArrowDown"><span class="type-signature">(protected) </span>drawSimpleArrowDown<span class="signature">(x, y, color)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -3502,7 +3563,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
 
 
 <div class="description">
-    DrawSimpleArrowDown method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
+    DrawSimpleArrowDown method of the ArcadeWithoutLaps widget. This method draws a guiding arrow on right top corner of the canvas.
 </div>
 
 
@@ -3639,6 +3700,11 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1352">line 1352</a>
+    </li></ul></dd>
+    
 
     
 
@@ -3663,7 +3729,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -3674,7 +3740,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -3692,7 +3758,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
 
     
-    <h4 class="name" id="drawSimpleArrowFront"><span class="type-signature">(protected) </span>drawSimpleArrowFront<span class="signature">(x, y, color)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawSimpleArrowFront"><span class="type-signature">(protected) </span>drawSimpleArrowFront<span class="signature">(x, y, color)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -3700,7 +3766,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
 
 
 <div class="description">
-    DrawSimpleArrowFront method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
+    DrawSimpleArrowFront method of the ArcadeWithoutLaps widget. This method draws a guiding arrow on right top corner of the canvas.
 </div>
 
 
@@ -3837,230 +3903,10 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
 
     
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    The created instance of the widget Arcade.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Arcade</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="drawSimpleArrowLeft"><span class="type-signature">(protected) </span>drawSimpleArrowLeft<span class="signature">(x, y, color, direction)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    DrawSimpleArrowLeft method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>x</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Int</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Coordinate X of starting point, i.e. where simple arrow will be drawed.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Int</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Coordinate Y of starting point, i.e. where simple arrow will be drawed.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>color</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">CSS color to render the simple arrow, usually hexadecimal value.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>direction</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object with inverse property, which indicates whether the guide 
-arrow points in the opposite direction of the vehicle, i.e. if it points to the lane, 
-i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points 
-in the direction of the vehicle, i.e., points to the direction of the vehicle at the present 
-moment of the simulation. The abovementioned object is then {inverse:true}.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1329">line 1329</a>
+    </li></ul></dd>
     
 
     
@@ -4086,7 +3932,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -4097,7 +3943,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -4115,7 +3961,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
 
     
-    <h4 class="name" id="drawSimpleArrowRight"><span class="type-signature">(protected) </span>drawSimpleArrowRight<span class="signature">(x, y, color, direction)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawSimpleArrowLeft"><span class="type-signature">(protected) </span>drawSimpleArrowLeft<span class="signature">(x, y, color, direction)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -4123,7 +3969,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
 
 <div class="description">
-    DrawSimpleArrowRight method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
+    DrawSimpleArrowLeft method of the ArcadeWithoutLaps widget. This method draws a guiding arrow on right top corner of the canvas.
 </div>
 
 
@@ -4287,6 +4133,11 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1375">line 1375</a>
+    </li></ul></dd>
+    
 
     
 
@@ -4311,7 +4162,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -4322,7 +4173,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -4340,7 +4191,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
 
     
-    <h4 class="name" id="drawSprite"><span class="type-signature">(protected) </span>drawSprite<span class="signature">(sprite, image, x, y, scale)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawSimpleArrowRight"><span class="type-signature">(protected) </span>drawSimpleArrowRight<span class="signature">(x, y, color, direction)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -4348,7 +4199,237 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
 
 <div class="description">
-    DrawSprite method of the Arcade widget. This method draws an image of spritesheetsImages array. Usually it uses index 0, since this method is used to 
+    DrawSimpleArrowRight method of the ArcadeWithoutLaps widget. This method draws a guiding arrow on right top corner of the canvas.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordinate X of starting point, i.e. where simple arrow will be drawed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Coordinate Y of starting point, i.e. where simple arrow will be drawed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">CSS color to render the simple arrow, usually hexadecimal value.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>direction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object with inverse property, which indicates whether the guide 
+arrow points in the opposite direction of the vehicle, i.e. if it points to the lane, 
+i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points 
+in the direction of the vehicle, i.e., points to the direction of the vehicle at the present 
+moment of the simulation. The abovementioned object is then {inverse:true}.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1407">line 1407</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget ArcadeWithoutLaps.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ArcadeWithoutLaps</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="drawSprite"><span class="type-signature">(protected) </span>drawSprite<span class="signature">(sprite, image, x, y, scale)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    DrawSprite method of the ArcadeWithoutLaps widget. This method draws an image of spritesheetsImages array. Usually it uses index 0, since this method is used to 
 draw objects and index 0 has the spritesheet image with all available objects. This method either receives only a sprite (and null as other arguments) or receives 
 an image, x, y and scale (sprite as a null argument). This allows to use render different images and sprites.
 </div>
@@ -4533,6 +4614,11 @@ an image, x, y and scale (sprite as a null argument). This allows to use render 
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1571">line 1571</a>
+    </li></ul></dd>
+    
 
     
 
@@ -4557,7 +4643,7 @@ an image, x, y and scale (sprite as a null argument). This allows to use render 
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -4568,7 +4654,7 @@ an image, x, y and scale (sprite as a null argument). This allows to use render 
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -4586,7 +4672,7 @@ an image, x, y and scale (sprite as a null argument). This allows to use render 
     
 
     
-    <h4 class="name" id="drawText"><span class="type-signature">(protected) </span>drawText<span class="signature">(string, pos, imageIndex)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="drawText"><span class="type-signature">(protected) </span>drawText<span class="signature">(string, pos, imageIndex)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -4594,7 +4680,7 @@ an image, x, y and scale (sprite as a null argument). This allows to use render 
 
 
 <div class="description">
-    DrawText method of the Arcade widget. This method draws text using sprite letters to simulate the arcade look. 
+    DrawText method of the ArcadeWithoutLaps widget. This method draws text using sprite letters to simulate the arcade look. 
 That is, reading string and for each letter draw the corresponding sprite letter, using image spritesheetsImages[imageIndex].
 </div>
 
@@ -4732,6 +4818,11 @@ That is, reading string and for each letter draw the corresponding sprite letter
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1225">line 1225</a>
+    </li></ul></dd>
+    
 
     
 
@@ -4756,7 +4847,7 @@ That is, reading string and for each letter draw the corresponding sprite letter
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -4767,7 +4858,7 @@ That is, reading string and for each letter draw the corresponding sprite letter
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -4785,7 +4876,7 @@ That is, reading string and for each letter draw the corresponding sprite letter
     
 
     
-    <h4 class="name" id="getNrIterations"><span class="type-signature">(protected) </span>getNrIterations<span class="signature">()</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="getNrIterations"><span class="type-signature">(protected) </span>getNrIterations<span class="signature">()</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -4793,7 +4884,7 @@ That is, reading string and for each letter draw the corresponding sprite letter
 
 
 <div class="description">
-    GetNrIterations method of the Arcade widget. This method computes the number of iterations required to draw the track defined in the JSON configuration file. 
+    GetNrIterations method of the ArcadeWithoutLaps widget. This method computes the number of iterations required to draw the track defined in the JSON configuration file. 
 In the final version, the JSON structure, see example 1), will be the same, however fields 'height' and 'curve' will have other values 
 other than 0 and 0, respectively.
 </div>
@@ -4837,6 +4928,11 @@ other than 0 and 0, respectively.
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line945">line 945</a>
+    </li></ul></dd>
+    
 
     
 
@@ -4861,7 +4957,7 @@ other than 0 and 0, respectively.
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -4872,7 +4968,7 @@ other than 0 and 0, respectively.
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -4940,7 +5036,7 @@ other than 0 and 0, respectively.
 
 
 <div class="description">
-    Hide method of the Arcade widget. This method changes the current main div visibility to 'hidden'.
+    Hide method of the ArcadeWithoutLaps widget. This method changes the current main div visibility to 'hidden'.
 </div>
 
 
@@ -4981,6 +5077,11 @@ other than 0 and 0, respectively.
 
     
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line923">line 923</a>
+    </li></ul></dd>
     
 
     
@@ -5013,7 +5114,7 @@ other than 0 and 0, respectively.
     
 
     
-    <h4 class="name" id="init"><span class="type-signature">(protected) </span>init<span class="signature">()</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="init"><span class="type-signature">(protected) </span>init<span class="signature">()</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -5021,7 +5122,7 @@ other than 0 and 0, respectively.
 
 
 <div class="description">
-    Init method of the Arcade widget. This method inits the canvas and adds the events onkeydown and onkeyup to capture the desired actions, i.e. accelerate, brake, etc.
+    Init method of the ArcadeWithoutLaps widget. This method inits the canvas and adds the events onkeydown and onkeyup to capture the desired actions, i.e. accelerate, brake, etc.
 </div>
 
 
@@ -5062,6 +5163,11 @@ other than 0 and 0, respectively.
 
     
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line2443">line 2443</a>
+    </li></ul></dd>
     
 
     
@@ -5087,7 +5193,7 @@ other than 0 and 0, respectively.
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -5098,7 +5204,7 @@ other than 0 and 0, respectively.
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -5116,7 +5222,7 @@ other than 0 and 0, respectively.
     
 
     
-    <h4 class="name" id="onPageLoad"><span class="type-signature">(protected) </span>onPageLoad<span class="signature">(spritesFiles)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="onPageLoad"><span class="type-signature">(protected) </span>onPageLoad<span class="signature">(spritesFiles)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -5124,7 +5230,7 @@ other than 0 and 0, respectively.
 
 
 <div class="description">
-    onPageLoad method of the Arcade widget. This method starts the arcade simulation and loads the required spritesheets, with all sprites defined in track object.
+    onPageLoad method of the ArcadeWithoutLaps widget. This method starts the arcade simulation and loads the required spritesheets, with all sprites defined in track object.
 </div>
 
 
@@ -5215,6 +5321,11 @@ other than 0 and 0, respectively.
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1006">line 1006</a>
+    </li></ul></dd>
+    
 
     
 
@@ -5239,7 +5350,7 @@ other than 0 and 0, respectively.
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -5250,7 +5361,7 @@ other than 0 and 0, respectively.
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -5276,7 +5387,7 @@ other than 0 and 0, respectively.
 
 
 <div class="description">
-    Render method of the Arcade widget.
+    Render method of the ArcadeWithoutLaps widget.
 </div>
 
 
@@ -5367,6 +5478,11 @@ other than 0 and 0, respectively.
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line2457">line 2457</a>
+    </li></ul></dd>
+    
 
     
 
@@ -5398,7 +5514,7 @@ other than 0 and 0, respectively.
     
 
     
-    <h4 class="name" id="renderSimulatorFrame"><span class="type-signature">(protected) </span>renderSimulatorFrame<span class="signature">()</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="renderSimulatorFrame"><span class="type-signature">(protected) </span>renderSimulatorFrame<span class="signature">()</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -5406,7 +5522,7 @@ other than 0 and 0, respectively.
 
 
 <div class="description">
-    RenderSimulatorFrame method of the Arcade widget. This method renders each frame during the simulation.
+    RenderSimulatorFrame method of the ArcadeWithoutLaps widget. This method renders each frame during the simulation.
 </div>
 
 
@@ -5448,6 +5564,11 @@ other than 0 and 0, respectively.
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line2215">line 2215</a>
+    </li></ul></dd>
+    
 
     
 
@@ -5472,7 +5593,7 @@ other than 0 and 0, respectively.
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -5483,7 +5604,7 @@ other than 0 and 0, respectively.
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -5501,7 +5622,7 @@ other than 0 and 0, respectively.
     
 
     
-    <h4 class="name" id="renderSplashEndFrame"><span class="type-signature">(protected) </span>renderSplashEndFrame<span class="signature">()</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="renderSplashEndFrame"><span class="type-signature">(protected) </span>renderSplashEndFrame<span class="signature">()</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -5509,7 +5630,7 @@ other than 0 and 0, respectively.
 
 
 <div class="description">
-    RenderSplashEndFrame method of the Arcade widget. This method draws the simulator end page, where the commands to control the simulator and to start another simulation(renderSimulatorFrame) are displayed. 
+    RenderSplashEndFrame method of the ArcadeWithoutLaps widget. This method draws the simulator end page, where the commands to control the simulator and to start another simulation(renderSimulatorFrame) are displayed. 
 It is also initialized the new lap timer, using jchronometer lib, as soon as the user uses the command to start the new simulation.
 </div>
 
@@ -5552,6 +5673,11 @@ It is also initialized the new lap timer, using jchronometer lib, as soon as the
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1164">line 1164</a>
+    </li></ul></dd>
+    
 
     
 
@@ -5576,7 +5702,7 @@ It is also initialized the new lap timer, using jchronometer lib, as soon as the
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -5587,7 +5713,7 @@ It is also initialized the new lap timer, using jchronometer lib, as soon as the
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -5605,7 +5731,7 @@ It is also initialized the new lap timer, using jchronometer lib, as soon as the
     
 
     
-    <h4 class="name" id="renderSplashFrame"><span class="type-signature">(protected) </span>renderSplashFrame<span class="signature">()</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="renderSplashFrame"><span class="type-signature">(protected) </span>renderSplashFrame<span class="signature">()</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -5613,7 +5739,7 @@ It is also initialized the new lap timer, using jchronometer lib, as soon as the
 
 
 <div class="description">
-    RenderSplashFrame method of the Arcade widget. This method draws the simulator home page, where the commands to control the simulator are displayed. 
+    RenderSplashFrame method of the ArcadeWithoutLaps widget. This method draws the simulator home page, where the commands to control the simulator are displayed. 
 It is also initialized the lap timer, using jchronometer lib, as soon as the user uses the command to start the simulation(renderSimulatorFrame).
 </div>
 
@@ -5656,6 +5782,11 @@ It is also initialized the lap timer, using jchronometer lib, as soon as the use
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1041">line 1041</a>
+    </li></ul></dd>
+    
 
     
 
@@ -5680,7 +5811,7 @@ It is also initialized the lap timer, using jchronometer lib, as soon as the use
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -5691,7 +5822,7 @@ It is also initialized the lap timer, using jchronometer lib, as soon as the use
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -5709,7 +5840,7 @@ It is also initialized the lap timer, using jchronometer lib, as soon as the use
     
 
     
-    <h4 class="name" id="renderSplashPauseFrame"><span class="type-signature">(protected) </span>renderSplashPauseFrame<span class="signature">()</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="renderSplashPauseFrame"><span class="type-signature">(protected) </span>renderSplashPauseFrame<span class="signature">()</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -5717,7 +5848,7 @@ It is also initialized the lap timer, using jchronometer lib, as soon as the use
 
 
 <div class="description">
-    RenderSplashPauseFrame method of the Arcade widget. This method draws the simulator pause page, where the commands to control the simulator and to resume the simulation(renderSimulatorFrame) are displayed. 
+    RenderSplashPauseFrame method of the ArcadeWithoutLaps widget. This method draws the simulator pause page, where the commands to control the simulator and to resume the simulation(renderSimulatorFrame) are displayed. 
 It is also resumed the lap timer, using jchronometer lib, as soon as the user uses the command to resume the simulation.
 </div>
 
@@ -5760,6 +5891,11 @@ It is also resumed the lap timer, using jchronometer lib, as soon as the user us
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1113">line 1113</a>
+    </li></ul></dd>
+    
 
     
 
@@ -5784,7 +5920,7 @@ It is also resumed the lap timer, using jchronometer lib, as soon as the user us
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -5795,7 +5931,7 @@ It is also resumed the lap timer, using jchronometer lib, as soon as the user us
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -5821,7 +5957,7 @@ It is also resumed the lap timer, using jchronometer lib, as soon as the user us
 
 
 <div class="description">
-    Reveal method of the Arcade widget. This method changes the current main div visibility to 'visible'.
+    Reveal method of the ArcadeWithoutLaps widget. This method changes the current main div visibility to 'visible'.
 </div>
 
 
@@ -5863,6 +5999,11 @@ It is also resumed the lap timer, using jchronometer lib, as soon as the user us
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line934">line 934</a>
+    </li></ul></dd>
+    
 
     
 
@@ -5894,7 +6035,7 @@ It is also resumed the lap timer, using jchronometer lib, as soon as the user us
     
 
     
-    <h4 class="name" id="setColorsCanvas"><span class="type-signature">(protected) </span>setColorsCanvas<span class="signature">(alternate, border1, border2, outborder1, outborder_end1, track_segment1, lane1, lane2, laneArrow1)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="setColorsCanvas"><span class="type-signature">(protected) </span>setColorsCanvas<span class="signature">(alternate, border1, border2, outborder1, outborder_end1, track_segment1, lane1, lane2, laneArrow1)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -5902,7 +6043,7 @@ It is also resumed the lap timer, using jchronometer lib, as soon as the user us
 
 
 <div class="description">
-    SetColorsCanvas method of the Arcade widget. This method set the initial colors of canvas, which will prevail until the end of the track is reached.
+    SetColorsCanvas method of the ArcadeWithoutLaps widget. This method set the initial colors of canvas, which will prevail until the end of the track is reached.
 </div>
 
 
@@ -6179,6 +6320,11 @@ offer alternate colors. This is used, for instance, to render the track separato
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1668">line 1668</a>
+    </li></ul></dd>
+    
 
     
 
@@ -6203,7 +6349,7 @@ offer alternate colors. This is used, for instance, to render the track separato
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -6214,7 +6360,7 @@ offer alternate colors. This is used, for instance, to render the track separato
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -6232,7 +6378,7 @@ offer alternate colors. This is used, for instance, to render the track separato
     
 
     
-    <h4 class="name" id="setColorsEndCanvas"><span class="type-signature">(protected) </span>setColorsEndCanvas<span class="signature">(track_segment, lane)</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="setColorsEndCanvas"><span class="type-signature">(protected) </span>setColorsEndCanvas<span class="signature">(track_segment, lane)</span><span class="type-signature"> &rarr; {ArcadeWithoutLaps}</span></h4>
     
 
     
@@ -6240,7 +6386,7 @@ offer alternate colors. This is used, for instance, to render the track separato
 
 
 <div class="description">
-    SetColorsEndCanvas method of the Arcade widget. This method set the final colors of the track segment and lane.
+    SetColorsEndCanvas method of the ArcadeWithoutLaps widget. This method set the final colors of the track segment and lane.
 The goal is to create the illusion of the starting/finishing line, which is black and white, and therefore, different from the colors that
 those two segments have during the simulation.
 </div>
@@ -6356,6 +6502,11 @@ those two segments have during the simulation.
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1650">line 1650</a>
+    </li></ul></dd>
+    
 
     
 
@@ -6380,7 +6531,7 @@ those two segments have during the simulation.
 
         
 <div class="param-desc">
-    The created instance of the widget Arcade.
+    The created instance of the widget ArcadeWithoutLaps.
 </div>
 
 
@@ -6391,7 +6542,7 @@ those two segments have during the simulation.
     </dt>
     <dd>
         
-<span class="param-type">Arcade</span>
+<span class="param-type">ArcadeWithoutLaps</span>
 
 
     </dd>
@@ -6417,7 +6568,7 @@ those two segments have during the simulation.
 
 
 <div class="description">
-    SetControllableCarPosition method of the Arcade widget. This method sets the controllable car position, posx, speed and vehicle sprite based on current direction.
+    SetControllableCarPosition method of the ArcadeWithoutLaps widget. This method sets the controllable car position, posx, speed and vehicle sprite based on current direction.
 </div>
 
 
@@ -6623,6 +6774,11 @@ those two segments have during the simulation.
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1972">line 1972</a>
+    </li></ul></dd>
+    
 
     
 
@@ -6685,7 +6841,7 @@ That is, returns the new state after the action performed by the user (accelerat
 
 
 <div class="description">
-    StartSimulation method of the Arcade widget. This method loads the desired JSON Files and starts the corresponding simulation.
+    StartSimulation method of the ArcadeWithoutLaps widget. This method loads the desired JSON Files and starts the corresponding simulation.
 </div>
 
 
@@ -6726,6 +6882,11 @@ That is, returns the new state after the action performed by the user (accelerat
 
     
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line632">line 632</a>
+    </li></ul></dd>
     
 
     
@@ -6766,7 +6927,7 @@ That is, returns the new state after the action performed by the user (accelerat
 
 
 <div class="description">
-    UpdateControllableCar method of the Arcade widget. This method updates the controllable car position and speed.
+    UpdateControllableCar method of the ArcadeWithoutLaps widget. This method updates the controllable car position and speed.
 </div>
 
 
@@ -6807,6 +6968,11 @@ That is, returns the new state after the action performed by the user (accelerat
 
     
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ArcadeWithoutLaps.js.html">ArcadeWithoutLaps.js</a>, <a href="ArcadeWithoutLaps.js.html#line1805">line 1805</a>
+    </li></ul></dd>
     
 
     
@@ -6872,13 +7038,13 @@ That is, returns the new state after the action performed by the user (accelerat
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Arcade.html">Arcade</a></li><li><a href="module-Customization.html">Customization</a></li><li><a href="module-TrackGenerator.html">TrackGenerator</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Arcade.html">Create a New Simulation</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Arcade.html">Arcade</a></li><li><a href="module-ArcadeWithoutLaps.html">ArcadeWithoutLaps</a></li><li><a href="module-ButtonExternalController.html">ButtonExternalController</a></li><li><a href="module-Customization.html">Customization</a></li><li><a href="module-DrawGamepad.html">DrawGamepad</a></li><li><a href="module-GamepadController.html">GamepadController</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-GyroscopeController.html">GyroscopeController</a></li><li><a href="module-Sound.html">Sound</a></li><li><a href="module-Speedometer.html">Speedometer</a></li><li><a href="module-SteeringWheel.html">SteeringWheel</a></li><li><a href="module-Tachometer.html">Tachometer</a></li><li><a href="module-TrackGenerator.html">TrackGenerator</a></li><li><a href="module-VirtualKeypadController.html">VirtualKeypadController</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jun 06 2018 15:19:56 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jun 06 2018 15:19:50 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>
