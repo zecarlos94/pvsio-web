@@ -196,8 +196,8 @@ main: THEORY
 
   POSX_STEP: real = 25.0 
   STEERING_STEP: real = 20 %deg
-  steering_wheel_right(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val + POSX_STEP ], action := right]
-  steering_wheel_left(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val - POSX_STEP ], action := left ]
+  steering_wheel_right(st: state): state = st WITH [ steering := IF steering(st)<90 THEN steering(st) + STEERING_STEP ELSE 90 ENDIF, posx := posx(st) WITH [ val:= posx(st)`val + POSX_STEP ], action := right]
+  steering_wheel_left(st: state): state = st WITH [ steering := IF steering(st)>-90 THEN steering(st) - STEERING_STEP ELSE -90 ENDIF, posx := posx(st) WITH [ val:= posx(st)`val - POSX_STEP ], action := left ]
   steering_wheel_straight(st: state): state = st WITH [ steering := 0, posx := posx(st) WITH [ val:= posx(st)`val ], action := straight ]
   steering_wheel_rotate(x: real)(st: state): state = st WITH [ steering := x, posx := posx(st) WITH [ val:= IF x > 0 THEN posx(st)`val + POSX_STEP ELSE posx(st)`val - POSX_STEP ENDIF ], action := IF x > 0 THEN right ELSE left ENDIF]
 

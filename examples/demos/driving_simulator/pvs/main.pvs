@@ -148,7 +148,7 @@ main: THEORY
              THEN st WITH [ speed := speed(st) WITH [ val:= speed(st)`val + step ]]
 	     ELSE st WITH [ speed := speed(st) WITH [ val:= MAX_SPEED ]] ENDIF,
 	new_rpm = getRPM(st),
-	st = st WITH [ rpm := new_rpm, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+	st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
      IN IF rpm(st) > 6 THEN gearUP(st) ELSE st ENDIF
 
   brake(st: state): state =
@@ -164,7 +164,7 @@ main: THEORY
 				  THEN speed(st)`val - step`speed
 				  ELSE 0 ENDIF ]] ENDIF,
 	new_rpm = getRPM(st),
-        st = st WITH [ rpm := new_rpm, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+        st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
      IN IF rpm(st) < 4 THEN gearDOWN(st) ELSE st ENDIF
 
   FRICTION: Speed_Val = 0.6
@@ -175,7 +175,8 @@ main: THEORY
 	ELSE IF odo + step <= 0 THEN 0 ELSE odo + step ENDIF ENDIF
 
   tick(st: state): state =
-   LET st = st WITH [ time := get_current_time ] IN
+   LET st = st WITH [ time := get_current_time,
+                      position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]] IN
     IF action(st) = idle
     THEN IF speed(st)`val > 0
          THEN LET new_speed = IF speed(st)`val - FRICTION > 0 THEN speed(st)`val - FRICTION ELSE 0 ENDIF,
@@ -195,8 +196,8 @@ main: THEORY
 
   POSX_STEP: real = 25.0 
   STEERING_STEP: real = 20 %deg
-  steering_wheel_right(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val + POSX_STEP ], action := right]
-  steering_wheel_left(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val - POSX_STEP ], action := left ]
+  steering_wheel_right(st: state): state = st WITH [ steering := IF steering(st)<90 THEN steering(st) + STEERING_STEP ELSE 90 ENDIF, posx := posx(st) WITH [ val:= posx(st)`val + POSX_STEP ], action := right]
+  steering_wheel_left(st: state): state = st WITH [ steering := IF steering(st)>-90 THEN steering(st) - STEERING_STEP ELSE -90 ENDIF, posx := posx(st) WITH [ val:= posx(st)`val - POSX_STEP ], action := left ]
   steering_wheel_straight(st: state): state = st WITH [ steering := 0, posx := posx(st) WITH [ val:= posx(st)`val ], action := straight ]
   steering_wheel_rotate(x: real)(st: state): state = st WITH [ steering := x, posx := posx(st) WITH [ val:= IF x > 0 THEN posx(st)`val + POSX_STEP ELSE posx(st)`val - POSX_STEP ENDIF ], action := IF x > 0 THEN right ELSE left ENDIF]
 
