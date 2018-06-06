@@ -1600,18 +1600,18 @@ define(function (require, exports, module) {
                     case 0:
                         intendedHeightForCurrentZone = 0; break;
                     case 1:
-                        intendedHeightForCurrentZone = params.maxHeight * randomPos(); break;
+                        intendedHeightForCurrentZone = 900 * randomPos(); break;
                     case -1:
-                        intendedHeightForCurrentZone = - params.maxHeight * randomPos(); break;
+                        intendedHeightForCurrentZone = - 900 * randomPos(); break;
                 }
                 let intendedCurveForCurrentZone;
                 switch(curveType){
                     case 0:
                         intendedCurveForCurrentZone = 0; break;
                     case 1:
-                        intendedCurveForCurrentZone = - params.maxCurve * randomPos(); break;
+                        intendedCurveForCurrentZone = - 400 * randomPos(); break;
                     case -1:
-                        intendedCurveForCurrentZone = params.maxCurve * randomPos(); break;
+                        intendedCurveForCurrentZone = 400 * randomPos(); break;
                 }
                 
                 for(let i=0; i < params.zoneSize; i++){
@@ -1781,53 +1781,21 @@ define(function (require, exports, module) {
             
             while(iter){
                 if(tmpIter<=trackLayout[trackLayout.length-tmpPos].numZones){
-                    // console.log(trackLayout[trackLayout.length-tmpPos]);
-                    // console.log("trackLayoutProfile: "+trackLayout[trackLayout.length-tmpPos].profile);
-                    // console.log("trackLayoutTopographyName: "+trackLayout[trackLayout.length-tmpPos].topography.name);
-                    // console.log("trackLayoutTopographyCurvatureAngle: "+trackLayout[trackLayout.length-tmpPos].topography.curvature);
-                    switch(trackLayout[trackLayout.length-tmpPos].profile){
-                        case "flat":
-                            trackLayoutProfile=0;
-                            break; 
-                        case "up": 
-                            trackLayoutProfile=1;
-                            break;
-                        case "down": 
-                            trackLayoutProfile=-1;
-                            break;  
-                    }
-                    switch(trackLayout[trackLayout.length-tmpPos].topography.name){
-                        case "straight":
-                            trackLayoutTopographyName=0;
-                            break; 
-                        case "left": 
-                            trackLayoutTopographyName=1;
-                            break;
-                        case "right": 
-                            trackLayoutTopographyName=-1;
-                            break;  
-                    }
-                    
                     // Generate current Zone
                     let intendedHeightForCurrentZone;
-                    switch(trackLayoutProfile){
-                        case 0:
-                            intendedHeightForCurrentZone = 0; break;
-                        case 1:
-                            intendedHeightForCurrentZone = params.maxHeight * randomPos(); break;
-                        case -1:
-                            intendedHeightForCurrentZone = - params.maxHeight * randomPos(); break;
+                    let intendedCurveForCurrentZone = parseInt(trackLayout[trackLayout.length-tmpPos].topography.curvature);
+                    switch(trackLayout[trackLayout.length-tmpPos].profile){
+                        case "flat":
+                            intendedHeightForCurrentZone=0;
+                            break; 
+                        case "up": 
+                            intendedHeightForCurrentZone = 900 * randomPos(); // Ease vertical transitions
+                            break;
+                        case "down": 
+                            intendedHeightForCurrentZone = -900 * randomPos();
+                            break;  
                     }
-                    let intendedCurveForCurrentZone;
-                    switch(trackLayoutTopographyName){
-                        case 0:
-                            intendedCurveForCurrentZone = 0; break;
-                        case 1:
-                            intendedCurveForCurrentZone = - params.maxCurve * randomPos(); break;
-                        case -1:
-                            intendedCurveForCurrentZone = params.maxCurve * randomPos(); break;
-                    }
-
+                   
                     for(let i=0; i < params.zoneSize; i++){
                         // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
                         chooseIndexFromObjects = Math.floor((randomPos() * objects.length));
@@ -1873,6 +1841,12 @@ define(function (require, exports, module) {
                                 sprite = {type: spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
                             }
                         }
+
+                        // Draw segments next to each other with 'i/params.zoneSize'
+                        // Avoid horizontal gaps with 'Math.PI-Math.PI/2'
+                        // Avoid vertical gaps with '1 +' 
+                        // Better perspective with '2*'
+                        // 2 * (1 + Math.sin(i/params.zoneSize *))
 
                         generatedTrack.push({
                             height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/params.zoneSize * Math.PI-Math.PI/2)),
