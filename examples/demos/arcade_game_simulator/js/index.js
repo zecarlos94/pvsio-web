@@ -76,11 +76,11 @@ require([
         var client = PVSioWebClient.getInstance();
         var tick;
         function start_tick() {
-            // if (!tick) {
-            //     tick = setInterval(function () {
-            //         ButtonActionsQueue.getInstance().queueGUIAction("tick", onMessageReceived);
-            //     }, 1000);
-            // }
+            if (!tick) {
+                 tick = setInterval(function () {
+                     ButtonActionsQueue.getInstance().queueGUIAction("tick", onMessageReceived);
+                 }, 250);
+            }
         }
         function stop_tick() {
             if (tick) {
@@ -183,7 +183,7 @@ require([
         arcade.speedometerGauge = new Speedometer('speedometer-gauge', {
             max: 260,
             min: 0,
-            label: "kmh"            
+            label: "kmh"
         });
         // ---------------- TACHOMETER ----------------
         arcade.tachometerGauge = new Tachometer('tachometer-gauge', {
@@ -191,7 +191,7 @@ require([
             min: 0,
             label: "x1000/min"
         });
-        
+
         // ---------------- STEERING WHEEL ----------------
         arcade.steeringWheel = new SteeringWheel("steering_wheel", {
             top: 300,
@@ -255,20 +255,20 @@ require([
         });
 
         // ----------------------------- GYROSCOPE COMPONENTS -----------------------------
-        arcade.gyroscopeController = new GyroscopeController("Gyroscope_Controller", {
-            top: 100,
-            left: 700,
-            width: 750,
-            height: 750
-        }, {
-            parent: "gyroscope", // defines parent div, which is div id="gyroscope" by default
-            carSteeringWheel: arcade.steeringWheel,
-            carAccelerate: arcade.up,
-            carBrake: arcade.down,
-            useSensitivity: false, // Default is false
-            // sensitivityValue: 50, // Default is 40%
-            callback: onMessageReceived
-        });
+        // arcade.gyroscopeController = new GyroscopeController("Gyroscope_Controller", {
+        //     top: 100,
+        //     left: 700,
+        //     width: 750,
+        //     height: 750
+        // }, {
+        //     parent: "gyroscope", // defines parent div, which is div id="gyroscope" by default
+        //     carSteeringWheel: arcade.steeringWheel,
+        //     carAccelerate: arcade.up,
+        //     carBrake: arcade.down,
+        //     useSensitivity: false, // Default is false
+        //     // sensitivityValue: 50, // Default is 40%
+        //     callback: onMessageReceived
+        // });
 
         /*
         // ---------------- CURRENT SHIFT -------------------------
@@ -293,9 +293,9 @@ require([
             trackTopography: "curves-slopes", // "straight", // defines initial position after ending 1 lap (restart position in another lap).
             realisticImgs: false,
             vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
-            vehicleImgIndex: 2, // defines vehicle sprite image suffix 
-            // logoImgIndex: 1, // defines logo sprite image suffix 
-            // backgroundImgIndex: 1, // defines background sprite image suffix 
+            vehicleImgIndex: 2, // defines vehicle sprite image suffix
+            // logoImgIndex: 1, // defines logo sprite image suffix
+            // backgroundImgIndex: 1, // defines background sprite image suffix
             stripePositions: {
                 trackP1: -0.50,
                 trackP2: 0.50,
@@ -342,14 +342,14 @@ require([
 
         document.getElementById("tog").style.left = "625px";
         arcade.arcadeWidget.startSimulation();
-        
+
         // Render arcade game components
         function render(res) {
             arcade.speedometerGauge.render(evaluate(res.speed.val));
             arcade.tachometerGauge.render(evaluate(res.rpm));
             arcade.steeringWheel.render(evaluate(res.steering));
-            arcade.gamepadController.render();  
-            arcade.gyroscopeController.render();          
+            arcade.gamepadController.render();
+            // arcade.gyroscopeController.render();          
             arcade.arcadeWidget.render(res);
             arcade.drawGamepad.render();
             // arcade.drawGamepad.callPressReleasePVS("accelerate");

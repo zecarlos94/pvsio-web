@@ -141,7 +141,7 @@ main: THEORY
              THEN st WITH [ speed := speed(st) WITH [ val:= speed(st)`val + step ]]
 	     ELSE st WITH [ speed := speed(st) WITH [ val:= MAX_SPEED ]] ENDIF,
 	new_rpm = getRPM(st),
-	st = st WITH [ rpm := new_rpm, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+	st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
      IN IF rpm(st) > 6 THEN gearUP(st) ELSE st ENDIF
 
   brake(st: state): state =
@@ -157,7 +157,7 @@ main: THEORY
 				  THEN speed(st)`val - step`speed
 				  ELSE 0 ENDIF ]] ENDIF,
 	new_rpm = getRPM(st),
-        st = st WITH [ rpm := new_rpm, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+        st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
      IN IF rpm(st) < 4 THEN gearDOWN(st) ELSE st ENDIF
 
   FRICTION: Speed_Val = 0.6
@@ -168,7 +168,8 @@ main: THEORY
 	ELSE IF odo + step <= 0 THEN 0 ELSE odo + step ENDIF ENDIF
 
   tick(st: state): state =
-   LET st = st WITH [ time := get_current_time ] IN
+   LET st = st WITH [ time := get_current_time,
+                      position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]] IN
     IF action(st) = idle
     THEN IF speed(st)`val > 0
          THEN LET new_speed = IF speed(st)`val - FRICTION > 0 THEN speed(st)`val - FRICTION ELSE 0 ENDIF,
