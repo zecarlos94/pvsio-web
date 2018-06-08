@@ -488,27 +488,31 @@ define(function (require, exports, module) {
     let spritesFiles;
 
     // Variables for calculating the vehicle's position, which will be provided as arguments to setControllabeCarPosition method
-    let vehicleCurrentDirectionAux, newSpeedAux, newPositionAux, newPositionXAux, vehicleXPositionAux, vehicleYPositionAux;
+    let auxiliaryPVSValues = {
+        vehicleCurrentDirectionAux: null, 
+        newSpeedAux: null, 
+        newPositionAux: null, 
+        newPositionXAux: null, 
+        vehicleXPositionAux: null, 
+        vehicleYPositionAux: null
+    };
 
-    // Information regarding the visibility of the official logo
-    let showOfficialLogo;
+    let canvasInformations = {
+        showOfficialLogo: null, // Information regarding the visibility of the official logo
+        canvas: null, //  Information regarding the canvas
+        context: null, //  Information regarding the context of the above canvas (2D driving simulator)
+        chronometer: null, //  Keep tracking controllable_car's lap time
+        time: null, //  Keep tracking controllable_car's lap time
+        currentTimeString: null //  Shows controllable_car's lap time
+    };
 
-    //  Information regarding the canvas
-    let canvas;
-    //  Information regarding the context of the above canvas (2D driving simulator)
-    let context;
-
-    //  Keep tracking controllable_car's lap time
-    let chronometer;
-    //  Keep tracking controllable_car's lap time
-    let time;
-    //  Shows controllable_car's lap time
-    let currentTimeString = "";
     //  Tracking controllable_car's position
     let lastDelta = 0;
 
-    let splashInterval;
-    let simulatorInterval;
+    let intervals = {
+        splashInterval: null,
+        simulatorInterval: null
+    };
     let loadingTrackNrIterations;
 
     // Information regarding the tracks (auxiliary for drawTrackLoop method) loaded from the JSON file
@@ -522,12 +526,14 @@ define(function (require, exports, module) {
     let soundWidget;
 
     // Information regarding the number of laps of the present simulation
-    let lapNumber        = null;
-    let lastLapNumber = 1;
-    let currentLapNumber = 1;
-    let callback;
-    let counterAux = 0;
-    let currentPercentage = 0;
+    let lapInformation = {
+        lapNumber: null,
+        lastLapNumber: 1,
+        currentLapNumber: 1,
+        counterAux: 0,
+        currentPercentage: 0,
+        callback: null
+    };
 
     /*
     * End of Arcade Global Variables
@@ -701,7 +707,7 @@ define(function (require, exports, module) {
         this.predefinedTracks = (opt.predefinedTracks) ? opt.predefinedTracks : null;
 
         spritesFiles = this.spritesFiles;
-        lapNumber = this.lapNumber;
+        lapInformation.lapNumber = this.lapNumber;
         loadPVSSpeedPositions = this.loadPVSSpeedPositions;
         predefinedTracks = this.predefinedTracks;
 
@@ -737,7 +743,7 @@ define(function (require, exports, module) {
         vehicleIndex = this.vehicleImgIndex;
         logoIndex = this.logoImgIndex;
         backgroundIndex = this.backgroundImgIndex;
-        showOfficialLogo = this.showOfficialLogo;
+        canvasInformations.showOfficialLogo = this.showOfficialLogo;
 
         // Loading track and spritesheet based on trackFilename and spritesFilename options
         let _this = this;
@@ -814,7 +820,7 @@ define(function (require, exports, module) {
 
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
-        callback = this.callback;
+        lapInformation.callback = this.callback;
 
         Widget.call(this, id, coords, opt);
 
@@ -1220,7 +1226,7 @@ define(function (require, exports, module) {
             });
 
             spritesheetsImages[0].onload = function(){
-                splashInterval = setInterval(Arcade.prototype.renderSplashFrame, 30);
+                intervals.splashInterval = setInterval(Arcade.prototype.renderSplashFrame, 30);
             };
 
             spritesheetsImages.forEach(function(el,index){
@@ -1240,19 +1246,19 @@ define(function (require, exports, module) {
      * @instance
      */
      Arcade.prototype.renderSplashFrame = function () {
-        canvas.height = 240;
-        canvas.width = 320;
-        context.fillStyle = "rgb(100,200,187)";
-        context.fillRect(0, 0, canvas.width, canvas.height);
+        canvasInformations.canvas.height = 240;
+        canvasInformations.canvas.width = 320;
+        canvasInformations.context.fillStyle = "rgb(100,200,187)";
+        canvasInformations.context.fillRect(0, 0, canvasInformations.canvas.width, canvasInformations.canvas.height);
 
         if(readParams){
-            canvas = $("#arcadeSimulator")[0];
-            context = canvas.getContext('2d');
-            // canvas.height = render.height;
-            // canvas.width = render.width;
+            canvasInformations.canvas = $("#arcadeSimulator")[0];
+            canvasInformations.context = canvasInformations.canvas.getContext('2d');
+            // canvasInformations.canvas.height = render.height;
+            // canvasInformations.canvas.width = render.width;
 
             if(readConfiguration && readSprite){
-                context.drawImage(spritesheetsImages[0],  main_sprites.logo.x, main_sprites.logo.y, main_sprites.logo.w, main_sprites.logo.h, 110, 15, 0.7*main_sprites.logo.w, 0.7*main_sprites.logo.h);
+                canvasInformations.context.drawImage(spritesheetsImages[0],  main_sprites.logo.x, main_sprites.logo.y, main_sprites.logo.w, main_sprites.logo.h, 110, 15, 0.7*main_sprites.logo.w, 0.7*main_sprites.logo.h);
 
                 Arcade.prototype.drawText("Instructions:",{x: 120, y: 90}, 1);
                 Arcade.prototype.drawText("Click on space bar to start",{x: 60, y: 110}, 1);
@@ -1266,19 +1272,19 @@ define(function (require, exports, module) {
                 Arcade.prototype.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
 
                 if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.action_attribute]===vehicle.resume_attribute){
-                    clearInterval(splashInterval);
-                    simulatorInterval = setInterval(Arcade.prototype.renderSimulatorFrame, 30);
+                    clearInterval(intervals.splashInterval);
+                    intervals.simulatorInterval = setInterval(Arcade.prototype.renderSimulatorFrame, 30);
                     soundWidget.reveal();
                     soundWidget.unmute();
                     soundWidget.pauseAll();
 
-                    chronometer = new Chronometer(
+                    canvasInformations.chronometer = new Chronometer(
                         { precision: 10,
                         ontimeupdate: function (t) {
-                            time = Chronometer.utils.humanFormat(chronometer.getElapsedTime()).split(":");
+                            canvasInformations.time = Chronometer.utils.humanFormat(canvasInformations.chronometer.getElapsedTime()).split(":");
                         }
                     });
-                    chronometer.start();
+                    canvasInformations.chronometer.start();
                     soundOff = soundWidget.getSoundOff();
                     if(!soundOff && WIDGETSTATE[vehicle.sound_attribute]==="unmute"){
                         soundWidget.playSound(2); //startup song
@@ -1312,13 +1318,13 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.renderSplashPauseFrame = function () {
-        canvas.height = 240;
-        canvas.width = 320;
-        context.fillStyle = "rgb(100,200,187)"; //"rgb(0,0,0)";
-        context.fillRect(0, 0, canvas.width, canvas.height);
-        // context.fillRect(0, 0, render.width, render.height);
+        canvasInformations.canvas.height = 240;
+        canvasInformations.canvas.width = 320;
+        canvasInformations.context.fillStyle = "rgb(100,200,187)"; //"rgb(0,0,0)";
+        canvasInformations.context.fillRect(0, 0, canvasInformations.canvas.width, canvasInformations.canvas.height);
+        // canvasInformations.context.fillRect(0, 0, render.width, render.height);
 
-        context.drawImage(spritesheetsImages[0],  main_sprites.logo.x, main_sprites.logo.y, main_sprites.logo.w, main_sprites.logo.h, 110, 15, 0.7*main_sprites.logo.w, 0.7*main_sprites.logo.h);
+        canvasInformations.context.drawImage(spritesheetsImages[0],  main_sprites.logo.x, main_sprites.logo.y, main_sprites.logo.w, main_sprites.logo.h, 110, 15, 0.7*main_sprites.logo.w, 0.7*main_sprites.logo.h);
 
         Arcade.prototype.drawText("Click on space bar to resume",{x: 60, y: 100}, 1);
         Arcade.prototype.drawText("Use left and rigth arrows",{x: 70, y: 135}, 1);
@@ -1328,10 +1334,10 @@ define(function (require, exports, module) {
         Arcade.prototype.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
 
         if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.action_attribute]===vehicle.resume_attribute){
-            chronometer.start();
+            canvasInformations.chronometer.start();
 
-            clearInterval(splashInterval);
-            simulatorInterval = setInterval(Arcade.prototype.renderSimulatorFrame, 30);
+            clearInterval(intervals.splashInterval);
+            intervals.simulatorInterval = setInterval(Arcade.prototype.renderSimulatorFrame, 30);
 
             soundWidget.reveal();
             soundWidget.unmute();
@@ -1363,13 +1369,13 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.renderSplashEndFrame = function () {
-        canvas.height = 240;
-        canvas.width = 320;
-        context.fillStyle = "rgb(100,200,187)";//"rgb(0,0,0)";
-        context.fillRect(0, 0, canvas.width, canvas.height);
-        // context.fillRect(0, 0, render.width, render.height);
+        canvasInformations.canvas.height = 240;
+        canvasInformations.canvas.width = 320;
+        canvasInformations.context.fillStyle = "rgb(100,200,187)";//"rgb(0,0,0)";
+        canvasInformations.context.fillRect(0, 0, canvasInformations.canvas.width, canvasInformations.canvas.height);
+        // canvasInformations.context.fillRect(0, 0, render.width, render.height);
 
-        context.drawImage(spritesheetsImages[0],  main_sprites.logo.x, main_sprites.logo.y, main_sprites.logo.w, main_sprites.logo.h, 110, 15, 0.7*main_sprites.logo.w, 0.7*main_sprites.logo.h);
+        canvasInformations.context.drawImage(spritesheetsImages[0],  main_sprites.logo.x, main_sprites.logo.y, main_sprites.logo.w, main_sprites.logo.h, 110, 15, 0.7*main_sprites.logo.w, 0.7*main_sprites.logo.h);
 
         Arcade.prototype.drawText("Thank you for playing!",{x: 90, y: 100}, 1);
         Arcade.prototype.drawText("Click on space bar to start again",{x: 40, y: 125}, 1);
@@ -1378,8 +1384,8 @@ define(function (require, exports, module) {
         Arcade.prototype.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
 
         if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.action_attribute]===vehicle.resume_attribute){
-            clearInterval(splashInterval);
-            clearInterval(simulatorInterval);
+            clearInterval(intervals.splashInterval);
+            clearInterval(intervals.simulatorInterval);
             controllable_car = {
                 position: 10,
                 speed: 0,
@@ -1392,8 +1398,8 @@ define(function (require, exports, module) {
             };
 
 
-            simulatorInterval = setInterval(Arcade.prototype.renderSimulatorFrame, 30);
-            chronometer.start();
+            intervals.simulatorInterval = setInterval(Arcade.prototype.renderSimulatorFrame, 30);
+            canvasInformations.chronometer.start();
 
             soundWidget.reveal();
             soundWidget.unmute();
@@ -1430,7 +1436,7 @@ define(function (require, exports, module) {
         string = string.toUpperCase();
         let cur = pos.x;
         for(let i=0; i < string.length; i++) {
-            context.drawImage(spritesheetsImages[imageIndex], (string.charCodeAt(i) - 32) * 8, 0, 8, 8, cur, pos.y, 8, 8);
+            canvasInformations.context.drawImage(spritesheetsImages[imageIndex], (string.charCodeAt(i) - 32) * 8, 0, 8, 8, cur, pos.y, 8, 8);
             cur += 8;
         }
         return this;
@@ -1508,13 +1514,13 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.drawGuidingLine = function (pos1, scale1, offset1, pos2, scale2, offset2, delta1, delta2, color) {
         let demiWidth = render.width / 2;
-        context.fillStyle = color;
-        context.beginPath();
-        context.moveTo(demiWidth + delta1 * render.width * scale1 + offset1, pos1);
-        context.lineTo(demiWidth + delta1 * render.width * scale2 + offset2, pos2);
-        context.lineTo(demiWidth + delta2 * render.width * scale2 + offset2, pos2);
-        context.lineTo(demiWidth + delta2 * render.width * scale1 + offset1, pos1);
-        context.fill();
+        canvasInformations.context.fillStyle = color;
+        canvasInformations.context.beginPath();
+        canvasInformations.context.moveTo(demiWidth + delta1 * render.width * scale1 + offset1, pos1);
+        canvasInformations.context.lineTo(demiWidth + delta1 * render.width * scale2 + offset2, pos2);
+        canvasInformations.context.lineTo(demiWidth + delta2 * render.width * scale2 + offset2, pos2);
+        canvasInformations.context.lineTo(demiWidth + delta2 * render.width * scale1 + offset1, pos1);
+        canvasInformations.context.fill();
         return this;
     };
 
@@ -1530,14 +1536,14 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.drawSimpleArrowFront = function (x,y,color){
-        context.fillStyle = color;
-        context.strokeStyle = color;
-        context.lineWidth = 6;
-        context.beginPath();
-        context.moveTo(x,y+10);
-        context.lineTo(x+10,y);
-        context.lineTo(x+20,y+10);
-        context.stroke();
+        canvasInformations.context.fillStyle = color;
+        canvasInformations.context.strokeStyle = color;
+        canvasInformations.context.lineWidth = 6;
+        canvasInformations.context.beginPath();
+        canvasInformations.context.moveTo(x,y+10);
+        canvasInformations.context.lineTo(x+10,y);
+        canvasInformations.context.lineTo(x+20,y+10);
+        canvasInformations.context.stroke();
         return this;
     };
 
@@ -1553,14 +1559,14 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.drawSimpleArrowDown = function (x,y,color){
-        context.fillStyle = color;
-        context.strokeStyle = color;
-        context.lineWidth = 6;
-        context.beginPath();
-        context.moveTo(x,y);
-        context.lineTo(x+10,y+10);
-        context.lineTo(x+20,y);
-        context.stroke();
+        canvasInformations.context.fillStyle = color;
+        canvasInformations.context.strokeStyle = color;
+        canvasInformations.context.lineWidth = 6;
+        canvasInformations.context.beginPath();
+        canvasInformations.context.moveTo(x,y);
+        canvasInformations.context.lineTo(x+10,y+10);
+        canvasInformations.context.lineTo(x+20,y);
+        canvasInformations.context.stroke();
         return this;
     };
 
@@ -1582,14 +1588,14 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.drawSimpleArrowLeft = function (x,y,color,direction){
         if(direction.inverse){
-            context.fillStyle = color;
-            context.strokeStyle = color;
-            context.lineWidth = 6;
-            context.beginPath();
-            context.moveTo(x+13,y);
-            context.lineTo(x+3,y+10);
-            context.lineTo(x+13,y+20);
-            context.stroke();
+            canvasInformations.context.fillStyle = color;
+            canvasInformations.context.strokeStyle = color;
+            canvasInformations.context.lineWidth = 6;
+            canvasInformations.context.beginPath();
+            canvasInformations.context.moveTo(x+13,y);
+            canvasInformations.context.lineTo(x+3,y+10);
+            canvasInformations.context.lineTo(x+13,y+20);
+            canvasInformations.context.stroke();
         }else {
             Arcade.prototype.drawSimpleArrowRight(x,y,color,{inverse:true});
         }
@@ -1614,14 +1620,14 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.drawSimpleArrowRight = function (x,y,color,direction){
         if(direction.inverse){
-            context.fillStyle = color;
-            context.strokeStyle = color;
-            context.lineWidth = 6;
-            context.beginPath();
-            context.moveTo(x,y);
-            context.lineTo(x+10,y+10);
-            context.lineTo(x,y+20);
-            context.stroke();
+            canvasInformations.context.fillStyle = color;
+            canvasInformations.context.strokeStyle = color;
+            canvasInformations.context.lineWidth = 6;
+            canvasInformations.context.beginPath();
+            canvasInformations.context.moveTo(x,y);
+            canvasInformations.context.lineTo(x+10,y+10);
+            canvasInformations.context.lineTo(x,y+20);
+            canvasInformations.context.stroke();
         }else {
             Arcade.prototype.drawSimpleArrowLeft(x,y,color,{inverse:true});
         }
@@ -1644,24 +1650,24 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.drawArrowFront = function (x, y, width, height, color, withLine){
         // Arrow Head
-        context.fillStyle = color;
-        context.beginPath();
-        context.moveTo(x, y);
-        context.lineTo(x - width, y + height);
-        context.lineTo(x + width, y + height);
-        context.closePath();
-        context.fill();
+        canvasInformations.context.fillStyle = color;
+        canvasInformations.context.beginPath();
+        canvasInformations.context.moveTo(x, y);
+        canvasInformations.context.lineTo(x - width, y + height);
+        canvasInformations.context.lineTo(x + width, y + height);
+        canvasInformations.context.closePath();
+        canvasInformations.context.fill();
 
         if(withLine===1){
             // Arrow Line
-            context.strokeStyle = color;
-            context.fillStyle = color;
-            context.lineWidth = 6;
-            context.beginPath();
-            context.moveTo(x, y+10);
-            context.lineTo(x, y+35);
-            context.stroke();
-            context.fill();
+            canvasInformations.context.strokeStyle = color;
+            canvasInformations.context.fillStyle = color;
+            canvasInformations.context.lineWidth = 6;
+            canvasInformations.context.beginPath();
+            canvasInformations.context.moveTo(x, y+10);
+            canvasInformations.context.lineTo(x, y+35);
+            canvasInformations.context.stroke();
+            canvasInformations.context.fill();
         }
         return this;
     };
@@ -1687,24 +1693,24 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.drawArrowRight = function (x, y, width, height, color, withLine, direction) {
         if(direction.inverse){
-            context.fillStyle = color;
-            context.beginPath();
-            context.moveTo(x, y); // reposition at x (horizontal axis), y (vertical axis)
-            context.lineTo(x, y + height);  // draw straight down by height
-            context.lineTo(x - width, y + height/2); // draw up toward left
-            context.closePath(); // connect and fill
-            context.fill();
+            canvasInformations.context.fillStyle = color;
+            canvasInformations.context.beginPath();
+            canvasInformations.context.moveTo(x, y); // reposition at x (horizontal axis), y (vertical axis)
+            canvasInformations.context.lineTo(x, y + height);  // draw straight down by height
+            canvasInformations.context.lineTo(x - width, y + height/2); // draw up toward left
+            canvasInformations.context.closePath(); // connect and fill
+            canvasInformations.context.fill();
 
             if(withLine===1){
                 // Arrow Line
-                context.strokeStyle = color;
-                context.fillStyle = color;
-                context.lineWidth = 6;
-                context.beginPath();
-                context.moveTo(x + width/2 - width, y + height - 5);
-                context.lineTo(x - width + 2, y + height/2 + 20);
-                context.stroke();
-                context.fill();
+                canvasInformations.context.strokeStyle = color;
+                canvasInformations.context.fillStyle = color;
+                canvasInformations.context.lineWidth = 6;
+                canvasInformations.context.beginPath();
+                canvasInformations.context.moveTo(x + width/2 - width, y + height - 5);
+                canvasInformations.context.lineTo(x - width + 2, y + height/2 + 20);
+                canvasInformations.context.stroke();
+                canvasInformations.context.fill();
             }
         }else{
             Arcade.prototype.drawArrowLeft(x, y, width, height, color, withLine, {inverse:true});
@@ -1733,27 +1739,27 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.drawArrowLeft = function (x, y, width, height, color, withLine, direction){
         if(direction.inverse){
-            context.save();
-            context.fillStyle = color;
-            context.beginPath();
-            context.moveTo(x, y);
-            context.lineTo(x, y + height);
-            context.lineTo(x + width, y + height/2);
-            context.closePath();
-            context.fill();
+            canvasInformations.context.save();
+            canvasInformations.context.fillStyle = color;
+            canvasInformations.context.beginPath();
+            canvasInformations.context.moveTo(x, y);
+            canvasInformations.context.lineTo(x, y + height);
+            canvasInformations.context.lineTo(x + width, y + height/2);
+            canvasInformations.context.closePath();
+            canvasInformations.context.fill();
 
             if(withLine===1){
                 // Arrow Line
-                context.strokeStyle = color;
-                context.fillStyle = color;
-                context.lineWidth = 6;
-                context.beginPath();
-                context.moveTo(x + width/2, y + height - 5);
-                context.lineTo(x + width - 2, y + height/2 + 20);
-                context.stroke();
-                context.fill();
+                canvasInformations.context.strokeStyle = color;
+                canvasInformations.context.fillStyle = color;
+                canvasInformations.context.lineWidth = 6;
+                canvasInformations.context.beginPath();
+                canvasInformations.context.moveTo(x + width/2, y + height - 5);
+                canvasInformations.context.lineTo(x + width - 2, y + height/2 + 20);
+                canvasInformations.context.stroke();
+                canvasInformations.context.fill();
             }
-            context.restore();
+            canvasInformations.context.restore();
         }else{
             Arcade.prototype.drawArrowRight(x, y, width, height, color, withLine, {inverse:true});
         }
@@ -1784,9 +1790,9 @@ define(function (require, exports, module) {
             } else {
                 h = sprite.i.h;
             }
-            if(h > 0) context.drawImage(spritesheetsImages[0],  sprite.i.x, sprite.i.y, sprite.i.w, h, sprite.x, destY, sprite.s * sprite.i.w, sprite.s * h);
+            if(h > 0) canvasInformations.context.drawImage(spritesheetsImages[0],  sprite.i.x, sprite.i.y, sprite.i.w, h, sprite.x, destY, sprite.s * sprite.i.w, sprite.s * h);
         }else{
-            context.drawImage(spritesheetsImages[0],  image.x, image.y, image.w, image.h, x, y, scale*image.w, scale*image.h);
+            canvasInformations.context.drawImage(spritesheetsImages[0],  image.x, image.y, image.w, image.h, x, y, scale*image.w, scale*image.h);
         }
         return this;
     };
@@ -1811,13 +1817,13 @@ define(function (require, exports, module) {
     Arcade.prototype.drawSegmentPortion = function (pos1, scale1, offset1, pos2, scale2, offset2, delta1, delta2, color) {
         let demiWidth = render.width / 2;
 
-        context.fillStyle = color;
-        context.beginPath();
-        context.moveTo(demiWidth + delta1 * render.width * scale1 + offset1, pos1);
-        context.lineTo(demiWidth + delta1 * render.width * scale2 + offset2, pos2);
-        context.lineTo(demiWidth + delta2 * render.width * scale2 + offset2, pos2);
-        context.lineTo(demiWidth + delta2 * render.width * scale1 + offset1, pos1);
-        context.fill();
+        canvasInformations.context.fillStyle = color;
+        canvasInformations.context.beginPath();
+        canvasInformations.context.moveTo(demiWidth + delta1 * render.width * scale1 + offset1, pos1);
+        canvasInformations.context.lineTo(demiWidth + delta1 * render.width * scale2 + offset2, pos2);
+        canvasInformations.context.lineTo(demiWidth + delta2 * render.width * scale2 + offset2, pos2);
+        canvasInformations.context.lineTo(demiWidth + delta2 * render.width * scale1 + offset1, pos1);
+        canvasInformations.context.fill();
         return this;
     };
 
@@ -1910,8 +1916,8 @@ define(function (require, exports, module) {
             // setColorsEndCanvas("#000", "#fff");
 
             //draw grass:
-            context.fillStyle = grass;
-            context.fillRect(0,position2,render.width,(position1-position2));
+            canvasInformations.context.fillStyle = grass;
+            canvasInformations.context.fillRect(0,position2,render.width,(position1-position2));
 
             // draw the track
             Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, trackP1, trackP2, "#fff");
@@ -1944,19 +1950,19 @@ define(function (require, exports, module) {
             // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, laneArrow);
             if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="straight"){
                 // Arcade.prototype.drawArrowFront(160, 150, 12, 18, laneArrow, 1);
-                Arcade.prototype.drawSimpleArrowFront(canvas.width-50,30,laneArrow);
+                Arcade.prototype.drawSimpleArrowFront(canvasInformations.canvas.width-50,30,laneArrow);
             }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="right"){
                 // Arcade.prototype.drawArrowLeft(160, 150, 20, 20, laneArrow, 1, {inverse:false});
-                Arcade.prototype.drawSimpleArrowLeft(canvas.width-50,30,laneArrow,{inverse:false});
+                Arcade.prototype.drawSimpleArrowLeft(canvasInformations.canvas.width-50,30,laneArrow,{inverse:false});
             }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="left"){
                 // Arcade.prototype.drawArrowRight(160, 150, 20, 20, laneArrow, 1, {inverse:false});
-                Arcade.prototype.drawSimpleArrowRight(canvas.width-50,30,laneArrow,{inverse:false});
+                Arcade.prototype.drawSimpleArrowRight(canvasInformations.canvas.width-50,30,laneArrow,{inverse:false});
             }
         }
         else{
             //draw grass:
-            context.fillStyle = grass;
-            context.fillRect(0,position2,render.width,(position1-position2));
+            canvasInformations.context.fillStyle = grass;
+            canvasInformations.context.fillRect(0,position2,render.width,(position1-position2));
 
             // draw the track
             Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, trackP1, trackP2, track_segment);
@@ -1982,13 +1988,13 @@ define(function (require, exports, module) {
             // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, laneArrow);
             if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="straight"){
                 // Arcade.prototype.drawArrowFront(160, 150, 12, 18, laneArrow, 1);
-                Arcade.prototype.drawSimpleArrowFront(canvas.width-50,30,laneArrow);
+                Arcade.prototype.drawSimpleArrowFront(canvasInformations.canvas.width-50,30,laneArrow);
             }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="right"){
                 // Arcade.prototype.drawArrowLeft(160, 150, 20, 20, laneArrow, 1, {inverse:false});
-                Arcade.prototype.drawSimpleArrowLeft(canvas.width-50,30,laneArrow, {inverse:false});
+                Arcade.prototype.drawSimpleArrowLeft(canvasInformations.canvas.width-50,30,laneArrow, {inverse:false});
             }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="left"){
                 // Arcade.prototype.drawArrowRight(160, 150, 20, 20, laneArrow, 1, {inverse:false});
-                Arcade.prototype.drawSimpleArrowRight(canvas.width-50,30,laneArrow, {inverse:false});
+                Arcade.prototype.drawSimpleArrowRight(canvasInformations.canvas.width-50,30,laneArrow, {inverse:false});
             }
         }
         return this;
@@ -2232,11 +2238,11 @@ define(function (require, exports, module) {
                 lastPVSValues.lastSpeedPVS = Math.ceil(speedValue);
             }
             if(Math.abs(lastDelta) > 130){
-                if (newSpeedAux > 150) {
-                    newSpeedAux -= lastPVSValues.lastSpeedPVS*0.10;
+                if (auxiliaryPVSValues.newSpeedAux > 150) {
+                    auxiliaryPVSValues.newSpeedAux -= lastPVSValues.lastSpeedPVS*0.10;
                 }
             }else{
-                newSpeedAux = lastPVSValues.lastSpeedPVS*0.10;
+                auxiliaryPVSValues.newSpeedAux = lastPVSValues.lastSpeedPVS*0.10;
             }
 
             if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.action_attribute]===vehicle.accelerate_attribute) {
@@ -2260,10 +2266,10 @@ define(function (require, exports, module) {
             if(!isNaN(positionXValue)){
                 lastPVSValues.lastPosXPVS = Math.ceil(positionXValue);
             }
-            newPositionXAux = lastPVSValues.lastPosXPVS;
+            auxiliaryPVSValues.newPositionXAux = lastPVSValues.lastPosXPVS;
         }
 
-        vehicleCurrentDirectionAux = WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute];
+        auxiliaryPVSValues.vehicleCurrentDirectionAux = WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute];
         if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.position_attribute][vehicle.position_value]!=="10.0"){
             let currentPositionPVS = WIDGETSTATE[vehicle.position_attribute][vehicle.position_value];
             let arrayPosition = currentPositionPVS.split("/");
@@ -2271,119 +2277,119 @@ define(function (require, exports, module) {
             if(!isNaN(positionValue)){
                 lastPVSValues.lastPositionPVS = Math.ceil(positionValue);
             }
-            newPositionAux = lastPVSValues.lastPositionPVS;
+            auxiliaryPVSValues.newPositionAux = lastPVSValues.lastPositionPVS;
         }
 
         switch (vehicleType) {
             case "airplane":
                 if(vehicleIndex===2){
-                    if(vehicleCurrentDirectionAux==="left"){
-                        vehicleXPositionAux= 50;
-                        vehicleYPositionAux= 70;
-                    }else if(vehicleCurrentDirectionAux==="right"){
-                        vehicleXPositionAux= 50;
-                        vehicleYPositionAux= 70;
-                    }else if(vehicleCurrentDirectionAux==="straight"){
-                        vehicleXPositionAux = 50;
-                        vehicleYPositionAux = 110;
+                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
+                        auxiliaryPVSValues.vehicleXPositionAux= 50;
+                        auxiliaryPVSValues.vehicleYPositionAux= 70;
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="right"){
+                        auxiliaryPVSValues.vehicleXPositionAux= 50;
+                        auxiliaryPVSValues.vehicleYPositionAux= 70;
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="straight"){
+                        auxiliaryPVSValues.vehicleXPositionAux = 50;
+                        auxiliaryPVSValues.vehicleYPositionAux = 110;
                     }
                 }else{
-                    if(vehicleCurrentDirectionAux==="left"){
-                        vehicleXPositionAux= 110;
-                        vehicleYPositionAux= 100;
-                    }else if(vehicleCurrentDirectionAux==="right"){
-                        vehicleXPositionAux= 110;
-                        vehicleYPositionAux= 100;
-                    }else if(vehicleCurrentDirectionAux==="straight"){
-                        vehicleXPositionAux = 110;
-                        vehicleYPositionAux = 100;
+                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
+                        auxiliaryPVSValues.vehicleXPositionAux= 110;
+                        auxiliaryPVSValues.vehicleYPositionAux= 100;
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="right"){
+                        auxiliaryPVSValues.vehicleXPositionAux= 110;
+                        auxiliaryPVSValues.vehicleYPositionAux= 100;
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="straight"){
+                        auxiliaryPVSValues.vehicleXPositionAux = 110;
+                        auxiliaryPVSValues.vehicleYPositionAux = 100;
                     }
                 }
                 break;
             case "bicycle":
                 if(vehicleRealistic){
-                    if(vehicleCurrentDirectionAux==="left"){
-                        vehicleXPositionAux= 135;
-                        vehicleYPositionAux= 160;
-                    }else if(vehicleCurrentDirectionAux==="right"){
-                        vehicleXPositionAux= 135;
-                        vehicleYPositionAux= 160;
-                    }else if(vehicleCurrentDirectionAux==="straight"){
-                        vehicleXPositionAux = 135;
-                        vehicleYPositionAux = 160;
+                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
+                        auxiliaryPVSValues.vehicleXPositionAux= 135;
+                        auxiliaryPVSValues.vehicleYPositionAux= 160;
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="right"){
+                        auxiliaryPVSValues.vehicleXPositionAux= 135;
+                        auxiliaryPVSValues.vehicleYPositionAux= 160;
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="straight"){
+                        auxiliaryPVSValues.vehicleXPositionAux = 135;
+                        auxiliaryPVSValues.vehicleYPositionAux = 160;
                     }
                 }else{
-                    if(vehicleCurrentDirectionAux==="left"){
-                        vehicleXPositionAux= 140;
-                        vehicleYPositionAux= 175;
-                    }else if(vehicleCurrentDirectionAux==="right"){
-                        vehicleXPositionAux= 140;
-                        vehicleYPositionAux= 175;
-                    }else if(vehicleCurrentDirectionAux==="straight"){
-                        vehicleXPositionAux = 140;
-                        vehicleYPositionAux = 175;
+                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
+                        auxiliaryPVSValues.vehicleXPositionAux= 140;
+                        auxiliaryPVSValues.vehicleYPositionAux= 175;
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="right"){
+                        auxiliaryPVSValues.vehicleXPositionAux= 140;
+                        auxiliaryPVSValues.vehicleYPositionAux= 175;
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="straight"){
+                        auxiliaryPVSValues.vehicleXPositionAux = 140;
+                        auxiliaryPVSValues.vehicleYPositionAux = 175;
                     }
                 }
                 break;
             case "car":
                 if(vehicleRealistic){
-                    if(vehicleCurrentDirectionAux==="left"){
-                        vehicleXPositionAux= 125;
-                        vehicleYPositionAux= 180;
-                    }else if(vehicleCurrentDirectionAux==="right"){
-                        vehicleXPositionAux= 125;
-                        vehicleYPositionAux= 180;
-                    }else if(vehicleCurrentDirectionAux==="straight"){
-                        vehicleXPositionAux = 125;
-                        vehicleYPositionAux = 180;
+                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
+                        auxiliaryPVSValues.vehicleXPositionAux= 125;
+                        auxiliaryPVSValues.vehicleYPositionAux= 180;
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="right"){
+                        auxiliaryPVSValues.vehicleXPositionAux= 125;
+                        auxiliaryPVSValues.vehicleYPositionAux= 180;
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="straight"){
+                        auxiliaryPVSValues.vehicleXPositionAux = 125;
+                        auxiliaryPVSValues.vehicleYPositionAux = 180;
                     }
                 }else{
-                    if(vehicleCurrentDirectionAux==="left"){
-                        vehicleXPositionAux= 125;
-                        vehicleYPositionAux= 190;
-                    }else if(vehicleCurrentDirectionAux==="right"){
-                        vehicleXPositionAux= 125;
-                        vehicleYPositionAux= 190;
-                    }else if(vehicleCurrentDirectionAux==="straight"){
-                        vehicleXPositionAux = 125;
-                        vehicleYPositionAux = 190;
+                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
+                        auxiliaryPVSValues.vehicleXPositionAux= 125;
+                        auxiliaryPVSValues.vehicleYPositionAux= 190;
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="right"){
+                        auxiliaryPVSValues.vehicleXPositionAux= 125;
+                        auxiliaryPVSValues.vehicleYPositionAux= 190;
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="straight"){
+                        auxiliaryPVSValues.vehicleXPositionAux = 125;
+                        auxiliaryPVSValues.vehicleYPositionAux = 190;
                     }
                 }
                 break;
             case "helicopter":
-                if(vehicleCurrentDirectionAux==="left"){
-                    vehicleXPositionAux= 70;
-                    vehicleYPositionAux= 60;
-                }else if(vehicleCurrentDirectionAux==="right"){
-                    vehicleXPositionAux= 70;
-                    vehicleYPositionAux= 60;
-                }else if(vehicleCurrentDirectionAux==="straight"){
-                    vehicleXPositionAux = 100;
-                    vehicleYPositionAux = 90;
+                if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
+                    auxiliaryPVSValues.vehicleXPositionAux= 70;
+                    auxiliaryPVSValues.vehicleYPositionAux= 60;
+                }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="right"){
+                    auxiliaryPVSValues.vehicleXPositionAux= 70;
+                    auxiliaryPVSValues.vehicleYPositionAux= 60;
+                }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="straight"){
+                    auxiliaryPVSValues.vehicleXPositionAux = 100;
+                    auxiliaryPVSValues.vehicleYPositionAux = 90;
                 }
                 break;
             case "motorbike":
                 if(vehicleRealistic){
-                    if(vehicleCurrentDirectionAux==="left"){
-                        vehicleXPositionAux= 130;
-                        vehicleYPositionAux= 160;
-                    }else if(vehicleCurrentDirectionAux==="right"){
-                        vehicleXPositionAux= 130;
-                        vehicleYPositionAux= 160;
-                    }else if(vehicleCurrentDirectionAux==="straight"){
-                        vehicleXPositionAux = 130;
-                        vehicleYPositionAux = 160;
+                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
+                        auxiliaryPVSValues.vehicleXPositionAux= 130;
+                        auxiliaryPVSValues.vehicleYPositionAux= 160;
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="right"){
+                        auxiliaryPVSValues.vehicleXPositionAux= 130;
+                        auxiliaryPVSValues.vehicleYPositionAux= 160;
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="straight"){
+                        auxiliaryPVSValues.vehicleXPositionAux = 130;
+                        auxiliaryPVSValues.vehicleYPositionAux = 160;
                     }
                 }else{
-                    if(vehicleCurrentDirectionAux==="left"){
-                        vehicleXPositionAux= 120;
-                        vehicleYPositionAux= 175;
-                    }else if(vehicleCurrentDirectionAux==="right"){
-                        vehicleXPositionAux= 140;
-                        vehicleYPositionAux= 175;
-                    }else if(vehicleCurrentDirectionAux==="straight"){
-                        vehicleXPositionAux = 150;
-                        vehicleYPositionAux = 175;
+                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
+                        auxiliaryPVSValues.vehicleXPositionAux= 120;
+                        auxiliaryPVSValues.vehicleYPositionAux= 175;
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="right"){
+                        auxiliaryPVSValues.vehicleXPositionAux= 140;
+                        auxiliaryPVSValues.vehicleYPositionAux= 175;
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="straight"){
+                        auxiliaryPVSValues.vehicleXPositionAux = 150;
+                        auxiliaryPVSValues.vehicleYPositionAux = 175;
                     }
                 }
                 break;
@@ -2422,32 +2428,32 @@ define(function (require, exports, module) {
         }
 
         if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.action_attribute]===vehicle.quit_attribute){ // Key 'q' ends current simulator
-            chronometer.stop();
+            canvasInformations.chronometer.stop();
             soundWidget.hide();
-            clearInterval(simulatorInterval);
-            splashInterval = setInterval(Arcade.prototype.renderSplashEndFrame, 30);
+            clearInterval(intervals.simulatorInterval);
+            intervals.splashInterval = setInterval(Arcade.prototype.renderSplashEndFrame, 30);
             soundWidget.pauseAll();
         }
 
         if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.action_attribute]===vehicle.pause_attribute){ // Key 's' pauses current simulator
-            chronometer.pause();
+            canvasInformations.chronometer.pause();
             soundWidget.hide();
-            clearInterval(simulatorInterval);
-            splashInterval = setInterval(Arcade.prototype.renderSplashPauseFrame, 30);
+            clearInterval(intervals.simulatorInterval);
+            intervals.splashInterval = setInterval(Arcade.prototype.renderSplashPauseFrame, 30);
             soundWidget.pauseAll();
         }
 
         // Clean screen
-        //context.fillStyle = "#dc9"; // rgb(221, 204, 153) matches first background color
-        context.fillStyle = "#76665d"; // rgb(139, 120, 106)
-        context.fillRect(0, 0, render.width, render.height);
+        //canvasInformations.context.fillStyle = "#dc9"; // rgb(221, 204, 153) matches first background color
+        canvasInformations.context.fillStyle = "#76665d"; // rgb(139, 120, 106)
+        canvasInformations.context.fillRect(0, 0, render.width, render.height);
 
         let carSprite = null;
 
         if(loadPVSSpeedPositions){
             // Using PVS results
             Arcade.prototype.calculateNewControllableCarPosition();
-            carSprite = Arcade.prototype.setControllableCarPosition(vehicleCurrentDirectionAux, newSpeedAux, newPositionAux, newPositionXAux, vehicleXPositionAux, vehicleYPositionAux);
+            carSprite = Arcade.prototype.setControllableCarPosition(auxiliaryPVSValues.vehicleCurrentDirectionAux, auxiliaryPVSValues.newSpeedAux, auxiliaryPVSValues.newPositionAux, auxiliaryPVSValues.newPositionXAux, auxiliaryPVSValues.vehicleXPositionAux, auxiliaryPVSValues.vehicleYPositionAux);
         }else{
             // Using only JS to update rendered vehicle
             carSprite = Arcade.prototype.updateControllableCar();
@@ -2535,30 +2541,30 @@ define(function (require, exports, module) {
         // Draw the car
         Arcade.prototype.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
 
-        currentPercentage = Math.round(absoluteIndex/(numIterations-render.depthOfField)*100);
+        lapInformation.currentPercentage = Math.round(absoluteIndex/(numIterations-render.depthOfField)*100);
 
         if(WIDGETSTATE!==null){
-            currentLapNumber = parseInt(WIDGETSTATE[vehicle.lap_attribute][vehicle.lap_value]);
+            lapInformation.currentLapNumber = parseInt(WIDGETSTATE[vehicle.lap_attribute][vehicle.lap_value]);
 
             if(absoluteIndex >= numIterations-render.depthOfField-1){
-                if(currentLapNumber<=lapNumber && counterAux===0){
-                    ButtonActionsQueue.queueGUIAction("new_lap", callback);
+                if(lapInformation.currentLapNumber<=lapInformation.lapNumber && lapInformation.counterAux===0){
+                    ButtonActionsQueue.queueGUIAction("new_lap", lapInformation.callback);
                 }
-                counterAux=1;
+                lapInformation.counterAux=1;
             }
 
-            if(lastLapNumber===currentLapNumber-1){
-                lastLapNumber=currentLapNumber;
-                counterAux=0;
+            if(lapInformation.lastLapNumber===lapInformation.currentLapNumber-1){
+                lapInformation.lastLapNumber=lapInformation.currentLapNumber;
+                lapInformation.counterAux=0;
             }
 
-            if(currentLapNumber===lapNumber){
+            if(lapInformation.currentLapNumber===lapInformation.lapNumber){
                 Arcade.prototype.drawText("1 Lap",{x: 10, y: 15}, 1);
                 Arcade.prototype.drawText("To Go",{x: 10, y: 25}, 1);
             }
 
-            if(currentLapNumber===lapNumber && currentPercentage>=100){
-                clearInterval(simulatorInterval);
+            if(lapInformation.currentLapNumber===lapInformation.lapNumber && lapInformation.currentPercentage>=100){
+                clearInterval(intervals.simulatorInterval);
                 Arcade.prototype.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
                 Arcade.prototype.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
                 Arcade.prototype.drawText("The Simulator", {x: 100, y: 70}, 1);
@@ -2570,17 +2576,17 @@ define(function (require, exports, module) {
         }
 
         // Draw Header
-        if(currentLapNumber<lapNumber){
-            Arcade.prototype.drawText("Lap "+currentLapNumber+"/"+lapNumber,{x: 10, y: 1}, 1);
+        if(lapInformation.currentLapNumber<lapInformation.lapNumber){
+            Arcade.prototype.drawText("Lap "+lapInformation.currentLapNumber+"/"+lapInformation.lapNumber,{x: 10, y: 1}, 1);
         }else{
-            Arcade.prototype.drawText("Lap "+lapNumber+"/"+lapNumber,{x: 10, y: 1}, 1);
+            Arcade.prototype.drawText("Lap "+lapInformation.lapNumber+"/"+lapInformation.lapNumber,{x: 10, y: 1}, 1);
         }
 
-        // currentPercentage = Math.round(absoluteIndex/(numIterations-render.depthOfField)*100);
-        if(currentPercentage>100){
+        // lapInformation.currentPercentage = Math.round(absoluteIndex/(numIterations-render.depthOfField)*100);
+        if(lapInformation.currentPercentage>100){
             Arcade.prototype.drawText("Current Lap 100%",{x: 100, y: 1},1);
         }else{
-            Arcade.prototype.drawText("Current Lap "+currentPercentage+"%",{x: 100, y: 1},1);
+            Arcade.prototype.drawText("Current Lap "+lapInformation.currentPercentage+"%",{x: 100, y: 1},1);
         }
 
         // Draw Virtual Speedometer and Tachometer based on Speedometer, Tachometer Widgets
@@ -2610,16 +2616,16 @@ define(function (require, exports, module) {
         }
 
         // Draw Lap Time
-        let res = time[0].split("-");
-        currentTimeString = res[0] + " h:" + time[1] + " m:" + time[2] + " s:" + time[3] + " ms";
-        Arcade.prototype.drawText(currentTimeString, {x: 80, y: 15}, 1);
+        let res = canvasInformations.time[0].split("-");
+        canvasInformations.currentTimeString = res[0] + " h:" + canvasInformations.time[1] + " m:" + canvasInformations.time[2] + " s:" + canvasInformations.time[3] + " ms";
+        Arcade.prototype.drawText(canvasInformations.currentTimeString, {x: 80, y: 15}, 1);
 
         // Draw Simulator Logo
-        if(showOfficialLogo){
-            // context.drawImage(simulatorLogos.simulatorLogo1,15,215,0.6*60,0.6*32);
-            context.drawImage(simulatorLogos.simulatorLogo2,15,215,0.6*60,0.6*32);
-            // context.drawImage(simulatorLogos.simulatorLogo1,10,225,0.4*60,0.4*32);
-            // context.drawImage(simulatorLogos.simulatorLogo2,10,225,0.4*60,0.4*32);
+        if(canvasInformations.showOfficialLogo){
+            // canvasInformations.context.drawImage(simulatorLogos.simulatorLogo1,15,215,0.6*60,0.6*32);
+            canvasInformations.context.drawImage(simulatorLogos.simulatorLogo2,15,215,0.6*60,0.6*32);
+            // canvasInformations.context.drawImage(simulatorLogos.simulatorLogo1,10,225,0.4*60,0.4*32);
+            // canvasInformations.context.drawImage(simulatorLogos.simulatorLogo2,10,225,0.4*60,0.4*32);
         }
 
         return this;
@@ -2658,8 +2664,8 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.init = function () {
-        canvas = document.getElementById("arcadeSimulator");
-        context = canvas.getContext('2d');
+        canvasInformations.canvas = document.getElementById("arcadeSimulator");
+        canvasInformations.context = canvasInformations.canvas.getContext('2d');
         return this;
     };
 
