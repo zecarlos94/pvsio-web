@@ -367,41 +367,53 @@ define(function (require, exports, module) {
     let ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
 
     let WIDGETSTATE = null;
-    let lastSpeedPVS = null;
-    let lastRPMPVS = null;
-    let lastPositionPVS = 10;
-    let lastPosXPVS = 0;
-    let loadPVSSpeedPositions = null;
+    let loadPVSSpeedPositions = null;    
+    let lastPVSValues = {
+        lastSpeedPVS: null,
+        lastRPMPVS: null,
+        lastPositionPVS: 10,
+        lastPosXPVS: 0
+    };
 
-    let spritesheetJSON;
-    let spritesheetJSONPredefined;
-    let trackJSON;
     let predefinedTracks;
-    let trackStraightJSONPredefined;
-    let trackCurvesSlopesJSONPredefined;
-    let trackLayout1Predefined;
-    let trackLayout2Predefined;
-    let trackLayout3Predefined;
-    let trackLayout4Predefined;
-    let trackLayout5Predefined;
-    let trackLayout6Predefined;
-    let trackLayout7Predefined;
-    let trackLayout8Predefined;
-    let trackLayout9Predefined;
+    let configurationFiles = {
+        spritesheetJSON: null,
+        trackJSON: null,
+        spritesheetJSONPredefined: null,
+        trackStraightJSONPredefined: null,
+        trackCurvesSlopesJSONPredefined: null,
+        trackLayout1Predefined: null,
+        trackLayout2Predefined: null,
+        trackLayout3Predefined: null,
+        trackLayout4Predefined: null,
+        trackLayout5Predefined: null,
+        trackLayout6Predefined: null,
+        trackLayout7Predefined: null,
+        trackLayout8Predefined: null,
+        trackLayout9Predefined: null
+    };
 
     let currentBrowser = { chrome: false, mozilla: false, opera: false, msie: false, safari: false};
 
-    let simulatorLogo1,simulatorLogo2;
+    let simulatorLogos = {
+        simulatorLogo1: null,
+        simulatorLogo2: null
+    };
     let spritesheetsImages = [];
     let realPrefix="";
     let readSprite=false;
     let readConfiguration=false;
     let readParams=false;
     let sptB = null;
-    let carCurrentDirection = "front";
 
-    // Coordinates of first blue car in spritesheet, Coordinates of second blue car in spritesheet, Coordinates of third blue car in spritesheet, Coordinates of first red car in spritesheet, Coordinates of second red car in spritesheet, Coordinates of third red car in spritesheet, Coordinates of background in spritesheet, Coordinates of tree in spritesheet, Coordinates of boulder in spritesheet, Coordinates of logo in spritesheet
-    let vehicle_faced_front, vehicle_faced_left, vehicle_faced_right, background, logo;
+    // Coordinates of vehicle faced left and right in spritesheet, Coordinates of background in spritesheet, Coordinates of logo in spritesheet
+    let main_sprites = {
+        vehicle_faced_left: null,
+        vehicle_faced_right: null,
+        background: null,
+        logo: null,
+    };
+    let vehicle_faced_front;
     let spritesAvailable=[];
 
     // Information regarding the rendering process (what users will see/how the game is viewed)
@@ -740,20 +752,20 @@ define(function (require, exports, module) {
         });
 
         // Set of tracks built with TrackGenerator widget using trackLayout opt field
-        trackLayout1Predefined = require("text!widgets/car/configurations/trackLayout1.json");
-        trackLayout2Predefined = require("text!widgets/car/configurations/trackLayout2.json");
-        trackLayout3Predefined = require("text!widgets/car/configurations/trackLayout3.json");
-        trackLayout4Predefined = require("text!widgets/car/configurations/trackLayout4.json");
-        trackLayout5Predefined = require("text!widgets/car/configurations/trackLayout5.json");
-        trackLayout6Predefined = require("text!widgets/car/configurations/trackLayout6.json");
-        trackLayout7Predefined = require("text!widgets/car/configurations/trackLayout7.json");
-        trackLayout8Predefined = require("text!widgets/car/configurations/trackLayout8.json");
-        trackLayout9Predefined = require("text!widgets/car/configurations/trackLayout9.json");
+        configurationFiles.trackLayout1Predefined = require("text!widgets/car/configurations/trackLayout1.json");
+        configurationFiles.trackLayout2Predefined = require("text!widgets/car/configurations/trackLayout2.json");
+        configurationFiles.trackLayout3Predefined = require("text!widgets/car/configurations/trackLayout3.json");
+        configurationFiles.trackLayout4Predefined = require("text!widgets/car/configurations/trackLayout4.json");
+        configurationFiles.trackLayout5Predefined = require("text!widgets/car/configurations/trackLayout5.json");
+        configurationFiles.trackLayout6Predefined = require("text!widgets/car/configurations/trackLayout6.json");
+        configurationFiles.trackLayout7Predefined = require("text!widgets/car/configurations/trackLayout7.json");
+        configurationFiles.trackLayout8Predefined = require("text!widgets/car/configurations/trackLayout8.json");
+        configurationFiles.trackLayout9Predefined = require("text!widgets/car/configurations/trackLayout9.json");
 
         // Requiring predefined JSON files
-        trackStraightJSONPredefined = require("text!widgets/car/configurations/track-straight-random.json");
-        trackCurvesSlopesJSONPredefined = require("text!widgets/car/configurations/track-curves-slopes-random.json");
-        spritesheetJSONPredefined = require("text!widgets/car/configurations/spritesheet.json");
+        configurationFiles.trackStraightJSONPredefined = require("text!widgets/car/configurations/track-straight-random.json");
+        configurationFiles.trackCurvesSlopesJSONPredefined = require("text!widgets/car/configurations/track-curves-slopes-random.json");
+        configurationFiles.spritesheetJSONPredefined = require("text!widgets/car/configurations/spritesheet.json");
 
         this.div = d3.select(this.parent)
                         .attr("class","container game_view")
@@ -825,46 +837,46 @@ define(function (require, exports, module) {
             if(predefinedTracks!==null){
                 switch(predefinedTracks){
                     case 1:
-                        trackJSON = trackLayout1Predefined;
+                        configurationFiles.trackJSON = configurationFiles.trackLayout1Predefined;
                         break;
                     case 2:
-                        trackJSON = trackLayout2Predefined;
+                        configurationFiles.trackJSON = configurationFiles.trackLayout2Predefined;
                         break;
                     case 3:
-                        trackJSON = trackLayout3Predefined;
+                        configurationFiles.trackJSON = configurationFiles.trackLayout3Predefined;
                         break;
                     case 4:
-                        trackJSON = trackLayout4Predefined;
+                        configurationFiles.trackJSON = configurationFiles.trackLayout4Predefined;
                         break;
                     case 5:
-                        trackJSON = trackLayout5Predefined;
+                        configurationFiles.trackJSON = configurationFiles.trackLayout5Predefined;
                         break;
                     case 6:
-                        trackJSON = trackLayout6Predefined;
+                        configurationFiles.trackJSON = configurationFiles.trackLayout6Predefined;
                         break;
                     case 7:
-                        trackJSON = trackLayout7Predefined;
+                        configurationFiles.trackJSON = configurationFiles.trackLayout7Predefined;
                         break;
                     case 8:
-                        trackJSON = trackLayout8Predefined;
+                        configurationFiles.trackJSON = configurationFiles.trackLayout8Predefined;
                         break;
                     case 9:
-                        trackJSON = trackLayout9Predefined;
+                        configurationFiles.trackJSON = configurationFiles.trackLayout9Predefined;
                         break;
                     case -1:
-                        trackJSON = trackStraightJSONPredefined;
+                        configurationFiles.trackJSON = configurationFiles.trackStraightJSONPredefined;
                         break;
                     case -2:
-                        trackJSON = trackCurvesSlopesJSONPredefined;
+                        configurationFiles.trackJSON = configurationFiles.trackCurvesSlopesJSONPredefined;
                         break;
                 }
-                spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field").innerHTML;
+                configurationFiles.spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field").innerHTML;
             }else{
-                trackJSON = document.getElementById("track_file_loaded_opt_field").innerHTML;
-                spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field").innerHTML;
+                configurationFiles.trackJSON = document.getElementById("track_file_loaded_opt_field").innerHTML;
+                configurationFiles.spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field").innerHTML;
             }
-            if(trackJSON){
-                let aux = JSON.parse(trackJSON);
+            if(configurationFiles.trackJSON){
+                let aux = JSON.parse(configurationFiles.trackJSON);
                 controllable_car=aux.controllable_car;
                 laneWidth=aux.laneWidth;
                 numLanes=aux.numLanes;
@@ -921,8 +933,8 @@ define(function (require, exports, module) {
 
             // console.log(spritesAvailable);
 
-            if(spritesheetJSON){
-                spritesReadJSON = JSON.parse(spritesheetJSON);
+            if(configurationFiles.spritesheetJSON){
+                spritesReadJSON = JSON.parse(configurationFiles.spritesheetJSON);
                 // Reading all JSON Sprites Available
                 for(let k=0;k<spritesReadJSON.frames.length;k++){
                     spritesAvailable[k]={
@@ -930,23 +942,23 @@ define(function (require, exports, module) {
                         value:spritesReadJSON.frames[k].frame
                     };
                     if(spritesAvailable[k].name.match(backgroundRegex)){
-                        background = spritesAvailable[k].value;
+                        main_sprites.background = spritesAvailable[k].value;
                     }
                     if(spritesAvailable[k].name.match(logoRegex)){
-                        logo = spritesAvailable[k].value;
+                        main_sprites.logo = spritesAvailable[k].value;
                     }
                     if(spritesAvailable[k].name.match(frontRegex)){
                         vehicle_faced_front = spritesAvailable[k].value;
                     }
                     if(spritesAvailable[k].name.match(leftRegex)){
-                        vehicle_faced_left = spritesAvailable[k].value;
+                        main_sprites.vehicle_faced_left = spritesAvailable[k].value;
                     }
                     if(spritesAvailable[k].name.match(rightRegex)){
-                        vehicle_faced_right = spritesAvailable[k].value;
+                        main_sprites.vehicle_faced_right = spritesAvailable[k].value;
                     }
                 }
 
-                if(background===undefined){
+                if(main_sprites.background===undefined){
                     if(vehicleRealistic){
                         if(backgroundIndex!==null){ // realistic image with that index does not exist
                             backgroundRegex = new RegExp("^"+realPrefix+"background$");
@@ -963,12 +975,12 @@ define(function (require, exports, module) {
                             value:spritesReadJSON.frames[k].frame
                         };
                         if(spritesAvailable[k].name.match(backgroundRegex)){
-                            background = spritesAvailable[k].value;
+                            main_sprites.background = spritesAvailable[k].value;
                         }
                     }
                 }
 
-                if(logo===undefined){
+                if(main_sprites.logo===undefined){
                     if(vehicleRealistic){
                         if(logoIndex!==null){
                             logoRegex   = new RegExp("^"+realPrefix+"logo$");
@@ -985,12 +997,12 @@ define(function (require, exports, module) {
                             value:spritesReadJSON.frames[k].frame
                         };
                         if(spritesAvailable[k].name.match(logoRegex)){
-                            logo = spritesAvailable[k].value;
+                            main_sprites.logo = spritesAvailable[k].value;
                         }
                     }
                 }
 
-                if(vehicle_faced_front===undefined || vehicle_faced_left===undefined || vehicle_faced_right===undefined){
+                if(vehicle_faced_front===undefined || main_sprites.vehicle_faced_left===undefined || main_sprites.vehicle_faced_right===undefined){
                     if(vehicleRealistic){
                         if(vehicleIndex!==null){ // Realistic image with index does not exist
                             frontRegex      = new RegExp("^"+realPrefix+vehicleType+"_faced_front$");
@@ -1017,14 +1029,14 @@ define(function (require, exports, module) {
                             vehicle_faced_front = spritesAvailable[k].value;
                         }
                         if(spritesAvailable[k].name.match(leftRegex)){
-                            vehicle_faced_left = spritesAvailable[k].value;
+                            main_sprites.vehicle_faced_left = spritesAvailable[k].value;
                         }
                         if(spritesAvailable[k].name.match(rightRegex)){
-                            vehicle_faced_right = spritesAvailable[k].value;
+                            main_sprites.vehicle_faced_right = spritesAvailable[k].value;
                         }
                     }
                 }
-                if(background!==undefined && logo!==undefined && vehicle_faced_front!==undefined && vehicle_faced_left!==undefined && vehicle_faced_right!==undefined){
+                if(main_sprites.background!==undefined && main_sprites.logo!==undefined && vehicle_faced_front!==undefined && main_sprites.vehicle_faced_left!==undefined && main_sprites.vehicle_faced_right!==undefined){
                     readSprite=true;
                 }else{
                     for(let k=0;k<spritesReadJSON.frames.length;k++){
@@ -1033,20 +1045,20 @@ define(function (require, exports, module) {
                             value:spritesReadJSON.frames[k].frame
                         };
                         if(spritesAvailable[k].name.match(/^background$/)){
-                            background = spritesAvailable[k].value;
+                            main_sprites.background = spritesAvailable[k].value;
                         }
                         if(spritesAvailable[k].name.match(/^logo$/)){
-                            logo = spritesAvailable[k].value;
+                            main_sprites.logo = spritesAvailable[k].value;
                         }
                         if(vehicleType==="airplane"){
                             if(spritesAvailable[k].name.match(/^airplane_faced_front$/)){
                                 vehicle_faced_front = spritesAvailable[k].value;
                             }
                             if(spritesAvailable[k].name.match(/^airplane_faced_left$/)){
-                                vehicle_faced_left = spritesAvailable[k].value;
+                                main_sprites.vehicle_faced_left = spritesAvailable[k].value;
                             }
                             if(spritesAvailable[k].name.match(/^airplane_faced_right$/)){
-                                vehicle_faced_right = spritesAvailable[k].value;
+                                main_sprites.vehicle_faced_right = spritesAvailable[k].value;
                             }
                         }
                         else if(vehicleType==="bicycle"){
@@ -1054,10 +1066,10 @@ define(function (require, exports, module) {
                                 vehicle_faced_front = spritesAvailable[k].value;
                             }
                             if(spritesAvailable[k].name.match(/^bicycle_faced_left$/)){
-                                vehicle_faced_left = spritesAvailable[k].value;
+                                main_sprites.vehicle_faced_left = spritesAvailable[k].value;
                             }
                             if(spritesAvailable[k].name.match(/^bicycle_faced_right$/)){
-                                vehicle_faced_right = spritesAvailable[k].value;
+                                main_sprites.vehicle_faced_right = spritesAvailable[k].value;
                             }
                         }
                         else if(vehicleType==="car") {
@@ -1065,10 +1077,10 @@ define(function (require, exports, module) {
                                 vehicle_faced_front = spritesAvailable[k].value;
                             }
                             if(spritesAvailable[k].name.match(/^car_faced_left$/)){
-                                vehicle_faced_left = spritesAvailable[k].value;
+                                main_sprites.vehicle_faced_left = spritesAvailable[k].value;
                             }
                             if(spritesAvailable[k].name.match(/^car_faced_right$/)){
-                                vehicle_faced_right = spritesAvailable[k].value;
+                                main_sprites.vehicle_faced_right = spritesAvailable[k].value;
                             }
                         }
                         else if(vehicleType==="helicopter"){
@@ -1076,10 +1088,10 @@ define(function (require, exports, module) {
                                 vehicle_faced_front = spritesAvailable[k].value;
                             }
                             if(spritesAvailable[k].name.match(/^helicopter_faced_left$/)){
-                                vehicle_faced_left = spritesAvailable[k].value;
+                                main_sprites.vehicle_faced_left = spritesAvailable[k].value;
                             }
                             if(spritesAvailable[k].name.match(/^helicopter_faced_right$/)){
-                                vehicle_faced_right = spritesAvailable[k].value;
+                                main_sprites.vehicle_faced_right = spritesAvailable[k].value;
                             }
                         }
                         else if(vehicleType==="motorbike"){
@@ -1087,10 +1099,10 @@ define(function (require, exports, module) {
                                 vehicle_faced_front = spritesAvailable[k].value;
                             }
                             if(spritesAvailable[k].name.match(/^motorbike_faced_left$/)){
-                                vehicle_faced_left = spritesAvailable[k].value;
+                                main_sprites.vehicle_faced_left = spritesAvailable[k].value;
                             }
                             if(spritesAvailable[k].name.match(/^motorbike_faced_right$/)){
-                                vehicle_faced_right = spritesAvailable[k].value;
+                                main_sprites.vehicle_faced_right = spritesAvailable[k].value;
                             }
                         }
                     }
@@ -1197,11 +1209,11 @@ define(function (require, exports, module) {
         if(currentBrowser.chrome){ // can be ensured that all CSS will work as it is supposed!!!
             Arcade.prototype.init();
 
-            simulatorLogo1 = new Image();
-            simulatorLogo1.src = "../../client/app/widgets/car/configurations/img/simulatorLogo1.png";
+            simulatorLogos.simulatorLogo1 = new Image();
+            simulatorLogos.simulatorLogo1.src = "../../client/app/widgets/car/configurations/img/simulatorLogo1.png";
 
-            simulatorLogo2 = new Image();
-            simulatorLogo2.src = "../../client/app/widgets/car/configurations/img/simulatorLogo2.png";
+            simulatorLogos.simulatorLogo2 = new Image();
+            simulatorLogos.simulatorLogo2.src = "../../client/app/widgets/car/configurations/img/simulatorLogo2.png";
 
             spritesFiles.forEach(function(el,index){
                 spritesheetsImages[index] = new Image();
@@ -1240,7 +1252,7 @@ define(function (require, exports, module) {
             // canvas.width = render.width;
 
             if(readConfiguration && readSprite){
-                context.drawImage(spritesheetsImages[0],  logo.x, logo.y, logo.w, logo.h, 110, 15, 0.7*logo.w, 0.7*logo.h);
+                context.drawImage(spritesheetsImages[0],  main_sprites.logo.x, main_sprites.logo.y, main_sprites.logo.w, main_sprites.logo.h, 110, 15, 0.7*main_sprites.logo.w, 0.7*main_sprites.logo.h);
 
                 Arcade.prototype.drawText("Instructions:",{x: 120, y: 90}, 1);
                 Arcade.prototype.drawText("Click on space bar to start",{x: 60, y: 110}, 1);
@@ -1306,7 +1318,7 @@ define(function (require, exports, module) {
         context.fillRect(0, 0, canvas.width, canvas.height);
         // context.fillRect(0, 0, render.width, render.height);
 
-        context.drawImage(spritesheetsImages[0],  logo.x, logo.y, logo.w, logo.h, 110, 15, 0.7*logo.w, 0.7*logo.h);
+        context.drawImage(spritesheetsImages[0],  main_sprites.logo.x, main_sprites.logo.y, main_sprites.logo.w, main_sprites.logo.h, 110, 15, 0.7*main_sprites.logo.w, 0.7*main_sprites.logo.h);
 
         Arcade.prototype.drawText("Click on space bar to resume",{x: 60, y: 100}, 1);
         Arcade.prototype.drawText("Use left and rigth arrows",{x: 70, y: 135}, 1);
@@ -1357,7 +1369,7 @@ define(function (require, exports, module) {
         context.fillRect(0, 0, canvas.width, canvas.height);
         // context.fillRect(0, 0, render.width, render.height);
 
-        context.drawImage(spritesheetsImages[0],  logo.x, logo.y, logo.w, logo.h, 110, 15, 0.7*logo.w, 0.7*logo.h);
+        context.drawImage(spritesheetsImages[0],  main_sprites.logo.x, main_sprites.logo.y, main_sprites.logo.w, main_sprites.logo.h, 110, 15, 0.7*main_sprites.logo.w, 0.7*main_sprites.logo.h);
 
         Arcade.prototype.drawText("Thank you for playing!",{x: 90, y: 100}, 1);
         Arcade.prototype.drawText("Click on space bar to start again",{x: 40, y: 125}, 1);
@@ -1812,18 +1824,18 @@ define(function (require, exports, module) {
     /**
      * @function drawBackground
      * @protected
-     * @description DrawBackground method of the Arcade widget. This method draws the background image, in position 'position'.
+     * @description DrawBackground method of the Arcade widget. This method draws the main_sprites.background image, in position 'position'.
      * @param position {Float} Value of posx in controllable_car object, i.e. horizontal position, which is computed by adding/subtracting the turning field value every time the vehicle is turned left or right, in updateControllableCar method.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
     Arcade.prototype.drawBackground = function (position) {
-        let first = position / 2 % (background.w);
+        let first = position / 2 % (main_sprites.background.w);
         //(image, x, y, scale) args
-        Arcade.prototype.drawSprite(null, background, first-background.w +1, 0, 1);
-        Arcade.prototype.drawSprite(null, background, first+background.w-1, 0, 1);
-        Arcade.prototype.drawSprite(null, background, first, 0, 1);
+        Arcade.prototype.drawSprite(null, main_sprites.background, first-main_sprites.background.w +1, 0, 1);
+        Arcade.prototype.drawSprite(null, main_sprites.background, first+main_sprites.background.w-1, 0, 1);
+        Arcade.prototype.drawSprite(null, main_sprites.background, first, 0, 1);
         return this;
     };
 
@@ -1930,13 +1942,13 @@ define(function (require, exports, module) {
 
             // draw arrow or guiding line
             // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, laneArrow);
-            if(carCurrentDirection==="front"){
+            if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="straight"){
                 // Arcade.prototype.drawArrowFront(160, 150, 12, 18, laneArrow, 1);
                 Arcade.prototype.drawSimpleArrowFront(canvas.width-50,30,laneArrow);
-            }else if(carCurrentDirection==="right"){
+            }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="right"){
                 // Arcade.prototype.drawArrowLeft(160, 150, 20, 20, laneArrow, 1, {inverse:false});
                 Arcade.prototype.drawSimpleArrowLeft(canvas.width-50,30,laneArrow,{inverse:false});
-            }else if(carCurrentDirection==="left"){
+            }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="left"){
                 // Arcade.prototype.drawArrowRight(160, 150, 20, 20, laneArrow, 1, {inverse:false});
                 Arcade.prototype.drawSimpleArrowRight(canvas.width-50,30,laneArrow,{inverse:false});
             }
@@ -1968,13 +1980,13 @@ define(function (require, exports, module) {
 
             // draw arrow or guiding line
             // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, laneArrow);
-            if(carCurrentDirection==="front"){
+            if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="straight"){
                 // Arcade.prototype.drawArrowFront(160, 150, 12, 18, laneArrow, 1);
                 Arcade.prototype.drawSimpleArrowFront(canvas.width-50,30,laneArrow);
-            }else if(carCurrentDirection==="right"){
+            }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="right"){
                 // Arcade.prototype.drawArrowLeft(160, 150, 20, 20, laneArrow, 1, {inverse:false});
                 Arcade.prototype.drawSimpleArrowLeft(canvas.width-50,30,laneArrow, {inverse:false});
-            }else if(carCurrentDirection==="left"){
+            }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="left"){
                 // Arcade.prototype.drawArrowRight(160, 150, 20, 20, laneArrow, 1, {inverse:false});
                 Arcade.prototype.drawSimpleArrowRight(canvas.width-50,30,laneArrow, {inverse:false});
             }
@@ -1993,7 +2005,7 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.updateControllableCar = function () {
 
-        if(vehicle_faced_front===undefined || vehicle_faced_left===undefined || vehicle_faced_right===undefined){
+        if(vehicle_faced_front===undefined || main_sprites.vehicle_faced_left===undefined || main_sprites.vehicle_faced_right===undefined){
             console.log("Check if constructor args are correct!");
             console.log("Maybe Vehicle Image does not exist! Check Spritesheet image and Spritesheet.json");
             console.log("Vehicle Image Type and Realistic Image does not have a match");
@@ -2119,27 +2131,24 @@ define(function (require, exports, module) {
 
         // car turning
         if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="left") {
-            carCurrentDirection = "left";
             if(controllable_car.speed > 0){
                 controllable_car.posx -= controllable_car.turning;
             }
             carSprite = {
-                car: vehicle_faced_left,
+                car: main_sprites.vehicle_faced_left,
                 x: vehicleXLeftPosition,
                 y: vehicleYLeftPosition
             };
         } else if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="right") {
-            carCurrentDirection = "right";
             if(controllable_car.speed > 0){
                 controllable_car.posx += controllable_car.turning;
             }
             carSprite = {
-                car: vehicle_faced_right,
+                car: main_sprites.vehicle_faced_right,
                 x: vehicleXRightPosition,
                 y: vehicleYRightPosition
             };
         } else {
-            carCurrentDirection = "front";
             carSprite = {
                 car: vehicle_faced_front,
                 x: vehicleXFrontPosition,
@@ -2165,7 +2174,7 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.setControllableCarPosition = function (vehicleCurrentDirection, newSpeed, newPosition, newPositionX, vehicleXPosition, vehicleYPosition) {
 
-        if(vehicle_faced_front===undefined || vehicle_faced_left===undefined || vehicle_faced_right===undefined){
+        if(vehicle_faced_front===undefined || main_sprites.vehicle_faced_left===undefined || main_sprites.vehicle_faced_right===undefined){
             console.log("Check if constructor args are correct!");
             console.log("Maybe Vehicle Image does not exist! Check Spritesheet image and Spritesheet.json");
             console.log("Vehicle Image Type and Realistic Image does not have a match");
@@ -2180,7 +2189,7 @@ define(function (require, exports, module) {
             controllable_car.posx = newPositionX;
         }
 
-        if(vehicleCurrentDirection==="front"){
+        if(vehicleCurrentDirection==="straight"){
             carSprite = {
                 car: vehicle_faced_front,
                 x: vehicleXPosition,
@@ -2188,13 +2197,13 @@ define(function (require, exports, module) {
             };
         }else if(vehicleCurrentDirection==="left"){
             carSprite = {
-                car: vehicle_faced_left,
+                car: main_sprites.vehicle_faced_left,
                 x: vehicleXPosition,
                 y: vehicleYPosition
             };
         }else if(vehicleCurrentDirection==="right"){
             carSprite = {
-                car: vehicle_faced_right,
+                car: main_sprites.vehicle_faced_right,
                 x: vehicleXPosition,
                 y: vehicleYPosition
             };
@@ -2220,14 +2229,14 @@ define(function (require, exports, module) {
             let arraySpeed = currentSpeedPVS.split("/");
             let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
             if(!isNaN(speedValue)){
-                lastSpeedPVS = Math.ceil(speedValue);
+                lastPVSValues.lastSpeedPVS = Math.ceil(speedValue);
             }
             if(Math.abs(lastDelta) > 130){
                 if (newSpeedAux > 150) {
-                    newSpeedAux -= lastSpeedPVS*0.10;
+                    newSpeedAux -= lastPVSValues.lastSpeedPVS*0.10;
                 }
             }else{
-                newSpeedAux = lastSpeedPVS*0.10;
+                newSpeedAux = lastPVSValues.lastSpeedPVS*0.10;
             }
 
             if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.action_attribute]===vehicle.accelerate_attribute) {
@@ -2245,33 +2254,24 @@ define(function (require, exports, module) {
             }
         }
 
-        // car turning
-        if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute] === "left") {
-            carCurrentDirection = "left";
-        } else if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute] === "right") {
-            carCurrentDirection = "right";
-        } else {
-            carCurrentDirection = "front";
-        }
-
         if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.posx_attribute][vehicle.posx_value]!=="0.0"){
             let currentPositionXPVS = WIDGETSTATE[vehicle.posx_attribute][vehicle.posx_value];
             let positionXValue = parseInt(currentPositionXPVS);
             if(!isNaN(positionXValue)){
-                lastPosXPVS = Math.ceil(positionXValue);
+                lastPVSValues.lastPosXPVS = Math.ceil(positionXValue);
             }
-            newPositionXAux = lastPosXPVS;
+            newPositionXAux = lastPVSValues.lastPosXPVS;
         }
 
-        vehicleCurrentDirectionAux = carCurrentDirection;
+        vehicleCurrentDirectionAux = WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute];
         if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.position_attribute][vehicle.position_value]!=="10.0"){
             let currentPositionPVS = WIDGETSTATE[vehicle.position_attribute][vehicle.position_value];
             let arrayPosition = currentPositionPVS.split("/");
             let positionValue = parseInt(arrayPosition[0])/parseInt(arrayPosition[1]);
             if(!isNaN(positionValue)){
-                lastPositionPVS = Math.ceil(positionValue);
+                lastPVSValues.lastPositionPVS = Math.ceil(positionValue);
             }
-            newPositionAux = lastPositionPVS;
+            newPositionAux = lastPVSValues.lastPositionPVS;
         }
 
         switch (vehicleType) {
@@ -2283,7 +2283,7 @@ define(function (require, exports, module) {
                     }else if(vehicleCurrentDirectionAux==="right"){
                         vehicleXPositionAux= 50;
                         vehicleYPositionAux= 70;
-                    }else if(vehicleCurrentDirectionAux==="front"){
+                    }else if(vehicleCurrentDirectionAux==="straight"){
                         vehicleXPositionAux = 50;
                         vehicleYPositionAux = 110;
                     }
@@ -2294,7 +2294,7 @@ define(function (require, exports, module) {
                     }else if(vehicleCurrentDirectionAux==="right"){
                         vehicleXPositionAux= 110;
                         vehicleYPositionAux= 100;
-                    }else if(vehicleCurrentDirectionAux==="front"){
+                    }else if(vehicleCurrentDirectionAux==="straight"){
                         vehicleXPositionAux = 110;
                         vehicleYPositionAux = 100;
                     }
@@ -2308,7 +2308,7 @@ define(function (require, exports, module) {
                     }else if(vehicleCurrentDirectionAux==="right"){
                         vehicleXPositionAux= 135;
                         vehicleYPositionAux= 160;
-                    }else if(vehicleCurrentDirectionAux==="front"){
+                    }else if(vehicleCurrentDirectionAux==="straight"){
                         vehicleXPositionAux = 135;
                         vehicleYPositionAux = 160;
                     }
@@ -2319,7 +2319,7 @@ define(function (require, exports, module) {
                     }else if(vehicleCurrentDirectionAux==="right"){
                         vehicleXPositionAux= 140;
                         vehicleYPositionAux= 175;
-                    }else if(vehicleCurrentDirectionAux==="front"){
+                    }else if(vehicleCurrentDirectionAux==="straight"){
                         vehicleXPositionAux = 140;
                         vehicleYPositionAux = 175;
                     }
@@ -2333,7 +2333,7 @@ define(function (require, exports, module) {
                     }else if(vehicleCurrentDirectionAux==="right"){
                         vehicleXPositionAux= 125;
                         vehicleYPositionAux= 180;
-                    }else if(vehicleCurrentDirectionAux==="front"){
+                    }else if(vehicleCurrentDirectionAux==="straight"){
                         vehicleXPositionAux = 125;
                         vehicleYPositionAux = 180;
                     }
@@ -2344,7 +2344,7 @@ define(function (require, exports, module) {
                     }else if(vehicleCurrentDirectionAux==="right"){
                         vehicleXPositionAux= 125;
                         vehicleYPositionAux= 190;
-                    }else if(vehicleCurrentDirectionAux==="front"){
+                    }else if(vehicleCurrentDirectionAux==="straight"){
                         vehicleXPositionAux = 125;
                         vehicleYPositionAux = 190;
                     }
@@ -2357,7 +2357,7 @@ define(function (require, exports, module) {
                 }else if(vehicleCurrentDirectionAux==="right"){
                     vehicleXPositionAux= 70;
                     vehicleYPositionAux= 60;
-                }else if(vehicleCurrentDirectionAux==="front"){
+                }else if(vehicleCurrentDirectionAux==="straight"){
                     vehicleXPositionAux = 100;
                     vehicleYPositionAux = 90;
                 }
@@ -2370,7 +2370,7 @@ define(function (require, exports, module) {
                     }else if(vehicleCurrentDirectionAux==="right"){
                         vehicleXPositionAux= 130;
                         vehicleYPositionAux= 160;
-                    }else if(vehicleCurrentDirectionAux==="front"){
+                    }else if(vehicleCurrentDirectionAux==="straight"){
                         vehicleXPositionAux = 130;
                         vehicleYPositionAux = 160;
                     }
@@ -2381,7 +2381,7 @@ define(function (require, exports, module) {
                     }else if(vehicleCurrentDirectionAux==="right"){
                         vehicleXPositionAux= 140;
                         vehicleYPositionAux= 175;
-                    }else if(vehicleCurrentDirectionAux==="front"){
+                    }else if(vehicleCurrentDirectionAux==="straight"){
                         vehicleXPositionAux = 150;
                         vehicleYPositionAux = 175;
                     }
@@ -2590,9 +2590,9 @@ define(function (require, exports, module) {
                 let arraySpeed = currentSpeedPVS.split("/");
                 let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
                 if(!isNaN(speedValue)){
-                    lastSpeedPVS = Math.ceil(speedValue);
+                    lastPVSValues.lastSpeedPVS = Math.ceil(speedValue);
                 }
-                Arcade.prototype.drawText(""+lastSpeedPVS+" kmh", {x: 260, y: 1}, 1);
+                Arcade.prototype.drawText(""+lastPVSValues.lastSpeedPVS+" kmh", {x: 260, y: 1}, 1);
             }else{
                 Arcade.prototype.drawText(""+0+" kmh", {x: 260, y: 1}, 1);
             }
@@ -2601,9 +2601,9 @@ define(function (require, exports, module) {
                 let arrayRPM = currentRPMPVS.split("/");
                 let rpmValue = parseInt(arrayRPM[0])/parseInt(arrayRPM[1]);
                 if(!isNaN(rpmValue)){
-                    lastRPMPVS = Math.ceil(rpmValue);
+                    lastPVSValues.lastRPMPVS = Math.ceil(rpmValue);
                 }
-                Arcade.prototype.drawText(""+lastRPMPVS+" rpm", {x: 260, y: 10}, 1);
+                Arcade.prototype.drawText(""+lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 10}, 1);
             }else{
                 Arcade.prototype.drawText(""+0+" rpm", {x: 260, y: 10}, 1);
             }
@@ -2616,10 +2616,10 @@ define(function (require, exports, module) {
 
         // Draw Simulator Logo
         if(showOfficialLogo){
-            // context.drawImage(simulatorLogo1,15,215,0.6*60,0.6*32);
-            context.drawImage(simulatorLogo2,15,215,0.6*60,0.6*32);
-            // context.drawImage(simulatorLogo1,10,225,0.4*60,0.4*32);
-            // context.drawImage(simulatorLogo2,10,225,0.4*60,0.4*32);
+            // context.drawImage(simulatorLogos.simulatorLogo1,15,215,0.6*60,0.6*32);
+            context.drawImage(simulatorLogos.simulatorLogo2,15,215,0.6*60,0.6*32);
+            // context.drawImage(simulatorLogos.simulatorLogo1,10,225,0.4*60,0.4*32);
+            // context.drawImage(simulatorLogos.simulatorLogo2,10,225,0.4*60,0.4*32);
         }
 
         return this;
