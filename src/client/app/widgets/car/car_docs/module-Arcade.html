@@ -139,15 +139,15 @@
          let arcade = new Arcade(
               'example', // id of the Arcade element that will be created
               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
-              { parent: 'game-window', 
+              { parent: 'game-window',
                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
                 realisticImgs: false,
                 vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
-                vehicleImgIndex: 2, // defines vehicle sprite image suffix            
-                // logoImgIndex: 1, // defines logo sprite image suffix 
-                // backgroundImgIndex: 1, // defines background sprite image suffix 
+                vehicleImgIndex: 2, // defines vehicle sprite image suffix
+                // logoImgIndex: 1, // defines logo sprite image suffix
+                // backgroundImgIndex: 1, // defines background sprite image suffix
                 stripePositions: {
                    trackP1: -0.50,
                    trackP2: 0.50,
@@ -163,6 +163,27 @@
                  // showOfficialLogo: true,
                  // loadPVSSpeedPositions: true,
                  // predefinedTracks: 5,
+                 // action_attribute: "action",
+                 // direction_attribute: "direction",
+                 // sound_attribute: "sound",
+                 // lap_attribute: "lap",
+                 // speed_attribute: "speed",
+                 // posx_attribute: "posx",
+                 // position_attribute: "position",
+                 // lap_value: "val",
+                 // speed_value: "val",
+                 // posx_value: "val",
+                 // position_value: "val",
+                 // left_attribute: "left",
+                 // right_attribute: "right",
+                 // accelerate_attribute: "acc",
+                 // brake_attribute: "brake",
+                 // idle_attribute: "idle",
+                 // quit_attribute: "quit",
+                 // pause_attribute: "pause",
+                 // resume_attribute: "resume",
+                 // mute_attribute: "mute",
+                 // unmute_attribute: "unmute",
               }// append on div 'game-window'
           );
 
@@ -194,7 +215,7 @@
 
     // Loading track number of iterations to be rendered
     arcade.getNrIterations();
- 
+
     // Detecting current browser
     arcade.detectBrowserType();
 
@@ -210,7 +231,7 @@
     // Drawing simulator end page
     arcade.renderSplashEndFrame();
 
-    // Draws the string "Hello" in the screen coordinates (100,100) with font available at spritesheet image (spritesheetsImages array) at index 1 
+    // Draws the string "Hello" in the screen coordinates (100,100) with font available at spritesheet image (spritesheetsImages array) at index 1
     // By default index 1 has "spritesheet.text.png" image
     arcade.drawText("Hello",{x: 100, y: 100}, 1);
 
@@ -227,7 +248,7 @@
     // Such values must be calculated or given taking into consideration the previous values.
     let carSprite = arcade.setControllableCarPosition(vehicleCurrentDirection, newSpeed, newPosition, newPositionX, vehicleXPosition, vehicleYPosition);
 
-    // Draws the background image based on car's current horizontal position(posx) 
+    // Draws the background image based on car's current horizontal position(posx)
     arcade.drawBackground(-posx);
 
     // Setting colors during simulation
@@ -242,7 +263,7 @@
              nextSegment.curve - baseOffset - lastDelta * endScaling,
              currentSegmentIndex == 2 || currentSegmentIndex == (numIterations-render.depthOfField)
     );
-  
+
     // Draws sprite received as first argument
     arcade.drawSprite(
      {
@@ -253,10 +274,10 @@
         i: currentSegment.sprite.type,
         pos: currentSegment.sprite.pos,
         obstacle: currentSegment.sprite.obstacle
-     }, 
-     null, 
-     null, 
-     null, 
+     },
+     null,
+     null,
+     null,
      null
     );
 
@@ -290,10 +311,10 @@
 
     // Draws the simple guiding arrow, turned front, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
     arcade.drawSimpleArrowFront(canvas.width-50,30,laneArrow);
-    
+
     // Draws the simple guiding arrow, turned down, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
     arcade.drawSimpleArrowDown(canvas.width-50,30,laneArrow);
-    
+
     // Draws the simple guiding arrow, turned left, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
     arcade.drawSimpleArrowLeft(canvas.width-50,30,laneArrow,{inverse:true});
 
@@ -315,15 +336,15 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
          let arcade = new Arcade(
               'example', // id of the Arcade element that will be created
               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
-              { parent: 'game-window', 
+              { parent: 'game-window',
                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
                 realisticImgs: false,
                 vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
-                vehicleImgIndex: 2, // defines vehicle sprite image suffix            
-                // logoImgIndex: 1, // defines logo sprite image suffix 
-                // backgroundImgIndex: 1, // defines background sprite image suffix 
+                vehicleImgIndex: 2, // defines vehicle sprite image suffix
+                // logoImgIndex: 1, // defines logo sprite image suffix
+                // backgroundImgIndex: 1, // defines background sprite image suffix
                 stripePositions: {
                    trackP1: -0.50,
                    trackP2: 0.50,
@@ -339,6 +360,27 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
                  // showOfficialLogo: true,
                  // loadPVSSpeedPositions: true,
                  // predefinedTracks: 5,
+                 // action_attribute: "action",
+                 // direction_attribute: "direction",
+                 // sound_attribute: "sound",
+                 // lap_attribute: "lap",
+                 // speed_attribute: "speed",
+                 // posx_attribute: "posx",
+                 // position_attribute: "position",
+                 // lap_value: "val",
+                 // speed_value: "val",
+                 // posx_value: "val",
+                 // position_value: "val",
+                 // left_attribute: "left",
+                 // right_attribute: "right",
+                 // accelerate_attribute: "acc",
+                 // brake_attribute: "brake",
+                 // idle_attribute: "idle",
+                 // quit_attribute: "quit",
+                 // pause_attribute: "pause",
+                 // resume_attribute: "resume",
+                 // mute_attribute: "mute",
+                 // unmute_attribute: "unmute",
               }// append on div 'game-window'
           );
 
@@ -368,15 +410,15 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
          let arcade = new Arcade(
               'example', // id of the Arcade element that will be created
               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
-              { parent: 'game-window', 
+              { parent: 'game-window',
                 trackFilename: "track-straight", // "track-curves-slopes", // defines track configuration filename, which is "track-curves-slopes.json" by default
                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
                 realisticImgs: false,
                 vehicle: "helicopter", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
-                vehicleImgIndex: 1, // defines vehicle sprite image suffix            
-                // logoImgIndex: 1, // defines logo sprite image suffix 
-                // backgroundImgIndex: 1, // defines background sprite image suffix 
+                vehicleImgIndex: 1, // defines vehicle sprite image suffix
+                // logoImgIndex: 1, // defines logo sprite image suffix
+                // backgroundImgIndex: 1, // defines background sprite image suffix
                 stripePositions: {
                    trackP1: -0.50,
                    trackP2: 0.50,
@@ -392,6 +434,27 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
                  // showOfficialLogo: true,
                  // loadPVSSpeedPositions: true,
                  // predefinedTracks: 5,
+                 // action_attribute: "action",
+                 // direction_attribute: "direction",
+                 // sound_attribute: "sound",
+                 // lap_attribute: "lap",
+                 // speed_attribute: "speed",
+                 // posx_attribute: "posx",
+                 // position_attribute: "position",
+                 // lap_value: "val",
+                 // speed_value: "val",
+                 // posx_value: "val",
+                 // position_value: "val",
+                 // left_attribute: "left",
+                 // right_attribute: "right",
+                 // accelerate_attribute: "acc",
+                 // brake_attribute: "brake",
+                 // idle_attribute: "idle",
+                 // quit_attribute: "quit",
+                 // pause_attribute: "pause",
+                 // resume_attribute: "resume",
+                 // mute_attribute: "mute",
+                 // unmute_attribute: "unmute",
               }// append on div 'game-window'
           );
 
@@ -488,7 +551,7 @@ its speed, current position and posx values updated by the render method, using 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2036">line 2036</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2206">line 2206</a>
     </li></ul></dd>
     
 
@@ -666,7 +729,28 @@ its speed, current position and posx values updated by the render method, using 
          <li>lapNumber {Int}: the number of desired laps in the simulation (default is 2 laps).</li>
          <li>showOfficialLogo {Bool}: the option to render extra image, on the bottom-left corner, which is the PVSio-web logo created in this thesis (default is false).</li>
          <li>loadPVSSpeedPositions {Bool}: allows to use PVS calculated positions and speed in the simulation. (default is true).</li>
-         <li>predefinedTracks {Int}: allows to use predefined tracks, present on JSON files with filename "trackLayout"+predefined+".json", in car/configurations/ directory. (default is null).</li></td>
+         <li>predefinedTracks {Int}: allows to use predefined tracks, present on JSON files with filename "trackLayout"+predefined+".json", in car/configurations/ directory. (default is null).</li>
+         <li>action_attribute {String}: allows to set pvs attribute name for action. (default is "action").</li>
+         <li>direction_attribute {String}: allows to set pvs attribute name for direction. (default is "direction").</li>
+         <li>sound_attribute {String}: allows to set pvs attribute name for sound. (default is "sound").</li>
+         <li>lap_attribute {String}: allows to set pvs attribute name for lap. (default is "lap").</li>
+         <li>speed_attribute {String}: allows to set pvs attribute name for speed. (default is "speed").</li>
+         <li>posx_attribute {String}: allows to set pvs attribute name for posx. (default is "posx").</li>
+         <li>position_attribute {String}: allows to set pvs attribute name for position. (default is "position").</li>
+         <li>lap_value {String}: allows to set pvs val name for lap attribute. (default is "val").</li>
+         <li>speed_value {String}: allows to set pvs val name for speed attribute. (default is "val").</li>
+         <li>posx_value {String}: allows to set pvs val name for posx attribute. (default is "val").</li>
+         <li>position_value {String}: allows to set pvs val name for position attribute. (default is "val").</li>
+         <li>left_attribute {String}: allows to set pvs attribute name for left direction. (default is "left").</li>
+         <li>right_attribute {String}: allows to set pvs attribute name for right direction. (default is "right").</li>
+         <li>accelerate_attribute {String}: allows to set pvs attribute name for accelerate action. (default is "acc").</li>
+         <li>brake_attribute {String}: allows to set pvs attribute name for brake action. (default is "brake").</li>
+         <li>idle_attribute {String}: allows to set pvs attribute name for idle action. (default is "idle").</li>
+         <li>quit_attribute {String}: allows to set pvs attribute name for quit action. (default is "quit").</li>
+         <li>pause_attribute {String}: allows to set pvs attribute name for pause action. (default is "pause").</li>
+         <li>resume_attribute {String}: allows to set pvs attribute name for resume action. (default is "resume").</li>
+         <li>mute_attribute {String}: allows to set pvs attribute name for mute sound. (default is "mute").</li>
+         <li>unmute_attribute {String}: allows to set pvs attribute name for unmute sound. (default is "unmute").</li></td>
         </tr>
 
     
@@ -707,7 +791,7 @@ its speed, current position and posx values updated by the render method, using 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line455">line 455</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line541">line 541</a>
     </li></ul></dd>
     
 
@@ -815,7 +899,7 @@ its speed, current position and posx values updated by the render method, using 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2458">line 2458</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2628">line 2628</a>
     </li></ul></dd>
     
 
@@ -1087,7 +1171,7 @@ its speed, current position and posx values updated by the render method, using 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1449">line 1449</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1619">line 1619</a>
     </li></ul></dd>
     
 
@@ -1341,10 +1425,10 @@ its speed, current position and posx values updated by the render method, using 
 
             
 
-            <td class="description last">Object with inverse property, which indicates whether the guide 
-arrow points in the opposite direction of the vehicle, i.e. if it points to the lane, 
-i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points 
-in the direction of the vehicle, i.e., points to the direction of the vehicle at the present 
+            <td class="description last">Object with inverse property, which indicates whether the guide
+arrow points in the opposite direction of the vehicle, i.e. if it points to the lane,
+i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points
+in the direction of the vehicle, i.e., points to the direction of the vehicle at the present
 moment of the simulation. The abovementioned object is then {inverse:true}.</td>
         </tr>
 
@@ -1386,7 +1470,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1533">line 1533</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1703">line 1703</a>
     </li></ul></dd>
     
 
@@ -1640,10 +1724,10 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
             
 
-            <td class="description last">Object with inverse property, which indicates whether the guide 
-arrow points in the opposite direction of the vehicle, i.e. if it points to the lane, 
-i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points 
-in the direction of the vehicle, i.e., points to the direction of the vehicle at the present 
+            <td class="description last">Object with inverse property, which indicates whether the guide
+arrow points in the opposite direction of the vehicle, i.e. if it points to the lane,
+i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points
+in the direction of the vehicle, i.e., points to the direction of the vehicle at the present
 moment of the simulation. The abovementioned object is then {inverse:true}.</td>
         </tr>
 
@@ -1685,7 +1769,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1487">line 1487</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1657">line 1657</a>
     </li></ul></dd>
     
 
@@ -1842,7 +1926,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1642">line 1642</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1812">line 1812</a>
     </li></ul></dd>
     
 
@@ -2183,7 +2267,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1310">line 1310</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1480">line 1480</a>
     </li></ul></dd>
     
 
@@ -2524,7 +2608,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1257">line 1257</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1427">line 1427</a>
     </li></ul></dd>
     
 
@@ -2865,7 +2949,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1279">line 1279</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1449">line 1449</a>
     </li></ul></dd>
     
 
@@ -2929,7 +3013,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
 
 <div class="description">
-    DrawSegment method of the Arcade widget. This method draws a segment of the simulator(which corresponds to an entire strip of the canvas). 
+    DrawSegment method of the Arcade widget. This method draws a segment of the simulator(which corresponds to an entire strip of the canvas).
 To do so, this method uses drawSegmentPortion, setColorsEndCanvas methods. The latter is used to draw the finishing line (different colors).
 </div>
 
@@ -3162,7 +3246,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1708">line 1708</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1878">line 1878</a>
     </li></ul></dd>
     
 
@@ -3503,7 +3587,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1612">line 1612</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1782">line 1782</a>
     </li></ul></dd>
     
 
@@ -3706,7 +3790,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1362">line 1362</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1532">line 1532</a>
     </li></ul></dd>
     
 
@@ -3909,7 +3993,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1339">line 1339</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1509">line 1509</a>
     </li></ul></dd>
     
 
@@ -4094,10 +4178,10 @@ is the second or the last segment, i.e. the starting segment or the final segmen
 
             
 
-            <td class="description last">Object with inverse property, which indicates whether the guide 
-arrow points in the opposite direction of the vehicle, i.e. if it points to the lane, 
-i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points 
-in the direction of the vehicle, i.e., points to the direction of the vehicle at the present 
+            <td class="description last">Object with inverse property, which indicates whether the guide
+arrow points in the opposite direction of the vehicle, i.e. if it points to the lane,
+i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points
+in the direction of the vehicle, i.e., points to the direction of the vehicle at the present
 moment of the simulation. The abovementioned object is then {inverse:true}.</td>
         </tr>
 
@@ -4139,7 +4223,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1385">line 1385</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1555">line 1555</a>
     </li></ul></dd>
     
 
@@ -4324,10 +4408,10 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
             
 
-            <td class="description last">Object with inverse property, which indicates whether the guide 
-arrow points in the opposite direction of the vehicle, i.e. if it points to the lane, 
-i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points 
-in the direction of the vehicle, i.e., points to the direction of the vehicle at the present 
+            <td class="description last">Object with inverse property, which indicates whether the guide
+arrow points in the opposite direction of the vehicle, i.e. if it points to the lane,
+i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points
+in the direction of the vehicle, i.e., points to the direction of the vehicle at the present
 moment of the simulation. The abovementioned object is then {inverse:true}.</td>
         </tr>
 
@@ -4369,7 +4453,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1417">line 1417</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1587">line 1587</a>
     </li></ul></dd>
     
 
@@ -4433,8 +4517,8 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
 
 <div class="description">
-    DrawSprite method of the Arcade widget. This method draws an image of spritesheetsImages array. Usually it uses index 0, since this method is used to 
-draw objects and index 0 has the spritesheet image with all available objects. This method either receives only a sprite (and null as other arguments) or receives 
+    DrawSprite method of the Arcade widget. This method draws an image of spritesheetsImages array. Usually it uses index 0, since this method is used to
+draw objects and index 0 has the spritesheet image with all available objects. This method either receives only a sprite (and null as other arguments) or receives
 an image, x, y and scale (sprite as a null argument). This allows to use render different images and sprites.
 </div>
 
@@ -4620,7 +4704,7 @@ an image, x, y and scale (sprite as a null argument). This allows to use render 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1581">line 1581</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1751">line 1751</a>
     </li></ul></dd>
     
 
@@ -4684,7 +4768,7 @@ an image, x, y and scale (sprite as a null argument). This allows to use render 
 
 
 <div class="description">
-    DrawText method of the Arcade widget. This method draws text using sprite letters to simulate the arcade look. 
+    DrawText method of the Arcade widget. This method draws text using sprite letters to simulate the arcade look.
 That is, reading string and for each letter draw the corresponding sprite letter, using image spritesheetsImages[imageIndex].
 </div>
 
@@ -4824,7 +4908,7 @@ That is, reading string and for each letter draw the corresponding sprite letter
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1235">line 1235</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1405">line 1405</a>
     </li></ul></dd>
     
 
@@ -4888,8 +4972,8 @@ That is, reading string and for each letter draw the corresponding sprite letter
 
 
 <div class="description">
-    GetNrIterations method of the Arcade widget. This method computes the number of iterations required to draw the track defined in the JSON configuration file. 
-In the final version, the JSON structure, see example 1), will be the same, however fields 'height' and 'curve' will have other values 
+    GetNrIterations method of the Arcade widget. This method computes the number of iterations required to draw the track defined in the JSON configuration file.
+In the final version, the JSON structure, see example 1), will be the same, however fields 'height' and 'curve' will have other values
 other than 0 and 0, respectively.
 </div>
 
@@ -4934,7 +5018,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line959">line 959</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1129">line 1129</a>
     </li></ul></dd>
     
 
@@ -5080,7 +5164,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line937">line 937</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1107">line 1107</a>
     </li></ul></dd>
     
 
@@ -5166,7 +5250,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2482">line 2482</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2652">line 2652</a>
     </li></ul></dd>
     
 
@@ -5323,7 +5407,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1016">line 1016</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1186">line 1186</a>
     </li></ul></dd>
     
 
@@ -5480,7 +5564,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2496">line 2496</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2666">line 2666</a>
     </li></ul></dd>
     
 
@@ -5566,7 +5650,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2225">line 2225</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2395">line 2395</a>
     </li></ul></dd>
     
 
@@ -5630,7 +5714,7 @@ other than 0 and 0, respectively.
 
 
 <div class="description">
-    RenderSplashEndFrame method of the Arcade widget. This method draws the simulator end page, where the commands to control the simulator and to start another simulation(renderSimulatorFrame) are displayed. 
+    RenderSplashEndFrame method of the Arcade widget. This method draws the simulator end page, where the commands to control the simulator and to start another simulation(renderSimulatorFrame) are displayed.
 It is also initialized the new lap timer, using jchronometer lib, as soon as the user uses the command to start the new simulation.
 </div>
 
@@ -5675,7 +5759,7 @@ It is also initialized the new lap timer, using jchronometer lib, as soon as the
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1174">line 1174</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1344">line 1344</a>
     </li></ul></dd>
     
 
@@ -5739,7 +5823,7 @@ It is also initialized the new lap timer, using jchronometer lib, as soon as the
 
 
 <div class="description">
-    RenderSplashFrame method of the Arcade widget. This method draws the simulator home page, where the commands to control the simulator are displayed. 
+    RenderSplashFrame method of the Arcade widget. This method draws the simulator home page, where the commands to control the simulator are displayed.
 It is also initialized the lap timer, using jchronometer lib, as soon as the user uses the command to start the simulation(renderSimulatorFrame).
 </div>
 
@@ -5784,7 +5868,7 @@ It is also initialized the lap timer, using jchronometer lib, as soon as the use
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1051">line 1051</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1221">line 1221</a>
     </li></ul></dd>
     
 
@@ -5848,7 +5932,7 @@ It is also initialized the lap timer, using jchronometer lib, as soon as the use
 
 
 <div class="description">
-    RenderSplashPauseFrame method of the Arcade widget. This method draws the simulator pause page, where the commands to control the simulator and to resume the simulation(renderSimulatorFrame) are displayed. 
+    RenderSplashPauseFrame method of the Arcade widget. This method draws the simulator pause page, where the commands to control the simulator and to resume the simulation(renderSimulatorFrame) are displayed.
 It is also resumed the lap timer, using jchronometer lib, as soon as the user uses the command to resume the simulation.
 </div>
 
@@ -5893,7 +5977,7 @@ It is also resumed the lap timer, using jchronometer lib, as soon as the user us
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1123">line 1123</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1293">line 1293</a>
     </li></ul></dd>
     
 
@@ -6001,7 +6085,7 @@ It is also resumed the lap timer, using jchronometer lib, as soon as the user us
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line948">line 948</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1118">line 1118</a>
     </li></ul></dd>
     
 
@@ -6095,7 +6179,7 @@ It is also resumed the lap timer, using jchronometer lib, as soon as the user us
 
             
 
-            <td class="description last">Value of comparison "counter < numberOfSegmentPerColor", which allows to choose the color of the segment depending on which segment is currently being rendered. 
+            <td class="description last">Value of comparison "counter < numberOfSegmentPerColor", which allows to choose the color of the segment depending on which segment is currently being rendered.
 That is, numberOfSegmentPerColor has the number of sequential segments to be colored with the same color, and when reached the following segments must be rendered with another color so the simulator can
 offer alternate colors. This is used, for instance, to render the track separators (separates track from landscape), which is colored red and white alternately.</td>
         </tr>
@@ -6322,7 +6406,7 @@ offer alternate colors. This is used, for instance, to render the track separato
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1678">line 1678</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1848">line 1848</a>
     </li></ul></dd>
     
 
@@ -6504,7 +6588,7 @@ those two segments have during the simulation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1660">line 1660</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1830">line 1830</a>
     </li></ul></dd>
     
 
@@ -6776,7 +6860,7 @@ those two segments have during the simulation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1982">line 1982</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2152">line 2152</a>
     </li></ul></dd>
     
 
@@ -6885,7 +6969,7 @@ That is, returns the new state after the action performed by the user (accelerat
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line646">line 646</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line816">line 816</a>
     </li></ul></dd>
     
 
@@ -6971,7 +7055,7 @@ That is, returns the new state after the action performed by the user (accelerat
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1815">line 1815</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1985">line 1985</a>
     </li></ul></dd>
     
 
@@ -7044,7 +7128,7 @@ That is, returns the new state after the action performed by the user (accelerat
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jun 06 2018 17:03:58 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Jun 08 2018 10:19:20 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

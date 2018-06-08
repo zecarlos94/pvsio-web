@@ -43,6 +43,27 @@
  *                  // showOfficialLogo: true,
  *                  // loadPVSSpeedPositions: true,
  *                  // predefinedTracks: 5,
+ *                  // action_attribute: "action",
+ *                  // direction_attribute: "direction",
+ *                  // sound_attribute: "sound",
+ *                  // lap_attribute: "lap",
+ *                  // speed_attribute: "speed",
+ *                  // posx_attribute: "posx",
+ *                  // position_attribute: "position",
+ *                  // lap_value: "val",
+ *                  // speed_value: "val",
+ *                  // posx_value: "val",
+ *                  // position_value: "val",
+ *                  // left_attribute: "left",
+ *                  // right_attribute: "right",
+ *                  // accelerate_attribute: "acc",
+ *                  // brake_attribute: "brake",
+ *                  // idle_attribute: "idle",
+ *                  // quit_attribute: "quit",
+ *                  // pause_attribute: "pause",
+ *                  // resume_attribute: "resume",
+ *                  // mute_attribute: "mute",
+ *                  // unmute_attribute: "unmute",
  *               }// append on div 'game-window'
  *           );
  *
@@ -217,6 +238,27 @@
  *                  // showOfficialLogo: true,
  *                  // loadPVSSpeedPositions: true,
  *                  // predefinedTracks: 5,
+ *                  // action_attribute: "action",
+ *                  // direction_attribute: "direction",
+ *                  // sound_attribute: "sound",
+ *                  // lap_attribute: "lap",
+ *                  // speed_attribute: "speed",
+ *                  // posx_attribute: "posx",
+ *                  // position_attribute: "position",
+ *                  // lap_value: "val",
+ *                  // speed_value: "val",
+ *                  // posx_value: "val",
+ *                  // position_value: "val",
+ *                  // left_attribute: "left",
+ *                  // right_attribute: "right",
+ *                  // accelerate_attribute: "acc",
+ *                  // brake_attribute: "brake",
+ *                  // idle_attribute: "idle",
+ *                  // quit_attribute: "quit",
+ *                  // pause_attribute: "pause",
+ *                  // resume_attribute: "resume",
+ *                  // mute_attribute: "mute",
+ *                  // unmute_attribute: "unmute",
  *               }// append on div 'game-window'
  *           );
  *
@@ -269,6 +311,27 @@
  *                  // showOfficialLogo: true,
  *                  // loadPVSSpeedPositions: true,
  *                  // predefinedTracks: 5,
+ *                  // action_attribute: "action",
+ *                  // direction_attribute: "direction",
+ *                  // sound_attribute: "sound",
+ *                  // lap_attribute: "lap",
+ *                  // speed_attribute: "speed",
+ *                  // posx_attribute: "posx",
+ *                  // position_attribute: "position",
+ *                  // lap_value: "val",
+ *                  // speed_value: "val",
+ *                  // posx_value: "val",
+ *                  // position_value: "val",
+ *                  // left_attribute: "left",
+ *                  // right_attribute: "right",
+ *                  // accelerate_attribute: "acc",
+ *                  // brake_attribute: "brake",
+ *                  // idle_attribute: "idle",
+ *                  // quit_attribute: "quit",
+ *                  // pause_attribute: "pause",
+ *                  // resume_attribute: "resume",
+ *                  // mute_attribute: "mute",
+ *                  // unmute_attribute: "unmute",
  *               }// append on div 'game-window'
  *           );
  *
@@ -342,7 +405,29 @@ define(function (require, exports, module) {
     let spritesAvailable=[];
 
     // Information regarding the rendering process (what users will see/how the game is viewed)
-    let vehicle = { direction_attribute: {} };
+    let vehicle = { 
+        action_attribute: {},
+        direction_attribute: {},
+        sound_attribute: {},
+        lap_attribute: {},
+        speed_attribute: {},
+        posx_attribute: {},
+        position_attribute: {},
+        lap_value: {},
+        speed_value: {},
+        posx_value: {},
+        position_value: {},
+        left_attribute: {},
+        right_attribute: {},
+        accelerate_attribute: {},
+        brake_attribute: {},
+        idle_attribute: {},
+        quit_attribute: {},
+        pause_attribute: {},
+        resume_attribute: {},
+        mute_attribute: {},
+        unmute_attribute: {}
+    };
     let vehicleType=null;
     let vehicleRealistic=null;
     let vehicleIndex=null;
@@ -476,6 +561,27 @@ define(function (require, exports, module) {
      *          <li>showOfficialLogo {Bool}: the option to render extra image, on the bottom-left corner, which is the PVSio-web logo created in this thesis (default is false).</li>
      *          <li>loadPVSSpeedPositions {Bool}: allows to use PVS calculated positions and speed in the simulation. (default is true).</li>
      *          <li>predefinedTracks {Int}: allows to use predefined tracks, present on JSON files with filename "trackLayout"+predefined+".json", in car/configurations/ directory. (default is null).</li>
+     *          <li>action_attribute {String}: allows to set pvs attribute name for action. (default is "action").</li>
+     *          <li>direction_attribute {String}: allows to set pvs attribute name for direction. (default is "direction").</li>
+     *          <li>sound_attribute {String}: allows to set pvs attribute name for sound. (default is "sound").</li>
+     *          <li>lap_attribute {String}: allows to set pvs attribute name for lap. (default is "lap").</li>
+     *          <li>speed_attribute {String}: allows to set pvs attribute name for speed. (default is "speed").</li>
+     *          <li>posx_attribute {String}: allows to set pvs attribute name for posx. (default is "posx").</li>
+     *          <li>position_attribute {String}: allows to set pvs attribute name for position. (default is "position").</li>
+     *          <li>lap_value {String}: allows to set pvs val name for lap attribute. (default is "val").</li>
+     *          <li>speed_value {String}: allows to set pvs val name for speed attribute. (default is "val").</li>
+     *          <li>posx_value {String}: allows to set pvs val name for posx attribute. (default is "val").</li>
+     *          <li>position_value {String}: allows to set pvs val name for position attribute. (default is "val").</li>
+     *          <li>left_attribute {String}: allows to set pvs attribute name for left direction. (default is "left").</li>
+     *          <li>right_attribute {String}: allows to set pvs attribute name for right direction. (default is "right").</li>
+     *          <li>accelerate_attribute {String}: allows to set pvs attribute name for accelerate action. (default is "acc").</li>
+     *          <li>brake_attribute {String}: allows to set pvs attribute name for brake action. (default is "brake").</li>
+     *          <li>idle_attribute {String}: allows to set pvs attribute name for idle action. (default is "idle").</li>
+     *          <li>quit_attribute {String}: allows to set pvs attribute name for quit action. (default is "quit").</li>
+     *          <li>pause_attribute {String}: allows to set pvs attribute name for pause action. (default is "pause").</li>
+     *          <li>resume_attribute {String}: allows to set pvs attribute name for resume action. (default is "resume").</li>
+     *          <li>mute_attribute {String}: allows to set pvs attribute name for mute sound. (default is "mute").</li>
+     *          <li>unmute_attribute {String}: allows to set pvs attribute name for unmute sound. (default is "unmute").</li>
      * @returns {Arcade} The created instance of the widget Arcade.
      * @memberof module:Arcade
      * @instance
@@ -497,6 +603,69 @@ define(function (require, exports, module) {
         opt.lapNumber = opt.lapNumber;
         opt.loadPVSSpeedPositions = opt.loadPVSSpeedPositions;
         opt.predefinedTracks = opt.predefinedTracks;
+
+        vehicle.action_attribute = {};
+        vehicle.action_attribute = opt.action_attribute || "action";
+
+        vehicle.direction_attribute = {};
+        vehicle.direction_attribute = opt.direction_attribute || "direction";
+
+        vehicle.sound_attribute = {};
+        vehicle.sound_attribute = opt.sound_attribute || "sound";
+
+        vehicle.lap_attribute = {};
+        vehicle.lap_attribute = opt.lap_attribute || "lap";
+
+        vehicle.speed_attribute = {};
+        vehicle.speed_attribute = opt.speed_attribute || "speed";
+
+        vehicle.posx_attribute = {};
+        vehicle.posx_attribute = opt.posx_attribute || "posx";
+
+        vehicle.position_attribute = {};
+        vehicle.position_attribute = opt.position_attribute || "position";
+
+        vehicle.lap_value = {};
+        vehicle.lap_value = opt.lap_value || "val";
+
+        vehicle.speed_value = {};
+        vehicle.speed_value = opt.speed_value || "val";
+
+        vehicle.posx_value = {};
+        vehicle.posx_value = opt.posx_value || "val";
+
+        vehicle.position_value = {};
+        vehicle.position_value = opt.position_value || "val";
+
+        vehicle.left_attribute = {};
+        vehicle.left_attribute = opt.left_attribute || "left";
+
+        vehicle.right_attribute = {};
+        vehicle.right_attribute = opt.right_attribute || "right";
+
+        vehicle.accelerate_attribute = {};
+        vehicle.accelerate_attribute = opt.accelerate_attribute || "acc";
+
+        vehicle.brake_attribute = {};
+        vehicle.brake_attribute = opt.brake_attribute || "brake";
+        
+        vehicle.idle_attribute = {};
+        vehicle.idle_attribute = opt.idle_attribute || "idle";
+
+        vehicle.quit_attribute = {};
+        vehicle.quit_attribute = opt.quit_attribute || "quit";
+
+        vehicle.pause_attribute = {};
+        vehicle.pause_attribute = opt.pause_attribute || "pause";
+
+        vehicle.resume_attribute = {};
+        vehicle.resume_attribute = opt.resume_attribute || "resume";
+
+        vehicle.mute_attribute = {};
+        vehicle.mute_attribute = opt.mute_attribute || "mute";
+
+        vehicle.unmute_attribute = {};
+        vehicle.unmute_attribute = opt.unmute_attribute ||"unmute";
 
         this.id = id;
         this.top = coords.top || 100;
@@ -634,9 +803,6 @@ define(function (require, exports, module) {
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
         callback = this.callback;
-
-        vehicle.direction_attribute = {};
-        vehicle.direction_attribute = opt.direction_attribute || "direction";
 
         Widget.call(this, id, coords, opt);
 
@@ -1087,7 +1253,7 @@ define(function (require, exports, module) {
                 Arcade.prototype.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
                 Arcade.prototype.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
 
-                if(WIDGETSTATE!==null && WIDGETSTATE.action==="resume"){
+                if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.action_attribute]===vehicle.resume_attribute){
                     clearInterval(splashInterval);
                     simulatorInterval = setInterval(Arcade.prototype.renderSimulatorFrame, 30);
                     soundWidget.reveal();
@@ -1102,7 +1268,7 @@ define(function (require, exports, module) {
                     });
                     chronometer.start();
                     soundOff = soundWidget.getSoundOff();
-                    if(!soundOff && WIDGETSTATE.sound==="unmute"){
+                    if(!soundOff && WIDGETSTATE[vehicle.sound_attribute]==="unmute"){
                         soundWidget.playSound(2); //startup song
                         soundWidget.playSound(0); //background song
                         soundWidget.setVolume(0.4,0);
@@ -1149,7 +1315,7 @@ define(function (require, exports, module) {
         Arcade.prototype.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
         Arcade.prototype.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
 
-        if(WIDGETSTATE!==null && WIDGETSTATE.action==="resume"){
+        if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.action_attribute]===vehicle.resume_attribute){
             chronometer.start();
 
             clearInterval(splashInterval);
@@ -1199,7 +1365,7 @@ define(function (require, exports, module) {
         Arcade.prototype.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
         Arcade.prototype.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
 
-        if(WIDGETSTATE!==null && WIDGETSTATE.action==="resume"){
+        if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.action_attribute]===vehicle.resume_attribute){
             clearInterval(splashInterval);
             clearInterval(simulatorInterval);
             controllable_car = {
@@ -1842,12 +2008,12 @@ define(function (require, exports, module) {
         } else {
             // readSprite acceleration controls
             soundOff = soundWidget.getSoundOff();
-            if (WIDGETSTATE!==null && WIDGETSTATE.action==="acc") {
+            if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.action_attribute]===vehicle.accelerate_attribute) {
                 controllable_car.speed += controllable_car.acceleration;
                 if(!soundOff){
                   soundWidget.playSound(3); //accelerating song
                 }
-            } else if (WIDGETSTATE!==null && WIDGETSTATE.action==="brake") {
+            } else if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.action_attribute]===vehicle.brake_attribute) {
                 controllable_car.speed -= controllable_car.breaking;
                 if(!soundOff){
                   soundWidget.pauseSound(3); //accelerating song
@@ -1952,7 +2118,7 @@ define(function (require, exports, module) {
         }
 
         // car turning
-        if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute] ==="left") {
+        if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="left") {
             carCurrentDirection = "left";
             if(controllable_car.speed > 0){
                 controllable_car.posx -= controllable_car.turning;
@@ -1962,7 +2128,7 @@ define(function (require, exports, module) {
                 x: vehicleXLeftPosition,
                 y: vehicleYLeftPosition
             };
-        } else if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute] === "right") {
+        } else if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="right") {
             carCurrentDirection = "right";
             if(controllable_car.speed > 0){
                 controllable_car.posx += controllable_car.turning;
@@ -2047,10 +2213,10 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.calculateNewControllableCarPosition = function () {
 
-        if(WIDGETSTATE!==null && WIDGETSTATE.speed.val!=="0"){
+        if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.speed_attribute][vehicle.speed_value]!=="0"){
             // readSprite acceleration controls
             soundOff = soundWidget.getSoundOff();
-            let currentSpeedPVS = WIDGETSTATE.speed.val;
+            let currentSpeedPVS = WIDGETSTATE[vehicle.speed_attribute][vehicle.speed_value];
             let arraySpeed = currentSpeedPVS.split("/");
             let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
             if(!isNaN(speedValue)){
@@ -2064,15 +2230,15 @@ define(function (require, exports, module) {
                 newSpeedAux = lastSpeedPVS*0.10;
             }
 
-            if (WIDGETSTATE!==null && WIDGETSTATE.action==="acc") {
+            if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.action_attribute]===vehicle.accelerate_attribute) {
                 if(!soundOff){
                     soundWidget.playSound(3); //accelerating song
                 }
-            }else if (WIDGETSTATE!==null && WIDGETSTATE.action==="brake") {
+            }else if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.action_attribute]===vehicle.brake_attribute) {
                 if(!soundOff){
                     soundWidget.pauseSound(3); //accelerating song
                 }
-            }else if (WIDGETSTATE!==null && WIDGETSTATE.action==="idle"){
+            }else if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.action_attribute]===vehicle.idle_attribute){
                 if(!soundOff){
                     soundWidget.pauseSound(3); //accelerating song
                 }
@@ -2088,8 +2254,8 @@ define(function (require, exports, module) {
             carCurrentDirection = "front";
         }
 
-        if(WIDGETSTATE!==null && WIDGETSTATE.posx.val!=="0.0"){
-            let currentPositionXPVS = WIDGETSTATE.posx.val;
+        if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.posx_attribute][vehicle.posx_value]!=="0.0"){
+            let currentPositionXPVS = WIDGETSTATE[vehicle.posx_attribute][vehicle.posx_value];
             let positionXValue = parseInt(currentPositionXPVS);
             if(!isNaN(positionXValue)){
                 lastPosXPVS = Math.ceil(positionXValue);
@@ -2098,8 +2264,8 @@ define(function (require, exports, module) {
         }
 
         vehicleCurrentDirectionAux = carCurrentDirection;
-        if(WIDGETSTATE!==null && WIDGETSTATE.position.val!=="10.0"){
-            let currentPositionPVS = WIDGETSTATE.position.val;
+        if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.position_attribute][vehicle.position_value]!=="10.0"){
+            let currentPositionPVS = WIDGETSTATE[vehicle.position_attribute][vehicle.position_value];
             let arrayPosition = currentPositionPVS.split("/");
             let positionValue = parseInt(arrayPosition[0])/parseInt(arrayPosition[1]);
             if(!isNaN(positionValue)){
@@ -2238,9 +2404,9 @@ define(function (require, exports, module) {
 
         // Sometimes it causes exceptions on console.log, but it is a bug in chrome browser
         // see more at: https://github.com/sampotts/plyr/issues/331
-        if(WIDGETSTATE!==null && WIDGETSTATE.sound==="mute"){
+        if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.sound_attribute]===vehicle.mute_attribute){
             soundWidget.mute();
-        }else if(WIDGETSTATE!==null && WIDGETSTATE.sound==="unmute"){
+        }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.sound_attribute]===vehicle.unmute_attribute){
             soundWidget.reveal();
             soundWidget.unmute();
             soundWidget.pauseAll();
@@ -2255,7 +2421,7 @@ define(function (require, exports, module) {
             ]);
         }
 
-        if(WIDGETSTATE!==null && WIDGETSTATE.action==="quit"){ // Key 'q' ends current simulator
+        if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.action_attribute]===vehicle.quit_attribute){ // Key 'q' ends current simulator
             chronometer.stop();
             soundWidget.hide();
             clearInterval(simulatorInterval);
@@ -2263,7 +2429,7 @@ define(function (require, exports, module) {
             soundWidget.pauseAll();
         }
 
-        if(WIDGETSTATE!==null && WIDGETSTATE.action==="pause"){ // Key 's' pauses current simulator
+        if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.action_attribute]===vehicle.pause_attribute){ // Key 's' pauses current simulator
             chronometer.pause();
             soundWidget.hide();
             clearInterval(simulatorInterval);
@@ -2372,7 +2538,7 @@ define(function (require, exports, module) {
         currentPercentage = Math.round(absoluteIndex/(numIterations-render.depthOfField)*100);
 
         if(WIDGETSTATE!==null){
-            currentLapNumber = parseInt(WIDGETSTATE.lap.val);
+            currentLapNumber = parseInt(WIDGETSTATE[vehicle.lap_attribute][vehicle.lap_value]);
 
             if(absoluteIndex >= numIterations-render.depthOfField-1){
                 if(currentLapNumber<=lapNumber && counterAux===0){
@@ -2419,8 +2585,8 @@ define(function (require, exports, module) {
 
         // Draw Virtual Speedometer and Tachometer based on Speedometer, Tachometer Widgets
         if(WIDGETSTATE!==null){
-            if(WIDGETSTATE.speed.val!=="0"){
-                let currentSpeedPVS = WIDGETSTATE.speed.val;
+            if(WIDGETSTATE[vehicle.speed_attribute][vehicle.speed_value]!=="0"){
+                let currentSpeedPVS = WIDGETSTATE[vehicle.speed_attribute][vehicle.speed_value];
                 let arraySpeed = currentSpeedPVS.split("/");
                 let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
                 if(!isNaN(speedValue)){

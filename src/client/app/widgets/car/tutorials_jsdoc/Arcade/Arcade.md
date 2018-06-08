@@ -717,6 +717,27 @@ arcade.arcadeWidget = new Arcade("arcadeWidget", {
     // showOfficialLogo: true,
     // loadPVSSpeedPositions: false,
     // predefinedTracks: 4,
+    // action_attribute: "action",
+    // direction_attribute: "direction",
+    // sound_attribute: "sound",
+    // lap_attribute: "lap",
+    // speed_attribute: "speed",
+    // posx_attribute: "posx",
+    // position_attribute: "position",
+    // lap_value: "val",
+    // speed_value: "val",
+    // posx_value: "val",
+    // position_value: "val",
+    // left_attribute: "left",
+    // right_attribute: "right",
+    // accelerate_attribute: "acc",
+    // brake_attribute: "brake",
+    // idle_attribute: "idle",
+    // quit_attribute: "quit",
+    // pause_attribute: "pause",
+    // resume_attribute: "resume",
+    // mute_attribute: "mute",
+    // unmute_attribute: "unmute",
     callback: onMessageReceived
 });
 
@@ -794,7 +815,28 @@ stripePositions: {
 lapNumber: 2,
 showOfficialLogo: false,
 loadPVSSpeedPositions: true,
-predefinedTracks: null
+predefinedTracks: null,
+action_attribute: "action",
+direction_attribute: "direction",
+sound_attribute: "sound",
+lap_attribute: "lap",
+speed_attribute: "speed",
+posx_attribute: "posx",
+position_attribute: "position",
+lap_value: "val",
+speed_value: "val",
+posx_value: "val",
+position_value: "val",
+left_attribute: "left",
+right_attribute: "right",
+accelerate_attribute: "acc",
+brake_attribute: "brake",
+idle_attribute: "idle",
+quit_attribute: "quit",
+pause_attribute: "pause",
+resume_attribute: "resume",
+mute_attribute: "mute",
+unmute_attribute: "unmute",
 ```
 
 > Predefined file name is "track-curves-slopes-random.json", which has the arcade simulation with all different topographies. If user wants to use predefined tracks, it is only necessary to add the integer suffix of the corresponding file in predefinedTracks opt field. That is, to use trackLayout6.json, the user must set 'predefinedTracks: 6' and the Arcade widget will render the track present in trackLayout6.json file.
@@ -807,7 +849,7 @@ predefinedTracks: null
 ```
 % ---------------------------------------------------------------
 %  Theory: car_demo
-%  Author: Paolo Masci
+%  Author: Paolo Masci and José Carlos
 %          INESC TEC and Universidade do Minho
 % ---------------------------------------------------------------
 
@@ -864,7 +906,8 @@ main: THEORY
     val: real
   #]
 
-  Action: TYPE = { idle, acc, brake, left, right, straight, pause, resume, quit }
+  Action: TYPE = { idle, acc, brake, pause, resume, quit }
+  Direction: TYPE = { left, right, straight }
   Sound: TYPE = { unmute, mute }
   Time: TYPE = [# hour: int, min: int #]
 
@@ -879,6 +922,7 @@ main: THEORY
     position: Position,
     posx: PosX,
     action: Action,
+    direction: Direction,
     sound: Sound,
     lap: Lap
   #]
@@ -897,6 +941,7 @@ main: THEORY
     position := (# val := POSITION_INIT  #),
     posx := (# val := POSX_INIT #),
     action := idle,
+    direction := straight,
     sound := unmute,
     lap := (# val := LAP_INIT #)
   #)
@@ -955,7 +1000,7 @@ main: THEORY
              THEN st WITH [ speed := speed(st) WITH [ val:= speed(st)`val + step ]]
 	     ELSE st WITH [ speed := speed(st) WITH [ val:= MAX_SPEED ]] ENDIF,
 	new_rpm = getRPM(st),
-	st = st WITH [ rpm := new_rpm, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+	st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
      IN IF rpm(st) > 6 THEN gearUP(st) ELSE st ENDIF
 
   brake(st: state): state =
@@ -971,7 +1016,7 @@ main: THEORY
 				  THEN speed(st)`val - step`speed
 				  ELSE 0 ENDIF ]] ENDIF,
 	new_rpm = getRPM(st),
-        st = st WITH [ rpm := new_rpm, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+        st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
      IN IF rpm(st) < 4 THEN gearDOWN(st) ELSE st ENDIF
 
   FRICTION: Speed_Val = 0.6
@@ -981,16 +1026,23 @@ main: THEORY
         THEN IF odo + step <= MAX_ODO THEN odo + step ELSE odo + step - MAX_ODO ENDIF
 	ELSE IF odo + step <= 0 THEN 0 ELSE odo + step ENDIF ENDIF
 
+  POSX_STEP: real = 25 
   tick(st: state): state =
-   LET st = st WITH [ time := get_current_time ] IN
-    IF action(st) = idle
-    THEN IF speed(st)`val > 0
-         THEN LET new_speed = IF speed(st)`val - FRICTION > 0 THEN speed(st)`val - FRICTION ELSE 0 ENDIF,
-	          st = st WITH [ speed := speed(st) WITH [ val := new_speed ]]
-	       IN st WITH [ rpm := getRPM(st),
-	       	            odo := inc(odo(st), speed(st)) ]
-         ELSE st ENDIF
-    ELSE st ENDIF
+   LET st = st WITH [ time := get_current_time,
+                      position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+    IN IF speed(st)`val > 0
+       THEN LET new_speed: Speed_Val = COND action(st) = idle -> IF speed(st)`val - FRICTION > 0 THEN speed(st)`val - FRICTION ELSE 0 ENDIF,
+                                            ELSE -> speed(st)`val ENDCOND,
+	        st = st WITH [ speed := speed(st) WITH [ val := new_speed ]]
+	     IN st WITH [ rpm := getRPM(st),
+	       	          odo := inc(odo(st), speed(st)),
+			  posx := posx(st) WITH [ val := COND steering(st) >= 20 -> posx(st)`val + POSX_STEP,
+			      	     	    	              steering(st) <= -20 -> posx(st)`val - POSX_STEP,
+							      ELSE -> posx(st)`val ENDCOND ],
+		    	  direction := COND steering(st) >= 20 -> right,
+					    steering(st) <= -20 -> left,
+					    ELSE -> straight ENDCOND ]
+        ELSE st ENDIF
 
 
   %-- APIs
@@ -1000,12 +1052,11 @@ main: THEORY
   press_brake(st: state): state = brake(st) WITH [ action := brake ]
   release_brake(st: state): state = st WITH [ action := idle ]
 
-  POSX_STEP: real = 25.0 
   STEERING_STEP: real = 20 %deg
-  steering_wheel_right(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val + POSX_STEP ], action := right]
-  steering_wheel_left(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val - POSX_STEP ], action := left ]
-  steering_wheel_straight(st: state): state = st WITH [ steering := 0, posx := posx(st) WITH [ val:= posx(st)`val ], action := straight ]
-  steering_wheel_rotate(x: real)(st: state): state = st WITH [ steering := x, posx := posx(st) WITH [ val:= IF x > 0 THEN posx(st)`val + POSX_STEP ELSE posx(st)`val - POSX_STEP ENDIF ], action := IF x > 0 THEN right ELSE left ENDIF]
+  steering_wheel_right(st: state): state = st WITH [ steering := IF steering(st) < 90 THEN steering(st) + STEERING_STEP ELSE 90 ENDIF ]
+  steering_wheel_left(st: state): state = st WITH [ steering := IF steering(st) > -90 THEN steering(st) - STEERING_STEP ELSE -90 ENDIF ]
+  steering_wheel_straight(st: state): state = st WITH [ steering := 0, posx := posx(st) WITH [ val:= posx(st)`val ], direction := straight ]
+  steering_wheel_rotate(x: real)(st: state): state = st WITH [ steering := x ]
 
   %-- API for new laps
   LAP_STEP: real = 1.0 
@@ -1032,11 +1083,11 @@ main: THEORY
   click_brake(st: state): state = brake(st) WITH [ action := brake ]
 
   %-- API for external controller interactive image
-  press_rightArrow(st: state): state = st WITH [ steering := steering(st) + STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val + POSX_STEP ], action := right]
-  release_rightArrow(st: state): state = st WITH [ action := right ]
+  press_rightArrow(st: state): state = steering_wheel_right(st)
+  release_rightArrow(st: state): state = st
 
-  press_leftArrow(st: state): state = st WITH [ steering := steering(st) - STEERING_STEP, posx := posx(st) WITH [ val:= posx(st)`val - POSX_STEP ], action := left ]
-  release_leftArrow(st: state): state = st WITH [ action := left ]
+  press_leftArrow(st: state): state = steering_wheel_left(st)
+  release_leftArrow(st: state): state = st
 
 END main
 ```
@@ -1059,8 +1110,8 @@ Lap: TYPE = [#
 	val: real
 #]
 
-Action: TYPE = { idle, acc, brake, left, right, straight, pause, resume, quit }
-
+Action: TYPE = { idle, acc, brake, pause, resume, quit }
+Direction: TYPE = { left, right, straight }
 Sound: TYPE = { unmute, mute }
 
 state: TYPE = [#
@@ -1074,6 +1125,7 @@ state: TYPE = [#
 	position: Position,
 	posx: PosX,
 	action: Action,
+    direction: Direction,
 	sound: Sound,
 	lap: Lap
 #]
