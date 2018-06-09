@@ -171,10 +171,10 @@
  *     arcade.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.5, 0.5, "#fff");
  *
  *     // Draws the lanes
- *     arcade.drawLanes(position1, scale1, offset1, position2, scale2, offset2, lane, 3, 0.02);
+ *     arcade.drawLanes(position1, scale1, offset1, position2, scale2, offset2, arcadeColors.lane, 3, 0.02);
  *
  *     // Draws one lane at position 0 (i.e. in middle of the track) with width laneWidth
- *     arcade.drawLanePos(position1, scale1, offset1, position2, scale2, offset2, lane, 0, laneWidth);
+ *     arcade.drawLanePos(position1, scale1, offset1, position2, scale2, offset2, arcadeColors.lane, 0, laneWidth);
  *
  *     // Draws the guiding line
  *     arcade.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, "#00FF00");
@@ -183,22 +183,22 @@
  *     arcade.drawArrowFront(10, 30, 20, 20, "rgb(100,200,187)", 1);
  *
  *     // Draws the guiding arrow, turned left, with tail and with color rgb(100,200,187) received as arguments at (30,20) with width 20px and height also 20px
- *     arcade.drawArrowLeft(30, 20, 20, 20, laneArrow, 1);
+ *     arcade.drawArrowLeft(30, 20, 20, 20, arcadeColors.laneArrow, 1);
  *
  *     // Draws the guiding arrow, turned right, with tail and with color rgb(100,200,187) received as arguments at (160,150) with width 20px and height also 20px
- *     arcade.drawArrowRight(160, 150, 20, 20, laneArrow, 1);
+ *     arcade.drawArrowRight(160, 150, 20, 20, arcadeColors.laneArrow, 1);
  *
  *     // Draws the simple guiding arrow, turned front, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
- *     arcade.drawSimpleArrowFront(canvas.width-50,30,laneArrow);
+ *     arcade.drawSimpleArrowFront(canvas.width-50,30,arcadeColors.laneArrow);
  *
  *     // Draws the simple guiding arrow, turned down, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
- *     arcade.drawSimpleArrowDown(canvas.width-50,30,laneArrow);
+ *     arcade.drawSimpleArrowDown(canvas.width-50,30,arcadeColors.laneArrow);
  *
  *     // Draws the simple guiding arrow, turned left, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
- *     arcade.drawSimpleArrowLeft(canvas.width-50,30,laneArrow,{inverse:true});
+ *     arcade.drawSimpleArrowLeft(canvas.width-50,30,arcadeColors.laneArrow,{inverse:true});
  *
  *     // Draws the simple guiding arrow, turned right, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
- *     arcade.drawSimpleArrowRight(canvas.width-50,30,laneArrow,{inverse:true});
+ *     arcade.drawSimpleArrowRight(canvas.width-50,30,arcadeColors.laneArrow,{inverse:true});
  *
  * @example <caption>Usage of API to create a new simulation, after creating a track with curves and slopes, and using a car as a vehicle.
  * Opt field trackFilename is the JSON file, which was created by TrackGenerator Widget or by hand or by other future Widget that creates tracks.
@@ -542,16 +542,30 @@ define(function (require, exports, module) {
     /*
     * Start of Arcade Colors
     */
-    let grass="";
-    let border="";
-    let outborder="";
-    let outborder_end="";
-    let track_segment="";
-    let lane="";
-    let laneArrow="";
+    let arcadeColors = {
+        grass: null,
+        border: null,
+        outborder: null,
+        outborder_end: null,
+        track_segment: null,
+        lane: null,
+        laneArrow: null
+    };
 
     // Read from JSON configuration file
-    let grass1, border1, border2, outborder1, outborder_end1, track_segment1, lane1, lane2, laneArrow1, track_segment_end, lane_end;
+    let readColorsJSON = {
+        grass1: null, 
+        border1: null, 
+        border2: null, 
+        outborder1: null, 
+        outborder_end1: null, 
+        track_segment1: null, 
+        lane1: null, 
+        lane2: null, 
+        laneArrow1: null, 
+        track_segment_end: null, 
+        lane_end: null
+    };
     /*
     * End of Arcade Colors
     */
@@ -891,17 +905,17 @@ define(function (require, exports, module) {
                 topSpeed=aux.topSpeed;
                 trackParam=aux.trackParam;
                 trackSegmentSize=aux.trackSegmentSize;
-                grass1=aux.trackColors.grass1;
-                border1=aux.trackColors.border1;
-                border2=aux.trackColors.border2;
-                outborder1=aux.trackColors.outborder1;
-                outborder_end1=aux.trackColors.outborder_end1;
-                track_segment1=aux.trackColors.track_segment1;
-                lane1=aux.trackColors.lane1;
-                lane2=aux.trackColors.lane2;
-                laneArrow1=aux.trackColors.laneArrow1;
-                track_segment_end=aux.trackColors.track_segment_end;
-                lane_end=aux.trackColors.lane_end;
+                readColorsJSON.grass1=aux.trackColors.grass1;
+                readColorsJSON.border1=aux.trackColors.border1;
+                readColorsJSON.border2=aux.trackColors.border2;
+                readColorsJSON.outborder1=aux.trackColors.outborder1;
+                readColorsJSON.outborder_end1=aux.trackColors.outborder_end1;
+                readColorsJSON.track_segment1=aux.trackColors.track_segment1;
+                readColorsJSON.lane1=aux.trackColors.lane1;
+                readColorsJSON.lane2=aux.trackColors.lane2;
+                readColorsJSON.laneArrow1=aux.trackColors.laneArrow1;
+                readColorsJSON.track_segment_end=aux.trackColors.track_segment_end;
+                readColorsJSON.lane_end=aux.trackColors.lane_end;
                 readParams=true;
                 track=aux.track;
                 readConfiguration=true;
@@ -1858,8 +1872,8 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.setColorsEndCanvas = function (track_segment, lane) {
-        track_segment = track_segment;
-        lane          = lane;
+        arcadeColors.track_segment = track_segment;
+        arcadeColors.lane          = lane;
         return this;
     };
 
@@ -1883,13 +1897,13 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.setColorsCanvas = function (alternate, grass1, border1, border2, outborder1, outborder_end1, track_segment1, lane1, lane2, laneArrow1) {
-        grass          = grass1;
-        border         = (alternate) ? border1 : border2;
-        outborder      = outborder1;
-        outborder_end  = outborder_end1;
-        track_segment  = track_segment1;
-        lane           = (alternate) ? lane1 : lane2;
-        laneArrow      = laneArrow1;
+        arcadeColors.grass          = grass1;
+        arcadeColors.border         = (alternate) ? border1 : border2;
+        arcadeColors.outborder      = outborder1;
+        arcadeColors.outborder_end  = outborder_end1;
+        arcadeColors.track_segment  = track_segment1;
+        arcadeColors.lane           = (alternate) ? lane1 : lane2;
+        arcadeColors.laneArrow      = laneArrow1;
         return this;
     };
 
@@ -1912,28 +1926,28 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.drawSegment = function (position1, scale1, offset1, position2, scale2, offset2, finishStart) {
         if(finishStart){
-            Arcade.prototype.setColorsEndCanvas(track_segment_end, lane_end);
+            Arcade.prototype.setColorsEndCanvas(readColorsJSON.track_segment_end, readColorsJSON.lane_end);
             // setColorsEndCanvas("#000", "#fff");
 
             //draw grass:
-            canvasInformations.context.fillStyle = grass;
+            canvasInformations.context.fillStyle = arcadeColors.grass;
             canvasInformations.context.fillRect(0,position2,render.width,(position1-position2));
 
             // draw the track
             Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, trackP1, trackP2, "#fff");
 
             //draw the track border
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, borderP1, borderP2, border);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -borderP2, -borderP1, border);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, borderP1, borderP2, arcadeColors.border);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -borderP2, -borderP1, arcadeColors.border);
 
             //draw the track outborder dark green
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, inBorderP1, inBorderP2, outborder_end);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, landscapeOutBorderP1, landscapeOutBorderP2, outborder);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, outBorderP2, outBorderP1, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, inBorderP1, inBorderP2, arcadeColors.outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, landscapeOutBorderP1, landscapeOutBorderP2, arcadeColors.outborder);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, outBorderP2, outBorderP1, arcadeColors.outborder_end);
 
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -inBorderP2, -inBorderP1, outborder_end);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -landscapeOutBorderP2, -landscapeOutBorderP1, outborder);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -outBorderP1, -outBorderP2, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -inBorderP2, -inBorderP1, arcadeColors.outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -landscapeOutBorderP2, -landscapeOutBorderP1, arcadeColors.outborder);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -outBorderP1, -outBorderP2, arcadeColors.outborder_end);
 
             // // draw the lane line
             Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, laneP1, laneP2, "#000");
@@ -1947,54 +1961,54 @@ define(function (require, exports, module) {
             Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -laneP1+diffLanesFinishLine, -laneP1, "#000");
 
             // draw arrow or guiding line
-            // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, laneArrow);
+            // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, arcadeColors.laneArrow);
             if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="straight"){
-                // Arcade.prototype.drawArrowFront(160, 150, 12, 18, laneArrow, 1);
-                Arcade.prototype.drawSimpleArrowFront(canvasInformations.canvas.width-50,30,laneArrow);
+                // Arcade.prototype.drawArrowFront(160, 150, 12, 18, arcadeColors.laneArrow, 1);
+                Arcade.prototype.drawSimpleArrowFront(canvasInformations.canvas.width-50,30,arcadeColors.laneArrow);
             }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="right"){
-                // Arcade.prototype.drawArrowLeft(160, 150, 20, 20, laneArrow, 1, {inverse:false});
-                Arcade.prototype.drawSimpleArrowLeft(canvasInformations.canvas.width-50,30,laneArrow,{inverse:false});
+                // Arcade.prototype.drawArrowLeft(160, 150, 20, 20, arcadeColors.laneArrow, 1, {inverse:false});
+                Arcade.prototype.drawSimpleArrowLeft(canvasInformations.canvas.width-50,30,arcadeColors.laneArrow,{inverse:false});
             }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="left"){
-                // Arcade.prototype.drawArrowRight(160, 150, 20, 20, laneArrow, 1, {inverse:false});
-                Arcade.prototype.drawSimpleArrowRight(canvasInformations.canvas.width-50,30,laneArrow,{inverse:false});
+                // Arcade.prototype.drawArrowRight(160, 150, 20, 20, arcadeColors.laneArrow, 1, {inverse:false});
+                Arcade.prototype.drawSimpleArrowRight(canvasInformations.canvas.width-50,30,arcadeColors.laneArrow,{inverse:false});
             }
         }
         else{
             //draw grass:
-            canvasInformations.context.fillStyle = grass;
+            canvasInformations.context.fillStyle = arcadeColors.grass;
             canvasInformations.context.fillRect(0,position2,render.width,(position1-position2));
 
             // draw the track
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, trackP1, trackP2, track_segment);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, trackP1, trackP2, arcadeColors.track_segment);
 
             //draw the track border
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, borderP1, borderP2, border);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -borderP2, -borderP1, border);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, borderP1, borderP2, arcadeColors.border);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -borderP2, -borderP1, arcadeColors.border);
 
             //draw the track outborder dark green
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, inBorderP1, inBorderP2, outborder_end);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, landscapeOutBorderP1, landscapeOutBorderP2, outborder);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, outBorderP2, outBorderP1, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, inBorderP1, inBorderP2, arcadeColors.outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, landscapeOutBorderP1, landscapeOutBorderP2, arcadeColors.outborder);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, outBorderP2, outBorderP1, arcadeColors.outborder_end);
 
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -inBorderP2, -inBorderP1, outborder_end);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -landscapeOutBorderP2, -landscapeOutBorderP1, outborder);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -outBorderP1, -outBorderP2, outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -inBorderP2, -inBorderP1, arcadeColors.outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -landscapeOutBorderP2, -landscapeOutBorderP1, arcadeColors.outborder);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -outBorderP1, -outBorderP2, arcadeColors.outborder_end);
 
             // draw the lane line
-            Arcade.prototype.drawLanes(position1, scale1, offset1, position2, scale2, offset2, lane, numLanes, laneWidth);
-            // Arcade.prototype.drawLanePos(position1, scale1, offset1, position2, scale2, offset2, lane, 0, laneWidth);
+            Arcade.prototype.drawLanes(position1, scale1, offset1, position2, scale2, offset2, arcadeColors.lane, numLanes, laneWidth);
+            // Arcade.prototype.drawLanePos(position1, scale1, offset1, position2, scale2, offset2, arcadeColors.lane, 0, laneWidth);
 
             // draw arrow or guiding line
-            // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, laneArrow);
+            // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, arcadeColors.laneArrow);
             if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="straight"){
-                // Arcade.prototype.drawArrowFront(160, 150, 12, 18, laneArrow, 1);
-                Arcade.prototype.drawSimpleArrowFront(canvasInformations.canvas.width-50,30,laneArrow);
+                // Arcade.prototype.drawArrowFront(160, 150, 12, 18, arcadeColors.laneArrow, 1);
+                Arcade.prototype.drawSimpleArrowFront(canvasInformations.canvas.width-50,30,arcadeColors.laneArrow);
             }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="right"){
-                // Arcade.prototype.drawArrowLeft(160, 150, 20, 20, laneArrow, 1, {inverse:false});
-                Arcade.prototype.drawSimpleArrowLeft(canvasInformations.canvas.width-50,30,laneArrow, {inverse:false});
+                // Arcade.prototype.drawArrowLeft(160, 150, 20, 20, arcadeColors.laneArrow, 1, {inverse:false});
+                Arcade.prototype.drawSimpleArrowLeft(canvasInformations.canvas.width-50,30,arcadeColors.laneArrow, {inverse:false});
             }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="left"){
-                // Arcade.prototype.drawArrowRight(160, 150, 20, 20, laneArrow, 1, {inverse:false});
-                Arcade.prototype.drawSimpleArrowRight(canvasInformations.canvas.width-50,30,laneArrow, {inverse:false});
+                // Arcade.prototype.drawArrowRight(160, 150, 20, 20, arcadeColors.laneArrow, 1, {inverse:false});
+                Arcade.prototype.drawSimpleArrowRight(canvasInformations.canvas.width-50,30,arcadeColors.laneArrow, {inverse:false});
             }
         }
         return this;
@@ -2499,7 +2513,7 @@ define(function (require, exports, module) {
             let currentScaling       = startScaling;
 
             if(currentHeight > endProjectedHeight){
-                Arcade.prototype.setColorsCanvas(counter < numberOfSegmentPerColor, grass1, border1, border2, outborder1, outborder_end1, track_segment1, lane1, lane2, laneArrow1);
+                Arcade.prototype.setColorsCanvas(counter < numberOfSegmentPerColor, readColorsJSON.grass1, readColorsJSON.border1, readColorsJSON.border2, readColorsJSON.outborder1, readColorsJSON.outborder_end1, readColorsJSON.track_segment1, readColorsJSON.lane1, readColorsJSON.lane2, readColorsJSON.laneArrow1);
                 Arcade.prototype.drawSegment(
                     render.height / 2 + currentHeight,
                     currentScaling, currentSegment.curve - baseOffset - lastDelta * currentScaling,
