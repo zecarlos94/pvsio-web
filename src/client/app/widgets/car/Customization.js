@@ -1906,6 +1906,7 @@ define(function (require, exports, module) {
                         // showOfficialLogo: true,
                         loadPVSSpeedPositions: loadPVSSpeedPositions_Final,
                         // predefinedTracks: 4,
+                        // newLap_functionNamePVS: "new_lap",
                         // action_attribute: "action",
                         // direction_attribute: "direction",
                         // sound_attribute: "sound",

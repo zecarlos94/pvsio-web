@@ -257,20 +257,20 @@ require([
         });
 
         // ----------------------------- GYROSCOPE COMPONENTS -----------------------------
-        // arcade.gyroscopeController = new GyroscopeController("Gyroscope_Controller", {
-        //     top: 100,
-        //     left: 700,
-        //     width: 750,
-        //     height: 750
-        // }, {
-        //     parent: "gyroscope", // defines parent div, which is div id="gyroscope" by default
-        //     carSteeringWheel: arcade.steeringWheel,
-        //     carAccelerate: arcade.up,
-        //     carBrake: arcade.down,
-        //     useSensitivity: false, // Default is false
-        //     // sensitivityValue: 50, // Default is 40%
-        //     callback: onMessageReceived
-        // });
+        arcade.gyroscopeController = new GyroscopeController("Gyroscope_Controller", {
+            top: 100,
+            left: 700,
+            width: 750,
+            height: 750
+        }, {
+            parent: "gyroscope", // defines parent div, which is div id="gyroscope" by default
+            carSteeringWheel: arcade.steeringWheel,
+            carAccelerate: arcade.up,
+            carBrake: arcade.down,
+            useSensitivity: false, // Default is false
+            // sensitivityValue: 50, // Default is 40%
+            callback: onMessageReceived
+        });
 
         /*
         // ---------------- CURRENT SHIFT -------------------------
@@ -312,6 +312,7 @@ require([
             // showOfficialLogo: true,
             loadPVSSpeedPositions: false,
             // predefinedTracks: 4,
+            // newLap_functionNamePVS: "new_lap",
             // action_attribute: "action",
             // direction_attribute: "direction",
             // sound_attribute: "sound",

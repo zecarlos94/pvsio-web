@@ -43,6 +43,7 @@
  *                  // showOfficialLogo: true,
  *                  // loadPVSSpeedPositions: true,
  *                  // predefinedTracks: 5,
+ *                  // newLap_functionNamePVS: "new_lap",
  *                  // action_attribute: "action",
  *                  // direction_attribute: "direction",
  *                  // sound_attribute: "sound",
@@ -239,6 +240,7 @@
  *                  // showOfficialLogo: true,
  *                  // loadPVSSpeedPositions: true,
  *                  // predefinedTracks: 5,
+ *                  // newLap_functionNamePVS: "new_lap",
  *                  // action_attribute: "action",
  *                  // direction_attribute: "direction",
  *                  // sound_attribute: "sound",
@@ -313,6 +315,7 @@
  *                  // showOfficialLogo: true,
  *                  // loadPVSSpeedPositions: true,
  *                  // predefinedTracks: 5,
+ *                  // newLap_functionNamePVS: "new_lap",
  *                  // action_attribute: "action",
  *                  // direction_attribute: "direction",
  *                  // sound_attribute: "sound",
@@ -442,7 +445,8 @@ define(function (require, exports, module) {
         pause_attribute: {},
         resume_attribute: {},
         mute_attribute: {},
-        unmute_attribute: {}
+        unmute_attribute: {},
+        newLap_functionNamePVS: {}
     };
 
     let spritesImgsInformation = {
@@ -606,6 +610,7 @@ define(function (require, exports, module) {
      *          <li>showOfficialLogo {Bool}: the option to render extra image, on the bottom-left corner, which is the PVSio-web logo created in this thesis (default is false).</li>
      *          <li>loadPVSSpeedPositions {Bool}: allows to use PVS calculated positions and speed in the simulation. (default is true).</li>
      *          <li>predefinedTracks {Int}: allows to use predefined tracks, present on JSON files with filename "trackLayout"+predefined+".json", in car/configurations/ directory. (default is null).</li>
+     *          <li>newLap_functionNamePVS {String}: allows to set pvs function name for new lap. (default is "new_lap").</li>
      *          <li>action_attribute {String}: allows to set pvs attribute name for action. (default is "action").</li>
      *          <li>direction_attribute {String}: allows to set pvs attribute name for direction. (default is "direction").</li>
      *          <li>sound_attribute {String}: allows to set pvs attribute name for sound. (default is "sound").</li>
@@ -648,6 +653,9 @@ define(function (require, exports, module) {
         opt.lapNumber = opt.lapNumber;
         opt.loadPVSSpeedPositions = opt.loadPVSSpeedPositions;
         opt.predefinedTracks = opt.predefinedTracks;
+
+        vehicle.newLap_functionNamePVS = {};
+        vehicle.newLap_functionNamePVS = opt.newLap_functionNamePVS || "new_lap";
 
         vehicle.action_attribute = {};
         vehicle.action_attribute = opt.action_attribute || "action";
@@ -2576,7 +2584,7 @@ define(function (require, exports, module) {
 
             if(absoluteIndex >= arcadeParams.numIterations-render.depthOfField-1){
                 if(lapInformation.currentLapNumber<=lapInformation.lapNumber && lapInformation.counterAux===0){
-                    ButtonActionsQueue.queueGUIAction("new_lap", lapInformation.callback);
+                    ButtonActionsQueue.queueGUIAction(vehicle.newLap_functionNamePVS, lapInformation.callback);
                 }
                 lapInformation.counterAux=1;
             }
