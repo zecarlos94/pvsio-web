@@ -1875,6 +1875,9 @@ define(function (require, exports, module) {
                     // car.trackGeneratorWidget.generateTrackCurvesSlopes();
                     car.trackGeneratorWidget.generateTrackBasedOnTrackLayoutOptField();
 
+                    // TODO WHEN FILE-WRITNG API EXISTS!!!
+                    // trackFilename opt field must receive json file just created by car.trackGeneratorWidget.generateTrackBasedOnTrackLayoutOptField();
+
                     // ----------------------------- ARCADE GAME COMPONENTS -----------------------------
                     car.arcadeWidget = new Arcade("arcadeWidget", {
                         top: 80,

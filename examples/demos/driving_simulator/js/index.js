@@ -72,8 +72,46 @@ require([
         "use strict";
         var client = PVSioWebClient.getInstance();
         var tick;
-        let e;
-        let startMessage = 0;
+        function start_tick() {
+            if (!tick) {
+                 tick = setInterval(function () {
+                     ButtonActionsQueue.getInstance().queueGUIAction("tick", onMessageReceived);
+                 }, 120);
+            }
+        }
+        function stop_tick() {
+            if (tick) {
+                clearInterval(tick);
+                tick = null;
+            }
+        }
+        function evaluate(str) {
+            var v = +str;
+            if (str.indexOf("/") >= 0) {
+                var args = str.split("/");
+                v = +args[0] / +args[1];
+            }
+            var ans = (v < 100) ? v.toFixed(1).toString() : v.toFixed(0).toString();
+            console.log(ans);
+            return parseFloat(ans);
+        }
+
+        // Function automatically invoked by PVSio-web when the back-end sends states updates
+        function onMessageReceived(err, event) {
+            if (!err) {
+                // get new state
+                client.getWebSocket().lastState(event.data);
+                // parse and render new state
+                var res = event.data.toString();
+                if (res.indexOf("(#") === 0) {
+                    render(stateParser.parse(res));
+                    console.log(res);
+                }
+            } else {
+                console.log(err);
+            }
+        }
+
         let steeringWheel = "ferrari";
         let sliders = {
             maxValueSpeedometer: {
@@ -412,47 +450,6 @@ require([
             },
         ];
               
-        let start_tick = () => {
-            //if (!tick) {
-            //    tick = setInterval(function () {
-            //        ButtonActionsQueue.getInstance().queueGUIAction("tick", onMessageReceived);
-            //    }, 1000);
-            //}
-        }
-        let stop_tick = () => {
-            if (tick) {
-                clearInterval(tick);
-                tick = null;
-            }
-        }
-        let evaluate = (str) => {
-            let v = +str;
-            if (str.indexOf("/") >= 0) {
-                let args = str.split("/");
-                v = +args[0] / +args[1];
-            }
-            let ans = (v < 100) ? v.toFixed(1).toString() : v.toFixed(0).toString();
-            console.log(ans);
-            return parseFloat(ans);
-        }
-
-        // Function automatically invoked by PVSio-web when the back-end sends states updates
-        let onMessageReceived = (err, event) => {
-            if (!err) {
-                // get new state
-                client.getWebSocket().lastState(event.data);
-                // parse and render new state
-                let res = event.data.toString();
-                
-                if (res.indexOf("(#") === 0) {
-                    render(stateParser.parse(res));
-                    console.log(res);
-                }
-            } else {
-                console.log(err);
-            }
-        }
-
         var car = {};
         
         // ----------------------------- CUSTOMIZATION COMPONENTS -----------------------------
