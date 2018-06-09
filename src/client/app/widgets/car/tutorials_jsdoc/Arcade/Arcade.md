@@ -120,7 +120,6 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
         posx: 0,
         maxSpeed: 20
     },
-    topSpeed: 250,
     objects: ["tree","stump","boulder","tree2","brunetteGirlBack","bush2","hatManBack"],
     obstacle: ["dead_tree2","column","dearRight"],
     obstaclePerIteration: 50,
@@ -600,7 +599,6 @@ controllable_car: {
     posx: 0,
     maxSpeed: 20
 },
-topSpeed: 250,
 objects: ["tree","boulder"],
 obstacle: ["boulder"],
 obstaclePerIteration: 50,
@@ -631,7 +629,6 @@ generatedJSON = {
     numLanes: numLanes,
     numberOfSegmentPerColor: numberOfSegmentPerColor,
     render: render,
-    topSpeed: topSpeed,
     track: generatedTrack,
     trackParam: trackParam, // after updating trackParam.numZones with total sum of numZones 
     // in trackLayout opt field

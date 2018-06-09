@@ -48,7 +48,6 @@
  *                      posx: 0,
  *                      maxSpeed: 20
  *                  },
- *                  topSpeed: 250,
  *                  objects: ["tree","boulder"], // sprite names to be drawed in the landscape
  *                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
  *                  obstaclePerIteration: 50, // each 50 iterations a new obstacle will be placed within the track
@@ -538,7 +537,6 @@
  *                      posx: 0,
  *                      maxSpeed: 20
  *                  },
- *                  topSpeed: 250,
  *                  objects: ["tree","boulder"], // sprite names to be drawed in the landscape
  *                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
  *                  obstaclePerIteration: 50, // each 50 iterations a new obstacle will be placed within the track
@@ -615,7 +613,6 @@
  *                      posx: 0,
  *                      maxSpeed: 20
  *                  },
- *                  topSpeed: 250,
  *                  objects: ["tree","boulder"], // sprite names to be drawed in the landscape
  *                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
  *                  obstaclePerIteration: 50, // each 50 iterations a new obstacle will be placed within the track
@@ -681,7 +678,6 @@
  *                      posx: 0,
  *                      maxSpeed: 20
  *                  },
- *                  topSpeed: 250,
  *                  objects: ["tree","boulder"], // sprite names to be drawed in the landscape
  *                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
  *                  obstaclePerIteration: 50, // each 50 iterations a new obstacle will be placed within the track
@@ -1155,7 +1151,6 @@
  *                      posx: 0,
  *                      maxSpeed: 20
  *                  },
- *                  topSpeed: 250,
  *                  objects: ["tree","boulder"], // sprite names to be drawed in the landscape
  *                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
  *                  obstaclePerIteration: 50, // each 50 iterations a new obstacle will be placed within the track
@@ -1213,7 +1208,6 @@ define(function (require, exports, module) {
     let params;
     let trackParam;
     let controllable_car;
-    let topSpeed;
     let spritesAvailable=[];
     let objects = [];
     let obstacle = [];
@@ -1242,7 +1236,6 @@ define(function (require, exports, module) {
      *          <li>laneWidth {Float}: the width of the lane separator (default is 0.02).</li>
      *          <li>trackParam {Object}: the track configurations, i.e. number of zones(track length), etc (default is {numZones: 12, zoneSize: 250}).</li>
      *          <li>controllable_car {Object}: the vehicle configurations, i.e. initial position, acceleration and deceleration values, etc (default is {position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20}).</li>
-     *          <li>topSpeed {Int}: the maximum speed value that can be reached (default is 250).</li>
      *          <li>objects {Array}: the sprite names to be drawed in the landscape (default is ["tree","rock"]).</li>
      *          <li>obstacle {Array}: the sprite names to be drawed within the track as obstacles (default is ["rock"]).</li>
      *          <li>trackLayout {Array}: the track layout that will be used to create the corresponding segments. (default is []).</li>
@@ -1264,7 +1257,6 @@ define(function (require, exports, module) {
         opt.laneWidth = opt.laneWidth;
         opt.trackParam = opt.trackParam; 
         opt.controllable_car = opt.controllable_car;
-        opt.topSpeed = opt.topSpeed;
         opt.objects = opt.objects;
         opt.obstacle = opt.obstacle;
         opt.trackLayout = opt.trackLayout;
@@ -1285,7 +1277,6 @@ define(function (require, exports, module) {
         trackParam              = (opt.trackParam) ? opt.trackParam : { numZones: 12, /*number of different portions of the track*/ zoneSize:  250 /*length of each numZones (the bigger this value. the longer it will take to finish)*/ };        
         params                  = JSON.parse(JSON.stringify(trackParam));
         controllable_car        = (opt.controllable_car) ? opt.controllable_car : { position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20 };
-        topSpeed                = (opt.topSpeed) ? opt.topSpeed : 250;
 
         objects  = (opt.objects) ? opt.objects : ["tree","boulder"];
         obstacle = (opt.obstacle) ? opt.obstacle : ["boulder"];
@@ -1493,7 +1484,6 @@ define(function (require, exports, module) {
                 numLanes: numLanes,
                 numberOfSegmentPerColor: numberOfSegmentPerColor,
                 render: render,
-                topSpeed: topSpeed,
                 track: generatedTrack,
                 trackParam: trackParam,
                 trackSegmentSize: trackSegmentSize,
@@ -1693,7 +1683,6 @@ define(function (require, exports, module) {
                 numLanes: numLanes,
                 numberOfSegmentPerColor: numberOfSegmentPerColor,
                 render: render,
-                topSpeed: topSpeed,
                 track: generatedTrack,
                 trackParam: trackParam,
                 trackSegmentSize: trackSegmentSize,
@@ -1857,7 +1846,6 @@ define(function (require, exports, module) {
                 numLanes: numLanes,
                 numberOfSegmentPerColor: numberOfSegmentPerColor,
                 render: render,
-                topSpeed: topSpeed,
                 track: generatedTrack,
                 trackParam: trackParam,
                 trackSegmentSize: trackSegmentSize,

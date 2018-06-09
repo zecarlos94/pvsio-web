@@ -1849,7 +1849,6 @@ define(function (require, exports, module) {
                             posx: 0,
                             maxSpeed: 20
                         },
-                        topSpeed: 250,
                         objects: JSON.parse(landscapeObjects_Final),
                         obstacle: JSON.parse(trackObstacles_Final),
                         obstaclePerIteration: parseInt(freqObstacles_Final),
@@ -1920,6 +1919,7 @@ define(function (require, exports, module) {
                         // position_value: "val",
                         // left_attribute: "left",
                         // right_attribute: "right",
+                        // straight_attribute: "straight",
                         // accelerate_attribute: "acc",
                         // brake_attribute: "brake",
                         // idle_attribute: "idle",

@@ -56,6 +56,7 @@
  *                  // position_value: "val",
  *                  // left_attribute: "left",
  *                  // right_attribute: "right",
+ *                  // straight_attribute: "straight",
  *                  // accelerate_attribute: "acc",
  *                  // brake_attribute: "brake",
  *                  // idle_attribute: "idle",
@@ -251,6 +252,7 @@
  *                  // position_value: "val",
  *                  // left_attribute: "left",
  *                  // right_attribute: "right",
+ *                  // straight_attribute: "straight",
  *                  // accelerate_attribute: "acc",
  *                  // brake_attribute: "brake",
  *                  // idle_attribute: "idle",
@@ -324,6 +326,7 @@
  *                  // position_value: "val",
  *                  // left_attribute: "left",
  *                  // right_attribute: "right",
+ *                  // straight_attribute: "straight",
  *                  // accelerate_attribute: "acc",
  *                  // brake_attribute: "brake",
  *                  // idle_attribute: "idle",
@@ -431,6 +434,7 @@ define(function (require, exports, module) {
         position_value: {},
         left_attribute: {},
         right_attribute: {},
+        straight_attribute: {},
         accelerate_attribute: {},
         brake_attribute: {},
         idle_attribute: {},
@@ -456,7 +460,6 @@ define(function (require, exports, module) {
         laneWidth: null,
         numLanes: null,
         numberOfSegmentPerColor: null,
-        topSpeed: null,
         trackParam: null,
         trackSegmentSize: null,
         numIterations: null
@@ -685,6 +688,9 @@ define(function (require, exports, module) {
         vehicle.right_attribute = {};
         vehicle.right_attribute = opt.right_attribute || "right";
 
+        vehicle.straight_attribute = {};
+        vehicle.straight_attribute = opt.straight_attribute || "straight";
+
         vehicle.accelerate_attribute = {};
         vehicle.accelerate_attribute = opt.accelerate_attribute || "acc";
 
@@ -912,7 +918,6 @@ define(function (require, exports, module) {
                 arcadeParams.numLanes=aux.numLanes;
                 arcadeParams.numberOfSegmentPerColor=aux.numberOfSegmentPerColor;
                 render=aux.render;
-                arcadeParams.topSpeed=aux.topSpeed;
                 arcadeParams.trackParam=aux.trackParam;
                 arcadeParams.trackSegmentSize=aux.trackSegmentSize;
                 readColorsJSON.grass1=aux.trackColors.grass1;
@@ -1203,7 +1208,6 @@ define(function (require, exports, module) {
      *       "posx": 0,
      *       "maxSpeed": 20
      *     },
-     *     "topSpeed": 250,
      *     "track": [
      *        {"height":0,"curve":0,"sprite":{"type":{"x":535,"y":648,"w":168,"h":248},"pos":-0.14646203875343766,"obstacle":1}},
      *        {"height":0,"curve":0,"sprite":{"type":{"x":535,"y":648,"w":168,"h":248},"pos":3.5676653178824482,"obstacle":0}}
@@ -1972,13 +1976,13 @@ define(function (require, exports, module) {
 
             // draw arrow or guiding line
             // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, arcadeColors.laneArrow);
-            if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="straight"){
+            if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]===vehicle.straight_attribute){
                 // Arcade.prototype.drawArrowFront(160, 150, 12, 18, arcadeColors.laneArrow, 1);
                 Arcade.prototype.drawSimpleArrowFront(canvasInformations.canvas.width-50,30,arcadeColors.laneArrow);
-            }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="right"){
+            }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]===vehicle.right_attribute){
                 // Arcade.prototype.drawArrowLeft(160, 150, 20, 20, arcadeColors.laneArrow, 1, {inverse:false});
                 Arcade.prototype.drawSimpleArrowLeft(canvasInformations.canvas.width-50,30,arcadeColors.laneArrow,{inverse:false});
-            }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="left"){
+            }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]===vehicle.left_attribute){
                 // Arcade.prototype.drawArrowRight(160, 150, 20, 20, arcadeColors.laneArrow, 1, {inverse:false});
                 Arcade.prototype.drawSimpleArrowRight(canvasInformations.canvas.width-50,30,arcadeColors.laneArrow,{inverse:false});
             }
@@ -2010,13 +2014,13 @@ define(function (require, exports, module) {
 
             // draw arrow or guiding line
             // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, arcadeColors.laneArrow);
-            if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="straight"){
+            if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]===vehicle.straight_attribute){
                 // Arcade.prototype.drawArrowFront(160, 150, 12, 18, arcadeColors.laneArrow, 1);
                 Arcade.prototype.drawSimpleArrowFront(canvasInformations.canvas.width-50,30,arcadeColors.laneArrow);
-            }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="right"){
+            }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]===vehicle.right_attribute){
                 // Arcade.prototype.drawArrowLeft(160, 150, 20, 20, arcadeColors.laneArrow, 1, {inverse:false});
                 Arcade.prototype.drawSimpleArrowLeft(canvasInformations.canvas.width-50,30,arcadeColors.laneArrow, {inverse:false});
-            }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="left"){
+            }else if(WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]===vehicle.left_attribute){
                 // Arcade.prototype.drawArrowRight(160, 150, 20, 20, arcadeColors.laneArrow, 1, {inverse:false});
                 Arcade.prototype.drawSimpleArrowRight(canvasInformations.canvas.width-50,30,arcadeColors.laneArrow, {inverse:false});
             }
@@ -2160,7 +2164,7 @@ define(function (require, exports, module) {
         }
 
         // car turning
-        if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="left") {
+        if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]===vehicle.left_attribute) {
             if(controllable_car.speed > 0){
                 controllable_car.posx -= controllable_car.turning;
             }
@@ -2169,7 +2173,7 @@ define(function (require, exports, module) {
                 x: vehicleXLeftPosition,
                 y: vehicleYLeftPosition
             };
-        } else if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]==="right") {
+        } else if (WIDGETSTATE!==null && WIDGETSTATE[vehicle.direction_attribute]===vehicle.right_attribute) {
             if(controllable_car.speed > 0){
                 controllable_car.posx += controllable_car.turning;
             }
@@ -2219,19 +2223,19 @@ define(function (require, exports, module) {
             controllable_car.posx = newPositionX;
         }
 
-        if(vehicleCurrentDirection==="straight"){
+        if(vehicleCurrentDirection===vehicle.straight_attribute){
             carSprite = {
                 car: vehicle_faced_front,
                 x: vehicleXPosition,
                 y: vehicleYPosition
             };
-        }else if(vehicleCurrentDirection==="left"){
+        }else if(vehicleCurrentDirection===vehicle.left_attribute){
             carSprite = {
                 car: main_sprites.vehicle_faced_left,
                 x: vehicleXPosition,
                 y: vehicleYPosition
             };
-        }else if(vehicleCurrentDirection==="right"){
+        }else if(vehicleCurrentDirection===vehicle.right_attribute){
             carSprite = {
                 car: main_sprites.vehicle_faced_right,
                 x: vehicleXPosition,
@@ -2307,24 +2311,24 @@ define(function (require, exports, module) {
         switch (spritesImgsInformation.vehicleType) {
             case "airplane":
                 if(spritesImgsInformation.vehicleIndex===2){
-                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
+                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.left_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux= 50;
                         auxiliaryPVSValues.vehicleYPositionAux= 70;
-                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="right"){
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.right_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux= 50;
                         auxiliaryPVSValues.vehicleYPositionAux= 70;
-                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="straight"){
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.straight_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux = 50;
                         auxiliaryPVSValues.vehicleYPositionAux = 110;
                     }
                 }else{
-                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
+                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.left_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux= 110;
                         auxiliaryPVSValues.vehicleYPositionAux= 100;
-                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="right"){
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.right_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux= 110;
                         auxiliaryPVSValues.vehicleYPositionAux= 100;
-                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="straight"){
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.straight_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux = 110;
                         auxiliaryPVSValues.vehicleYPositionAux = 100;
                     }
@@ -2332,24 +2336,24 @@ define(function (require, exports, module) {
                 break;
             case "bicycle":
                 if(spritesImgsInformation.vehicleRealistic){
-                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
+                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.left_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux= 135;
                         auxiliaryPVSValues.vehicleYPositionAux= 160;
-                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="right"){
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.right_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux= 135;
                         auxiliaryPVSValues.vehicleYPositionAux= 160;
-                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="straight"){
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.straight_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux = 135;
                         auxiliaryPVSValues.vehicleYPositionAux = 160;
                     }
                 }else{
-                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
+                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.left_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux= 140;
                         auxiliaryPVSValues.vehicleYPositionAux= 175;
-                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="right"){
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.right_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux= 140;
                         auxiliaryPVSValues.vehicleYPositionAux= 175;
-                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="straight"){
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.straight_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux = 140;
                         auxiliaryPVSValues.vehicleYPositionAux = 175;
                     }
@@ -2357,61 +2361,61 @@ define(function (require, exports, module) {
                 break;
             case "car":
                 if(spritesImgsInformation.vehicleRealistic){
-                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
+                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.left_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux= 125;
                         auxiliaryPVSValues.vehicleYPositionAux= 180;
-                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="right"){
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.right_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux= 125;
                         auxiliaryPVSValues.vehicleYPositionAux= 180;
-                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="straight"){
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.straight_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux = 125;
                         auxiliaryPVSValues.vehicleYPositionAux = 180;
                     }
                 }else{
-                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
+                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.left_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux= 125;
                         auxiliaryPVSValues.vehicleYPositionAux= 190;
-                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="right"){
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.right_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux= 125;
                         auxiliaryPVSValues.vehicleYPositionAux= 190;
-                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="straight"){
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.straight_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux = 125;
                         auxiliaryPVSValues.vehicleYPositionAux = 190;
                     }
                 }
                 break;
             case "helicopter":
-                if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
+                if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.left_attribute){
                     auxiliaryPVSValues.vehicleXPositionAux= 70;
                     auxiliaryPVSValues.vehicleYPositionAux= 60;
-                }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="right"){
+                }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.right_attribute){
                     auxiliaryPVSValues.vehicleXPositionAux= 70;
                     auxiliaryPVSValues.vehicleYPositionAux= 60;
-                }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="straight"){
+                }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.straight_attribute){
                     auxiliaryPVSValues.vehicleXPositionAux = 100;
                     auxiliaryPVSValues.vehicleYPositionAux = 90;
                 }
                 break;
             case "motorbike":
                 if(spritesImgsInformation.vehicleRealistic){
-                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
+                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.left_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux= 130;
                         auxiliaryPVSValues.vehicleYPositionAux= 160;
-                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="right"){
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.right_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux= 130;
                         auxiliaryPVSValues.vehicleYPositionAux= 160;
-                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="straight"){
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.straight_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux = 130;
                         auxiliaryPVSValues.vehicleYPositionAux = 160;
                     }
                 }else{
-                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
+                    if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.left_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux= 120;
                         auxiliaryPVSValues.vehicleYPositionAux= 175;
-                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="right"){
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.right_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux= 140;
                         auxiliaryPVSValues.vehicleYPositionAux= 175;
-                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="straight"){
+                    }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===vehicle.straight_attribute){
                         auxiliaryPVSValues.vehicleXPositionAux = 150;
                         auxiliaryPVSValues.vehicleYPositionAux = 175;
                     }

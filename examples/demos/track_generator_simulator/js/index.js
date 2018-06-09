@@ -125,7 +125,6 @@ require([
                 posx: 0,
                 maxSpeed: 20
             },
-            topSpeed: 250,
             objects: ["tree","stump","boulder","tree2","brunetteGirlBack","bush2","hatManBack"],
             obstacle: ["dead_tree2","column","dearRight"],
             obstaclePerIteration: 20,

@@ -325,6 +325,7 @@ require([
             // position_value: "val",
             // left_attribute: "left",
             // right_attribute: "right",
+            // straight_attribute: "straight",
             // accelerate_attribute: "acc",
             // brake_attribute: "brake",
             // idle_attribute: "idle",
