@@ -1,0 +1,8 @@
+1. git clone "https://github.com/zecarlos94/pvsio-web.git"
+2. git checkout gaming
+3. cd ~/Desktop/pvsio-web
+4.1 Open browser http://pvs.csl.sri.com/download.shtml to download latest version of PVS Binaries according to your OS
+4.2 Copy/Paste and replace all files inside the downloaded folder to ~/Desktop/pvsio-web/PVS. (By default the provided binaries are for MacOS, and when running the demos on other OS those will not work)
+5. ./start.sh"
+6.1. Open browser (1st demo - More Conscious User) http://localhost:8082/demos/arcade_game_simulator/
+6.2. Open browser (2nd demo - Less Conscious User) http://localhost:8082/demos/driving_simulator/

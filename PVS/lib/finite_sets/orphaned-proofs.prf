@@ -1,0 +1,1 @@
+("top" top IMPORTING1_TCC1 0 (IMPORTING1_TCC1-1 nil 3556999037 ("" (rewrite "zero_identity") nil nil) nil nil))("top" top IMPORTING1_TCC2 0 (IMPORTING1_TCC2-1 nil 3556999037 ("" (rewrite "plus_ac") nil nil) nil nil))("top" top IMPORTING1_TCC1 "" (REWRITE "zero_identity") NIL)("top" top IMPORTING1_TCC2 "" (REWRITE "plus_ac") NIL)

@@ -1,0 +1,36 @@
+% ---------------------------------------------------------------
+%  Theory: sound_simulator_demo
+%  Author: José Carlos
+%          Universidade do Minho
+% ---------------------------------------------------------------
+
+main: THEORY
+ BEGIN
+
+  Action: TYPE = { soundSettingsNotChanged, soundSettingsChanged, mute, unmute }
+  
+  state: TYPE = [#
+    action: Action
+  #]
+
+  %-- initial state
+  init(x: real): state = (#
+    action := soundSettingsNotChanged
+  #)
+    
+  mute(st: state): state = (#
+    action := mute
+  #)
+
+  unmute(st: state): state = (#
+    action := unmute
+  #)
+
+  %-- APIs
+  press_mute(st: state): state = mute(st) WITH [ action := mute ]
+  release_mute(st: state): state = st WITH [ action := soundSettingsChanged ]
+
+  press_unmute(st: state): state = unmute(st) WITH [ action := unmute ]
+  release_unmute(st: state): state = st WITH [ action := soundSettingsChanged ]
+
+END main
