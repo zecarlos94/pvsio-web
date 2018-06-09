@@ -131,7 +131,7 @@
  *     arcade.drawBackground(-posx);
  *
  *     // Setting colors during simulation
- *     arcade.setColorsCanvas(counter < numberOfSegmentPerColor, "#699864", "#e00", "#fff", "#496a46", "#474747", "#777", "#fff", "#777", "#00FF00");
+ *     arcade.setColorsCanvas(counter < arcadeParams.numberOfSegmentPerColor, "#699864", "#e00", "#fff", "#496a46", "#474747", "#777", "#fff", "#777", "#00FF00");
  *
  *     // Drawing current segment (entire horizontal stripe)
  *     arcade.drawSegment(
@@ -140,7 +140,7 @@
  *              render.height / 2 + endProjectedHeight,
  *              endScaling,
  *              nextSegment.curve - baseOffset - lastDelta * endScaling,
- *              currentSegmentIndex == 2 || currentSegmentIndex == (numIterations-render.depthOfField)
+ *              currentSegmentIndex == 2 || currentSegmentIndex == (arcadeParams.numIterations-render.depthOfField)
  *     );
  *
  *     // Draws sprite received as first argument
@@ -174,7 +174,7 @@
  *     arcade.drawLanes(position1, scale1, offset1, position2, scale2, offset2, arcadeColors.lane, 3, 0.02);
  *
  *     // Draws one lane at position 0 (i.e. in middle of the track) with width laneWidth
- *     arcade.drawLanePos(position1, scale1, offset1, position2, scale2, offset2, arcadeColors.lane, 0, laneWidth);
+ *     arcade.drawLanePos(position1, scale1, offset1, position2, scale2, offset2, arcadeColors.lane, 0, arcadeParams.laneWidth);
  *
  *     // Draws the guiding line
  *     arcade.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, "#00FF00");
@@ -440,45 +440,55 @@ define(function (require, exports, module) {
         mute_attribute: {},
         unmute_attribute: {}
     };
-    let vehicleType=null;
-    let vehicleRealistic=null;
-    let vehicleIndex=null;
-    let logoIndex=null;
-    let backgroundIndex=null;
+
+    let spritesImgsInformation = {
+        vehicleType: null,
+        vehicleRealistic: null,
+        vehicleIndex: null,
+        logoIndex: null,
+        backgroundIndex: null
+    };
+
     let controllable_car=null;
-    let laneWidth=null;
-    let numLanes=null;
-    let numberOfSegmentPerColor=null;
     let render=null;
-    let topSpeed=null;
-    let trackParam=null;
-    let trackSegmentSize=null;
-    let numIterations=null;
-    let trackP1=null;
-    let trackP2=null;
-    let borderWidth=null;
-    let inOutBorderWidth=null;
-    let landscapeOutBorderWidth=null;
-    let diffTrackBorder=null;
-    let borderP1=null;
-    let borderP2=null;
-    let inBorderP1=null;
-    let inBorderP2=null;
-    let outBorderP1=null;
-    let outBorderP2=null;
-    let landscapeOutBorderP1=null;
-    let landscapeOutBorderP2=null;
-    let finishLineP1=null;
-    let finishLineP2=null;
-    let diffLanesFinishLine=null;
-    let laneP1=null;
-    let laneP2=null;
-    let laneP3=null;
-    let laneP4=null;
-    let laneP5=null;
-    let laneP6=null;
-    let laneP7=null;
-    let laneP8=null;
+
+    let arcadeParams = {
+        laneWidth: null,
+        numLanes: null,
+        numberOfSegmentPerColor: null,
+        topSpeed: null,
+        trackParam: null,
+        trackSegmentSize: null,
+        numIterations: null
+    };
+
+    let stripeConfiguration = {
+        trackP1: null,
+        trackP2: null,
+        borderWidth: null,
+        inOutBorderWidth: null,
+        landscapeOutBorderWidth: null,
+        diffTrackBorder: null,
+        borderP1: null,
+        borderP2: null,
+        inBorderP1: null,
+        inBorderP2: null,
+        outBorderP1: null,
+        outBorderP2: null,
+        landscapeOutBorderP1: null,
+        landscapeOutBorderP2: null,
+        finishLineP1: null,
+        finishLineP2: null,
+        diffLanesFinishLine: null,
+        laneP1: null,
+        laneP2: null,
+        laneP3: null,
+        laneP4: null,
+        laneP5: null,
+        laneP6: null,
+        laneP7: null,
+        laneP8: null
+    };
 
     /*
     * Start of Arcade Global Variables
@@ -725,38 +735,38 @@ define(function (require, exports, module) {
         loadPVSSpeedPositions = this.loadPVSSpeedPositions;
         predefinedTracks = this.predefinedTracks;
 
-        trackP1=this.stripePositions.trackP1;
-        trackP2=this.stripePositions.trackP2;
-        borderWidth=this.stripePositions.borderWidth;
-        inOutBorderWidth=this.stripePositions.inOutBorderWidth;
-        landscapeOutBorderWidth=this.stripePositions.landscapeOutBorderWidth;
-        diffTrackBorder=this.stripePositions.diffTrackBorder;
-        borderP1=trackP1-diffTrackBorder;
-        borderP2=trackP1-diffTrackBorder+borderWidth;
-        inBorderP1=borderP2;
-        inBorderP2=borderP2+inOutBorderWidth;
-        outBorderP1=borderP1;
-        outBorderP2=borderP1-inOutBorderWidth;
-        landscapeOutBorderP1=outBorderP2-landscapeOutBorderWidth;
-        landscapeOutBorderP2=outBorderP2;
+        stripeConfiguration.trackP1=this.stripePositions.trackP1;
+        stripeConfiguration.trackP2=this.stripePositions.trackP2;
+        stripeConfiguration.borderWidth=this.stripePositions.borderWidth;
+        stripeConfiguration.inOutBorderWidth=this.stripePositions.inOutBorderWidth;
+        stripeConfiguration.landscapeOutBorderWidth=this.stripePositions.landscapeOutBorderWidth;
+        stripeConfiguration.diffTrackBorder=this.stripePositions.diffTrackBorder;
+        stripeConfiguration.borderP1=stripeConfiguration.trackP1-stripeConfiguration.diffTrackBorder;
+        stripeConfiguration.borderP2=stripeConfiguration.trackP1-stripeConfiguration.diffTrackBorder+stripeConfiguration.borderWidth;
+        stripeConfiguration.inBorderP1=stripeConfiguration.borderP2;
+        stripeConfiguration.inBorderP2=stripeConfiguration.borderP2+stripeConfiguration.inOutBorderWidth;
+        stripeConfiguration.outBorderP1=stripeConfiguration.borderP1;
+        stripeConfiguration.outBorderP2=stripeConfiguration.borderP1-stripeConfiguration.inOutBorderWidth;
+        stripeConfiguration.landscapeOutBorderP1=stripeConfiguration.outBorderP2-stripeConfiguration.landscapeOutBorderWidth;
+        stripeConfiguration.landscapeOutBorderP2=stripeConfiguration.outBorderP2;
 
-        finishLineP1=this.stripePositions.finishLineP1;
-        finishLineP2=this.stripePositions.finishLineP2;
-        diffLanesFinishLine=this.stripePositions.diffLanesFinishLine;
-        laneP1=finishLineP1;
-        laneP2=finishLineP1+diffLanesFinishLine;
-        laneP3=laneP2+diffLanesFinishLine;
-        laneP4=laneP3+diffLanesFinishLine;
-        laneP5=laneP4+diffLanesFinishLine;
-        laneP6=laneP5+diffLanesFinishLine;
-        laneP7=laneP6+diffLanesFinishLine;
-        laneP8=laneP7+diffLanesFinishLine;
+        stripeConfiguration.finishLineP1=this.stripePositions.finishLineP1;
+        stripeConfiguration.finishLineP2=this.stripePositions.finishLineP2;
+        stripeConfiguration.diffLanesFinishLine=this.stripePositions.diffLanesFinishLine;
+        stripeConfiguration.laneP1=stripeConfiguration.finishLineP1;
+        stripeConfiguration.laneP2=stripeConfiguration.finishLineP1+stripeConfiguration.diffLanesFinishLine;
+        stripeConfiguration.laneP3=stripeConfiguration.laneP2+stripeConfiguration.diffLanesFinishLine;
+        stripeConfiguration.laneP4=stripeConfiguration.laneP3+stripeConfiguration.diffLanesFinishLine;
+        stripeConfiguration.laneP5=stripeConfiguration.laneP4+stripeConfiguration.diffLanesFinishLine;
+        stripeConfiguration.laneP6=stripeConfiguration.laneP5+stripeConfiguration.diffLanesFinishLine;
+        stripeConfiguration.laneP7=stripeConfiguration.laneP6+stripeConfiguration.diffLanesFinishLine;
+        stripeConfiguration.laneP8=stripeConfiguration.laneP7+stripeConfiguration.diffLanesFinishLine;
 
-        vehicleType = this.vehicle;
-        vehicleRealistic = this.realisticImgs;
-        vehicleIndex = this.vehicleImgIndex;
-        logoIndex = this.logoImgIndex;
-        backgroundIndex = this.backgroundImgIndex;
+        spritesImgsInformation.vehicleType = this.vehicle;
+        spritesImgsInformation.vehicleRealistic = this.realisticImgs;
+        spritesImgsInformation.vehicleIndex = this.vehicleImgIndex;
+        spritesImgsInformation.logoIndex = this.logoImgIndex;
+        spritesImgsInformation.backgroundIndex = this.backgroundImgIndex;
         canvasInformations.showOfficialLogo = this.showOfficialLogo;
 
         // Loading track and spritesheet based on trackFilename and spritesFilename options
@@ -898,13 +908,13 @@ define(function (require, exports, module) {
             if(configurationFiles.trackJSON){
                 let aux = JSON.parse(configurationFiles.trackJSON);
                 controllable_car=aux.controllable_car;
-                laneWidth=aux.laneWidth;
-                numLanes=aux.numLanes;
-                numberOfSegmentPerColor=aux.numberOfSegmentPerColor;
+                arcadeParams.laneWidth=aux.laneWidth;
+                arcadeParams.numLanes=aux.numLanes;
+                arcadeParams.numberOfSegmentPerColor=aux.numberOfSegmentPerColor;
                 render=aux.render;
-                topSpeed=aux.topSpeed;
-                trackParam=aux.trackParam;
-                trackSegmentSize=aux.trackSegmentSize;
+                arcadeParams.topSpeed=aux.topSpeed;
+                arcadeParams.trackParam=aux.trackParam;
+                arcadeParams.trackSegmentSize=aux.trackSegmentSize;
                 readColorsJSON.grass1=aux.trackColors.grass1;
                 readColorsJSON.border1=aux.trackColors.border1;
                 readColorsJSON.border2=aux.trackColors.border2;
@@ -923,25 +933,25 @@ define(function (require, exports, module) {
 
             let backgroundRegex, logoRegex, frontRegex, leftRegex, rightRegex;
 
-            if(vehicleRealistic){
+            if(spritesImgsInformation.vehicleRealistic){
                 realPrefix="real_";
             }else{
                 realPrefix="";
             }
 
-            if(backgroundIndex!==null){
+            if(spritesImgsInformation.backgroundIndex!==null){
                 backgroundRegex = new RegExp("^"+realPrefix+"background"+this.backgroundImgIndex+"$");
             }else{
                 backgroundRegex = new RegExp("^"+realPrefix+"background");
             }
 
-            if(logoIndex!==null){
+            if(spritesImgsInformation.logoIndex!==null){
                 logoRegex   = new RegExp("^"+realPrefix+"logo"+this.logoImgIndex+"$");
             }else{
                 logoRegex   = new RegExp("^"+realPrefix+"logo$");
             }
 
-            if(vehicleIndex!==null){
+            if(spritesImgsInformation.vehicleIndex!==null){
                 frontRegex      = new RegExp("^"+realPrefix+this.vehicle+this.vehicleImgIndex+"_faced_front$");
                 leftRegex       = new RegExp("^"+realPrefix+this.vehicle+this.vehicleImgIndex+"_faced_left$");
                 rightRegex      = new RegExp("^"+realPrefix+this.vehicle+this.vehicleImgIndex+"_faced_right$");
@@ -979,8 +989,8 @@ define(function (require, exports, module) {
                 }
 
                 if(main_sprites.background===undefined){
-                    if(vehicleRealistic){
-                        if(backgroundIndex!==null){ // realistic image with that index does not exist
+                    if(spritesImgsInformation.vehicleRealistic){
+                        if(spritesImgsInformation.backgroundIndex!==null){ // realistic image with that index does not exist
                             backgroundRegex = new RegExp("^"+realPrefix+"background$");
                         }else{  // realistic image does not exist
                             backgroundRegex = new RegExp("^background");
@@ -1001,8 +1011,8 @@ define(function (require, exports, module) {
                 }
 
                 if(main_sprites.logo===undefined){
-                    if(vehicleRealistic){
-                        if(logoIndex!==null){
+                    if(spritesImgsInformation.vehicleRealistic){
+                        if(spritesImgsInformation.logoIndex!==null){
                             logoRegex   = new RegExp("^"+realPrefix+"logo$");
                         }else{
                             logoRegex   = new RegExp("^logo$");
@@ -1023,21 +1033,21 @@ define(function (require, exports, module) {
                 }
 
                 if(vehicle_faced_front===undefined || main_sprites.vehicle_faced_left===undefined || main_sprites.vehicle_faced_right===undefined){
-                    if(vehicleRealistic){
-                        if(vehicleIndex!==null){ // Realistic image with index does not exist
-                            frontRegex      = new RegExp("^"+realPrefix+vehicleType+"_faced_front$");
-                            leftRegex       = new RegExp("^"+realPrefix+vehicleType+"_faced_left$");
-                            rightRegex      = new RegExp("^"+realPrefix+vehicleType+"_faced_right$");
+                    if(spritesImgsInformation.vehicleRealistic){
+                        if(spritesImgsInformation.vehicleIndex!==null){ // Realistic image with index does not exist
+                            frontRegex      = new RegExp("^"+realPrefix+spritesImgsInformation.vehicleType+"_faced_front$");
+                            leftRegex       = new RegExp("^"+realPrefix+spritesImgsInformation.vehicleType+"_faced_left$");
+                            rightRegex      = new RegExp("^"+realPrefix+spritesImgsInformation.vehicleType+"_faced_right$");
                         }else{ // Realistic image without index does not exist
-                            frontRegex      = new RegExp("^"+vehicleType+"_faced_front$");
-                            leftRegex       = new RegExp("^"+vehicleType+"_faced_left$");
-                            rightRegex      = new RegExp("^"+vehicleType+"_faced_right$");
+                            frontRegex      = new RegExp("^"+spritesImgsInformation.vehicleType+"_faced_front$");
+                            leftRegex       = new RegExp("^"+spritesImgsInformation.vehicleType+"_faced_left$");
+                            rightRegex      = new RegExp("^"+spritesImgsInformation.vehicleType+"_faced_right$");
                         }
                     }
                     else{
-                        frontRegex      = new RegExp("^"+vehicleType+"_faced_front$");
-                        leftRegex       = new RegExp("^"+vehicleType+"_faced_left$");
-                        rightRegex      = new RegExp("^"+vehicleType+"_faced_right$");
+                        frontRegex      = new RegExp("^"+spritesImgsInformation.vehicleType+"_faced_front$");
+                        leftRegex       = new RegExp("^"+spritesImgsInformation.vehicleType+"_faced_left$");
+                        rightRegex      = new RegExp("^"+spritesImgsInformation.vehicleType+"_faced_right$");
                     }
 
                     for(let k=0;k<spritesReadJSON.frames.length;k++){
@@ -1070,7 +1080,7 @@ define(function (require, exports, module) {
                         if(spritesAvailable[k].name.match(/^logo$/)){
                             main_sprites.logo = spritesAvailable[k].value;
                         }
-                        if(vehicleType==="airplane"){
+                        if(spritesImgsInformation.vehicleType==="airplane"){
                             if(spritesAvailable[k].name.match(/^airplane_faced_front$/)){
                                 vehicle_faced_front = spritesAvailable[k].value;
                             }
@@ -1081,7 +1091,7 @@ define(function (require, exports, module) {
                                 main_sprites.vehicle_faced_right = spritesAvailable[k].value;
                             }
                         }
-                        else if(vehicleType==="bicycle"){
+                        else if(spritesImgsInformation.vehicleType==="bicycle"){
                             if(spritesAvailable[k].name.match(/^bicycle_faced_front$/)){
                                 vehicle_faced_front = spritesAvailable[k].value;
                             }
@@ -1092,7 +1102,7 @@ define(function (require, exports, module) {
                                 main_sprites.vehicle_faced_right = spritesAvailable[k].value;
                             }
                         }
-                        else if(vehicleType==="car") {
+                        else if(spritesImgsInformation.vehicleType==="car") {
                             if(spritesAvailable[k].name.match(/^car_faced_front$/)){
                                 vehicle_faced_front = spritesAvailable[k].value;
                             }
@@ -1103,7 +1113,7 @@ define(function (require, exports, module) {
                                 main_sprites.vehicle_faced_right = spritesAvailable[k].value;
                             }
                         }
-                        else if(vehicleType==="helicopter"){
+                        else if(spritesImgsInformation.vehicleType==="helicopter"){
                             if(spritesAvailable[k].name.match(/^helicopter_faced_front$/)){
                                 vehicle_faced_front = spritesAvailable[k].value;
                             }
@@ -1114,7 +1124,7 @@ define(function (require, exports, module) {
                                 main_sprites.vehicle_faced_right = spritesAvailable[k].value;
                             }
                         }
-                        else if(vehicleType==="motorbike"){
+                        else if(spritesImgsInformation.vehicleType==="motorbike"){
                             if(spritesAvailable[k].name.match(/^motorbike_faced_front$/)){
                                 vehicle_faced_front = spritesAvailable[k].value;
                             }
@@ -1206,7 +1216,7 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.getNrIterations = function () {
         try {
-            numIterations = trackParam.numZones * trackParam.zoneSize;
+            arcadeParams.numIterations = arcadeParams.trackParam.numZones * arcadeParams.trackParam.zoneSize;
             clearInterval(loadingTrackNrIterations);
         } catch (error) {
             console.log("Error Loading Track... "+error);
@@ -1918,7 +1928,7 @@ define(function (require, exports, module) {
      * @param position2 {Float}
      * @param scale2 {Float}
      * @param offset2 {Float}
-     * @param finishStart {Boolean} Value of comparison "currentSegmentIndex == 2 || currentSegmentIndex == (numIterations-render.depthOfField)", which verifies if current segment
+     * @param finishStart {Boolean} Value of comparison "currentSegmentIndex == 2 || currentSegmentIndex == (arcadeParams.numIterations-render.depthOfField)", which verifies if current segment
      * is the second or the last segment, i.e. the starting segment or the final segment to be rendered.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -1934,31 +1944,31 @@ define(function (require, exports, module) {
             canvasInformations.context.fillRect(0,position2,render.width,(position1-position2));
 
             // draw the track
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, trackP1, trackP2, "#fff");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, stripeConfiguration.trackP1, stripeConfiguration.trackP2, "#fff");
 
             //draw the track border
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, borderP1, borderP2, arcadeColors.border);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -borderP2, -borderP1, arcadeColors.border);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, stripeConfiguration.borderP1, stripeConfiguration.borderP2, arcadeColors.border);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -stripeConfiguration.borderP2, -stripeConfiguration.borderP1, arcadeColors.border);
 
             //draw the track outborder dark green
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, inBorderP1, inBorderP2, arcadeColors.outborder_end);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, landscapeOutBorderP1, landscapeOutBorderP2, arcadeColors.outborder);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, outBorderP2, outBorderP1, arcadeColors.outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, stripeConfiguration.inBorderP1, stripeConfiguration.inBorderP2, arcadeColors.outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, stripeConfiguration.landscapeOutBorderP1, stripeConfiguration.landscapeOutBorderP2, arcadeColors.outborder);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, stripeConfiguration.outBorderP2, stripeConfiguration.outBorderP1, arcadeColors.outborder_end);
 
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -inBorderP2, -inBorderP1, arcadeColors.outborder_end);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -landscapeOutBorderP2, -landscapeOutBorderP1, arcadeColors.outborder);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -outBorderP1, -outBorderP2, arcadeColors.outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -stripeConfiguration.inBorderP2, -stripeConfiguration.inBorderP1, arcadeColors.outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -stripeConfiguration.landscapeOutBorderP2, -stripeConfiguration.landscapeOutBorderP1, arcadeColors.outborder);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -stripeConfiguration.outBorderP1, -stripeConfiguration.outBorderP2, arcadeColors.outborder_end);
 
             // // draw the lane line
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, laneP1, laneP2, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, laneP3, laneP4, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, laneP5, laneP6, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, laneP7, laneP8, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -laneP8, 0, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -laneP6, -laneP7, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -laneP4, -laneP5, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -laneP2, -laneP3, "#000");
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -laneP1+diffLanesFinishLine, -laneP1, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, stripeConfiguration.laneP1, stripeConfiguration.laneP2, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, stripeConfiguration.laneP3, stripeConfiguration.laneP4, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, stripeConfiguration.laneP5, stripeConfiguration.laneP6, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, stripeConfiguration.laneP7, stripeConfiguration.laneP8, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -stripeConfiguration.laneP8, 0, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -stripeConfiguration.laneP6, -stripeConfiguration.laneP7, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -stripeConfiguration.laneP4, -stripeConfiguration.laneP5, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -stripeConfiguration.laneP2, -stripeConfiguration.laneP3, "#000");
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -stripeConfiguration.laneP1+stripeConfiguration.diffLanesFinishLine, -stripeConfiguration.laneP1, "#000");
 
             // draw arrow or guiding line
             // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, arcadeColors.laneArrow);
@@ -1979,24 +1989,24 @@ define(function (require, exports, module) {
             canvasInformations.context.fillRect(0,position2,render.width,(position1-position2));
 
             // draw the track
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, trackP1, trackP2, arcadeColors.track_segment);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, stripeConfiguration.trackP1, stripeConfiguration.trackP2, arcadeColors.track_segment);
 
             //draw the track border
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, borderP1, borderP2, arcadeColors.border);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -borderP2, -borderP1, arcadeColors.border);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, stripeConfiguration.borderP1, stripeConfiguration.borderP2, arcadeColors.border);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -stripeConfiguration.borderP2, -stripeConfiguration.borderP1, arcadeColors.border);
 
             //draw the track outborder dark green
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, inBorderP1, inBorderP2, arcadeColors.outborder_end);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, landscapeOutBorderP1, landscapeOutBorderP2, arcadeColors.outborder);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, outBorderP2, outBorderP1, arcadeColors.outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, stripeConfiguration.inBorderP1, stripeConfiguration.inBorderP2, arcadeColors.outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, stripeConfiguration.landscapeOutBorderP1, stripeConfiguration.landscapeOutBorderP2, arcadeColors.outborder);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, stripeConfiguration.outBorderP2, stripeConfiguration.outBorderP1, arcadeColors.outborder_end);
 
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -inBorderP2, -inBorderP1, arcadeColors.outborder_end);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -landscapeOutBorderP2, -landscapeOutBorderP1, arcadeColors.outborder);
-            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -outBorderP1, -outBorderP2, arcadeColors.outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -stripeConfiguration.inBorderP2, -stripeConfiguration.inBorderP1, arcadeColors.outborder_end);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -stripeConfiguration.landscapeOutBorderP2, -stripeConfiguration.landscapeOutBorderP1, arcadeColors.outborder);
+            Arcade.prototype.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -stripeConfiguration.outBorderP1, -stripeConfiguration.outBorderP2, arcadeColors.outborder_end);
 
             // draw the lane line
-            Arcade.prototype.drawLanes(position1, scale1, offset1, position2, scale2, offset2, arcadeColors.lane, numLanes, laneWidth);
-            // Arcade.prototype.drawLanePos(position1, scale1, offset1, position2, scale2, offset2, arcadeColors.lane, 0, laneWidth);
+            Arcade.prototype.drawLanes(position1, scale1, offset1, position2, scale2, offset2, arcadeColors.lane, arcadeParams.numLanes, arcadeParams.laneWidth);
+            // Arcade.prototype.drawLanePos(position1, scale1, offset1, position2, scale2, offset2, arcadeColors.lane, 0, arcadeParams.laneWidth);
 
             // draw arrow or guiding line
             // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, arcadeColors.laneArrow);
@@ -2070,9 +2080,9 @@ define(function (require, exports, module) {
         let vehicleXRightPosition;
         let vehicleYRightPosition;
 
-        switch (vehicleType) {
+        switch (spritesImgsInformation.vehicleType) {
             case "airplane":
-                if(vehicleIndex===2){
+                if(spritesImgsInformation.vehicleIndex===2){
                     vehicleXFrontPosition = 50;
                     vehicleYFrontPosition = 110;
                     vehicleXLeftPosition= 50;
@@ -2089,7 +2099,7 @@ define(function (require, exports, module) {
                 }
                 break;
             case "bicycle":
-                if(vehicleRealistic){
+                if(spritesImgsInformation.vehicleRealistic){
                     vehicleXFrontPosition = 135;
                     vehicleYFrontPosition = 160;
                     vehicleXLeftPosition= 135;
@@ -2106,7 +2116,7 @@ define(function (require, exports, module) {
                 }
                 break;
             case "car":
-                if(vehicleRealistic){
+                if(spritesImgsInformation.vehicleRealistic){
                     vehicleXFrontPosition = 125;
                     vehicleYFrontPosition = 180;
                     vehicleXLeftPosition= 125;
@@ -2131,7 +2141,7 @@ define(function (require, exports, module) {
                 vehicleYRightPosition= 60;
                 break;
             case "motorbike":
-                if(vehicleRealistic){
+                if(spritesImgsInformation.vehicleRealistic){
                     vehicleXFrontPosition = 130;
                     vehicleYFrontPosition = 160;
                     vehicleXLeftPosition= 130;
@@ -2294,9 +2304,9 @@ define(function (require, exports, module) {
             auxiliaryPVSValues.newPositionAux = lastPVSValues.lastPositionPVS;
         }
 
-        switch (vehicleType) {
+        switch (spritesImgsInformation.vehicleType) {
             case "airplane":
-                if(vehicleIndex===2){
+                if(spritesImgsInformation.vehicleIndex===2){
                     if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
                         auxiliaryPVSValues.vehicleXPositionAux= 50;
                         auxiliaryPVSValues.vehicleYPositionAux= 70;
@@ -2321,7 +2331,7 @@ define(function (require, exports, module) {
                 }
                 break;
             case "bicycle":
-                if(vehicleRealistic){
+                if(spritesImgsInformation.vehicleRealistic){
                     if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
                         auxiliaryPVSValues.vehicleXPositionAux= 135;
                         auxiliaryPVSValues.vehicleYPositionAux= 160;
@@ -2346,7 +2356,7 @@ define(function (require, exports, module) {
                 }
                 break;
             case "car":
-                if(vehicleRealistic){
+                if(spritesImgsInformation.vehicleRealistic){
                     if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
                         auxiliaryPVSValues.vehicleXPositionAux= 125;
                         auxiliaryPVSValues.vehicleYPositionAux= 180;
@@ -2383,7 +2393,7 @@ define(function (require, exports, module) {
                 }
                 break;
             case "motorbike":
-                if(vehicleRealistic){
+                if(spritesImgsInformation.vehicleRealistic){
                     if(auxiliaryPVSValues.vehicleCurrentDirectionAux==="left"){
                         auxiliaryPVSValues.vehicleXPositionAux= 130;
                         auxiliaryPVSValues.vehicleYPositionAux= 160;
@@ -2478,19 +2488,19 @@ define(function (require, exports, module) {
         let spriteBuffer = [];
 
         // Render the track
-        let absoluteIndex = Math.floor(controllable_car.position / trackSegmentSize);
+        let absoluteIndex = Math.floor(controllable_car.position / arcadeParams.trackSegmentSize);
 
         let currentSegmentIndex    = (absoluteIndex - 2) % track.length;
-        let currentSegmentPosition = (absoluteIndex - 2) * trackSegmentSize - controllable_car.position;
+        let currentSegmentPosition = (absoluteIndex - 2) * arcadeParams.trackSegmentSize - controllable_car.position;
         let currentSegment         = track[currentSegmentIndex];
 
         let lastProjectedHeight     = Number.POSITIVE_INFINITY;
         let probedDepth             = 0;
-        let counter                 = absoluteIndex % (2 * numberOfSegmentPerColor); // for alternating color band
+        let counter                 = absoluteIndex % (2 * arcadeParams.numberOfSegmentPerColor); // for alternating color band
 
         let controllable_carPosSegmentHeight     = track[absoluteIndex % track.length].height;
         let controllable_carPosNextSegmentHeight = track[(absoluteIndex + 1) % track.length].height;
-        let controllable_carPosRelative          = (controllable_car.position % trackSegmentSize) / trackSegmentSize;
+        let controllable_carPosRelative          = (controllable_car.position % arcadeParams.trackSegmentSize) / arcadeParams.trackSegmentSize;
         let controllable_carHeight               = render.camera_height + controllable_carPosSegmentHeight + (controllable_carPosNextSegmentHeight - controllable_carPosSegmentHeight) * controllable_carPosRelative;
 
         let baseOffset                 =  currentSegment.curve + (track[(currentSegmentIndex + 1) % track.length].curve - currentSegment.curve) * controllable_carPosRelative;
@@ -2506,21 +2516,21 @@ define(function (require, exports, module) {
             let startProjectedHeight = Math.floor((controllable_carHeight - currentSegment.height) * render.camera_distance / (render.camera_distance + currentSegmentPosition));
             let startScaling         = 30 / (render.camera_distance + currentSegmentPosition);
 
-            let endProjectedHeight   = Math.floor((controllable_carHeight - nextSegment.height) * render.camera_distance / (render.camera_distance + currentSegmentPosition + trackSegmentSize));
-            let endScaling           = 30 / (render.camera_distance + currentSegmentPosition + trackSegmentSize);
+            let endProjectedHeight   = Math.floor((controllable_carHeight - nextSegment.height) * render.camera_distance / (render.camera_distance + currentSegmentPosition + arcadeParams.trackSegmentSize));
+            let endScaling           = 30 / (render.camera_distance + currentSegmentPosition + arcadeParams.trackSegmentSize);
 
             let currentHeight        = Math.min(lastProjectedHeight, startProjectedHeight);
             let currentScaling       = startScaling;
 
             if(currentHeight > endProjectedHeight){
-                Arcade.prototype.setColorsCanvas(counter < numberOfSegmentPerColor, readColorsJSON.grass1, readColorsJSON.border1, readColorsJSON.border2, readColorsJSON.outborder1, readColorsJSON.outborder_end1, readColorsJSON.track_segment1, readColorsJSON.lane1, readColorsJSON.lane2, readColorsJSON.laneArrow1);
+                Arcade.prototype.setColorsCanvas(counter < arcadeParams.numberOfSegmentPerColor, readColorsJSON.grass1, readColorsJSON.border1, readColorsJSON.border2, readColorsJSON.outborder1, readColorsJSON.outborder_end1, readColorsJSON.track_segment1, readColorsJSON.lane1, readColorsJSON.lane2, readColorsJSON.laneArrow1);
                 Arcade.prototype.drawSegment(
                     render.height / 2 + currentHeight,
                     currentScaling, currentSegment.curve - baseOffset - lastDelta * currentScaling,
                     render.height / 2 + endProjectedHeight,
                     endScaling,
                     nextSegment.curve - baseOffset - lastDelta * endScaling,
-                    currentSegmentIndex === 2 || currentSegmentIndex === (numIterations-render.depthOfField));
+                    currentSegmentIndex === 2 || currentSegmentIndex === (arcadeParams.numIterations-render.depthOfField));
             }
             if(currentSegment.sprite){
                 spriteBuffer.push(
@@ -2543,9 +2553,9 @@ define(function (require, exports, module) {
             currentSegmentIndex    = nextSegmentIndex;
             currentSegment         = nextSegment;
 
-            currentSegmentPosition += trackSegmentSize;
+            currentSegmentPosition += arcadeParams.trackSegmentSize;
 
-            counter = (counter + 1) % (2 * numberOfSegmentPerColor);
+            counter = (counter + 1) % (2 * arcadeParams.numberOfSegmentPerColor);
         }
 
         while((sptB = spriteBuffer.pop())!==undefined) {
@@ -2555,12 +2565,12 @@ define(function (require, exports, module) {
         // Draw the car
         Arcade.prototype.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
 
-        lapInformation.currentPercentage = Math.round(absoluteIndex/(numIterations-render.depthOfField)*100);
+        lapInformation.currentPercentage = Math.round(absoluteIndex/(arcadeParams.numIterations-render.depthOfField)*100);
 
         if(WIDGETSTATE!==null){
             lapInformation.currentLapNumber = parseInt(WIDGETSTATE[vehicle.lap_attribute][vehicle.lap_value]);
 
-            if(absoluteIndex >= numIterations-render.depthOfField-1){
+            if(absoluteIndex >= arcadeParams.numIterations-render.depthOfField-1){
                 if(lapInformation.currentLapNumber<=lapInformation.lapNumber && lapInformation.counterAux===0){
                     ButtonActionsQueue.queueGUIAction("new_lap", lapInformation.callback);
                 }
@@ -2596,7 +2606,7 @@ define(function (require, exports, module) {
             Arcade.prototype.drawText("Lap "+lapInformation.lapNumber+"/"+lapInformation.lapNumber,{x: 10, y: 1}, 1);
         }
 
-        // lapInformation.currentPercentage = Math.round(absoluteIndex/(numIterations-render.depthOfField)*100);
+        // lapInformation.currentPercentage = Math.round(absoluteIndex/(arcadeParams.numIterations-render.depthOfField)*100);
         if(lapInformation.currentPercentage>100){
             Arcade.prototype.drawText("Current Lap 100%",{x: 100, y: 1},1);
         }else{
