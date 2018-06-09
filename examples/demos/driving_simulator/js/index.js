@@ -551,7 +551,7 @@ require([
         car.customization.setLastRenderingDiv("gauge");
 
         // ---------------- STEERING WHEEL ----------------
-        car.steeringWheel = new SteeringWheel("steering_wheel_2", {
+        car.steeringWheel = new SteeringWheel("steering_wheel", {
             top: 140,
             left: 30,
             width: 600,
@@ -604,8 +604,6 @@ require([
                 client.getWebSocket().sendGuiAction("init(0);", onMessageReceived);
                 d3.select(".demo-splash").style("display", "none");
                 d3.select(".content").style("display", "block");
-                // // start the simulation
-                // start_tick();
             });
         }).addListener("WebSocketConnectionClosed", (e) => {
             console.log("web socket closed");
