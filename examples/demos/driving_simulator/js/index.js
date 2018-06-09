@@ -21,7 +21,6 @@ require.config({
 });
 
 require([
-        "widgets/car/ButtonExternalController",
         "widgets/TouchscreenButton",
         "widgets/TouchscreenDisplay",
         "widgets/BasicDisplay",
@@ -35,17 +34,12 @@ require([
         // "widgets/car/Clock",
         // "widgets/car/Thermometer",
         "widgets/car/SteeringWheel",
-        "widgets/car/VirtualKeypadController",
-        "widgets/car/GamepadController",
-        "widgets/car/DrawGamepad",
-        "widgets/car/GyroscopeController",
         "widgets/car/Customization",
 
         "widgets/ButtonActionsQueue",
         "stateParser",
         "PVSioWebClient"
     ],  (
-        ButtonExternalController,
         TouchscreenButton,
         TouchscreenDisplay,
         BasicDisplay,
@@ -59,10 +53,6 @@ require([
         // Clock,
         // Thermometer,
         SteeringWheel,
-        VirtualKeypadController,
-        GamepadController,
-        DrawGamepad,
-        GyroscopeController,
         Customization,
 
         ButtonActionsQueue,
@@ -544,45 +534,6 @@ require([
             callback: onMessageReceived
         });
 
-        // ----------------------------- DASHBOARD INTERACTION -----------------------------
-        car.up = new ButtonExternalController("accelerate", { width: 0, height: 0 }, {
-            callback: onMessageReceived,
-            evts: ['press/release'],
-            keyCode: 38 // key up
-        });
-        car.down = new ButtonExternalController("brake", { width: 0, height: 0 }, {
-            callback: onMessageReceived,
-            evts: ['press/release'],
-            keyCode: 40 // key down
-        });
-
-        // ----------------------------- ARCADE GAME INTERACTION -----------------------------
-        car.resume = new ButtonExternalController("resume", { width: 0, height: 0 }, {
-            callback: onMessageReceived,
-            evts: ['press/release'],
-            keyCode: 32 // key space
-        });
-        car.pause = new ButtonExternalController("pause", { width: 0, height: 0 }, {
-            callback: onMessageReceived,
-            evts: ['press/release'],
-            keyCode: 83 // key 's'
-        });
-        car.quit = new ButtonExternalController("quit", { width: 0, height: 0 }, {
-            callback: onMessageReceived,
-            evts: ['press/release'],
-            keyCode: 81 // key 'q'
-        });
-        car.mute = new ButtonExternalController("mute", { width: 0, height: 0 }, {
-            callback: onMessageReceived,
-            evts: ['press/release'],
-            keyCode: 77 // key 'm'
-        });
-        car.unmute = new ButtonExternalController("unmute", { width: 0, height: 0 }, {
-            callback: onMessageReceived,
-            evts: ['press/release'],
-            keyCode: 85 // key 'u'
-        });
-
         // ----------------------------- DASHBOARD COMPONENTS -----------------------------
         // ---------------- SPEEDOMETER ----------------
         car.speedometerGauge = new Speedometer('speedometer-gauge', {
@@ -600,7 +551,7 @@ require([
         car.customization.setLastRenderingDiv("gauge");
 
         // ---------------- STEERING WHEEL ----------------
-        car.steeringWheel = new SteeringWheel("steering_wheel", {
+        car.steeringWheel = new SteeringWheel("steering_wheel_2", {
             top: 140,
             left: 30,
             width: 600,
@@ -622,15 +573,21 @@ require([
         */
         
         // Render car dashboard components
+        let countTickInit = 0;
         let initalPVSState=null;
         let render = (res) => {
             car.customization.render();
-            car.speedometerGauge.render(evaluate(res.speed.val));
-            car.tachometerGauge.render(evaluate(res.rpm));
-            car.steeringWheel.render(evaluate(res.steering));
             initalPVSState=res;
             if(parseInt(d3.select("#demo-End")[0][0].innerHTML)===1){
-                car.arcadeWidget.render(res);
+                car.arcadeWidget.render(res);                
+                car.speedometerGauge.render(evaluate(res.speed.val));
+                car.tachometerGauge.render(evaluate(res.rpm));
+                car.steeringWheel.render(evaluate(res.steering));
+                if(countTickInit===0){
+                    // starts the simulation only one time
+                    start_tick();
+                    countTickInit++;
+                }
             }
         }
 
@@ -647,8 +604,8 @@ require([
                 client.getWebSocket().sendGuiAction("init(0);", onMessageReceived);
                 d3.select(".demo-splash").style("display", "none");
                 d3.select(".content").style("display", "block");
-                // start the simulation
-                start_tick();
+                // // start the simulation
+                // start_tick();
             });
         }).addListener("WebSocketConnectionClosed", (e) => {
             console.log("web socket closed");

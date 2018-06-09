@@ -770,6 +770,7 @@ define(function (require, exports, module) {
     let GamepadController = require("widgets/car/GamepadController");
     let TrackGenerator = require("widgets/car/TrackGenerator");
     let Arcade = require("widgets/car/Arcade");
+    let ButtonExternalController = require("widgets/car/ButtonExternalController");
      
     /**
      * @function constructor
@@ -1627,7 +1628,44 @@ define(function (require, exports, module) {
                     let numLaps_Final=sliders.maxValueLapNumber.value;
                     let usePVS_Final=sliders.maxValuePVSInstructions.value;
 
-                    // TODO send this values to TrackGenerator Widget to create the desired track
+                    // ----------------------------- DASHBOARD INTERACTION -----------------------------
+                    car.up = new ButtonExternalController("accelerate", { width: 0, height: 0 }, {
+                        callback: callback,
+                        evts: ['press/release'],
+                        keyCode: 38 // key up
+                    });
+                    car.down = new ButtonExternalController("brake", { width: 0, height: 0 }, {
+                        callback: callback,
+                        evts: ['press/release'],
+                        keyCode: 40 // key down
+                    });
+
+                    // ----------------------------- ARCADE GAME INTERACTION -----------------------------
+                    car.resume = new ButtonExternalController("resume", { width: 0, height: 0 }, {
+                        callback: callback,
+                        evts: ['press/release'],
+                        keyCode: 32 // key space
+                    });
+                    car.pause = new ButtonExternalController("pause", { width: 0, height: 0 }, {
+                        callback: callback,
+                        evts: ['press/release'],
+                        keyCode: 83 // key 's'
+                    });
+                    car.quit = new ButtonExternalController("quit", { width: 0, height: 0 }, {
+                        callback: callback,
+                        evts: ['press/release'],
+                        keyCode: 81 // key 'q'
+                    });
+                    car.mute = new ButtonExternalController("mute", { width: 0, height: 0 }, {
+                        callback: callback,
+                        evts: ['press/release'],
+                        keyCode: 77 // key 'm'
+                    });
+                    car.unmute = new ButtonExternalController("unmute", { width: 0, height: 0 }, {
+                        callback: callback,
+                        evts: ['press/release'],
+                        keyCode: 85 // key 'u'
+                    });
 
                     // ---------------- SPEEDOMETER ----------------
                     car.speedometerGauge = new Speedometer('speedometer-gauge', {
