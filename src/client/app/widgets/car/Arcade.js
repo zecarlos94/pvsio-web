@@ -850,6 +850,86 @@ define(function (require, exports, module) {
     Arcade.prototype.parentClass = Widget.prototype;
 
     /**
+     * @function startSimulation
+     * @public
+     * @description StartSimulation method of the Arcade widget. This method sets timeout to load all configuration files provided as opt fields (dynamic require).
+     * @memberof module:Arcade
+     * @instance
+     */
+    Arcade.prototype.startSimulation = function () {
+        // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
+        
+        // this.intervalID = setInterval(
+        //     (function(self) {         //Self-executing func which takes 'this' as self
+        //         return function() {   //Return a function in the context of 'self'
+        //             self.retrieve_rate(); //Thing you wanted to run as non-window 'this'
+        //         }
+        //     })(this),
+        //     this.INTERVAL     //normal interval, 'this' scope not impacted here.
+        // ); 
+
+        setTimeout(
+            (function(self) {         //Self-executing func which takes 'this' as self
+                return function() {   //Return a function in the context of 'self'
+                    self.startSimulationAux(); //Thing you wanted to run as non-window 'this'
+                }
+            })(this),
+            50     //normal interval, 'this' scope not impacted here.
+        ); 
+    };
+
+    /**
+     * @function startSimulationAux
+     * @public
+     * @description StartSimulationAux method of the Arcade widget. This method loads the desired JSON Files and starts the corresponding simulation.
+     * @memberof module:Arcade
+     * @instance
+     */
+    Arcade.prototype.startSimulationAux = function () { 
+        if(this.predefinedTracks!==null){
+            switch(this.predefinedTracks){
+                case 1:
+                    this.configurationFiles.trackJSON = this.configurationFiles.trackLayout1Predefined;
+                    break;
+                case 2:
+                    this.configurationFiles.trackJSON = this.configurationFiles.trackLayout2Predefined;
+                    break;
+                case 3:
+                    this.configurationFiles.trackJSON = this.configurationFiles.trackLayout3Predefined;
+                    break;
+                case 4:
+                    this.configurationFiles.trackJSON = this.configurationFiles.trackLayout4Predefined;
+                    break;
+                case 5:
+                    this.configurationFiles.trackJSON = this.configurationFiles.trackLayout5Predefined;
+                    break;
+                case 6:
+                    this.configurationFiles.trackJSON = this.configurationFiles.trackLayout6Predefined;
+                    break;
+                case 7:
+                    this.configurationFiles.trackJSON = this.configurationFiles.trackLayout7Predefined;
+                    break;
+                case 8:
+                    this.configurationFiles.trackJSON = this.configurationFiles.trackLayout8Predefined;
+                    break;
+                case 9:
+                    this.configurationFiles.trackJSON = this.configurationFiles.trackLayout9Predefined;
+                    break;
+                case -1:
+                    this.configurationFiles.trackJSON = this.configurationFiles.trackStraightJSONPredefined;
+                    break;
+                case -2:
+                    this.configurationFiles.trackJSON = this.configurationFiles.trackCurvesSlopesJSONPredefined;
+                    break;
+            }
+            this.configurationFiles.spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field_"+this.WIDGETID).innerHTML;
+        }else{
+            this.configurationFiles.trackJSON = document.getElementById("track_file_loaded_opt_field_"+this.WIDGETID).innerHTML;
+            this.configurationFiles.spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field_"+this.WIDGETID).innerHTML;
+        }
+    };
+
+    /**
      * @function hide
      * @public
      * @description Hide method of the Arcade widget. This method changes the current main div visibility to 'hidden'.
@@ -857,9 +937,6 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.hide = function () {
-        // console.log(this.WIDGETSTATE);
-        // console.log(this.WIDGETID);
-        // console.log(this.stripeConfiguration);
         return this.div.style("visibility", "hidden");
     };
 
@@ -871,11 +948,6 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.reveal = function () {
-        // console.log(this.WIDGETSTATE);
-        // console.log(this.WIDGETID);
-        // console.log(this.stripeConfiguration);
-        // this.detectBrowserType();
-        // console.log(this.currentBrowser);
         return this.div.style("visibility", "visible");
     };
 

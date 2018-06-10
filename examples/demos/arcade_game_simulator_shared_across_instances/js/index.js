@@ -478,9 +478,9 @@ require([
         });
 
         document.getElementById("tog").style.left = "625px";
-        // arcade.arcadeWidget.startSimulation();
-        // arcade.arcadeWidget2.startSimulation();
-        // arcade.arcadeWidget3.startSimulation();
+        arcade.arcadeWidget.startSimulation();
+        arcade.arcadeWidget2.startSimulation();
+        arcade.arcadeWidget3.startSimulation();
 
         // Render arcade game components
         function render(res) {
