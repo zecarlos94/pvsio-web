@@ -1214,17 +1214,166 @@ define(function (require, exports, module) {
                 }
             })(this));
 
-            // this.spritesheetsImages[0].onload = function(){
-            //     // this.intervals.splashInterval = setInterval(
-            //     //     (function(self) {         //Self-executing func which takes 'this' as self
-            //     //         return function() {   //Return a function in the context of 'self'
-            //     //             self.renderSplashFrame(); //Thing you wanted to run as non-window 'this'
-            //     //         }
-            //     //     })(this),
-            //     //     30     //normal interval, 'this' scope not impacted here.
-            //     // ); 
-            // };
+            this.spritesheetsImages[0].onload = (function(self) {         
+                //Self-executing func which takes 'this' as self
+                return function() {   //Return a function in the context of 'self'
+                    self.intervals.splashInterval = setInterval(
+                        (function(self2) {         //Self-executing func which takes 'this' as self2
+                            return function() {   //Return a function in the context of 'self2'
+                                self2.renderSplashFrame(); //Thing you wanted to run as non-window 'this'
+                            }
+                        })(self),
+                        30     //normal interval, 'this' scope not impacted here.
+                    ); 
+                }
+            })(this);
 
+        }
+        return this;
+    };
+
+    /**
+     * @function renderSplashFrame
+     * @protected
+     * @description RenderSplashFrame method of the Arcade widget. This method draws the simulator home page, where the commands to control the simulator are displayed.
+     * It is also initialized the lap timer, using jchronometer lib, as soon as the user uses the command to start the simulation(renderSimulatorFrame).
+     * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
+     * @instance
+     */
+    Arcade.prototype.renderSplashFrame = function () {
+
+        console.log("this.WIDGETID: "+this.WIDGETID);
+
+        let c=document.getElementById("arcadeSimulator_arcadeWidget");
+        let ctx=c.getContext("2d");
+
+        ctx.font="30px Verdana";
+        // Create gradient
+        let gradient=ctx.createLinearGradient(0,0,c.width,0);
+        gradient.addColorStop("0","magenta");
+        gradient.addColorStop("0.5","blue");
+        gradient.addColorStop("1.0","red");
+        // Fill with gradient
+        ctx.strokeStyle=gradient;
+        ctx.strokeText("Big smile!",10,50);
+
+        let c2=document.getElementById("arcadeSimulator_arcadeWidget2");
+        let ctx2=c2.getContext("2d");
+
+        ctx2.font="30px Verdana";
+        // Create gradient
+        let gradient2=ctx2.createLinearGradient(0,0,c2.width,0);
+        gradient2.addColorStop("0","magenta");
+        gradient2.addColorStop("0.5","blue");
+        gradient2.addColorStop("1.0","red");
+        // Fill with gradient
+        ctx2.strokeStyle=gradient2;
+        ctx2.strokeText("Big smile 2!",10,50);
+
+        let c3=document.getElementById("arcadeSimulator_arcadeWidget3");
+        let ctx3=c3.getContext("2d");
+
+        ctx3.font="30px Verdana";
+        // Create gradient
+        let gradient3=ctx3.createLinearGradient(0,0,c3.width,0);
+        gradient3.addColorStop("0","magenta");
+        gradient3.addColorStop("0.5","blue");
+        gradient3.addColorStop("1.0","red");
+        // Fill with gradient
+        ctx3.strokeStyle=gradient3;
+        ctx3.strokeText("Big smile 3!",10,50);
+
+
+        // this.canvasInformations.canvas.height = 240;
+        // this.canvasInformations.canvas.width = 320;
+        // this.canvasInformations.context.fillStyle = "rgb(100,200,187)";
+        // this.canvasInformations.context.fillRect(0, 0, this.canvasInformations.canvas.width, this.canvasInformations.canvas.height);
+
+        // if(this.readParams){
+        //     this.canvasInformations.canvas = $("#arcadeSimulator_"+this.WIDGETID)[0];
+        //     this.canvasInformations.context = this.canvasInformations.canvas.getContext('2d');
+        //     // this.canvasInformations.canvas.height = this.renderCanvas.height;
+        //     // this.canvasInformations.canvas.width = this.renderCanvas.width;
+
+        //     if(this.readConfiguration && this.readSprite){
+        //         this.canvasInformations.context.drawImage(this.spritesheetsImages[0],  this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, 110, 15, 0.7*this.main_sprites.logo.w, 0.7*this.main_sprites.logo.h);
+
+        //         this.drawText("Instructions:",{x: 120, y: 90}, 1);
+        //         this.drawText("Click on space bar to start",{x: 60, y: 110}, 1);
+        //         this.drawText("Click on key s to pause",{x: 60, y: 120}, 1);
+        //         this.drawText("Click on key q to end",{x: 60, y: 130}, 1);
+        //         this.drawText("Use left and rigth arrows",{x: 80, y: 145}, 1);
+        //         this.drawText("to control the vehicle",{x: 90, y: 155}, 1);
+        //         this.drawText("You can start now",{x: 110, y: 175}, 1);
+        //         this.drawText("Credits:",{x: 145, y: 195}, 1);
+        //         this.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
+        //         this.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
+
+        //         if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
+        //             clearInterval(this.intervals.splashInterval);
+        //             // this.intervals.simulatorInterval = setInterval(
+        //             //         (function(self) {         //Self-executing func which takes 'this' as self
+        //             //         return function() {   //Return a function in the context of 'self'
+        //             //             self.renderSimulatorFrame(); //Thing you wanted to run as non-window 'this'
+        //             //         }
+        //             //     })(this),
+        //             //     30     //normal interval, 'this' scope not impacted here.
+        //             // ); 
+                                        
+        //             this.soundWidget.reveal();
+        //             this.soundWidget.unmute();
+        //             this.soundWidget.pauseAll();
+
+        //             // this.canvasInformations.chronometer = new Chronometer(
+        //             //     { precision: 10,
+        //             //     ontimeupdate: function (t) {
+        //             //         this.canvasInformations.time = Chronometer.utils.humanFormat(this.canvasInformations.chronometer.getElapsedTime()).split(":");
+        //             //     }
+        //             // });
+        //             // this.canvasInformations.chronometer.start();
+
+        //             this.soundOff = this.soundWidget.getSoundOff();
+        //             if(!this.soundOff && this.WIDGETSTATE[this.vehicle.sound_attribute]===this.vehicle.unmute_attribute){
+        //                 this.soundWidget.playSound(2); //startup song
+        //                 this.soundWidget.playSound(0); //background song
+        //                 this.soundWidget.setVolume(0.4,0);
+        //                 this.soundWidget.onEndedSound(2,[
+        //                     {
+        //                     indexPlayNext: 1, //idle song
+        //                     newVolume: 1.0
+        //                     }
+        //                 ]);
+        //             }
+        //         }
+        //     }else{
+        //         this.drawText("Loading Configurations...",{x: 100, y: 95}, 1);
+        //     }
+        // }else{
+        //     this.drawText("Loading Parameters...",{x: 100, y: 68}, 1);
+        // }
+
+        return this;
+    };
+
+    /**
+     * @function drawText
+     * @protected
+     * @description DrawText method of the Arcade widget. This method draws text using sprite letters to simulate the arcade look.
+     * That is, reading string and for each letter draw the corresponding sprite letter, using image spritesheetsImages[imageIndex].
+     * @param string {String} Text to be rendered with the available text font.
+     * @param pos {Object} Screen coordinates, i.e. object with x, y, width and height values.
+     * @param imageIndex {Int} spritesheetsImages (array) index, which has the text font sprite image.
+     * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
+     * @instance
+     */
+    Arcade.prototype.drawText = function (string, pos, imageIndex) {
+        string = string.toUpperCase();
+        let cur = pos.x;
+        for(let i=0; i < string.length; i++) {
+            this.canvasInformations.context.drawImage(this.spritesheetsImages[imageIndex], (string.charCodeAt(i) - 32) * 8, 0, 8, 8, cur, pos.y, 8, 8);
+            cur += 8;
         }
         return this;
     };
