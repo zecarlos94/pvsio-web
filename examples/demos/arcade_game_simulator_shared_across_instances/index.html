@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link href="../../client/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="../../client/app/plugins/graphbuilder/graph.css" rel="stylesheet" type="text/css" />
+        <link href="../../client/lib/image-picker/css/image-picker.css" rel="stylesheet" type="text/css" />
+        <link href="../../client/lib/image-picker/css/select.css" rel="stylesheet" type="text/css" />
+        <link href="../../client/lib/image-picker/css/slider.css" rel="stylesheet" type="text/css" />
+        <link href="../../client/lib/jquery-ui/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+        <link href="../../client/css/style.css" rel="stylesheet" type="text/css" />
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <link href="css/960.css" rel="stylesheet" type="text/css" />
+        <!-- Recently included files -->
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="../../client/lib/jquery-ui/js/jquery-ui.js"></script>
+    </head>
+    <body>
+        <div id="content" class="content" style="display:none;">
+            <div id="gamepadImage" style="zoom:75%;visibility:hidden;">
+                <!--
+                DrawGamepad widget will append DrawGamepad HTML here
+                -->
+            </div>
+            <div class="container dashboard-container" style="zoom:50%;margin-left: 240px;">
+                <div class="col-xs-4" >
+                    <span id="speedometer-gauge"></span>
+                </div>
+                <div class="col-xs-4">
+                    <span id="tachometer-gauge" style="float:right;"></span>
+                </div>
+            </div>
+            <div id="mobileDevicesController">
+                <!--
+                VirtualKeypadController widget will append VirtualKeypadController HTML here
+                -->
+            </div>
+            <div id="virtualKeyPad">
+                <!--
+                VirtualKeypadController widget will append VirtualKeypadController HTML here
+                -->
+            </div> 
+            <div id="gamepads">
+                <!--
+                GamepadController widget will append GamepadController HTML here
+                -->
+            </div>
+            <div id="tog">
+                <!--
+                    SoundWidget widget will append SoundWidget HTML here
+                -->
+            </div>
+            <div id="game-window">
+                <!--
+                    ArcadeWidget widget will append ArcadeWidget HTML here
+                --> 
+            </div>
+        </div>
+        <div id="splash" class="demo-splash">
+            <div class="loader">
+                <div class="version">Arcade Simulator</div>
+                <div class="bar">
+                    Loading
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+        <script type="application/javascript" src="../../client/lib/layout.js"></script>
+        <script type="application/javascript" src="../../client/lib/promise-0.1.1.js"></script>
+        <!-- <script type="application/javascript" src="../../client/lib/speakClient.js"></script> -->
+        <script type="application/javascript" src="../../client/lib/keys.js"></script>
+        <script type="text/javascript" src="../../client/lib/jquery.js"></script>
+        <script type="text/javascript" src="../../client/lib/underscore/underscore.js"></script>
+        <script type="text/javascript" src="../../client/lib/d3/d3.js"></script>
+        <script type="text/javascript" src="../../client/lib/backbone.js"></script>
+        <script type="text/javascript" src="../../client/lib/handlebars-v1.3.0.js"></script>
+        <script type="text/javascript" src="../../client/lib/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Recently included files -->
+        <script type="text/javascript" src="../../client/lib/image-picker/js/image-picker.min.js"></script>
+        <script type="text/javascript" src="../../client/lib/image-picker/js/imagesloaded.pkgd.min.js"></script>
+        <script type="text/javascript" src="../../client/lib/image-picker/js/masonry.pkgd.min.js"></script>
+        <script type="text/javascript" src="../../client/lib/jchronometer/jchronometer.js"></script>        
+        <script type="text/javascript" src="js/outsources/d3/d3-gauge-plus.min.js"></script> 
+        <script type="text/javascript" src="../../client/require.js" data-main="js/index.js"></script>
+    </body>
+</html>
