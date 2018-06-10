@@ -283,10 +283,10 @@ require([
 
         // ----------------------------- ARCADE GAME COMPONENTS -----------------------------
         arcade.arcadeWidget = new Arcade("arcadeWidget", {
-            top: 20,
-            left: 650,
-            width: 780,
-            height: 650
+            top: 0,
+            left: 700,
+            width: 320,
+            height: 240
         }, {
             parent: "game-window", // defines parent div, which is div id="game-window" by default
             trackFilename: "trackLayout2",// "track-curves-slopes-random", // "track-straight-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
@@ -339,10 +339,10 @@ require([
         });
 
         arcade.arcadeWidget2 = new Arcade("arcadeWidget2", {
-            top: 120,
-            left: 650,
-            width: 780,
-            height: 650
+            top: 40,
+            left: 700,
+            width: 320,
+            height: 240
         }, {
             parent: "game-window", // defines parent div, which is div id="game-window" by default
             trackFilename: "track-straight-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
@@ -395,10 +395,10 @@ require([
         });
 
         arcade.arcadeWidget3 = new Arcade("arcadeWidget3", {
-            top: 220,
-            left: 650,
-            width: 780,
-            height: 650
+            top: 80,
+            left: 700,
+            width: 320,
+            height: 240
         }, {
             parent: "game-window", // defines parent div, which is div id="game-window" by default
             trackFilename: "track-curves-slopes-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default

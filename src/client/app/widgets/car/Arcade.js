@@ -798,12 +798,11 @@ define(function (require, exports, module) {
                         .style("left", this.left + "px")
                         .style("width", this.width + "px")
                         .style("height", this.height + "px");
-                        // .style("border", "5px solid black");
 
         this.div.append("canvas").attr("id", "arcadeSimulator_"+this.id)
-                .style("-webkit-transform","scale(2.4)")
-                .style("margin-top", "170px")
-                .style("margin-left", "215px");
+                .style("-webkit-transform","scale(2.2)")
+                .style("margin-top", "300px")
+                .style("margin-left", "185px");
 
         this.soundWidget = new Sound("soundWidget_"+this.id, {
             top: 625,
@@ -1210,7 +1209,6 @@ define(function (require, exports, module) {
                 return function(el,ind) {   //Return a function in the context of 'self'
                     self.spritesheetsImages[ind] = new Image();
                     self.spritesheetsImages[ind].src = "../../client/app/widgets/car/configurations/img/"+self.spritesFiles[ind]+".png";
-                    // console.log(self.spritesheetsImages); //Thing you wanted to run as non-window 'this'
                 }
             })(this));
 
@@ -1242,87 +1240,75 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.renderSplashFrame = function () {
-        let c=document.getElementById("arcadeSimulator_"+this.WIDGETID);
-        let ctx=c.getContext("2d");
+        this.canvasInformations.canvas.height = 240;
+        this.canvasInformations.canvas.width = 320;
+        this.canvasInformations.context.fillStyle = "rgb(100,200,187)";
+        this.canvasInformations.context.fillRect(0, 0, this.canvasInformations.canvas.width, this.canvasInformations.canvas.height);
+        
+        if(this.readParams){
+            this.canvasInformations.canvas = $("#arcadeSimulator_"+this.WIDGETID)[0];
+            this.canvasInformations.context = this.canvasInformations.canvas.getContext('2d');
+            // this.canvasInformations.canvas.height = this.renderCanvas.height;
+            // this.canvasInformations.canvas.width = this.renderCanvas.width;
 
-        ctx.font="20px Verdana";
-        // Create gradient
-        let gradient=ctx.createLinearGradient(0,0,c.width,0);
-        gradient.addColorStop("0","magenta");
-        gradient.addColorStop("0.5","blue");
-        gradient.addColorStop("1.0","red");
-        // Fill with gradient
-        ctx.strokeStyle=gradient;
-        ctx.strokeText(this.WIDGETID+" canvas",10,50);
+            if(this.readConfiguration && this.readSprite){
+                this.canvasInformations.context.drawImage(this.spritesheetsImages[0],  this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, 110, 15, 0.7*this.main_sprites.logo.w, 0.7*this.main_sprites.logo.h);
 
+                this.drawText("Instructions:",{x: 120, y: 90}, 1);
+                this.drawText("Click on space bar to start",{x: 60, y: 110}, 1);
+                this.drawText("Click on key s to pause",{x: 60, y: 120}, 1);
+                this.drawText("Click on key q to end",{x: 60, y: 130}, 1);
+                this.drawText("Use left and rigth arrows",{x: 80, y: 145}, 1);
+                this.drawText("to control the vehicle",{x: 90, y: 155}, 1);
+                this.drawText("You can start now",{x: 110, y: 175}, 1);
+                this.drawText("Credits:",{x: 145, y: 195}, 1);
+                this.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
+                this.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
 
-        // this.canvasInformations.canvas.height = 240;
-        // this.canvasInformations.canvas.width = 320;
-        // this.canvasInformations.context.fillStyle = "rgb(100,200,187)";
-        // this.canvasInformations.context.fillRect(0, 0, this.canvasInformations.canvas.width, this.canvasInformations.canvas.height);
-
-        // if(this.readParams){
-        //     this.canvasInformations.canvas = $("#arcadeSimulator_"+this.WIDGETID)[0];
-        //     this.canvasInformations.context = this.canvasInformations.canvas.getContext('2d');
-        //     // this.canvasInformations.canvas.height = this.renderCanvas.height;
-        //     // this.canvasInformations.canvas.width = this.renderCanvas.width;
-
-        //     if(this.readConfiguration && this.readSprite){
-        //         this.canvasInformations.context.drawImage(this.spritesheetsImages[0],  this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, 110, 15, 0.7*this.main_sprites.logo.w, 0.7*this.main_sprites.logo.h);
-
-        //         this.drawText("Instructions:",{x: 120, y: 90}, 1);
-        //         this.drawText("Click on space bar to start",{x: 60, y: 110}, 1);
-        //         this.drawText("Click on key s to pause",{x: 60, y: 120}, 1);
-        //         this.drawText("Click on key q to end",{x: 60, y: 130}, 1);
-        //         this.drawText("Use left and rigth arrows",{x: 80, y: 145}, 1);
-        //         this.drawText("to control the vehicle",{x: 90, y: 155}, 1);
-        //         this.drawText("You can start now",{x: 110, y: 175}, 1);
-        //         this.drawText("Credits:",{x: 145, y: 195}, 1);
-        //         this.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
-        //         this.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
-
-        //         if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
-        //             clearInterval(this.intervals.splashInterval);
-        //             // this.intervals.simulatorInterval = setInterval(
-        //             //         (function(self) {         //Self-executing func which takes 'this' as self
-        //             //         return function() {   //Return a function in the context of 'self'
-        //             //             self.renderSimulatorFrame(); //Thing you wanted to run as non-window 'this'
-        //             //         }
-        //             //     })(this),
-        //             //     30     //normal interval, 'this' scope not impacted here.
-        //             // ); 
+                if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
+                    clearInterval(this.intervals.splashInterval);
+                    // this.intervals.simulatorInterval = setInterval(
+                    //         (function(self) {         //Self-executing func which takes 'this' as self
+                    //         return function() {   //Return a function in the context of 'self'
+                    //             self.renderSimulatorFrame(); //Thing you wanted to run as non-window 'this'
+                    //         }
+                    //     })(this),
+                    //     30     //normal interval, 'this' scope not impacted here.
+                    // ); 
                                         
-        //             this.soundWidget.reveal();
-        //             this.soundWidget.unmute();
-        //             this.soundWidget.pauseAll();
+                    this.soundWidget.reveal();
+                    this.soundWidget.unmute();
+                    this.soundWidget.pauseAll();
 
-        //             // this.canvasInformations.chronometer = new Chronometer(
-        //             //     { precision: 10,
-        //             //     ontimeupdate: function (t) {
-        //             //         this.canvasInformations.time = Chronometer.utils.humanFormat(this.canvasInformations.chronometer.getElapsedTime()).split(":");
-        //             //     }
-        //             // });
-        //             // this.canvasInformations.chronometer.start();
+                    this.canvasInformations.chronometer = new Chronometer(
+                        { precision: 10,
+                        ontimeupdate: (function(self) {         
+                            return function(t) { 
+                                self.canvasInformations.time = Chronometer.utils.humanFormat(self.canvasInformations.chronometer.getElapsedTime()).split(":");
+                            }
+                        })(this)
+                    });
+                    this.canvasInformations.chronometer.start();
 
-        //             this.soundOff = this.soundWidget.getSoundOff();
-        //             if(!this.soundOff && this.WIDGETSTATE[this.vehicle.sound_attribute]===this.vehicle.unmute_attribute){
-        //                 this.soundWidget.playSound(2); //startup song
-        //                 this.soundWidget.playSound(0); //background song
-        //                 this.soundWidget.setVolume(0.4,0);
-        //                 this.soundWidget.onEndedSound(2,[
-        //                     {
-        //                     indexPlayNext: 1, //idle song
-        //                     newVolume: 1.0
-        //                     }
-        //                 ]);
-        //             }
-        //         }
-        //     }else{
-        //         this.drawText("Loading Configurations...",{x: 100, y: 95}, 1);
-        //     }
-        // }else{
-        //     this.drawText("Loading Parameters...",{x: 100, y: 68}, 1);
-        // }
+                    this.soundOff = this.soundWidget.getSoundOff();
+                    if(!this.soundOff && this.WIDGETSTATE[this.vehicle.sound_attribute]===this.vehicle.unmute_attribute){
+                        this.soundWidget.playSound(2); //startup song
+                        this.soundWidget.playSound(0); //background song
+                        this.soundWidget.setVolume(0.4,0);
+                        this.soundWidget.onEndedSound(2,[
+                            {
+                            indexPlayNext: 1, //idle song
+                            newVolume: 1.0
+                            }
+                        ]);
+                    }
+                }
+            }else{
+                this.drawText("Loading Configurations...",{x: 100, y: 95}, 1);
+            }
+        }else{
+            this.drawText("Loading Parameters...",{x: 100, y: 68}, 1);
+        }
 
         return this;
     };
