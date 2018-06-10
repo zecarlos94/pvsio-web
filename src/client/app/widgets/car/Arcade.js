@@ -1242,13 +1242,10 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.renderSplashFrame = function () {
-
-        console.log("this.WIDGETID: "+this.WIDGETID);
-
-        let c=document.getElementById("arcadeSimulator_arcadeWidget");
+        let c=document.getElementById("arcadeSimulator_"+this.WIDGETID);
         let ctx=c.getContext("2d");
 
-        ctx.font="30px Verdana";
+        ctx.font="20px Verdana";
         // Create gradient
         let gradient=ctx.createLinearGradient(0,0,c.width,0);
         gradient.addColorStop("0","magenta");
@@ -1256,33 +1253,7 @@ define(function (require, exports, module) {
         gradient.addColorStop("1.0","red");
         // Fill with gradient
         ctx.strokeStyle=gradient;
-        ctx.strokeText("Big smile!",10,50);
-
-        let c2=document.getElementById("arcadeSimulator_arcadeWidget2");
-        let ctx2=c2.getContext("2d");
-
-        ctx2.font="30px Verdana";
-        // Create gradient
-        let gradient2=ctx2.createLinearGradient(0,0,c2.width,0);
-        gradient2.addColorStop("0","magenta");
-        gradient2.addColorStop("0.5","blue");
-        gradient2.addColorStop("1.0","red");
-        // Fill with gradient
-        ctx2.strokeStyle=gradient2;
-        ctx2.strokeText("Big smile 2!",10,50);
-
-        let c3=document.getElementById("arcadeSimulator_arcadeWidget3");
-        let ctx3=c3.getContext("2d");
-
-        ctx3.font="30px Verdana";
-        // Create gradient
-        let gradient3=ctx3.createLinearGradient(0,0,c3.width,0);
-        gradient3.addColorStop("0","magenta");
-        gradient3.addColorStop("0.5","blue");
-        gradient3.addColorStop("1.0","red");
-        // Fill with gradient
-        ctx3.strokeStyle=gradient3;
-        ctx3.strokeText("Big smile 3!",10,50);
+        ctx.strokeText(this.WIDGETID+" canvas",10,50);
 
 
         // this.canvasInformations.canvas.height = 240;

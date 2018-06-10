@@ -283,7 +283,7 @@ require([
 
         // ----------------------------- ARCADE GAME COMPONENTS -----------------------------
         arcade.arcadeWidget = new Arcade("arcadeWidget", {
-            top: 80,
+            top: 20,
             left: 650,
             width: 780,
             height: 650
@@ -339,7 +339,7 @@ require([
         });
 
         arcade.arcadeWidget2 = new Arcade("arcadeWidget2", {
-            top: 780,
+            top: 120,
             left: 650,
             width: 780,
             height: 650
@@ -395,7 +395,7 @@ require([
         });
 
         arcade.arcadeWidget3 = new Arcade("arcadeWidget3", {
-            top: 1480,
+            top: 220,
             left: 650,
             width: 780,
             height: 650
