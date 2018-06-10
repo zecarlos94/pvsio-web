@@ -858,16 +858,6 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.startSimulation = function () {
         // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
-        
-        // this.intervalID = setInterval(
-        //     (function(self) {         //Self-executing func which takes 'this' as self
-        //         return function() {   //Return a function in the context of 'self'
-        //             self.retrieve_rate(); //Thing you wanted to run as non-window 'this'
-        //         }
-        //     })(this),
-        //     this.INTERVAL     //normal interval, 'this' scope not impacted here.
-        // ); 
-
         setTimeout(
             (function(self) {         //Self-executing func which takes 'this' as self
                 return function() {   //Return a function in the context of 'self'
@@ -876,6 +866,7 @@ define(function (require, exports, module) {
             })(this),
             50     //normal interval, 'this' scope not impacted here.
         ); 
+        return this;
     };
 
     /**
@@ -927,6 +918,249 @@ define(function (require, exports, module) {
             this.configurationFiles.trackJSON = document.getElementById("track_file_loaded_opt_field_"+this.WIDGETID).innerHTML;
             this.configurationFiles.spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field_"+this.WIDGETID).innerHTML;
         }
+        if(this.configurationFiles.trackJSON){
+            let aux = JSON.parse(this.configurationFiles.trackJSON);
+            this.controllable_car=aux.controllable_car;
+            this.arcadeParams.laneWidth=aux.laneWidth;
+            this.arcadeParams.numLanes=aux.numLanes;
+            this.arcadeParams.numberOfSegmentPerColor=aux.numberOfSegmentPerColor;
+            this.renderCanvas=aux.render;
+            this.arcadeParams.trackParam=aux.trackParam;
+            this.arcadeParams.trackSegmentSize=aux.trackSegmentSize;
+            this.readColorsJSON.grass1=aux.trackColors.grass1;
+            this.readColorsJSON.border1=aux.trackColors.border1;
+            this.readColorsJSON.border2=aux.trackColors.border2;
+            this.readColorsJSON.outborder1=aux.trackColors.outborder1;
+            this.readColorsJSON.outborder_end1=aux.trackColors.outborder_end1;
+            this.readColorsJSON.track_segment1=aux.trackColors.track_segment1;
+            this.readColorsJSON.lane1=aux.trackColors.lane1;
+            this.readColorsJSON.lane2=aux.trackColors.lane2;
+            this.readColorsJSON.laneArrow1=aux.trackColors.laneArrow1;
+            this.readColorsJSON.track_segment_end=aux.trackColors.track_segment_end;
+            this.readColorsJSON.lane_end=aux.trackColors.lane_end;
+            this.readParams=true;
+            this.track=aux.track;
+            this.readConfiguration=true;
+        }
+
+        let backgroundRegex, logoRegex, frontRegex, leftRegex, rightRegex;
+
+        if(this.spritesImgsInformation.vehicleRealistic){
+            this.realPrefix="real_";
+        }else{
+            this.realPrefix="";
+        }
+
+        if(this.spritesImgsInformation.backgroundIndex!==null){
+            backgroundRegex = new RegExp("^"+this.realPrefix+"background"+this.backgroundImgIndex+"$");
+        }else{
+            backgroundRegex = new RegExp("^"+this.realPrefix+"background");
+        }
+
+        if(this.spritesImgsInformation.logoIndex!==null){
+            logoRegex   = new RegExp("^"+this.realPrefix+"logo"+this.logoImgIndex+"$");
+        }else{
+            logoRegex   = new RegExp("^"+this.realPrefix+"logo$");
+        }
+
+        if(this.spritesImgsInformation.vehicleIndex!==null){
+            frontRegex      = new RegExp("^"+this.realPrefix+this.vehicle+this.vehicleImgIndex+"_faced_front$");
+            leftRegex       = new RegExp("^"+this.realPrefix+this.vehicle+this.vehicleImgIndex+"_faced_left$");
+            rightRegex      = new RegExp("^"+this.realPrefix+this.vehicle+this.vehicleImgIndex+"_faced_right$");
+        }else{
+            frontRegex      = new RegExp("^"+this.realPrefix+this.vehicle+"_faced_front$");
+            leftRegex       = new RegExp("^"+this.realPrefix+this.vehicle+"_faced_left$");
+            rightRegex      = new RegExp("^"+this.realPrefix+this.vehicle+"_faced_right$");
+        }
+
+        // console.log(this.spritesAvailable);
+
+        if(this.configurationFiles.spritesheetJSON){
+            this.spritesReadJSON = JSON.parse(this.configurationFiles.spritesheetJSON);
+            // Reading all JSON Sprites Available
+            for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+                this.spritesAvailable[k]={
+                    name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+                    value:this.spritesReadJSON.frames[k].frame
+                };
+                if(this.spritesAvailable[k].name.match(backgroundRegex)){
+                    this.main_sprites.background = this.spritesAvailable[k].value;
+                }
+                if(this.spritesAvailable[k].name.match(logoRegex)){
+                    this.main_sprites.logo = this.spritesAvailable[k].value;
+                }
+                if(this.spritesAvailable[k].name.match(frontRegex)){
+                    this.vehicle_faced_front = this.spritesAvailable[k].value;
+                }
+                if(this.spritesAvailable[k].name.match(leftRegex)){
+                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                }
+                if(this.spritesAvailable[k].name.match(rightRegex)){
+                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                }
+            }
+
+            if(this.main_sprites.background===undefined){
+                if(this.spritesImgsInformation.vehicleRealistic){
+                    if(this.spritesImgsInformation.backgroundIndex!==null){ // realistic image with that index does not exist
+                        backgroundRegex = new RegExp("^"+this.realPrefix+"background$");
+                    }else{  // realistic image does not exist
+                        backgroundRegex = new RegExp("^background");
+                    }
+                }else{
+                    backgroundRegex = new RegExp("^background");
+                }
+
+                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+                    this.spritesAvailable[k]={
+                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+                        value:this.spritesReadJSON.frames[k].frame
+                    };
+                    if(this.spritesAvailable[k].name.match(backgroundRegex)){
+                        this.main_sprites.background = this.spritesAvailable[k].value;
+                    }
+                }
+            }
+
+            if(this.main_sprites.logo===undefined){
+                if(this.spritesImgsInformation.vehicleRealistic){
+                    if(this.spritesImgsInformation.logoIndex!==null){
+                        logoRegex   = new RegExp("^"+this.realPrefix+"logo$");
+                    }else{
+                        logoRegex   = new RegExp("^logo$");
+                    }
+                }else{
+                    logoRegex   = new RegExp("^logo$");
+                }
+
+                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+                    this.spritesAvailable[k]={
+                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+                        value:this.spritesReadJSON.frames[k].frame
+                    };
+                    if(this.spritesAvailable[k].name.match(logoRegex)){
+                        this.main_sprites.logo = this.spritesAvailable[k].value;
+                    }
+                }
+            }
+
+            if(this.vehicle_faced_front===undefined || this.main_sprites.vehicle_faced_left===undefined || this.main_sprites.vehicle_faced_right===undefined){
+                if(this.spritesImgsInformation.vehicleRealistic){
+                    if(this.spritesImgsInformation.vehicleIndex!==null){ // Realistic image with index does not exist
+                        frontRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_front$");
+                        leftRegex       = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_left$");
+                        rightRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_right$");
+                    }else{ // Realistic image without index does not exist
+                        frontRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_front$");
+                        leftRegex       = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_left$");
+                        rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
+                    }
+                }
+                else{
+                    frontRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_front$");
+                    leftRegex       = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_left$");
+                    rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
+                }
+
+                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+                    this.spritesAvailable[k]={
+                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+                        value:this.spritesReadJSON.frames[k].frame
+                    };
+                    if(this.spritesAvailable[k].name.match(frontRegex)){
+                        this.vehicle_faced_front = this.spritesAvailable[k].value;
+                    }
+                    if(this.spritesAvailable[k].name.match(leftRegex)){
+                        this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                    }
+                    if(this.spritesAvailable[k].name.match(rightRegex)){
+                        this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                    }
+                }
+            }
+            if(this.main_sprites.background!==undefined && this.main_sprites.logo!==undefined && this.vehicle_faced_front!==undefined && this.main_sprites.vehicle_faced_left!==undefined && this.main_sprites.vehicle_faced_right!==undefined){
+                this.readSprite=true;
+            }else{
+                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+                    this.spritesAvailable[k]={
+                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+                        value:this.spritesReadJSON.frames[k].frame
+                    };
+                    if(this.spritesAvailable[k].name.match(/^background$/)){
+                        this.main_sprites.background = this.spritesAvailable[k].value;
+                    }
+                    if(this.spritesAvailable[k].name.match(/^logo$/)){
+                        this.main_sprites.logo = this.spritesAvailable[k].value;
+                    }
+                    if(this.spritesImgsInformation.vehicleType==="airplane"){
+                        if(this.spritesAvailable[k].name.match(/^airplane_faced_front$/)){
+                            this.vehicle_faced_front = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^airplane_faced_left$/)){
+                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^airplane_faced_right$/)){
+                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                        }
+                    }
+                    else if(this.spritesImgsInformation.vehicleType==="bicycle"){
+                        if(this.spritesAvailable[k].name.match(/^bicycle_faced_front$/)){
+                            this.vehicle_faced_front = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^bicycle_faced_left$/)){
+                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^bicycle_faced_right$/)){
+                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                        }
+                    }
+                    else if(this.spritesImgsInformation.vehicleType==="car") {
+                        if(this.spritesAvailable[k].name.match(/^car_faced_front$/)){
+                            this.vehicle_faced_front = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^car_faced_left$/)){
+                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^car_faced_right$/)){
+                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                        }
+                    }
+                    else if(this.spritesImgsInformation.vehicleType==="helicopter"){
+                        if(this.spritesAvailable[k].name.match(/^helicopter_faced_front$/)){
+                            this.vehicle_faced_front = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^helicopter_faced_left$/)){
+                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^helicopter_faced_right$/)){
+                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                        }
+                    }
+                    else if(this.spritesImgsInformation.vehicleType==="motorbike"){
+                        if(this.spritesAvailable[k].name.match(/^motorbike_faced_front$/)){
+                            this.vehicle_faced_front = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^motorbike_faced_left$/)){
+                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^motorbike_faced_right$/)){
+                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                        }
+                    }
+                }
+                this.readSprite=true;
+            }
+        }
+        this.onPageLoad(this.spritesFiles);
+        // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
+        this.loadingTrackNrIterations = setInterval(
+            (function(self) {         //Self-executing func which takes 'this' as self
+                return function() {   //Return a function in the context of 'self'
+                    self.getNrIterations(); //Thing you wanted to run as non-window 'this'
+                }
+            })(this),
+            500     //normal interval, 'this' scope not impacted here.
+        ); 
     };
 
     /**
@@ -949,6 +1183,106 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.reveal = function () {
         return this.div.style("visibility", "visible");
+    };
+
+    /**
+     * @function onPageLoad
+     * @protected
+     * @description onPageLoad method of the Arcade widget. This method starts the arcade simulation and loads the required spritesheets, with all sprites defined in track object.
+     * @param spritesFiles {Array} array of strings, with the names of the sprites images (spritesheets) to use. By default two are used, one for the objects and another for the font (text).
+     * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
+     * @instance
+     */
+    Arcade.prototype.onPageLoad = function (spritesFiles) {
+        this.detectBrowserType();
+        if(this.currentBrowser.chrome){ // can be ensured that all CSS will work as it is supposed!!!
+            this.init();
+
+            this.simulatorLogos.simulatorLogo1 = new Image();
+            this.simulatorLogos.simulatorLogo1.src = "../../client/app/widgets/car/configurations/img/simulatorLogo1.png";
+
+            this.simulatorLogos.simulatorLogo2 = new Image();
+            this.simulatorLogos.simulatorLogo2.src = "../../client/app/widgets/car/configurations/img/simulatorLogo2.png";
+
+            this.spritesFiles.forEach(
+            (function(self) {         //Self-executing func which takes 'this' as self
+                return function(el,ind) {   //Return a function in the context of 'self'
+                    self.spritesheetsImages[ind] = new Image();
+                    self.spritesheetsImages[ind].src = "../../client/app/widgets/car/configurations/img/"+self.spritesFiles[ind]+".png";
+                    // console.log(self.spritesheetsImages); //Thing you wanted to run as non-window 'this'
+                }
+            })(this));
+
+            // this.spritesheetsImages[0].onload = function(){
+            //     // this.intervals.splashInterval = setInterval(
+            //     //     (function(self) {         //Self-executing func which takes 'this' as self
+            //     //         return function() {   //Return a function in the context of 'self'
+            //     //             self.renderSplashFrame(); //Thing you wanted to run as non-window 'this'
+            //     //         }
+            //     //     })(this),
+            //     //     30     //normal interval, 'this' scope not impacted here.
+            //     // ); 
+            // };
+
+        }
+        return this;
+    };
+
+    /**
+     * @function getNrIterations
+     * @protected
+     * @description GetNrIterations method of the Arcade widget. This method computes the number of iterations required to draw the track defined in the JSON configuration file.
+     * In the final version, the JSON structure, see example 1), will be the same, however fields 'height' and 'curve' will have other values
+     * other than 0 and 0, respectively.
+     * @example
+     * 1) JSON Structure Straight Version
+     *
+     * {
+     *     "trackParam": {
+     *       "numZones": 12,
+     *       "zoneSize": 250
+     *     },
+     *     "render": {
+     *       "width": 320,
+     *       "height": 240,
+     *       "depthOfField": 150,
+     *       "camera_distance": 30,
+     *       "camera_height": 100
+     *     },
+     *     "trackSegmentSize": 5,
+     *     "numberOfSegmentPerColor": 4,
+     *     "numLanes": 3,
+     *     "laneWidth": 0.02,
+     *     "controllable_car": {
+     *       "position": 10,
+     *       "speed": 0,
+     *       "acceleration": 0.05,
+     *       "deceleration": 0.04,
+     *       "breaking": 0.3,
+     *       "turning": 5.0,
+     *       "posx": 0,
+     *       "maxSpeed": 20
+     *     },
+     *     "track": [
+     *        {"height":0,"curve":0,"sprite":{"type":{"x":535,"y":648,"w":168,"h":248},"pos":-0.14646203875343766,"obstacle":1}},
+     *        {"height":0,"curve":0,"sprite":{"type":{"x":535,"y":648,"w":168,"h":248},"pos":3.5676653178824482,"obstacle":0}}
+     *     ]
+     * }
+     *
+     * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
+     * @instance
+     */
+    Arcade.prototype.getNrIterations = function () {
+        try {
+            this.arcadeParams.numIterations = this.arcadeParams.trackParam.numZones * this.arcadeParams.trackParam.zoneSize;
+            clearInterval(this.loadingTrackNrIterations);
+        } catch (error) {
+            console.log("Error Loading Track... "+error);
+        }
+
+        return this;
     };
 
     /**
