@@ -288,7 +288,7 @@ require([
             width: 320,
             height: 240
         }, {
-            parent: "game-window", // defines parent div, which is div id="game-window" by default
+            parent: "content", // defines parent div, which is div id="body" by default
             trackFilename: "trackLayout2",// "track-curves-slopes-random", // "track-straight-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
             spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -344,7 +344,7 @@ require([
             width: 320,
             height: 240
         }, {
-            parent: "game-window", // defines parent div, which is div id="game-window" by default
+            parent: "content", // defines parent div, which is div id="body" by default
             trackFilename: "track-straight-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
             spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -400,7 +400,7 @@ require([
             width: 320,
             height: 240
         }, {
-            parent: "game-window", // defines parent div, which is div id="game-window" by default
+            parent: "content", // defines parent div, which is div id="body" by default
             trackFilename: "track-curves-slopes-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
             spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -477,7 +477,6 @@ require([
             keyCode: 85 // key 'u'
         });
 
-        // document.getElementById("tog").style.left = "625px";
         arcade.arcadeWidget.startSimulation();
         arcade.arcadeWidget2.startSimulation();
         arcade.arcadeWidget3.startSimulation();

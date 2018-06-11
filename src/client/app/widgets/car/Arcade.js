@@ -19,7 +19,7 @@
  *          let arcade = new Arcade(
  *               'example', // id of the Arcade element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
- *               { parent: 'game-window',
+ *               { parent: 'content',
  *                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -66,7 +66,7 @@
  *                  // resume_attribute: "resume",
  *                  // mute_attribute: "mute",
  *                  // unmute_attribute: "unmute",
- *               }// append on div 'game-window'
+ *               }// append on div 'content'
  *           );
  *
  *          // Available methods:
@@ -216,7 +216,7 @@
  *          let arcade = new Arcade(
  *               'example', // id of the Arcade element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
- *               { parent: 'game-window',
+ *               { parent: 'content',
  *                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -263,7 +263,7 @@
  *                  // resume_attribute: "resume",
  *                  // mute_attribute: "mute",
  *                  // unmute_attribute: "unmute",
- *               }// append on div 'game-window'
+ *               }// append on div 'content'
  *           );
  *
  *          // Starts the simulation using constructor's opt fields (arguments)
@@ -291,7 +291,7 @@
  *          let arcade = new Arcade(
  *               'example', // id of the Arcade element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
- *               { parent: 'game-window',
+ *               { parent: 'content',
  *                 trackFilename: "track-straight", // "track-curves-slopes", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -338,7 +338,7 @@
  *                  // resume_attribute: "resume",
  *                  // mute_attribute: "mute",
  *                  // unmute_attribute: "unmute",
- *               }// append on div 'game-window'
+ *               }// append on div 'content'
  *           );
  *
  *          // Starts the simulation using constructor's opt fields (arguments)
@@ -381,7 +381,7 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
-     *          <li>parent {String}: the HTML element where the display will be appended (default is "game-window").</li>
+     *          <li>parent {String}: the HTML element where the display will be appended (default is "body").</li>
      *          <li>trackFilename {String}: the track configuration filename, i.e. JSON file with the track that will be drawed as well as the required sprite coordinates, etc (default is "track").</li>
      *          <li>spritesFilename {String}: the spritesheet configuration filename, i.e. JSON file with the all available sprites, whose coordinates are the same in trackFilename, i.e. the track must have been generated with this JSON as well so the coordinates will match (default is "spritesheet").</li>
      *          <li>spritesFiles {Array}: array with spritesheets(images) names (default is ["spritesheet","spritesheet.text"]).</li>
@@ -424,7 +424,7 @@ define(function (require, exports, module) {
     function Arcade(id, coords, opt) {
         opt = opt || {};
         coords = coords || {};
-        opt.parent = opt.parent || "game-window";
+        opt.parent = opt.parent;
         opt.trackFilename = opt.trackFilename;
         opt.spritesFilename = opt.spritesFilename;
         opt.spritesFiles =  opt.spritesFiles;
@@ -711,7 +711,6 @@ define(function (require, exports, module) {
 
         this.WIDGETSTATE = null;
         this.WIDGETID = this.id;
-        this.parent = (opt.parent) ? ("#" + opt.parent) : "game-window";
 
         this.trackFilename = (opt.trackFilename) ? ("text!widgets/car/configurations/" + opt.trackFilename + ".json") : "text!widgets/car/configurations/track-curves-slopes-random.json";
         this.spritesFilename = (opt.spritesFilename) ? ("text!widgets/car/configurations/" + opt.spritesFilename + ".json") : "text!widgets/car/configurations/spritesheet.json";
@@ -784,8 +783,10 @@ define(function (require, exports, module) {
         this.configurationFiles.trackCurvesSlopesJSONPredefined = require("text!widgets/car/configurations/track-curves-slopes-random.json");
         this.configurationFiles.spritesheetJSONPredefined = require("text!widgets/car/configurations/spritesheet.json");
 
-        this.div = d3.select(this.parent)
-                        .attr("class","container game_view");
+		this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
+
+        this.div = d3.select(this.parent).append("div").attr("id", "game_window_"+this.WIDGETID)
+                     .attr("class","container game_view");
 
         this.div.append("canvas").attr("id", "arcadeSimulator_"+this.id)
                 .style("-webkit-transform","scale(2.2)")
@@ -828,7 +829,7 @@ define(function (require, exports, module) {
         });
 
         this.soundWidget.startSound();
-        this.soundWidget.reveal();
+        this.soundWidget.hide();
         this.soundOff = this.soundWidget.getSoundOff();
 
         opt.callback = opt.callback || function () {};
