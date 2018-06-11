@@ -1753,12 +1753,12 @@ define(function (require, exports, module) {
         let alpha = 1.10/numLanes;
         if(numLanes>3){
             for(let i=0;i<numLanes;i++){
-                this.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2, -this.stripeConfiguration.trackP1+(i*alpha), -this.stripeConfiguration.trackP1+(i*alpha)+laneWidth, color);
-                this.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2,  this.stripeConfiguration.trackP2-(i*alpha)-laneWidth, this.stripeConfiguration.trackP2-(i*alpha), color);
+                this.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2, this.stripeConfiguration.trackP1+(i*alpha), this.stripeConfiguration.trackP1+(i*alpha)+laneWidth, color);
+                this.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2, this.stripeConfiguration.trackP2-(i*alpha)-laneWidth, this.stripeConfiguration.trackP2-(i*alpha), color);
             }
         }else{
-            this.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2, -this.stripeConfiguration.trackP1+alpha, -this.stripeConfiguration.trackP1+alpha+laneWidth, color);
-            this.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2,  this.stripeConfiguration.trackP2-alpha-laneWidth, this.stripeConfiguration.trackP2-alpha, color);
+            this.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2, this.stripeConfiguration.trackP1+alpha, this.stripeConfiguration.trackP1+alpha+laneWidth, color);
+            this.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2, this.stripeConfiguration.trackP2-alpha-laneWidth, this.stripeConfiguration.trackP2-alpha, color);
         }
         return this;
     };
