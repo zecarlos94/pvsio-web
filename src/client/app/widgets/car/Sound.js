@@ -115,6 +115,11 @@
  * 
  *          // Allows to collect the value of the div with id="soundOff", in order to check if sounds are muted or not, in the arcade driving simulator.
  *          sound.getSoundOff();
+ *
+ *          // OR
+ *
+ *          // Sets click event listeners to toggle images
+ *          sound.startSound();
  * 
  *     }
  * });
@@ -150,7 +155,7 @@
  *                       ],
  *               } // append on div 'tog'
  *           );
- *         
+ *          sound.startSound();
  *          sound.playAll();
  *          sound.setVolume(0.8, 2);
  *     }

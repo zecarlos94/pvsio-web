@@ -21,7 +21,7 @@
  *               'example', // id of the VirtualKeypadController element that will be created
  *               { top: 800, left: 800, width: 500, height: 500 }, // coordinates object
  *               { 
- *                 keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
+ *                 keyboardImgDiv: "mobileDevicesController", // defines keyboard image div, which is div id="mobileDevicesController" by default
  *                 keyboardClass: "icon keyboard",
  *                 keyboardTopMobile: 750,
  *                 keyboardLeftMobile: 1350,
@@ -35,7 +35,8 @@
  *                 keyboardImageHeightMobile: 60,
  *                 keyboardImageWidthDesktop: 50,
  *                 keyboardImageHeightDesktop: 30,
- *                 parent: 'virtualKeyPad', 
+ *                 parent: 'content', 
+ *                 buttonsDiv: "virtualKeyPad", // defines buttons image div, which is div id="virtualKeyPad" by default
  *                 simulatorActions: 'simulatorActions', 
  *                 simulatorArrows: 'simulatorArrows',
  *                 floatArrows: 'floatArrows',
@@ -81,7 +82,7 @@
  *               'example', // id of the VirtualKeypadController element that will be created
  *               { top: 800, left: 800, width: 500, height: 500 }, // coordinates object
  *               { 
- *                 keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
+ *                 keyboardImgDiv: "mobileDevicesController", // defines keyboard image div, which is div id="mobileDevicesController" by default
  *                 keyboardClass: "icon keyboard",
  *                 keyboardTopMobile: 750,
  *                 keyboardLeftMobile: 1350,
@@ -95,7 +96,8 @@
  *                 keyboardImageHeightMobile: 60,
  *                 keyboardImageWidthDesktop: 50,
  *                 keyboardImageHeightDesktop: 30,
- *                 parent: 'virtualKeyPad', 
+ *                 parent: 'content',
+ *                 buttonsDiv: "virtualKeyPad", // defines buttons image div, which is div id="virtualKeyPad" by default 
  *                 simulatorActions: 'simulatorActions', 
  *                 simulatorArrows: 'simulatorArrows',
  *                 floatArrows: 'floatArrows',
@@ -131,6 +133,7 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
+     *          <li>buttonsDiv {String}: id name of the div where to put the virtual buttons image (default is "virtualKeyPad").</li>
      *          <li>keyboardImgDiv {String}: id name of the div where to put the virtual keyboard image (default is "mobileDevicesController").</li>
      *          <li>keyboardClass {String}: virtual keyboard div class name (default is "icon keyboard").</li>
      *          <li>keyboardTopMobile {Int}: virtual keyboard div top position for mobile devices (default is 750).</li>
@@ -161,6 +164,7 @@ define(function (require, exports, module) {
     function VirtualKeypadController(id, coords, opt) {
         opt = opt || {};
         opt.style = opt.style || "";
+        opt.buttonsDiv = opt.buttonsDiv || "virtualKeyPad";
         opt.keyboardImgDiv = opt.keyboardImgDiv || "mobileDevicesController";
         opt.keyboardClass = opt.keyboardClass || "icon keyboard";
         opt.keyboardTopMobile = opt.keyboardTopMobile || 750;
@@ -179,7 +183,7 @@ define(function (require, exports, module) {
         opt.arrowKeysPVS = opt.arrowKeysPVS;
         opt.otherKeysPVS = opt.otherKeysPVS;
 
-        opt.parent = opt.parent || "virtualKeyPad";
+        opt.parent = opt.parent;
         opt.simulatorActions = opt.simulatorActions || "simulatorActions";
         opt.simulatorArrows = opt.simulatorArrows || "simulatorArrows";
         opt.floatArrows = opt.floatArrows || "floatArrows";
@@ -189,6 +193,7 @@ define(function (require, exports, module) {
         coords = coords || {};
 
         this.id = id;
+        this.VIRTUALKEYPADID = this.id;
         this.top = coords.top || 1000;
         this.left = coords.left || 100;
         this.width = coords.width || 750;
@@ -203,7 +208,8 @@ define(function (require, exports, module) {
             this.isMobile = true;
         }
 
-        this.keyboardImgDiv = (opt.keyboardImgDiv) ? ("#" + opt.keyboardImgDiv) : null;
+        this.keyboardImgDiv = (opt.keyboardImgDiv) ? (opt.keyboardImgDiv) : "mobileDevicesController";
+        this.buttonsDiv = (opt.buttonsDiv) ? (opt.buttonsDiv) : "virtualKeyPad";
         this.keyboardClass = opt.keyboardClass;
         this.keyboardTopMobile = opt.keyboardTopMobile;
         this.keyboardLeftMobile = opt.keyboardLeftMobile;
@@ -221,16 +227,17 @@ define(function (require, exports, module) {
         this.arrowKeysPVS = (opt.arrowKeysPVS && opt.arrowKeysPVS.length===4) ? opt.arrowKeysPVS : [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"];
         this.otherKeysPVS = (opt.otherKeysPVS && opt.otherKeysPVS.length===3) ? opt.otherKeysPVS : [ "quit", "pause", "resume" ];
 
-        this.parent = (opt.parent) ? ("#" + opt.parent) : null;
         this.simulatorActions = opt.simulatorActions;
         this.simulatorArrows = opt.simulatorArrows;
         this.floatArrows = opt.floatArrows;
         this.blockArrows = opt.blockArrows;
         this.buttonClass = opt.buttonClass;
-        this.title = opt.title;        
+        this.title = opt.title;      
+
+        this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
 
         if(this.isMobile){
-            this.keyboardDiv = d3.select(this.keyboardImgDiv)
+            this.keyboardDiv = d3.select(this.parent).append("div").attr("id", this.keyboardImgDiv+"_"+this.VIRTUALKEYPADID)
                             .style("position", "absolute")
                             .style("top", this.keyboardTopMobile + "px")
                             .style("left", this.keyboardLeftMobile + "px")
@@ -243,7 +250,7 @@ define(function (require, exports, module) {
                             .style("width", this.keyboardImageWidthMobile + "px")
                             .style("height", this.keyboardImageHeightMobile + "px");
 
-            this.div = d3.select(this.parent)
+            this.div = d3.select(this.parent).append("div").attr("id", this.buttonsDiv+"_"+this.VIRTUALKEYPADID)
                         .style("position", "absolute")
                         .style("top", this.top + "px")
                         .style("left", this.left + "px")
@@ -258,7 +265,7 @@ define(function (require, exports, module) {
                     .style("margin-top","-60px")
                     .style("margin-left","250px");
         }else{
-            this.keyboardDiv = d3.select(this.keyboardImgDiv)
+            this.keyboardDiv = d3.select(this.parent).append("div").attr("id", this.keyboardImgDiv+"_"+this.VIRTUALKEYPADID)
                             .style("position", "absolute")
                             .style("top", this.keyboardTopDesktop + "px")
                             .style("left", this.keyboardLeftDesktop + "px")
@@ -271,7 +278,7 @@ define(function (require, exports, module) {
                             .style("width", this.keyboardImageWidthDesktop + "px")
                             .style("height", this.keyboardImageHeightDesktop + "px");
 
-            this.div = d3.select(this.parent)
+            this.div = d3.select(this.parent).append("div").attr("id", this.buttonsDiv+"_"+this.VIRTUALKEYPADID)
                         .style("position", "absolute")
                         .style("top", this.top + "px")
                         .style("left", this.left + "px")
@@ -286,10 +293,10 @@ define(function (require, exports, module) {
                     .style("margin-left","250px");
         }
 
-        this.actions = d3.select("#virtualKeyPad")
+        this.actions = d3.select("#"+this.buttonsDiv+"_"+this.VIRTUALKEYPADID)
                          .select("#" + this.simulatorActions);
 
-        this.arrows = d3.select("#virtualKeyPad")
+        this.arrows = d3.select("#"+this.buttonsDiv+"_"+this.VIRTUALKEYPADID)
                          .selectAll("#" + this.simulatorArrows);
         
         this.arrows.append("div").attr("id", this.floatArrows);
@@ -432,12 +439,12 @@ define(function (require, exports, module) {
                     }
                     if(self.open){
                         self.open=false;
-                        d3.select(self.parent).style("visibility","hidden");
+                        d3.select("#"+self.buttonsDiv+"_"+self.VIRTUALKEYPADID).style("visibility","hidden");
                         d3.select(aux).attr("title",self.keyboardHoverInitialTitle);
                     }
                     else{
                         self.open=true;
-                        d3.select(self.parent).style("margin-bottom","20px").style("visibility","visible");
+                        d3.select("#"+self.buttonsDiv+"_"+self.VIRTUALKEYPADID).style("margin-bottom","20px").style("visibility","visible");
                         d3.select(aux).attr("title",self.keyboardHoverSecondTitle);
                     }
                 }

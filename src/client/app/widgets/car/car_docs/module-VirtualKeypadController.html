@@ -63,7 +63,7 @@ a virtual keypad suitable for mobile devices. Renders based on device type(deskt
 
     
     <dt class="tag-version">Version:</dt>
-    <dd class="tag-version"><ul class="dummy"><li>2.0.0</li></ul></dd>
+    <dd class="tag-version"><ul class="dummy"><li>3.0.0</li></ul></dd>
     
 
     
@@ -141,7 +141,7 @@ a virtual keypad suitable for mobile devices. Renders based on device type(deskt
               'example', // id of the VirtualKeypadController element that will be created
               { top: 800, left: 800, width: 500, height: 500 }, // coordinates object
               { 
-                keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
+                keyboardImgDiv: "mobileDevicesController", // defines keyboard image div, which is div id="mobileDevicesController" by default
                 keyboardClass: "icon keyboard",
                 keyboardTopMobile: 750,
                 keyboardLeftMobile: 1350,
@@ -155,7 +155,8 @@ a virtual keypad suitable for mobile devices. Renders based on device type(deskt
                 keyboardImageHeightMobile: 60,
                 keyboardImageWidthDesktop: 50,
                 keyboardImageHeightDesktop: 30,
-                parent: 'virtualKeyPad', 
+                parent: 'content', 
+                buttonsDiv: "virtualKeyPad", // defines buttons image div, which is div id="virtualKeyPad" by default
                 simulatorActions: 'simulatorActions', 
                 simulatorArrows: 'simulatorArrows',
                 floatArrows: 'floatArrows',
@@ -202,7 +203,7 @@ a virtual keypad suitable for mobile devices. Renders based on device type(deskt
               'example', // id of the VirtualKeypadController element that will be created
               { top: 800, left: 800, width: 500, height: 500 }, // coordinates object
               { 
-                keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
+                keyboardImgDiv: "mobileDevicesController", // defines keyboard image div, which is div id="mobileDevicesController" by default
                 keyboardClass: "icon keyboard",
                 keyboardTopMobile: 750,
                 keyboardLeftMobile: 1350,
@@ -216,7 +217,8 @@ a virtual keypad suitable for mobile devices. Renders based on device type(deskt
                 keyboardImageHeightMobile: 60,
                 keyboardImageWidthDesktop: 50,
                 keyboardImageHeightDesktop: 30,
-                parent: 'virtualKeyPad', 
+                parent: 'content',
+                buttonsDiv: "virtualKeyPad", // defines buttons image div, which is div id="virtualKeyPad" by default 
                 simulatorActions: 'simulatorActions', 
                 simulatorArrows: 'simulatorArrows',
                 floatArrows: 'floatArrows',
@@ -371,6 +373,7 @@ a virtual keypad suitable for mobile devices. Renders based on device type(deskt
             
 
             <td class="description last">Options:
+         <li>buttonsDiv {String}: id name of the div where to put the virtual buttons image (default is "virtualKeyPad").</li>
          <li>keyboardImgDiv {String}: id name of the div where to put the virtual keyboard image (default is "mobileDevicesController").</li>
          <li>keyboardClass {String}: virtual keyboard div class name (default is "icon keyboard").</li>
          <li>keyboardTopMobile {Int}: virtual keyboard div top position for mobile devices (default is 750).</li>
@@ -434,7 +437,7 @@ a virtual keypad suitable for mobile devices. Renders based on device type(deskt
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line136">line 136</a>
+        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line127">line 127</a>
     </li></ul></dd>
     
 
@@ -542,7 +545,7 @@ a virtual keypad suitable for mobile devices. Renders based on device type(deskt
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line459">line 459</a>
+        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line461">line 461</a>
     </li></ul></dd>
     
 
@@ -628,7 +631,7 @@ a virtual keypad suitable for mobile devices. Renders based on device type(deskt
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line492">line 492</a>
+        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line494">line 494</a>
     </li></ul></dd>
     
 
@@ -714,7 +717,7 @@ a virtual keypad suitable for mobile devices. Renders based on device type(deskt
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line470">line 470</a>
+        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line472">line 472</a>
     </li></ul></dd>
     
 
@@ -800,7 +803,7 @@ a virtual keypad suitable for mobile devices. Renders based on device type(deskt
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line481">line 481</a>
+        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line483">line 483</a>
     </li></ul></dd>
     
 
@@ -850,7 +853,7 @@ a virtual keypad suitable for mobile devices. Renders based on device type(deskt
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Jun 11 2018 16:41:12 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Jun 11 2018 17:43:20 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

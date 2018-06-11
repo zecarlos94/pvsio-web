@@ -1783,7 +1783,8 @@ define(function (require, exports, module) {
                         keyboardLeftDesktop: 1370,
                         keyboardHoverInitialTitle: "Click to open virtual keypad controller",
                         keyboardHoverSecondTitle: "Click to close virtual keypad controller",
-                        parent: "virtualKeyPad", // defines parent div, which is div id="virtualKeyPad" by default
+                        parent: "content", // defines parent div, which is div id="body" by default
+                        buttonsDiv: "virtualKeyPad", // defines buttons image div, which is div id="virtualKeyPad" by default
                         simulatorActions: "simulatorActions",
                         simulatorArrows: "simulatorArrows",
                         floatArrows: "floatArrows",
