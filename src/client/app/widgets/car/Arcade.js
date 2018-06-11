@@ -801,6 +801,7 @@ define(function (require, exports, module) {
             width: 750,
             height: 750
         }, {
+        	parent: this.parent.slice(1), // removing '#'
             callback: opt.callback,
             invokePVS: true,
             mute_functionNamePVS: "mute",
@@ -827,7 +828,7 @@ define(function (require, exports, module) {
         });
 
         this.soundWidget.startSound();
-        this.soundWidget.hide();
+        this.soundWidget.reveal();
         this.soundOff = this.soundWidget.getSoundOff();
 
         opt.callback = opt.callback || function () {};

@@ -1,12 +1,12 @@
 /**
  * @module Sound
- * @version 2.0.0
+ * @version 3.0.0
  * @author José Carlos
  * @desc This module helps build a music player, where a given song can be played, its volume be adjusted, among and other features. 
  * It was developed so that more than one song can be played in the arcade driving simulator (Arcade widget).
  *
  * @date Mar 10, 2018
- * last modified @date May 23, 2018
+ * last modified @date Jun 11, 2018
  *
  * @example <caption>Usage of Sound within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -220,13 +220,12 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
-     *          <li>parent {String}: the HTML element where the display will be appended (default is "tog").</li>
+     *          <li>parent {String}: the HTML element where the display will be appended (default is "body").</li>
      *          <li>mutedImg {String}: the location of the muted image (default is "widgets/car/configurations/img/muted.png").</li>
      *          <li>notMutedImg {String}: the location of the unmuted image (default is "widgets/car/configurations/img/notMuted.png").</li>
      *          <li>soundOff {Boolean}: the boolean value that indicates whether the sound state is "off", i.e. whether it is 'off' or not. It is used in the arcade driving simulator(default is null).</li>
      *          <li>mute_functionNamePVS {String}: the pvs function name for action mute (default is "mute").</li>
      *          <li>unmute_functionNamePVS {String}: the pvs function name for action unmute (default is "unmute").</li>
-     * 
      * @returns {Sound} The created instance of the widget Sound.
      * @memberof module:Sound
      * @instance
@@ -234,7 +233,7 @@ define(function (require, exports, module) {
     function Sound(id, coords, opt) {
         opt = opt || {};
         coords = coords || {};
-        opt.parent = opt.parent || "tog";
+        opt.parent = opt.parent;
         opt.mutedImg = opt.mutedImg || "../../client/app/widgets/car/configurations/img/muted.png";
         opt.notMutedImg = opt.notMutedImg || "../../client/app/widgets/car/configurations/img/notMuted.png";
         opt.songs = opt.songs || {};
@@ -256,13 +255,13 @@ define(function (require, exports, module) {
         this.mutedImg = (opt.mutedImg) ? opt.mutedImg : "../../client/app/widgets/car/configurations/img/muted.png";
         this.notMutedImg = (opt.notMutedImg) ? opt.notMutedImg : "../../client/app/widgets/car/configurations/img/notMuted.png";
 
-        this.parent = (opt.parent) ? ("#" + opt.parent + "_"+this.SOUNDID) : "tog_"+this.SOUNDID;
-
         this.invokePVS = opt.invokePVS || false;
         this.mute_functionNamePVS = opt.mute_functionNamePVS || "mute";
         this.unmute_functionNamePVS = opt.unmute_functionNamePVS || "unmute";
 
-        this.div = d3.select("#game-window").append("div").attr("id", this.parent)
+        this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
+
+        this.div = d3.select(this.parent).append("div").attr("id", "tog_"+this.SOUNDID)
                         .style("position", "absolute")
                         .style("top", this.top + "px")
                         .style("left", this.left + "px");
