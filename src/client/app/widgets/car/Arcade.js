@@ -1,11 +1,11 @@
 /**
  * @module Arcade
- * @version 1.0.0
+ * @version 2.0.0
  * @author José Carlos
  * @desc This module draws the 2D arcade driving simulator, using HTML5 Canvas.
  *
  * @date Apr 02, 2018
- * last modified @date May 23, 2018
+ * last modified @date Jun 11, 2018
  *
  * @example <caption>Usage of Arcade within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -1275,9 +1275,7 @@ define(function (require, exports, module) {
                         30     //normal interval, 'this' scope not impacted here.
                     ); 
                                         
-                    // this.soundWidget.reveal();
-                    // this.soundWidget.unmute();
-                    // this.soundWidget.pauseAll();
+                    this.soundWidget.reveal();
 
                     this.canvasInformations.chronometer = new Chronometer(
                         { precision: 10,
@@ -1289,18 +1287,18 @@ define(function (require, exports, module) {
                     });
                     this.canvasInformations.chronometer.start();
 
-                    // this.soundOff = this.soundWidget.getSoundOff();
-                    // if(!this.soundOff && this.WIDGETSTATE[this.vehicle.sound_attribute]===this.vehicle.unmute_attribute){
-                    //     // this.soundWidget.playSound(2); //startup song
-                    //     // this.soundWidget.playSound(0); //background song
-                    //     // this.soundWidget.setVolume(0.4,0);
-                    //     // this.soundWidget.onEndedSound(2,[
-                    //     //     {
-                    //     //     indexPlayNext: 1, //idle song
-                    //     //     newVolume: 1.0
-                    //     //     }
-                    //     // ]);
-                    // }
+                    this.soundOff = this.soundWidget.getSoundOff();
+                    if(!this.soundOff && this.WIDGETSTATE[this.vehicle.sound_attribute]===this.vehicle.unmute_attribute){
+                        this.soundWidget.playSound(2); //startup song
+                        this.soundWidget.playSound(0); //background song
+                        this.soundWidget.setVolume(0.4,0);
+                        this.soundWidget.onEndedSound(2,[
+                            {
+                            indexPlayNext: 1, //idle song
+                            newVolume: 1.0
+                            }
+                        ]);
+                    }
                 }
             }else{
                 this.drawText("Loading Configurations...",{x: 100, y: 95}, 1);
@@ -1351,21 +1349,19 @@ define(function (require, exports, module) {
                 30     //normal interval, 'this' scope not impacted here.
             ); 
 
-            // this.soundWidget.reveal();
-            // this.soundWidget.unmute();
-            // this.soundWidget.pauseAll();
-            // this.soundOff = this.soundWidget.getSoundOff();
-            // if(!this.soundOff){
-            //     // this.soundWidget.playSound(2); //startup song
-            //     // this.soundWidget.playSound(0); //background song
-            //     // this.soundWidget.setVolume(0.4,0);
-            //     // this.soundWidget.onEndedSound(2,[
-            //     //     {
-            //     //     indexPlayNext: 1, //idle song
-            //     //     newVolume: 1.0
-            //     //     }
-            //     // ]);
-            // }
+            this.soundWidget.reveal();
+            this.soundOff = this.soundWidget.getSoundOff();
+            if(!this.soundOff){
+                this.soundWidget.playSound(2); //startup song
+                this.soundWidget.playSound(0); //background song
+                this.soundWidget.setVolume(0.4,0);
+                this.soundWidget.onEndedSound(2,[
+                    {
+                    indexPlayNext: 1, //idle song
+                    newVolume: 1.0
+                    }
+                ]);
+            }
         }
 
         return this;
@@ -1420,21 +1416,19 @@ define(function (require, exports, module) {
             );
             this.canvasInformations.chronometer.start();
 
-            // this.soundWidget.reveal();
-            // this.soundWidget.unmute();
-            // this.soundWidget.pauseAll();
-            // this.soundOff = this.soundWidget.getSoundOff();
-            // if(!this.soundOff){
-            //     // this.soundWidget.playSound(2); //startup song
-            //     // this.soundWidget.playSound(0); //background song
-            //     // this.soundWidget.setVolume(0.4,0);
-            //     // this.soundWidget.onEndedSound(2,[
-            //     //     {
-            //     //     indexPlayNext: 1, //idle song
-            //     //     newVolume: 1.0
-            //     //     }
-            //     // ]);
-            // }
+            this.soundWidget.reveal();
+            this.soundOff = this.soundWidget.getSoundOff();
+            if(!this.soundOff){
+                this.soundWidget.playSound(2); //startup song
+                this.soundWidget.playSound(0); //background song
+                this.soundWidget.setVolume(0.4,0);
+                this.soundWidget.onEndedSound(2,[
+                    {
+                    indexPlayNext: 1, //idle song
+                    newVolume: 1.0
+                    }
+                ]);
+            }
         }
         return this;
     };
@@ -1454,8 +1448,6 @@ define(function (require, exports, module) {
         //     this.soundWidget.mute();
         // }else if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.sound_attribute]===this.vehicle.unmute_attribute){
         //     this.soundWidget.reveal();
-        //     this.soundWidget.unmute();
-        //     this.soundWidget.pauseAll();
         //     // this.soundWidget.playSound(2); //startup song
         //     // this.soundWidget.playSound(0); //background song
         //     // this.soundWidget.setVolume(0.4,0);
@@ -1469,7 +1461,7 @@ define(function (require, exports, module) {
 
         if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.quit_attribute){ // Key 'q' ends current simulator
             this.canvasInformations.chronometer.stop();
-            // this.soundWidget.hide();
+            this.soundWidget.hide();
             clearInterval(this.intervals.simulatorInterval);
             this.intervals.splashInterval = setInterval(
                     (function(self) {         //Self-executing func which takes 'this' as self
@@ -1479,12 +1471,12 @@ define(function (require, exports, module) {
                 })(this),
                 30     //normal interval, 'this' scope not impacted here.
             );
-            // this.soundWidget.pauseAll();
+            this.soundWidget.pauseAll();
         }
 
         if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.pause_attribute){ // Key 's' pauses current simulator
             this.canvasInformations.chronometer.pause();
-            // this.soundWidget.hide();
+            this.soundWidget.hide();
             clearInterval(this.intervals.simulatorInterval);
             this.intervals.splashInterval = setInterval(
                     (function(self) {         //Self-executing func which takes 'this' as self
@@ -1494,7 +1486,7 @@ define(function (require, exports, module) {
                 })(this),
                 30     //normal interval, 'this' scope not impacted here.
             );
-            // this.soundWidget.pauseAll();
+            this.soundWidget.pauseAll();
         }
 
         // Clean screen
@@ -1621,7 +1613,7 @@ define(function (require, exports, module) {
                 this.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
                 this.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
                 this.drawText("The Simulator", {x: 100, y: 70}, 1);
-                // this.soundWidget.pauseAll();
+                this.soundWidget.pauseAll();
 
                 // Delayed function call by 5 seconds to reload simulator
                 // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
@@ -2300,17 +2292,17 @@ define(function (require, exports, module) {
             if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.accelerate_attribute) {
                 this.controllable_car.speed += this.controllable_car.acceleration;
                 if(!this.soundOff){
-                    // this.soundWidget.playSound(3); //accelerating song
+                    this.soundWidget.playSound(3); //accelerating song
                 }
             } else if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.brake_attribute) {
                 this.controllable_car.speed -= this.controllable_car.breaking;
                 if(!this.soundOff){
-                    // this.soundWidget.pauseSound(3); //accelerating song
+                    this.soundWidget.pauseSound(3); //accelerating song
                 }
             } else {
                 this.controllable_car.speed -= this.controllable_car.deceleration;
                 if(!this.soundOff){
-                    // this.soundWidget.pauseSound(3); //accelerating song
+                    this.soundWidget.pauseSound(3); //accelerating song
                 }
             }
         }
@@ -2500,7 +2492,7 @@ define(function (require, exports, module) {
     Arcade.prototype.calculateNewControllableCarPosition = function () {
         if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value]!=="0"){
             // readSprite acceleration controls
-            // this.soundOff = this.soundWidget.getSoundOff();
+            this.soundOff = this.soundWidget.getSoundOff();
             let currentSpeedPVS = this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value];
             let arraySpeed = currentSpeedPVS.split("/");
             let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
@@ -2517,15 +2509,15 @@ define(function (require, exports, module) {
 
             if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.accelerate_attribute) {
                 if(!this.soundOff){
-                    // this.soundWidget.playSound(3); //accelerating song
+                    this.soundWidget.playSound(3); //accelerating song
                 }
             }else if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.brake_attribute) {
                 if(!this.soundOff){
-                    // this.soundWidget.pauseSound(3); //accelerating song
+                    this.soundWidget.pauseSound(3); //accelerating song
                 }
             }else if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.idle_attribute){
                 if(!this.soundOff){
-                    // this.soundWidget.pauseSound(3); //accelerating song
+                    this.soundWidget.pauseSound(3); //accelerating song
                 }
             }
         }

@@ -360,7 +360,7 @@ define(function (require, exports, module) {
                     document.getElementById('unmute_'+self.SOUNDID).addEventListener('click', function (e) {
                         self.mute();
                     });
-                    self.pauseAll(); //Thing you wanted to run as non-window 'this'
+                    self.mute(); //Thing you wanted to run as non-window 'this'
                 }
             })(this),
             50     //normal interval, 'this' scope not impacted here.
@@ -538,13 +538,15 @@ define(function (require, exports, module) {
      */
     Sound.prototype.onEndedSound = function (indexOnEnded, arrayNext) {
         let a;
-        this.sounds[indexOnEnded].onended = function() {
-            for(a=0;a<arrayNext.length;a++){
-                this.sounds[arrayNext[a].indexPlayNext].play();
-                this.sounds[arrayNext[a].indexPlayNext].volume = arrayNext[a].newVolume;
-            }
-        };
-      
+        this.sounds[indexOnEnded].onended = (function(self) {
+                                                return function() { 
+                                                   for(a=0;a<arrayNext.length;a++){
+                                                        self.sounds[arrayNext[a].indexPlayNext].play();
+                                                        self.sounds[arrayNext[a].indexPlayNext].volume = arrayNext[a].newVolume;
+                                                    }
+                                                }
+                                            })(this);
+
         return this;
     };
 
