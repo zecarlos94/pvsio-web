@@ -955,194 +955,194 @@ define(function (require, exports, module) {
             logoRegex   = new RegExp("^"+this.realPrefix+"logo$");
         }
 
-        if(this.spritesImgsInformation.vehicleIndex!==null){
-            frontRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+this.vehicleImgIndex+"_faced_front$");
-            leftRegex       = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+this.vehicleImgIndex+"_faced_left$");
-            rightRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+this.vehicleImgIndex+"_faced_right$");
+		if(this.spritesImgsInformation.vehicleIndex!==null){
+            frontRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+this.spritesImgsInformation.vehicleIndex+"_faced_front$");
+            leftRegex       = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+this.spritesImgsInformation.vehicleIndex+"_faced_left$");
+            rightRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+this.spritesImgsInformation.vehicleIndex+"_faced_right$");
         }else{
             frontRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_front$");
             leftRegex       = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_left$");
             rightRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_right$");
         }
 
-        // console.log(this.spritesAvailable);
-
         if(this.configurationFiles.spritesheetJSON){
-            this.spritesReadJSON = JSON.parse(this.configurationFiles.spritesheetJSON);
-            // Reading all JSON Sprites Available
-            for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-                this.spritesAvailable[k]={
-                    name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-                    value:this.spritesReadJSON.frames[k].frame
-                };
-                if(this.spritesAvailable[k].name.match(backgroundRegex)){
-                    this.main_sprites.background = this.spritesAvailable[k].value;
-                }
-                if(this.spritesAvailable[k].name.match(logoRegex)){
-                    this.main_sprites.logo = this.spritesAvailable[k].value;
-                }
-                if(this.spritesAvailable[k].name.match(frontRegex)){
-                    this.vehicle_faced_front = this.spritesAvailable[k].value;
-                }
-                if(this.spritesAvailable[k].name.match(leftRegex)){
-                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-                }
-                if(this.spritesAvailable[k].name.match(rightRegex)){
-                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-                }
-            }
+		    this.spritesReadJSON = JSON.parse(this.configurationFiles.spritesheetJSON);
+		    // Reading all JSON Sprites Available
+		    for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+		        this.spritesAvailable[k]={
+		            name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+		            value:this.spritesReadJSON.frames[k].frame
+		        };
+		        if(this.spritesAvailable[k].name.match(backgroundRegex)){
+		            this.main_sprites.background = this.spritesAvailable[k].value;
+		        }
+		        if(this.spritesAvailable[k].name.match(logoRegex)){
+		            this.main_sprites.logo = this.spritesAvailable[k].value;
+		        }
+		        if(this.spritesAvailable[k].name.match(frontRegex)){
+		            this.vehicle_faced_front = this.spritesAvailable[k].value;
+		        }
+		        if(this.spritesAvailable[k].name.match(leftRegex)){
+		            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+		        }
+		        if(this.spritesAvailable[k].name.match(rightRegex)){
+		            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+		        }
+		    }
 
-            if(this.main_sprites.background===undefined){
-                if(this.spritesImgsInformation.vehicleRealistic){
-                    if(this.spritesImgsInformation.backgroundIndex!==null){ // realistic image with that index does not exist
-                        backgroundRegex = new RegExp("^"+this.realPrefix+"background$");
-                    }else{  // realistic image does not exist
-                        backgroundRegex = new RegExp("^background");
-                    }
-                }else{
-                    backgroundRegex = new RegExp("^background");
-                }
+		    if(this.main_sprites.background===undefined || this.main_sprites.background===null){
+		        if(this.spritesImgsInformation.vehicleRealistic){
+		            if(this.spritesImgsInformation.backgroundIndex!==null){ // realistic image with that index does not exist
+		                backgroundRegex = new RegExp("^"+this.realPrefix+"background$");
+		            }else{  // realistic image does not exist
+		                backgroundRegex = new RegExp("^background");
+		            }
+		        }else{
+		            backgroundRegex = new RegExp("^background");
+		        }
 
-                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-                    this.spritesAvailable[k]={
-                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-                        value:this.spritesReadJSON.frames[k].frame
-                    };
-                    if(this.spritesAvailable[k].name.match(backgroundRegex)){
-                        this.main_sprites.background = this.spritesAvailable[k].value;
-                    }
-                }
-            }
+		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+		            this.spritesAvailable[k]={
+		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+		                value:this.spritesReadJSON.frames[k].frame
+		            };
+		            if(this.spritesAvailable[k].name.match(backgroundRegex)){
+		                this.main_sprites.background = this.spritesAvailable[k].value;
+		            }
+		        }
+		    }
 
-            if(this.main_sprites.logo===undefined){
-                if(this.spritesImgsInformation.vehicleRealistic){
-                    if(this.spritesImgsInformation.logoIndex!==null){
-                        logoRegex   = new RegExp("^"+this.realPrefix+"logo$");
-                    }else{
-                        logoRegex   = new RegExp("^logo$");
-                    }
-                }else{
-                    logoRegex   = new RegExp("^logo$");
-                }
+		    if(this.main_sprites.logo===undefined || this.main_sprites.logo===null){
+		        if(this.spritesImgsInformation.vehicleRealistic){
+		            if(this.spritesImgsInformation.logoIndex!==null){
+		                logoRegex   = new RegExp("^"+this.realPrefix+"logo$");
+		            }else{
+		                logoRegex   = new RegExp("^logo$");
+		            }
+		        }else{
+		            logoRegex   = new RegExp("^logo$");
+		        }
 
-                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-                    this.spritesAvailable[k]={
-                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-                        value:this.spritesReadJSON.frames[k].frame
-                    };
-                    if(this.spritesAvailable[k].name.match(logoRegex)){
-                        this.main_sprites.logo = this.spritesAvailable[k].value;
-                    }
-                }
-            }
+		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+		            this.spritesAvailable[k]={
+		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+		                value:this.spritesReadJSON.frames[k].frame
+		            };
+		            if(this.spritesAvailable[k].name.match(logoRegex)){
+		                this.main_sprites.logo = this.spritesAvailable[k].value;
+		            }
+		        }
+		    }
 
-            if(this.vehicle_faced_front===undefined || this.main_sprites.vehicle_faced_left===undefined || this.main_sprites.vehicle_faced_right===undefined){
-                if(this.spritesImgsInformation.vehicleRealistic){
-                    if(this.spritesImgsInformation.vehicleIndex!==null){ // Realistic image with index does not exist
-                        frontRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_front$");
-                        leftRegex       = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_left$");
-                        rightRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_right$");
-                    }else{ // Realistic image without index does not exist
-                        frontRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_front$");
-                        leftRegex       = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_left$");
-                        rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
-                    }
-                }
-                else{
-                    frontRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_front$");
-                    leftRegex       = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_left$");
-                    rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
-                }
+		    if(this.vehicle_faced_front===undefined || this.main_sprites.vehicle_faced_left===undefined || this.main_sprites.vehicle_faced_right===undefined || this.vehicle_faced_front===null || this.main_sprites.vehicle_faced_left===null || this.main_sprites.vehicle_faced_right===null){
+		        if(this.spritesImgsInformation.vehicleRealistic){
+		            if(this.spritesImgsInformation.vehicleIndex!==null){ // Realistic image with index does not exist
+		                frontRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_front$");
+		                leftRegex       = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_left$");
+		                rightRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_right$");
+		            }else{ // Realistic image without index does not exist
+		                frontRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_front$");
+		                leftRegex       = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_left$");
+		                rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
+		            }
+		        }
+		        else{
+		            frontRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_front$");
+		            leftRegex       = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_left$");
+		            rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
+		        }
 
-                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-                    this.spritesAvailable[k]={
-                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-                        value:this.spritesReadJSON.frames[k].frame
-                    };
-                    if(this.spritesAvailable[k].name.match(frontRegex)){
-                        this.vehicle_faced_front = this.spritesAvailable[k].value;
-                    }
-                    if(this.spritesAvailable[k].name.match(leftRegex)){
-                        this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-                    }
-                    if(this.spritesAvailable[k].name.match(rightRegex)){
-                        this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-                    }
-                }
-            }
-            if(this.main_sprites.background!==undefined && this.main_sprites.logo!==undefined && this.vehicle_faced_front!==undefined && this.main_sprites.vehicle_faced_left!==undefined && this.main_sprites.vehicle_faced_right!==undefined){
-                this.readSprite=true;
-            }else{
-                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-                    this.spritesAvailable[k]={
-                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-                        value:this.spritesReadJSON.frames[k].frame
-                    };
-                    if(this.spritesAvailable[k].name.match(/^background$/)){
-                        this.main_sprites.background = this.spritesAvailable[k].value;
-                    }
-                    if(this.spritesAvailable[k].name.match(/^logo$/)){
-                        this.main_sprites.logo = this.spritesAvailable[k].value;
-                    }
-                    if(this.spritesImgsInformation.vehicleType==="airplane"){
-                        if(this.spritesAvailable[k].name.match(/^airplane_faced_front$/)){
-                            this.vehicle_faced_front = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^airplane_faced_left$/)){
-                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^airplane_faced_right$/)){
-                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-                        }
-                    }
-                    else if(this.spritesImgsInformation.vehicleType==="bicycle"){
-                        if(this.spritesAvailable[k].name.match(/^bicycle_faced_front$/)){
-                            this.vehicle_faced_front = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^bicycle_faced_left$/)){
-                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^bicycle_faced_right$/)){
-                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-                        }
-                    }
-                    else if(this.spritesImgsInformation.vehicleType==="car") {
-                        if(this.spritesAvailable[k].name.match(/^car_faced_front$/)){
-                            this.vehicle_faced_front = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^car_faced_left$/)){
-                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^car_faced_right$/)){
-                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-                        }
-                    }
-                    else if(this.spritesImgsInformation.vehicleType==="helicopter"){
-                        if(this.spritesAvailable[k].name.match(/^helicopter_faced_front$/)){
-                            this.vehicle_faced_front = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^helicopter_faced_left$/)){
-                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^helicopter_faced_right$/)){
-                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-                        }
-                    }
-                    else if(this.spritesImgsInformation.vehicleType==="motorbike"){
-                        if(this.spritesAvailable[k].name.match(/^motorbike_faced_front$/)){
-                            this.vehicle_faced_front = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^motorbike_faced_left$/)){
-                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^motorbike_faced_right$/)){
-                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-                        }
-                    }
-                }
-                this.readSprite=true;
-            }
-        }
+		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+		            this.spritesAvailable[k]={
+		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+		                value:this.spritesReadJSON.frames[k].frame
+		            };
+		            if(this.spritesAvailable[k].name.match(frontRegex)){
+		                this.vehicle_faced_front = this.spritesAvailable[k].value;
+		            }
+		            if(this.spritesAvailable[k].name.match(leftRegex)){
+		                this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+		            }
+		            if(this.spritesAvailable[k].name.match(rightRegex)){
+		                this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+		            }
+		        }
+		    }
+
+		    if(this.main_sprites.background!==undefined && this.main_sprites.logo!==undefined && this.vehicle_faced_front!==undefined && this.main_sprites.vehicle_faced_left!==undefined && this.main_sprites.vehicle_faced_right!==undefined && this.main_sprites.background!==null && this.main_sprites.logo!==null && this.vehicle_faced_front!==null && this.main_sprites.vehicle_faced_left!==null && this.main_sprites.vehicle_faced_right!==null){
+		        this.readSprite=true;
+		    }else{
+		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+		            this.spritesAvailable[k]={
+		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+		                value:this.spritesReadJSON.frames[k].frame
+		            };
+		            if(this.spritesAvailable[k].name.match(/^background$/)){
+		                this.main_sprites.background = this.spritesAvailable[k].value;
+		            }
+		            if(this.spritesAvailable[k].name.match(/^logo$/)){
+		                this.main_sprites.logo = this.spritesAvailable[k].value;
+		            }
+		            if(this.spritesImgsInformation.vehicleType==="airplane"){
+		                if(this.spritesAvailable[k].name.match(/^airplane_faced_front$/)){
+		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^airplane_faced_left$/)){
+		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^airplane_faced_right$/)){
+		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+		                }
+		            }
+		            else if(this.spritesImgsInformation.vehicleType==="bicycle"){
+		                if(this.spritesAvailable[k].name.match(/^bicycle_faced_front$/)){
+		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^bicycle_faced_left$/)){
+		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^bicycle_faced_right$/)){
+		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+		                }
+		            }
+		            else if(this.spritesImgsInformation.vehicleType==="car") {
+		                if(this.spritesAvailable[k].name.match(/^car_faced_front$/)){
+		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^car_faced_left$/)){
+		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^car_faced_right$/)){
+		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+		                }
+		            }
+		            else if(this.spritesImgsInformation.vehicleType==="helicopter"){
+		                if(this.spritesAvailable[k].name.match(/^helicopter_faced_front$/)){
+		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^helicopter_faced_left$/)){
+		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^helicopter_faced_right$/)){
+		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+		                }
+		            }
+		            else if(this.spritesImgsInformation.vehicleType==="motorbike"){
+		                if(this.spritesAvailable[k].name.match(/^motorbike_faced_front$/)){
+		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^motorbike_faced_left$/)){
+		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^motorbike_faced_right$/)){
+		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+		                }
+		            }
+		        }
+		        this.readSprite=true;
+		    }
+		}
+
         this.onPageLoad(this.spritesFiles);
         // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
         this.loadingTrackNrIterations = setInterval(
@@ -1444,10 +1444,6 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.renderSimulatorFrame = function () {
-
-    	console.log("STRUCT: "+this.vehicle);
-    	console.log("Vehicle Choosen: "+this.spritesImgsInformation.vehicleType);
-
         // Sometimes it causes exceptions on console.log, but it is a bug in chrome browser
         // see more at: https://github.com/sampotts/plyr/issues/331
         // if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.sound_attribute]===this.vehicle.mute_attribute){
@@ -1467,228 +1463,227 @@ define(function (require, exports, module) {
         //     // ]);
         // }
 
-        // if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.quit_attribute){ // Key 'q' ends current simulator
-        //     this.canvasInformations.chronometer.stop();
-        //     // this.soundWidget.hide();
-        //     clearInterval(this.intervals.simulatorInterval);
-        //     this.intervals.splashInterval = setInterval(
-        //             (function(self) {         //Self-executing func which takes 'this' as self
-        //             return function() {   //Return a function in the context of 'self'
-        //                 self.renderSplashEndFrame(); //Thing you wanted to run as non-window 'this'
-        //             }
-        //         })(this),
-        //         30     //normal interval, 'this' scope not impacted here.
-        //     );
-        //     // this.soundWidget.pauseAll();
-        // }
+        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.quit_attribute){ // Key 'q' ends current simulator
+            this.canvasInformations.chronometer.stop();
+            // this.soundWidget.hide();
+            clearInterval(this.intervals.simulatorInterval);
+            this.intervals.splashInterval = setInterval(
+                    (function(self) {         //Self-executing func which takes 'this' as self
+                    return function() {   //Return a function in the context of 'self'
+                        self.renderSplashEndFrame(); //Thing you wanted to run as non-window 'this'
+                    }
+                })(this),
+                30     //normal interval, 'this' scope not impacted here.
+            );
+            // this.soundWidget.pauseAll();
+        }
 
-        // if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.pause_attribute){ // Key 's' pauses current simulator
-        //     this.canvasInformations.chronometer.pause();
-        //     // this.soundWidget.hide();
-        //     clearInterval(this.intervals.simulatorInterval);
-        //     this.intervals.splashInterval = setInterval(
-        //             (function(self) {         //Self-executing func which takes 'this' as self
-        //             return function() {   //Return a function in the context of 'self'
-        //                 self.renderSplashPauseFrame(); //Thing you wanted to run as non-window 'this'
-        //             }
-        //         })(this),
-        //         30     //normal interval, 'this' scope not impacted here.
-        //     );
-        //     // this.soundWidget.pauseAll();
-        // }
+        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.pause_attribute){ // Key 's' pauses current simulator
+            this.canvasInformations.chronometer.pause();
+            // this.soundWidget.hide();
+            clearInterval(this.intervals.simulatorInterval);
+            this.intervals.splashInterval = setInterval(
+                    (function(self) {         //Self-executing func which takes 'this' as self
+                    return function() {   //Return a function in the context of 'self'
+                        self.renderSplashPauseFrame(); //Thing you wanted to run as non-window 'this'
+                    }
+                })(this),
+                30     //normal interval, 'this' scope not impacted here.
+            );
+            // this.soundWidget.pauseAll();
+        }
 
-        // // Clean screen
-        // // this.canvasInformations.context.fillStyle = "#dc9"; // rgb(221, 204, 153) matches first background color
-        // this.canvasInformations.context.fillStyle = "#76665d";
-        // this.canvasInformations.context.fillRect(0, 0, this.renderCanvas.width, this.renderCanvas.height);
+        // Clean screen
+        // this.canvasInformations.context.fillStyle = "#dc9"; // rgb(221, 204, 153) matches first background color
+        this.canvasInformations.context.fillStyle = "#76665d";
+        this.canvasInformations.context.fillRect(0, 0, this.renderCanvas.width, this.renderCanvas.height);
 
-        // let carSprite = null;
+        let carSprite = null;
 
-        // if(this.loadPVSSpeedPositions){
-        //     // Using PVS results
-        //     this.calculateNewControllableCarPosition();
-        //     carSprite = this.setControllableCarPosition(this.auxiliaryPVSValues.vehicleCurrentDirectionAux, this.auxiliaryPVSValues.newSpeedAux, this.auxiliaryPVSValues.newPositionAux, this.auxiliaryPVSValues.newPositionXAux, this.auxiliaryPVSValues.vehicleXPositionAux, this.auxiliaryPVSValues.vehicleYPositionAux);
-        // }else{
-        //     // Using only JS to update rendered vehicle
-        //     carSprite = this.updateControllableCar();
-        // }
+        if(this.loadPVSSpeedPositions){
+            // Using PVS results
+            this.calculateNewControllableCarPosition();
+            carSprite = this.setControllableCarPosition(this.auxiliaryPVSValues.vehicleCurrentDirectionAux, this.auxiliaryPVSValues.newSpeedAux, this.auxiliaryPVSValues.newPositionAux, this.auxiliaryPVSValues.newPositionXAux, this.auxiliaryPVSValues.vehicleXPositionAux, this.auxiliaryPVSValues.vehicleYPositionAux);
+        }else{
+            // Using only JS to update rendered vehicle
+            carSprite = this.updateControllableCar();
+        }
 
-        // this.drawBackground(-this.controllable_car.posx);
+        this.drawBackground(-this.controllable_car.posx);
 
-        // let spriteBuffer = [];
+        let spriteBuffer = [];
 
-        // // Render the track
-        // let absoluteIndex = Math.floor(this.controllable_car.position / this.arcadeParams.trackSegmentSize);
+        // Render the track
+        let absoluteIndex = Math.floor(this.controllable_car.position / this.arcadeParams.trackSegmentSize);
 
-        // let currentSegmentIndex    = (absoluteIndex - 2) % this.track.length;
-        // let currentSegmentPosition = (absoluteIndex - 2) * this.arcadeParams.trackSegmentSize - this.controllable_car.position;
-        // let currentSegment         = this.track[currentSegmentIndex];
+        let currentSegmentIndex    = (absoluteIndex - 2) % this.track.length;
+        let currentSegmentPosition = (absoluteIndex - 2) * this.arcadeParams.trackSegmentSize - this.controllable_car.position;
+        let currentSegment         = this.track[currentSegmentIndex];
 
-        // let lastProjectedHeight     = Number.POSITIVE_INFINITY;
-        // let probedDepth             = 0;
-        // let counter                 = absoluteIndex % (2 * this.arcadeParams.numberOfSegmentPerColor); // for alternating color band
+        let lastProjectedHeight     = Number.POSITIVE_INFINITY;
+        let probedDepth             = 0;
+        let counter                 = absoluteIndex % (2 * this.arcadeParams.numberOfSegmentPerColor); // for alternating color band
 
-        // let controllable_carPosSegmentHeight     = this.track[absoluteIndex % this.track.length].height;
-        // let controllable_carPosNextSegmentHeight = this.track[(absoluteIndex + 1) % this.track.length].height;
-        // let controllable_carPosRelative          = (this.controllable_car.position % this.arcadeParams.trackSegmentSize) / this.arcadeParams.trackSegmentSize;
-        // let controllable_carHeight               = this.renderCanvas.camera_height + controllable_carPosSegmentHeight + (controllable_carPosNextSegmentHeight - controllable_carPosSegmentHeight) * controllable_carPosRelative;
+        let controllable_carPosSegmentHeight     = this.track[absoluteIndex % this.track.length].height;
+        let controllable_carPosNextSegmentHeight = this.track[(absoluteIndex + 1) % this.track.length].height;
+        let controllable_carPosRelative          = (this.controllable_car.position % this.arcadeParams.trackSegmentSize) / this.arcadeParams.trackSegmentSize;
+        let controllable_carHeight               = this.renderCanvas.camera_height + controllable_carPosSegmentHeight + (controllable_carPosNextSegmentHeight - controllable_carPosSegmentHeight) * controllable_carPosRelative;
 
-        // let baseOffset                 =  currentSegment.curve + (this.track[(currentSegmentIndex + 1) % this.track.length].curve - currentSegment.curve) * controllable_carPosRelative;
+        let baseOffset                 =  currentSegment.curve + (this.track[(currentSegmentIndex + 1) % this.track.length].curve - currentSegment.curve) * controllable_carPosRelative;
 
-        // this.lastDelta = this.controllable_car.posx - baseOffset*2;
+        this.lastDelta = this.controllable_car.posx - baseOffset*2;
 
-        // let iter = this.renderCanvas.depthOfField;
-        // while (iter--) {
-        //     // Next Segment:
-        //     let nextSegmentIndex       = (currentSegmentIndex + 1) % this.track.length;
-        //     let nextSegment            = this.track[nextSegmentIndex];
+        let iter = this.renderCanvas.depthOfField;
+        while (iter--) {
+            // Next Segment:
+            let nextSegmentIndex       = (currentSegmentIndex + 1) % this.track.length;
+            let nextSegment            = this.track[nextSegmentIndex];
 
-        //     let startProjectedHeight = Math.floor((controllable_carHeight - currentSegment.height) * this.renderCanvas.camera_distance / (this.renderCanvas.camera_distance + currentSegmentPosition));
-        //     let startScaling         = 30 / (render.camera_distance + currentSegmentPosition);
+            let startProjectedHeight = Math.floor((controllable_carHeight - currentSegment.height) * this.renderCanvas.camera_distance / (this.renderCanvas.camera_distance + currentSegmentPosition));
+            let startScaling         = 30 / (this.renderCanvas.camera_distance + currentSegmentPosition);
 
-        //     let endProjectedHeight   = Math.floor((controllable_carHeight - nextSegment.height) * this.renderCanvas.camera_distance / (this.renderCanvas.camera_distance + currentSegmentPosition + this.arcadeParams.trackSegmentSize));
-        //     let endScaling           = 30 / (this.renderCanvas.camera_distance + currentSegmentPosition + this.arcadeParams.trackSegmentSize);
+            let endProjectedHeight   = Math.floor((controllable_carHeight - nextSegment.height) * this.renderCanvas.camera_distance / (this.renderCanvas.camera_distance + currentSegmentPosition + this.arcadeParams.trackSegmentSize));
+            let endScaling           = 30 / (this.renderCanvas.camera_distance + currentSegmentPosition + this.arcadeParams.trackSegmentSize);
 
-        //     let currentHeight        = Math.min(lastProjectedHeight, startProjectedHeight);
-        //     let currentScaling       = startScaling;
+            let currentHeight        = Math.min(lastProjectedHeight, startProjectedHeight);
+            let currentScaling       = startScaling;
 
-        //     if(currentHeight > endProjectedHeight){
-        //         this.setColorsCanvas(counter < this.arcadeParams.numberOfSegmentPerColor, this.readColorsJSON.grass1, this.readColorsJSON.border1, this.readColorsJSON.border2, this.readColorsJSON.outborder1, this.readColorsJSON.outborder_end1, this.readColorsJSON.track_segment1, this.readColorsJSON.lane1, this.readColorsJSON.lane2, this.readColorsJSON.laneArrow1);
-        //         this.drawSegment(
-        //             this.renderCanvas.height / 2 + currentHeight,
-        //             currentScaling, currentSegment.curve - baseOffset - this.lastDelta * currentScaling,
-        //             this.renderCanvas.height / 2 + endProjectedHeight,
-        //             endScaling,
-        //             nextSegment.curve - baseOffset - this.lastDelta * endScaling,
-        //             currentSegmentIndex === 2 || currentSegmentIndex === (this.arcadeParams.numIterations-this.renderCanvas.depthOfField));
-        //     }
-        //     if(currentSegment.sprite){
-        //         spriteBuffer.push(
-        //             {
-        //                 y: this.renderCanvas.height / 2 + startProjectedHeight,
-        //                 x: this.renderCanvas.width / 2 - currentSegment.sprite.pos * this.renderCanvas.width * currentScaling + currentSegment.curve - baseOffset - (this.controllable_car.posx - baseOffset*2) * currentScaling,
-        //                 ymax: this.renderCanvas.height / 2 + lastProjectedHeight,
-        //                 s: currentScaling,
-        //                 i: currentSegment.sprite.type,
-        //                 pos: currentSegment.sprite.pos,
-        //                 obstacle: currentSegment.sprite.obstacle
-        //             }
-        //         );
-        //     }
+            if(currentHeight > endProjectedHeight){
+                this.setColorsCanvas(counter < this.arcadeParams.numberOfSegmentPerColor, this.readColorsJSON.grass1, this.readColorsJSON.border1, this.readColorsJSON.border2, this.readColorsJSON.outborder1, this.readColorsJSON.outborder_end1, this.readColorsJSON.track_segment1, this.readColorsJSON.lane1, this.readColorsJSON.lane2, this.readColorsJSON.laneArrow1);
+                this.drawSegment(
+                    this.renderCanvas.height / 2 + currentHeight,
+                    currentScaling, currentSegment.curve - baseOffset - this.lastDelta * currentScaling,
+                    this.renderCanvas.height / 2 + endProjectedHeight,
+                    endScaling,
+                    nextSegment.curve - baseOffset - this.lastDelta * endScaling,
+                    currentSegmentIndex === 2 || currentSegmentIndex === (this.arcadeParams.numIterations-this.renderCanvas.depthOfField));
+            }
+            if(currentSegment.sprite){
+                spriteBuffer.push(
+                    {
+                        y: this.renderCanvas.height / 2 + startProjectedHeight,
+                        x: this.renderCanvas.width / 2 - currentSegment.sprite.pos * this.renderCanvas.width * currentScaling + currentSegment.curve - baseOffset - (this.controllable_car.posx - baseOffset*2) * currentScaling,
+                        ymax: this.renderCanvas.height / 2 + lastProjectedHeight,
+                        s: currentScaling,
+                        i: currentSegment.sprite.type,
+                        pos: currentSegment.sprite.pos,
+                        obstacle: currentSegment.sprite.obstacle
+                    }
+                );
+            }
 
-        //     lastProjectedHeight    = currentHeight;
+            lastProjectedHeight    = currentHeight;
 
-        //     probedDepth            = currentSegmentPosition;
+            probedDepth            = currentSegmentPosition;
 
-        //     currentSegmentIndex    = nextSegmentIndex;
-        //     currentSegment         = nextSegment;
+            currentSegmentIndex    = nextSegmentIndex;
+            currentSegment         = nextSegment;
 
-        //     currentSegmentPosition += this.arcadeParams.trackSegmentSize;
+            currentSegmentPosition += this.arcadeParams.trackSegmentSize;
 
-        //     counter = (counter + 1) % (2 * this.arcadeParams.numberOfSegmentPerColor);
-        // }
+            counter = (counter + 1) % (2 * this.arcadeParams.numberOfSegmentPerColor);
+        }
 
-        // while((sptB = spriteBuffer.pop())!==undefined) {
-        //     this.drawSprite(sptB, null, null, null, null);
-        // }
+        while((this.sptB = spriteBuffer.pop())!==undefined) {
+            this.drawSprite(this.sptB, null, null, null, null);
+        }
 
-        // // Draw the car
-        // this.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
+        // Draw the car
+        this.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
 
         // this.lapInformation.currentPercentage = Math.round(absoluteIndex/(this.arcadeParams.numIterations-this.renderCanvas.depthOfField)*100);
+        if(this.WIDGETSTATE!==null){
+            this.lapInformation.currentLapNumber = parseInt(this.WIDGETSTATE[this.vehicle.lap_attribute][this.vehicle.lap_value]);
 
-        // if(this.WIDGETSTATE!==null){
-        //     this.lapInformation.currentLapNumber = parseInt(this.WIDGETSTATE[this.vehicle.lap_attribute][this.vehicle.lap_value]);
+            if(absoluteIndex >= this.arcadeParams.numIterations-this.renderCanvas.depthOfField-1){
+                if(this.lapInformation.currentLapNumber<=this.lapInformation.lapNumber && this.lapInformation.counterAux===0){
+                    ButtonActionsQueue.queueGUIAction(this.vehicle.newLap_functionNamePVS, this.lapInformation.callback);
+                }
+                this.lapInformation.counterAux=1;
+            }
 
-        //     if(absoluteIndex >= this.arcadeParams.numIterations-this.renderCanvas.depthOfField-1){
-        //         if(this.lapInformation.currentLapNumber<=this.lapInformation.lapNumber && this.lapInformation.counterAux===0){
-        //             ButtonActionsQueue.queueGUIAction(this.vehicle.newLap_functionNamePVS, this.lapInformation.callback);
-        //         }
-        //         this.lapInformation.counterAux=1;
-        //     }
+            if(this.lapInformation.lastLapNumber===this.lapInformation.currentLapNumber-1){
+                this.lapInformation.lastLapNumber=this.lapInformation.currentLapNumber;
+                this.lapInformation.counterAux=0;
+            }
 
-        //     if(this.lapInformation.lastLapNumber===this.lapInformation.currentLapNumber-1){
-        //         this.lapInformation.lastLapNumber=this.lapInformation.currentLapNumber;
-        //         this.lapInformation.counterAux=0;
-        //     }
+            if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber){
+                this.drawText("1 Lap",{x: 10, y: 15}, 1);
+                this.drawText("To Go",{x: 10, y: 25}, 1);
+            }
 
-        //     if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber){
-        //         this.drawText("1 Lap",{x: 10, y: 15}, 1);
-        //         this.drawText("To Go",{x: 10, y: 25}, 1);
-        //     }
+            if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber && this.lapInformation.currentPercentage>=100){
+                clearInterval(this.intervals.simulatorInterval);
+                this.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
+                this.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
+                this.drawText("The Simulator", {x: 100, y: 70}, 1);
+                // this.soundWidget.pauseAll();
 
-        //     if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber && this.lapInformation.currentPercentage>=100){
-        //         clearInterval(this.intervals.simulatorInterval);
-        //         this.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
-        //         this.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
-        //         this.drawText("The Simulator", {x: 100, y: 70}, 1);
-        //         // this.soundWidget.pauseAll();
+                // Delayed function call by 5 seconds to reload simulator
+                // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
+                setTimeout(
+                    (function(self) {         //Self-executing func which takes 'this' as self
+                        return function() {   //Return a function in the context of 'self'
+                            location.reload(); //Thing you wanted to run as non-window 'this'
+                        }
+                    })(this),
+                    5000     //normal interval, 'this' scope not impacted here.
+                ); 
+            }
+        }
 
-        //         // Delayed function call by 5 seconds to reload simulator
-        //         // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
-        //         setTimeout(
-        //             (function(self) {         //Self-executing func which takes 'this' as self
-        //                 return function() {   //Return a function in the context of 'self'
-        //                     location.reload(); //Thing you wanted to run as non-window 'this'
-        //                 }
-        //             })(this),
-        //             5000     //normal interval, 'this' scope not impacted here.
-        //         ); 
-        //     }
-        // }
+        // Draw Header
+        if(this.lapInformation.currentLapNumber<this.lapInformation.lapNumber){
+            this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 1}, 1);
+        }else{
+            this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 1}, 1);
+        }
 
-        // // Draw Header
-        // if(this.lapInformation.currentLapNumber<this.lapInformation.lapNumber){
-        //     this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 1}, 1);
-        // }else{
-        //     this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 1}, 1);
-        // }
+        // this.lapInformation.currentPercentage = Math.round(absoluteIndex/(this.arcadeParams.numIterations-this.renderCanvas.depthOfField)*100);
+        if(this.lapInformation.currentPercentage>100){
+            this.drawText("Current Lap 100%",{x: 100, y: 1},1);
+        }else{
+            this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: 100, y: 1},1);
+        }
 
-        // // this.lapInformation.currentPercentage = Math.round(absoluteIndex/(this.arcadeParams.numIterations-this.renderCanvas.depthOfField)*100);
-        // if(this.lapInformation.currentPercentage>100){
-        //     this.drawText("Current Lap 100%",{x: 100, y: 1},1);
-        // }else{
-        //     this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: 100, y: 1},1);
-        // }
+        // Draw Virtual Speedometer and Tachometer based on Speedometer, Tachometer Widgets
+        if(this.WIDGETSTATE!==null){
+            if(this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value]!=="0"){
+                let currentSpeedPVS = this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value];
+                let arraySpeed = currentSpeedPVS.split("/");
+                let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
+                if(!isNaN(speedValue)){
+                    this.lastPVSValues.lastSpeedPVS = Math.ceil(speedValue);
+                }
+                this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 260, y: 1}, 1);
+            }else{
+                this.drawText(""+0+" kmh", {x: 260, y: 1}, 1);
+            }
+            if(this.WIDGETSTATE.rpm!=="0"){
+                let currentRPMPVS = this.WIDGETSTATE.rpm;
+                let arrayRPM = currentRPMPVS.split("/");
+                let rpmValue = parseInt(arrayRPM[0])/parseInt(arrayRPM[1]);
+                if(!isNaN(rpmValue)){
+                    this.lastPVSValues.lastRPMPVS = Math.ceil(rpmValue);
+                }
+                this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 10}, 1);
+            }else{
+                this.drawText(""+0+" rpm", {x: 260, y: 10}, 1);
+            }
+        }
 
-        // // Draw Virtual Speedometer and Tachometer based on Speedometer, Tachometer Widgets
-        // if(this.WIDGETSTATE!==null){
-        //     if(this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value]!=="0"){
-        //         let currentSpeedPVS = this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value];
-        //         let arraySpeed = currentSpeedPVS.split("/");
-        //         let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
-        //         if(!isNaN(speedValue)){
-        //             this.lastPVSValues.lastSpeedPVS = Math.ceil(speedValue);
-        //         }
-        //         this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 260, y: 1}, 1);
-        //     }else{
-        //         this.drawText(""+0+" kmh", {x: 260, y: 1}, 1);
-        //     }
-        //     if(this.WIDGETSTATE.rpm!=="0"){
-        //         let currentRPMPVS = this.WIDGETSTATE.rpm;
-        //         let arrayRPM = currentRPMPVS.split("/");
-        //         let rpmValue = parseInt(arrayRPM[0])/parseInt(arrayRPM[1]);
-        //         if(!isNaN(rpmValue)){
-        //             this.lastPVSValues.lastRPMPVS = Math.ceil(rpmValue);
-        //         }
-        //         this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 10}, 1);
-        //     }else{
-        //         this.drawText(""+0+" rpm", {x: 260, y: 10}, 1);
-        //     }
-        // }
+        // Draw Lap Time
+        let res = this.canvasInformations.time[0].split("-");
+        this.canvasInformations.currentTimeString = res[0] + " h:" + this.canvasInformations.time[1] + " m:" + this.canvasInformations.time[2] + " s:" + this.canvasInformations.time[3] + " ms";
+        this.drawText(this.canvasInformations.currentTimeString, {x: 80, y: 15}, 1);
 
-        // // Draw Lap Time
-        // let res = this.canvasInformations.time[0].split("-");
-        // this.canvasInformations.currentTimeString = res[0] + " h:" + this.canvasInformations.time[1] + " m:" + this.canvasInformations.time[2] + " s:" + this.canvasInformations.time[3] + " ms";
-        // this.drawText(this.canvasInformations.currentTimeString, {x: 80, y: 15}, 1);
-
-        // // Draw Simulator Logo
-        // if(this.canvasInformations.showOfficialLogo){
-        //     // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo1,15,215,0.6*60,0.6*32);
-        //     this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo2,15,215,0.6*60,0.6*32);
-        //     // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo1,10,225,0.4*60,0.4*32);
-        //     // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo2,10,225,0.4*60,0.4*32);
-        // }
+        // Draw Simulator Logo
+        if(this.canvasInformations.showOfficialLogo){
+            // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo1,15,215,0.6*60,0.6*32);
+            this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo2,15,215,0.6*60,0.6*32);
+            // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo1,10,225,0.4*60,0.4*32);
+            // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo2,10,225,0.4*60,0.4*32);
+        }
 
         return this;
     };
@@ -2283,7 +2278,7 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.updateControllableCar = function () {
 
-        if(this.vehicle_faced_front===undefined || this.main_sprites.vehicle_faced_left===undefined || this.main_sprites.vehicle_faced_right===undefined){
+        if(this.vehicle_faced_front===undefined || this.main_sprites.vehicle_faced_left===undefined || this.main_sprites.vehicle_faced_right===undefined || this.vehicle_faced_front===null || this.main_sprites.vehicle_faced_left===null || this.main_sprites.vehicle_faced_right===null){
             console.log("Check if constructor args are correct!");
             console.log("Maybe Vehicle Image does not exist! Check Spritesheet image and Spritesheet.json");
             console.log("Vehicle Image Type and Realistic Image does not have a match");
@@ -2452,7 +2447,7 @@ define(function (require, exports, module) {
      */
     Arcade.prototype.setControllableCarPosition = function (vehicleCurrentDirection, newSpeed, newPosition, newPositionX, vehicleXPosition, vehicleYPosition) {
 
-        if(this.vehicle_faced_front===undefined || this.main_sprites.vehicle_faced_left===undefined || this.main_sprites.vehicle_faced_right===undefined){
+        if(this.vehicle_faced_front===undefined || this.main_sprites.vehicle_faced_left===undefined || this.main_sprites.vehicle_faced_right===undefined || this.vehicle_faced_front===null || this.main_sprites.vehicle_faced_left===null || this.main_sprites.vehicle_faced_right===null){
             console.log("Check if constructor args are correct!");
             console.log("Maybe Vehicle Image does not exist! Check Spritesheet image and Spritesheet.json");
             console.log("Vehicle Image Type and Realistic Image does not have a match");
@@ -2461,25 +2456,25 @@ define(function (require, exports, module) {
         this.controllable_car.speed    = newSpeed;
         this.controllable_car.position = newPosition;
 
-        let carSprite;
+        let carSprite={};
 
         if(this.controllable_car.speed > 0){
             this.controllable_car.posx = newPositionX;
         }
 
-        if(this.vehicleCurrentDirection===this.vehicle.straight_attribute){
+        if(vehicleCurrentDirection===this.vehicle.straight_attribute){
             carSprite = {
                 car: this.vehicle_faced_front,
                 x: vehicleXPosition,
                 y: vehicleYPosition
             };
-        }else if(this.vehicleCurrentDirection===this.vehicle.left_attribute){
+        }else if(vehicleCurrentDirection===this.vehicle.left_attribute){
             carSprite = {
                 car: this.main_sprites.vehicle_faced_left,
                 x: vehicleXPosition,
                 y: vehicleYPosition
             };
-        }else if(this.vehicleCurrentDirection===this.vehicle.right_attribute){
+        }else if(vehicleCurrentDirection===this.vehicle.right_attribute){
             carSprite = {
                 car: this.main_sprites.vehicle_faced_right,
                 x: vehicleXPosition,
@@ -2499,179 +2494,172 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.calculateNewControllableCarPosition = function () {
-        // console.log(this.vehicle);
-        // console.log(this.spritesImgsInformation.vehicleType);
-        // console.log("this.vehicle.speed_attribute: "+this.vehicle.speed_attribute);
-        // console.log("this.vehicle.speed_value: "+this.vehicle.speed_value);
-        // console.log(this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value]);
+        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value]!=="0"){
+            // readSprite acceleration controls
+            // this.soundOff = this.soundWidget.getSoundOff();
+            let currentSpeedPVS = this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value];
+            let arraySpeed = currentSpeedPVS.split("/");
+            let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
+            if(!isNaN(speedValue)){
+                this.lastPVSValues.lastSpeedPVS = Math.ceil(speedValue);
+            }
+            if(Math.abs(this.lastDelta) > 130){
+                if (this.auxiliaryPVSValues.newSpeedAux > 150) {
+                    this.auxiliaryPVSValues.newSpeedAux -= this.lastPVSValues.lastSpeedPVS*0.10;
+                }
+            }else{
+                this.auxiliaryPVSValues.newSpeedAux = this.lastPVSValues.lastSpeedPVS*0.10;
+            }
 
+            if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.accelerate_attribute) {
+                if(!this.soundOff){
+                    // this.soundWidget.playSound(3); //accelerating song
+                }
+            }else if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.brake_attribute) {
+                if(!this.soundOff){
+                    // this.soundWidget.pauseSound(3); //accelerating song
+                }
+            }else if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.idle_attribute){
+                if(!this.soundOff){
+                    // this.soundWidget.pauseSound(3); //accelerating song
+                }
+            }
+        }
 
-        // if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value]!=="0"){
-        //     // readSprite acceleration controls
-        //     this.soundOff = this.soundWidget.getSoundOff();
-        //     let currentSpeedPVS = this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value];
-        //     let arraySpeed = currentSpeedPVS.split("/");
-        //     let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
-        //     if(!isNaN(speedValue)){
-        //         this.lastPVSValues.lastSpeedPVS = Math.ceil(speedValue);
-        //     }
-        //     if(Math.abs(this.lastDelta) > 130){
-        //         if (this.auxiliaryPVSValues.newSpeedAux > 150) {
-        //             this.auxiliaryPVSValues.newSpeedAux -= this.lastPVSValues.lastSpeedPVS*0.10;
-        //         }
-        //     }else{
-        //         this.auxiliaryPVSValues.newSpeedAux = this.lastPVSValues.lastSpeedPVS*0.10;
-        //     }
+        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.posx_attribute][this.vehicle.posx_value]!=="0.0"){
+            let currentPositionXPVS = this.WIDGETSTATE[this.vehicle.posx_attribute][this.vehicle.posx_value];
+            let positionXValue = parseInt(currentPositionXPVS);
+            if(!isNaN(positionXValue)){
+                this.lastPVSValues.lastPosXPVS = Math.ceil(positionXValue);
+            }
+            this.auxiliaryPVSValues.newPositionXAux = this.lastPVSValues.lastPosXPVS;
+        }
 
-        //     if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.accelerate_attribute) {
-        //         if(!this.soundOff){
-        //             // this.soundWidget.playSound(3); //accelerating song
-        //         }
-        //     }else if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.brake_attribute) {
-        //         if(!this.soundOff){
-        //             // this.soundWidget.pauseSound(3); //accelerating song
-        //         }
-        //     }else if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.idle_attribute){
-        //         if(!this.soundOff){
-        //             // this.soundWidget.pauseSound(3); //accelerating song
-        //         }
-        //     }
-        // }
+        this.auxiliaryPVSValues.vehicleCurrentDirectionAux = this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute];
+        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.position_attribute][this.vehicle.position_value]!=="10.0"){
+            let currentPositionPVS = this.WIDGETSTATE[this.vehicle.position_attribute][this.vehicle.position_value];
+            let arrayPosition = currentPositionPVS.split("/");
+            let positionValue = parseInt(arrayPosition[0])/parseInt(arrayPosition[1]);
+            if(!isNaN(positionValue)){
+                this.lastPVSValues.lastPositionPVS = Math.ceil(positionValue);
+            }
+            this.auxiliaryPVSValues.newPositionAux = this.lastPVSValues.lastPositionPVS;
+        }
 
-        // if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.posx_attribute][this.vehicle.posx_value]!=="0.0"){
-        //     let currentPositionXPVS = this.WIDGETSTATE[this.vehicle.posx_attribute][this.vehicle.posx_value];
-        //     let positionXValue = parseInt(currentPositionXPVS);
-        //     if(!isNaN(positionXValue)){
-        //         this.lastPVSValues.lastPosXPVS = Math.ceil(positionXValue);
-        //     }
-        //     this.auxiliaryPVSValues.newPositionXAux = this.lastPVSValues.lastPosXPVS;
-        // }
-
-        // this.auxiliaryPVSValues.vehicleCurrentDirectionAux = this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute];
-        // if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.position_attribute][this.vehicle.position_value]!=="10.0"){
-        //     let currentPositionPVS = this.WIDGETSTATE[this.vehicle.position_attribute][this.vehicle.position_value];
-        //     let arrayPosition = currentPositionPVS.split("/");
-        //     let positionValue = parseInt(arrayPosition[0])/parseInt(arrayPosition[1]);
-        //     if(!isNaN(positionValue)){
-        //         this.lastPVSValues.lastPositionPVS = Math.ceil(positionValue);
-        //     }
-        //     this.auxiliaryPVSValues.newPositionAux = this.lastPVSValues.lastPositionPVS;
-        // }
-
-        // switch (this.spritesImgsInformation.vehicleType) {
-        //     case "airplane":
-        //         if(this.spritesImgsInformation.vehicleIndex===2){
-        //             if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux= 50;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux= 70;
-        //             }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux= 50;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux= 70;
-        //             }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux = 50;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux = 110;
-        //             }
-        //         }else{
-        //             if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux= 110;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux= 100;
-        //             }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux= 110;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux= 100;
-        //             }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux = 110;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux = 100;
-        //             }
-        //         }
-        //         break;
-        //     case "bicycle":
-        //         if(this.spritesImgsInformation.vehicleRealistic){
-        //             if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux= 135;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux= 160;
-        //             }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux= 135;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux= 160;
-        //             }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux = 135;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux = 160;
-        //             }
-        //         }else{
-        //             if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux= 140;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux= 175;
-        //             }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux= 140;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux= 175;
-        //             }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux = 140;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux = 175;
-        //             }
-        //         }
-        //         break;
-        //     case "car":
-        //         if(this.spritesImgsInformation.vehicleRealistic){
-        //             if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux= 125;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux= 180;
-        //             }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux= 125;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux= 180;
-        //             }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux = 125;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux = 180;
-        //             }
-        //         }else{
-        //             if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux= 125;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux= 190;
-        //             }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux= 125;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux= 190;
-        //             }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux = 125;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux = 190;
-        //             }
-        //         }
-        //         break;
-        //     case "helicopter":
-        //         if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-        //             this.auxiliaryPVSValues.vehicleXPositionAux= 70;
-        //             this.auxiliaryPVSValues.vehicleYPositionAux= 60;
-        //         }else if(auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-        //             this.auxiliaryPVSValues.vehicleXPositionAux= 70;
-        //             this.auxiliaryPVSValues.vehicleYPositionAux= 60;
-        //         }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-        //             this.auxiliaryPVSValues.vehicleXPositionAux = 100;
-        //             this.auxiliaryPVSValues.vehicleYPositionAux = 90;
-        //         }
-        //         break;
-        //     case "motorbike":
-        //         if(this.spritesImgsInformation.vehicleRealistic){
-        //             if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux= 130;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux= 160;
-        //             }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux= 130;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux= 160;
-        //             }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux = 130;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux = 160;
-        //             }
-        //         }else{
-        //             if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux= 120;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux= 175;
-        //             }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux= 140;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux= 175;
-        //             }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-        //                 this.auxiliaryPVSValues.vehicleXPositionAux = 150;
-        //                 this.auxiliaryPVSValues.vehicleYPositionAux = 175;
-        //             }
-        //         }
-        //         break;
-        // }
+        switch (this.spritesImgsInformation.vehicleType) {
+            case "airplane":
+                if(this.spritesImgsInformation.vehicleIndex===2){
+                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= 50;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= 70;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= 50;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= 70;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux = 50;
+                        this.auxiliaryPVSValues.vehicleYPositionAux = 110;
+                    }
+                }else{
+                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= 110;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= 100;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= 110;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= 100;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux = 110;
+                        this.auxiliaryPVSValues.vehicleYPositionAux = 100;
+                    }
+                }
+                break;
+            case "bicycle":
+                if(this.spritesImgsInformation.vehicleRealistic){
+                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= 135;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= 160;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= 135;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= 160;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux = 135;
+                        this.auxiliaryPVSValues.vehicleYPositionAux = 160;
+                    }
+                }else{
+                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= 140;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= 175;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= 140;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= 175;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux = 140;
+                        this.auxiliaryPVSValues.vehicleYPositionAux = 175;
+                    }
+                }
+                break;
+            case "car":
+                if(this.spritesImgsInformation.vehicleRealistic){
+                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= 125;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= 180;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= 125;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= 180;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux = 125;
+                        this.auxiliaryPVSValues.vehicleYPositionAux = 180;
+                    }
+                }else{
+                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= 125;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= 190;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= 125;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= 190;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux = 125;
+                        this.auxiliaryPVSValues.vehicleYPositionAux = 190;
+                    }
+                }
+                break;
+            case "helicopter":
+                if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
+                    this.auxiliaryPVSValues.vehicleXPositionAux= 70;
+                    this.auxiliaryPVSValues.vehicleYPositionAux= 60;
+                }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
+                    this.auxiliaryPVSValues.vehicleXPositionAux= 70;
+                    this.auxiliaryPVSValues.vehicleYPositionAux= 60;
+                }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
+                    this.auxiliaryPVSValues.vehicleXPositionAux = 100;
+                    this.auxiliaryPVSValues.vehicleYPositionAux = 90;
+                }
+                break;
+            case "motorbike":
+                if(this.spritesImgsInformation.vehicleRealistic){
+                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= 130;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= 160;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= 130;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= 160;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux = 130;
+                        this.auxiliaryPVSValues.vehicleYPositionAux = 160;
+                    }
+                }else{
+                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= 120;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= 175;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= 140;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= 175;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux = 150;
+                        this.auxiliaryPVSValues.vehicleYPositionAux = 175;
+                    }
+                }
+                break;
+        }
 
         return this;
     };
