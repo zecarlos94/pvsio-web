@@ -700,8 +700,8 @@ arcade.arcadeWidget = new Arcade("arcadeWidget", {
     // logoImgIndex: 1, // defines logo sprite image suffix 
     // backgroundImgIndex: 1, // defines background sprite image suffix 
     stripePositions: {
-        trackP1: -0.50,
-        trackP2: 0.50,
+        trackP1: -0.55,
+        trackP2: 0.55,
         borderWidth: 0.08,
         inOutBorderWidth: 0.02,
         landscapeOutBorderWidth: 0.13,
@@ -801,8 +801,8 @@ vehicleImgIndex: null,
 logoImgIndex: null,
 backgroundImgIndex: null,
 stripePositions: {
-    trackP1: -0.50,
-    trackP2: 0.50,
+    trackP1: -0.55,
+    trackP2: 0.55,
     borderWidth: 0.08,
     inOutBorderWidth: 0.02,
     landscapeOutBorderWidth: 0.13,

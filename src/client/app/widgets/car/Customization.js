@@ -1923,7 +1923,7 @@ define(function (require, exports, module) {
                         width: 780,
                         height: 650
                     }, {
-                        parent: "game-window", // defines parent div, which is div id="game-window" by default
+                        parent: "content", // defines parent div, which is div id="body" by default
                         trackFilename: "track-curves-slopes-random", // "track-straight", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
                         spritesFilename: spritesheetJSONFilename_Final, // defines spritesheet configuration filename, which is "spritesheet.json" by default
                         spritesFiles: JSON.parse(spritesheetImages_Final), // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -1933,8 +1933,8 @@ define(function (require, exports, module) {
                         // logoImgIndex: 1, // defines logo sprite image suffix 
                         // backgroundImgIndex: 1, // defines background sprite image suffix 
                         stripePositions: {
-                            trackP1: -0.50,
-                            trackP2: 0.50,
+                            trackP1: -0.55,
+                            trackP2: 0.55,
                             borderWidth: 0.08,
                             inOutBorderWidth: 0.02,
                             landscapeOutBorderWidth: 0.13,

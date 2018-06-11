@@ -62,7 +62,7 @@
 
     
     <dt class="tag-version">Version:</dt>
-    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    <dd class="tag-version"><ul class="dummy"><li>2.0.0</li></ul></dd>
     
 
     
@@ -134,7 +134,7 @@
          let arcade = new Arcade(
               'example', // id of the Arcade element that will be created
               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
-              { parent: 'game-window',
+              { parent: 'content',
                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -181,7 +181,7 @@
                  // resume_attribute: "resume",
                  // mute_attribute: "mute",
                  // unmute_attribute: "unmute",
-              }// append on div 'game-window'
+              }// append on div 'content'
           );
 
          // Available methods:
@@ -333,7 +333,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
          let arcade = new Arcade(
               'example', // id of the Arcade element that will be created
               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
-              { parent: 'game-window',
+              { parent: 'content',
                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -380,7 +380,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
                  // resume_attribute: "resume",
                  // mute_attribute: "mute",
                  // unmute_attribute: "unmute",
-              }// append on div 'game-window'
+              }// append on div 'content'
           );
 
          // Starts the simulation using constructor's opt fields (arguments)
@@ -409,7 +409,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
          let arcade = new Arcade(
               'example', // id of the Arcade element that will be created
               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
-              { parent: 'game-window',
+              { parent: 'content',
                 trackFilename: "track-straight", // "track-curves-slopes", // defines track configuration filename, which is "track-curves-slopes.json" by default
                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -456,7 +456,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
                  // resume_attribute: "resume",
                  // mute_attribute: "mute",
                  // unmute_attribute: "unmute",
-              }// append on div 'game-window'
+              }// append on div 'content'
           );
 
          // Starts the simulation using constructor's opt fields (arguments)
@@ -712,7 +712,7 @@ its speed, current position and posx values updated by the render method, using 
             
 
             <td class="description last">Options:
-         <li>parent {String}: the HTML element where the display will be appended (default is "game-window").</li>
+         <li>parent {String}: the HTML element where the display will be appended (default is "body").</li>
          <li>trackFilename {String}: the track configuration filename, i.e. JSON file with the track that will be drawed as well as the required sprite coordinates, etc (default is "track").</li>
          <li>spritesFilename {String}: the spritesheet configuration filename, i.e. JSON file with the all available sprites, whose coordinates are the same in trackFilename, i.e. the track must have been generated with this JSON as well so the coordinates will match (default is "spritesheet").</li>
          <li>spritesFiles {Array}: array with spritesheets(images) names (default is ["spritesheet","spritesheet.text"]).</li>
@@ -6771,7 +6771,88 @@ That is, returns the new state after the action performed by the user (accelerat
 
 
 <div class="description">
-    StartSimulation method of the Arcade widget. This method loads the desired JSON Files and starts the corresponding simulation.
+    StartSimulation method of the Arcade widget. This method sets timeout to load all configuration files provided as opt fields (dynamic require).
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="startSimulationAux"><span class="type-signature"></span>startSimulationAux<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    StartSimulationAux method of the Arcade widget. This method loads the desired JSON Files and starts the corresponding simulation.
 </div>
 
 
@@ -6964,7 +7045,7 @@ That is, returns the new state after the action performed by the user (accelerat
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jun 09 2018 12:34:03 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Jun 11 2018 16:41:15 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

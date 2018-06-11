@@ -1,11 +1,11 @@
 /**
  * @module ArcadeWithoutLaps
- * @version 1.0.0
+ * @version 2.0.0
  * @author José Carlos
  * @desc This module draws the 2D arcade driving simulator, using HTML5 Canvas.
  *
  * @date Apr 02, 2018
- * last modified @date May 23, 2018
+ * last modified @date Jun 11, 2018
  *
  * @example <caption>Usage of ArcadeWithoutLaps within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -19,7 +19,7 @@
  *          let arcade = new ArcadeWithoutLaps(
  *               'example', // id of the ArcadeWithoutLaps element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
- *               { parent: 'game-window',
+ *               { parent: 'content',
  *                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -62,7 +62,7 @@
  *                  // resume_attribute: "resume",
  *                  // mute_attribute: "mute",
  *                  // unmute_attribute: "unmute",
- *               }// append on div 'game-window'
+ *               }// append on div 'content'
  *           );
  *
  *          // Available methods:
@@ -212,7 +212,7 @@
  *          let arcade = new ArcadeWithoutLaps(
  *               'example', // id of the ArcadeWithoutLaps element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
- *               { parent: 'game-window',
+ *               { parent: 'content',
  *                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -255,7 +255,7 @@
  *                  // resume_attribute: "resume",
  *                  // mute_attribute: "mute",
  *                  // unmute_attribute: "unmute",
- *               }// append on div 'game-window'
+ *               }// append on div 'content'
  *           );
  *
  *          // Starts the simulation using constructor's opt fields (arguments)
@@ -283,7 +283,7 @@
  *          let arcade = new ArcadeWithoutLaps(
  *               'example', // id of the ArcadeWithoutLaps element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
- *               { parent: 'game-window',
+ *               { parent: 'content',
  *                 trackFilename: "track-straight", // "track-curves-slopes", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -326,7 +326,7 @@
  *                  // resume_attribute: "resume",
  *                  // mute_attribute: "mute",
  *                  // unmute_attribute: "unmute",
- *               }// append on div 'game-window'
+ *               }// append on div 'content'
  *           );
  *
  *          // Starts the simulation using constructor's opt fields (arguments)
@@ -369,7 +369,7 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
-     *          <li>parent {String}: the HTML element where the display will be appended (default is "game-window").</li>
+     *          <li>parent {String}: the HTML element where the display will be appended (default is "body").</li>
      *          <li>trackFilename {String}: the track configuration filename, i.e. JSON file with the track that will be drawed as well as the required sprite coordinates, etc (default is "track").</li>
      *          <li>spritesFilename {String}: the spritesheet configuration filename, i.e. JSON file with the all available sprites, whose coordinates are the same in trackFilename, i.e. the track must have been generated with this JSON as well so the coordinates will match (default is "spritesheet").</li>
      *          <li>spritesFiles {Array}: array with spritesheets(images) names (default is ["spritesheet","spritesheet.text"]).</li>
@@ -408,7 +408,7 @@ define(function (require, exports, module) {
     function ArcadeWithoutLaps(id, coords, opt) {
         opt = opt || {};
         coords = coords || {};
-        opt.parent = opt.parent || "game-window";
+        opt.parent = opt.parent;
         opt.trackFilename = opt.trackFilename;
         opt.spritesFilename = opt.spritesFilename;
         opt.spritesFiles =  opt.spritesFiles;
@@ -423,6 +423,7 @@ define(function (require, exports, module) {
         opt.predefinedTracks = opt.predefinedTracks;
 
         this.lastPVSValues = {
+        	lastSoundPVS: null,
             lastSpeedPVS: null,
             lastRPMPVS: null,
             lastPositionPVS: 10,
@@ -491,7 +492,8 @@ define(function (require, exports, module) {
             pause_attribute: {},
             resume_attribute: {},
             mute_attribute: {},
-            unmute_attribute: {}
+            unmute_attribute: {},
+            newLap_functionNamePVS: {}
         };
 
         this.spritesImgsInformation = {
@@ -603,7 +605,7 @@ define(function (require, exports, module) {
             track_segment_end: null, 
             lane_end: null
         };
-      
+
         this.vehicle.action_attribute = {};
         this.vehicle.action_attribute = opt.action_attribute || "action";
 
@@ -672,7 +674,6 @@ define(function (require, exports, module) {
 
         this.WIDGETSTATE = null;
         this.WIDGETID = this.id;
-        this.parent = (opt.parent) ? ("#" + opt.parent) : "game-window";
 
         this.trackFilename = (opt.trackFilename) ? ("text!widgets/car/configurations/" + opt.trackFilename + ".json") : "text!widgets/car/configurations/track-curves-slopes-random.json";
         this.spritesFilename = (opt.spritesFilename) ? ("text!widgets/car/configurations/" + opt.spritesFilename + ".json") : "text!widgets/car/configurations/spritesheet.json";
@@ -682,7 +683,7 @@ define(function (require, exports, module) {
         this.spritesImgsInformation.backgroundIndex = (opt.backgroundImgIndex) ? opt.backgroundImgIndex : null;
         this.spritesImgsInformation.vehicleRealistic = (opt.realisticImgs) ? opt.realisticImgs : false;
         this.spritesImgsInformation.vehicleType = (opt.vehicle) ? opt.vehicle : "car"; // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
-        this.stripePositions = (opt.stripePositions) ? opt.stripePositions : { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 };
+        this.stripePositions = (opt.stripePositions) ? opt.stripePositions : { trackP1: -0.55, trackP2: 0.55, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 };
         this.canvasInformations.showOfficialLogo = (opt.showOfficialLogo) ? opt.showOfficialLogo : false;
         this.loadPVSSpeedPositions = (opt.loadPVSSpeedPositions) ? opt.loadPVSSpeedPositions : true;
         this.predefinedTracks = (opt.predefinedTracks) ? opt.predefinedTracks : null;
@@ -742,50 +743,61 @@ define(function (require, exports, module) {
         this.configurationFiles.trackCurvesSlopesJSONPredefined = require("text!widgets/car/configurations/track-curves-slopes-random.json");
         this.configurationFiles.spritesheetJSONPredefined = require("text!widgets/car/configurations/spritesheet.json");
 
-        this.div = d3.select(this.parent)
-                        .attr("class","container game_view")
-                        .style("position", "absolute")
-                        .style("top", this.top + "px")
-                        .style("left", this.left + "px")
-                        .style("width", this.width + "px")
-                        .style("height", this.height + "px");
+		this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
+
+        this.div = d3.select(this.parent).append("div").attr("id", "game_window_"+this.WIDGETID)
+                     .attr("class","container game_view");
 
         this.div.append("canvas").attr("id", "arcadeSimulator_"+this.id)
                 .style("-webkit-transform","scale(2.2)")
-                .style("margin-top", "300px")
-                .style("margin-left", "185px");
+                .style("position", "absolute")
+                .style("top", this.top + "px")
+                .style("left", this.left + "px")
+                .style("width", this.width + "px")
+                .style("height", this.height + "px");
 
-        // this.soundWidget = new Sound("soundWidget_"+this.id, {
-        //     top: 625,
-        //     left: 610,
-        //     width: 750,
-        //     height: 750
-        // }, {
-        //     callback: opt.callback,
-        //     soundOff: "false",
-        //     songs: [
-        //             {
-        //                 url: "../../client/app/widgets/car/configurations/song/sound.mp3",
-        //                 loop: false
-        //             },
-        //             {
-        //                 url: "../../client/app/widgets/car/configurations/song/loop.mp3", // car_idle_sound
-        //                 loop: true
-        //             },
-        //             {
-        //                 url: "../../client/app/widgets/car/configurations/song/car_startup.mp3", // car_startup_sound
-        //                 loop: false
-        //             },
-        //             {
-        //                 url: "../../client/app/widgets/car/configurations/song/car_accelerating.mp3", // car_accelerating_sound
-        //                 loop: false
-        //             }
-        //     ]
-        // });
+        this.soundWidget = new Sound("soundWidget_"+this.id, {
+            top: (this.top+350),
+            left: (this.left-230),
+            width: 750,
+            height: 750
+        }, {
+        	parent: this.parent.slice(1), // removing '#'
+            callback: opt.callback,
+            invokePVS: true,
+            mute_functionNamePVS: "mute",
+            unmute_functionNamePVS: "unmute",
+            soundOff: "false",
+            songs: [
+                    {
+                        url: "../../client/app/widgets/car/configurations/song/sound.mp3",
+                        loop: false
+                    },
+                    {
+                        url: "../../client/app/widgets/car/configurations/song/loop.mp3", // car_idle_sound
+                        loop: true
+                    },
+                    {
+                        url: "../../client/app/widgets/car/configurations/song/car_startup.mp3", // car_startup_sound
+                        loop: false
+                    },
+                    {
+                        url: "../../client/app/widgets/car/configurations/song/car_accelerating.mp3", // car_accelerating_sound
+                        loop: false
+                    }
+            ]
+        });
 
-        // this.soundWidget.hide();
-        // this.soundOff = this.soundWidget.getSoundOff();
+        this.soundWidget.startSound();
+        this.soundWidget.hide();
+        this.soundOff = this.soundWidget.getSoundOff();
 
+        if(this.soundOff){
+        	this.lastPVSValues.lastSoundPVS = this.vehicle.mute_attribute;
+        }else{
+        	this.lastPVSValues.lastSoundPVS = this.vehicle.unmute_attribute;
+        }
+        
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
 
@@ -912,7 +924,7 @@ define(function (require, exports, module) {
             logoRegex   = new RegExp("^"+this.realPrefix+"logo$");
         }
 
-        if(this.spritesImgsInformation.vehicleIndex!==null){
+		if(this.spritesImgsInformation.vehicleIndex!==null){
             frontRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+this.spritesImgsInformation.vehicleIndex+"_faced_front$");
             leftRegex       = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+this.spritesImgsInformation.vehicleIndex+"_faced_left$");
             rightRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+this.spritesImgsInformation.vehicleIndex+"_faced_right$");
@@ -923,182 +935,182 @@ define(function (require, exports, module) {
         }
 
         if(this.configurationFiles.spritesheetJSON){
-            this.spritesReadJSON = JSON.parse(this.configurationFiles.spritesheetJSON);
-            // Reading all JSON Sprites Available
-            for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-                this.spritesAvailable[k]={
-                    name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-                    value:this.spritesReadJSON.frames[k].frame
-                };
-                if(this.spritesAvailable[k].name.match(backgroundRegex)){
-                    this.main_sprites.background = this.spritesAvailable[k].value;
-                }
-                if(this.spritesAvailable[k].name.match(logoRegex)){
-                    this.main_sprites.logo = this.spritesAvailable[k].value;
-                }
-                if(this.spritesAvailable[k].name.match(frontRegex)){
-                    this.vehicle_faced_front = this.spritesAvailable[k].value;
-                }
-                if(this.spritesAvailable[k].name.match(leftRegex)){
-                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-                }
-                if(this.spritesAvailable[k].name.match(rightRegex)){
-                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-                }
-            }
+		    this.spritesReadJSON = JSON.parse(this.configurationFiles.spritesheetJSON);
+		    // Reading all JSON Sprites Available
+		    for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+		        this.spritesAvailable[k]={
+		            name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+		            value:this.spritesReadJSON.frames[k].frame
+		        };
+		        if(this.spritesAvailable[k].name.match(backgroundRegex)){
+		            this.main_sprites.background = this.spritesAvailable[k].value;
+		        }
+		        if(this.spritesAvailable[k].name.match(logoRegex)){
+		            this.main_sprites.logo = this.spritesAvailable[k].value;
+		        }
+		        if(this.spritesAvailable[k].name.match(frontRegex)){
+		            this.vehicle_faced_front = this.spritesAvailable[k].value;
+		        }
+		        if(this.spritesAvailable[k].name.match(leftRegex)){
+		            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+		        }
+		        if(this.spritesAvailable[k].name.match(rightRegex)){
+		            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+		        }
+		    }
 
-            if(this.main_sprites.background===undefined || this.main_sprites.background===null){
-                if(this.spritesImgsInformation.vehicleRealistic){
-                    if(this.spritesImgsInformation.backgroundIndex!==null){ // realistic image with that index does not exist
-                        backgroundRegex = new RegExp("^"+this.realPrefix+"background$");
-                    }else{  // realistic image does not exist
-                        backgroundRegex = new RegExp("^background");
-                    }
-                }else{
-                    backgroundRegex = new RegExp("^background");
-                }
+		    if(this.main_sprites.background===undefined || this.main_sprites.background===null){
+		        if(this.spritesImgsInformation.vehicleRealistic){
+		            if(this.spritesImgsInformation.backgroundIndex!==null){ // realistic image with that index does not exist
+		                backgroundRegex = new RegExp("^"+this.realPrefix+"background$");
+		            }else{  // realistic image does not exist
+		                backgroundRegex = new RegExp("^background");
+		            }
+		        }else{
+		            backgroundRegex = new RegExp("^background");
+		        }
 
-                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-                    this.spritesAvailable[k]={
-                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-                        value:this.spritesReadJSON.frames[k].frame
-                    };
-                    if(this.spritesAvailable[k].name.match(backgroundRegex)){
-                        this.main_sprites.background = this.spritesAvailable[k].value;
-                    }
-                }
-            }
+		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+		            this.spritesAvailable[k]={
+		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+		                value:this.spritesReadJSON.frames[k].frame
+		            };
+		            if(this.spritesAvailable[k].name.match(backgroundRegex)){
+		                this.main_sprites.background = this.spritesAvailable[k].value;
+		            }
+		        }
+		    }
 
-            if(this.main_sprites.logo===undefined || this.main_sprites.logo===null){
-                if(this.spritesImgsInformation.vehicleRealistic){
-                    if(this.spritesImgsInformation.logoIndex!==null){
-                        logoRegex   = new RegExp("^"+this.realPrefix+"logo$");
-                    }else{
-                        logoRegex   = new RegExp("^logo$");
-                    }
-                }else{
-                    logoRegex   = new RegExp("^logo$");
-                }
+		    if(this.main_sprites.logo===undefined || this.main_sprites.logo===null){
+		        if(this.spritesImgsInformation.vehicleRealistic){
+		            if(this.spritesImgsInformation.logoIndex!==null){
+		                logoRegex   = new RegExp("^"+this.realPrefix+"logo$");
+		            }else{
+		                logoRegex   = new RegExp("^logo$");
+		            }
+		        }else{
+		            logoRegex   = new RegExp("^logo$");
+		        }
 
-                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-                    this.spritesAvailable[k]={
-                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-                        value:this.spritesReadJSON.frames[k].frame
-                    };
-                    if(this.spritesAvailable[k].name.match(logoRegex)){
-                        this.main_sprites.logo = this.spritesAvailable[k].value;
-                    }
-                }
-            }
+		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+		            this.spritesAvailable[k]={
+		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+		                value:this.spritesReadJSON.frames[k].frame
+		            };
+		            if(this.spritesAvailable[k].name.match(logoRegex)){
+		                this.main_sprites.logo = this.spritesAvailable[k].value;
+		            }
+		        }
+		    }
 
-            if(this.vehicle_faced_front===undefined || this.main_sprites.vehicle_faced_left===undefined || this.main_sprites.vehicle_faced_right===undefined || this.vehicle_faced_front===null || this.main_sprites.vehicle_faced_left===null || this.main_sprites.vehicle_faced_right===null){
-                if(this.spritesImgsInformation.vehicleRealistic){
-                    if(this.spritesImgsInformation.vehicleIndex!==null){ // Realistic image with index does not exist
-                        frontRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_front$");
-                        leftRegex       = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_left$");
-                        rightRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_right$");
-                    }else{ // Realistic image without index does not exist
-                        frontRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_front$");
-                        leftRegex       = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_left$");
-                        rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
-                    }
-                }
-                else{
-                    frontRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_front$");
-                    leftRegex       = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_left$");
-                    rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
-                }
+		    if(this.vehicle_faced_front===undefined || this.main_sprites.vehicle_faced_left===undefined || this.main_sprites.vehicle_faced_right===undefined || this.vehicle_faced_front===null || this.main_sprites.vehicle_faced_left===null || this.main_sprites.vehicle_faced_right===null){
+		        if(this.spritesImgsInformation.vehicleRealistic){
+		            if(this.spritesImgsInformation.vehicleIndex!==null){ // Realistic image with index does not exist
+		                frontRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_front$");
+		                leftRegex       = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_left$");
+		                rightRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_right$");
+		            }else{ // Realistic image without index does not exist
+		                frontRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_front$");
+		                leftRegex       = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_left$");
+		                rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
+		            }
+		        }
+		        else{
+		            frontRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_front$");
+		            leftRegex       = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_left$");
+		            rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
+		        }
 
-                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-                    this.spritesAvailable[k]={
-                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-                        value:this.spritesReadJSON.frames[k].frame
-                    };
-                    if(this.spritesAvailable[k].name.match(frontRegex)){
-                        this.vehicle_faced_front = this.spritesAvailable[k].value;
-                    }
-                    if(this.spritesAvailable[k].name.match(leftRegex)){
-                        this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-                    }
-                    if(this.spritesAvailable[k].name.match(rightRegex)){
-                        this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-                    }
-                }
-            }
+		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+		            this.spritesAvailable[k]={
+		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+		                value:this.spritesReadJSON.frames[k].frame
+		            };
+		            if(this.spritesAvailable[k].name.match(frontRegex)){
+		                this.vehicle_faced_front = this.spritesAvailable[k].value;
+		            }
+		            if(this.spritesAvailable[k].name.match(leftRegex)){
+		                this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+		            }
+		            if(this.spritesAvailable[k].name.match(rightRegex)){
+		                this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+		            }
+		        }
+		    }
 
-            if(this.main_sprites.background!==undefined && this.main_sprites.logo!==undefined && this.vehicle_faced_front!==undefined && this.main_sprites.vehicle_faced_left!==undefined && this.main_sprites.vehicle_faced_right!==undefined && this.main_sprites.background!==null && this.main_sprites.logo!==null && this.vehicle_faced_front!==null && this.main_sprites.vehicle_faced_left!==null && this.main_sprites.vehicle_faced_right!==null){
-                this.readSprite=true;
-            }else{
-                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-                    this.spritesAvailable[k]={
-                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-                        value:this.spritesReadJSON.frames[k].frame
-                    };
-                    if(this.spritesAvailable[k].name.match(/^background$/)){
-                        this.main_sprites.background = this.spritesAvailable[k].value;
-                    }
-                    if(this.spritesAvailable[k].name.match(/^logo$/)){
-                        this.main_sprites.logo = this.spritesAvailable[k].value;
-                    }
-                    if(this.spritesImgsInformation.vehicleType==="airplane"){
-                        if(this.spritesAvailable[k].name.match(/^airplane_faced_front$/)){
-                            this.vehicle_faced_front = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^airplane_faced_left$/)){
-                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^airplane_faced_right$/)){
-                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-                        }
-                    }
-                    else if(this.spritesImgsInformation.vehicleType==="bicycle"){
-                        if(this.spritesAvailable[k].name.match(/^bicycle_faced_front$/)){
-                            this.vehicle_faced_front = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^bicycle_faced_left$/)){
-                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^bicycle_faced_right$/)){
-                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-                        }
-                    }
-                    else if(this.spritesImgsInformation.vehicleType==="car") {
-                        if(this.spritesAvailable[k].name.match(/^car_faced_front$/)){
-                            this.vehicle_faced_front = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^car_faced_left$/)){
-                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^car_faced_right$/)){
-                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-                        }
-                    }
-                    else if(this.spritesImgsInformation.vehicleType==="helicopter"){
-                        if(this.spritesAvailable[k].name.match(/^helicopter_faced_front$/)){
-                            this.vehicle_faced_front = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^helicopter_faced_left$/)){
-                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^helicopter_faced_right$/)){
-                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-                        }
-                    }
-                    else if(this.spritesImgsInformation.vehicleType==="motorbike"){
-                        if(this.spritesAvailable[k].name.match(/^motorbike_faced_front$/)){
-                            this.vehicle_faced_front = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^motorbike_faced_left$/)){
-                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-                        }
-                        if(this.spritesAvailable[k].name.match(/^motorbike_faced_right$/)){
-                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-                        }
-                    }
-                }
-                this.readSprite=true;
-            }
-        }
+		    if(this.main_sprites.background!==undefined && this.main_sprites.logo!==undefined && this.vehicle_faced_front!==undefined && this.main_sprites.vehicle_faced_left!==undefined && this.main_sprites.vehicle_faced_right!==undefined && this.main_sprites.background!==null && this.main_sprites.logo!==null && this.vehicle_faced_front!==null && this.main_sprites.vehicle_faced_left!==null && this.main_sprites.vehicle_faced_right!==null){
+		        this.readSprite=true;
+		    }else{
+		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+		            this.spritesAvailable[k]={
+		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+		                value:this.spritesReadJSON.frames[k].frame
+		            };
+		            if(this.spritesAvailable[k].name.match(/^background$/)){
+		                this.main_sprites.background = this.spritesAvailable[k].value;
+		            }
+		            if(this.spritesAvailable[k].name.match(/^logo$/)){
+		                this.main_sprites.logo = this.spritesAvailable[k].value;
+		            }
+		            if(this.spritesImgsInformation.vehicleType==="airplane"){
+		                if(this.spritesAvailable[k].name.match(/^airplane_faced_front$/)){
+		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^airplane_faced_left$/)){
+		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^airplane_faced_right$/)){
+		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+		                }
+		            }
+		            else if(this.spritesImgsInformation.vehicleType==="bicycle"){
+		                if(this.spritesAvailable[k].name.match(/^bicycle_faced_front$/)){
+		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^bicycle_faced_left$/)){
+		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^bicycle_faced_right$/)){
+		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+		                }
+		            }
+		            else if(this.spritesImgsInformation.vehicleType==="car") {
+		                if(this.spritesAvailable[k].name.match(/^car_faced_front$/)){
+		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^car_faced_left$/)){
+		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^car_faced_right$/)){
+		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+		                }
+		            }
+		            else if(this.spritesImgsInformation.vehicleType==="helicopter"){
+		                if(this.spritesAvailable[k].name.match(/^helicopter_faced_front$/)){
+		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^helicopter_faced_left$/)){
+		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^helicopter_faced_right$/)){
+		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+		                }
+		            }
+		            else if(this.spritesImgsInformation.vehicleType==="motorbike"){
+		                if(this.spritesAvailable[k].name.match(/^motorbike_faced_front$/)){
+		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^motorbike_faced_left$/)){
+		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+		                }
+		                if(this.spritesAvailable[k].name.match(/^motorbike_faced_right$/)){
+		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+		                }
+		            }
+		        }
+		        this.readSprite=true;
+		    }
+		}
 
         this.onPageLoad(this.spritesFiles);
         // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
@@ -1228,9 +1240,7 @@ define(function (require, exports, module) {
                         30     //normal interval, 'this' scope not impacted here.
                     ); 
                                         
-                    // this.soundWidget.reveal();
-                    // this.soundWidget.unmute();
-                    // this.soundWidget.pauseAll();
+                    this.soundWidget.reveal();
 
                     this.canvasInformations.chronometer = new Chronometer(
                         { precision: 10,
@@ -1242,18 +1252,18 @@ define(function (require, exports, module) {
                     });
                     this.canvasInformations.chronometer.start();
 
-                    // this.soundOff = this.soundWidget.getSoundOff();
-                    // if(!this.soundOff && this.WIDGETSTATE[this.vehicle.sound_attribute]===this.vehicle.unmute_attribute){
-                    //     // this.soundWidget.playSound(2); //startup song
-                    //     // this.soundWidget.playSound(0); //background song
-                    //     // this.soundWidget.setVolume(0.4,0);
-                    //     // this.soundWidget.onEndedSound(2,[
-                    //     //     {
-                    //     //     indexPlayNext: 1, //idle song
-                    //     //     newVolume: 1.0
-                    //     //     }
-                    //     // ]);
-                    // }
+                    this.soundOff = this.soundWidget.getSoundOff();
+                    if(!this.soundOff && this.WIDGETSTATE[this.vehicle.sound_attribute]===this.vehicle.unmute_attribute){
+                        this.soundWidget.playSound(2); //startup song
+                        this.soundWidget.playSound(0); //background song
+                        this.soundWidget.setVolume(0.4,0);
+                        this.soundWidget.onEndedSound(2,[
+                            {
+                            indexPlayNext: 1, //idle song
+                            newVolume: 1.0
+                            }
+                        ]);
+                    }
                 }
             }else{
                 this.drawText("Loading Configurations...",{x: 100, y: 95}, 1);
@@ -1304,21 +1314,19 @@ define(function (require, exports, module) {
                 30     //normal interval, 'this' scope not impacted here.
             ); 
 
-            // this.soundWidget.reveal();
-            // this.soundWidget.unmute();
-            // this.soundWidget.pauseAll();
-            // this.soundOff = this.soundWidget.getSoundOff();
-            // if(!this.soundOff){
-            //     // this.soundWidget.playSound(2); //startup song
-            //     // this.soundWidget.playSound(0); //background song
-            //     // this.soundWidget.setVolume(0.4,0);
-            //     // this.soundWidget.onEndedSound(2,[
-            //     //     {
-            //     //     indexPlayNext: 1, //idle song
-            //     //     newVolume: 1.0
-            //     //     }
-            //     // ]);
-            // }
+            this.soundWidget.reveal();
+            this.soundOff = this.soundWidget.getSoundOff();
+            if(!this.soundOff){
+                this.soundWidget.playSound(2); //startup song
+                this.soundWidget.playSound(0); //background song
+                this.soundWidget.setVolume(0.4,0);
+                this.soundWidget.onEndedSound(2,[
+                    {
+                    indexPlayNext: 1, //idle song
+                    newVolume: 1.0
+                    }
+                ]);
+            }
         }
 
         return this;
@@ -1373,21 +1381,19 @@ define(function (require, exports, module) {
             );
             this.canvasInformations.chronometer.start();
 
-            // this.soundWidget.reveal();
-            // this.soundWidget.unmute();
-            // this.soundWidget.pauseAll();
-            // this.soundOff = this.soundWidget.getSoundOff();
-            // if(!this.soundOff){
-            //     // this.soundWidget.playSound(2); //startup song
-            //     // this.soundWidget.playSound(0); //background song
-            //     // this.soundWidget.setVolume(0.4,0);
-            //     // this.soundWidget.onEndedSound(2,[
-            //     //     {
-            //     //     indexPlayNext: 1, //idle song
-            //     //     newVolume: 1.0
-            //     //     }
-            //     // ]);
-            // }
+            this.soundWidget.reveal();
+            this.soundOff = this.soundWidget.getSoundOff();
+            if(!this.soundOff){
+                this.soundWidget.playSound(2); //startup song
+                this.soundWidget.playSound(0); //background song
+                this.soundWidget.setVolume(0.4,0);
+                this.soundWidget.onEndedSound(2,[
+                    {
+                    indexPlayNext: 1, //idle song
+                    newVolume: 1.0
+                    }
+                ]);
+            }
         }
         return this;
     };
@@ -1401,28 +1407,9 @@ define(function (require, exports, module) {
      * @instance
      */
     ArcadeWithoutLaps.prototype.renderSimulatorFrame = function () {
-        // Sometimes it causes exceptions on console.log, but it is a bug in chrome browser
-        // see more at: https://github.com/sampotts/plyr/issues/331
-        // if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.sound_attribute]===this.vehicle.mute_attribute){
-        //     this.soundWidget.mute();
-        // }else if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.sound_attribute]===this.vehicle.unmute_attribute){
-        //     this.soundWidget.reveal();
-        //     this.soundWidget.unmute();
-        //     this.soundWidget.pauseAll();
-        //     // this.soundWidget.playSound(2); //startup song
-        //     // this.soundWidget.playSound(0); //background song
-        //     // this.soundWidget.setVolume(0.4,0);
-        //     // this.soundWidget.onEndedSound(2,[
-        //     //     {
-        //     //     indexPlayNext: 1, //idle song
-        //     //     newVolume: 1.0
-        //     //     }
-        //     // ]);
-        // }
-
         if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.quit_attribute){ // Key 'q' ends current simulator
             this.canvasInformations.chronometer.stop();
-            // this.soundWidget.hide();
+            this.soundWidget.hide();
             clearInterval(this.intervals.simulatorInterval);
             this.intervals.splashInterval = setInterval(
                     (function(self) {         //Self-executing func which takes 'this' as self
@@ -1432,12 +1419,12 @@ define(function (require, exports, module) {
                 })(this),
                 30     //normal interval, 'this' scope not impacted here.
             );
-            // this.soundWidget.pauseAll();
+            this.soundWidget.pauseAll();
         }
 
         if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.pause_attribute){ // Key 's' pauses current simulator
             this.canvasInformations.chronometer.pause();
-            // this.soundWidget.hide();
+            this.soundWidget.hide();
             clearInterval(this.intervals.simulatorInterval);
             this.intervals.splashInterval = setInterval(
                     (function(self) {         //Self-executing func which takes 'this' as self
@@ -1447,7 +1434,7 @@ define(function (require, exports, module) {
                 })(this),
                 30     //normal interval, 'this' scope not impacted here.
             );
-            // this.soundWidget.pauseAll();
+            this.soundWidget.pauseAll();
         }
 
         // Clean screen
@@ -1549,12 +1536,13 @@ define(function (require, exports, module) {
         this.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
 
         if(this.WIDGETSTATE!==null){
+
             if(absoluteIndex >= this.arcadeParams.numIterations-this.renderCanvas.depthOfField-1){
                 clearInterval(this.intervals.simulatorInterval);
                 this.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
                 this.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
                 this.drawText("The Simulator", {x: 100, y: 70}, 1);
-                // this.soundWidget.pauseAll();
+                this.soundWidget.pauseAll();
 
                 // Delayed function call by 5 seconds to reload simulator
                 // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
@@ -1606,6 +1594,27 @@ define(function (require, exports, module) {
             this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo2,15,215,0.6*60,0.6*32);
             // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo1,10,225,0.4*60,0.4*32);
             // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo2,10,225,0.4*60,0.4*32);
+        }
+
+        if(this.WIDGETSTATE!==null){
+            if(this.WIDGETSTATE[this.vehicle.sound_attribute]!==this.lastPVSValues.lastSoundPVS){
+                this.lastPVSValues.lastSoundPVS = this.WIDGETSTATE[this.vehicle.sound_attribute];
+                if(this.lastPVSValues.lastSoundPVS===this.vehicle.mute_attribute){
+                	this.soundWidget.mute();
+                }else if(this.lastPVSValues.lastSoundPVS===this.vehicle.unmute_attribute){
+					this.soundWidget.reveal();
+		            this.soundWidget.playSound(2); //startup song
+		            this.soundWidget.playSound(0); //background song
+		            this.soundWidget.setVolume(0.4,0);
+		            this.soundWidget.onEndedSound(2,[
+		                {
+		                indexPlayNext: 1, //idle song
+		                newVolume: 1.0
+		                }
+		            ]);
+                }
+		        console.log("a: "+this.lastPVSValues.lastSoundPVS);
+            }
         }
 
         return this;
@@ -2219,17 +2228,17 @@ define(function (require, exports, module) {
             if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.accelerate_attribute) {
                 this.controllable_car.speed += this.controllable_car.acceleration;
                 if(!this.soundOff){
-                    // this.soundWidget.playSound(3); //accelerating song
+                    this.soundWidget.playSound(3); //accelerating song
                 }
             } else if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.brake_attribute) {
                 this.controllable_car.speed -= this.controllable_car.breaking;
                 if(!this.soundOff){
-                    // this.soundWidget.pauseSound(3); //accelerating song
+                    this.soundWidget.pauseSound(3); //accelerating song
                 }
             } else {
                 this.controllable_car.speed -= this.controllable_car.deceleration;
                 if(!this.soundOff){
-                    // this.soundWidget.pauseSound(3); //accelerating song
+                    this.soundWidget.pauseSound(3); //accelerating song
                 }
             }
         }
@@ -2419,7 +2428,7 @@ define(function (require, exports, module) {
     ArcadeWithoutLaps.prototype.calculateNewControllableCarPosition = function () {
         if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value]!=="0"){
             // readSprite acceleration controls
-            // this.soundOff = this.soundWidget.getSoundOff();
+            this.soundOff = this.soundWidget.getSoundOff();
             let currentSpeedPVS = this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value];
             let arraySpeed = currentSpeedPVS.split("/");
             let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
@@ -2436,15 +2445,15 @@ define(function (require, exports, module) {
 
             if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.accelerate_attribute) {
                 if(!this.soundOff){
-                    // this.soundWidget.playSound(3); //accelerating song
+                    this.soundWidget.playSound(3); //accelerating song
                 }
             }else if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.brake_attribute) {
                 if(!this.soundOff){
-                    // this.soundWidget.pauseSound(3); //accelerating song
+                    this.soundWidget.pauseSound(3); //accelerating song
                 }
             }else if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.idle_attribute){
                 if(!this.soundOff){
-                    // this.soundWidget.pauseSound(3); //accelerating song
+                    this.soundWidget.pauseSound(3); //accelerating song
                 }
             }
         }

@@ -63,7 +63,7 @@ It was developed so that more than one song can be played in the arcade driving 
 
     
     <dt class="tag-version">Version:</dt>
-    <dd class="tag-version"><ul class="dummy"><li>2.0.0</li></ul></dd>
+    <dd class="tag-version"><ul class="dummy"><li>3.0.0</li></ul></dd>
     
 
     
@@ -142,7 +142,10 @@ It was developed so that more than one song can be played in the arcade driving 
               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
               { parent: 'tog', 
                 mutedImg: "img/muted.png", 
-                notMutedImg: "img/notMuted.png", 
+                notMutedImg: "img/notMuted.png",
+                invokePVS: true,
+                mute_functionNamePVS: "mute",
+                unmute_functionNamePVS: "unmute", 
                 songs: [
                           {
                               url: "song/sound.mp3",
@@ -252,6 +255,9 @@ It was developed so that more than one song can be played in the arcade driving 
               { parent: 'tog', 
                 mutedImg: "img/muted.png", 
                 notMutedImg: "img/notMuted.png", 
+                invokePVS: true,
+                mute_functionNamePVS: "mute",
+                unmute_functionNamePVS: "unmute", 
                 songs: [
                           {
                               url: "song/sound.mp3",
@@ -286,6 +292,9 @@ It was developed so that more than one song can be played in the arcade driving 
               { parent: 'tog', 
                 mutedImg: "img/muted.png", 
                 notMutedImg: "img/notMuted.png", 
+                invokePVS: true,
+                mute_functionNamePVS: "mute",
+                unmute_functionNamePVS: "unmute",
                 songs: [
                           {
                               url: "song/sound.mp3",
@@ -441,11 +450,12 @@ It was developed so that more than one song can be played in the arcade driving 
             
 
             <td class="description last">Options:
-         <li>parent {String}: the HTML element where the display will be appended (default is "tog").</li>
+         <li>parent {String}: the HTML element where the display will be appended (default is "body").</li>
          <li>mutedImg {String}: the location of the muted image (default is "widgets/car/configurations/img/muted.png").</li>
          <li>notMutedImg {String}: the location of the unmuted image (default is "widgets/car/configurations/img/notMuted.png").</li>
          <li>soundOff {Boolean}: the boolean value that indicates whether the sound state is "off", i.e. whether it is 'off' or not. It is used in the arcade driving simulator(default is null).</li>
-         <li>songs {Array}: the array of objects with all the songs to use in the music player, containing information about the location of the audio file and whether it is to play in loop or not (default is [{url: "song/sound.mp3",loop: false},{url: "song/loop.mp3",loop: true}]).</li></td>
+         <li>mute_functionNamePVS {String}: the pvs function name for action mute (default is "mute").</li>
+         <li>unmute_functionNamePVS {String}: the pvs function name for action unmute (default is "unmute").</li></td>
         </tr>
 
     
@@ -486,7 +496,7 @@ It was developed so that more than one song can be played in the arcade driving 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line208">line 208</a>
+        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line214">line 214</a>
     </li></ul></dd>
     
 
@@ -594,7 +604,7 @@ It was developed so that more than one song can be played in the arcade driving 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line540">line 540</a>
+        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line373">line 373</a>
     </li></ul></dd>
     
 
@@ -702,7 +712,7 @@ It was developed so that more than one song can be played in the arcade driving 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line343">line 343</a>
+        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line554">line 554</a>
     </li></ul></dd>
     
 
@@ -788,7 +798,7 @@ It was developed so that more than one song can be played in the arcade driving 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line492">line 492</a>
+        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line413">line 413</a>
     </li></ul></dd>
     
 
@@ -968,7 +978,7 @@ It was developed so that more than one song can be played in the arcade driving 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line378">line 378</a>
+        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line529">line 529</a>
     </li></ul></dd>
     
 
@@ -1076,7 +1086,7 @@ It was developed so that more than one song can be played in the arcade driving 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line444">line 444</a>
+        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line485">line 485</a>
     </li></ul></dd>
     
 
@@ -1233,7 +1243,7 @@ It was developed so that more than one song can be played in the arcade driving 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line414">line 414</a>
+        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line515">line 515</a>
     </li></ul></dd>
     
 
@@ -1341,7 +1351,7 @@ It was developed so that more than one song can be played in the arcade driving 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line428">line 428</a>
+        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line469">line 469</a>
     </li></ul></dd>
     
 
@@ -1498,7 +1508,7 @@ It was developed so that more than one song can be played in the arcade driving 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line400">line 400</a>
+        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line501">line 501</a>
     </li></ul></dd>
     
 
@@ -1606,7 +1616,7 @@ It was developed so that more than one song can be played in the arcade driving 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line556">line 556</a>
+        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line589">line 589</a>
     </li></ul></dd>
     
 
@@ -1692,7 +1702,7 @@ It was developed so that more than one song can be played in the arcade driving 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line354">line 354</a>
+        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line565">line 565</a>
     </li></ul></dd>
     
 
@@ -1850,7 +1860,7 @@ It was developed so that more than one song can be played in the arcade driving 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line460">line 460</a>
+        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line437">line 437</a>
     </li></ul></dd>
     
 
@@ -2007,7 +2017,7 @@ It was developed so that more than one song can be played in the arcade driving 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line475">line 475</a>
+        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line452">line 452</a>
     </li></ul></dd>
     
 
@@ -2115,7 +2125,7 @@ It was developed so that more than one song can be played in the arcade driving 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line365">line 365</a>
+        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line576">line 576</a>
     </li></ul></dd>
     
 
@@ -2160,6 +2170,92 @@ It was developed so that more than one song can be played in the arcade driving 
 </dl>
 
     
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="startSound"><span class="type-signature"></span>startSound<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    startSound method of the Sound widget. This method  .
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line344">line 344</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2223,7 +2319,7 @@ It was developed so that more than one song can be played in the arcade driving 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line516">line 516</a>
+        <a href="Sound.js.html">Sound.js</a>, <a href="Sound.js.html#line389">line 389</a>
     </li></ul></dd>
     
 
@@ -2295,7 +2391,7 @@ It was developed so that more than one song can be played in the arcade driving 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jun 09 2018 12:34:00 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Jun 11 2018 16:41:12 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

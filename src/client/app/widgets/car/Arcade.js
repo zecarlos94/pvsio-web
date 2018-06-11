@@ -440,6 +440,7 @@ define(function (require, exports, module) {
         opt.predefinedTracks = opt.predefinedTracks;
 
         this.lastPVSValues = {
+        	lastSoundPVS: null,
             lastSpeedPVS: null,
             lastRPMPVS: null,
             lastPositionPVS: 10,
@@ -720,7 +721,7 @@ define(function (require, exports, module) {
         this.spritesImgsInformation.backgroundIndex = (opt.backgroundImgIndex) ? opt.backgroundImgIndex : null;
         this.spritesImgsInformation.vehicleRealistic = (opt.realisticImgs) ? opt.realisticImgs : false;
         this.spritesImgsInformation.vehicleType = (opt.vehicle) ? opt.vehicle : "car"; // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
-        this.stripePositions = (opt.stripePositions) ? opt.stripePositions : { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 };
+        this.stripePositions = (opt.stripePositions) ? opt.stripePositions : { trackP1: -0.55, trackP2: 0.55, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 };
         this.canvasInformations.showOfficialLogo = (opt.showOfficialLogo) ? opt.showOfficialLogo : false;
         this.lapNumber = (opt.lapNumber) ? opt.lapNumber : 2;
         this.loadPVSSpeedPositions = (opt.loadPVSSpeedPositions) ? opt.loadPVSSpeedPositions : true;
@@ -832,6 +833,12 @@ define(function (require, exports, module) {
         this.soundWidget.hide();
         this.soundOff = this.soundWidget.getSoundOff();
 
+        if(this.soundOff){
+        	this.lastPVSValues.lastSoundPVS = this.vehicle.mute_attribute;
+        }else{
+        	this.lastPVSValues.lastSoundPVS = this.vehicle.unmute_attribute;
+        }
+        
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
         this.lapInformation.callback = this.callback;
@@ -1442,23 +1449,6 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.renderSimulatorFrame = function () {
-        // Sometimes it causes exceptions on console.log, but it is a bug in chrome browser
-        // see more at: https://github.com/sampotts/plyr/issues/331
-        // if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.sound_attribute]===this.vehicle.mute_attribute){
-        //     this.soundWidget.mute();
-        // }else if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.sound_attribute]===this.vehicle.unmute_attribute){
-        //     this.soundWidget.reveal();
-        //     // this.soundWidget.playSound(2); //startup song
-        //     // this.soundWidget.playSound(0); //background song
-        //     // this.soundWidget.setVolume(0.4,0);
-        //     // this.soundWidget.onEndedSound(2,[
-        //     //     {
-        //     //     indexPlayNext: 1, //idle song
-        //     //     newVolume: 1.0
-        //     //     }
-        //     // ]);
-        // }
-
         if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.quit_attribute){ // Key 'q' ends current simulator
             this.canvasInformations.chronometer.stop();
             this.soundWidget.hide();
@@ -1679,6 +1669,27 @@ define(function (require, exports, module) {
             this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo2,15,215,0.6*60,0.6*32);
             // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo1,10,225,0.4*60,0.4*32);
             // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo2,10,225,0.4*60,0.4*32);
+        }
+
+        if(this.WIDGETSTATE!==null){
+            if(this.WIDGETSTATE[this.vehicle.sound_attribute]!==this.lastPVSValues.lastSoundPVS){
+                this.lastPVSValues.lastSoundPVS = this.WIDGETSTATE[this.vehicle.sound_attribute];
+                if(this.lastPVSValues.lastSoundPVS===this.vehicle.mute_attribute){
+                	this.soundWidget.mute();
+                }else if(this.lastPVSValues.lastSoundPVS===this.vehicle.unmute_attribute){
+					this.soundWidget.reveal();
+		            this.soundWidget.playSound(2); //startup song
+		            this.soundWidget.playSound(0); //background song
+		            this.soundWidget.setVolume(0.4,0);
+		            this.soundWidget.onEndedSound(2,[
+		                {
+		                indexPlayNext: 1, //idle song
+		                newVolume: 1.0
+		                }
+		            ]);
+                }
+		        console.log("a: "+this.lastPVSValues.lastSoundPVS);
+            }
         }
 
         return this;

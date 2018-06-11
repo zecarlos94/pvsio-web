@@ -764,11 +764,13 @@ define(function (require, exports, module) {
     let Speedometer = require("widgets/car/Speedometer");
     let Tachometer = require("widgets/car/Tachometer");
     let SteeringWheel = require("widgets/car/SteeringWheel");
+    let DrawGamepad = require("widgets/car/DrawGamepad");
     let GyroscopeController = require("widgets/car/GyroscopeController");
     let VirtualKeypadController = require("widgets/car/VirtualKeypadController");
     let GamepadController = require("widgets/car/GamepadController");
     let TrackGenerator = require("widgets/car/TrackGenerator");
     let Arcade = require("widgets/car/Arcade");
+    let ButtonExternalController = require("widgets/car/ButtonExternalController");
      
     /**
      * @function constructor
@@ -1626,7 +1628,44 @@ define(function (require, exports, module) {
                     let numLaps_Final=sliders.maxValueLapNumber.value;
                     let usePVS_Final=sliders.maxValuePVSInstructions.value;
 
-                    // TODO send this values to TrackGenerator Widget to create the desired track
+                    // ----------------------------- DASHBOARD INTERACTION -----------------------------
+                    car.up = new ButtonExternalController("accelerate", { width: 0, height: 0 }, {
+                        callback: callback,
+                        evts: ['press/release'],
+                        keyCode: 38 // key up
+                    });
+                    car.down = new ButtonExternalController("brake", { width: 0, height: 0 }, {
+                        callback: callback,
+                        evts: ['press/release'],
+                        keyCode: 40 // key down
+                    });
+
+                    // ----------------------------- ARCADE GAME INTERACTION -----------------------------
+                    car.resume = new ButtonExternalController("resume", { width: 0, height: 0 }, {
+                        callback: callback,
+                        evts: ['press/release'],
+                        keyCode: 32 // key space
+                    });
+                    car.pause = new ButtonExternalController("pause", { width: 0, height: 0 }, {
+                        callback: callback,
+                        evts: ['press/release'],
+                        keyCode: 83 // key 's'
+                    });
+                    car.quit = new ButtonExternalController("quit", { width: 0, height: 0 }, {
+                        callback: callback,
+                        evts: ['press/release'],
+                        keyCode: 81 // key 'q'
+                    });
+                    car.mute = new ButtonExternalController("mute", { width: 0, height: 0 }, {
+                        callback: callback,
+                        evts: ['press/release'],
+                        keyCode: 77 // key 'm'
+                    });
+                    car.unmute = new ButtonExternalController("unmute", { width: 0, height: 0 }, {
+                        callback: callback,
+                        evts: ['press/release'],
+                        keyCode: 85 // key 'u'
+                    });
 
                     // ---------------- SPEEDOMETER ----------------
                     car.speedometerGauge = new Speedometer('speedometer-gauge', {
@@ -1653,6 +1692,30 @@ define(function (require, exports, module) {
                         height: 600
                     }, {
                         style: steeringWheel,
+                        callback: callback
+                    });
+
+                    // ----------------------------- DRAWGAMEPAD COMPONENTS -----------------------------
+                    // car.drawGamepad = new DrawGamepad("drawGamepad", {
+                    //     top: 100,
+                    //     left: 350,
+                    //     width: 750,
+                    //     height: 750
+                    // }, {
+                    //     parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
+                    //     style: "xbox", // defines parent div, which is "ps4" by default
+                    //     buttonsPVS: [ "accelerate", "brake", "mute", "unmute", "pause", "quit", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+                    //     callback: callback
+                    // });
+                    car.drawGamepad = new DrawGamepad("drawGamepad", {
+                        top: 100,
+                        left: 350,
+                        width: 750,
+                        height: 750
+                    }, {
+                        parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
+                        style: "ps4", // defines parent div, which is "ps4" by default
+                        buttonsPVS: [ "accelerate", "brake", "unmute", "mute", "pause", "quit", "touchpad", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
                         callback: callback
                     });
 
@@ -1810,11 +1873,7 @@ define(function (require, exports, module) {
                         numLanes: parseInt(numLanes_Final),
                         laneWidth: 0.02,
                         trackParam: {
-                            maxHeight: 900,
-                            maxCurve:  400,
                             numZones:  parseInt(numZones_Final), // number of different portions of the track
-                            curvy:     0.8,
-                            mountainy: 0.8,
                             zoneSize:  parseInt(zoneSize_Final) // length of each numZones (the bigger this value. the longer it will take to finish)
                         },
                         // Information regarding current controllable_car's car
@@ -1828,7 +1887,6 @@ define(function (require, exports, module) {
                             posx: 0,
                             maxSpeed: 20
                         },
-                        topSpeed: 250,
                         objects: JSON.parse(landscapeObjects_Final),
                         obstacle: JSON.parse(trackObstacles_Final),
                         obstaclePerIteration: parseInt(freqObstacles_Final),
@@ -1852,7 +1910,11 @@ define(function (require, exports, module) {
                     car.trackGeneratorWidget.hide();
                     // API to generate track with parameters received as argument by the constructor, i.e. new TrackGenerator()
                     // car.trackGeneratorWidget.generateStraightTrack();
-                    car.trackGeneratorWidget.generateTrackCurvesSlopes();
+                    // car.trackGeneratorWidget.generateTrackCurvesSlopes();
+                    car.trackGeneratorWidget.generateTrackBasedOnTrackLayoutOptField();
+
+                    // TODO WHEN FILE-WRITNG API EXISTS!!!
+                    // trackFilename opt field must receive json file just created by car.trackGeneratorWidget.generateTrackBasedOnTrackLayoutOptField();
 
                     // ----------------------------- ARCADE GAME COMPONENTS -----------------------------
                     car.arcadeWidget = new Arcade("arcadeWidget", {
@@ -1861,19 +1923,18 @@ define(function (require, exports, module) {
                         width: 780,
                         height: 650
                     }, {
-                        parent: "game-window", // defines parent div, which is div id="game-window" by default
-                        trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
+                        parent: "content", // defines parent div, which is div id="body" by default
+                        trackFilename: "track-curves-slopes-random", // "track-straight", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
                         spritesFilename: spritesheetJSONFilename_Final, // defines spritesheet configuration filename, which is "spritesheet.json" by default
                         spritesFiles: JSON.parse(spritesheetImages_Final), // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
-                        trackTopography: "curves-slopes", // "straight", // defines initial position after ending 1 lap (restart position in another lap).
                         realisticImgs: realisticImgs_Final,
                         vehicle: vehicle_Final, // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
                         vehicleImgIndex: vehicleImgIndex_Final, // defines vehicle sprite image suffix 
                         // logoImgIndex: 1, // defines logo sprite image suffix 
                         // backgroundImgIndex: 1, // defines background sprite image suffix 
                         stripePositions: {
-                            trackP1: -0.50,
-                            trackP2: 0.50,
+                            trackP1: -0.55,
+                            trackP2: 0.55,
                             borderWidth: 0.08,
                             inOutBorderWidth: 0.02,
                             landscapeOutBorderWidth: 0.13,
@@ -1885,6 +1946,30 @@ define(function (require, exports, module) {
                         lapNumber: parseInt(numLaps_Final),
                         // showOfficialLogo: true,
                         loadPVSSpeedPositions: loadPVSSpeedPositions_Final,
+                        // predefinedTracks: 4,
+                        // newLap_functionNamePVS: "new_lap",
+                        // action_attribute: "action",
+                        // direction_attribute: "direction",
+                        // sound_attribute: "sound",
+                        // lap_attribute: "lap",
+                        // speed_attribute: "speed",
+                        // posx_attribute: "posx",
+                        // position_attribute: "position",
+                        // lap_value: "val",
+                        // speed_value: "val",
+                        // posx_value: "val",
+                        // position_value: "val",
+                        // left_attribute: "left",
+                        // right_attribute: "right",
+                        // straight_attribute: "straight",
+                        // accelerate_attribute: "acc",
+                        // brake_attribute: "brake",
+                        // idle_attribute: "idle",
+                        // quit_attribute: "quit",
+                        // pause_attribute: "pause",
+                        // resume_attribute: "resume",
+                        // mute_attribute: "mute",
+                        // unmute_attribute: "unmute",
                         callback: callback
                     });
                     
