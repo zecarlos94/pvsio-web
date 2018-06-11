@@ -22,7 +22,10 @@
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
  *               { parent: 'tog', 
  *                 mutedImg: "img/muted.png", 
- *                 notMutedImg: "img/notMuted.png", 
+ *                 notMutedImg: "img/notMuted.png",
+ *                 invokePVS: true,
+ *                 mute_functionNamePVS: "mute",
+ *                 unmute_functionNamePVS: "unmute", 
  *                 songs: [
  *                           {
  *                               url: "song/sound.mp3",
@@ -132,6 +135,9 @@
  *               { parent: 'tog', 
  *                 mutedImg: "img/muted.png", 
  *                 notMutedImg: "img/notMuted.png", 
+ *                 invokePVS: true,
+ *                 mute_functionNamePVS: "mute",
+ *                 unmute_functionNamePVS: "unmute", 
  *                 songs: [
  *                           {
  *                               url: "song/sound.mp3",
@@ -166,6 +172,9 @@
  *               { parent: 'tog', 
  *                 mutedImg: "img/muted.png", 
  *                 notMutedImg: "img/notMuted.png", 
+ *                 invokePVS: true,
+ *                 mute_functionNamePVS: "mute",
+ *                 unmute_functionNamePVS: "unmute",
  *                 songs: [
  *                           {
  *                               url: "song/sound.mp3",
@@ -201,9 +210,6 @@ define(function (require, exports, module) {
 
     let Widget = require("widgets/Widget");
     let ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
-    let sounds = [];
-    let callback = null;
-    let invokePVS = false;
     
     /**
      * @function constructor
@@ -218,7 +224,9 @@ define(function (require, exports, module) {
      *          <li>mutedImg {String}: the location of the muted image (default is "widgets/car/configurations/img/muted.png").</li>
      *          <li>notMutedImg {String}: the location of the unmuted image (default is "widgets/car/configurations/img/notMuted.png").</li>
      *          <li>soundOff {Boolean}: the boolean value that indicates whether the sound state is "off", i.e. whether it is 'off' or not. It is used in the arcade driving simulator(default is null).</li>
-     *          <li>songs {Array}: the array of objects with all the songs to use in the music player, containing information about the location of the audio file and whether it is to play in loop or not (default is [{url: "song/sound.mp3",loop: false},{url: "song/loop.mp3",loop: true}]).</li>
+     *          <li>mute_functionNamePVS {String}: the pvs function name for action mute (default is "mute").</li>
+     *          <li>unmute_functionNamePVS {String}: the pvs function name for action unmute (default is "unmute").</li>
+     * 
      * @returns {Sound} The created instance of the widget Sound.
      * @memberof module:Sound
      * @instance
@@ -233,8 +241,11 @@ define(function (require, exports, module) {
         opt.soundOff = opt.soundOff;
         this.numberSongs = (opt.songs) ? opt.songs.length : 0;
         opt.invokePVS = (opt.invokePVS) ? opt.invokePVS : false;
+        opt.mute_functionNamePVS = (opt.mute_functionNamePVS) ? opt.mute_functionNamePVS : "mute",
+        opt.unmute_functionNamePVS = (opt.unmute_functionNamePVS) ? opt.unmute_functionNamePVS : "unmute",
 
         this.id = id;
+        this.SOUNDID = this.id;
         this.top = coords.top || 1000;
         this.left = coords.left || 100;
         this.width = coords.width || 750;
@@ -245,42 +256,45 @@ define(function (require, exports, module) {
         this.mutedImg = (opt.mutedImg) ? opt.mutedImg : "../../client/app/widgets/car/configurations/img/muted.png";
         this.notMutedImg = (opt.notMutedImg) ? opt.notMutedImg : "../../client/app/widgets/car/configurations/img/notMuted.png";
 
-        this.parent = (opt.parent) ? ("#" + opt.parent) : "tog";
+        this.parent = (opt.parent) ? ("#" + opt.parent + "_"+this.SOUNDID) : "tog_"+this.SOUNDID;
 
-        this.invokePVS = opt.invokePVS;
-       
-        this.div = d3.select(this.parent)
+        this.invokePVS = opt.invokePVS || false;
+        this.mute_functionNamePVS = opt.mute_functionNamePVS || "mute";
+        this.unmute_functionNamePVS = opt.unmute_functionNamePVS || "unmute";
+
+        this.div = d3.select("#game-window").append("div").attr("id", this.parent)
                         .style("position", "absolute")
                         .style("top", this.top + "px")
                         .style("left", this.left + "px");
         
-        this.div.append("img").attr("id", "mute")
+        this.div.append("img").attr("id", "mute_"+this.SOUNDID)
                             .attr("src", this.mutedImg)
                             .style("display","inline");
             
-        this.div.append("img").attr("id", "unmute")
+        this.div.append("img").attr("id", "unmute_"+this.SOUNDID)
                               .attr("src", this.notMutedImg)
                               .style("display","none");
 
         if(this.soundOff!==null){
-            this.div.append("p").attr("id", "soundOff")
+            this.div.append("p").attr("id", "soundOff_"+this.SOUNDID)
                                 .style("visibility","hidden")
                                 .text(this.soundOff);
         }
 
         this.body = d3.select("body");
-       
+        this.sounds = [];
+
         if(this.numberSongs){
             for(let i=0;i<this.numberSongs;i++){
                 if(opt.songs[i].loop){
                     if(opt.songs[i].url){
-                        this.body.append("audio").attr("id", "audio"+i)
+                        this.body.append("audio").attr("id", "audio"+i+"_"+this.SOUNDID)
                                 .attr("name", " ")
                                 .attr("loop","")
                                 .attr("src", opt.songs[i].url)
                                 .text("Your browser does not support the <code>audio</code> element.");
                     }else{
-                        this.body.append("audio").attr("id", "audio"+i)
+                        this.body.append("audio").attr("id", "audio"+i+"_"+this.SOUNDID)
                                 .attr("name", " ")
                                 .attr("loop","")
                                 .attr("src", "../../client/app/widgets/car/configurations/song/loop.mp3") // Default url for loop audios
@@ -288,57 +302,253 @@ define(function (require, exports, module) {
                     }    
                 }else {
                     if(opt.songs[i].url){
-                        this.body.append("audio").attr("id", "audio"+i)
+                        this.body.append("audio").attr("id", "audio"+i+"_"+this.SOUNDID)
                                 .attr("name", " ")
                                 .attr("src", opt.songs[i].url)
                                 .text("Your browser does not support the <code>audio</code> element.");
                     }else{
-                        this.body.append("audio").attr("id", "audio"+i)
+                        this.body.append("audio").attr("id", "audio"+i+"_"+this.SOUNDID)
                                 .attr("name", " ")
                                 .attr("src", "../../client/app/widgets/car/configurations/song/sound.mp3") // Default url for non loop audios
                                 .text("Your browser does not support the <code>audio</code> element.");
                     }    
                 }
-                sounds[i] = document.getElementById('audio'+i);
+                this.sounds[i] = document.getElementById('audio'+i+"_"+this.SOUNDID);
             }
         } else { 
-            this.body.append("audio").attr("id", "audio0")
+            this.body.append("audio").attr("id", "audio0"+"_"+this.SOUNDID)
                     .attr("name", " ")
                     .attr("loop","")
                     .attr("src", "../../client/app/widgets/car/configurations/song/loop.mp3") // Default url for loop audios
                     .text("Your browser does not support the <code>audio</code> element.");
             
-            this.body.append("audio").attr("id", "audio1")
+            this.body.append("audio").attr("id", "audio1"+"_"+this.SOUNDID)
                     .attr("name", " ")
                     .attr("src", "../../client/app/widgets/car/configurations/song/sound.mp3") // Default url for non loop audios
                     .text("Your browser does not support the <code>audio</code> element.");
             
-            sounds[0] = document.getElementById('audio0');
-            sounds[1] = document.getElementById('audio1');
+            this.sounds[0] = document.getElementById('audio0'+"_"+this.SOUNDID);
+            this.sounds[1] = document.getElementById('audio1'+"_"+this.SOUNDID);
         }
       
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
-        callback = this.callback;
-        invokePVS = this.invokePVS;
-
-        document.getElementById('mute').addEventListener('click', function (e) {
-            Sound.prototype.unmute();
-        });
-
-        document.getElementById('unmute').addEventListener('click', function (e) {
-            Sound.prototype.mute();
-        });
-
-        Sound.prototype.pauseAll();
-
         Widget.call(this, id, coords, opt);
+
         return this;
     }
 
     Sound.prototype = Object.create(Widget.prototype);
     Sound.prototype.constructor = Sound;
     Sound.prototype.parentClass = Widget.prototype;
+
+    /**
+     * @function startSound
+     * @public
+     * @description startSound method of the Sound widget. This method  .
+     * @memberof module:Sound
+     * @instance
+     */
+    Sound.prototype.startSound = function () {
+        // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
+        setTimeout(
+            (function(self) {         //Self-executing func which takes 'this' as self
+                return function() {   //Return a function in the context of 'self'
+                    document.getElementById('mute_'+self.SOUNDID).addEventListener('click', function (e) {
+                        self.unmute();
+                    });
+
+                    document.getElementById('unmute_'+self.SOUNDID).addEventListener('click', function (e) {
+                        self.mute();
+                    });
+                    self.pauseAll(); //Thing you wanted to run as non-window 'this'
+                }
+            })(this),
+            50     //normal interval, 'this' scope not impacted here.
+        ); 
+        return this;
+    };
+
+
+
+    /**
+     * @function getSoundOff
+     * @public
+     * @description GetSoundOff method of the Sound widget. This method returns the value of div with id="soundOff".
+     * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
+     * @instance
+     */
+    Sound.prototype.getSoundOff = function () {
+        if(this.soundOff!==null){
+            this.soundOffDiv = d3.select("#soundOff_"+this.SOUNDID);
+            return(JSON.parse(this.soundOffDiv[0][0].innerHTML));
+        }
+        return this;
+    };
+
+     /**
+     * @function unmute
+     * @public
+     * @description Unmute method of the Sound widget. This method changes the displayed image and plays all sounds known.
+     * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
+     * @instance
+     */
+    Sound.prototype.unmute = function () {
+        if(this.invokePVS){
+            ButtonActionsQueue.queueGUIAction("press_"+this.unmute_functionNamePVS, this.callback);
+        }
+        if(this.soundOff!==null){
+            this.soundOffDiv = d3.select("#soundOff_"+this.SOUNDID);
+            this.soundOffDiv.text("false");
+        }
+        this.muteDiv   = d3.select("#mute_"+this.SOUNDID);
+        this.unmuteDiv = d3.select("#unmute_"+this.SOUNDID);
+        this.muteDiv.style("display", "none");
+        this.unmuteDiv.style("display", "inline");
+        this.playAll();
+        return this;
+    };
+
+    /**
+     * @function mute
+     * @public
+     * @description Mute method of the Sound widget. This method changes the displayed image and pauses all sounds known.
+     * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
+     * @instance
+     */
+    Sound.prototype.mute = function () {
+        if(this.invokePVS){
+            ButtonActionsQueue.queueGUIAction("press_"+this.mute_functionNamePVS, this.callback);
+        }
+        if(this.soundOff!==null){
+            this.soundOffDiv = d3.select("#soundOff_"+this.SOUNDID);
+            this.soundOffDiv.text("true");
+        }
+        this.muteDiv   = d3.select("#mute_"+this.SOUNDID);
+        this.unmuteDiv = d3.select("#unmute_"+this.SOUNDID);
+        this.muteDiv.style("display", "inline");
+        this.unmuteDiv.style("display", "none");
+        this.pauseAll();
+        return this;
+    };
+
+    /**
+     * @function setVolume
+     * @public
+     * @description SetVolume method of the Sound widget. This method changes the volume of a specific known sound, given by index parameter.
+     * @param newVolume {Float} This parameter is the new volume to be set to all known sounds.
+     * @param index {Int} This parameter is the index of the intended sound to be changed.
+     * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
+     * @instance
+     */
+    Sound.prototype.setVolume = function (newVolume, index) {
+        this.sounds[index].volume = newVolume;
+        return this;
+    };
+
+    /**
+     * @function setVolumeAll
+     * @public
+     * @description SetVolumeAll method of the Sound widget. This method changes the volume of all known sounds.
+     * @param newVolume {Float} This parameter is the new volume to be set to all known sounds.
+     * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
+     * @instance
+     */
+    Sound.prototype.setVolumeAll = function (newVolume) {
+        let s = this.sounds.length;
+        for(let i=0; i<s; i++) {
+            this.sounds[i].volume = newVolume;
+        }
+        return this;
+    };
+
+     /**
+     * @function playAll
+     * @public
+     * @description PlayAll method of the Sound widget. This method plays all known sounds.
+     * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
+     * @instance
+     */
+    Sound.prototype.playAll = function () {
+        let s = this.sounds.length;
+        for(let i=0; i<s; i++) {
+            this.sounds[i].play();
+        }
+        return this;
+    };
+
+    /**
+     * @function pauseAll
+     * @public
+     * @description PauseAll method of the Sound widget. This method pauses all known sounds playing.
+     * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
+     * @instance
+     */
+    Sound.prototype.pauseAll = function () {
+        let s = this.sounds.length;
+        for(let i=0; i<s; i++) {
+            this.sounds[i].pause();
+        }
+        return this;
+    };
+
+    /**
+     * @function playSound
+     * @public
+     * @description PlaySound method of the Sound widget. This method plays a specific known sound, given by index parameter.
+     * @param index {Int} This parameter is the index of the intended sound to be changed.
+     * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
+     * @instance
+     */
+    Sound.prototype.playSound = function (index) {
+        this.sounds[index].play();
+        return this;
+    };
+
+    /**
+     * @function pauseSound
+     * @public
+     * @description PauseSound method of the Sound widget. This method pauses a specific known sound, given by index parameter.
+     * @param index {Int} This parameter is the index of the intended sound to be changed.
+     * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
+     * @instance
+     */
+    Sound.prototype.pauseSound = function (index) {
+        this.sounds[index].pause();
+        return this;
+    };
+
+    /**
+     * @function onEndedSound
+     * @public
+     * @description OnEndedSound method of the Sound widget. This method plays several known sounds, given by the index parameter.
+     * @param indexOnEnded {Int} This parameter is the index of the song that will end, given by the "onended" event.
+     * @param arrayNext {Array} This parameter is an array of objects, indexPlayNext and newVolume, which allows to play and set volume of several sounds after "indexOnEnded" sound ended.
+     * @memberof module:Sound
+     * @returns {Sound} The created instance of the widget Sound.
+     * @instance
+     */
+    Sound.prototype.onEndedSound = function (indexOnEnded, arrayNext) {
+        let a;
+        this.sounds[indexOnEnded].onended = function() {
+            for(a=0;a<arrayNext.length;a++){
+                this.sounds[arrayNext[a].indexPlayNext].play();
+                this.sounds[arrayNext[a].indexPlayNext].volume = arrayNext[a].newVolume;
+            }
+        };
+      
+        return this;
+    };
+
 
     /**
      * @function hide
@@ -375,184 +585,6 @@ define(function (require, exports, module) {
     };
 
   
-    /**
-     * @function onEndedSound
-     * @public
-     * @description OnEndedSound method of the Sound widget. This method plays several known sounds, given by the index parameter.
-     * @param indexOnEnded {Int} This parameter is the index of the song that will end, given by the "onended" event.
-     * @param arrayNext {Array} This parameter is an array of objects, indexPlayNext and newVolume, which allows to play and set volume of several sounds after "indexOnEnded" sound ended.
-     * @memberof module:Sound
-     * @returns {Sound} The created instance of the widget Sound.
-     * @instance
-     */
-    Sound.prototype.onEndedSound = function (indexOnEnded, arrayNext) {
-        let a;
-        sounds[indexOnEnded].onended = function() {
-            for(a=0;a<arrayNext.length;a++){
-                sounds[arrayNext[a].indexPlayNext].play();
-                sounds[arrayNext[a].indexPlayNext].volume = arrayNext[a].newVolume;
-            }
-        };
-      
-        return this;
-    };
-
-     /**
-     * @function playSound
-     * @public
-     * @description PlaySound method of the Sound widget. This method plays a specific known sound, given by index parameter.
-     * @param index {Int} This parameter is the index of the intended sound to be changed.
-     * @memberof module:Sound
-     * @returns {Sound} The created instance of the widget Sound.
-     * @instance
-     */
-    Sound.prototype.playSound = function (index) {
-        sounds[index].play();
-        return this;
-    };
-
-    /**
-     * @function pauseSound
-     * @public
-     * @description PauseSound method of the Sound widget. This method pauses a specific known sound, given by index parameter.
-     * @param index {Int} This parameter is the index of the intended sound to be changed.
-     * @memberof module:Sound
-     * @returns {Sound} The created instance of the widget Sound.
-     * @instance
-     */
-    Sound.prototype.pauseSound = function (index) {
-        sounds[index].pause();
-        return this;
-    };
-
-    /**
-     * @function playAll
-     * @public
-     * @description PlayAll method of the Sound widget. This method plays all known sounds.
-     * @memberof module:Sound
-     * @returns {Sound} The created instance of the widget Sound.
-     * @instance
-     */
-    Sound.prototype.playAll = function () {
-        let s = sounds.length;
-        for(let i=0; i<s; i++) {
-            sounds[i].play();
-        }
-        return this;
-    };
-
-    /**
-     * @function pauseAll
-     * @public
-     * @description PauseAll method of the Sound widget. This method pauses all known sounds playing.
-     * @memberof module:Sound
-     * @returns {Sound} The created instance of the widget Sound.
-     * @instance
-     */
-    Sound.prototype.pauseAll = function () {
-        let s = sounds.length;
-        for(let i=0; i<s; i++) {
-            sounds[i].pause();
-        }
-        return this;
-    };
-
-    /**
-     * @function setVolume
-     * @public
-     * @description SetVolume method of the Sound widget. This method changes the volume of a specific known sound, given by index parameter.
-     * @param newVolume {Float} This parameter is the new volume to be set to all known sounds.
-     * @param index {Int} This parameter is the index of the intended sound to be changed.
-     * @memberof module:Sound
-     * @returns {Sound} The created instance of the widget Sound.
-     * @instance
-     */
-    Sound.prototype.setVolume = function (newVolume, index) {
-        sounds[index].volume = newVolume;
-        return this;
-    };
-
-    /**
-     * @function setVolumeAll
-     * @public
-     * @description SetVolumeAll method of the Sound widget. This method changes the volume of all known sounds.
-     * @param newVolume {Float} This parameter is the new volume to be set to all known sounds.
-     * @memberof module:Sound
-     * @returns {Sound} The created instance of the widget Sound.
-     * @instance
-     */
-    Sound.prototype.setVolumeAll = function (newVolume) {
-        let s = sounds.length;
-        for(let i=0; i<s; i++) {
-            sounds[i].volume = newVolume;
-        }
-        return this;
-    };
-
-    /**
-     * @function mute
-     * @public
-     * @description Mute method of the Sound widget. This method changes the displayed image and pauses all sounds known.
-     * @memberof module:Sound
-     * @returns {Sound} The created instance of the widget Sound.
-     * @instance
-     */
-    Sound.prototype.mute = function () {
-        if(invokePVS){
-            ButtonActionsQueue.queueGUIAction("press_mute", callback);
-        }
-        if(this.soundOff!==null){
-            this.soundOffDiv = d3.select("#soundOff");
-            this.soundOffDiv.text("true");
-        }
-        this.muteDiv   = d3.select("#mute");
-        this.unmuteDiv = d3.select("#unmute");
-        this.muteDiv.style("display", "inline");
-        this.unmuteDiv.style("display", "none");
-        this.pauseAll();
-        return this;
-    };
-
-    /**
-     * @function unmute
-     * @public
-     * @description Unmute method of the Sound widget. This method changes the displayed image and plays all sounds known.
-     * @memberof module:Sound
-     * @returns {Sound} The created instance of the widget Sound.
-     * @instance
-     */
-    Sound.prototype.unmute = function () {
-        if(invokePVS){
-            ButtonActionsQueue.queueGUIAction("press_unmute", callback);
-        }
-        if(this.soundOff!==null){
-            this.soundOffDiv = d3.select("#soundOff");
-            this.soundOffDiv.text("false");
-        }
-        this.muteDiv   = d3.select("#mute");
-        this.unmuteDiv = d3.select("#unmute");
-        this.muteDiv.style("display", "none");
-        this.unmuteDiv.style("display", "inline");
-        this.playAll();
-        return this;
-    };
-
-    /**
-     * @function getSoundOff
-     * @public
-     * @description GetSoundOff method of the Sound widget. This method returns the value of div with id="soundOff".
-     * @memberof module:Sound
-     * @returns {Sound} The created instance of the widget Sound.
-     * @instance
-     */
-    Sound.prototype.getSoundOff = function () {
-        if(this.soundOff!==null){
-            this.soundOffDiv = d3.select("#soundOff");
-            return(JSON.parse(this.soundOffDiv[0][0].innerHTML));
-        }
-        return this;
-    };
-
     /**
      * @function render
      * @public

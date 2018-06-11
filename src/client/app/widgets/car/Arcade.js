@@ -785,48 +785,50 @@ define(function (require, exports, module) {
         this.configurationFiles.spritesheetJSONPredefined = require("text!widgets/car/configurations/spritesheet.json");
 
         this.div = d3.select(this.parent)
-                        .attr("class","container game_view")
-                        .style("position", "absolute")
-                        .style("top", this.top + "px")
-                        .style("left", this.left + "px")
-                        .style("width", this.width + "px")
-                        .style("height", this.height + "px");
+                        .attr("class","container game_view");
 
         this.div.append("canvas").attr("id", "arcadeSimulator_"+this.id)
                 .style("-webkit-transform","scale(2.2)")
-                .style("margin-top", "300px")
-                .style("margin-left", "185px");
+                .style("position", "absolute")
+                .style("top", this.top + "px")
+                .style("left", this.left + "px")
+                .style("width", this.width + "px")
+                .style("height", this.height + "px");
 
-        // this.soundWidget = new Sound("soundWidget_"+this.id, {
-        //     top: 625,
-        //     left: 610,
-        //     width: 750,
-        //     height: 750
-        // }, {
-        //     callback: opt.callback,
-        //     soundOff: "false",
-        //     songs: [
-        //             {
-        //                 url: "../../client/app/widgets/car/configurations/song/sound.mp3",
-        //                 loop: false
-        //             },
-        //             {
-        //                 url: "../../client/app/widgets/car/configurations/song/loop.mp3", // car_idle_sound
-        //                 loop: true
-        //             },
-        //             {
-        //                 url: "../../client/app/widgets/car/configurations/song/car_startup.mp3", // car_startup_sound
-        //                 loop: false
-        //             },
-        //             {
-        //                 url: "../../client/app/widgets/car/configurations/song/car_accelerating.mp3", // car_accelerating_sound
-        //                 loop: false
-        //             }
-        //     ]
-        // });
+        this.soundWidget = new Sound("soundWidget_"+this.id, {
+            top: (this.top+350),
+            left: (this.left-230),
+            width: 750,
+            height: 750
+        }, {
+            callback: opt.callback,
+            invokePVS: true,
+            mute_functionNamePVS: "mute",
+            unmute_functionNamePVS: "unmute",
+            soundOff: "false",
+            songs: [
+                    {
+                        url: "../../client/app/widgets/car/configurations/song/sound.mp3",
+                        loop: false
+                    },
+                    {
+                        url: "../../client/app/widgets/car/configurations/song/loop.mp3", // car_idle_sound
+                        loop: true
+                    },
+                    {
+                        url: "../../client/app/widgets/car/configurations/song/car_startup.mp3", // car_startup_sound
+                        loop: false
+                    },
+                    {
+                        url: "../../client/app/widgets/car/configurations/song/car_accelerating.mp3", // car_accelerating_sound
+                        loop: false
+                    }
+            ]
+        });
 
-        // this.soundWidget.hide();
-        // this.soundOff = this.soundWidget.getSoundOff();
+        this.soundWidget.startSound();
+        this.soundWidget.hide();
+        this.soundOff = this.soundWidget.getSoundOff();
 
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;

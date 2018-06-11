@@ -109,8 +109,12 @@ require([
                 }
             ],
             invokePVS: true,
+            mute_functionNamePVS: "mute",
+            unmute_functionNamePVS: "unmute",
             callback: onMessageReceived
         });
+
+        sound.soundWidget.startSound();
 
         // Render sound components
         function render(res) {

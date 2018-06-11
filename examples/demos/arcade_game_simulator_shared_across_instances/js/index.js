@@ -146,27 +146,27 @@ require([
         document.getElementById("gamepadImage").style.visibility = "visible";
 
         // ---------------- VIRTUAL KEYPAD CONTROLLER ----------------
-        arcade.virtualKeypadController = new VirtualKeypadController("virtualKeypad_controller", {
-            top: 800,
-            left: 800,
-            width: 750,
-            height: 750
-        }, {
-            keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
-            keyboardClass: "icon keyboard",
-            keyboardLeftDesktop: 1370,
-            keyboardHoverInitialTitle: "Click to open virtual keypad controller",
-            keyboardHoverSecondTitle: "Click to close virtual keypad controller",
-            parent: "virtualKeyPad", // defines parent div, which is div id="virtualKeyPad" by default
-            simulatorActions: "simulatorActions",
-            simulatorArrows: "simulatorArrows",
-            floatArrows: "floatArrows",
-            blockArrows: "blockArrows",
-            buttonClass: "ui-button ui-corner-all ui-widget ui-button-icon-only",
-            arrowKeysPVS: [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"],
-            otherKeysPVS: [ "quit", "pause", "resume" ],
-            callback: onMessageReceived
-        });
+        // arcade.virtualKeypadController = new VirtualKeypadController("virtualKeypad_controller", {
+        //     top: 800,
+        //     left: 800,
+        //     width: 750,
+        //     height: 750
+        // }, {
+        //     keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
+        //     keyboardClass: "icon keyboard",
+        //     keyboardLeftDesktop: 1370,
+        //     keyboardHoverInitialTitle: "Click to open virtual keypad controller",
+        //     keyboardHoverSecondTitle: "Click to close virtual keypad controller",
+        //     parent: "virtualKeyPad", // defines parent div, which is div id="virtualKeyPad" by default
+        //     simulatorActions: "simulatorActions",
+        //     simulatorArrows: "simulatorArrows",
+        //     floatArrows: "floatArrows",
+        //     blockArrows: "blockArrows",
+        //     buttonClass: "ui-button ui-corner-all ui-widget ui-button-icon-only",
+        //     arrowKeysPVS: [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"],
+        //     otherKeysPVS: [ "quit", "pause", "resume" ],
+        //     callback: onMessageReceived
+        // });
 
         // ----------------------------- DASHBOARD INTERACTION -----------------------------
         arcade.up = new ButtonExternalController("accelerate", { width: 0, height: 0 }, {
@@ -283,8 +283,8 @@ require([
 
         // ----------------------------- ARCADE GAME COMPONENTS -----------------------------
         arcade.arcadeWidget = new Arcade("arcadeWidget", {
-            top: 0,
-            left: 700,
+            top: 300,
+            left: 860,
             width: 320,
             height: 240
         }, {
@@ -339,8 +339,8 @@ require([
         });
 
         arcade.arcadeWidget2 = new Arcade("arcadeWidget2", {
-            top: 40,
-            left: 700,
+            top: 850,
+            left: 860,
             width: 320,
             height: 240
         }, {
@@ -395,8 +395,8 @@ require([
         });
 
         arcade.arcadeWidget3 = new Arcade("arcadeWidget3", {
-            top: 80,
-            left: 700,
+            top: 1400,
+            left: 860,
             width: 320,
             height: 240
         }, {
@@ -477,7 +477,7 @@ require([
             keyCode: 85 // key 'u'
         });
 
-        document.getElementById("tog").style.left = "625px";
+        // document.getElementById("tog").style.left = "625px";
         arcade.arcadeWidget.startSimulation();
         arcade.arcadeWidget2.startSimulation();
         arcade.arcadeWidget3.startSimulation();
