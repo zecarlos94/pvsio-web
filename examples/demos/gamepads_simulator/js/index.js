@@ -89,24 +89,24 @@ require([
 
         var draw = {};
         // ----------------------------- DRAWGAMEPAD COMPONENTS -----------------------------
-        // draw.drawGamepad = new DrawGamepad2("drawGamepad", {
-        //     top: 100,
-        //     left: 350,
-        //     width: 750,
-        //     height: 750
-        // }, {
-        //     parent: "gamepads", // defines parent div, which is div id="drawGamepad" by default
-        //     style: "xbox", // defines parent div, which is "ps4" by default
-        //     // buttonsPVS: [ "accelerate", "brake", "y", "x", "menu", "windows", "xbox", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
-        //     callback: onMessageReceived
-        // });
         draw.drawGamepad = new DrawGamepad("drawGamepad", {
             top: 100,
             left: 350,
             width: 750,
             height: 750
         }, {
-            parent: "gamepads", // defines parent div, which is div id="drawGamepad" by default
+            parent: "content", // defines parent div, which is div id="body" by default
+            style: "xbox", // defines parent div, which is "ps4" by default
+            // buttonsPVS: [ "accelerate", "brake", "y", "x", "menu", "windows", "xbox", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+            callback: onMessageReceived
+        });
+        draw.drawGamepad2 = new DrawGamepad("drawGamepad2", {
+            top: 100,
+            left: 350,
+            width: 750,
+            height: 750
+        }, {
+            parent: "content", // defines parent div, which is div id="body" by default
             style: "ps4", // defines parent div, which is "ps4" by default
             // buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
             callback: onMessageReceived
@@ -122,6 +122,7 @@ require([
         // Render Gamepads components
         function render(res) {
             draw.drawGamepad.render();
+            draw.drawGamepad2.render();
             // draw.drawGamepad.callPressReleasePVS("accelerate");
             // draw.drawGamepad.callClickPVS("leftStick");
         }

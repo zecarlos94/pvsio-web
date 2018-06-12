@@ -165,6 +165,7 @@ define(function (require, exports, module) {
         coords = coords || {};
 
         this.id = id;
+        this.DRAWGAMEPADID = this.id;
         this.top = coords.top || 0;
         this.left = coords.left || 0;
         this.width = coords.width || 250;
@@ -182,7 +183,7 @@ define(function (require, exports, module) {
         let _this = this;
         let gamepad_file = "text!widgets/car/virtual_controllers/" + opt.style + ".svg";
         require([gamepad_file], function(gamepad) {
-            _this.div.append("div").attr("id", id + "_SW").html(gamepad);
+            _this.div.append("div").attr("id", "drawGamepad_"+id+"_SW").attr("style", "zoom: 75%").html(gamepad);
             // Scale svg according to scale factor
             let svgHeight = parseFloat(_this.div.select("svg").style("height").replace("px", ""));
             let svgWidth = parseFloat(_this.div.select("svg").style("width").replace("px", ""));
@@ -197,7 +198,8 @@ define(function (require, exports, module) {
         });
 
         this.div = d3.select(this.parent)
-                        .append("div").attr("id", id);
+                        .append("div").attr("id", "drawGamepad_"+this.DRAWGAMEPADID);
+                        
    
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
@@ -207,6 +209,7 @@ define(function (require, exports, module) {
                 top: 115, left: 377, width: 32, height: 32
             }, {
                 keyCode: 49, 
+                parent: "drawGamepad_"+id,
                 callback: opt.callback,
                 evts: ['press/release']
             });
@@ -214,7 +217,8 @@ define(function (require, exports, module) {
             this.btn_b= new Button(this.buttonsPVS[1], {
                 top: 83, left: 408, width: 32, height: 32
             }, {
-                keyCode: 50, 
+                keyCode: 50,
+                parent: "drawGamepad_"+id, 
                 callback: opt.callback,
                 evts: ['press/release']
             });
@@ -222,7 +226,8 @@ define(function (require, exports, module) {
             this.btn_y= new Button(this.buttonsPVS[2], {
                 top: 50, left: 377, width: 32, height: 32
             }, {
-                keyCode: 51, 
+                keyCode: 51,
+                parent: "drawGamepad_"+id, 
                 callback: opt.callback,
                 evts: ['press/release']
             });
@@ -230,7 +235,8 @@ define(function (require, exports, module) {
             this.btn_x= new Button(this.buttonsPVS[3], {
                 top: 83, left: 345, width: 32, height: 32
             }, {
-                keyCode: 52, 
+                keyCode: 52,
+                parent: "drawGamepad_"+id, 
                 callback: opt.callback,
                 evts: ['press/release']
             });
@@ -239,6 +245,7 @@ define(function (require, exports, module) {
                 top: 89, left: 298, width: 22, height: 22
             }, {
                 keyCode: 53, 
+                parent: "drawGamepad_"+id,
                 callback: opt.callback,
                 evts: ['press/release']                
             });
@@ -246,7 +253,8 @@ define(function (require, exports, module) {
             this.btn_windows= new Button(this.buttonsPVS[5], {
                 top: 89, left: 233, width: 22, height: 22
             }, {
-                keyCode: 54, 
+                keyCode: 54,
+                parent: "drawGamepad_"+id, 
                 callback: opt.callback,
                 evts: ['press/release']                
             });
@@ -254,7 +262,8 @@ define(function (require, exports, module) {
             this.btn_xbox= new Button(this.buttonsPVS[6], {
                 top: 20, left: 253, width: 46, height: 46
             }, {
-                keyCode: 56, 
+                keyCode: 56,
+                parent: "drawGamepad_"+id, 
                 callback: opt.callback,
                 evts: ['press/release']                
             });
@@ -263,6 +272,7 @@ define(function (require, exports, module) {
                 top: 167, left: 188, width: 22, height: 22
             }, {
                 keyCode: 37, 
+                parent: "drawGamepad_"+id,
                 callback: opt.callback,
                 evts: ['press/release']                
             });
@@ -271,6 +281,7 @@ define(function (require, exports, module) {
                 top: 144, left: 207, width: 22, height: 22
             }, {
                 keyCode: 38, 
+                parent: "drawGamepad_"+id,
                 callback: opt.callback,
                 evts: ['press/release']                
             });
@@ -278,7 +289,8 @@ define(function (require, exports, module) {
             this.btn_rightArrow= new Button(this.buttonsPVS[9], {
                 top: 167, left: 228, width: 22, height: 22
             }, {
-                keyCode: 39, 
+                keyCode: 39,
+                parent: "drawGamepad_"+id, 
                 callback: opt.callback,
                 evts: ['press/release']                
             });
@@ -287,6 +299,7 @@ define(function (require, exports, module) {
                 top: 189, left: 206, width: 22, height: 22
             }, {
                 keyCode: 40, 
+                parent: "drawGamepad_"+id,
                 callback: opt.callback,
                 evts: ['press/release']                
             });
@@ -295,6 +308,7 @@ define(function (require, exports, module) {
                 top: 148, left: 309, width: 52, height: 52
             }, {
                 keyCode: 57, 
+                parent: "drawGamepad_"+id,
                 callback: opt.callback,
             });
 
@@ -302,6 +316,7 @@ define(function (require, exports, module) {
                 top: 74, left: 135, width: 52, height: 52
             }, {
                 keyCode: 48, 
+                parent: "drawGamepad_"+id,
                 callback: opt.callback,
             });
         }else if(opt.style==="ps4"){
@@ -309,6 +324,7 @@ define(function (require, exports, module) {
                 top: 120, left: 425, width: 32, height: 32
             }, {
                 keyCode: 49, 
+                parent: "drawGamepad_"+id,
                 callback: opt.callback,
                 evts: ['press/release']
             });
@@ -316,7 +332,8 @@ define(function (require, exports, module) {
             this.btn_circle= new Button(this.buttonsPVS[1], {
                 top: 82, left: 463, width: 32, height: 32
             }, {
-                keyCode: 50, 
+                keyCode: 50,
+                parent: "drawGamepad_"+id, 
                 callback: opt.callback,
                 evts: ['press/release']
             });
@@ -324,7 +341,8 @@ define(function (require, exports, module) {
             this.btn_triangle= new Button(this.buttonsPVS[2], {
                 top: 45, left: 425, width: 32, height: 32
             }, {
-                keyCode: 51, 
+                keyCode: 51,
+                parent: "drawGamepad_"+id, 
                 callback: opt.callback,
                 evts: ['press/release']                
             });
@@ -333,6 +351,7 @@ define(function (require, exports, module) {
                 top: 82, left: 387, width: 32, height: 32
             }, {
                 keyCode: 52, 
+                parent: "drawGamepad_"+id,
                 callback: opt.callback,
                 evts: ['press/release']                
             });
@@ -341,6 +360,7 @@ define(function (require, exports, module) {
                 top: 35, left: 375, width: 20, height: 30
             }, {
                 keyCode: 53, 
+                parent: "drawGamepad_"+id,
                 callback: opt.callback,
                 evts: ['press/release']                
             });
@@ -349,6 +369,7 @@ define(function (require, exports, module) {
                 top: 35, left: 165, width: 20, height: 30
             }, {
                 keyCode: 54, 
+                parent: "drawGamepad_"+id,
                 callback: opt.callback,
                 evts: ['press/release']                
             });
@@ -356,7 +377,8 @@ define(function (require, exports, module) {
             this.btn_touchpad= new Button(this.buttonsPVS[6], {
                 top: 25, left: 195, width: 170, height: 90
             }, {
-                keyCode: 55, 
+                keyCode: 55,
+                parent: "drawGamepad_"+id, 
                 callback: opt.callback,
                 evts: ['press/release']                
             });
@@ -364,7 +386,8 @@ define(function (require, exports, module) {
             this.btn_ps= new Button(this.buttonsPVS[7], {
                 top: 160, left: 268, width: 26, height: 26
             }, {
-                keyCode: 56, 
+                keyCode: 56,
+                parent: "drawGamepad_"+id, 
                 callback: opt.callback,
                 evts: ['press/release']                
             });
@@ -373,6 +396,7 @@ define(function (require, exports, module) {
                 top: 87, left: 79, width: 24, height: 24
             }, {
                 keyCode: 37, 
+                parent: "drawGamepad_"+id,
                 callback: opt.callback,
                 evts: ['press/release']                
             });
@@ -381,6 +405,7 @@ define(function (require, exports, module) {
                 top: 60, left: 108, width: 24, height: 24
             }, {
                 keyCode: 38, 
+                parent: "drawGamepad_"+id,
                 callback: opt.callback,
                 evts: ['press/release']                
             });
@@ -389,6 +414,7 @@ define(function (require, exports, module) {
                 top: 87, left: 137, width: 24, height: 24
             }, {
                 keyCode: 39, 
+                parent: "drawGamepad_"+id,
                 callback: opt.callback,
                 evts: ['press/release']                
             });
@@ -397,6 +423,7 @@ define(function (require, exports, module) {
                 top: 115, left: 108, width: 24, height: 24
             }, {
                 keyCode: 40, 
+                parent: "drawGamepad_"+id,
                 callback: opt.callback,
                 evts: ['press/release']                
             });
@@ -404,7 +431,8 @@ define(function (require, exports, module) {
             this.btn_rightStick= new Button(this.buttonsPVS[12], {
                 top: 136, left: 332, width: 62, height: 62
             }, {
-                keyCode: 57, 
+                keyCode: 57,
+                parent: "drawGamepad_"+id, 
                 callback: opt.callback,
             });
 
@@ -412,6 +440,7 @@ define(function (require, exports, module) {
                 top: 136, left: 168, width: 62, height: 62
             }, {
                 keyCode: 48, 
+                parent: "drawGamepad_"+id,
                 callback: opt.callback,
             });
         }
