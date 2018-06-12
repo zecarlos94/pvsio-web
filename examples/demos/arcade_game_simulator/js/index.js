@@ -144,20 +144,23 @@ require([
         });
 
         document.getElementById("gamepadImage").style.visibility = "visible";
+        document.getElementById("gamepadImage").style.marginBottom = "100px";
 
         // ---------------- VIRTUAL KEYPAD CONTROLLER ----------------
         arcade.virtualKeypadController = new VirtualKeypadController("virtualKeypad_controller", {
-            top: 800,
-            left: 800,
+            top: 1050,
+            left: 200,
             width: 750,
             height: 750
         }, {
-            keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
+            keyboardImgDiv: "mobileDevicesController", // defines keyboard image div, which is div id="mobileDevicesController" by default
             keyboardClass: "icon keyboard",
-            keyboardLeftDesktop: 1370,
+            keyboardLeftDesktop: 50,
+            keyboardTopDesktop: 900,
             keyboardHoverInitialTitle: "Click to open virtual keypad controller",
             keyboardHoverSecondTitle: "Click to close virtual keypad controller",
-            parent: "virtualKeyPad", // defines parent div, which is div id="virtualKeyPad" by default
+            parent: "content", // defines parent div, which is div id="body" by default
+            buttonsDiv: "virtualKeyPad", // defines buttons image div, which is div id="virtualKeyPad" by default
             simulatorActions: "simulatorActions",
             simulatorArrows: "simulatorArrows",
             floatArrows: "floatArrows",
@@ -197,7 +200,7 @@ require([
         // ---------------- STEERING WHEEL ----------------
         arcade.steeringWheel = new SteeringWheel("steering_wheel", {
             top: 300,
-            left: 10,
+            left: 20,
             width: 600,
             height: 600
         }, {
@@ -283,12 +286,12 @@ require([
 
         // ----------------------------- ARCADE GAME COMPONENTS -----------------------------
         arcade.arcadeWidget = new Arcade("arcadeWidget", {
-            top: 80,
-            left: 650,
-            width: 780,
-            height: 650
+            top: 300,
+            left: 860,
+            width: 320,
+            height: 240
         }, {
-            parent: "game-window", // defines parent div, which is div id="game-window" by default
+            parent: "content", // defines parent div, which is div id="body" by default
             trackFilename: "trackLayout2",// "track-curves-slopes-random", // "track-straight-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
             spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -396,7 +399,6 @@ require([
             keyCode: 85 // key 'u'
         });
 
-        document.getElementById("tog").style.left = "625px";
         arcade.arcadeWidget.startSimulation();
 
         // Render arcade game components
