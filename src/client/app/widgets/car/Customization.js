@@ -1686,7 +1686,7 @@ define(function (require, exports, module) {
 
                     // ---------------- STEERING WHEEL ----------------
                     car.steeringWheel = new SteeringWheel("steering_wheel", {
-                        top: 140,
+                        top: 100,
                         left: 10,
                         width: 600,
                         height: 600
@@ -1697,23 +1697,23 @@ define(function (require, exports, module) {
 
                     // ----------------------------- DRAWGAMEPAD COMPONENTS -----------------------------
                     // car.drawGamepad = new DrawGamepad("drawGamepad", {
-                    //     top: 100,
-                    //     left: 350,
-                    //     width: 750,
-                    //     height: 750
+                    //      top: 700,
+			        //     left: 750,
+			        //     width: 750,
+			        //     height: 750
                     // }, {
-                    //     parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
+                    //     parent: "content", // defines parent div, which is div id="body" by default
                     //     style: "xbox", // defines parent div, which is "ps4" by default
                     //     buttonsPVS: [ "accelerate", "brake", "mute", "unmute", "pause", "quit", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
                     //     callback: callback
                     // });
                     car.drawGamepad = new DrawGamepad("drawGamepad", {
-                        top: 100,
-                        left: 350,
-                        width: 750,
-                        height: 750
+                        top: 700,
+			            left: 750,
+			            width: 750,
+			            height: 750
                     }, {
-                        parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
+                        parent: "content", // defines parent div, which is div id="body" by default
                         style: "ps4", // defines parent div, which is "ps4" by default
                         buttonsPVS: [ "accelerate", "brake", "unmute", "mute", "pause", "quit", "touchpad", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
                         callback: callback
@@ -1773,14 +1773,15 @@ define(function (require, exports, module) {
 
                     // ---------------- VIRTUAL KEYPAD CONTROLLER ----------------
                     car.virtualKeypadController = new VirtualKeypadController("virtualKeypad_controller", {
-                        top: 800,
-                        left: 800,
+                        top: 250,
+                        left: 250,
                         width: 750,
                         height: 750
                     }, {
                         keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
                         keyboardClass: "icon keyboard",
-                        keyboardLeftDesktop: 1370,
+                        keyboardLeftDesktop: 100,
+                        keyboardTopDesktop: 150,
                         keyboardHoverInitialTitle: "Click to open virtual keypad controller",
                         keyboardHoverSecondTitle: "Click to close virtual keypad controller",
                         parent: "content", // defines parent div, which is div id="body" by default
@@ -1919,67 +1920,60 @@ define(function (require, exports, module) {
 
                     // ----------------------------- ARCADE GAME COMPONENTS -----------------------------
                     car.arcadeWidget = new Arcade("arcadeWidget", {
-                        top: 80,
-                        left: 650,
-                        width: 780,
-                        height: 650
-                    }, {
-                        parent: "content", // defines parent div, which is div id="body" by default
-                        trackFilename: "track-curves-slopes-random", // "track-straight", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
-                        spritesFilename: spritesheetJSONFilename_Final, // defines spritesheet configuration filename, which is "spritesheet.json" by default
-                        spritesFiles: JSON.parse(spritesheetImages_Final), // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
-                        realisticImgs: realisticImgs_Final,
-                        vehicle: vehicle_Final, // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
-                        vehicleImgIndex: vehicleImgIndex_Final, // defines vehicle sprite image suffix 
-                        // logoImgIndex: 1, // defines logo sprite image suffix 
-                        // backgroundImgIndex: 1, // defines background sprite image suffix 
-                        stripePositions: {
-                            trackP1: -0.55,
-                            trackP2: 0.55,
-                            borderWidth: 0.08,
-                            inOutBorderWidth: 0.02,
-                            landscapeOutBorderWidth: 0.13,
-                            diffTrackBorder: 0.05,
-                            finishLineP1: -0.40,
-                            finishLineP2: 0.40,
-                            diffLanesFinishLine: 0.05
-                        },
-                        lapNumber: parseInt(numLaps_Final),
-                        // showOfficialLogo: true,
-                        loadPVSSpeedPositions: loadPVSSpeedPositions_Final,
-                        // predefinedTracks: 4,
-                        // newLap_functionNamePVS: "new_lap",
-                        // action_attribute: "action",
-                        // direction_attribute: "direction",
-                        // sound_attribute: "sound",
-                        // lap_attribute: "lap",
-                        // speed_attribute: "speed",
-                        // posx_attribute: "posx",
-                        // position_attribute: "position",
-                        // lap_value: "val",
-                        // speed_value: "val",
-                        // posx_value: "val",
-                        // position_value: "val",
-                        // left_attribute: "left",
-                        // right_attribute: "right",
-                        // straight_attribute: "straight",
-                        // accelerate_attribute: "acc",
-                        // brake_attribute: "brake",
-                        // idle_attribute: "idle",
-                        // quit_attribute: "quit",
-                        // pause_attribute: "pause",
-                        // resume_attribute: "resume",
-                        // mute_attribute: "mute",
-                        // unmute_attribute: "unmute",
-                        callback: callback
-                    });
-                    
-                    d3.select("#arcadeSimulator")
-                        .style("margin-top", "0px")
-                        .style("margin-left", "0px")
-                        .style("position", "absolute")
-                        .style("top", "165px")
-                        .style("left", "225px");
+			            top: 300,
+			            left: 860,
+			            width: 320,
+			            height: 240
+			        }, {
+			            parent: "content", // defines parent div, which is div id="body" by default
+			            trackFilename: "trackLayout2",// "track-curves-slopes-random", // "track-straight-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
+			            spritesFilename: spritesheetJSONFilename_Final, // defines spritesheet configuration filename, which is "spritesheet.json" by default
+			            spritesFiles: JSON.parse(spritesheetImages_Final), // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
+			            realisticImgs: realisticImgs_Final,
+			            vehicle: vehicle_Final, // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
+			            vehicleImgIndex: parseInt(vehicleImgIndex_Final), // defines vehicle sprite image suffix
+			            // logoImgIndex: 1, // defines logo sprite image suffix
+			            // backgroundImgIndex: 1, // defines background sprite image suffix
+			            stripePositions: {
+			                trackP1: -0.55,
+			                trackP2: 0.55,
+			                borderWidth: 0.08,
+			                inOutBorderWidth: 0.02,
+			                landscapeOutBorderWidth: 0.13,
+			                diffTrackBorder: 0.05,
+			                finishLineP1: -0.40,
+			                finishLineP2: 0.40,
+			                diffLanesFinishLine: 0.05
+			            },
+			            lapNumber: parseInt(numLaps_Final),
+			            // showOfficialLogo: true,
+			            loadPVSSpeedPositions: loadPVSSpeedPositions_Final,
+			            // predefinedTracks: 4,
+			            // newLap_functionNamePVS: "new_lap",
+			            // action_attribute: "action",
+			            // direction_attribute: "direction",
+			            // sound_attribute: "sound",
+			            // lap_attribute: "lap",
+			            // speed_attribute: "speed",
+			            // posx_attribute: "posx",
+			            // position_attribute: "position",
+			            // lap_value: "val",
+			            // speed_value: "val",
+			            // posx_value: "val",
+			            // position_value: "val",
+			            // left_attribute: "left",
+			            // right_attribute: "right",
+			            // straight_attribute: "straight",
+			            // accelerate_attribute: "acc",
+			            // brake_attribute: "brake",
+			            // idle_attribute: "idle",
+			            // quit_attribute: "quit",
+			            // pause_attribute: "pause",
+			            // resume_attribute: "resume",
+			            // mute_attribute: "mute",
+			            // unmute_attribute: "unmute",
+			            callback: callback
+			        });
 
                     car.arcadeWidget.startSimulation();
                     car.arcadeWidget.render(initalPVSState);
