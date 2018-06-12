@@ -283,7 +283,7 @@ require([
                 ]
             },
             {
-                id: "writeTopography",
+                id: "writeTopography_customization-widget",
                 class: null,
                 styles: [
                     {
@@ -293,7 +293,7 @@ require([
                 ]
             },
             {
-                id: "writeSpritesheetJSONFilename",
+                id: "writeSpritesheetJSONFilename_customization-widget",
                 class: null,
                 styles: [
                     {
@@ -303,7 +303,7 @@ require([
                 ]
             },
             {
-                id: "writeSpritesheetImages",
+                id: "writeSpritesheetImages_customization-widget",
                 class: null,
                 styles: [
                     {
@@ -313,7 +313,7 @@ require([
                 ]
             },
             {
-                id: "writeLandscapeObjects",
+                id: "writeLandscapeObjects_customization-widget",
                 class: null,
                 styles: [
                     {
@@ -323,7 +323,7 @@ require([
                 ]
             },
             {
-                id: "writeTrackObstacles",
+                id: "writeTrackObstacles_customization-widget",
                 class: null,
                 styles: [
                     {
@@ -333,7 +333,7 @@ require([
                 ]
             },
             {
-                id: "writeTrackParams",
+                id: "writeTrackParams_customization-widget",
                 class: null,
                 styles: [
                     {
@@ -343,7 +343,7 @@ require([
                 ]
             },
             {
-                id: "writeArcadeVehicle",
+                id: "writeArcadeVehicle_customization-widget",
                 class: null,
                 styles: [
                     {
@@ -353,7 +353,7 @@ require([
                 ]
             },
             {
-                id: "colorPicker",
+                id: "colorPicker_customization-widget",
                 class: null,
                 styles: [
                     {
@@ -430,7 +430,7 @@ require([
             },
             {
                 id: null,
-                class: "customization",
+                class: "customization_customization-widget",
                 styles: [
                     {
                         property: "visibility",
@@ -449,7 +449,7 @@ require([
             width: 750,
             height: 750
         }, {
-            parent: "dashboard", // defines parent div, which is div id="dashboard" by default
+            parent: "content", // defines parent div, which is div id="body" by default
             sliderColor: "#4CAF50",
             imagesSteeringWheels: [
                 {
@@ -578,7 +578,7 @@ require([
         let render = (res) => {
             car.customization.render();
             initalPVSState=res;
-            if(parseInt(d3.select("#demo-End")[0][0].innerHTML)===1){
+            if(parseInt(d3.select("#demo-End_customization-widget")[0][0].innerHTML)===1){
                 car.arcadeWidget.render(res);                
                 car.speedometerGauge.render(evaluate(res.speed.val));
                 car.tachometerGauge.render(evaluate(res.rpm));

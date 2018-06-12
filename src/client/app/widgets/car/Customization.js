@@ -178,7 +178,7 @@
  *                    ]
  *                },
  *                {
- *                   id: "writeTopography",
+ *                   id: "writeTopography_customization-widget",
  *                   class: null,
  *                   styles: [
  *                       {
@@ -188,7 +188,7 @@
  *                   ]
  *               },
  *               {
- *                   id: "colorPicker",
+ *                   id: "colorPicker_customization-widget",
  *                   class: null,
  *                   styles: [
  *                       {
@@ -255,7 +255,7 @@
  *                },
  *                {
  *                    id: null,
- *                    class: "customization",
+ *                    class: "customization_customization-widget",
  *                    styles: [
  *                        {
  *                            property: "visibility",
@@ -270,7 +270,7 @@
  *          "customization-widget",  // id of the gauge element that will be created
  *          {top: 100, left: 700, width: 750, height: 750}, // coordinates object
  *          {
- *            parent: "dashboard", // defines parent div, which is div id="dashboard" by default
+ *            parent: "content", // defines parent div, which is div id="body" by default
  *            sliderColor: "#4CAF50",
  *            imagesSteeringWheels: [
  *            {
@@ -566,7 +566,7 @@
  *                    ]
  *                },
  *                {
- *                   id: "writeTopography",
+ *                   id: "writeTopography_customization-widget",
  *                   class: null,
  *                   styles: [
  *                       {
@@ -576,7 +576,7 @@
  *                   ]
  *               },
  *               {
- *                   id: "colorPicker",
+ *                   id: "colorPicker_customization-widget",
  *                   class: null,
  *                   styles: [
  *                       {
@@ -643,7 +643,7 @@
  *                },
  *                {
  *                    id: null,
- *                    class: "customization",
+ *                    class: "customization_customization-widget",
  *                    styles: [
  *                        {
  *                            property: "visibility",
@@ -658,7 +658,7 @@
  *          "customization-widget",  // id of the gauge element that will be created
  *          {top: 100, left: 700, width: 750, height: 750}, // coordinates object
  *          {
- *            parent: "dashboard", // defines parent div, which is div id="dashboard" by default
+ *            parent: "content", // defines parent div, which is div id="body" by default
  *            sliderColor: "#4CAF50",
  *            imagesSteeringWheels: [
  *            {
@@ -750,16 +750,6 @@
 define(function (require, exports, module) {
     "use strict";
 
-    let isMobile = false; //initiate as false
-    // device detection
-    if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) 
-        || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0,4))) { 
-        isMobile = true;
-    }
-
-    let iterator = 0;
-    let brItr = 0;
-
     let Widget = require("widgets/Widget");
     let Speedometer = require("widgets/car/Speedometer");
     let Tachometer = require("widgets/car/Tachometer");
@@ -781,6 +771,7 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 0, left: 0, width: 250, height: 250 }.
      * @param opt {Object} Options:
+     * 			<li>parent {String}: the parent div (default is "body").</li>
      *          <li>sliderColor {String}: the sliders circle color (default is "#4CAF50").</li>
      *          <li>imagesSteeringWheels {Array}: array of objects with all the images to insert in the imagepicker, providing the path and value fields (default values are {"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg" and default paths are "widgets/car/steering_wheels/"+{"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg").</li>
      *          <li>sliderRanges {Array}: array of objects with all the sliders to be created, giving the name (to put in the div), the values min, max (slider intervals) and value (default value) (default is [{name: "speedometer",min: 0,max: 400,value: 340},{name: "tachometer",min: 0,max: 20,value: 16},{name: "lanes",min: 0,max: 3,value: 0},{name: "hills",min: 0,max: 10,value: 0},{name: "obstacles",min: 0,max: 10,value: 0},{name: "other-cars",min: 0,max: 10,value: 0}]).</li>
@@ -879,13 +870,24 @@ define(function (require, exports, module) {
 
         coords = coords || {};
 
+	    this.isMobile = false; //initiate as false
+	    // device detection
+	    if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) 
+	        || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0,4))) { 
+	        this.isMobile = true;
+	    }
+
+	    this.iterator = 0;
+	    this.brItr = 0;
+
         this.id = id;
+        this.CUSTOMIZATIONID = this.id;
         this.top = coords.top || 0;
         this.left = coords.left || 0;
         this.width = coords.width || 250;
         this.height = coords.height || 250;
 
-        this.parent = (opt.parent) ? ("#" + opt.parent) : "dashboard";
+        this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
 
         this.sliderColor = opt.sliderColor;
         this.imagesSteeringWheels = opt.imagesSteeringWheels;
@@ -895,6 +897,7 @@ define(function (require, exports, module) {
         this.gaugesStyles = opt.gaugesStyles;
 
         this.div = d3.select(this.parent)
+        				.append("div").attr("id","dashboard")
                         .attr("class", "container dashboard-container")
                         .style("position", "absolute")
                         .style("margin-left", "0px")
@@ -902,7 +905,7 @@ define(function (require, exports, module) {
                         
         this.div.append("br");
         
-        this.customizationDiv = this.div.append("div").attr("class","customization");
+        this.customizationDiv = this.div.append("div").attr("class","customization_"+this.CUSTOMIZATIONID);
 
         this.customizationDiv.append("h4").style("margin-left","5px").text("Select Steering Wheel");
         
@@ -911,8 +914,8 @@ define(function (require, exports, module) {
         this.select=this.customizationDiv.append("div").style("margin-left","35px");
         this.optionsSelect=this.select.append("select").attr("id","selectImage").attr("class","image-picker");
         this.optionsSelect.append("option").attr("value","");
-        for(iterator=0; iterator<this.imagesSteeringWheels.length; iterator++){
-            this.optionsSelect.append("option").attr("data-img-src",this.imagesSteeringWheels[iterator].path).attr("value",this.imagesSteeringWheels[iterator].value).text(this.imagesSteeringWheels[iterator].value);
+        for(this.iterator=0; this.iterator<this.imagesSteeringWheels.length; this.iterator++){
+            this.optionsSelect.append("option").attr("data-img-src",this.imagesSteeringWheels[this.iterator].path).attr("value",this.imagesSteeringWheels[this.iterator].value).text(this.imagesSteeringWheels[this.iterator].value);
         }
        
         this.customizationDiv.append("br");
@@ -920,7 +923,7 @@ define(function (require, exports, module) {
         this.customizationDiv.append("h4").style("margin-left","5px").text("Select Track Colors");
         this.customizationDiv.append("br");
 
-        this.setColors = this.customizationDiv.append("div").attr("id","colorPicker").style("margin-left","40px");
+        this.setColors = this.customizationDiv.append("div").attr("id","colorPicker_"+this.CUSTOMIZATIONID).style("margin-left","40px");
 
         let default_grass1 = "#699864";
         let default_border1 = "#ee0000";
@@ -934,23 +937,23 @@ define(function (require, exports, module) {
         let default_laneArrow = "#00FF00";
         let default_lane_end = "#ffffff";
 
-        this.setColors.append("input").attr("id","grass").attr("type","color").attr("value",default_grass1);
+        this.setColors.append("input").attr("id","grass_"+this.CUSTOMIZATIONID).attr("type","color").attr("value",default_grass1);
         this.setColors.append("span").text("Grass").style("margin-left","10px");
-        this.setColors.append("span").attr("id","hex1").text(default_grass1).style("margin-left","10px");
+        this.setColors.append("span").attr("id","hex1_"+this.CUSTOMIZATIONID).text(default_grass1).style("margin-left","10px");
 
-        let grassInput = document.getElementById("grass");
-        let grassColor = document.getElementById("hex1");
+        let grassInput = d3.select("#grass_"+this.CUSTOMIZATIONID)[0][0];
+        let grassColor = d3.select("#hex1_"+this.CUSTOMIZATIONID)[0][0];
 
         grassInput.addEventListener("input", function() {
             grassColor.innerHTML = grassInput.value;
         }, false); 
 
-        this.setColors.append("input").attr("id","outborder").attr("type","color").attr("value",default_outborder).style("margin-left","55px");
+        this.setColors.append("input").attr("id","outborder_"+this.CUSTOMIZATIONID).attr("type","color").attr("value",default_outborder).style("margin-left","55px");
         this.setColors.append("span").text("Outborder").style("margin-left","10px");
-        this.setColors.append("span").attr("id","hex2").text(default_outborder).style("margin-left","10px");
+        this.setColors.append("span").attr("id","hex2_"+this.CUSTOMIZATIONID).text(default_outborder).style("margin-left","10px");
 
-        let outborderInput = document.getElementById("outborder");
-        let outborderColor = document.getElementById("hex2");
+        let outborderInput = d3.select("#outborder_"+this.CUSTOMIZATIONID)[0][0];
+        let outborderColor = d3.select("#hex2_"+this.CUSTOMIZATIONID)[0][0];
 
         outborderInput.addEventListener("input", function() {
             outborderColor.innerHTML = outborderInput.value;
@@ -960,23 +963,23 @@ define(function (require, exports, module) {
         this.setColors.append("br");
         this.setColors.append("br");
 
-        this.setColors.append("input").attr("id","border1").attr("type","color").attr("value",default_border1);
+        this.setColors.append("input").attr("id","border1_"+this.CUSTOMIZATIONID).attr("type","color").attr("value",default_border1);
         this.setColors.append("span").text("Border1").style("margin-left","10px");        
-        this.setColors.append("span").attr("id","hex3").text(default_border1).style("margin-left","10px");
+        this.setColors.append("span").attr("id","hex3_"+this.CUSTOMIZATIONID).text(default_border1).style("margin-left","10px");
 
-        let border1Input = document.getElementById("border1");
-        let border1Color = document.getElementById("hex3");
+        let border1Input = d3.select("#border1_"+this.CUSTOMIZATIONID)[0][0];
+        let border1Color = d3.select("#hex3_"+this.CUSTOMIZATIONID)[0][0];
 
         border1Input.addEventListener("input", function() {
             border1Color.innerHTML = border1Input.value;
         }, false); 
 
-        this.setColors.append("input").attr("id","outborderEnd").attr("type","color").attr("value",default_outborder_end).style("margin-left","40px");
+        this.setColors.append("input").attr("id","outborderEnd_"+this.CUSTOMIZATIONID).attr("type","color").attr("value",default_outborder_end).style("margin-left","40px");
         this.setColors.append("span").text("OutborderEnd").style("margin-left","10px");        
-        this.setColors.append("span").attr("id","hex4").text(default_outborder_end).style("margin-left","10px");
+        this.setColors.append("span").attr("id","hex4_"+this.CUSTOMIZATIONID).text(default_outborder_end).style("margin-left","10px");
 
-        let outborderEndInput = document.getElementById("outborderEnd");
-        let outborderEndColor = document.getElementById("hex4");
+        let outborderEndInput = d3.select("#outborderEnd_"+this.CUSTOMIZATIONID)[0][0];
+        let outborderEndColor = d3.select("#hex4_"+this.CUSTOMIZATIONID)[0][0];
 
         outborderEndInput.addEventListener("input", function() {
             outborderEndColor.innerHTML = outborderEndInput.value;
@@ -986,24 +989,24 @@ define(function (require, exports, module) {
         this.setColors.append("br");
         this.setColors.append("br");
 
-        this.setColors.append("input").attr("id","border2").attr("type","color").attr("value",default_border2);
+        this.setColors.append("input").attr("id","border2_"+this.CUSTOMIZATIONID).attr("type","color").attr("value",default_border2);
         this.setColors.append("span").text("Border2").style("margin-left","10px");        
-        this.setColors.append("span").attr("id","hex5").text(default_border2).style("margin-left","10px");
+        this.setColors.append("span").attr("id","hex5_"+this.CUSTOMIZATIONID).text(default_border2).style("margin-left","10px");
 
-        let border2Input = document.getElementById("border2");
-        let border2Color = document.getElementById("hex5");
+        let border2Input = d3.select("#border2_"+this.CUSTOMIZATIONID)[0][0];
+        let border2Color = d3.select("#hex5_"+this.CUSTOMIZATIONID)[0][0];
 
         border2Input.addEventListener("input", function() {
             border2Color.innerHTML = border2Input.value;
         }, false);
 
 
-        this.setColors.append("input").attr("id","trackSegment").attr("type","color").attr("value",default_track_segment).style("margin-left","40px");
+        this.setColors.append("input").attr("id","trackSegment_"+this.CUSTOMIZATIONID).attr("type","color").attr("value",default_track_segment).style("margin-left","40px");
         this.setColors.append("span").text("TrackSegment").style("margin-left","10px");        
-        this.setColors.append("span").attr("id","hex6").text(default_track_segment).style("margin-left","10px");
+        this.setColors.append("span").attr("id","hex6_"+this.CUSTOMIZATIONID).text(default_track_segment).style("margin-left","10px");
 
-        let trackSegmentInput = document.getElementById("trackSegment");
-        let trackSegmentColor = document.getElementById("hex6");
+        let trackSegmentInput = d3.select("#trackSegment_"+this.CUSTOMIZATIONID)[0][0];
+        let trackSegmentColor = d3.select("#hex6_"+this.CUSTOMIZATIONID)[0][0];
 
         trackSegmentInput.addEventListener("input", function() {
             trackSegmentColor.innerHTML = trackSegmentInput.value;
@@ -1013,23 +1016,23 @@ define(function (require, exports, module) {
         this.setColors.append("br");
         this.setColors.append("br");
 
-        this.setColors.append("input").attr("id","lane1").attr("type","color").attr("value",default_lane1);
+        this.setColors.append("input").attr("id","lane1_"+this.CUSTOMIZATIONID).attr("type","color").attr("value",default_lane1);
         this.setColors.append("span").text("Lane1").style("margin-left","10px");        
-        this.setColors.append("span").attr("id","hex7").text(default_lane1).style("margin-left","10px");
+        this.setColors.append("span").attr("id","hex7_"+this.CUSTOMIZATIONID).text(default_lane1).style("margin-left","10px");
 
-        let lane1Input = document.getElementById("lane1");
-        let lane1Color = document.getElementById("hex7");
+        let lane1Input = d3.select("#lane1_"+this.CUSTOMIZATIONID)[0][0];
+        let lane1Color = d3.select("#hex7_"+this.CUSTOMIZATIONID)[0][0];
 
         lane1Input.addEventListener("input", function() {
             lane1Color.innerHTML = lane1Input.value;
         }, false); 
 
-        this.setColors.append("input").attr("id","trackSegmentEnd").attr("type","color").attr("value",default_track_segment_end).style("margin-left","55px");
+        this.setColors.append("input").attr("id","trackSegmentEnd_"+this.CUSTOMIZATIONID).attr("type","color").attr("value",default_track_segment_end).style("margin-left","55px");
         this.setColors.append("span").text("TrackSegmentEnd").style("margin-left","10px");        
-        this.setColors.append("span").attr("id","hex8").text(default_track_segment_end).style("margin-left","10px");
+        this.setColors.append("span").attr("id","hex8_"+this.CUSTOMIZATIONID).text(default_track_segment_end).style("margin-left","10px");
 
-        let trackSegmentEndInput = document.getElementById("trackSegmentEnd");
-        let trackSegmentEndColor = document.getElementById("hex8");
+        let trackSegmentEndInput = d3.select("#trackSegmentEnd_"+this.CUSTOMIZATIONID)[0][0];
+        let trackSegmentEndColor = d3.select("#hex8_"+this.CUSTOMIZATIONID)[0][0];
 
         trackSegmentEndInput.addEventListener("input", function() {
             trackSegmentEndColor.innerHTML = trackSegmentEndInput.value;
@@ -1039,23 +1042,23 @@ define(function (require, exports, module) {
         this.setColors.append("br");
         this.setColors.append("br");
 
-        this.setColors.append("input").attr("id","lane2").attr("type","color").attr("value",default_lane2);
+        this.setColors.append("input").attr("id","lane2_"+this.CUSTOMIZATIONID).attr("type","color").attr("value",default_lane2);
         this.setColors.append("span").text("Lane2").style("margin-left","10px");        
-        this.setColors.append("span").attr("id","hex9").text(default_lane2).style("margin-left","10px");
+        this.setColors.append("span").attr("id","hex9_"+this.CUSTOMIZATIONID).text(default_lane2).style("margin-left","10px");
 
-        let lane2Input = document.getElementById("lane2");
-        let lane2Color = document.getElementById("hex9");
+        let lane2Input = d3.select("#lane2_"+this.CUSTOMIZATIONID)[0][0];
+        let lane2Color = d3.select("#hex9_"+this.CUSTOMIZATIONID)[0][0];
 
         lane2Input.addEventListener("input", function() {
             lane2Color.innerHTML = lane2Input.value;
         }, false); 
 
-        this.setColors.append("input").attr("id","laneArrow").attr("type","color").attr("value",default_laneArrow).style("margin-left","55px");
+        this.setColors.append("input").attr("id","laneArrow_"+this.CUSTOMIZATIONID).attr("type","color").attr("value",default_laneArrow).style("margin-left","55px");
         this.setColors.append("span").text("LaneArrow").style("margin-left","10px");        
-        this.setColors.append("span").attr("id","hex10").text(default_laneArrow).style("margin-left","10px");
+        this.setColors.append("span").attr("id","hex10_"+this.CUSTOMIZATIONID).text(default_laneArrow).style("margin-left","10px");
 
-        let laneArrowInput = document.getElementById("laneArrow");
-        let laneArrowColor = document.getElementById("hex10");
+        let laneArrowInput = d3.select("#laneArrow_"+this.CUSTOMIZATIONID)[0][0];
+        let laneArrowColor = d3.select("#hex10_"+this.CUSTOMIZATIONID)[0][0];
 
         laneArrowInput.addEventListener("input", function() {
             laneArrowColor.innerHTML = laneArrowInput.value;
@@ -1065,12 +1068,12 @@ define(function (require, exports, module) {
         this.setColors.append("br");
         this.setColors.append("br");
 
-        this.setColors.append("input").attr("id","laneEnd").attr("type","color").attr("value",default_lane_end);
+        this.setColors.append("input").attr("id","laneEnd_"+this.CUSTOMIZATIONID).attr("type","color").attr("value",default_lane_end);
         this.setColors.append("span").text("LaneEnd").style("margin-left","10px");        
-        this.setColors.append("span").attr("id","hex11").text(default_lane_end).style("margin-left","10px");
+        this.setColors.append("span").attr("id","hex11_"+this.CUSTOMIZATIONID).text(default_lane_end).style("margin-left","10px");
 
-        let laneEndInput = document.getElementById("laneEnd");
-        let laneEndColor = document.getElementById("hex11");
+        let laneEndInput = d3.select("#laneEnd_"+this.CUSTOMIZATIONID)[0][0];
+        let laneEndColor = d3.select("#hex11_"+this.CUSTOMIZATIONID)[0][0];
 
         laneEndInput.addEventListener("input", function() {
             laneEndColor.innerHTML = laneEndInput.value;
@@ -1082,7 +1085,7 @@ define(function (require, exports, module) {
 
         this.customizationDiv.append("h4").style("margin-left","5px").text("Track Topography");
         this.customizationDiv.append("br");
-        this.writeTopography=this.customizationDiv.append("div").attr("id","writeTopography");
+        this.writeTopography=this.customizationDiv.append("div").attr("id","writeTopography_"+this.CUSTOMIZATIONID);
         
         this.writeTopography.append("p").style("margin-left","40px")
                              .text("Use keywords: \"left\", \"right\" and \"straight\" after \"name\:\"");
@@ -1098,7 +1101,7 @@ define(function (require, exports, module) {
                              .text("to describe the profile of the track");
         this.writeTopography.append("p").style("margin-left","40px")
                              .text("Set each topography zone length after numZones\:");
-        this.writeTopography.append("textarea").attr("id","topography").attr("rows","2").attr("cols","60").style("margin-left","40px")
+        this.writeTopography.append("textarea").attr("id","topography_"+this.CUSTOMIZATIONID).attr("rows","2").attr("cols","60").style("margin-left","40px")
                             .text("[{\"topography\":{\"name\":\"\",\"curvature\":},\"profile\":\"\",\"numZones\":}]");
 
         this.customizationDiv.append("br");
@@ -1107,10 +1110,10 @@ define(function (require, exports, module) {
 
         this.customizationDiv.append("h4").style("margin-left","5px").text("Spritesheet JSON Filename");
         this.customizationDiv.append("br");
-        this.writeSpritesheetJSONFilename=this.customizationDiv.append("div").attr("id","writeSpritesheetJSONFilename");
+        this.writeSpritesheetJSONFilename=this.customizationDiv.append("div").attr("id","writeSpritesheetJSONFilename_"+this.CUSTOMIZATIONID);
         this.writeSpritesheetJSONFilename.append("p").style("margin-left","40px")
                              .text("Do not add file extension! JSON only!");
-        this.writeSpritesheetJSONFilename.append("textarea").attr("id","spritesheetJSONFilename").attr("rows","2").attr("cols","60").style("margin-left","40px")
+        this.writeSpritesheetJSONFilename.append("textarea").attr("id","spritesheetJSONFilename_"+this.CUSTOMIZATIONID).attr("rows","2").attr("cols","60").style("margin-left","40px")
                              .text("");
 
         this.customizationDiv.append("br");
@@ -1119,11 +1122,11 @@ define(function (require, exports, module) {
 
         this.customizationDiv.append("h4").style("margin-left","5px").text("Spritesheet Images");
         this.customizationDiv.append("br");
-        this.writeSpritesheetImages=this.customizationDiv.append("div").attr("id","writeSpritesheetImages");
+        this.writeSpritesheetImages=this.customizationDiv.append("div").attr("id","writeSpritesheetImages_"+this.CUSTOMIZATIONID);
         
         this.writeSpritesheetImages.append("p").style("margin-left","40px")
                              .text("Do not add file extension! PNG only!");
-        this.writeSpritesheetImages.append("textarea").attr("id","spritesheetImages").attr("rows","2").attr("cols","60").style("margin-left","40px")
+        this.writeSpritesheetImages.append("textarea").attr("id","spritesheetImages_"+this.CUSTOMIZATIONID).attr("rows","2").attr("cols","60").style("margin-left","40px")
                              .text("");
 
         this.customizationDiv.append("br");
@@ -1132,10 +1135,10 @@ define(function (require, exports, module) {
         
         this.customizationDiv.append("h4").style("margin-left","5px").text("Landscape Objects");
         this.customizationDiv.append("br");
-        this.writeLandscapeObjects=this.customizationDiv.append("div").attr("id","writeLandscapeObjects");
+        this.writeLandscapeObjects=this.customizationDiv.append("div").attr("id","writeLandscapeObjects_"+this.CUSTOMIZATIONID);
         this.writeLandscapeObjects.append("p").style("margin-left","40px")
         .text("Add \"\" to each object");
-        this.writeLandscapeObjects.append("textarea").attr("id","landscapeObjects").attr("rows","2").attr("cols","60").style("margin-left","40px")
+        this.writeLandscapeObjects.append("textarea").attr("id","landscapeObjects_"+this.CUSTOMIZATIONID).attr("rows","2").attr("cols","60").style("margin-left","40px")
                              .text("[]");
 
         this.customizationDiv.append("br");
@@ -1144,10 +1147,10 @@ define(function (require, exports, module) {
 
         this.customizationDiv.append("h4").style("margin-left","5px").text("Track Obstacles");
         this.customizationDiv.append("br");
-        this.writeTrackObstacles=this.customizationDiv.append("div").attr("id","writeTrackObstacles");
+        this.writeTrackObstacles=this.customizationDiv.append("div").attr("id","writeTrackObstacles_"+this.CUSTOMIZATIONID);
         this.writeTrackObstacles.append("p").style("margin-left","40px")
         .text("Add \"\" to each obstacle");
-        this.writeTrackObstacles.append("textarea").attr("id","trackObstacles").attr("rows","2").attr("cols","60").style("margin-left","40px")
+        this.writeTrackObstacles.append("textarea").attr("id","trackObstacles_"+this.CUSTOMIZATIONID).attr("rows","2").attr("cols","60").style("margin-left","40px")
                              .text("[]");
 
         this.customizationDiv.append("br");
@@ -1156,14 +1159,14 @@ define(function (require, exports, module) {
 
         this.customizationDiv.append("h4").style("margin-left","5px").text("Track Params");
         this.customizationDiv.append("br");
-        this.writeTrackParams=this.customizationDiv.append("div").attr("id","writeTrackParams");
+        this.writeTrackParams=this.customizationDiv.append("div").attr("id","writeTrackParams_"+this.CUSTOMIZATIONID);
         this.writeTrackParams.append("p").style("margin-left","40px")
         .text("Add value after \:");
         this.writeTrackParams.append("p").style("margin-left","40px")
         .text("numZones is the number of different portions of the track");
         this.writeTrackParams.append("p").style("margin-left","40px")
         .text("zoneSize is the length of each numZones");
-        this.writeTrackParams.append("textarea").attr("id","trackParams").attr("rows","2").attr("cols","60").style("margin-left","40px")
+        this.writeTrackParams.append("textarea").attr("id","trackParams_"+this.CUSTOMIZATIONID).attr("rows","2").attr("cols","60").style("margin-left","40px")
                              .text("{numZones:, zoneSize:}");
 
         this.customizationDiv.append("br");
@@ -1172,7 +1175,7 @@ define(function (require, exports, module) {
 
         this.customizationDiv.append("h4").style("margin-left","5px").text("Arcade Vehicle");
         this.customizationDiv.append("br");
-        this.writeArcadeVehicle=this.customizationDiv.append("div").attr("id","writeArcadeVehicle");
+        this.writeArcadeVehicle=this.customizationDiv.append("div").attr("id","writeArcadeVehicle_"+this.CUSTOMIZATIONID);
         this.writeArcadeVehicle.append("p").style("margin-left","40px")
                              .text("Write: if arcade widget will use realistic vehicle image or not (Bool), ");
         this.writeArcadeVehicle.append("p").style("margin-left","40px")
@@ -1183,7 +1186,7 @@ define(function (require, exports, module) {
                              .text("Supported Vehicles are: \"airplane\",\"bicycle\",\"car\",\"helicopter\"");
         this.writeArcadeVehicle.append("p").style("margin-left","40px")
                              .text("and \"motorbike\"");
-        this.writeArcadeVehicle.append("textarea").attr("id","arcadeVehicle").attr("rows","2").attr("cols","60").style("margin-left","40px")
+        this.writeArcadeVehicle.append("textarea").attr("id","arcadeVehicle_"+this.CUSTOMIZATIONID).attr("rows","2").attr("cols","60").style("margin-left","40px")
                              .text("");
 
         this.customizationDiv.append("br");
@@ -1195,47 +1198,47 @@ define(function (require, exports, module) {
 
         this.customizationDiv.append("br");
         let aux="",res="",res2="";
-        for(iterator=0; iterator<this.sliderRanges.length; iterator++){
-            brItr++;
-            this.aux=this.customizationDiv.append("div").attr("class","game-customisation-"+this.sliderRanges[iterator].name)
-                                 .append("div").attr("class","col-xs-12").attr("id","slidecontainer-"+this.sliderRanges[iterator].name);
+        for(this.iterator=0; this.iterator<this.sliderRanges.length; this.iterator++){
+            this.brItr++;
+            this.aux=this.customizationDiv.append("div").attr("class","game-customisation-"+this.sliderRanges[this.iterator].name+"_"+this.CUSTOMIZATIONID)
+                                 .append("div").attr("class","col-xs-12").attr("id","slidecontainer-"+this.sliderRanges[this.iterator].name+"_"+this.CUSTOMIZATIONID);
             
-            if(this.sliderRanges[iterator].name.match(/-/g)){
-                aux = this.sliderRanges[iterator].name.split("-");
+            if(this.sliderRanges[this.iterator].name.match(/-/g)){
+                aux = this.sliderRanges[this.iterator].name.split("-");
                 res = aux[0].charAt(0).toUpperCase() + aux[0].slice(1);
                 res += " "+aux[1].charAt(0).toUpperCase() + aux[1].slice(1);
                 res2 = aux[0].charAt(0).toUpperCase() + aux[0].slice(1);
                 res2 += "-"+aux[1].charAt(0).toUpperCase() + aux[1].slice(1);
 
             }else{
-                res = this.sliderRanges[iterator].name.charAt(0).toUpperCase() + this.sliderRanges[iterator].name.slice(1);
+                res = this.sliderRanges[this.iterator].name.charAt(0).toUpperCase() + this.sliderRanges[this.iterator].name.slice(1);
                 res2 = res;
             }
 
-            this.aux.append("input").attr("type","range").attr("min",""+this.sliderRanges[iterator].min).attr("max",""+this.sliderRanges[iterator].max).attr("value",""+this.sliderRanges[iterator].value)
+            this.aux.append("input").attr("type","range").attr("min",""+this.sliderRanges[this.iterator].min).attr("max",""+this.sliderRanges[this.iterator].max).attr("value",""+this.sliderRanges[this.iterator].value)
                     .attr("class","slider")
-                    .attr("id","myRange-"+res2);
+                    .attr("id","myRange-"+res2+"_"+this.CUSTOMIZATIONID);
 
             if(res.match(/Obstacles/)){
                 this.aux.append("p").style("color",this.sliderColor).style("margin-left","15px").text("Frequence of "+res+":")
-                        .append("span").attr("id","demo-"+res2);
+                        .append("span").attr("id","demo-"+res2+"_"+this.CUSTOMIZATIONID);
             }else if(res.match(/Lanes/)){
                 this.aux.append("p").style("color",this.sliderColor).style("margin-left","15px").text("Number of "+res+":")
-                        .append("span").attr("id","demo-"+res2);
+                        .append("span").attr("id","demo-"+res2+"_"+this.CUSTOMIZATIONID);
             }
             else if(res.match(/Lap/)){
                 this.aux.append("p").style("color",this.sliderColor).style("margin-left","15px").text("Number of "+res+":")
-                        .append("span").attr("id","demo-"+res2);
+                        .append("span").attr("id","demo-"+res2+"_"+this.CUSTOMIZATIONID);
             }else if(res.match(/Pvs/)){
                 this.aux.append("p").style("color",this.sliderColor).style("margin-left","15px").text("Use "+res.toUpperCase()+" Instructions:")
-                        .append("span").attr("id","demo-"+res2);
+                        .append("span").attr("id","demo-"+res2+"_"+this.CUSTOMIZATIONID);
             }else{
                 this.aux.append("p").style("color",this.sliderColor).style("margin-left","15px").text("Value of "+res+":")
-                        .append("span").attr("id","demo-"+res2);
+                        .append("span").attr("id","demo-"+res2+"_"+this.CUSTOMIZATIONID);
             }
 
-            if(brItr===2){
-                if(isMobile){
+            if(this.brItr===2){
+                if(this.isMobile){
                     // this.customizationDiv.append("br");
                     // this.customizationDiv.append("br");
                     // this.customizationDiv.append("br");
@@ -1247,17 +1250,17 @@ define(function (require, exports, module) {
                     this.customizationDiv.append("br");
                     this.customizationDiv.append("br");
                 }
-                brItr=0;
+                this.brItr=0;
             }
         }
 
-        this.endRangeSliderDiv=this.customizationDiv.append("div").attr("class","game-customisation-end")
-                                   .append("div").attr("class","col-xs-12").attr("id","slidecontainer-end");
-        this.endRangeSliderDiv.append("input").attr("type","range").attr("min","0").attr("max","1").attr("value","0").attr("class","slider").attr("id","myRange-End");
+        this.endRangeSliderDiv=this.customizationDiv.append("div").attr("class","game-customisation-end_"+this.CUSTOMIZATIONID)
+                                   .append("div").attr("class","col-xs-12").attr("id","slidecontainer-end_"+this.CUSTOMIZATIONID);
+        this.endRangeSliderDiv.append("input").attr("type","range").attr("min","0").attr("max","1").attr("value","0").attr("class","slider").attr("id","myRange-End_"+this.CUSTOMIZATIONID);
         this.endRangeSliderDiv.append("p").style("color",this.sliderColor).style("margin-left","15px").text("End:")
-                              .append("span").attr("id","demo-End");
+                              .append("span").attr("id","demo-End_"+this.CUSTOMIZATIONID);
                     
-        if(isMobile){
+        if(this.isMobile){
             this.customizationDiv.append("br");
             this.customizationDiv.append("br");
             this.customizationDiv.append("br");
@@ -1282,9 +1285,9 @@ define(function (require, exports, module) {
                     .attr("id","instructions")
                     .text(this.controlsText[0]);
 
-        for(iterator=1; iterator<this.controlsText.length; iterator++){
+        for(this.iterator=1; this.iterator<this.controlsText.length; this.iterator++){
             this.controls.append("br");
-            this.controls.append("span").text(this.controlsText[iterator]);
+            this.controls.append("span").text(this.controlsText[this.iterator]);
         }
 
         this.controls.append("br");
@@ -1296,22 +1299,22 @@ define(function (require, exports, module) {
                     .style("margin-top", this.gaugesStyles[0].marginTop)
                     .style("zoom", this.gaugesStyles[0].zoom);
                     
-        for(iterator=0; iterator<this.gauges.length; iterator++){
-            if(this.gauges[iterator].styleId!==""){
-                this.svg.append("span").attr("id",this.gauges[iterator].name).style(this.gauges[iterator].styleId,this.gauges[iterator].style);
+        for(this.iterator=0; this.iterator<this.gauges.length; this.iterator++){
+            if(this.gauges[this.iterator].styleId!==""){
+                this.svg.append("span").attr("id",this.gauges[this.iterator].name).style(this.gauges[this.iterator].styleId,this.gauges[this.iterator].style);
             }else{
-                this.svg.append("span").attr("id",this.gauges[iterator].name);
+                this.svg.append("span").attr("id",this.gauges[this.iterator].name);
             }
         }
         
-        if(isMobile){
-            d3.select("#slidecontainer-end").style("width","15%");
+        if(this.isMobile){
+            d3.select("#slidecontainer-end_"+this.CUSTOMIZATIONID).style("width","15%");
         }else{
-            d3.select("#slidecontainer-end").style("width","6%");
+            d3.select("#slidecontainer-end_"+this.CUSTOMIZATIONID).style("width","6%");
         }
 
         this.customizationDiv.append("p")
-                             .attr("id","selectedSteeringWheel")
+                             .attr("id","selectedSteeringWheel_"+this.CUSTOMIZATIONID)
                              .style("visibility", "hidden")
                              .text("");
      
@@ -1421,8 +1424,8 @@ define(function (require, exports, module) {
         });
 
         let aux = initWindowCSSValues[initWindowCSSValues.length - 1];
-        Customization.prototype.reRenderedWindowCSS(initWindowCSSValues.slice(0, -1));
-        Customization.prototype.setImagePicker(aux);
+        this.reRenderedWindowCSS(initWindowCSSValues.slice(0, -1));
+        this.setImagePicker(aux);
         
         return this;
     };
@@ -1431,7 +1434,7 @@ define(function (require, exports, module) {
      * @function setImagePicker
      * @protected
      * @description SetImagePicker method of the Customization widget. This method is responsible for getting values related to the image selected in the imagepicker.
-     * In this, it adds the name of the selected image, taken from the path field, to the div with id="#selectedSteeringWheel", so that the currently selected image can be accessed at any time.
+     * In this, it adds the name of the selected image, taken from the path field, to the div with id="#selectedSteeringWheel_"+this.CUSTOMIZATIONID, so that the currently selected image can be accessed at any time.
      * Also adds the value of the path field to the div with id/class provided in the aux object, so that it can be viewed in that div (larger size, i.e. highlighted) as well as all its styles.
      * @param aux {Object} the last object of initWindowCSSValues, argument of the setInitRenderingDiv method, which refers to the div where the selected image in the image picker can be highlighted, 
      * as example 3) shows. This object has the id/class of that div, as well as an array of styles to add, with properties and its values.
@@ -1441,39 +1444,41 @@ define(function (require, exports, module) {
      * @instance
      */
     Customization.prototype.setImagePicker = function (aux) {
-        $(".image-picker").imagepicker({
-            hide_select: true,
-            selected: function (option) {
-                let values = this.val();
-                let path = ($(this).find("option[value='" + $(this).val() + "']").data('img-src'));
-                let steeringWheelStyle = values.split("_");       
-                d3.select("#selectedSteeringWheel")
-                  .text(steeringWheelStyle[0]);
-                let lastCSS = [];
-                lastCSS.push(aux);
-                Customization.prototype.reRenderedWindowCSS(lastCSS);
-                if(aux.id!==null){
-                    d3.select("#"+aux.id)               
-                      .attr('src', path);
-                }else if(aux.class!==null){
-                    d3.select("."+aux.class)               
-                      .attr('src', path);
-                }
-            }
-        }); 
+		(function(self) {         
+            $(".image-picker").imagepicker({
+	            hide_select: true,
+	            selected: function (option) {
+	                let values = this.val();
+	                let path = ($(this).find("option[value='" + $(this).val() + "']").data('img-src'));
+	                let steeringWheelStyle = values.split("_");       
+	                d3.select("#selectedSteeringWheel_"+self.CUSTOMIZATIONID)
+	                  .text(steeringWheelStyle[0]);
+	                let lastCSS = [];
+	                lastCSS.push(aux);
+	                self.reRenderedWindowCSS(lastCSS);
+	                if(aux.id!==null){
+	                    d3.select("#"+aux.id)               
+	                      .attr('src', path);
+	                }else if(aux.class!==null){
+	                    d3.select("."+aux.class)               
+	                      .attr('src', path);
+	                }
+	            }
+	        }); 
+        })(this);
         return this;   
     };
 
     /**
      * @function getSteeringWheelImage
      * @protected
-     * @description GetSteeringWheelImage method of the Customization widget. This method selects the div text with id="# selectedSteeringWheel", which in turn contains the name 
+     * @description GetSteeringWheelImage method of the Customization widget. This method selects the div text with id="# selectedSteeringWheel_"+this.CUSTOMIZATIONID, which in turn contains the name 
      * of the last selected image in the imagepicker. This content will be used to render the new Steering Wheel widget.
      * @memberof module:Customization
      * @instance
      */
     Customization.prototype.getSteeringWheelImage = function () {        
-       return d3.select("#selectedSteeringWheel")[0][0].innerHTML;
+       return d3.select("#selectedSteeringWheel_"+this.CUSTOMIZATIONID)[0][0].innerHTML;
     };
     
     /**
@@ -1538,13 +1543,13 @@ define(function (require, exports, module) {
     Customization.prototype.rangeEvents = function (sliders) {
         for(let property in sliders){
             let p = property;
-            $("#myRange-"+sliders[p].id).on("input", (e) => {
-                d3.select("#demo-"+sliders[p].id)[0][0].innerHTML = $(e.target).val() ;
-                sliders[p].value = d3.select("#demo-"+sliders[p].id)[0][0].innerHTML;
-                d3.select("#myRange-End")[0][0].value = "0";    
+            $("#myRange-"+sliders[p].id+"_"+this.CUSTOMIZATIONID).on("input", (e) => {
+                d3.select("#demo-"+sliders[p].id+"_"+this.CUSTOMIZATIONID)[0][0].innerHTML = $(e.target).val() ;
+                sliders[p].value = d3.select("#demo-"+sliders[p].id+"_"+this.CUSTOMIZATIONID)[0][0].innerHTML;
+                d3.select("#myRange-End_"+this.CUSTOMIZATIONID)[0][0].value = "0";    
             });
 
-            $("#myRange-"+sliders[p].id).trigger("input");
+            $("#myRange-"+sliders[p].id+"_"+this.CUSTOMIZATIONID).trigger("input");
         }
 
         return sliders;
@@ -1576,412 +1581,388 @@ define(function (require, exports, module) {
      */
     Customization.prototype.endRange = function (initalPVSState,callback,car,CSSValues,sliders,steeringWheel) {
         let reRenderEnd=0;
-        let maxValueEnd=d3.select("#myRange-End")[0][0].value;
+        let maxValueEnd=d3.select("#myRange-End_"+this.CUSTOMIZATIONID)[0][0].value;
 
-        $("#myRange-End").on("input", (e) => {
-            d3.select("#demo-End")[0][0].innerHTML = $(e.target).val() ;
-            maxValueEnd = d3.select("#myRange-End")[0][0].value;
-            if(maxValueEnd==="1"){
-                Customization.prototype.removeParentAllChilds("speedometer-gauge").removeParentAllChilds("tachometer-gauge").removeChild("steering_wheel");
- 
-                // Get final selected colors
-                let colorGrass_Final=d3.select("#hex1")[0][0].innerText;
-                let colorBorder1_Final=d3.select("#hex3")[0][0].innerText;
-                let colorBorder2_Final=d3.select("#hex5")[0][0].innerText;
-                let colorOutborder_Final=d3.select("#hex2")[0][0].innerText;
-                let colorOutborderEnd_Final=d3.select("#hex4")[0][0].innerText;
-                let colorTrackSegment_Final=d3.select("#hex6")[0][0].innerText;
-                let colorTrackSegmentEnd_Final=d3.select("#hex8")[0][0].innerText;
-                let colorLane1_Final=d3.select("#hex7")[0][0].innerText;
-                let colorLane2_Final=d3.select("#hex9")[0][0].innerText;
-                let colorLaneArrow_Final=d3.select("#hex10")[0][0].innerText;
-                let colorLaneEnd_Final=d3.select("#hex11")[0][0].innerText;
+		$("#myRange-End_"+this.CUSTOMIZATIONID).on("input", (function(self) {         
+                return function(e) { 
+					d3.select("#demo-End_"+self.CUSTOMIZATIONID)[0][0].innerHTML = $(e.target).val() ;
+            		maxValueEnd = d3.select("#myRange-End_"+self.CUSTOMIZATIONID)[0][0].value;
+					if(maxValueEnd==="1"){
+						self.removeParentAllChilds("speedometer-gauge").removeParentAllChilds("tachometer-gauge").removeChild("steering_wheel");
+		 
+		                // Get final selected colors
+		                let colorGrass_Final=d3.select("#hex1_"+self.CUSTOMIZATIONID)[0][0].innerText;
+		                let colorBorder1_Final=d3.select("#hex3_"+self.CUSTOMIZATIONID)[0][0].innerText;
+		                let colorBorder2_Final=d3.select("#hex5_"+self.CUSTOMIZATIONID)[0][0].innerText;
+		                let colorOutborder_Final=d3.select("#hex2_"+self.CUSTOMIZATIONID)[0][0].innerText;
+		                let colorOutborderEnd_Final=d3.select("#hex4_"+self.CUSTOMIZATIONID)[0][0].innerText;
+		                let colorTrackSegment_Final=d3.select("#hex6_"+self.CUSTOMIZATIONID)[0][0].innerText;
+		                let colorTrackSegmentEnd_Final=d3.select("#hex8_"+self.CUSTOMIZATIONID)[0][0].innerText;
+		                let colorLane1_Final=d3.select("#hex7_"+self.CUSTOMIZATIONID)[0][0].innerText;
+		                let colorLane2_Final=d3.select("#hex9_"+self.CUSTOMIZATIONID)[0][0].innerText;
+		                let colorLaneArrow_Final=d3.select("#hex10_"+self.CUSTOMIZATIONID)[0][0].innerText;
+		                let colorLaneEnd_Final=d3.select("#hex11_"+self.CUSTOMIZATIONID)[0][0].innerText;
 
-                // console.log(colorGrass_Final);
-                // console.log(colorBorder1_Final);
-                // console.log(colorBorder2_Final);
-                // console.log(colorOutborder_Final);
-                // console.log(colorOutborderEnd_Final);
-                // console.log(colorTrackSegment_Final);
-                // console.log(colorTrackSegmentEnd_Final);
-                // console.log(colorLane1_Final);
-                // console.log(colorLane2_Final);
-                // console.log(colorLaneArrow_Final);
-                // console.log(colorLaneEnd_Final);
+		                let topography_Final=d3.select("#topography_"+self.CUSTOMIZATIONID)[0][0].value;
+		                let spritesheetJSONFilename_Final=d3.select("#spritesheetJSONFilename_"+self.CUSTOMIZATIONID)[0][0].value;
+		                let spritesheetImages_Final=d3.select("#spritesheetImages_"+self.CUSTOMIZATIONID)[0][0].value;
+		                let landscapeObjects_Final=d3.select("#landscapeObjects_"+self.CUSTOMIZATIONID)[0][0].value;
+		                let trackObstacles_Final=d3.select("#trackObstacles_"+self.CUSTOMIZATIONID)[0][0].value;
+		                let trackParams_Final=d3.select("#trackParams_"+self.CUSTOMIZATIONID)[0][0].value;
+		                let numZones_Final=trackParams_Final.split(",")[0].split(":")[1];
+		                let zoneSize_Final=trackParams_Final.split(",")[1].split(":")[1].slice(0, -1);
+		                let arcadeVehicle_Final=d3.select("#arcadeVehicle_"+self.CUSTOMIZATIONID)[0][0].value;
 
-                let topography_Final=d3.select("#topography")[0][0].value;
-                let spritesheetJSONFilename_Final=d3.select("#spritesheetJSONFilename")[0][0].value;
-                let spritesheetImages_Final=d3.select("#spritesheetImages")[0][0].value;
-                let landscapeObjects_Final=d3.select("#landscapeObjects")[0][0].value;
-                let trackObstacles_Final=d3.select("#trackObstacles")[0][0].value;
-                let trackParams_Final=d3.select("#trackParams")[0][0].value;
-                let numZones_Final=trackParams_Final.split(",")[0].split(":")[1];
-                let zoneSize_Final=trackParams_Final.split(",")[1].split(":")[1].slice(0, -1);
-                let arcadeVehicle_Final=d3.select("#arcadeVehicle")[0][0].value;
+		                if(reRenderEnd>=0){
+		                    reRenderEnd++;
+		                    sliders=self.rangeEvents(sliders);
 
-                if(reRenderEnd>=0){
-                    reRenderEnd++;
-                    sliders=Customization.prototype.rangeEvents(sliders);
+		                    let numLanes_Final=sliders.maxValueLanes.value;
+		                    let freqObstacles_Final=sliders.maxValueObstacles.value;
+		                    let numLaps_Final=sliders.maxValueLapNumber.value;
+		                    let usePVS_Final=sliders.maxValuePVSInstructions.value;
 
-                    let numLanes_Final=sliders.maxValueLanes.value;
-                    let freqObstacles_Final=sliders.maxValueObstacles.value;
-                    let numLaps_Final=sliders.maxValueLapNumber.value;
-                    let usePVS_Final=sliders.maxValuePVSInstructions.value;
+		                    // ----------------------------- DASHBOARD INTERACTION -----------------------------
+		                    car.up = new ButtonExternalController("accelerate", { width: 0, height: 0 }, {
+		                        callback: callback,
+		                        evts: ['press/release'],
+		                        keyCode: 38 // key up
+		                    });
+		                    car.down = new ButtonExternalController("brake", { width: 0, height: 0 }, {
+		                        callback: callback,
+		                        evts: ['press/release'],
+		                        keyCode: 40 // key down
+		                    });
 
-                    // ----------------------------- DASHBOARD INTERACTION -----------------------------
-                    car.up = new ButtonExternalController("accelerate", { width: 0, height: 0 }, {
-                        callback: callback,
-                        evts: ['press/release'],
-                        keyCode: 38 // key up
-                    });
-                    car.down = new ButtonExternalController("brake", { width: 0, height: 0 }, {
-                        callback: callback,
-                        evts: ['press/release'],
-                        keyCode: 40 // key down
-                    });
+		                    // ----------------------------- ARCADE GAME INTERACTION -----------------------------
+		                    car.resume = new ButtonExternalController("resume", { width: 0, height: 0 }, {
+		                        callback: callback,
+		                        evts: ['press/release'],
+		                        keyCode: 32 // key space
+		                    });
+		                    car.pause = new ButtonExternalController("pause", { width: 0, height: 0 }, {
+		                        callback: callback,
+		                        evts: ['press/release'],
+		                        keyCode: 83 // key 's'
+		                    });
+		                    car.quit = new ButtonExternalController("quit", { width: 0, height: 0 }, {
+		                        callback: callback,
+		                        evts: ['press/release'],
+		                        keyCode: 81 // key 'q'
+		                    });
+		                    car.mute = new ButtonExternalController("mute", { width: 0, height: 0 }, {
+		                        callback: callback,
+		                        evts: ['press/release'],
+		                        keyCode: 77 // key 'm'
+		                    });
+		                    car.unmute = new ButtonExternalController("unmute", { width: 0, height: 0 }, {
+		                        callback: callback,
+		                        evts: ['press/release'],
+		                        keyCode: 85 // key 'u'
+		                    });
 
-                    // ----------------------------- ARCADE GAME INTERACTION -----------------------------
-                    car.resume = new ButtonExternalController("resume", { width: 0, height: 0 }, {
-                        callback: callback,
-                        evts: ['press/release'],
-                        keyCode: 32 // key space
-                    });
-                    car.pause = new ButtonExternalController("pause", { width: 0, height: 0 }, {
-                        callback: callback,
-                        evts: ['press/release'],
-                        keyCode: 83 // key 's'
-                    });
-                    car.quit = new ButtonExternalController("quit", { width: 0, height: 0 }, {
-                        callback: callback,
-                        evts: ['press/release'],
-                        keyCode: 81 // key 'q'
-                    });
-                    car.mute = new ButtonExternalController("mute", { width: 0, height: 0 }, {
-                        callback: callback,
-                        evts: ['press/release'],
-                        keyCode: 77 // key 'm'
-                    });
-                    car.unmute = new ButtonExternalController("unmute", { width: 0, height: 0 }, {
-                        callback: callback,
-                        evts: ['press/release'],
-                        keyCode: 85 // key 'u'
-                    });
+		                    // ---------------- SPEEDOMETER ----------------
+		                    car.speedometerGauge = new Speedometer('speedometer-gauge', {
+		                                max: sliders.maxValueSpeedometer.value,
+		                                min: 0,
+		                                label: "kmh",
+		                                callback: callback
+		                            });
+		                    // ---------------- TACHOMETER ----------------
+		                    car.tachometerGauge = new Tachometer('tachometer-gauge', {
+		                                max: sliders.maxValueTachometer.value,
+		                                min: 0,
+		                                label: "x1000/min",
+		                                callback: callback
+		                    });
 
-                    // ---------------- SPEEDOMETER ----------------
-                    car.speedometerGauge = new Speedometer('speedometer-gauge', {
-                                max: sliders.maxValueSpeedometer.value,
-                                min: 0,
-                                label: "kmh",
-                                callback: callback
-                            });
-                    // ---------------- TACHOMETER ----------------
-                    car.tachometerGauge = new Tachometer('tachometer-gauge', {
-                                max: sliders.maxValueTachometer.value,
-                                min: 0,
-                                label: "x1000/min",
-                                callback: callback
-                    });
-                    Customization.prototype.setLastRenderingDiv("gauge");
-                    steeringWheel = Customization.prototype.getSteeringWheelImage();
+		                    self.setLastRenderingDiv("gauge");
+                    		steeringWheel = self.getSteeringWheelImage();
 
-                    // ---------------- STEERING WHEEL ----------------
-                    car.steeringWheel = new SteeringWheel("steering_wheel", {
-                        top: 100,
-                        left: 10,
-                        width: 600,
-                        height: 600
-                    }, {
-                        style: steeringWheel,
-                        callback: callback
-                    });
+							// ---------------- STEERING WHEEL ----------------
+		                    car.steeringWheel = new SteeringWheel("steering_wheel", {
+		                        top: 100,
+		                        left: 10,
+		                        width: 600,
+		                        height: 600
+		                    }, {
+		                        style: steeringWheel,
+		                        callback: callback
+		                    });
 
-                    // ----------------------------- DRAWGAMEPAD COMPONENTS -----------------------------
-                    // car.drawGamepad = new DrawGamepad("drawGamepad", {
-                    //      top: 700,
-			        //     left: 750,
-			        //     width: 750,
-			        //     height: 750
-                    // }, {
-                    //     parent: "content", // defines parent div, which is div id="body" by default
-                    //     style: "xbox", // defines parent div, which is "ps4" by default
-                    //     buttonsPVS: [ "accelerate", "brake", "mute", "unmute", "pause", "quit", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
-                    //     callback: callback
-                    // });
-                    car.drawGamepad = new DrawGamepad("drawGamepad", {
-                        top: 700,
-			            left: 750,
-			            width: 750,
-			            height: 750
-                    }, {
-                        parent: "content", // defines parent div, which is div id="body" by default
-                        style: "ps4", // defines parent div, which is "ps4" by default
-                        buttonsPVS: [ "accelerate", "brake", "unmute", "mute", "pause", "quit", "touchpad", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
-                        callback: callback
-                    });
+		                    // ----------------------------- DRAWGAMEPAD COMPONENTS -----------------------------
+		                    // car.drawGamepad = new DrawGamepad("drawGamepad", {
+		                    //      top: 700,
+					        //     left: 750,
+					        //     width: 750,
+					        //     height: 750
+		                    // }, {
+		                    //     parent: "content", // defines parent div, which is div id="body" by default
+		                    //     style: "xbox", // defines parent div, which is "ps4" by default
+		                    //     buttonsPVS: [ "accelerate", "brake", "mute", "unmute", "pause", "quit", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+		                    //     callback: callback
+		                    // });
+		                    car.drawGamepad = new DrawGamepad("drawGamepad", {
+		                        top: 700,
+					            left: 750,
+					            width: 750,
+					            height: 750
+		                    }, {
+		                        parent: "content", // defines parent div, which is div id="body" by default
+		                        style: "ps4", // defines parent div, which is "ps4" by default
+		                        buttonsPVS: [ "accelerate", "brake", "unmute", "mute", "pause", "quit", "touchpad", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+		                        callback: callback
+		                    });
 
-                    // ----------------------------- CONTROLLERS COMPONENTS --------------------------
-                    // ---------------- GAMEPAD CONTROLLER ----------------
-                    car.gamepadController = new GamepadController("gamepad_controller", {
-                        top: 1000,
-                        left: 100,
-                        width: 750,
-                        height: 750
-                    }, {
-                        carAccelerate: car.up,
-                        carBrake: car.down,
-                        carSteeringWheel: car.steeringWheel,
-                        accelerateInstructionPVS: "accelerate",
-                        brakeInstructionPVS: "brake",
-                        steeringWheelInstructionPVS: "steering_wheel",
-                        useButtonActionsQueue: false, // Default is false
-                        usePressReleasePVS: true, // Default is true
-                        type: "gamepad", // "steeringWheelAndPedals", // Default is "gamepad"
-                        accelerationIndex: 0,
-                        brakeIndex: 1,
-                        leftArrowIndex: 14,
-                        rightArrowIndex: 15,
-                        accelerationPedalIndex: 1,
-                        brakePedalIndex: 1,
-                        steeringWheelIndex: 0,
-                        analogueStickIndex: 9,
-                        leftAnalogueIndex: 0,
-                        rightAnalogueIndex: 2,
-                        pauseAction: {
-                            pauseIndex: 9,
-                            instructionPVS: "pause"
-                        },
-                        quitAction: {
-                            quitIndex: 8,
-                            instructionPVS: "quit"
-                        },
-                        resumeAction: {
-                            resumeIndex: 16,
-                            instructionPVS: "resume"
-                        },
-                        muteAction: {
-                            muteIndex: 4,
-                            instructionPVS: "mute"
-                        },
-                        unmuteAction: {
-                            unmuteIndex: 5,
-                            instructionPVS: "unmute"
-                        },
-                        useSensitivity: false, // Default is false
-                        sensitivityValue: 50, // Default is 40%
-                        callback: callback
-                    });
+		                    // ----------------------------- CONTROLLERS COMPONENTS --------------------------
+		                    // ---------------- GAMEPAD CONTROLLER ----------------
+		                    car.gamepadController = new GamepadController("gamepad_controller", {
+		                        top: 1000,
+		                        left: 100,
+		                        width: 750,
+		                        height: 750
+		                    }, {
+		                        carAccelerate: car.up,
+		                        carBrake: car.down,
+		                        carSteeringWheel: car.steeringWheel,
+		                        accelerateInstructionPVS: "accelerate",
+		                        brakeInstructionPVS: "brake",
+		                        steeringWheelInstructionPVS: "steering_wheel",
+		                        useButtonActionsQueue: false, // Default is false
+		                        usePressReleasePVS: true, // Default is true
+		                        type: "gamepad", // "steeringWheelAndPedals", // Default is "gamepad"
+		                        accelerationIndex: 0,
+		                        brakeIndex: 1,
+		                        leftArrowIndex: 14,
+		                        rightArrowIndex: 15,
+		                        accelerationPedalIndex: 1,
+		                        brakePedalIndex: 1,
+		                        steeringWheelIndex: 0,
+		                        analogueStickIndex: 9,
+		                        leftAnalogueIndex: 0,
+		                        rightAnalogueIndex: 2,
+		                        pauseAction: {
+		                            pauseIndex: 9,
+		                            instructionPVS: "pause"
+		                        },
+		                        quitAction: {
+		                            quitIndex: 8,
+		                            instructionPVS: "quit"
+		                        },
+		                        resumeAction: {
+		                            resumeIndex: 16,
+		                            instructionPVS: "resume"
+		                        },
+		                        muteAction: {
+		                            muteIndex: 4,
+		                            instructionPVS: "mute"
+		                        },
+		                        unmuteAction: {
+		                            unmuteIndex: 5,
+		                            instructionPVS: "unmute"
+		                        },
+		                        useSensitivity: false, // Default is false
+		                        sensitivityValue: 50, // Default is 40%
+		                        callback: callback
+		                    });
 
-                    // ---------------- VIRTUAL KEYPAD CONTROLLER ----------------
-                    car.virtualKeypadController = new VirtualKeypadController("virtualKeypad_controller", {
-                        top: 250,
-                        left: 250,
-                        width: 750,
-                        height: 750
-                    }, {
-                        keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
-                        keyboardClass: "icon keyboard",
-                        keyboardLeftDesktop: 100,
-                        keyboardTopDesktop: 150,
-                        keyboardHoverInitialTitle: "Click to open virtual keypad controller",
-                        keyboardHoverSecondTitle: "Click to close virtual keypad controller",
-                        parent: "content", // defines parent div, which is div id="body" by default
-                        buttonsDiv: "virtualKeyPad", // defines buttons image div, which is div id="virtualKeyPad" by default
-                        simulatorActions: "simulatorActions",
-                        simulatorArrows: "simulatorArrows",
-                        floatArrows: "floatArrows",
-                        blockArrows: "blockArrows",
-                        buttonClass: "ui-button ui-corner-all ui-widget ui-button-icon-only",
-                        arrowKeysPVS: [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"],
-                        otherKeysPVS: [ "quit", "pause", "resume" ],
-                        callback: callback
-                    });
+		                    // ---------------- VIRTUAL KEYPAD CONTROLLER ----------------
+		                    car.virtualKeypadController = new VirtualKeypadController("virtualKeypad_controller", {
+		                        top: 250,
+		                        left: 250,
+		                        width: 750,
+		                        height: 750
+		                    }, {
+		                        keyboardImgDiv: "mobileDevicesController", // defines parent div, which is div id="mobileDevicesController" by default
+		                        keyboardClass: "icon keyboard",
+		                        keyboardLeftDesktop: 100,
+		                        keyboardTopDesktop: 150,
+		                        keyboardHoverInitialTitle: "Click to open virtual keypad controller",
+		                        keyboardHoverSecondTitle: "Click to close virtual keypad controller",
+		                        parent: "content", // defines parent div, which is div id="body" by default
+		                        buttonsDiv: "virtualKeyPad", // defines buttons image div, which is div id="virtualKeyPad" by default
+		                        simulatorActions: "simulatorActions",
+		                        simulatorArrows: "simulatorArrows",
+		                        floatArrows: "floatArrows",
+		                        blockArrows: "blockArrows",
+		                        buttonClass: "ui-button ui-corner-all ui-widget ui-button-icon-only",
+		                        arrowKeysPVS: [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"],
+		                        otherKeysPVS: [ "quit", "pause", "resume" ],
+		                        callback: callback
+		                    });
 
-                    // ----------------------------- GYROSCOPE COMPONENTS -----------------------------
-                    car.gyroscopeController = new GyroscopeController("Gyroscope_Controller", {
-                        top: 100,
-                        left: 700,
-                        width: 750,
-                        height: 750
-                    }, {
-                        parent: "gyroscope", // defines parent div, which is div id="gyroscope" by default
-                        carSteeringWheel: car.steeringWheel,
-                        carAccelerate: car.up,
-                        carBrake: car.down,
-                        useSensitivity: false, // Default is false
-                        sensitivityValue: 50, // Default is 40%
-                        callback: callback
-                    });
+		                    // ----------------------------- GYROSCOPE COMPONENTS -----------------------------
+		                    car.gyroscopeController = new GyroscopeController("Gyroscope_Controller", {
+		                        top: 100,
+		                        left: 700,
+		                        width: 750,
+		                        height: 750
+		                    }, {
+		                        parent: "gyroscope", // defines parent div, which is div id="gyroscope" by default
+		                        carSteeringWheel: car.steeringWheel,
+		                        carAccelerate: car.up,
+		                        carBrake: car.down,
+		                        useSensitivity: false, // Default is false
+		                        sensitivityValue: 50, // Default is 40%
+		                        callback: callback
+		                    });
 
-                    Customization.prototype.reRenderedWindowCSS(CSSValues);
-                    car.virtualKeypadController.render();
-                    car.gamepadController.render();
-                    car.gyroscopeController.render();
-                    car.drawGamepad.render();
+		                    self.reRenderedWindowCSS(CSSValues);
+		                    car.virtualKeypadController.render();
+		                    car.gamepadController.render();
+		                    car.gyroscopeController.render();
+		                    car.drawGamepad.render();
 
+		                    (spritesheetJSONFilename_Final==="") ? spritesheetJSONFilename_Final = "spritesheet" : spritesheetJSONFilename_Final;
+		                    (spritesheetImages_Final==="") ? spritesheetImages_Final = "[\"spritesheet\",\"spritesheet.text\"]" : spritesheetImages_Final;
+		                    (numZones_Final==="") ? numZones_Final = 12 : numZones_Final;
+		                    (zoneSize_Final==="") ? zoneSize_Final = 250 : numZones_Final;
+		                    (landscapeObjects_Final==="[]") ? landscapeObjects_Final = "[\"tree\",\"boulder\"]" : landscapeObjects_Final;
+		                    (trackObstacles_Final==="[]") ? trackObstacles_Final = "[\"boulder\"]" : trackObstacles_Final;
+		                    (topography_Final==="[{\"topography\":{\"name\":\"\",\"curvature\":},\"profile\":\"\",\"numZones\":}]") ? topography_Final = "[ \
+		                        {\"topography\":{\"name\":\"straight\",\"curvature\":0},\"profile\":\"flat\",\"numZones\":3}, \
+		                        {\"topography\":{\"name\":\"left\",\"curvature\":90},\"profile\":\"flat\",\"numZones\":3}, \
+		                        {\"topography\":{\"name\":\"straight\",\"curvature\":0},\"profile\":\"up\",\"numZones\":3}, \
+		                        {\"topography\":{\"name\":\"right\",\"curvature\":-90},\"profile\":\"flat\",\"numZones\":3}, \
+		                        {\"topography\":{\"name\":\"straight\",\"curvature\":0},\"profile\":\"down\",\"numZones\":3}, \
+		                        {\"topography\":{\"name\":\"left\",\"curvature\":90},\"profile\":\"flat\",\"numZones\":3}]" : topography_Final;
+		                    (arcadeVehicle_Final==="") ? arcadeVehicle_Final = "false,car,2" : arcadeVehicle_Final;
 
-                    (spritesheetJSONFilename_Final==="") ? spritesheetJSONFilename_Final = "spritesheet" : spritesheetJSONFilename_Final;
-                    (spritesheetImages_Final==="") ? spritesheetImages_Final = "[\"spritesheet\",\"spritesheet.text\"]" : spritesheetImages_Final;
-                    (numZones_Final==="") ? numZones_Final = 12 : numZones_Final;
-                    (zoneSize_Final==="") ? zoneSize_Final = 250 : numZones_Final;
-                    (landscapeObjects_Final==="[]") ? landscapeObjects_Final = "[\"tree\",\"boulder\"]" : landscapeObjects_Final;
-                    (trackObstacles_Final==="[]") ? trackObstacles_Final = "[\"boulder\"]" : trackObstacles_Final;
-                    (topography_Final==="[{\"topography\":{\"name\":\"\",\"curvature\":},\"profile\":\"\",\"numZones\":}]") ? topography_Final = "[ \
-                        {\"topography\":{\"name\":\"straight\",\"curvature\":0},\"profile\":\"flat\",\"numZones\":3}, \
-                        {\"topography\":{\"name\":\"left\",\"curvature\":90},\"profile\":\"flat\",\"numZones\":3}, \
-                        {\"topography\":{\"name\":\"straight\",\"curvature\":0},\"profile\":\"up\",\"numZones\":3}, \
-                        {\"topography\":{\"name\":\"right\",\"curvature\":-90},\"profile\":\"flat\",\"numZones\":3}, \
-                        {\"topography\":{\"name\":\"straight\",\"curvature\":0},\"profile\":\"down\",\"numZones\":3}, \
-                        {\"topography\":{\"name\":\"left\",\"curvature\":90},\"profile\":\"flat\",\"numZones\":3}]" : topography_Final;
-                    (arcadeVehicle_Final==="") ? arcadeVehicle_Final = "false,car,2" : arcadeVehicle_Final;
+		                    let realisticImgs_Final = JSON.parse(arcadeVehicle_Final.split(",")[0]);
+		                    let vehicle_Final = arcadeVehicle_Final.split(",")[1];
+		                    let vehicleImgIndex_Final = parseInt(arcadeVehicle_Final.split(",")[2]);
+		                    let loadPVSSpeedPositions_Final = (parseInt(usePVS_Final)===0) ? false : true;
 
-                    let realisticImgs_Final = JSON.parse(arcadeVehicle_Final.split(",")[0]);
-                    let vehicle_Final = arcadeVehicle_Final.split(",")[1];
-                    let vehicleImgIndex_Final = parseInt(arcadeVehicle_Final.split(",")[2]);
-                    let loadPVSSpeedPositions_Final = (parseInt(usePVS_Final)===0) ? false : true;
+		                    // -----------------------------  TRACK GENERATOR COMPONENTS -----------------------------
+		                    car.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget", {
+		                        top: 80,
+		                        left: 650,
+		                        width: 780,
+		                        height: 650
+		                    }, {
+		                        parent: "content", // defines parent div, which is div id="content" by default
+		                        spritesFilename: spritesheetJSONFilename_Final, // defines spritesheet configuration filename, which is "spritesheet.json" by default
+		                        render: {
+		                            width: 320,
+		                            height: 240,
+		                            depthOfField: 150,
+		                            camera_distance: 30,
+		                            camera_height: 100
+		                        },
+		                        trackSegmentSize: 5,
+		                        numberOfSegmentPerColor: 4,
+		                        numLanes: parseInt(numLanes_Final),
+		                        laneWidth: 0.02,
+		                        trackParam: {
+		                            numZones: parseInt(numZones_Final), // number of different portions of the track
+		                            zoneSize: parseInt(zoneSize_Final) // length of each numZones (the bigger this value. the longer it will take to finish)
+		                        },
+		                        // Information regarding current controllable_car's car
+		                        controllable_car: {
+		                            position: 10,
+		                            speed: 0,
+		                            acceleration: 0.05,
+		                            deceleration: 0.04,
+		                            breaking: 0.3,
+		                            turning: 5.0,
+		                            posx: 0,
+		                            maxSpeed: 20
+		                        },
+		                        objects: JSON.parse(landscapeObjects_Final),
+		                        obstacle: JSON.parse(trackObstacles_Final),
+		                        obstaclePerIteration: parseInt(freqObstacles_Final),
+		                        trackColors: {
+		                            grass1: colorGrass_Final,
+		                            border1: colorBorder1_Final,
+		                            border2: colorBorder2_Final,
+		                            outborder1: colorOutborder_Final,
+		                            outborder_end1: colorOutborderEnd_Final,
+		                            track_segment1: colorTrackSegment_Final,
+		                            lane1: colorLane1_Final,
+		                            lane2: colorLane2_Final,
+		                            laneArrow1: colorLaneArrow_Final,
+		                            track_segment_end: colorTrackSegmentEnd_Final,
+		                            lane_end: colorLaneEnd_Final
+		                        },
+		                        trackLayout: JSON.parse(topography_Final),
+		                        callback: callback
+		                    });
 
-                    // console.log(spritesheetJSONFilename_Final);
-                    // console.log(JSON.parse(spritesheetImages_Final));
-                    // console.log(parseInt(numLanes_Final));
-                    // console.log(parseInt(numZones_Final));
-                    // console.log(parseInt(zoneSize_Final));
-                    // console.log(JSON.parse(landscapeObjects_Final));
-                    // console.log(JSON.parse(trackObstacles_Final));
-                    // console.log(parseInt(freqObstacles_Final));
-                    // console.log(JSON.parse(topography_Final));
-                    // console.log(JSON.parse(topography_Final)[2].topography + ", " + JSON.parse(topography_Final)[2].numZones);
-                    // console.log(arcadeVehicle_Final.split(","));
-                    // console.log(realisticImgs_Final);
-                    // console.log(vehicle_Final);
-                    // console.log(vehicleImgIndex_Final);
+		                    car.trackGeneratorWidget.hide();
+		                    // API to generate track with parameters received as argument by the constructor, i.e. new TrackGenerator()
+		                    // car.trackGeneratorWidget.generateStraightTrack();
+		                    // car.trackGeneratorWidget.generateTrackCurvesSlopes();
+		                    car.trackGeneratorWidget.generateTrackBasedOnTrackLayoutOptField();
 
-                    // -----------------------------  TRACK GENERATOR COMPONENTS -----------------------------
-                    car.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget", {
-                        top: 80,
-                        left: 650,
-                        width: 780,
-                        height: 650
-                    }, {
-                        parent: "content", // defines parent div, which is div id="content" by default
-                        spritesFilename: spritesheetJSONFilename_Final, // defines spritesheet configuration filename, which is "spritesheet.json" by default
-                        render: {
-                            width: 320,
-                            height: 240,
-                            depthOfField: 150,
-                            camera_distance: 30,
-                            camera_height: 100
-                        },
-                        trackSegmentSize: 5,
-                        numberOfSegmentPerColor: 4,
-                        numLanes: parseInt(numLanes_Final),
-                        laneWidth: 0.02,
-                        trackParam: {
-                            numZones:  parseInt(numZones_Final), // number of different portions of the track
-                            zoneSize:  parseInt(zoneSize_Final) // length of each numZones (the bigger this value. the longer it will take to finish)
-                        },
-                        // Information regarding current controllable_car's car
-                        controllable_car: {
-                            position: 10,
-                            speed: 0,
-                            acceleration: 0.05,
-                            deceleration: 0.04,
-                            breaking: 0.3,
-                            turning: 5.0,
-                            posx: 0,
-                            maxSpeed: 20
-                        },
-                        objects: JSON.parse(landscapeObjects_Final),
-                        obstacle: JSON.parse(trackObstacles_Final),
-                        obstaclePerIteration: parseInt(freqObstacles_Final),
-                        trackColors: {
-                            grass1: colorGrass_Final,
-                            border1: colorBorder1_Final,
-                            border2: colorBorder2_Final,
-                            outborder1: colorOutborder_Final,
-                            outborder_end1: colorOutborderEnd_Final,
-                            track_segment1: colorTrackSegment_Final,
-                            lane1: colorLane1_Final,
-                            lane2: colorLane2_Final,
-                            laneArrow1: colorLaneArrow_Final,
-                            track_segment_end: colorTrackSegmentEnd_Final,
-                            lane_end: colorLaneEnd_Final
-                        },
-                        trackLayout: JSON.parse(topography_Final),
-                        callback: callback
-                    });
+		                    // TODO WHEN FILE-WRITNG API EXISTS!!!
+		                    // trackFilename opt field must receive json file just created by car.trackGeneratorWidget.generateTrackBasedOnTrackLayoutOptField();
 
-                    car.trackGeneratorWidget.hide();
-                    // API to generate track with parameters received as argument by the constructor, i.e. new TrackGenerator()
-                    // car.trackGeneratorWidget.generateStraightTrack();
-                    // car.trackGeneratorWidget.generateTrackCurvesSlopes();
-                    car.trackGeneratorWidget.generateTrackBasedOnTrackLayoutOptField();
+		                    // ----------------------------- ARCADE GAME COMPONENTS -----------------------------
+		                    car.arcadeWidget = new Arcade("arcadeWidget", {
+					            top: 300,
+					            left: 860,
+					            width: 320,
+					            height: 240
+					        }, {
+					            parent: "content", // defines parent div, which is div id="body" by default
+					            trackFilename: "trackLayout2",// "track-curves-slopes-random", // "track-straight-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
+					            spritesFilename: spritesheetJSONFilename_Final, // defines spritesheet configuration filename, which is "spritesheet.json" by default
+					            spritesFiles: JSON.parse(spritesheetImages_Final), // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
+					            realisticImgs: realisticImgs_Final,
+					            vehicle: vehicle_Final, // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
+					            vehicleImgIndex: parseInt(vehicleImgIndex_Final), // defines vehicle sprite image suffix
+					            // logoImgIndex: 1, // defines logo sprite image suffix
+					            // backgroundImgIndex: 1, // defines background sprite image suffix
+					            stripePositions: {
+					                trackP1: -0.55,
+					                trackP2: 0.55,
+					                borderWidth: 0.08,
+					                inOutBorderWidth: 0.02,
+					                landscapeOutBorderWidth: 0.13,
+					                diffTrackBorder: 0.05,
+					                finishLineP1: -0.40,
+					                finishLineP2: 0.40,
+					                diffLanesFinishLine: 0.05
+					            },
+					            lapNumber: parseInt(numLaps_Final),
+					            // showOfficialLogo: true,
+					            loadPVSSpeedPositions: loadPVSSpeedPositions_Final,
+					            // predefinedTracks: 4,
+					            // newLap_functionNamePVS: "new_lap",
+					            // action_attribute: "action",
+					            // direction_attribute: "direction",
+					            // sound_attribute: "sound",
+					            // lap_attribute: "lap",
+					            // speed_attribute: "speed",
+					            // posx_attribute: "posx",
+					            // position_attribute: "position",
+					            // lap_value: "val",
+					            // speed_value: "val",
+					            // posx_value: "val",
+					            // position_value: "val",
+					            // left_attribute: "left",
+					            // right_attribute: "right",
+					            // straight_attribute: "straight",
+					            // accelerate_attribute: "acc",
+					            // brake_attribute: "brake",
+					            // idle_attribute: "idle",
+					            // quit_attribute: "quit",
+					            // pause_attribute: "pause",
+					            // resume_attribute: "resume",
+					            // mute_attribute: "mute",
+					            // unmute_attribute: "unmute",
+					            callback: callback
+					        });
 
-                    // TODO WHEN FILE-WRITNG API EXISTS!!!
-                    // trackFilename opt field must receive json file just created by car.trackGeneratorWidget.generateTrackBasedOnTrackLayoutOptField();
-
-                    // ----------------------------- ARCADE GAME COMPONENTS -----------------------------
-                    car.arcadeWidget = new Arcade("arcadeWidget", {
-			            top: 300,
-			            left: 860,
-			            width: 320,
-			            height: 240
-			        }, {
-			            parent: "content", // defines parent div, which is div id="body" by default
-			            trackFilename: "trackLayout2",// "track-curves-slopes-random", // "track-straight-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
-			            spritesFilename: spritesheetJSONFilename_Final, // defines spritesheet configuration filename, which is "spritesheet.json" by default
-			            spritesFiles: JSON.parse(spritesheetImages_Final), // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
-			            realisticImgs: realisticImgs_Final,
-			            vehicle: vehicle_Final, // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
-			            vehicleImgIndex: parseInt(vehicleImgIndex_Final), // defines vehicle sprite image suffix
-			            // logoImgIndex: 1, // defines logo sprite image suffix
-			            // backgroundImgIndex: 1, // defines background sprite image suffix
-			            stripePositions: {
-			                trackP1: -0.55,
-			                trackP2: 0.55,
-			                borderWidth: 0.08,
-			                inOutBorderWidth: 0.02,
-			                landscapeOutBorderWidth: 0.13,
-			                diffTrackBorder: 0.05,
-			                finishLineP1: -0.40,
-			                finishLineP2: 0.40,
-			                diffLanesFinishLine: 0.05
-			            },
-			            lapNumber: parseInt(numLaps_Final),
-			            // showOfficialLogo: true,
-			            loadPVSSpeedPositions: loadPVSSpeedPositions_Final,
-			            // predefinedTracks: 4,
-			            // newLap_functionNamePVS: "new_lap",
-			            // action_attribute: "action",
-			            // direction_attribute: "direction",
-			            // sound_attribute: "sound",
-			            // lap_attribute: "lap",
-			            // speed_attribute: "speed",
-			            // posx_attribute: "posx",
-			            // position_attribute: "position",
-			            // lap_value: "val",
-			            // speed_value: "val",
-			            // posx_value: "val",
-			            // position_value: "val",
-			            // left_attribute: "left",
-			            // right_attribute: "right",
-			            // straight_attribute: "straight",
-			            // accelerate_attribute: "acc",
-			            // brake_attribute: "brake",
-			            // idle_attribute: "idle",
-			            // quit_attribute: "quit",
-			            // pause_attribute: "pause",
-			            // resume_attribute: "resume",
-			            // mute_attribute: "mute",
-			            // unmute_attribute: "unmute",
-			            callback: callback
-			        });
-
-                    car.arcadeWidget.startSimulation();
-                    car.arcadeWidget.render(initalPVSState);
+		                    car.arcadeWidget.startSimulation();
+		                    car.arcadeWidget.render(initalPVSState);
+		                }
+					}
                 }
-            }
-        });
+            })(this)
+		);
 
-        $("#myRange-End").trigger("input");
+        $("#myRange-End_"+this.CUSTOMIZATIONID).trigger("input");
         
         return this;
     };
