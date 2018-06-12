@@ -293,7 +293,7 @@
                    ]
                },
                {
-                  id: "writeTopography",
+                  id: "writeTopography_customization-widget",
                   class: null,
                   styles: [
                       {
@@ -303,7 +303,7 @@
                   ]
               },
               {
-                  id: "colorPicker",
+                  id: "colorPicker_customization-widget",
                   class: null,
                   styles: [
                       {
@@ -370,7 +370,7 @@
                },
                {
                    id: null,
-                   class: "customization",
+                   class: "customization_customization-widget",
                    styles: [
                        {
                            property: "visibility",
@@ -385,7 +385,7 @@
          "customization-widget",  // id of the gauge element that will be created
          {top: 100, left: 700, width: 750, height: 750}, // coordinates object
          {
-           parent: "dashboard", // defines parent div, which is div id="dashboard" by default
+           parent: "content", // defines parent div, which is div id="body" by default
            sliderColor: "#4CAF50",
            imagesSteeringWheels: [
            {
@@ -682,7 +682,7 @@
                    ]
                },
                {
-                  id: "writeTopography",
+                  id: "writeTopography_customization-widget",
                   class: null,
                   styles: [
                       {
@@ -692,7 +692,7 @@
                   ]
               },
               {
-                  id: "colorPicker",
+                  id: "colorPicker_customization-widget",
                   class: null,
                   styles: [
                       {
@@ -759,7 +759,7 @@
                },
                {
                    id: null,
-                   class: "customization",
+                   class: "customization_customization-widget",
                    styles: [
                        {
                            property: "visibility",
@@ -774,7 +774,7 @@
          "customization-widget",  // id of the gauge element that will be created
          {top: 100, left: 700, width: 750, height: 750}, // coordinates object
          {
-           parent: "dashboard", // defines parent div, which is div id="dashboard" by default
+           parent: "content", // defines parent div, which is div id="body" by default
            sliderColor: "#4CAF50",
            imagesSteeringWheels: [
            {
@@ -996,6 +996,7 @@
             
 
             <td class="description last">Options:
+			<li>parent {String}: the parent div (default is "body").</li>
          <li>sliderColor {String}: the sliders circle color (default is "#4CAF50").</li>
          <li>imagesSteeringWheels {Array}: array of objects with all the images to insert in the imagepicker, providing the path and value fields (default values are {"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg" and default paths are "widgets/car/steering_wheels/"+{"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg").</li>
          <li>sliderRanges {Array}: array of objects with all the sliders to be created, giving the name (to put in the div), the values min, max (slider intervals) and value (default value) (default is [{name: "speedometer",min: 0,max: 400,value: 340},{name: "tachometer",min: 0,max: 20,value: 16},{name: "lanes",min: 0,max: 3,value: 0},{name: "hills",min: 0,max: 10,value: 0},{name: "obstacles",min: 0,max: 10,value: 0},{name: "other-cars",min: 0,max: 10,value: 0}]).</li>
@@ -1382,7 +1383,7 @@ If the id is null, the class field is used to select the respective div. Otherwi
 
 
 <div class="description">
-    GetSteeringWheelImage method of the Customization widget. This method selects the div text with id="# selectedSteeringWheel", which in turn contains the name 
+    GetSteeringWheelImage method of the Customization widget. This method selects the div text with id="# selectedSteeringWheel_"+this.CUSTOMIZATIONID, which in turn contains the name 
 of the last selected image in the imagepicker. This content will be used to render the new Steering Wheel widget.
 </div>
 
@@ -2327,7 +2328,7 @@ If the id is null, the class field is used to select the respective div. Otherwi
 
 <div class="description">
     SetImagePicker method of the Customization widget. This method is responsible for getting values related to the image selected in the imagepicker.
-In this, it adds the name of the selected image, taken from the path field, to the div with id="#selectedSteeringWheel", so that the currently selected image can be accessed at any time.
+In this, it adds the name of the selected image, taken from the path field, to the div with id="#selectedSteeringWheel_"+this.CUSTOMIZATIONID, so that the currently selected image can be accessed at any time.
 Also adds the value of the path field to the div with id/class provided in the aux object, so that it can be viewed in that div (larger size, i.e. highlighted) as well as all its styles.
 </div>
 
@@ -2891,7 +2892,7 @@ It should be invoked after creating new Gauge Widgets(Speedometer, Tachometer). 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jun 12 2018 13:23:29 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jun 12 2018 16:07:51 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

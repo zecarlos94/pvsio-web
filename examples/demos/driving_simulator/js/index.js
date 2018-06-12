@@ -551,15 +551,15 @@ require([
         car.customization.setLastRenderingDiv("gauge");
 
         // ---------------- STEERING WHEEL ----------------
-        car.steeringWheel = new SteeringWheel("steering_wheel", {
-            top: 140,
-            left: 30,
-            width: 600,
-            height: 600
-        }, {
-            style: steeringWheel || "ferrari",
-            callback: onMessageReceived
-        });
+        // car.steeringWheel = new SteeringWheel("steering_wheel", {
+        //     top: 140,
+        //     left: 30,
+        //     width: 600,
+        //     height: 600
+        // }, {
+        //     style: steeringWheel || "ferrari",
+        //     callback: onMessageReceived
+        // });
 
         car.customization.setInitRenderingDiv(initWindowCSSValues);
 
@@ -581,7 +581,7 @@ require([
             if(parseInt(d3.select("#demo-End_customization-widget")[0][0].innerHTML)===1){
                 car.arcadeWidget.render(res);                
                 car.speedometerGauge.render(evaluate(res.speed.val));
-                car.tachometerGauge.render(evaluate(res.rpm));
+                car.tachometerGauge.render(evaluate(res.rpm));                
                 car.steeringWheel.render(evaluate(res.steering));
                 if(countTickInit===0){
                     // starts the simulation only one time
