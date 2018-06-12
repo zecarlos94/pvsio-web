@@ -198,9 +198,13 @@ define(function (require, exports, module) {
         });
 
         this.div = d3.select(this.parent)
-                        .append("div").attr("id", "drawGamepad_"+this.DRAWGAMEPADID);
+                     .append("div").attr("id", "gamepadImage")
+                     .style("position", "absolute")
+                     .style("top", this.top + "px")
+                     .style("left", this.left + "px")
+                     .style("width", this.width + "px") 
+                     .append("div").attr("id", "drawGamepad_"+this.DRAWGAMEPADID);
                         
-   
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
 

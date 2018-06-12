@@ -121,34 +121,31 @@ require([
 
         // ----------------------------- DRAWGAMEPAD COMPONENTS -----------------------------
         // arcade.drawGamepad = new DrawGamepad("drawGamepad", {
-        //     top: 100,
-        //     left: 350,
+        //     top: 700,
+        //     left: 750,
         //     width: 750,
         //     height: 750
         // }, {
-        //     parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
+        //     parent: "content", // defines parent div, which is div id="body" by default
         //     style: "xbox", // defines parent div, which is "ps4" by default
         //     buttonsPVS: [ "accelerate", "brake", "mute", "unmute", "pause", "quit", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
         //     callback: onMessageReceived
         // });
         arcade.drawGamepad = new DrawGamepad("drawGamepad", {
-            top: 100,
-            left: 350,
+            top: 700,
+            left: 750,
             width: 750,
             height: 750
         }, {
-            parent: "gamepadImage", // defines parent div, which is div id="drawGamepad" by default
+            parent: "content", // defines parent div, which is div id="body" by default
             style: "ps4", // defines parent div, which is "ps4" by default
             buttonsPVS: [ "accelerate", "brake", "unmute", "mute", "pause", "quit", "touchpad", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
             callback: onMessageReceived
         });
 
-        document.getElementById("gamepadImage").style.visibility = "visible";
-        document.getElementById("gamepadImage").style.marginBottom = "100px";
-
         // ---------------- VIRTUAL KEYPAD CONTROLLER ----------------
         arcade.virtualKeypadController = new VirtualKeypadController("virtualKeypad_controller", {
-            top: 1050,
+            top: 720,
             left: 200,
             width: 750,
             height: 750
@@ -156,7 +153,7 @@ require([
             keyboardImgDiv: "mobileDevicesController", // defines keyboard image div, which is div id="mobileDevicesController" by default
             keyboardClass: "icon keyboard",
             keyboardLeftDesktop: 50,
-            keyboardTopDesktop: 900,
+            keyboardTopDesktop: 600,
             keyboardHoverInitialTitle: "Click to open virtual keypad controller",
             keyboardHoverSecondTitle: "Click to close virtual keypad controller",
             parent: "content", // defines parent div, which is div id="body" by default
@@ -199,7 +196,7 @@ require([
 
         // ---------------- STEERING WHEEL ----------------
         arcade.steeringWheel = new SteeringWheel("steering_wheel", {
-            top: 300,
+            top: 220,
             left: 20,
             width: 600,
             height: 600
