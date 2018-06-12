@@ -721,7 +721,7 @@ define(function (require, exports, module) {
         this.spritesImgsInformation.backgroundIndex = (opt.backgroundImgIndex) ? opt.backgroundImgIndex : null;
         this.spritesImgsInformation.vehicleRealistic = (opt.realisticImgs) ? opt.realisticImgs : false;
         this.spritesImgsInformation.vehicleType = (opt.vehicle) ? opt.vehicle : "car"; // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
-        this.stripePositions = (opt.stripePositions) ? opt.stripePositions : { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 };
+        this.stripePositions = (opt.stripePositions) ? opt.stripePositions : { trackP1: -0.55, trackP2: 0.55, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 };
         this.canvasInformations.showOfficialLogo = (opt.showOfficialLogo) ? opt.showOfficialLogo : false;
         this.lapNumber = (opt.lapNumber) ? opt.lapNumber : 2;
         this.loadPVSSpeedPositions = (opt.loadPVSSpeedPositions) ? opt.loadPVSSpeedPositions : true;
