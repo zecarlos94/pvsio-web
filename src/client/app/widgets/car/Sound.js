@@ -317,7 +317,7 @@ define(function (require, exports, module) {
                                 .text("Your browser does not support the <code>audio</code> element.");
                     }    
                 }
-                this.sounds[i] = document.getElementById('audio'+i+"_"+this.SOUNDID);
+                this.sounds[i] = d3.select('#audio'+i+"_"+this.SOUNDID)[0][0];
             }
         } else { 
             this.body.append("audio").attr("id", "audio0"+"_"+this.SOUNDID)
@@ -331,8 +331,8 @@ define(function (require, exports, module) {
                     .attr("src", "../../client/app/widgets/car/configurations/song/sound.mp3") // Default url for non loop audios
                     .text("Your browser does not support the <code>audio</code> element.");
             
-            this.sounds[0] = document.getElementById('audio0'+"_"+this.SOUNDID);
-            this.sounds[1] = document.getElementById('audio1'+"_"+this.SOUNDID);
+            this.sounds[0] = d3.select('#audio0'+"_"+this.SOUNDID)[0][0];
+            this.sounds[1] = d3.select('#audio1'+"_"+this.SOUNDID)[0][0];
         }
       
         opt.callback = opt.callback || function () {};
@@ -358,11 +358,11 @@ define(function (require, exports, module) {
         setTimeout(
             (function(self) {         //Self-executing func which takes 'this' as self
                 return function() {   //Return a function in the context of 'self'
-                    document.getElementById('mute_'+self.SOUNDID).addEventListener('click', function (e) {
+                    d3.select('#mute_'+self.SOUNDID)[0][0].addEventListener('click', function (e) {
                         self.unmute();
                     });
 
-                    document.getElementById('unmute_'+self.SOUNDID).addEventListener('click', function (e) {
+                    d3.select('#unmute_'+self.SOUNDID)[0][0].addEventListener('click', function (e) {
                         self.mute();
                     });
                     self.mute(); //Thing you wanted to run as non-window 'this'

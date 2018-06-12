@@ -916,10 +916,10 @@ define(function (require, exports, module) {
                     this.configurationFiles.trackJSON = this.configurationFiles.trackCurvesSlopesJSONPredefined;
                     break;
             }
-            this.configurationFiles.spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field_"+this.WIDGETID).innerHTML;
+            this.configurationFiles.spritesheetJSON = d3.select("#spritesheet_file_loaded_opt_field_"+this.WIDGETID)[0][0].innerHTML;
         }else{
-            this.configurationFiles.trackJSON = document.getElementById("track_file_loaded_opt_field_"+this.WIDGETID).innerHTML;
-            this.configurationFiles.spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field_"+this.WIDGETID).innerHTML;
+            this.configurationFiles.trackJSON = d3.select("#track_file_loaded_opt_field_"+this.WIDGETID)[0][0].innerHTML;
+            this.configurationFiles.spritesheetJSON = d3.select("#spritesheet_file_loaded_opt_field_"+this.WIDGETID)[0][0].innerHTML;
         }
         if(this.configurationFiles.trackJSON){
             let aux = JSON.parse(this.configurationFiles.trackJSON);
@@ -2760,7 +2760,7 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.init = function () {
-        this.canvasInformations.canvas = document.getElementById("arcadeSimulator_"+this.WIDGETID);
+        this.canvasInformations.canvas = d3.select("#arcadeSimulator_"+this.WIDGETID)[0][0];
         this.canvasInformations.context = this.canvasInformations.canvas.getContext('2d');
         return this;
     };

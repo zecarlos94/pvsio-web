@@ -144,6 +144,7 @@ require([
         });
 
         document.getElementById("gamepadImage").style.visibility = "visible";
+        document.getElementById("gamepadImage").style.marginBottom = "100px";
 
         // ---------------- VIRTUAL KEYPAD CONTROLLER ----------------
         arcade.virtualKeypadController = new VirtualKeypadController("virtualKeypad_controller", {
@@ -199,7 +200,7 @@ require([
         // ---------------- STEERING WHEEL ----------------
         arcade.steeringWheel = new SteeringWheel("steering_wheel", {
             top: 300,
-            left: 10,
+            left: 20,
             width: 600,
             height: 600
         }, {

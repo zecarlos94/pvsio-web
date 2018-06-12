@@ -1289,7 +1289,7 @@ define(function (require, exports, module) {
         let _this = this;
         let spritesheet_file = "text!widgets/car/configurations/" + opt.spritesFilename + ".json";
         require([spritesheet_file], function(spritesheet) {
-            _this.div.append("div").attr("id", "spritesheet_file_loaded_opt_field").style("display","none").text(spritesheet);
+            _this.div.append("div").attr("id", "spritesheet_file_loaded_opt_field_"+id).style("display","none").text(spritesheet);
             return _this;
         });
 
@@ -1820,7 +1820,7 @@ define(function (require, exports, module) {
 		setTimeout(
             (function(self) {         //Self-executing func which takes 'this' as self
                 return function() {   //Return a function in the context of 'self'
-					self.spritesheetJSON = document.getElementById("spritesheet_file_loaded_opt_field").innerHTML; //Thing you wanted to run as non-window 'this'
+					self.spritesheetJSON = d3.select("#spritesheet_file_loaded_opt_field_"+self.TRACKGENERATORID)[0][0].innerHTML; //Thing you wanted to run as non-window 'this'
 					if(self.spritesheetJSON){
 			           self.spritesReadJSON = JSON.parse(self.spritesheetJSON);
 			           // Reading all JSON Sprites Available

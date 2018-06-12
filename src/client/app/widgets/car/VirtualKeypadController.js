@@ -430,7 +430,7 @@ define(function (require, exports, module) {
             evts: ['press/release']
         });
 
-        document.getElementById('keyboardImg').addEventListener('click', (function(self) {
+        d3.select('#keyboardImg')[0][0].addEventListener('click', (function(self) {
                 return function(e) {
                     let res = self.keyboardClass.split(" ");
                     let aux="";
