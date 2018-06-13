@@ -5,7 +5,7 @@
  * @desc This module draws the 2D arcade driving simulator, using HTML5 Canvas.
  *
  * @date Apr 02, 2018
- * last modified @date Jun 11, 2018
+ * last modified @date Jun 13, 2018
  *
  * @example <caption>Usage of ArcadeWithoutLaps within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {

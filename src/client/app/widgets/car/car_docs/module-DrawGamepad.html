@@ -142,6 +142,7 @@ ButtonEVO Widget.</div>
               'example', // id of the gauge element that will be created
               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
               { 
+                 parent: "content", // defines parent div, which is div id="body" by default   
                  style: 'ps4', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
                  buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
                  // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_accelerate"/"release_accelerate".
@@ -190,6 +191,7 @@ ButtonEVO Widget.</div>
               'example', // id of the gauge element that will be created
               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
               { 
+                 parent: "content", // defines parent div, which is div id="body" by default  
                  style: 'xbox', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
                  buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
                  // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_accelerate"/"release_accelerate".
@@ -215,7 +217,8 @@ button "accelerate" will only be created by the constructor if "accelerate" is p
          let drawGamepad = new DrawGamepad(
               'example', // id of the gauge element that will be created
               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
-              { 
+              {  
+                 parent: "content", // defines parent div, which is div id="body" by default  
                  style: 'ps4', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
                  buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
                  // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_accelerate"/"release_accelerate".
@@ -241,7 +244,8 @@ button "rightStick" will only be created by the constructor if "rightStick" is p
          let drawGamepad = new DrawGamepad(
               'example', // id of the gauge element that will be created
               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
-              { 
+              {  
+                 parent: "content", // defines parent div, which is div id="body" by default  
                  style: 'ps4', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
                  buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
                  // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_accelerate"/"release_accelerate".
@@ -384,7 +388,7 @@ button "rightStick" will only be created by the constructor if "rightStick" is p
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line495">line 495</a>
+        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line499">line 499</a>
     </li></ul></dd>
     
 
@@ -519,7 +523,7 @@ button "rightStick" will only be created by the constructor if "rightStick" is p
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line482">line 482</a>
+        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line486">line 486</a>
     </li></ul></dd>
     
 
@@ -705,7 +709,7 @@ button "rightStick" will only be created by the constructor if "rightStick" is p
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line145">line 145</a>
+        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -813,7 +817,7 @@ button "rightStick" will only be created by the constructor if "rightStick" is p
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line460">line 460</a>
+        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line464">line 464</a>
     </li></ul></dd>
     
 
@@ -899,7 +903,7 @@ button "rightStick" will only be created by the constructor if "rightStick" is p
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line507">line 507</a>
+        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line511">line 511</a>
     </li></ul></dd>
     
 
@@ -985,7 +989,7 @@ button "rightStick" will only be created by the constructor if "rightStick" is p
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line471">line 471</a>
+        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line475">line 475</a>
     </li></ul></dd>
     
 
@@ -1035,7 +1039,7 @@ button "rightStick" will only be created by the constructor if "rightStick" is p
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jun 12 2018 16:07:48 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jun 13 2018 15:27:35 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

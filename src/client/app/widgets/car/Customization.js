@@ -5,7 +5,7 @@
  * @desc This module helps you to create and read local files with all configurations required for the arcade simulator. 
  *
  * @date Apr 04, 2018
- * last modified @date May 23, 2018
+ * last modified @date Jun 13, 2018
  *
  * @example <caption>Usage of Customization within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -15,255 +15,343 @@
  *     require("widgets/car/Customization");
  *
  *     function main() {
- *            let steeringWheel = "ferrari";
- *            let sliders = {
- *                maxValueSpeedometer: {
- *                    id: "Speedometer",
- *                    value: null
- *                },
- *                maxValueTachometer: {
- *                    id: "Tachometer",
- *                    value: null
- *                },
- *                maxValueLanes: {
- *                    id: "Lanes",
- *                    value: null
- *                }
- *                maxValueObstacles: {
- *                    id: "Obstacles",
- *                    value: null
- *                }
- *            };
- *            let initWindowCSSValues = [
- *                {
- *                    id: "mySidenav",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "width",
- *                            value: "630px"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "menu",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "margin-left",
- *                            value: "450px"
- *                        },
- *                        {
- *                            property: "visibility",
- *                            value: "hidden"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "game-window",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "border",
- *                            value: "5px solid black"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "instructions",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "margin-left",
- *                            value: "-60px"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: null,
- *                    class: "dashboard-widgets",
- *                    styles: [
- *                        {
- *                            property: "visibility",
- *                            value: "hidden"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "steering_wheel",
- *                    class: "last-steering_wheel",
- *                    styles: [
- *                        {
- *                            property: "visibility",
- *                            value: "hidden"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "track_img",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "visibility",
- *                            value: "visible"
- *                        }
- *                    ]
- *                }
- *            ];
- *            let reRenderedWindowCSSValues = [
- *                {
- *                    id: "steering_wheel",
- *                    class: "last-steering_wheel",
- *                    styles: [
- *                        {
- *                            property: "display",
- *                            value: "block"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "mySidenav",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "width",
- *                            value: "0px"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "menu",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "margin-left",
- *                            value: "-170px"
- *                        },
- *                        {
- *                            property: "margin-left",
- *                            value: "0px"
- *                        },
- *                        {
- *                            property: "visibility",
- *                            value: "visible"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "track_img",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "visibility",
- *                            value: "hidden"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "instructions",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "margin-left",
- *                            value: "650px"
- *                        },
- *                        {
- *                            property: "margin-top",
- *                            value: "-910px"
- *                        },
- *                        {
- *                            property: "visibility",
- *                            value: "visible"
- *                        }
- *                    ]
- *                },
- *                {
- *                   id: "writeTopography_customization-widget",
- *                   class: null,
- *                   styles: [
- *                       {
- *                           property: "display",
- *                           value: "none"
- *                       }
- *                   ]
- *               },
- *               {
- *                   id: "colorPicker_customization-widget",
- *                   class: null,
- *                   styles: [
- *                       {
+ *  		let steeringWheel = "ferrari";
+ *          let sliders = {
+ *              maxValueSpeedometer: {
+ *                  id: "Speedometer",
+ *                  value: null
+ *              },
+ *              maxValueTachometer: {
+ *                  id: "Tachometer",
+ *                  value: null
+ *              },
+ *              maxValueLanes: {
+ *                  id: "Lanes",
+ *                  value: null
+ *              },
+ *              maxValueObstacles: {
+ *                  id: "Obstacles",
+ *                  value: null
+ *              },
+ *              maxValueLapNumber: {
+ *                  id: "Laps",
+ *                  value: null
+ *              },
+ *              maxValuePVSInstructions: {
+ *                  id: "Pvs",
+ *                  value: null
+ *              }
+ *          };
+ *          let initWindowCSSValues = [
+ *              {
+ *                  id: "mySidenav",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "width",
+ *                          value: "630px"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "menu",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "margin-left",
+ *                          value: "450px"
+ *                      },
+ *                      {
+ *                          property: "visibility",
+ *                          value: "hidden"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "game-window",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "border",
+ *                          value: "5px solid black"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "instructions",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "margin-left",
+ *                          value: "-60px"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: null,
+ *                  class: "dashboard-widgets",
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "hidden"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "steering_wheel",
+ *                  class: "last-steering_wheel",
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "hidden"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "track_img",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              }
+ *          ];
+ *          let reRenderedWindowCSSValues = [
+ *              {
+ *                  id: "steering_wheel",
+ *                  class: "last-steering_wheel",
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "block"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "mySidenav",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "width",
+ *                          value: "0px"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "menu",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "margin-left",
+ *                          value: "-170px"
+ *                      },
+ *                      {
+ *                          property: "margin-left",
+ *                          value: "0px"
+ *                      },
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "track_img",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "hidden"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "game-window",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "border",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "instructions",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "margin-left",
+ *                          value: "650px"
+ *                      },
+ *                      {
+ *                          property: "margin-top",
+ *                          value: "-900px"
+ *                      },
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeTopography_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
  *                          property: "display",
  *                          value: "none"
- *                       }
- *                   ]
- *                },
- *                {
- *                    id: "gauges",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "position",
- *                            value: "absolute"
- *                        },
- *                        {
- *                            property: "margin-left",
- *                            value: "350px"
- *                        },
- *                        {   
- *                            property: "margin-top",
- *                            value: "-1180px"
- *                        },
- *                        {
- *                            property: "visibility",
- *                            value: "visible"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "steering_wheel",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "margin-top",
- *                            value: "200px"
- *                        },
- *                        {
- *                            property: "visibility",
- *                            value: "visible"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "gamepadImage",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "visibility",
- *                            value: "visible"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: null,
- *                    class: "dashboard-widgets",
- *                    styles: [
- *                        {
- *                            property: "margin-top",
- *                            value: "200px"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: null,
- *                    class: "customization_customization-widget",
- *                    styles: [
- *                        {
- *                            property: "visibility",
- *                            value: "hidden"
- *                        }
- *                    ]
- *                },
- *            ];
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeSpritesheetJSONFilename_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeSpritesheetImages_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeLandscapeObjects_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeTrackObstacles_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeTrackParams_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeArcadeVehicle_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "colorPicker_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "gauges",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "position",
+ *                          value: "absolute"
+ *                      },
+ *                      {
+ *                          property: "margin-left",
+ *                          value: "300px"
+ *                      },
+ *                      {   
+ *                          property: "margin-top",
+ *                          value: "-2900px"
+ *                      },
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "steering_wheel",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "margin-top",
+ *                          value: "200px"
+ *                      },
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "mobileDevicesController",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "gamepadImage",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: null,
+ *                  class: "dashboard-widgets",
+ *                  styles: [
+ *                      {
+ *                          property: "margin-top",
+ *                          value: "200px"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: null,
+ *                  class: "customization_customization-widget",
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "hidden"
+ *                      }
+ *                  ]
+ *              },
+ *          ];      
  * 
  *          // After Customization module was loaded, initialize it
  *          let customization = new Customization(
@@ -314,7 +402,19 @@
  *               min: 0,
  *               max: 10,
  *               value: 0
- *             }
+ *             },
+ *			   {
+ *                name: "laps",
+ *                min: 0,
+ *                max: 3,
+ *                value: 0
+ *              },
+ *              {
+ *                name: "pvs",
+ *                min: 0,
+ *                max: 1,
+ *                value: 0
+ *              }
  *             ],
  *             controlsText: ["Car controls:", "[left/right arrow keys] Turn Left/Right", "[up/down arrow keys] Accelerate/Brake" ],
  *             gauges: [
@@ -403,255 +503,343 @@
  *     require("widgets/car/Customization");
  *
  *     function main() {
- *            let steeringWheel = "ferrari";
- *            let sliders = {
- *                maxValueSpeedometer: {
- *                    id: "Speedometer",
- *                    value: null
- *                },
- *                maxValueTachometer: {
- *                    id: "Tachometer",
- *                    value: null
- *                },
- *                maxValueLanes: {
- *                    id: "Lanes",
- *                    value: null
- *                }
- *                maxValueObstacles: {
- *                    id: "Obstacles",
- *                    value: null
- *                }
- *            };
- *            let initWindowCSSValues = [
- *                {
- *                    id: "mySidenav",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "width",
- *                            value: "630px"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "menu",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "margin-left",
- *                            value: "450px"
- *                        },
- *                        {
- *                            property: "visibility",
- *                            value: "hidden"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "game-window",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "border",
- *                            value: "5px solid black"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "instructions",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "margin-left",
- *                            value: "-60px"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: null,
- *                    class: "dashboard-widgets",
- *                    styles: [
- *                        {
- *                            property: "visibility",
- *                            value: "hidden"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "steering_wheel",
- *                    class: "last-steering_wheel",
- *                    styles: [
- *                        {
- *                            property: "visibility",
- *                            value: "hidden"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "track_img",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "visibility",
- *                            value: "visible"
- *                        }
- *                    ]
- *                }
- *            ];
- *            let reRenderedWindowCSSValues = [
- *                {
- *                    id: "steering_wheel",
- *                    class: "last-steering_wheel",
- *                    styles: [
- *                        {
- *                            property: "display",
- *                            value: "block"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "mySidenav",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "width",
- *                            value: "0px"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "menu",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "margin-left",
- *                            value: "-170px"
- *                        },
- *                        {
- *                            property: "margin-left",
- *                            value: "0px"
- *                        },
- *                        {
- *                            property: "visibility",
- *                            value: "visible"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "track_img",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "visibility",
- *                            value: "hidden"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "instructions",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "margin-left",
- *                            value: "650px"
- *                        },
- *                        {
- *                            property: "margin-top",
- *                            value: "-910px"
- *                        },
- *                        {
- *                            property: "visibility",
- *                            value: "visible"
- *                        }
- *                    ]
- *                },
- *                {
- *                   id: "writeTopography_customization-widget",
- *                   class: null,
- *                   styles: [
- *                       {
- *                           property: "display",
- *                           value: "none"
- *                       }
- *                   ]
- *               },
- *               {
- *                   id: "colorPicker_customization-widget",
- *                   class: null,
- *                   styles: [
- *                       {
+ *  		let steeringWheel = "ferrari";
+ *          let sliders = {
+ *              maxValueSpeedometer: {
+ *                  id: "Speedometer",
+ *                  value: null
+ *              },
+ *              maxValueTachometer: {
+ *                  id: "Tachometer",
+ *                  value: null
+ *              },
+ *              maxValueLanes: {
+ *                  id: "Lanes",
+ *                  value: null
+ *              },
+ *              maxValueObstacles: {
+ *                  id: "Obstacles",
+ *                  value: null
+ *              },
+ *              maxValueLapNumber: {
+ *                  id: "Laps",
+ *                  value: null
+ *              },
+ *              maxValuePVSInstructions: {
+ *                  id: "Pvs",
+ *                  value: null
+ *              }
+ *          };
+ *          let initWindowCSSValues = [
+ *              {
+ *                  id: "mySidenav",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "width",
+ *                          value: "630px"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "menu",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "margin-left",
+ *                          value: "450px"
+ *                      },
+ *                      {
+ *                          property: "visibility",
+ *                          value: "hidden"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "game-window",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "border",
+ *                          value: "5px solid black"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "instructions",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "margin-left",
+ *                          value: "-60px"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: null,
+ *                  class: "dashboard-widgets",
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "hidden"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "steering_wheel",
+ *                  class: "last-steering_wheel",
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "hidden"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "track_img",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              }
+ *          ];
+ *          let reRenderedWindowCSSValues = [
+ *              {
+ *                  id: "steering_wheel",
+ *                  class: "last-steering_wheel",
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "block"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "mySidenav",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "width",
+ *                          value: "0px"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "menu",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "margin-left",
+ *                          value: "-170px"
+ *                      },
+ *                      {
+ *                          property: "margin-left",
+ *                          value: "0px"
+ *                      },
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "track_img",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "hidden"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "game-window",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "border",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "instructions",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "margin-left",
+ *                          value: "650px"
+ *                      },
+ *                      {
+ *                          property: "margin-top",
+ *                          value: "-900px"
+ *                      },
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeTopography_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
  *                          property: "display",
  *                          value: "none"
- *                       }
- *                   ]
- *                },
- *                {
- *                    id: "gauges",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "position",
- *                            value: "absolute"
- *                        },
- *                        {
- *                            property: "margin-left",
- *                            value: "350px"
- *                        },
- *                        {   
- *                            property: "margin-top",
- *                            value: "-1180px"
- *                        },
- *                        {
- *                            property: "visibility",
- *                            value: "visible"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "steering_wheel",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "margin-top",
- *                            value: "200px"
- *                        },
- *                        {
- *                            property: "visibility",
- *                            value: "visible"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: "gamepadImage",
- *                    class: null,
- *                    styles: [
- *                        {
- *                            property: "visibility",
- *                            value: "visible"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: null,
- *                    class: "dashboard-widgets",
- *                    styles: [
- *                        {
- *                            property: "margin-top",
- *                            value: "200px"
- *                        }
- *                    ]
- *                },
- *                {
- *                    id: null,
- *                    class: "customization_customization-widget",
- *                    styles: [
- *                        {
- *                            property: "visibility",
- *                            value: "hidden"
- *                        }
- *                    ]
- *                },
- *            ];
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeSpritesheetJSONFilename_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeSpritesheetImages_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeLandscapeObjects_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeTrackObstacles_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeTrackParams_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeArcadeVehicle_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "colorPicker_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "gauges",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "position",
+ *                          value: "absolute"
+ *                      },
+ *                      {
+ *                          property: "margin-left",
+ *                          value: "300px"
+ *                      },
+ *                      {   
+ *                          property: "margin-top",
+ *                          value: "-2900px"
+ *                      },
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "steering_wheel",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "margin-top",
+ *                          value: "200px"
+ *                      },
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "mobileDevicesController",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "gamepadImage",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: null,
+ *                  class: "dashboard-widgets",
+ *                  styles: [
+ *                      {
+ *                          property: "margin-top",
+ *                          value: "200px"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: null,
+ *                  class: "customization_customization-widget",
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "hidden"
+ *                      }
+ *                  ]
+ *              },
+ *          ];   
  * 
  *          // After Customization module was loaded, initialize it
  *          let customization = new Customization(
@@ -702,7 +890,19 @@
  *               min: 0,
  *               max: 10,
  *               value: 0
- *             }
+ *             },
+ *			   {
+ *                name: "laps",
+ *                min: 0,
+ *                max: 3,
+ *                value: 0
+ *              },
+ *              {
+ *                name: "pvs",
+ *                min: 0,
+ *                max: 1,
+ *                value: 0
+ *              }
  *             ],
  *             controlsText: ["Car controls:", "[left/right arrow keys] Turn Left/Right", "[up/down arrow keys] Accelerate/Brake" ],
  *             gauges: [

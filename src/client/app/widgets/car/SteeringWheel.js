@@ -7,7 +7,7 @@
  * can be found in main.pvs file in the demonstration where the widget's constructor was invoked.
  *
  * @date October 6, 2017
- * last modified @date May 23, 2018
+ * last modified @date Jun 13, 2018
  *
  * @example <caption>Usage of SteeringWheel within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -255,7 +255,7 @@ define(function (require, exports, module) {
     SteeringWheel.prototype.render = function(val) {
         val = val || 0;
         // using Customization widget may end up here for a few seconds while it builds the new steering wheel
-        if(this.steering_wheel!==undefined){
+        if(this.steering_wheel!==undefined || this.steering_wheel!==null){
             this.steering_wheel.style("transform", "rotate(" + val + "deg)");
         }
         return this.reveal();

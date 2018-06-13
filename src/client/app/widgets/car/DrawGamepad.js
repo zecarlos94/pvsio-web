@@ -7,7 +7,7 @@
  * ButtonEVO Widget.
  *
  * @date October 6, 2017
- * last modified @date May 23, 2018
+ * last modified @date Jun 13, 2018
  *
  * @example <caption>Usage of DrawGamepad within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -22,6 +22,7 @@
  *               'example', // id of the gauge element that will be created
  *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
  *               { 
+ *                  parent: "content", // defines parent div, which is div id="body" by default   
  *                  style: 'ps4', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
  *                  buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
  *                  // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_accelerate"/"release_accelerate".
@@ -69,6 +70,7 @@
  *               'example', // id of the gauge element that will be created
  *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
  *               { 
+ *                  parent: "content", // defines parent div, which is div id="body" by default  
  *                  style: 'xbox', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
  *                  buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
  *                  // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_accelerate"/"release_accelerate".
@@ -93,7 +95,8 @@
  *          let drawGamepad = new DrawGamepad(
  *               'example', // id of the gauge element that will be created
  *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
- *               { 
+ *               {  
+ *                  parent: "content", // defines parent div, which is div id="body" by default  
  *                  style: 'ps4', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
  *                  buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
  *                  // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_accelerate"/"release_accelerate".
@@ -119,7 +122,8 @@
  *          let drawGamepad = new DrawGamepad(
  *               'example', // id of the gauge element that will be created
  *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
- *               { 
+ *               {  
+ *                  parent: "content", // defines parent div, which is div id="body" by default  
  *                  style: 'ps4', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
  *                  buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
  *                  // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_accelerate"/"release_accelerate".

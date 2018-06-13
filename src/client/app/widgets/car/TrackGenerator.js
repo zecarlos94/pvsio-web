@@ -1,11 +1,11 @@
 /**
  * @module TrackGenerator
- * @version 1.0.0
+ * @version 2.0.0
  * @author José Carlos
  * @desc This module generates randomly the 2D driving simulator, straight lines only version, using HTML5 Canvas.
  *
  * @date Apr 02, 2018
- * last modified @date May 23, 2018
+ * last modified @date Jun 13, 2018
  *
  * @example <caption>Usage of TrackGenerator within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -34,7 +34,7 @@
  *                  numLanes: 3,
  *                  laneWidth: 0.02,
  *                  trackParam: {
- *                      numZones:    12, // number of different portions of the track
+ *                      numZones:  12, // number of different portions of the track
  *                      zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
  *                  },
  *                  // Information regarding current controllable_car's car
@@ -523,7 +523,7 @@
  *                  numLanes: 3,
  *                  laneWidth: 0.02,
  *                  trackParam: {
- *                      numZones:    12, // number of different portions of the track
+ *                      numZones:  12, // number of different portions of the track
  *                      zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
  *                  },
  *                  // Information regarding current controllable_car's car
@@ -599,7 +599,7 @@
  *                  numLanes: 3,
  *                  laneWidth: 0.02,
  *                  trackParam: {
- *                      numZones:    12, // number of different portions of the track
+ *                      numZones:  12, // number of different portions of the track
  *                      zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
  *                  },
  *                  // Information regarding current controllable_car's car
@@ -664,7 +664,7 @@
  *                  numLanes: 3,
  *                  laneWidth: 0.02,
  *                  trackParam: {
- *                      numZones:    12, // number of different portions of the track
+ *                      numZones:  12, // number of different portions of the track
  *                      zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
  *                  },
  *                  // Information regarding current controllable_car's car
@@ -1137,7 +1137,7 @@
  *                  numLanes: 3,
  *                  laneWidth: 0.02,
  *                  trackParam: {
- *                      numZones:    12, // number of different portions of the track
+ *                      numZones:  12, // number of different portions of the track
  *                      zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
  *                  },
  *                  // Information regarding current controllable_car's car
@@ -1316,7 +1316,7 @@ define(function (require, exports, module) {
      * @function generateTrackBasedOnTrackLayoutOptField
      * @public  
      * @description GenerateTrackBasedOnTrackLayoutOptField method of the TrackGenerator widget. This method generates the track present in the trackLayout opt field.
-     * Every 50 iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
+     * Every obstaclePerIteration iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
      * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no).
      * It also has information about the randomly generated position and the type of sprite, i.e. the sprite provided as opt from the available list (obtained in the spritesheet.json file)
      * During the remaining iterations (which will not be considered as obstacles on the road), a value is randomly generated to decide in which side it will be placed (spriteSidesRandom).
@@ -1490,7 +1490,7 @@ define(function (require, exports, module) {
      * @function generateTrackCurvesSlopes
      * @public  
      * @description GenerateTrackCurvesSlopes method of the TrackGenerator widget. This method generates the straight line simulator version.
-     * Every 50 iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
+     * Every obstaclePerIteration iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
      * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no).
      * It also has information about the randomly generated position and the type of sprite, i.e. the sprite provided as opt from the available list (obtained in the spritesheet.json file)
      * During the remaining iterations (which will not be considered as obstacles on the road), a value is randomly generated to decide in which side it will be placed (spriteSidesRandom).
@@ -1689,7 +1689,7 @@ define(function (require, exports, module) {
      * @function generateStraightTrack
      * @public 
      * @description GenerateStraightTrack method of the TrackGenerator widget. This method generates the straight line simulator version.
-     * Every 50 iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
+     * Every obstaclePerIteration iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
      * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no).
      * It also has information about the randomly generated position and the type of sprite, i.e. the sprite provided as opt from the available list (obtained in the spritesheet.json file)
      * During the remaining iterations (which will not be considered as obstacles on the road), a value is randomly generated to decide in which side it will be placed (spriteSidesRandom).

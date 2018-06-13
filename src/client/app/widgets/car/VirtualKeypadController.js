@@ -6,7 +6,7 @@
  * a virtual keypad suitable for mobile devices. Renders based on device type(desktop, mobile).
  *
  * @date Mar 02, 2018
- * last modified @date Jun 11, 2018
+ * last modified @date Jun 13, 2018
  *
  * @example <caption>Usage of VirtualKeypadController within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -148,7 +148,7 @@ define(function (require, exports, module) {
      *          <li>keyboardImageHeightMobile {Int}: virtual keyboard image height for mobile devices (default is 60).</li>
      *          <li>keyboardImageWidthDesktop {Int}: virtual keyboard image width for desktop devices (default is 50).</li>
      *          <li>keyboardImageHeightDesktop {Int}: virtual keyboard image height for desktop devices (default is 30).</li>
-     *          <li>parent {String}: the HTML element where the display will be appended (default is "virtualKeyPad").</li>
+     *          <li>parent {String}: the HTML element where the display will be appended (default is "body").</li>
      *          <li>simulatorActions {String}: the HTML element where the action buttons(pause, resume and quit) will be appended (default is "simulatorActions").</li>
      *          <li>simulatorArrows {String}: the HTML element where the arrow buttons(left, up, right, down) will be appended (default is "simulatorArrows").</li>
      *          <li>floatArrows {String}: the HTML element where the up arrow button will be appended (default is "floatArrows").</li>
@@ -461,7 +461,7 @@ define(function (require, exports, module) {
     /**
      * @function hide
      * @public
-     * @description Hide method of the VirtualKeypadController widget. This method changes 'virtualKeyPad' div visibility to hidden.
+     * @description Hide method of the VirtualKeypadController widget. This method changes 'this.buttonsDiv+"_"+this.VIRTUALKEYPADID' div visibility to hidden.
      * @memberof module:VirtualKeypadController
      * @instance
      */
@@ -472,7 +472,7 @@ define(function (require, exports, module) {
     /**
      * @function reveal
      * @public
-     * @description Reveal method of the VirtualKeypadController widget. This method changes 'virtualKeyPad' div visibility to visible.
+     * @description Reveal method of the VirtualKeypadController widget. This method changes 'this.buttonsDiv+"_"+this.VIRTUALKEYPADID' div visibility to visible.
      * @memberof module:VirtualKeypadController
      * @instance
      */
