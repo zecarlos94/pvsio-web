@@ -287,6 +287,7 @@ require([
             height: 240
         }, {
             parent: "content", // defines parent div, which is div id="body" by default
+            scaleWindow: 2.2, // scales canvas div
             trackFilename: "trackLayout2",// "track-curves-slopes-random", // "track-straight-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
             spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -306,7 +307,7 @@ require([
                 finishLineP2: 0.40,
                 diffLanesFinishLine: 0.05
             },
-            lapNumber: 3,
+            // lapNumber: 3,
             // showOfficialLogo: true,
             loadPVSSpeedPositions: false,
             // predefinedTracks: 4,

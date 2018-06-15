@@ -20,6 +20,7 @@
  *               'example', // id of the Arcade element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
  *               { parent: 'content',
+ *				   scaleWindow: 2.2, // scales canvas div
  *                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -217,6 +218,7 @@
  *               'example', // id of the Arcade element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
  *               { parent: 'content',
+ *				   scaleWindow: 2.2, // scales canvas div
  *                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -292,6 +294,7 @@
  *               'example', // id of the Arcade element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
  *               { parent: 'content',
+ *				   scaleWindow: 2.2, // scales canvas div
  *                 trackFilename: "track-straight", // "track-curves-slopes", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -382,6 +385,7 @@ define(function (require, exports, module) {
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
      *          <li>parent {String}: the HTML element where the display will be appended (default is "body").</li>
+     *          <li>scaleWindow {Float}: the scale to be set on canvas (default is 2.2).</li>
      *          <li>trackFilename {String}: the track configuration filename, i.e. JSON file with the track that will be drawed as well as the required sprite coordinates, etc (default is "track").</li>
      *          <li>spritesFilename {String}: the spritesheet configuration filename, i.e. JSON file with the all available sprites, whose coordinates are the same in trackFilename, i.e. the track must have been generated with this JSON as well so the coordinates will match (default is "spritesheet").</li>
      *          <li>spritesFiles {Array}: array with spritesheets(images) names (default is ["spritesheet","spritesheet.text"]).</li>
@@ -438,6 +442,7 @@ define(function (require, exports, module) {
         opt.lapNumber = opt.lapNumber;
         opt.loadPVSSpeedPositions = opt.loadPVSSpeedPositions;
         opt.predefinedTracks = opt.predefinedTracks;
+        opt.scaleWindow = opt.scaleWindow;
 
         this.lastPVSValues = {
         	lastSoundPVS: null,
@@ -723,7 +728,7 @@ define(function (require, exports, module) {
         this.spritesImgsInformation.vehicleType = (opt.vehicle) ? opt.vehicle : "car"; // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
         this.stripePositions = (opt.stripePositions) ? opt.stripePositions : { trackP1: -0.55, trackP2: 0.55, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 };
         this.canvasInformations.showOfficialLogo = (opt.showOfficialLogo) ? opt.showOfficialLogo : false;
-        this.lapNumber = (opt.lapNumber) ? opt.lapNumber : 2;
+        this.lapNumber = (opt.lapNumber) ? opt.lapNumber : 0;
         this.loadPVSSpeedPositions = (opt.loadPVSSpeedPositions) ? opt.loadPVSSpeedPositions : true;
         this.predefinedTracks = (opt.predefinedTracks) ? opt.predefinedTracks : null;
 
@@ -784,13 +789,14 @@ define(function (require, exports, module) {
         this.configurationFiles.trackCurvesSlopesJSONPredefined = require("text!widgets/car/configurations/track-curves-slopes-random.json");
         this.configurationFiles.spritesheetJSONPredefined = require("text!widgets/car/configurations/spritesheet.json");
 
+        this.scaleWindow = (opt.scaleWindow) ? (opt.scaleWindow) : 2.2;
 		this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
 
         this.div = d3.select(this.parent).append("div").attr("id", "game_window_"+this.WIDGETID)
                      .attr("class","container game_view");
 
         this.div.append("canvas").attr("id", "arcadeSimulator_"+this.id)
-                .style("-webkit-transform","scale(2.2)")
+                .style("-webkit-transform","scale("+this.scaleWindow+")")
                 .style("position", "absolute")
                 .style("top", this.top + "px")
                 .style("left", this.left + "px")
@@ -1577,60 +1583,62 @@ define(function (require, exports, module) {
         // Draw the car
         this.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
 
-        // this.lapInformation.currentPercentage = Math.round(absoluteIndex/(this.arcadeParams.numIterations-this.renderCanvas.depthOfField)*100);
-        if(this.WIDGETSTATE!==null){
-            this.lapInformation.currentLapNumber = parseInt(this.WIDGETSTATE[this.vehicle.lap_attribute][this.vehicle.lap_value]);
+        if(this.lapInformation.lapNumber!==0){ 
+	        if(this.WIDGETSTATE!==null){
+	            this.lapInformation.currentLapNumber = parseInt(this.WIDGETSTATE[this.vehicle.lap_attribute][this.vehicle.lap_value]);
 
-            if(absoluteIndex >= this.arcadeParams.numIterations-this.renderCanvas.depthOfField-1){
-                if(this.lapInformation.currentLapNumber<=this.lapInformation.lapNumber && this.lapInformation.counterAux===0){
-                    ButtonActionsQueue.queueGUIAction(this.vehicle.newLap_functionNamePVS, this.lapInformation.callback);
-                }
-                this.lapInformation.counterAux=1;
-            }
+	            if(absoluteIndex >= this.arcadeParams.numIterations-this.renderCanvas.depthOfField-1){
+	                if(this.lapInformation.currentLapNumber<=this.lapInformation.lapNumber && this.lapInformation.counterAux===0){
+	                    ButtonActionsQueue.queueGUIAction(this.vehicle.newLap_functionNamePVS, this.lapInformation.callback);
+	                }
+	                this.lapInformation.counterAux=1;
+	            }
 
-            if(this.lapInformation.lastLapNumber===this.lapInformation.currentLapNumber-1){
-                this.lapInformation.lastLapNumber=this.lapInformation.currentLapNumber;
-                this.lapInformation.counterAux=0;
-            }
+	            if(this.lapInformation.lastLapNumber===this.lapInformation.currentLapNumber-1){
+	                this.lapInformation.lastLapNumber=this.lapInformation.currentLapNumber;
+	                this.lapInformation.counterAux=0;
+	            }
 
-            if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber){
-                this.drawText("1 Lap",{x: 10, y: 15}, 1);
-                this.drawText("To Go",{x: 10, y: 25}, 1);
-            }
+	            if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber){
+	                this.drawText("1 Lap",{x: 10, y: 15}, 1);
+	                this.drawText("To Go",{x: 10, y: 25}, 1);
+	            }
 
-            if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber && this.lapInformation.currentPercentage>=100){
-                clearInterval(this.intervals.simulatorInterval);
-                this.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
-                this.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
-                this.drawText("The Simulator", {x: 100, y: 70}, 1);
-                this.soundWidget.pauseAll();
+	            if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber && this.lapInformation.currentPercentage>=100){
+	                clearInterval(this.intervals.simulatorInterval);
+	                this.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
+	                this.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
+	                this.drawText("The Simulator", {x: 100, y: 70}, 1);
+	                this.soundWidget.pauseAll();
 
-                // Delayed function call by 5 seconds to reload simulator
-                // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
-                setTimeout(
-                    (function(self) {         //Self-executing func which takes 'this' as self
-                        return function() {   //Return a function in the context of 'self'
-                            location.reload(); //Thing you wanted to run as non-window 'this'
-                        }
-                    })(this),
-                    5000     //normal interval, 'this' scope not impacted here.
-                ); 
-            }
-        }
+	                // Delayed function call by 5 seconds to reload simulator
+	                // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
+	                setTimeout(
+	                    (function(self) {         //Self-executing func which takes 'this' as self
+	                        return function() {   //Return a function in the context of 'self'
+	                            location.reload(); //Thing you wanted to run as non-window 'this'
+	                        }
+	                    })(this),
+	                    5000     //normal interval, 'this' scope not impacted here.
+	                ); 
+	            }
+	        } 
 
-        // Draw Header
-        if(this.lapInformation.currentLapNumber<this.lapInformation.lapNumber){
-            this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 1}, 1);
-        }else{
-            this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 1}, 1);
-        }
+	        // Draw Header
+	        if(this.lapInformation.currentLapNumber<this.lapInformation.lapNumber){
+	            this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 1}, 1);
+	        }else{
+	            this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 1}, 1);
+	        }
 
-        // this.lapInformation.currentPercentage = Math.round(absoluteIndex/(this.arcadeParams.numIterations-this.renderCanvas.depthOfField)*100);
-        if(this.lapInformation.currentPercentage>100){
-            this.drawText("Current Lap 100%",{x: 100, y: 1},1);
-        }else{
-            this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: 100, y: 1},1);
-        }
+	        this.lapInformation.currentPercentage = Math.round(absoluteIndex/(this.arcadeParams.numIterations-this.renderCanvas.depthOfField)*100);
+	        if(this.lapInformation.currentPercentage>100){
+	            this.drawText("Current Lap 100%",{x: 100, y: 1},1);
+	        }else{
+	            this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: 100, y: 1},1);
+	        }
+        }// else infinit simulation
+
 
         // Draw Virtual Speedometer and Tachometer based on Speedometer, Tachometer Widgets
         if(this.WIDGETSTATE!==null){
@@ -1641,9 +1649,17 @@ define(function (require, exports, module) {
                 if(!isNaN(speedValue)){
                     this.lastPVSValues.lastSpeedPVS = Math.ceil(speedValue);
                 }
-                this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 260, y: 1}, 1);
+                if(this.lapInformation.lapNumber!==0){
+                	this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 260, y: 1}, 1);
+            	}else{
+            		this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 15, y: 5}, 1);
+            	}
             }else{
-                this.drawText(""+0+" kmh", {x: 260, y: 1}, 1);
+            	if(this.lapInformation.lapNumber!==0){
+                	this.drawText(""+0+" kmh", {x: 260, y: 1}, 1);
+            	}else{
+            		this.drawText(""+0+" kmh", {x: 15, y: 5}, 1);
+            	}
             }
             if(this.WIDGETSTATE.rpm!=="0"){
                 let currentRPMPVS = this.WIDGETSTATE.rpm;
@@ -1652,16 +1668,29 @@ define(function (require, exports, module) {
                 if(!isNaN(rpmValue)){
                     this.lastPVSValues.lastRPMPVS = Math.ceil(rpmValue);
                 }
-                this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 10}, 1);
+                if(this.lapInformation.lapNumber!==0){
+                	this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 10}, 1);
+            	}else{
+            		this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 5}, 1);
+            	}
             }else{
-                this.drawText(""+0+" rpm", {x: 260, y: 10}, 1);
+            	if(this.lapInformation.lapNumber!==0){
+                	this.drawText(""+0+" rpm", {x: 260, y: 10}, 1);
+            	}else{
+            		this.drawText(""+0+" rpm", {x: 260, y: 5}, 1);
+            	}
             }
         }
 
         // Draw Lap Time
         let res = this.canvasInformations.time[0].split("-");
         this.canvasInformations.currentTimeString = res[0] + " h:" + this.canvasInformations.time[1] + " m:" + this.canvasInformations.time[2] + " s:" + this.canvasInformations.time[3] + " ms";
-        this.drawText(this.canvasInformations.currentTimeString, {x: 80, y: 15}, 1);
+        
+        if(this.lapInformation.lapNumber!==0){
+        	this.drawText(this.canvasInformations.currentTimeString, {x: 80, y: 15}, 1);
+        }else{
+        	this.drawText(this.canvasInformations.currentTimeString, {x: 80, y: 5}, 1);
+        }
 
         // Draw Simulator Logo
         if(this.canvasInformations.showOfficialLogo){
@@ -1688,7 +1717,6 @@ define(function (require, exports, module) {
 		                }
 		            ]);
                 }
-		        console.log("a: "+this.lastPVSValues.lastSoundPVS);
             }
         }
 
