@@ -24,7 +24,7 @@
  *               { 
  *                  parent: "content", // defines parent div, which is div id="body" by default   
  *                  style: 'ps4', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
- *                  buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+ *                  buttonsPVS: [ "cross", "circle", "triangle", "square", "options", "share", "touchpad", "ps", "ps4_leftArrow", "ps4_upArrow", "ps4_rightArrow", "ps4_downArrow", "ps4_rightStick", "ps4_leftStick" ],
  *                  // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_accelerate"/"release_accelerate".
  *                  // Left and Right sticks are not defined as ['press/release'] events, so actions will be "click_rightStick".
  *               } // options
@@ -72,7 +72,7 @@
  *               { 
  *                  parent: "content", // defines parent div, which is div id="body" by default  
  *                  style: 'xbox', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
- *                  buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+ *                  buttonsPVS: [ "a", "b", "y", "x", "menu", "windows", "xbox", "xbox_leftArrow", "xbox_upArrow", "xbox_rightArrow", "xbox_downArrow", "xbox_rightStick", "xbox_leftStick" ],
  *                  // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_accelerate"/"release_accelerate".
  *                  // Left and Right sticks are not defined as ['press/release'] events, so actions will be "click_rightStick".
  *               } // options
@@ -98,7 +98,7 @@
  *               {  
  *                  parent: "content", // defines parent div, which is div id="body" by default  
  *                  style: 'ps4', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
- *                  buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+ *                  buttonsPVS: [ "cross", "circle", "triangle", "square", "options", "share", "touchpad", "ps", "ps4_leftArrow", "ps4_upArrow", "ps4_rightArrow", "ps4_downArrow", "ps4_rightStick", "ps4_leftStick" ],
  *                  // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_accelerate"/"release_accelerate".
  *                  // Left and Right sticks are not defined as ['press/release'] events, so actions will be "click_rightStick".
  *               } // options
@@ -125,7 +125,7 @@
  *               {  
  *                  parent: "content", // defines parent div, which is div id="body" by default  
  *                  style: 'ps4', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
- *                  buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+ *                  buttonsPVS: [ "cross", "circle", "triangle", "square", "options", "share", "touchpad", "ps", "ps4_leftArrow", "ps4_upArrow", "ps4_rightArrow", "ps4_downArrow", "ps4_rightStick", "ps4_leftStick" ],
  *                  // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_accelerate"/"release_accelerate".
  *                  // Left and Right sticks are not defined as ['press/release'] events, so actions will be "click_rightStick".
  *               } // options
@@ -157,7 +157,7 @@ define(function (require, exports, module) {
      * @param opt {Object} Options:
      *          <li>parent {String}: the HTML element where the display will be appended (default is "body").</li>
      *          <li>style {String}: a valid style identifier (default is "ps4").</li>
-     *          <li>buttonsPVS {Array}: the actions defined in main.pvs file, which are used to define all gamepad buttons, ButtonEVO, ids (default is [ "a", "b", "y", "x", "menu", "windows", "xbox", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ] for style "xbox" and [ "cross", "circle", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ] for style "ps4").</li>
+     *          <li>buttonsPVS {Array}: the actions defined in main.pvs file, which are used to define all gamepad buttons, ButtonEVO, ids (default is [ "a", "b", "y", "x", "menu", "windows", "xbox", "xbox_leftArrow", "xbox_upArrow", "xbox_rightArrow", "xbox_downArrow", "xbox_rightStick", "xbox_leftStick" ] for style "xbox" and [ "cross", "circle", "triangle", "square", "options", "share", "touchpad", "ps", "ps4_leftArrow", "ps4_upArrow", "ps4_rightArrow", "ps4_downArrow", "ps4_rightStick", "ps4_leftStick" ] for style "ps4").</li>
      * @returns {DrawGamepad} The created instance of the widget DrawGamepad.
      * @memberof module:DrawGamepad
      * @instance
@@ -176,9 +176,9 @@ define(function (require, exports, module) {
         this.height = coords.height || 250;
 
         if(opt.style==="xbox"){
-            this.buttonsPVS = (opt.buttonsPVS && opt.buttonsPVS.length===13) ? opt.buttonsPVS : [ "a", "b", "y", "x", "menu", "windows", "xbox", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ];
+            this.buttonsPVS = (opt.buttonsPVS && opt.buttonsPVS.length===13) ? opt.buttonsPVS : [ "a", "b", "y", "x", "menu", "windows", "xbox", "xbox_leftArrow", "xbox_upArrow", "xbox_rightArrow", "xbox_downArrow", "xbox_rightStick", "xbox_leftStick" ];
         }else if(opt.style==="ps4"){
-            this.buttonsPVS = (opt.buttonsPVS && opt.buttonsPVS.length===14) ? opt.buttonsPVS : [ "cross", "circle", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ];
+            this.buttonsPVS = (opt.buttonsPVS && opt.buttonsPVS.length===14) ? opt.buttonsPVS : [ "cross", "circle", "triangle", "square", "options", "share", "touchpad", "ps", "ps4_leftArrow", "ps4_upArrow", "ps4_rightArrow", "ps4_downArrow", "ps4_rightStick", "ps4_leftStick" ];
         }
 
         this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
@@ -276,7 +276,7 @@ define(function (require, exports, module) {
                 evts: ['press/release']                
             });
 
-            this.btn_leftArrow= new Button(this.buttonsPVS[7], {
+            this.btn_xbox_leftArrow= new Button(this.buttonsPVS[7], {
                 top: 167, left: 188, width: 22, height: 22
             }, {
                 keyCode: 37, 
@@ -285,7 +285,7 @@ define(function (require, exports, module) {
                 evts: ['press/release']                
             });
 
-            this.btn_upArrow= new Button(this.buttonsPVS[8], {
+            this.btn_xbox_upArrow= new Button(this.buttonsPVS[8], {
                 top: 144, left: 207, width: 22, height: 22
             }, {
                 keyCode: 38, 
@@ -294,7 +294,7 @@ define(function (require, exports, module) {
                 evts: ['press/release']                
             });
 
-            this.btn_rightArrow= new Button(this.buttonsPVS[9], {
+            this.btn_xbox_rightArrow= new Button(this.buttonsPVS[9], {
                 top: 167, left: 228, width: 22, height: 22
             }, {
                 keyCode: 39,
@@ -303,7 +303,7 @@ define(function (require, exports, module) {
                 evts: ['press/release']                
             });
 
-            this.btn_downArrow= new Button(this.buttonsPVS[10], {
+            this.btn_xbox_downArrow= new Button(this.buttonsPVS[10], {
                 top: 189, left: 206, width: 22, height: 22
             }, {
                 keyCode: 40, 
@@ -312,7 +312,7 @@ define(function (require, exports, module) {
                 evts: ['press/release']                
             });
 
-            this.btn_rightStick= new Button(this.buttonsPVS[11], {
+            this.btn_xbox_rightStick= new Button(this.buttonsPVS[11], {
                 top: 148, left: 309, width: 52, height: 52
             }, {
                 keyCode: 57, 
@@ -320,7 +320,7 @@ define(function (require, exports, module) {
                 callback: opt.callback,
             });
 
-            this.btn_leftStick= new Button(this.buttonsPVS[12], {
+            this.btn_xbox_leftStick= new Button(this.buttonsPVS[12], {
                 top: 74, left: 135, width: 52, height: 52
             }, {
                 keyCode: 48, 
@@ -400,7 +400,7 @@ define(function (require, exports, module) {
                 evts: ['press/release']                
             });
 
-            this.btn_leftArrow= new Button(this.buttonsPVS[8], {
+            this.btn_ps4_leftArrow= new Button(this.buttonsPVS[8], {
                 top: 87, left: 79, width: 24, height: 24
             }, {
                 keyCode: 37, 
@@ -409,7 +409,7 @@ define(function (require, exports, module) {
                 evts: ['press/release']                
             });
 
-            this.btn_upArrow= new Button(this.buttonsPVS[9], {
+            this.btn_ps4_upArrow= new Button(this.buttonsPVS[9], {
                 top: 60, left: 108, width: 24, height: 24
             }, {
                 keyCode: 38, 
@@ -418,7 +418,7 @@ define(function (require, exports, module) {
                 evts: ['press/release']                
             });
 
-            this.btn_rightArrow= new Button(this.buttonsPVS[10], {
+            this.btn_ps4_rightArrow= new Button(this.buttonsPVS[10], {
                 top: 87, left: 137, width: 24, height: 24
             }, {
                 keyCode: 39, 
@@ -427,7 +427,7 @@ define(function (require, exports, module) {
                 evts: ['press/release']                
             });
 
-            this.btn_downArrow= new Button(this.buttonsPVS[11], {
+            this.btn_ps4_downArrow= new Button(this.buttonsPVS[11], {
                 top: 115, left: 108, width: 24, height: 24
             }, {
                 keyCode: 40, 
@@ -436,7 +436,7 @@ define(function (require, exports, module) {
                 evts: ['press/release']                
             });
 
-            this.btn_rightStick= new Button(this.buttonsPVS[12], {
+            this.btn_ps4_rightStick= new Button(this.buttonsPVS[12], {
                 top: 136, left: 332, width: 62, height: 62
             }, {
                 keyCode: 57,
@@ -444,7 +444,7 @@ define(function (require, exports, module) {
                 callback: opt.callback,
             });
 
-            this.btn_leftStick= new Button(this.buttonsPVS[13], {
+            this.btn_ps4_leftStick= new Button(this.buttonsPVS[13], {
                 top: 136, left: 168, width: 62, height: 62
             }, {
                 keyCode: 48, 
@@ -525,12 +525,12 @@ define(function (require, exports, module) {
             this.btn_share.render();
             this.btn_touchpad.render();
             this.btn_ps.render();
-            this.btn_leftArrow.render();
-            this.btn_upArrow.render();
-            this.btn_rightArrow.render();
-            this.btn_downArrow.render();
-            this.btn_leftStick.render();
-            this.btn_rightStick.render();
+            this.btn_ps4_leftArrow.render();
+            this.btn_ps4_upArrow.render();
+            this.btn_ps4_rightArrow.render();
+            this.btn_ps4_downArrow.render();
+            this.btn_ps4_leftStick.render();
+            this.btn_ps4_rightStick.render();
         }else if(this.style==="xbox"){
             this.btn_a.render();
             this.btn_b.render();
@@ -539,12 +539,12 @@ define(function (require, exports, module) {
             this.btn_menu.render();
             this.btn_windows.render();
             this.btn_xbox.render();
-            this.btn_leftArrow.render();
-            this.btn_upArrow.render();
-            this.btn_rightArrow.render();
-            this.btn_downArrow.render();
-            this.btn_leftStick.render();
-            this.btn_rightStick.render();
+            this.btn_xbox_leftArrow.render();
+            this.btn_xbox_upArrow.render();
+            this.btn_xbox_rightArrow.render();
+            this.btn_xbox_downArrow.render();
+            this.btn_xbox_leftStick.render();
+            this.btn_xbox_rightStick.render();
         }
         return this.reveal();
     };

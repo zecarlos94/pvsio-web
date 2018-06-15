@@ -97,18 +97,18 @@ require([
         }, {
             parent: "content", // defines parent div, which is div id="body" by default
             style: "xbox", // defines parent div, which is "ps4" by default
-            // buttonsPVS: [ "accelerate", "brake", "y", "x", "menu", "windows", "xbox", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+            // buttonsPVS: [ "a", "b", "y", "x", "menu", "windows", "xbox", "xbox_leftArrow", "xbox_upArrow", "xbox_rightArrow", "xbox_downArrow", "xbox_rightStick", "xbox_leftStick" ],
             callback: onMessageReceived
         });
         draw.drawGamepad2 = new DrawGamepad("drawGamepad2", {
-            top: 100,
+            top: 600,
             left: 350,
             width: 750,
             height: 750
         }, {
             parent: "content", // defines parent div, which is div id="body" by default
             style: "ps4", // defines parent div, which is "ps4" by default
-            // buttonsPVS: [ "accelerate", "brake", "triangle", "square", "options", "share", "touchpad", "ps", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+            // buttonsPVS: [ "cross", "circle", "triangle", "square", "options", "share", "touchpad", "ps", "ps4_leftArrow", "ps4_upArrow", "ps4_rightArrow", "ps4_downArrow", "ps4_rightStick", "ps4_leftStick" ],
             callback: onMessageReceived
         });
 

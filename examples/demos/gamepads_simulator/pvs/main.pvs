@@ -50,22 +50,40 @@ main: THEORY
   press_ps(st: state):state = (#
     action := clicked
   #)
-  press_leftArrow(st: state):state = (#
+  press_ps4_leftArrow(st: state):state = (#
     action := clicked
   #)
-  press_upArrow(st: state):state = (#
+  press_ps4_upArrow(st: state):state = (#
     action := clicked
   #)
-  press_rightArrow(st: state):state = (#
+  press_ps4_rightArrow(st: state):state = (#
     action := clicked
   #)
-  press_downArrow(st: state):state = (#
+  press_ps4_downArrow(st: state):state = (#
     action := clicked
   #)
-  click_leftStick(st: state):state = (#
+  click_ps4_leftStick(st: state):state = (#
     action := clicked
   #)
-  click_rightStick(st: state):state = (#
+  click_ps4_rightStick(st: state):state = (#
+    action := clicked
+  #)
+  press_xbox_leftArrow(st: state):state = (#
+    action := clicked
+  #)
+  press_xbox_upArrow(st: state):state = (#
+    action := clicked
+  #)
+  press_xbox_rightArrow(st: state):state = (#
+    action := clicked
+  #)
+  press_xbox_downArrow(st: state):state = (#
+    action := clicked
+  #)
+  click_xbox_leftStick(st: state):state = (#
+    action := clicked
+  #)
+  click_xbox_rightStick(st: state):state = (#
     action := clicked
   #)
   press_a(st: state):state = (#
@@ -115,16 +133,28 @@ main: THEORY
   release_ps(st: state):state = (#
     action := idle
   #)
-  release_leftArrow(st: state):state = (#
+  release_ps4_leftArrow(st: state):state = (#
     action := idle
   #)
-  release_upArrow(st: state):state = (#
+  release_ps4_upArrow(st: state):state = (#
     action := idle
   #)
-  release_rightArrow(st: state):state = (#
+  release_ps4_rightArrow(st: state):state = (#
     action := idle
   #)
-  release_downArrow(st: state):state = (#
+  release_ps4_downArrow(st: state):state = (#
+    action := idle
+  #)
+  release_xbox_leftArrow(st: state):state = (#
+    action := idle
+  #)
+  release_xbox_upArrow(st: state):state = (#
+    action := idle
+  #)
+  release_xbox_rightArrow(st: state):state = (#
+    action := idle
+  #)
+  release_xbox_downArrow(st: state):state = (#
     action := idle
   #)
   release_a(st: state):state = (#

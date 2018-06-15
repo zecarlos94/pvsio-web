@@ -41,7 +41,6 @@ require([
         "widgets/car/GyroscopeController",
         "widgets/car/Customization",
         "widgets/car/Arcade",
-        "widgets/car/ArcadeWithoutLaps",
 
         "widgets/ButtonActionsQueue",
         "stateParser",
@@ -68,7 +67,6 @@ require([
         GyroscopeController,
         Customization,
         Arcade,
-        ArcadeWithoutLaps,
 
         ButtonActionsQueue,
         stateParser,
