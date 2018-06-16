@@ -249,8 +249,8 @@ require([
                 class: null,
                 styles: [
                     {
-                        property: "visibility",
-                        value: "hidden"
+                        property: "display",
+                        value: "none"
                     }
                 ]
             },
@@ -260,6 +260,10 @@ require([
                 styles: [
                     {
                         property: "border",
+                        value: "none"
+                    },
+                    {
+                        property: "display",
                         value: "none"
                     }
                 ]
@@ -274,7 +278,7 @@ require([
                     },
                     {
                         property: "margin-top",
-                        value: "-900px"
+                        value: "-190px"
                     },
                     {
                         property: "visibility",
@@ -372,11 +376,11 @@ require([
                     },
                     {
                         property: "margin-left",
-                        value: "300px"
+                        value: "280px"
                     },
                     {   
                         property: "margin-top",
-                        value: "-2900px"
+                        value: "200px"
                     },
                     {
                         property: "visibility",
@@ -433,8 +437,8 @@ require([
                 class: "customization_customization-widget",
                 styles: [
                     {
-                        property: "visibility",
-                        value: "hidden"
+                        property: "display",
+                        value: "none"
                     }
                 ]
             },

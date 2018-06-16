@@ -252,7 +252,7 @@ define(function (require, exports, module) {
     SteeringWheel.prototype.render = function(val) {
         val = val || 0;
         // using Customization widget may end up here for a few seconds while it builds the new steering wheel
-        if(this.steering_wheel!==undefined || this.steering_wheel!==null){
+        if(this.steering_wheel!==undefined){
             this.steering_wheel.style("transform", "rotate(" + val + "deg)");
         }
         return this.reveal();

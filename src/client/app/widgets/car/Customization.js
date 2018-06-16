@@ -144,6 +144,10 @@
  *                      {
  *                          property: "border",
  *                          value: "none"
+ *                      },
+ *						{
+ *                          property: "display",
+ *                          value: "none"
  *                      }
  *                  ]
  *              },
@@ -157,7 +161,7 @@
  *                      },
  *                      {
  *                          property: "margin-top",
- *                          value: "-900px"
+ *                          value: "-220px"
  *                      },
  *                      {
  *                          property: "visibility",
@@ -255,11 +259,11 @@
  *                      },
  *                      {
  *                          property: "margin-left",
- *                          value: "300px"
+ *                          value: "280px"
  *                      },
  *                      {   
  *                          property: "margin-top",
- *                          value: "-2900px"
+ *                          value: "200px"
  *                      },
  *                      {
  *                          property: "visibility",
@@ -316,8 +320,8 @@
  *                  class: "customization_customization-widget",
  *                  styles: [
  *                      {
- *                          property: "visibility",
- *                          value: "hidden"
+ *                          property: "display",
+ *                          value: "none"
  *                      }
  *                  ]
  *              },
@@ -1060,7 +1064,17 @@ define(function (require, exports, module) {
         if(this.isMobile){
             d3.select("#slidecontainer-end_"+this.CUSTOMIZATIONID).style("width","15%");
         }else{
-            d3.select("#slidecontainer-end_"+this.CUSTOMIZATIONID).style("width","6%");
+        	let w = window,
+			    d = document,
+			    e = d.documentElement,
+			    g = d.getElementsByTagName('body')[0],
+			    x = w.innerWidth || e.clientWidth || g.clientWidth,
+			    y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+        	if(x>=1200){
+        	 	d3.select("#slidecontainer-end_"+this.CUSTOMIZATIONID).style("width","6%");
+        	}else{
+        		d3.select("#slidecontainer-end_"+this.CUSTOMIZATIONID).style("width","10%");
+        	}
         }
 
         this.customizationDiv.append("p")

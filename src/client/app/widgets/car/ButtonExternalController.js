@@ -137,7 +137,7 @@ define(function (require, exports, module) {
             }else{
                 if(opt.arrowName!==""){ // this opt.arrowName is necessary to have the visual appearance in VirtualKeypadController widget as in the real keyboard, i.e., having 3 arrows aligned at the bottom and 1 arrow in the middle above them.
                     this.area.attr("id", id).attr("class", opt.buttonClass)
-                    .attr("title", opt.title).style("margin-left","31px").style("margin-bottom","5px").append("span").attr("class", "ui-button-icon ui-icon "+opt.icon);
+                    .attr("title", opt.title).style("margin-left","45px").style("margin-bottom","5px").append("span").attr("class", "ui-button-icon ui-icon "+opt.icon);
                 
                     this.area.attr("id", id).append("span").attr("class", "ui-button-icon-space"); 
                 }else{
