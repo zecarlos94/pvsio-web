@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Arcade.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Arcade.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @module Arcade
  * @version 2.0.0
  * @author José Carlos
@@ -7,9 +35,9 @@
  * @date Apr 02, 2018
  * last modified @date Jun 16, 2018
  *
- * @example <caption>Usage of API to create a new simulation within a PVSio-web demo, after creating a track with curves and slopes, and using a car as a vehicle.
+ * @example &lt;caption>Usage of API to create a new simulation within a PVSio-web demo, after creating a track with curves and slopes, and using a car as a vehicle.
  * Opt field trackFilename is the JSON file, which was created by TrackGenerator Widget or by hand or by other future Widget that creates tracks.
- * </caption>
+ * &lt;/caption>
  *   define(function (require, exports, module) {
  *     "use strict";
  *
@@ -84,9 +112,9 @@
  *     }
  * });
  *
- * @example <caption>Usage of API to create a new simulation within a PVSio-web demo, after creating a track with only straight lines, and using a helicopter as a vehicle.
+ * @example &lt;caption>Usage of API to create a new simulation within a PVSio-web demo, after creating a track with only straight lines, and using a helicopter as a vehicle.
  * Opt field trackFilename is the JSON file, which was created by TrackGenerator Widget or by hand or by other future Widget that creates tracks.
- * </caption>
+ * &lt;/caption>
  *   define(function (require, exports, module) {
  *     "use strict";
  *
@@ -162,7 +190,7 @@
  * });
  *
  *
- * @example <caption>Usage of other public API's of Arcade Widget.</caption>
+ * @example &lt;caption>Usage of other public API's of Arcade Widget.&lt;/caption>
  *
  *  Using variable Arcade created in the previous example is also possible to call the following,
  *
@@ -802,7 +830,7 @@ define(function (require, exports, module) {
         if(this.configurationFiles.spritesheetJSON){
 		    this.spritesReadJSON = JSON.parse(this.configurationFiles.spritesheetJSON);
 		    // Reading all JSON Sprites Available
-		    for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+		    for(let k=0;k&lt;this.spritesReadJSON.frames.length;k++){
 		        this.spritesAvailable[k]={
 		            name:this.spritesReadJSON.frames[k].filename.split(".")[0],
 		            value:this.spritesReadJSON.frames[k].frame
@@ -835,7 +863,7 @@ define(function (require, exports, module) {
 		            backgroundRegex = new RegExp("^background");
 		        }
 
-		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+		        for(let k=0;k&lt;this.spritesReadJSON.frames.length;k++){
 		            this.spritesAvailable[k]={
 		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
 		                value:this.spritesReadJSON.frames[k].frame
@@ -857,7 +885,7 @@ define(function (require, exports, module) {
 		            logoRegex   = new RegExp("^logo$");
 		        }
 
-		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+		        for(let k=0;k&lt;this.spritesReadJSON.frames.length;k++){
 		            this.spritesAvailable[k]={
 		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
 		                value:this.spritesReadJSON.frames[k].frame
@@ -886,7 +914,7 @@ define(function (require, exports, module) {
 		            rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
 		        }
 
-		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+		        for(let k=0;k&lt;this.spritesReadJSON.frames.length;k++){
 		            this.spritesAvailable[k]={
 		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
 		                value:this.spritesReadJSON.frames[k].frame
@@ -903,10 +931,10 @@ define(function (require, exports, module) {
 		        }
 		    }
 
-		    if(this.main_sprites.background!==undefined && this.main_sprites.logo!==undefined && this.vehicle_faced_front!==undefined && this.main_sprites.vehicle_faced_left!==undefined && this.main_sprites.vehicle_faced_right!==undefined && this.main_sprites.background!==null && this.main_sprites.logo!==null && this.vehicle_faced_front!==null && this.main_sprites.vehicle_faced_left!==null && this.main_sprites.vehicle_faced_right!==null){
+		    if(this.main_sprites.background!==undefined &amp;&amp; this.main_sprites.logo!==undefined &amp;&amp; this.vehicle_faced_front!==undefined &amp;&amp; this.main_sprites.vehicle_faced_left!==undefined &amp;&amp; this.main_sprites.vehicle_faced_right!==undefined &amp;&amp; this.main_sprites.background!==null &amp;&amp; this.main_sprites.logo!==null &amp;&amp; this.vehicle_faced_front!==null &amp;&amp; this.main_sprites.vehicle_faced_left!==null &amp;&amp; this.main_sprites.vehicle_faced_right!==null){
 		        this.readSprite=true;
 		    }else{
-		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+		        for(let k=0;k&lt;this.spritesReadJSON.frames.length;k++){
 		            this.spritesAvailable[k]={
 		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
 		                value:this.spritesReadJSON.frames[k].frame
@@ -1078,7 +1106,7 @@ define(function (require, exports, module) {
             // this.canvasInformations.canvas.height = this.renderCanvas.height;
             // this.canvasInformations.canvas.width = this.renderCanvas.width;
 
-            if(this.readConfiguration && this.readSprite){
+            if(this.readConfiguration &amp;&amp; this.readSprite){
                 this.canvasInformations.context.drawImage(this.spritesheetsImages[0],  this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, 110, 15, 0.7*this.main_sprites.logo.w, 0.7*this.main_sprites.logo.h);
 
                 this.drawText("Instructions:",{x: 120, y: 90}, 1);
@@ -1092,7 +1120,7 @@ define(function (require, exports, module) {
                 this.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
                 this.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
 
-                if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
+                if(this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
                     clearInterval(this.intervals.splashInterval);
 
                     // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
@@ -1118,7 +1146,7 @@ define(function (require, exports, module) {
                     this.canvasInformations.chronometer.start();
 
                     this.soundOff = this.soundWidget.getSoundOff();
-                    if(!this.soundOff && this.WIDGETSTATE[this.vehicle.sound_attribute]===this.vehicle.unmute_attribute){
+                    if(!this.soundOff &amp;&amp; this.WIDGETSTATE[this.vehicle.sound_attribute]===this.vehicle.unmute_attribute){
                         this.soundWidget.playSound(2); //startup song
                         this.soundWidget.playSound(0); //background song
                         this.soundWidget.setVolume(0.4,0);
@@ -1165,7 +1193,7 @@ define(function (require, exports, module) {
         this.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
         this.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
 
-        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
+        if(this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
             this.canvasInformations.chronometer.start();
             clearInterval(this.intervals.splashInterval);
                 
@@ -1221,7 +1249,7 @@ define(function (require, exports, module) {
         this.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
         this.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
 
-        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
+        if(this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
             clearInterval(this.intervals.splashInterval);
             clearInterval(this.intervals.simulatorInterval);
             this.controllable_car = {
@@ -1272,7 +1300,7 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.renderSimulatorFrame = function () {
-        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.quit_attribute){ // Key 'q' ends current simulator
+        if(this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.quit_attribute){ // Key 'q' ends current simulator
             this.canvasInformations.chronometer.stop();
             this.soundWidget.hide();
             clearInterval(this.intervals.simulatorInterval);
@@ -1287,7 +1315,7 @@ define(function (require, exports, module) {
             this.soundWidget.pauseAll();
         }
 
-        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.pause_attribute){ // Key 's' pauses current simulator
+        if(this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.pause_attribute){ // Key 's' pauses current simulator
             this.canvasInformations.chronometer.pause();
             this.soundWidget.hide();
             clearInterval(this.intervals.simulatorInterval);
@@ -1358,7 +1386,7 @@ define(function (require, exports, module) {
             let currentScaling       = startScaling;
 
             if(currentHeight > endProjectedHeight){
-                this.setColorsCanvas(counter < this.arcadeParams.numberOfSegmentPerColor, this.readColorsJSON.grass1, this.readColorsJSON.border1, this.readColorsJSON.border2, this.readColorsJSON.outborder1, this.readColorsJSON.outborder_end1, this.readColorsJSON.track_segment1, this.readColorsJSON.lane1, this.readColorsJSON.lane2, this.readColorsJSON.laneArrow1);
+                this.setColorsCanvas(counter &lt; this.arcadeParams.numberOfSegmentPerColor, this.readColorsJSON.grass1, this.readColorsJSON.border1, this.readColorsJSON.border2, this.readColorsJSON.outborder1, this.readColorsJSON.outborder_end1, this.readColorsJSON.track_segment1, this.readColorsJSON.lane1, this.readColorsJSON.lane2, this.readColorsJSON.laneArrow1);
                 this.drawSegment(
                     this.renderCanvas.height / 2 + currentHeight,
                     currentScaling, currentSegment.curve - baseOffset - this.lastDelta * currentScaling,
@@ -1405,7 +1433,7 @@ define(function (require, exports, module) {
 	            this.lapInformation.currentLapNumber = parseInt(this.WIDGETSTATE[this.vehicle.lap_attribute][this.vehicle.lap_value]);
 
 	            if(absoluteIndex >= this.arcadeParams.numIterations-this.renderCanvas.depthOfField-1){
-	                if(this.lapInformation.currentLapNumber<=this.lapInformation.lapNumber && this.lapInformation.counterAux===0){
+	                if(this.lapInformation.currentLapNumber&lt;=this.lapInformation.lapNumber &amp;&amp; this.lapInformation.counterAux===0){
 	                    ButtonActionsQueue.queueGUIAction(this.vehicle.newLap_functionNamePVS, this.lapInformation.callback);
 	                }
 	                this.lapInformation.counterAux=1;
@@ -1421,7 +1449,7 @@ define(function (require, exports, module) {
 	                this.drawText("To Go",{x: 10, y: 25}, 1);
 	            }
 
-	            if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber && this.lapInformation.currentPercentage>=100){
+	            if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber &amp;&amp; this.lapInformation.currentPercentage>=100){
 	                clearInterval(this.intervals.simulatorInterval);
 	                this.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
 	                this.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
@@ -1442,7 +1470,7 @@ define(function (require, exports, module) {
 	        } 
 
 	        // Draw Header
-	        if(this.lapInformation.currentLapNumber<this.lapInformation.lapNumber){
+	        if(this.lapInformation.currentLapNumber&lt;this.lapInformation.lapNumber){
 	            this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 1}, 1);
 	        }else{
 	            this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 1}, 1);
@@ -1555,7 +1583,7 @@ define(function (require, exports, module) {
     Arcade.prototype.drawText = function (string, pos, imageIndex) {
         string = string.toUpperCase();
         let cur = pos.x;
-        for(let i=0; i < string.length; i++) {
+        for(let i=0; i &lt; string.length; i++) {
             this.canvasInformations.context.drawImage(this.spritesheetsImages[imageIndex], (string.charCodeAt(i) - 32) * 8, 0, 8, 8, cur, pos.y, 8, 8);
             cur += 8;
         }
@@ -1604,7 +1632,7 @@ define(function (require, exports, module) {
     Arcade.prototype.drawLanes = function (pos1, scale1, offset1, pos2, scale2, offset2, color, numLanes, laneWidth) {
         let alpha = 1.10/numLanes;
         if(numLanes>3){
-            for(let i=0;i<numLanes;i++){
+            for(let i=0;i&lt;numLanes;i++){
                 this.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2, this.stripeConfiguration.trackP1+(i*alpha), this.stripeConfiguration.trackP1+(i*alpha)+laneWidth, color);
                 this.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2, this.stripeConfiguration.trackP2-(i*alpha)-laneWidth, this.stripeConfiguration.trackP2-(i*alpha), color);
             }
@@ -1905,7 +1933,7 @@ define(function (require, exports, module) {
         if(sprite!==null){
             let destY = sprite.y - sprite.i.h * sprite.s;
             let h = null;
-            if(sprite.ymax < sprite.y) {
+            if(sprite.ymax &lt; sprite.y) {
                 h = Math.min(sprite.i.h * (sprite.ymax - destY) / (sprite.i.h * sprite.s), sprite.i.h);
             } else {
                 h = sprite.i.h;
@@ -1987,7 +2015,7 @@ define(function (require, exports, module) {
      * @function setColorsCanvas
      * @private
      * @description SetColorsCanvas method of the Arcade widget. This method set the initial colors of canvas, which will prevail until the end of the track is reached.
-     * @param alternate {Boolean} Value of comparison "counter < numberOfSegmentPerColor", which allows to choose the color of the segment depending on which segment is currently being rendered.
+     * @param alternate {Boolean} Value of comparison "counter &lt; numberOfSegmentPerColor", which allows to choose the color of the segment depending on which segment is currently being rendered.
      * That is, numberOfSegmentPerColor has the number of sequential segments to be colored with the same color, and when reached the following segments must be rendered with another color so the simulator can
      * offer alternate colors. This is used, for instance, to render the track separators (separates track from landscape), which is colored red and white alternately.
      * @param border1 {String} CSS color to render the first border sequence of segments, usually hexadecimal value.
@@ -2067,13 +2095,13 @@ define(function (require, exports, module) {
 
             // draw arrow or guiding line
             // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, arcadeColors.laneArrow);
-            if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.straight_attribute){
+            if(this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.straight_attribute){
                 // this.drawArrowFront(160, 150, 12, 18, this.arcadeColors.laneArrow, 1);
                 this.drawSimpleArrowFront(this.canvasInformations.canvas.width-50,30,this.arcadeColors.laneArrow);
-            }else if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.right_attribute){
+            }else if(this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.right_attribute){
                 // this.drawArrowLeft(160, 150, 20, 20, arcadeColors.laneArrow, 1, {inverse:false});
                 this.drawSimpleArrowLeft(this.canvasInformations.canvas.width-50,30,this.arcadeColors.laneArrow,{inverse:false});
-            }else if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.left_attribute){
+            }else if(this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.left_attribute){
                 // this.drawArrowRight(160, 150, 20, 20, arcadeColors.laneArrow, 1, {inverse:false});
                 this.drawSimpleArrowRight(this.canvasInformations.canvas.width-50,30,this.arcadeColors.laneArrow,{inverse:false});
             }
@@ -2105,13 +2133,13 @@ define(function (require, exports, module) {
 
             // draw arrow or guiding line
             // this.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, this.arcadeColors.laneArrow);
-            if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.straight_attribute){
+            if(this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.straight_attribute){
                 // this.drawArrowFront(160, 150, 12, 18, this.arcadeColors.laneArrow, 1);
                 this.drawSimpleArrowFront(this.canvasInformations.canvas.width-50,30,this.arcadeColors.laneArrow);
-            }else if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.right_attribute){
+            }else if(this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.right_attribute){
                 // this.drawArrowLeft(160, 150, 20, 20, this.arcadeColors.laneArrow, 1, {inverse:false});
                 this.drawSimpleArrowLeft(this.canvasInformations.canvas.width-50,30,this.arcadeColors.laneArrow, {inverse:false});
-            }else if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.left_attribute){
+            }else if(this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.left_attribute){
                 // this.drawArrowRight(160, 150, 20, 20, this.arcadeColors.laneArrow, 1, {inverse:false});
                 this.drawSimpleArrowRight(this.canvasInformations.canvas.width-50,30,this.arcadeColors.laneArrow, {inverse:false});
             }
@@ -2145,12 +2173,12 @@ define(function (require, exports, module) {
         } else {
             // readSprite acceleration controls
             this.soundOff = this.soundWidget.getSoundOff();
-            if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.accelerate_attribute) {
+            if (this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.accelerate_attribute) {
                 this.controllable_car.speed += this.controllable_car.acceleration;
                 if(!this.soundOff){
                     this.soundWidget.playSound(3); //accelerating song
                 }
-            } else if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.brake_attribute) {
+            } else if (this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.brake_attribute) {
                 this.controllable_car.speed -= this.controllable_car.breaking;
                 if(!this.soundOff){
                     this.soundWidget.pauseSound(3); //accelerating song
@@ -2255,7 +2283,7 @@ define(function (require, exports, module) {
         }
 
         // car turning
-        if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.left_attribute) {
+        if (this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.left_attribute) {
             if(this.controllable_car.speed > 0){
                 this.controllable_car.posx -= this.controllable_car.turning;
             }
@@ -2264,7 +2292,7 @@ define(function (require, exports, module) {
                 x: vehicleXLeftPosition,
                 y: vehicleYLeftPosition
             };
-        } else if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.right_attribute) {
+        } else if (this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.right_attribute) {
             if(this.controllable_car.speed > 0){
                 this.controllable_car.posx += this.controllable_car.turning;
             }
@@ -2346,7 +2374,7 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.calculateNewControllableCarPosition = function () {
-        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value]!=="0"){
+        if(this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value]!=="0"){
             // readSprite acceleration controls
             this.soundOff = this.soundWidget.getSoundOff();
             let currentSpeedPVS = this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value];
@@ -2363,22 +2391,22 @@ define(function (require, exports, module) {
                 this.auxiliaryPVSValues.newSpeedAux = this.lastPVSValues.lastSpeedPVS*0.10;
             }
 
-            if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.accelerate_attribute) {
+            if (this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.accelerate_attribute) {
                 if(!this.soundOff){
                     this.soundWidget.playSound(3); //accelerating song
                 }
-            }else if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.brake_attribute) {
+            }else if (this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.brake_attribute) {
                 if(!this.soundOff){
                     this.soundWidget.pauseSound(3); //accelerating song
                 }
-            }else if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.idle_attribute){
+            }else if (this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.idle_attribute){
                 if(!this.soundOff){
                     this.soundWidget.pauseSound(3); //accelerating song
                 }
             }
         }
 
-        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.posx_attribute][this.vehicle.posx_value]!=="0.0"){
+        if(this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.posx_attribute][this.vehicle.posx_value]!=="0.0"){
             let currentPositionXPVS = this.WIDGETSTATE[this.vehicle.posx_attribute][this.vehicle.posx_value];
             let positionXValue = parseInt(currentPositionXPVS);
             if(!isNaN(positionXValue)){
@@ -2387,8 +2415,8 @@ define(function (require, exports, module) {
             this.auxiliaryPVSValues.newPositionXAux = this.lastPVSValues.lastPosXPVS;
         }
 
-        this.auxiliaryPVSValues.vehicleCurrentDirectionAux = this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute];
-        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.position_attribute][this.vehicle.position_value]!=="10.0"){
+        this.auxiliaryPVSValues.vehicleCurrentDirectionAux = this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.direction_attribute];
+        if(this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.position_attribute][this.vehicle.position_value]!=="10.0"){
             let currentPositionPVS = this.WIDGETSTATE[this.vehicle.position_attribute][this.vehicle.position_value];
             let arrayPosition = currentPositionPVS.split("/");
             let positionValue = parseInt(arrayPosition[0])/parseInt(arrayPosition[1]);
@@ -2625,3 +2653,26 @@ define(function (require, exports, module) {
 
     module.exports = Arcade;
 });
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Arcade.html">Arcade</a></li><li><a href="module-ButtonExternalController.html">ButtonExternalController</a></li><li><a href="module-Customization.html">Customization</a></li><li><a href="module-DrawGamepad.html">DrawGamepad</a></li><li><a href="module-GamepadController.html">GamepadController</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-GyroscopeController.html">GyroscopeController</a></li><li><a href="module-Sound.html">Sound</a></li><li><a href="module-Speedometer.html">Speedometer</a></li><li><a href="module-SteeringWheel.html">SteeringWheel</a></li><li><a href="module-Tachometer.html">Tachometer</a></li><li><a href="module-TrackGenerator.html">TrackGenerator</a></li><li><a href="module-VirtualKeypadController.html">VirtualKeypadController</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jun 16 2018 14:08:58 GMT+0100 (WEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

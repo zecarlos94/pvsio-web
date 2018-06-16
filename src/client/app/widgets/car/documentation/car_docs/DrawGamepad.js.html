@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: DrawGamepad.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: DrawGamepad.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @module DrawGamepad
  * @version 2.0.0
  * @author José Carlos
@@ -10,7 +38,7 @@
  * last modified @date Jun 16, 2018
  *
  *
- * @example <caption>Usage of DrawGamepad within a PVSio-web demo(PS4 gamepad).</caption>
+ * @example &lt;caption>Usage of DrawGamepad within a PVSio-web demo(PS4 gamepad).&lt;/caption>
  * define(function (require, exports, module) {
  *     "use strict";
  *
@@ -37,7 +65,7 @@
  *     }
  * });
  *
- * @example <caption>Usage of DrawGamepad within a PVSio-web demo(XBOX One gamepad).</caption>
+ * @example &lt;caption>Usage of DrawGamepad within a PVSio-web demo(XBOX One gamepad).&lt;/caption>
  * define(function (require, exports, module) {
  *     "use strict";
  *
@@ -64,7 +92,7 @@
  *     }
  * });
  *
- * @example <caption>Usage of other public API's of DrawGamepad Widget.</caption>
+ * @example &lt;caption>Usage of other public API's of DrawGamepad Widget.&lt;/caption>
  *
  *  Using variable DrawGamepad created in the previous example is also possible to call the following,
  *
@@ -120,9 +148,9 @@ define(function (require, exports, module) {
         this.height = coords.height || 250;
 
         if(opt.style==="xbox"){
-            this.buttonsPVS = (opt.buttonsPVS && opt.buttonsPVS.length===13) ? opt.buttonsPVS : [ "a", "b", "y", "x", "menu", "windows", "xbox", "xbox_leftArrow", "xbox_upArrow", "xbox_rightArrow", "xbox_downArrow", "xbox_rightStick", "xbox_leftStick" ];
+            this.buttonsPVS = (opt.buttonsPVS &amp;&amp; opt.buttonsPVS.length===13) ? opt.buttonsPVS : [ "a", "b", "y", "x", "menu", "windows", "xbox", "xbox_leftArrow", "xbox_upArrow", "xbox_rightArrow", "xbox_downArrow", "xbox_rightStick", "xbox_leftStick" ];
         }else if(opt.style==="ps4"){
-            this.buttonsPVS = (opt.buttonsPVS && opt.buttonsPVS.length===14) ? opt.buttonsPVS : [ "cross", "circle", "triangle", "square", "options", "share", "touchpad", "ps", "ps4_leftArrow", "ps4_upArrow", "ps4_rightArrow", "ps4_downArrow", "ps4_rightStick", "ps4_leftStick" ];
+            this.buttonsPVS = (opt.buttonsPVS &amp;&amp; opt.buttonsPVS.length===14) ? opt.buttonsPVS : [ "cross", "circle", "triangle", "square", "options", "share", "touchpad", "ps", "ps4_leftArrow", "ps4_upArrow", "ps4_rightArrow", "ps4_downArrow", "ps4_rightStick", "ps4_leftStick" ];
         }
 
         this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
@@ -432,8 +460,8 @@ define(function (require, exports, module) {
      * @public
      * @description CallPressReleasePVS method of the DrawGamepad widget. This method calls a PVS press/release function in main.pvs file, based on the required buttonName.
      * @param buttonName {String} Pressed ButtonEVO name, i.e. name of the pressed interactive button on the gamepad image, which will be used to invoke the PVS action, which is formally specified in the main.pvs file.
-     * @example <caption>Usage of API to invoke a press/release event on button "cross", using a ButtonActionsQueue instance.
-     * button "cross" will only be created by the constructor if "cross" is present in buttonsPVS opt field, by default is.</caption>
+     * @example &lt;caption>Usage of API to invoke a press/release event on button "cross", using a ButtonActionsQueue instance.
+     * button "cross" will only be created by the constructor if "cross" is present in buttonsPVS opt field, by default is.&lt;/caption>
      *  define(function (require, exports, module) {
      *     "use strict";
      *
@@ -470,8 +498,8 @@ define(function (require, exports, module) {
      * @public
      * @description CallClickPVS method of the DrawGamepad widget. This method calls a PVS click function in main.pvs file, based on the required buttonName.
      * @param buttonName {String} Clicked ButtonEVO name, i.e. name of the clicked interactive button on the gamepad image, which will be used to invoke the PVS action, which is formally specified in the main.pvs file.
-     * @example <caption>Usage of API to invoke a click event on button "ps4_rightStick", using a ButtonActionsQueue instance.
-     * button "ps4_rightStick" will only be created by the constructor if "ps4_rightStick" is present in buttonsPVS opt field, by default is.</caption>
+     * @example &lt;caption>Usage of API to invoke a click event on button "ps4_rightStick", using a ButtonActionsQueue instance.
+     * button "ps4_rightStick" will only be created by the constructor if "ps4_rightStick" is present in buttonsPVS opt field, by default is.&lt;/caption>
      *  define(function (require, exports, module) {
      *     "use strict";
      *
@@ -545,3 +573,26 @@ define(function (require, exports, module) {
 
     module.exports = DrawGamepad;
 });
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Arcade.html">Arcade</a></li><li><a href="module-ButtonExternalController.html">ButtonExternalController</a></li><li><a href="module-Customization.html">Customization</a></li><li><a href="module-DrawGamepad.html">DrawGamepad</a></li><li><a href="module-GamepadController.html">GamepadController</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-GyroscopeController.html">GyroscopeController</a></li><li><a href="module-Sound.html">Sound</a></li><li><a href="module-Speedometer.html">Speedometer</a></li><li><a href="module-SteeringWheel.html">SteeringWheel</a></li><li><a href="module-Tachometer.html">Tachometer</a></li><li><a href="module-TrackGenerator.html">TrackGenerator</a></li><li><a href="module-VirtualKeypadController.html">VirtualKeypadController</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jun 16 2018 14:08:58 GMT+0100 (WEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

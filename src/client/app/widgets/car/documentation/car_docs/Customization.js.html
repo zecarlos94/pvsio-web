@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Customization.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Customization.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @module Customization
  * @version 2.0.0
  * @author José Carlos
@@ -7,7 +35,7 @@
  * @date Apr 04, 2018
  * last modified @date Jun 16, 2018
  *
- * @example <caption>Defining initial CSS properties and re-render CSS properties after ending customization options. </caption>
+ * @example &lt;caption>Defining initial CSS properties and re-render CSS properties after ending customization options. &lt;/caption>
  *
  *	Before declaring Customization it is advised to define all CSS before and after rendering the Customization Widget,
  *  		
@@ -323,7 +351,7 @@
  *              },
  *          ];   
  *
- * @example <caption>Also add the CSS regarding new sliders as it follows,</caption>
+ * @example &lt;caption>Also add the CSS regarding new sliders as it follows,&lt;/caption>
  *
  * For each slider declared on sliderRanges optional field is advised to set its CSS at pvsio-web/src/client/lib/image-picker/css/slider.css
  * as it follows, "#slidecontainer-"+SLIDER_NAME+"_"+Customization_WIDGET_ID
@@ -337,7 +365,7 @@
  * a slider per paragraph, i.e., each slider will have 100% width. In other words, if not declared, the widget itself will also work
  * perfectly. In the future, when PVSio-web has a file-writing api, this step will disappear, therefore simplifying the process even more.
  * 
- * @example <caption>Usage of API to create a new customization menu, within a PVSio-web demo.</caption>
+ * @example &lt;caption>Usage of API to create a new customization menu, within a PVSio-web demo.&lt;/caption>
  *
  *          // After Customization module was loaded, initialize it
  *          let customization = new Customization(
@@ -441,7 +469,7 @@
  * });
  * 
  *
- * @example <caption>Usage of other public API's of Customization Widget.</caption>
+ * @example &lt;caption>Usage of other public API's of Customization Widget.&lt;/caption>
  *
  *  Using variable Customization created in the previous example is also possible to call the following,
  *
@@ -664,7 +692,7 @@ define(function (require, exports, module) {
         this.select=this.customizationDiv.append("div").style("margin-left","35px");
         this.optionsSelect=this.select.append("select").attr("id","selectImage").attr("class","image-picker");
         this.optionsSelect.append("option").attr("value","");
-        for(this.iterator=0; this.iterator<this.imagesSteeringWheels.length; this.iterator++){
+        for(this.iterator=0; this.iterator&lt;this.imagesSteeringWheels.length; this.iterator++){
             this.optionsSelect.append("option").attr("data-img-src",this.imagesSteeringWheels[this.iterator].path).attr("value",this.imagesSteeringWheels[this.iterator].value).text(this.imagesSteeringWheels[this.iterator].value);
         }
        
@@ -948,7 +976,7 @@ define(function (require, exports, module) {
 
         this.customizationDiv.append("br");
         let aux="",res="",res2="";
-        for(this.iterator=0; this.iterator<this.sliderRanges.length; this.iterator++){
+        for(this.iterator=0; this.iterator&lt;this.sliderRanges.length; this.iterator++){
             this.brItr++;
             this.aux=this.customizationDiv.append("div").attr("class","game-customisation-"+this.sliderRanges[this.iterator].name+"_"+this.CUSTOMIZATIONID)
                                  .append("div").attr("class","col-xs-12").attr("id","slidecontainer-"+this.sliderRanges[this.iterator].name+"_"+this.CUSTOMIZATIONID);
@@ -1035,7 +1063,7 @@ define(function (require, exports, module) {
                     .attr("id","instructions")
                     .text(this.controlsText[0]);
 
-        for(this.iterator=1; this.iterator<this.controlsText.length; this.iterator++){
+        for(this.iterator=1; this.iterator&lt;this.controlsText.length; this.iterator++){
             this.controls.append("br");
             this.controls.append("span").text(this.controlsText[this.iterator]);
         }
@@ -1049,7 +1077,7 @@ define(function (require, exports, module) {
                     .style("margin-top", this.gaugesStyles[0].marginTop)
                     .style("zoom", this.gaugesStyles[0].zoom);
                     
-        for(this.iterator=0; this.iterator<this.gauges.length; this.iterator++){
+        for(this.iterator=0; this.iterator&lt;this.gauges.length; this.iterator++){
             if(this.gauges[this.iterator].styleId!==""){
                 this.svg.append("span").attr("id",this.gauges[this.iterator].name).style(this.gauges[this.iterator].styleId,this.gauges[this.iterator].style);
             }else{
@@ -1730,4 +1758,26 @@ define(function (require, exports, module) {
     };
 
     module.exports = Customization;
-});
+});</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Arcade.html">Arcade</a></li><li><a href="module-ButtonExternalController.html">ButtonExternalController</a></li><li><a href="module-Customization.html">Customization</a></li><li><a href="module-DrawGamepad.html">DrawGamepad</a></li><li><a href="module-GamepadController.html">GamepadController</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-GyroscopeController.html">GyroscopeController</a></li><li><a href="module-Sound.html">Sound</a></li><li><a href="module-Speedometer.html">Speedometer</a></li><li><a href="module-SteeringWheel.html">SteeringWheel</a></li><li><a href="module-Tachometer.html">Tachometer</a></li><li><a href="module-TrackGenerator.html">TrackGenerator</a></li><li><a href="module-VirtualKeypadController.html">VirtualKeypadController</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jun 16 2018 14:08:58 GMT+0100 (WEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

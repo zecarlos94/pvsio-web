@@ -118,7 +118,7 @@ require([
 
         // Render sound components
         function render(res) {
-            sound.soundWidget.render(res);
+            sound.soundWidget.render();
         }
 
         // sound.soundWidget.playSound(0).setVolume(0.2,0);

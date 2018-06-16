@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Module: VirtualKeypadController</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Module: VirtualKeypadController</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">This module helps you playing the 2D, HTML5, arcade driving simulator using
+a virtual keypad suitable for mobile devices. Renders based on device type(desktop, mobile).</div>
+        
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>3.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>José Carlos</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Examples</h5>
+    
+        <p class="code-caption">Usage of API to create and render a Virtual Keypad.</p>
+    
+    <pre class="prettyprint"><code>define(function (require, exports, module) {
+    "use strict";
+
+    // Require the VirtualKeypadController module
+    require("widgets/car/VirtualKeypadController");
+
+    function main() {
+      // After VirtualKeypadController module was loaded, initialize it
+      let virtualKeypadController = new VirtualKeypadController("virtualKeypad_controller", {
+       top: 720,
+       left: 200,
+       width: 750,
+       height: 750
+      }, {
+       keyboardImgDiv: "mobileDevicesController", // defines keyboard image div, which is div id="mobileDevicesController" by default
+       keyboardClass: "icon keyboard",
+       keyboardLeftDesktop: 50,
+       keyboardTopDesktop: 600,
+       keyboardHoverInitialTitle: "Click to open virtual keypad controller",
+       keyboardHoverSecondTitle: "Click to close virtual keypad controller",
+       parent: "content", // defines parent div, which is div id="body" by default
+       buttonsDiv: "virtualKeyPad", // defines buttons image div, which is div id="virtualKeyPad" by default
+       simulatorActions: "simulatorActions",
+       simulatorArrows: "simulatorArrows",
+       floatArrows: "floatArrows",
+       blockArrows: "blockArrows",
+       buttonClass: "ui-button ui-corner-all ui-widget ui-button-icon-only",
+       arrowKeysPVS: [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"],
+       otherKeysPVS: [ "quit", "pause", "resume" ],
+       callback: onMessageReceived
+      });
+
+      // Render the VirtualKeypadController widget
+      virtualKeypadController.render();
+    }
+});</code></pre>
+
+        <p class="code-caption">Usage of other public API's of VirtualKeypadController Widget.</p>
+    
+    <pre class="prettyprint"><code> Using variable virtualKeypadController created in the previous example is also possible to call the following,
+
+      // Hides the VirtualKeypadController widget, i.e., the main div, i.e. this.buttonsDiv+"_"+this.VIRTUALKEYPADID div, becomes invisible.
+      virtualKeypadController.hide();
+
+      // Reveals the VirtualKeypadController widget, i.e., the main div, i.e. this.buttonsDiv+"_"+this.VIRTUALKEYPADID div, becomes visible.
+      virtualKeypadController.reveal(); </code></pre>
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="constructor"><span class="type-signature"></span>constructor<span class="signature">(id, coords, opt)</span><span class="type-signature"> &rarr; {VirtualKeypadController}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Constructor for the VirtualKeypadController widget.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The id of the widget instance.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>coords</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The four coordinates (top, left, width, height) of the display, specifying
+       the left, top corner, and the width and height of the (rectangular) display.
+       Default is { top: 1000, left: 100, width: 500, height: 500 }.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>opt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Options:
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>buttonsDiv</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">id name of the div where to put the virtual buttons image (default is "virtualKeyPad").</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyboardImgDiv</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">id name of the div where to put the virtual keyboard image (default is "mobileDevicesController").</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyboardClass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">virtual keyboard div class name (default is "icon keyboard").</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyboardTopMobile</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">virtual keyboard div top position for mobile devices (default is 750).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyboardLeftMobile</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">virtual keyboard div left position for mobile devices (default is 1350).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyboardTopDesktop</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">virtual keyboard div top position for desktop devices (default is 735).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyboardLeftDesktop</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">virtual keyboard div left position for desktop devices (default is 1380).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyboardUrl</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">virtual keyboard image path (default is "widgets/car/configurations/img/keyboard.png").</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyboardHoverInitialTitle</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">initial text on hover in virtual keyboard image (default is "Click to open virtual keypad controller").</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyboardHoverSecondTitle</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">second text(after click) on hover in virtual keyboard image (default is "Click to close virtual keypad controller").</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyboardOnclickAction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">method to execute after clicking the virtual keyboard image (default is "").</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyboardImageWidthMobile</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">virtual keyboard image width for mobile devices (default is 80).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyboardImageHeightMobile</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">virtual keyboard image height for mobile devices (default is 60).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyboardImageWidthDesktop</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">virtual keyboard image width for desktop devices (default is 50).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyboardImageHeightDesktop</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">virtual keyboard image height for desktop devices (default is 30).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>parent</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the HTML element where the display will be appended (default is "body").</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>simulatorActions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the HTML element where the action buttons(pause, resume and quit) will be appended (default is "simulatorActions").</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>simulatorArrows</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the HTML element where the arrow buttons(left, up, right, down) will be appended (default is "simulatorArrows").</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>floatArrows</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the HTML element where the up arrow button will be appended (default is "floatArrows").</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>blockArrows</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the HTML element where the arrow buttons(left, right, down) will be appended (default is "blockArrows").</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>buttonClass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the constant string that allows ButtonExternalController widget to use 'button' tags with JQuery-UI images instead of areas as Button widget implements.(default is "buttonClass").</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>title</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the button's title(default is 'title').</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>arrowKeysPVS</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">array with the IDs of the ButtonExternalController widgets to create, that is, the names of the formal specifications in the main.pvs file for arrow keys (default is [ "accelerate", "brake", "steering_wheel_left", "steering_wheel_right"]).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>otherKeysPVS</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">array with the IDs of the ButtonExternalController widgets to create, that is, the names of the formal specifications in the main.pvs file for the other buttons (default is [ "quit", "pause", "resume" ]).</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line69">line 69</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget VirtualKeypadController.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">VirtualKeypadController</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="hide"><span class="type-signature"></span>hide<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Hide method of the VirtualKeypadController widget. This method changes the main div, i.e. this.buttonsDiv+"_"+this.VIRTUALKEYPADID div, visibility to hidden.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line404">line 404</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="render"><span class="type-signature"></span>render<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Render method of the VirtualKeypadController widget. This method renders the main div, i.e. this.buttonsDiv+"_"+this.VIRTUALKEYPADID div.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line437">line 437</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="reveal"><span class="type-signature"></span>reveal<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Reveal method of the VirtualKeypadController widget. This method changes the main div, i.e. this.buttonsDiv+"_"+this.VIRTUALKEYPADID div, visibility to visible.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="VirtualKeypadController.js.html">VirtualKeypadController.js</a>, <a href="VirtualKeypadController.js.html#line415">line 415</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Arcade.html">Arcade</a></li><li><a href="module-ButtonExternalController.html">ButtonExternalController</a></li><li><a href="module-Customization.html">Customization</a></li><li><a href="module-DrawGamepad.html">DrawGamepad</a></li><li><a href="module-GamepadController.html">GamepadController</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-GyroscopeController.html">GyroscopeController</a></li><li><a href="module-Sound.html">Sound</a></li><li><a href="module-Speedometer.html">Speedometer</a></li><li><a href="module-SteeringWheel.html">SteeringWheel</a></li><li><a href="module-Tachometer.html">Tachometer</a></li><li><a href="module-TrackGenerator.html">TrackGenerator</a></li><li><a href="module-VirtualKeypadController.html">VirtualKeypadController</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jun 16 2018 14:08:58 GMT+0100 (WEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

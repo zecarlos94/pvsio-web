@@ -8,7 +8,7 @@
  * @date Mar 02, 2018
  * last modified @date Jun 16, 2018
  *
- * @example <caption>Usage of API to create and render a Virtual Keypad.</caption>
+ * @example <caption>Usage of private API.</caption>
  * define(function (require, exports, module) {
  *     "use strict";
  *
@@ -41,20 +41,10 @@
  *        callback: onMessageReceived
  *       });
  *
- *       // Render the VirtualKeypadController widget
- *       virtualKeypadController.render();
+ *       // Returns the the main div, i.e. this.buttonsDiv+"_"+this.VIRTUALKEYPADID div of VirtualKeypadController Widget
+ *       virtualKeypadController.show();
  *     }
  * });
- *
- * @example <caption>Usage of other public API's of VirtualKeypadController Widget.</caption>
- *
- *  Using variable virtualKeypadController created in the previous example is also possible to call the following,
- *
- *       // Hides the VirtualKeypadController widget, i.e., the main div, i.e. this.buttonsDiv+"_"+this.VIRTUALKEYPADID div, becomes invisible.
- *       virtualKeypadController.hide();
- *
- *       // Reveals the VirtualKeypadController widget, i.e., the main div, i.e. this.buttonsDiv+"_"+this.VIRTUALKEYPADID div, becomes visible.
- *       virtualKeypadController.reveal(); 
  *
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
@@ -402,47 +392,14 @@ define(function (require, exports, module) {
     VirtualKeypadController.prototype.parentClass = Widget.prototype;
 
     /**
-     * @function hide
-     * @public
-     * @description Hide method of the VirtualKeypadController widget. This method changes the main div, i.e. this.buttonsDiv+"_"+this.VIRTUALKEYPADID div, visibility to hidden.
-     * @memberof module:VirtualKeypadController
-     * @instance
-     */
-    VirtualKeypadController.prototype.hide = function () {
-        return this.div.style("visibility", "hidden");
-    };
-
-    /**
-     * @function reveal
-     * @public
-     * @description Reveal method of the VirtualKeypadController widget. This method changes the main div, i.e. this.buttonsDiv+"_"+this.VIRTUALKEYPADID div, visibility to visible.
-     * @memberof module:VirtualKeypadController
-     * @instance
-     */
-    VirtualKeypadController.prototype.reveal = function () {
-        return this.div.style("visibility", "visible");
-    };
-
-    /**
      * @function show
-     * @private
+     * @public
      * @description Show method of the VirtualKeypadController widget. This method returns the main div, i.e. this.buttonsDiv+"_"+this.VIRTUALKEYPADID div.
      * @memberof module:VirtualKeypadController
      * @instance
      */
     VirtualKeypadController.prototype.show = function () {
         return this.div;
-    };
-
-    /**
-     * @function render
-     * @public
-     * @description Render method of the VirtualKeypadController widget. This method renders the main div, i.e. this.buttonsDiv+"_"+this.VIRTUALKEYPADID div.
-     * @memberof module:VirtualKeypadController
-     * @instance
-     */
-    VirtualKeypadController.prototype.render = function () {
-        return this.show();
     };
 
     module.exports = VirtualKeypadController;

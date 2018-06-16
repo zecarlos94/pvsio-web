@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: GyroscopeController.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: GyroscopeController.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @module GyroscopeController
  * @version 1.0.0
  * @author José Carlos
@@ -12,8 +40,8 @@
  * last modified @date Jun 16, 2018
  *
  *
- * @example <caption>Usage of API to create a new Gyroscope Widget, to listen events "deviceorientation" within a PVSio-web demo.
- * This widget is also self-contained, i.e., the event handler function will call the rotate method for each captured event.</caption>
+ * @example &lt;caption>Usage of API to create a new Gyroscope Widget, to listen events "deviceorientation" within a PVSio-web demo.
+ * This widget is also self-contained, i.e., the event handler function will call the rotate method for each captured event.&lt;/caption>
  * define(function (require, exports, module) {
  *     "use strict";
  *
@@ -41,7 +69,7 @@
  * });
  *
  * 
- * @example <caption>Usage of other public API's of GyroscopeController Widget.</caption>
+ * @example &lt;caption>Usage of other public API's of GyroscopeController Widget.&lt;/caption>
  *
  *  Using variable GyroscopeController created in the previous example is also possible to call the following,
  *
@@ -156,8 +184,8 @@ define(function (require, exports, module) {
      * @description RotateSteeringAngle method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation). Default sensitivity is 100.
      * @param beta {Float} The value of horizontal rotation (is zero when the device is parallel to Earth’s surface), between -180 and 180. It is used to accelerate or brake(press/release opt buttons).
      * @param gamma {Float} The value of vertical axis(up to/or down), between -90 and 90. It is used to calculate the angle in degrees calculated based on vertical axis value given by the gyroscope.
-     * @example <caption>Usage of API to create a new Gyroscope Widget, to listen events "deviceorientation" within a PVSio-web demo and
-     * to rotate steering wheel Widget received as opt field without sensitivity.</caption>
+     * @example &lt;caption>Usage of API to create a new Gyroscope Widget, to listen events "deviceorientation" within a PVSio-web demo and
+     * to rotate steering wheel Widget received as opt field without sensitivity.&lt;/caption>
      * define(function (require, exports, module) {
      *     "use strict";
      *
@@ -191,7 +219,7 @@ define(function (require, exports, module) {
         if(carSteeringWheel!==null){
             if (gamma !== 0.0) {
                 angle = gamma;
-                if(angle<=-90) {
+                if(angle&lt;=-90) {
                     angle = -90; 
                 }else if(angle>=90) {
                     angle = 90;
@@ -199,8 +227,8 @@ define(function (require, exports, module) {
             }
             carSteeringWheel.rotate(angle);
         }
-        if(carAccelerate!==null && carBrake!==null){
-            if(beta <= 30.0){
+        if(carAccelerate!==null &amp;&amp; carBrake!==null){
+            if(beta &lt;= 30.0){
                 carAccelerate.press();
                 carAccelerate.release();
             }else if(beta > 30.0){
@@ -218,8 +246,8 @@ define(function (require, exports, module) {
      * @param beta {Float} The value of horizontal rotation (is zero when the device is parallel to Earth’s surface), between -180 and 180. It is used to accelerate or brake(press/release opt buttons).
      * @param gamma {Float} The value of vertical axis(up to/or down), between -90 and 90. It is used to calculate the angle in degrees calculated based on vertical axis value given by the gyroscope.
      * @param sensitivity {Integer} The value of sensitivity of the steering wheel rotation angle, between 1 and 100.
-     * @example <caption>Usage of API to create a new Gyroscope Widget, to listen events "deviceorientation" within a PVSio-web demo and
-     * to rotate steering wheel Widget received as opt field with sensitivity of 75%.</caption>
+     * @example &lt;caption>Usage of API to create a new Gyroscope Widget, to listen events "deviceorientation" within a PVSio-web demo and
+     * to rotate steering wheel Widget received as opt field with sensitivity of 75%.&lt;/caption>
      * define(function (require, exports, module) {
      *     "use strict";
      *
@@ -253,8 +281,8 @@ define(function (require, exports, module) {
             }
             carSteeringWheel.rotate(angle);            
         }
-        if(carAccelerate!==null && carBrake!==null){
-            if(beta <= 30.0){
+        if(carAccelerate!==null &amp;&amp; carBrake!==null){
+            if(beta &lt;= 30.0){
                 carAccelerate.press();
                 carAccelerate.release();
             }else if(beta > 30.0){
@@ -273,7 +301,7 @@ define(function (require, exports, module) {
      * @instance
      */
     GyroscopeController.prototype.handleOrientation = function(evt) {
-        if(evt.beta!==null && evt.gamma!==null){
+        if(evt.beta!==null &amp;&amp; evt.gamma!==null){
             // let z = evt.alpha.toFixed(2); // In degree in the range [-360,360]
             let x = evt.beta.toFixed(2); // In degree in the range [-180,180]
             let y = evt.gamma.toFixed(2); // In degree in the range [-90,90]
@@ -320,4 +348,26 @@ define(function (require, exports, module) {
     };
 
     module.exports = GyroscopeController;
-});
+});</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Arcade.html">Arcade</a></li><li><a href="module-ButtonExternalController.html">ButtonExternalController</a></li><li><a href="module-Customization.html">Customization</a></li><li><a href="module-DrawGamepad.html">DrawGamepad</a></li><li><a href="module-GamepadController.html">GamepadController</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-GyroscopeController.html">GyroscopeController</a></li><li><a href="module-Sound.html">Sound</a></li><li><a href="module-Speedometer.html">Speedometer</a></li><li><a href="module-SteeringWheel.html">SteeringWheel</a></li><li><a href="module-Tachometer.html">Tachometer</a></li><li><a href="module-TrackGenerator.html">TrackGenerator</a></li><li><a href="module-VirtualKeypadController.html">VirtualKeypadController</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jun 16 2018 14:08:58 GMT+0100 (WEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

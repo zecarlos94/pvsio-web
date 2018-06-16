@@ -1,0 +1,181 @@
+/**
+ * @module GyroscopeController
+ * @version 1.0.0
+ * @author José Carlos
+ * @desc This module helps you playing the 2D, HTML5, arcade driving simulator
+ * using Device Orientation available at
+ * {@link https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Processing_orientation_events}.
+ * That is, this module allows to control both steering wheel rotations as well as accelerating/braking, i.e. changing
+ * the speedometer values displayed.
+ *
+ * @date Apr 05, 2018
+ * last modified @date Jun 16, 2018
+ *
+ *
+ * @example <caption>Usage of private API.</caption>
+ * define(function (require, exports, module) {
+ *     "use strict";
+ *
+ *     // Require the GyroscopeController module
+ *     require("widgets/car/GyroscopeController");
+ *
+ *     function main() {
+ *          // After GyroscopeController module was loaded, initialize it
+ *          let gyroscope = new GyroscopeController(
+ *               'example', // id of the GyroscopeController element that will be created
+ *               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
+ *               {
+ *                  parent: "gyroscope",
+ *                  carSteeringWheel: car.steeringWheel,
+ *                  carAccelerate: arcade.up,
+ *                  carBrake: arcade.down,
+ *                  useSensitivity: false, // Default is false
+ *                  sensitivityValue: 50 // Default is 40%  
+ *               }
+ *           );
+ *
+ *          // Method that is invoked whenever "deviceorientation" events occur.
+ *          gyroscope.handleOrientation(event);
+ *      }
+ * });
+ *
+ */
+/*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
+/*jshint esnext:true */
+/*global define*/
+define(function (require, exports, module) {
+    "use strict";
+   
+    /**
+     * @description Listening for event 'deviceorientation' to update current device orientation.
+     * @memberof module:GyroscopeController
+     */
+    let gyroscopeEvents;
+ 
+    /**
+     * @description SteeringWheel 'carSteeringWheel' to be rotated with gyroscope values.
+     * @memberof module:GyroscopeController
+     */
+    let carSteeringWheel;
+
+    /**
+     * @description Button 'carAccelerate' to be pressed/released based on gyroscope values.
+     * @memberof module:GyroscopeController
+     */
+
+    let carAccelerate;
+    /**
+     * @description Button 'carBrake' to be pressed/released based on gyroscope values.
+     * @memberof module:GyroscopeController
+     */
+    let carBrake;
+
+    /**
+     * @description Boolean 'useSensitivity' is the variable that allows to change between the two rotations APIs (with an without sensitivity)
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let useSensitivity;
+
+    /**
+     * @description Integer 'sensitivityValue' is the sensitivity value to be applied on the rotation API with sensitivity
+     * @protected
+     * @memberof module:GamepadController
+     * @instance
+     */
+    let sensitivityValue;
+
+    let Widget = require("widgets/Widget"),
+        ButtonExternalController = require("widgets/car/ButtonExternalController"),
+        SteeringWheel = require("widgets/car/SteeringWheel"), // In order to render rotations when button clicked
+        ButtonActionsQueue = require("widgets/ButtonActionsQueue").getInstance();
+
+    /**
+     * @function constructor
+     * @public
+     * @description Constructor for the GyroscopeController widget.
+     * @param id {String} The id of the widget instance.
+     * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
+     *        the left, top corner, and the width and height of the (rectangular) display.
+     *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
+     * @param opt {Object} Options:
+     * @param [opt.parent] {String} the HTML element where the display will be appended (default is "gyroscope").
+     * @param [opt.carSteeringWheel] {SteeringWheel} SteeringWheel 'steering_wheel' to rotate the current steering wheel with gyroscope rotation values.
+     * @param [opt.carAccelerate] {ButtonExternalController} Button 'accelerate' to accelerate when a certain gamepad button is pressed.
+     * @param [opt.carBrake] {ButtonExternalController} Button 'brake' to brake when a certain gamepad button is pressed.
+     * @param [opt.useSensitivity] {Boolean} boolean to determine which rotation API will be invoked, i.e., with or without sensitivity (default is false).
+     * @param [opt.sensitivityValue] {Int} the sensivity value to be provided to the rotation API with sensitivity (default is "gyroscope").
+     * @returns {GyroscopeController} The created instance of the widget GyroscopeController.
+     * @memberof module:GyroscopeController
+     * @instance
+     */
+    function GyroscopeController(id, coords, opt) {
+        opt = opt || {};
+        opt.parent = opt.parent;
+        opt.carSteeringWheel = opt.carSteeringWheel;
+        opt.carAccelerate = opt.carAccelerate;
+        opt.carBrake = opt.carBrake;
+        opt.useSensitivity = opt.useSensitivity || false;
+        opt.sensitivityValue = opt.sensitivityValue || 40;
+
+        coords = coords || {};
+
+        this.id = id;
+        this.top = coords.top || 1000;
+        this.left = coords.left || 100;
+        this.width = coords.width || 750;
+        this.height = coords.height || 750;
+
+        this.parent = (opt.parent) ? "#"+opt.parent : "#gyroscope";
+        carSteeringWheel = (opt.carSteeringWheel) ? opt.carSteeringWheel : null;
+        carAccelerate = (opt.carAccelerate) ? opt.carAccelerate : null;
+        carBrake = (opt.carBrake) ? opt.carBrake : null;
+ 
+        useSensitivity = (opt.useSensitivity) ? opt.useSensitivity : false;
+        sensitivityValue = (opt.sensitivityValue) ? opt.sensitivityValue : 40;
+
+        this.div = d3.select(this.parent);
+
+        if (window.DeviceOrientationEvent) {
+            gyroscopeEvents = window.addEventListener("deviceorientation", ( event ) => {
+                GyroscopeController.prototype.handleOrientation(event);
+            }, false);
+        }else {
+            alert("Sorry, your browser doesn't support Device Orientation");
+        }
+        
+        opt.callback = opt.callback || function () {};
+        this.callback = opt.callback;
+
+        Widget.call(this, id, coords, opt);
+        return this;
+    }
+
+    GyroscopeController.prototype = Object.create(Widget.prototype);
+    GyroscopeController.prototype.constructor =GyroscopeController;
+    GyroscopeController.prototype.parentClass = Widget.prototype;
+
+    /**
+     * @function handleOrientation
+     * @public
+     * @description HandleOrientation method of the GyroscopeController widget. This method changes the object orientation based on its rotation angle.
+     * @memberof module:GyroscopeController
+     * @instance
+     */
+    GyroscopeController.prototype.handleOrientation = function(evt) {
+        if(evt.beta!==null && evt.gamma!==null){
+            // let z = evt.alpha.toFixed(2); // In degree in the range [-360,360]
+            let x = evt.beta.toFixed(2); // In degree in the range [-180,180]
+            let y = evt.gamma.toFixed(2); // In degree in the range [-90,90]
+            if(useSensitivity){
+                // sensitivityValue higher than 75% or else the rotation will not be perceptible due to gyroscope sensor optics.        
+                GyroscopeController.prototype.rotateSteeringAngleWithSensitivity(x,y,sensitivityValue);
+            }else{
+                GyroscopeController.prototype.rotateSteeringAngle(x,y);
+            }
+        }
+    };
+
+    module.exports = GyroscopeController;
+});

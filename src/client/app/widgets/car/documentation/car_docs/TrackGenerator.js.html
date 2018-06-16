@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: TrackGenerator.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: TrackGenerator.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @module TrackGenerator
  * @version 2.0.0
  * @author José Carlos
@@ -9,7 +37,7 @@
  * last modified @date Jun 16, 2018
  *
  *
- * @example <caption>Usage of public API to create a desired track, using trackLayout, with straight lines, curves and slopes.</caption>
+ * @example &lt;caption>Usage of public API to create a desired track, using trackLayout, with straight lines, curves and slopes.&lt;/caption>
  * define(function (require, exports, module) {
  *     "use strict";
  *
@@ -138,8 +166,8 @@
  *     }
  * });
  *
- * @example <caption>To create a new track, using trackLayout, with only straight lines it is only necessary to modify the trackLayout optional field, 
- * in the previous example, as it follows,</caption>
+ * @example &lt;caption>To create a new track, using trackLayout, with only straight lines it is only necessary to modify the trackLayout optional field, 
+ * in the previous example, as it follows,&lt;/caption>
  *
  *           trackLayout: [ 
  *               // describing the desired track, which is a 12-zone straight line, i.e. track with only straight lines with length 12. 
@@ -155,7 +183,7 @@
  *
  *
  * 
- * @example <caption>Usage of other public API's of TrackGenerator Widget.</caption>
+ * @example &lt;caption>Usage of other public API's of TrackGenerator Widget.&lt;/caption>
  *
  *  Using variable TrackGenerator created in the previous example is also possible to call the following,
  *
@@ -361,7 +389,7 @@ define(function (require, exports, module) {
                     let tmpPos=1;
 
                     while(iter){
-                        if(tmpIter<=self.trackLayout[self.trackLayout.length-tmpPos].numZones){
+                        if(tmpIter&lt;=self.trackLayout[self.trackLayout.length-tmpPos].numZones){
                             // Generate current Zone
                             let intendedHeightForCurrentZone;
                             let intendedCurveForCurrentZone = parseInt(self.trackLayout[self.trackLayout.length-tmpPos].topography.curvature);
@@ -377,7 +405,7 @@ define(function (require, exports, module) {
                                     break;  
                             }
                            
-                            for(let i=0; i < self.params.zoneSize; i++){
+                            for(let i=0; i &lt; self.params.zoneSize; i++){
                                 // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
                                 chooseIndexFromObjects = Math.floor((self.randomPos() * self.objects.length));
                                 chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
@@ -414,9 +442,9 @@ define(function (require, exports, module) {
                                         spritePos = spritePosRightRandom;
                                     }
                                     // console.log(spritePos);
-                                    if(self.randomPos() < 0.25){
+                                    if(self.randomPos() &lt; 0.25){
                                         sprite = {type: self.spritesAvailable[index].value, pos: spritePos-0.5, obstacle: 0};
-                                    } if(self.randomPos() < 0.5){
+                                    } if(self.randomPos() &lt; 0.5){
                                         sprite = {type: self.spritesAvailable[index].value, pos: spritePos, obstacle: 0};
                                     }else{
                                         sprite = {type: self.spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
@@ -443,7 +471,7 @@ define(function (require, exports, module) {
                             iter--;
                         }else{
                             tmpIter=1;
-                            if(tmpPos<=self.trackLayout.length) {
+                            if(tmpPos&lt;=self.trackLayout.length) {
                                 tmpPos++;
                             }
                         }
@@ -496,7 +524,7 @@ define(function (require, exports, module) {
      * After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in and whether those are obstacles or not,
      * a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
      * within this context on the PVSio-web platform.
-     * @example <caption>Usage of public API to create randomly track, with straight lines, curves and slopes.</caption>
+     * @example &lt;caption>Usage of public API to create randomly track, with straight lines, curves and slopes.&lt;/caption>
      * define(function (require, exports, module) {
      *     "use strict";
      *
@@ -635,7 +663,7 @@ define(function (require, exports, module) {
                                 intendedCurveForCurrentZone = 400 * self.randomPos(); break;
                         }
                         
-                        for(let i=0; i < self.params.zoneSize; i++){
+                        for(let i=0; i &lt; self.params.zoneSize; i++){
                             // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
                             chooseIndexFromObjects = Math.floor((self.randomPos() * self.objects.length));
                             chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
@@ -669,9 +697,9 @@ define(function (require, exports, module) {
                                 }else if(spriteSidesRandom == 2){
                                     spritePos = spritePosRightRandom;
                                 }
-                                if(self.randomPos() < 0.25){
+                                if(self.randomPos() &lt; 0.25){
                                     sprite = {type: self.spritesAvailable[index].value, pos: spritePos-0.5, obstacle: 0};
-                                } if(self.randomPos() < 0.5){
+                                } if(self.randomPos() &lt; 0.5){
                                     sprite = {type: self.spritesAvailable[index].value, pos: spritePos, obstacle: 0};
                                 }else{
                                     sprite = {type: self.spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
@@ -688,13 +716,13 @@ define(function (require, exports, module) {
                         currentZone.curve += intendedCurveForCurrentZone;
                 
                         // Find next zone
-                        if(self.randomPos() < 0.8){
+                        if(self.randomPos() &lt; 0.8){
                             slopesTransitionRandom = 1+Math.round(self.randomPos());
                         }else {
                             slopesTransitionRandom = 0;
                         }
                 
-                        if(self.randomPos() < 0.8){
+                        if(self.randomPos() &lt; 0.8){
                             curvesTransitionRandom = 1+Math.round(self.randomPos());
                         }else {
                             curvesTransitionRandom = 0;
@@ -766,7 +794,7 @@ define(function (require, exports, module) {
      * After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in and whether those are obstacles or not,
      * a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
      * within this context on the PVSio-web platform.
-     * @example <caption>Usage of public API to create randomly track, with only straight lines.</caption>
+     * @example &lt;caption>Usage of public API to create randomly track, with only straight lines.&lt;/caption>
      * define(function (require, exports, module) {
      *     "use strict";
      *
@@ -857,7 +885,7 @@ define(function (require, exports, module) {
                     let spriteSidesRandom = null;
                     let spritesAvailableLength = self.spritesAvailable.length;
                 
-                    for(let i=0; i < numIterations; i++){            
+                    for(let i=0; i &lt; numIterations; i++){            
                         // generates random integer numbers between 0 and spritesAvailable.length
                         spriteTypeRandom = Math.floor(self.randomPos() * spritesAvailableLength);
                         // generates random integer numbers between 1 and 2
@@ -865,7 +893,7 @@ define(function (require, exports, module) {
                 
                         spritePosgeneratedObstaclesRandom = self.randomPos() - 0.5;
                         
-                        if(self.spritesAvailable[spriteTypeRandom].name.match(/car[0-9]?/)===null && self.spritesAvailable[spriteTypeRandom].name.match(/background[0-9]?/)===null && self.spritesAvailable[spriteTypeRandom].name.match(/logo[0-9]?/)===null){
+                        if(self.spritesAvailable[spriteTypeRandom].name.match(/car[0-9]?/)===null &amp;&amp; self.spritesAvailable[spriteTypeRandom].name.match(/background[0-9]?/)===null &amp;&amp; self.spritesAvailable[spriteTypeRandom].name.match(/logo[0-9]?/)===null){
                             if(i%self.obstaclePerIteration===0){
                                 self.obstacle.forEach((element) => {
                                     let index = self.spritesAvailable.findIndex(el => el.name === element);
@@ -896,9 +924,9 @@ define(function (require, exports, module) {
                                         spritePos = spritePosRightRandom;
                                     }
                 
-                                    if(self.randomPos() < 0.25){
+                                    if(self.randomPos() &lt; 0.25){
                                         sprite = {type: self.spritesAvailable[index].value, pos: spritePos-0.5, obstacle: 0};
-                                    } if(self.randomPos() < 0.5){
+                                    } if(self.randomPos() &lt; 0.5){
                                         sprite = {type: self.spritesAvailable[index].value, pos: spritePos, obstacle: 0};
                                     }else{
                                         sprite = {type: self.spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
@@ -962,7 +990,7 @@ define(function (require, exports, module) {
                     if(self.spritesheetJSON){
                        self.spritesReadJSON = JSON.parse(self.spritesheetJSON);
                        // Reading all JSON Sprites Available
-                       for(let k=0;k<self.spritesReadJSON.frames.length;k++){
+                       for(let k=0;k&lt;self.spritesReadJSON.frames.length;k++){
                            self.spritesAvailable[k]={
                                name:self.spritesReadJSON.frames[k].filename.split(".")[0],
                                value:self.spritesReadJSON.frames[k].frame
@@ -1011,3 +1039,26 @@ define(function (require, exports, module) {
 
     module.exports = TrackGenerator;
 });
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Arcade.html">Arcade</a></li><li><a href="module-ButtonExternalController.html">ButtonExternalController</a></li><li><a href="module-Customization.html">Customization</a></li><li><a href="module-DrawGamepad.html">DrawGamepad</a></li><li><a href="module-GamepadController.html">GamepadController</a></li><li><a href="module-Gauge.html">Gauge</a></li><li><a href="module-GyroscopeController.html">GyroscopeController</a></li><li><a href="module-Sound.html">Sound</a></li><li><a href="module-Speedometer.html">Speedometer</a></li><li><a href="module-SteeringWheel.html">SteeringWheel</a></li><li><a href="module-Tachometer.html">Tachometer</a></li><li><a href="module-TrackGenerator.html">TrackGenerator</a></li><li><a href="module-VirtualKeypadController.html">VirtualKeypadController</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jun 16 2018 14:08:58 GMT+0100 (WEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

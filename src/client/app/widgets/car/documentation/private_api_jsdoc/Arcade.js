@@ -7,170 +7,118 @@
  * @date Apr 02, 2018
  * last modified @date Jun 16, 2018
  *
- * @example <caption>Usage of API to create a new simulation within a PVSio-web demo, after creating a track with curves and slopes, and using a car as a vehicle.
- * Opt field trackFilename is the JSON file, which was created by TrackGenerator Widget or by hand or by other future Widget that creates tracks.
- * </caption>
- *   define(function (require, exports, module) {
- *     "use strict";
+ * @example <caption>Usage of <strong>Private API</strong> within Arcade Widget. That is, API which is only used internally by the Arcade Widget to create the desired simulation</caption>
+ *     // Loading all spritesheets (images)
+ *     arcade.onPageLoad(this.spritesFiles);
  *
- *     // Require the Arcade module
- *     require("widgets/car/Arcade");
+ *     // Loading track number of iterations to be rendered
+ *     arcade.getNrIterations();
  *
- *     function main() {
- *          // After Arcade module was loaded, initialize it
- *          let arcade = new Arcade(
- *               'example', // id of the Arcade element that will be created
- *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
- *               { parent: 'content',
- *                 scaleWindow: 2.2, // scales canvas div
- *                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
- *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
- *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
- *                 realisticImgs: false,
- *                 vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
- *                 vehicleImgIndex: 2, // defines vehicle sprite image suffix
- *                 // logoImgIndex: 1, // defines logo sprite image suffix
- *                 // backgroundImgIndex: 1, // defines background sprite image suffix
- *                 stripePositions: {
- *                    trackP1: -0.50,
- *                    trackP2: 0.50,
- *                    borderWidth: 0.08,
- *                    inOutBorderWidth: 0.02,
- *                    landscapeOutBorderWidth: 0.13,
- *                    diffTrackBorder: 0.05,
- *                    finishLineP1: -0.40,
- *                    finishLineP2: 0.40,
- *                    diffLanesFinishLine: 0.05
- *                  },
- *                  lapNumber: 2,
- *                  // showOfficialLogo: true,
- *                  // loadPVSSpeedPositions: true,
- *                  // predefinedTracks: 5,
- *                  // newLap_functionNamePVS: "new_lap",
- *                  // action_attribute: "action",
- *                  // direction_attribute: "direction",
- *                  // sound_attribute: "sound",
- *                  // lap_attribute: "lap",
- *                  // speed_attribute: "speed",
- *                  // posx_attribute: "posx",
- *                  // position_attribute: "position",
- *                  // lap_value: "val",
- *                  // speed_value: "val",
- *                  // posx_value: "val",
- *                  // position_value: "val",
- *                  // left_attribute: "left",
- *                  // right_attribute: "right",
- *                  // straight_attribute: "straight",
- *                  // accelerate_attribute: "acc",
- *                  // brake_attribute: "brake",
- *                  // idle_attribute: "idle",
- *                  // quit_attribute: "quit",
- *                  // pause_attribute: "pause",
- *                  // resume_attribute: "resume",
- *                  // mute_attribute: "mute",
- *                  // unmute_attribute: "unmute",
- *               }// append on div 'content'
- *           );
+ *     // Detecting current browser
+ *     arcade.detectBrowserType();
  *
- *          // Starts the simulation using constructor's opt fields (arguments)
- *          arcade.startSimulation();
+ *     // Init the canvas, on div with id 'arcadeSimulator'
+ *     arcade.init();
  *
- *          // Render the Arcade widget, updating Widget status with PVS status (vehicle position, posx and speed)
- *          // This API will be called by onMessageReceived callback, which processes PVS status within a PVSio-web demo, so
- *          // each new pvs status can be propagated to the widget.
- *          // 'res' is provided by the function that automatically is invoked by PVSio-web when the back-end sends states updates, i.e.,
- *          // 'res' has the latest pvs state.
- *          arcade.render(res);
- *     }
- * });
+ *     // Drawing simulator home page
+ *     arcade.renderSplashFrame();
  *
- * @example <caption>Usage of API to create a new simulation within a PVSio-web demo, after creating a track with only straight lines, and using a helicopter as a vehicle.
- * Opt field trackFilename is the JSON file, which was created by TrackGenerator Widget or by hand or by other future Widget that creates tracks.
- * </caption>
- *   define(function (require, exports, module) {
- *     "use strict";
+ *     // Drawing simulator pause page
+ *     arcade.renderSplashPauseFrame();
  *
- *     // Require the Arcade module
- *     require("widgets/car/Arcade");
+ *     // Drawing simulator end page
+ *     arcade.renderSplashEndFrame();
  *
- *     function main() {
- *          // After Arcade module was loaded, initialize it
- *          let arcade = new Arcade(
- *               'example', // id of the Arcade element that will be created
- *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
- *               { parent: 'content',
- *                 scaleWindow: 2.2, // scales canvas div
- *                 trackFilename: "track-straight", // "track-curves-slopes", // defines track configuration filename, which is "track-curves-slopes.json" by default
- *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
- *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
- *                 realisticImgs: false,
- *                 vehicle: "helicopter", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
- *                 vehicleImgIndex: 1, // defines vehicle sprite image suffix
- *                 // logoImgIndex: 1, // defines logo sprite image suffix
- *                 // backgroundImgIndex: 1, // defines background sprite image suffix
- *                 stripePositions: {
- *                    trackP1: -0.50,
- *                    trackP2: 0.50,
- *                    borderWidth: 0.08,
- *                    inOutBorderWidth: 0.02,
- *                    landscapeOutBorderWidth: 0.13,
- *                    diffTrackBorder: 0.05,
- *                    finishLineP1: -0.40,
- *                    finishLineP2: 0.40,
- *                    diffLanesFinishLine: 0.05
- *                  },
- *                  // lapNumber: 2, // By default is 0, i.e. infinit loop
- *                  // showOfficialLogo: true,
- *                  // loadPVSSpeedPositions: true,
- *                  // predefinedTracks: 5,
- *                  // newLap_functionNamePVS: "new_lap",
- *                  // action_attribute: "action",
- *                  // direction_attribute: "direction",
- *                  // sound_attribute: "sound",
- *                  // lap_attribute: "lap",
- *                  // speed_attribute: "speed",
- *                  // posx_attribute: "posx",
- *                  // position_attribute: "position",
- *                  // lap_value: "val",
- *                  // speed_value: "val",
- *                  // posx_value: "val",
- *                  // position_value: "val",
- *                  // left_attribute: "left",
- *                  // right_attribute: "right",
- *                  // straight_attribute: "straight",
- *                  // accelerate_attribute: "acc",
- *                  // brake_attribute: "brake",
- *                  // idle_attribute: "idle",
- *                  // quit_attribute: "quit",
- *                  // pause_attribute: "pause",
- *                  // resume_attribute: "resume",
- *                  // mute_attribute: "mute",
- *                  // unmute_attribute: "unmute",
- *               }// append on div 'content'
- *           );
+ *     // Draws the string "Hello" in the screen coordinates (100,100) with font available at spritesheet image (spritesheetsImages array) at index 1
+ *     // By default index 1 has "spritesheet.text.png" image
+ *     arcade.drawText("Hello",{x: 100, y: 100}, 1);
  *
- *          // Starts the simulation using constructor's opt fields (arguments)
- *          arcade.startSimulation();
+ *     // Every 30ms arcade.renderSimulatorFrame method is invoked, drawing the current simulation frame
+ *     simulatorInterval = setInterval(arcade.renderSimulatorFrame, 30);
  *
- *          // Render the Arcade widget, updating Widget status with PVS status (vehicle position, posx and speed)
- *          // This API will be called by onMessageReceived callback, which processes PVS status within a PVSio-web demo, so
- *          // each new pvs status can be propagated to the widget.
- *          // 'res' is provided by the function that automatically is invoked by PVSio-web when the back-end sends states updates, i.e.,
- *          // 'res' has the latest pvs state.
- *          arcade.render(res);
- *     }
- * });
+ *     // Updates car's current position (listening for actions: acceleration, etc)
+ *     let carSprite = arcade.updateControllableCar();
  *
+ *     // Calculates new speed, position, posx and vehicle sprite coordinates x,y based on current direction (listening for actions: acceleration, etc)
+ *     arcade.calculateNewControllableCarPosition();
  *
- * @example <caption>Usage of other public API's of Arcade Widget.</caption>
+ *     // Sets new speed, position, posx and vehicle sprite coordinates x,y based on vehicleCurrentDirection, newSpeed, newPosition, newPositionX, vehicleXPosition, vehicleYPosition arguments
+ *     // Such values must be calculated or given taking into consideration the previous values.
+ *     let carSprite = arcade.setControllableCarPosition(vehicleCurrentDirection, newSpeed, newPosition, newPositionX, vehicleXPosition, vehicleYPosition);
  *
- *  Using variable Arcade created in the previous example is also possible to call the following,
+ *     // Draws the background image based on car's current horizontal position(posx)
+ *     arcade.drawBackground(-posx);
  *
- *       // Hides the Arcade widget.
- *       arcade.hide();
+ *     // Setting colors during simulation
+ *     arcade.setColorsCanvas(counter < arcadeParams.numberOfSegmentPerColor, "#699864", "#e00", "#fff", "#496a46", "#474747", "#777", "#fff", "#777", "#00FF00");
  *
- *       // Reveals the Arcade widget.
- *       arcade.reveal();
+ *     // Drawing current segment (entire horizontal stripe)
+ *     arcade.drawSegment(
+ *              render.height / 2 + currentHeight,
+ *              currentScaling, currentSegment.curve - baseOffset - lastDelta * currentScaling,
+ *              render.height / 2 + endProjectedHeight,
+ *              endScaling,
+ *              nextSegment.curve - baseOffset - lastDelta * endScaling,
+ *              currentSegmentIndex == 2 || currentSegmentIndex == (arcadeParams.numIterations-render.depthOfField)
+ *     );
+ *
+ *     // Draws sprite received as first argument
+ *     arcade.drawSprite(
+ *      {
+ *         y: render.height / 2 + startProjectedHeight,
+ *         x: render.width / 2 - currentSegment.sprite.pos * render.width * currentScaling + currentSegment.curve - baseOffset - (controllable_car.posx - baseOffset*2) * currentScaling,
+ *         ymax: render.height / 2 + lastProjectedHeight,
+ *         s: 0.5*currentScaling,
+ *         i: currentSegment.sprite.type,
+ *         pos: currentSegment.sprite.pos,
+ *         obstacle: currentSegment.sprite.obstacle
+ *      },
+ *      null,
+ *      null,
+ *      null,
+ *      null
+ *     );
+ *
+ *     // OR
+ *     // Draws image carSprite, in coordinates (carSprite.x, carSprite.y) with scale 1 (original size)
+ *     arcade.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
+ *
+ *     // Sets the color of the finishing line
+ *     arcade.prototype.setColorsEndCanvas("#000", "#fff");
+ *
+ *     // Draws the track current segment portion
+ *     arcade.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.5, 0.5, "#fff");
+ *
+ *     // Draws the lanes
+ *     arcade.drawLanes(position1, scale1, offset1, position2, scale2, offset2, arcadeColors.lane, 3, 0.02);
+ *
+ *     // Draws one lane at position 0 (i.e. in middle of the track) with width laneWidth
+ *     arcade.drawLanePos(position1, scale1, offset1, position2, scale2, offset2, arcadeColors.lane, 0, arcadeParams.laneWidth);
+ *
+ *     // Draws the guiding line
+ *     arcade.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, "#00FF00");
+ *
+ *     // Draws the guiding arrow, turned front, with tail and with color rgb(100,200,187) received as arguments at (10,30) with width 20px and height also 20px
+ *     arcade.drawArrowFront(10, 30, 20, 20, "rgb(100,200,187)", 1);
+ *
+ *     // Draws the guiding arrow, turned left, with tail and with color rgb(100,200,187) received as arguments at (30,20) with width 20px and height also 20px
+ *     arcade.drawArrowLeft(30, 20, 20, 20, arcadeColors.laneArrow, 1);
+ *
+ *     // Draws the guiding arrow, turned right, with tail and with color rgb(100,200,187) received as arguments at (160,150) with width 20px and height also 20px
+ *     arcade.drawArrowRight(160, 150, 20, 20, arcadeColors.laneArrow, 1);
+ *
+ *     // Draws the simple guiding arrow, turned front, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
+ *     arcade.drawSimpleArrowFront(canvas.width-50,30,arcadeColors.laneArrow);
+ *
+ *     // Draws the simple guiding arrow, turned down, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
+ *     arcade.drawSimpleArrowDown(canvas.width-50,30,arcadeColors.laneArrow);
+ *
+ *     // Draws the simple guiding arrow, turned left, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
+ *     arcade.drawSimpleArrowLeft(canvas.width-50,30,arcadeColors.laneArrow,{inverse:true});
+ *
+ *     // Draws the simple guiding arrow, turned right, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
+ *     arcade.drawSimpleArrowRight(canvas.width-50,30,arcadeColors.laneArrow,{inverse:true});
+ *
  *
  */
 /*jslint lets: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
@@ -676,28 +624,8 @@ define(function (require, exports, module) {
     Arcade.prototype.parentClass = Widget.prototype;
 
     /**
-     * @function startSimulation
-     * @public
-     * @description StartSimulation method of the Arcade widget. This method sets timeout to load all configuration files provided as opt fields (dynamic require).
-     * @memberof module:Arcade
-     * @instance
-     */
-    Arcade.prototype.startSimulation = function () {
-        // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
-        setTimeout(
-            (function(self) {         //Self-executing func which takes 'this' as self
-                return function() {   //Return a function in the context of 'self'
-                    self.startSimulationAux(); //Thing you wanted to run as non-window 'this'
-                }
-            })(this),
-            50     //normal interval, 'this' scope not impacted here.
-        ); 
-        return this;
-    };
-
-    /**
      * @function startSimulationAux
-     * @private
+     * @public
      * @description StartSimulationAux method of the Arcade widget. This method loads the desired JSON Files and starts the corresponding simulation.
      * @memberof module:Arcade
      * @instance
@@ -789,7 +717,7 @@ define(function (require, exports, module) {
             logoRegex   = new RegExp("^"+this.realPrefix+"logo$");
         }
 
-		if(this.spritesImgsInformation.vehicleIndex!==null){
+        if(this.spritesImgsInformation.vehicleIndex!==null){
             frontRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+this.spritesImgsInformation.vehicleIndex+"_faced_front$");
             leftRegex       = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+this.spritesImgsInformation.vehicleIndex+"_faced_left$");
             rightRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+this.spritesImgsInformation.vehicleIndex+"_faced_right$");
@@ -800,182 +728,182 @@ define(function (require, exports, module) {
         }
 
         if(this.configurationFiles.spritesheetJSON){
-		    this.spritesReadJSON = JSON.parse(this.configurationFiles.spritesheetJSON);
-		    // Reading all JSON Sprites Available
-		    for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-		        this.spritesAvailable[k]={
-		            name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-		            value:this.spritesReadJSON.frames[k].frame
-		        };
-		        if(this.spritesAvailable[k].name.match(backgroundRegex)){
-		            this.main_sprites.background = this.spritesAvailable[k].value;
-		        }
-		        if(this.spritesAvailable[k].name.match(logoRegex)){
-		            this.main_sprites.logo = this.spritesAvailable[k].value;
-		        }
-		        if(this.spritesAvailable[k].name.match(frontRegex)){
-		            this.vehicle_faced_front = this.spritesAvailable[k].value;
-		        }
-		        if(this.spritesAvailable[k].name.match(leftRegex)){
-		            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-		        }
-		        if(this.spritesAvailable[k].name.match(rightRegex)){
-		            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-		        }
-		    }
+            this.spritesReadJSON = JSON.parse(this.configurationFiles.spritesheetJSON);
+            // Reading all JSON Sprites Available
+            for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+                this.spritesAvailable[k]={
+                    name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+                    value:this.spritesReadJSON.frames[k].frame
+                };
+                if(this.spritesAvailable[k].name.match(backgroundRegex)){
+                    this.main_sprites.background = this.spritesAvailable[k].value;
+                }
+                if(this.spritesAvailable[k].name.match(logoRegex)){
+                    this.main_sprites.logo = this.spritesAvailable[k].value;
+                }
+                if(this.spritesAvailable[k].name.match(frontRegex)){
+                    this.vehicle_faced_front = this.spritesAvailable[k].value;
+                }
+                if(this.spritesAvailable[k].name.match(leftRegex)){
+                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                }
+                if(this.spritesAvailable[k].name.match(rightRegex)){
+                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                }
+            }
 
-		    if(this.main_sprites.background===undefined || this.main_sprites.background===null){
-		        if(this.spritesImgsInformation.vehicleRealistic){
-		            if(this.spritesImgsInformation.backgroundIndex!==null){ // realistic image with that index does not exist
-		                backgroundRegex = new RegExp("^"+this.realPrefix+"background$");
-		            }else{  // realistic image does not exist
-		                backgroundRegex = new RegExp("^background");
-		            }
-		        }else{
-		            backgroundRegex = new RegExp("^background");
-		        }
+            if(this.main_sprites.background===undefined || this.main_sprites.background===null){
+                if(this.spritesImgsInformation.vehicleRealistic){
+                    if(this.spritesImgsInformation.backgroundIndex!==null){ // realistic image with that index does not exist
+                        backgroundRegex = new RegExp("^"+this.realPrefix+"background$");
+                    }else{  // realistic image does not exist
+                        backgroundRegex = new RegExp("^background");
+                    }
+                }else{
+                    backgroundRegex = new RegExp("^background");
+                }
 
-		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-		            this.spritesAvailable[k]={
-		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-		                value:this.spritesReadJSON.frames[k].frame
-		            };
-		            if(this.spritesAvailable[k].name.match(backgroundRegex)){
-		                this.main_sprites.background = this.spritesAvailable[k].value;
-		            }
-		        }
-		    }
+                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+                    this.spritesAvailable[k]={
+                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+                        value:this.spritesReadJSON.frames[k].frame
+                    };
+                    if(this.spritesAvailable[k].name.match(backgroundRegex)){
+                        this.main_sprites.background = this.spritesAvailable[k].value;
+                    }
+                }
+            }
 
-		    if(this.main_sprites.logo===undefined || this.main_sprites.logo===null){
-		        if(this.spritesImgsInformation.vehicleRealistic){
-		            if(this.spritesImgsInformation.logoIndex!==null){
-		                logoRegex   = new RegExp("^"+this.realPrefix+"logo$");
-		            }else{
-		                logoRegex   = new RegExp("^logo$");
-		            }
-		        }else{
-		            logoRegex   = new RegExp("^logo$");
-		        }
+            if(this.main_sprites.logo===undefined || this.main_sprites.logo===null){
+                if(this.spritesImgsInformation.vehicleRealistic){
+                    if(this.spritesImgsInformation.logoIndex!==null){
+                        logoRegex   = new RegExp("^"+this.realPrefix+"logo$");
+                    }else{
+                        logoRegex   = new RegExp("^logo$");
+                    }
+                }else{
+                    logoRegex   = new RegExp("^logo$");
+                }
 
-		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-		            this.spritesAvailable[k]={
-		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-		                value:this.spritesReadJSON.frames[k].frame
-		            };
-		            if(this.spritesAvailable[k].name.match(logoRegex)){
-		                this.main_sprites.logo = this.spritesAvailable[k].value;
-		            }
-		        }
-		    }
+                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+                    this.spritesAvailable[k]={
+                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+                        value:this.spritesReadJSON.frames[k].frame
+                    };
+                    if(this.spritesAvailable[k].name.match(logoRegex)){
+                        this.main_sprites.logo = this.spritesAvailable[k].value;
+                    }
+                }
+            }
 
-		    if(this.vehicle_faced_front===undefined || this.main_sprites.vehicle_faced_left===undefined || this.main_sprites.vehicle_faced_right===undefined || this.vehicle_faced_front===null || this.main_sprites.vehicle_faced_left===null || this.main_sprites.vehicle_faced_right===null){
-		        if(this.spritesImgsInformation.vehicleRealistic){
-		            if(this.spritesImgsInformation.vehicleIndex!==null){ // Realistic image with index does not exist
-		                frontRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_front$");
-		                leftRegex       = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_left$");
-		                rightRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_right$");
-		            }else{ // Realistic image without index does not exist
-		                frontRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_front$");
-		                leftRegex       = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_left$");
-		                rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
-		            }
-		        }
-		        else{
-		            frontRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_front$");
-		            leftRegex       = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_left$");
-		            rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
-		        }
+            if(this.vehicle_faced_front===undefined || this.main_sprites.vehicle_faced_left===undefined || this.main_sprites.vehicle_faced_right===undefined || this.vehicle_faced_front===null || this.main_sprites.vehicle_faced_left===null || this.main_sprites.vehicle_faced_right===null){
+                if(this.spritesImgsInformation.vehicleRealistic){
+                    if(this.spritesImgsInformation.vehicleIndex!==null){ // Realistic image with index does not exist
+                        frontRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_front$");
+                        leftRegex       = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_left$");
+                        rightRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_right$");
+                    }else{ // Realistic image without index does not exist
+                        frontRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_front$");
+                        leftRegex       = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_left$");
+                        rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
+                    }
+                }
+                else{
+                    frontRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_front$");
+                    leftRegex       = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_left$");
+                    rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
+                }
 
-		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-		            this.spritesAvailable[k]={
-		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-		                value:this.spritesReadJSON.frames[k].frame
-		            };
-		            if(this.spritesAvailable[k].name.match(frontRegex)){
-		                this.vehicle_faced_front = this.spritesAvailable[k].value;
-		            }
-		            if(this.spritesAvailable[k].name.match(leftRegex)){
-		                this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-		            }
-		            if(this.spritesAvailable[k].name.match(rightRegex)){
-		                this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-		            }
-		        }
-		    }
+                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+                    this.spritesAvailable[k]={
+                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+                        value:this.spritesReadJSON.frames[k].frame
+                    };
+                    if(this.spritesAvailable[k].name.match(frontRegex)){
+                        this.vehicle_faced_front = this.spritesAvailable[k].value;
+                    }
+                    if(this.spritesAvailable[k].name.match(leftRegex)){
+                        this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                    }
+                    if(this.spritesAvailable[k].name.match(rightRegex)){
+                        this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                    }
+                }
+            }
 
-		    if(this.main_sprites.background!==undefined && this.main_sprites.logo!==undefined && this.vehicle_faced_front!==undefined && this.main_sprites.vehicle_faced_left!==undefined && this.main_sprites.vehicle_faced_right!==undefined && this.main_sprites.background!==null && this.main_sprites.logo!==null && this.vehicle_faced_front!==null && this.main_sprites.vehicle_faced_left!==null && this.main_sprites.vehicle_faced_right!==null){
-		        this.readSprite=true;
-		    }else{
-		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-		            this.spritesAvailable[k]={
-		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-		                value:this.spritesReadJSON.frames[k].frame
-		            };
-		            if(this.spritesAvailable[k].name.match(/^background$/)){
-		                this.main_sprites.background = this.spritesAvailable[k].value;
-		            }
-		            if(this.spritesAvailable[k].name.match(/^logo$/)){
-		                this.main_sprites.logo = this.spritesAvailable[k].value;
-		            }
-		            if(this.spritesImgsInformation.vehicleType==="airplane"){
-		                if(this.spritesAvailable[k].name.match(/^airplane_faced_front$/)){
-		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^airplane_faced_left$/)){
-		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^airplane_faced_right$/)){
-		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-		                }
-		            }
-		            else if(this.spritesImgsInformation.vehicleType==="bicycle"){
-		                if(this.spritesAvailable[k].name.match(/^bicycle_faced_front$/)){
-		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^bicycle_faced_left$/)){
-		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^bicycle_faced_right$/)){
-		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-		                }
-		            }
-		            else if(this.spritesImgsInformation.vehicleType==="car") {
-		                if(this.spritesAvailable[k].name.match(/^car_faced_front$/)){
-		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^car_faced_left$/)){
-		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^car_faced_right$/)){
-		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-		                }
-		            }
-		            else if(this.spritesImgsInformation.vehicleType==="helicopter"){
-		                if(this.spritesAvailable[k].name.match(/^helicopter_faced_front$/)){
-		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^helicopter_faced_left$/)){
-		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^helicopter_faced_right$/)){
-		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-		                }
-		            }
-		            else if(this.spritesImgsInformation.vehicleType==="motorbike"){
-		                if(this.spritesAvailable[k].name.match(/^motorbike_faced_front$/)){
-		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^motorbike_faced_left$/)){
-		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^motorbike_faced_right$/)){
-		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-		                }
-		            }
-		        }
-		        this.readSprite=true;
-		    }
-		}
+            if(this.main_sprites.background!==undefined && this.main_sprites.logo!==undefined && this.vehicle_faced_front!==undefined && this.main_sprites.vehicle_faced_left!==undefined && this.main_sprites.vehicle_faced_right!==undefined && this.main_sprites.background!==null && this.main_sprites.logo!==null && this.vehicle_faced_front!==null && this.main_sprites.vehicle_faced_left!==null && this.main_sprites.vehicle_faced_right!==null){
+                this.readSprite=true;
+            }else{
+                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+                    this.spritesAvailable[k]={
+                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+                        value:this.spritesReadJSON.frames[k].frame
+                    };
+                    if(this.spritesAvailable[k].name.match(/^background$/)){
+                        this.main_sprites.background = this.spritesAvailable[k].value;
+                    }
+                    if(this.spritesAvailable[k].name.match(/^logo$/)){
+                        this.main_sprites.logo = this.spritesAvailable[k].value;
+                    }
+                    if(this.spritesImgsInformation.vehicleType==="airplane"){
+                        if(this.spritesAvailable[k].name.match(/^airplane_faced_front$/)){
+                            this.vehicle_faced_front = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^airplane_faced_left$/)){
+                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^airplane_faced_right$/)){
+                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                        }
+                    }
+                    else if(this.spritesImgsInformation.vehicleType==="bicycle"){
+                        if(this.spritesAvailable[k].name.match(/^bicycle_faced_front$/)){
+                            this.vehicle_faced_front = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^bicycle_faced_left$/)){
+                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^bicycle_faced_right$/)){
+                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                        }
+                    }
+                    else if(this.spritesImgsInformation.vehicleType==="car") {
+                        if(this.spritesAvailable[k].name.match(/^car_faced_front$/)){
+                            this.vehicle_faced_front = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^car_faced_left$/)){
+                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^car_faced_right$/)){
+                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                        }
+                    }
+                    else if(this.spritesImgsInformation.vehicleType==="helicopter"){
+                        if(this.spritesAvailable[k].name.match(/^helicopter_faced_front$/)){
+                            this.vehicle_faced_front = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^helicopter_faced_left$/)){
+                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^helicopter_faced_right$/)){
+                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                        }
+                    }
+                    else if(this.spritesImgsInformation.vehicleType==="motorbike"){
+                        if(this.spritesAvailable[k].name.match(/^motorbike_faced_front$/)){
+                            this.vehicle_faced_front = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^motorbike_faced_left$/)){
+                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^motorbike_faced_right$/)){
+                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                        }
+                    }
+                }
+                this.readSprite=true;
+            }
+        }
 
         this.onPageLoad(this.spritesFiles);
         // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
@@ -990,30 +918,8 @@ define(function (require, exports, module) {
     };
 
     /**
-     * @function hide
-     * @public
-     * @description Hide method of the Arcade widget. This method changes the current main div visibility to 'hidden'.
-     * @memberof module:Arcade
-     * @instance
-     */
-    Arcade.prototype.hide = function () {
-        return this.div.style("visibility", "hidden");
-    };
-
-    /**
-     * @function reveal
-     * @public
-     * @description Reveal method of the Arcade widget. This method changes the current main div visibility to 'visible'.
-     * @memberof module:Arcade
-     * @instance
-     */
-    Arcade.prototype.reveal = function () {
-        return this.div.style("visibility", "visible");
-    };
-
-    /**
      * @function onPageLoad
-     * @private
+     * @public
      * @description onPageLoad method of the Arcade widget. This method starts the arcade simulation and loads the required spritesheets, with all sprites defined in track object.
      * @param spritesFiles {Array} array of strings, with the names of the sprites images (spritesheets) to use. By default two are used, one for the objects and another for the font (text).
      * @memberof module:Arcade
@@ -1059,7 +965,7 @@ define(function (require, exports, module) {
 
     /**
      * @function renderSplashFrame
-     * @private
+     * @public
      * @description RenderSplashFrame method of the Arcade widget. This method draws the simulator home page, where the commands to control the simulator are displayed.
      * It is also initialized the lap timer, using jchronometer lib, as soon as the user uses the command to start the simulation(renderSimulatorFrame).
      * @memberof module:Arcade
@@ -1142,7 +1048,7 @@ define(function (require, exports, module) {
 
      /**
      * @function renderSplashPauseFrame
-     * @private
+     * @public
      * @description RenderSplashPauseFrame method of the Arcade widget. This method draws the simulator pause page, where the commands to control the simulator and to resume the simulation(renderSimulatorFrame) are displayed.
      * It is also resumed the lap timer, using jchronometer lib, as soon as the user uses the command to resume the simulation.
      * @memberof module:Arcade
@@ -1199,7 +1105,7 @@ define(function (require, exports, module) {
 
     /**
      * @function renderSplashEndFrame
-     * @private
+     * @public
      * @description RenderSplashEndFrame method of the Arcade widget. This method draws the simulator end page, where the commands to control the simulator and to start another simulation(renderSimulatorFrame) are displayed.
      * It is also initialized the new lap timer, using jchronometer lib, as soon as the user uses the command to start the new simulation.
      * @memberof module:Arcade
@@ -1265,7 +1171,7 @@ define(function (require, exports, module) {
 
     /**
      * @function renderSimulatorFrame
-     * @private
+     * @public
      * @description RenderSimulatorFrame method of the Arcade widget. This method renders each frame during the simulation.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -1542,7 +1448,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawText
-     * @private
+     * @public
      * @description DrawText method of the Arcade widget. This method draws text using sprite letters to simulate the arcade look.
      * That is, reading string and for each letter draw the corresponding sprite letter, using image spritesheetsImages[imageIndex].
      * @param string {String} Text to be rendered with the available text font.
@@ -1564,7 +1470,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawLanePos
-     * @private
+     * @public
      * @description DrawLanePos method of the Arcade widget. This method draws one lane in the desired position, received as argument.
      * @param pos1 {Float}
      * @param scale1 {Float}
@@ -1586,7 +1492,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawLanes
-     * @private
+     * @public
      * @description DrawLanes method of the Arcade widget. This method draws lanes according to numLanes, received as argument.
      * @param pos1 {Float}
      * @param scale1 {Float}
@@ -1617,7 +1523,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawGuidingLine
-     * @private
+     * @public
      * @description DrawGuidingLine method of the Arcade widget. This method draws a guiding line within the track.
      * @param pos1 {Float}
      * @param scale1 {Float}
@@ -1646,7 +1552,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSimpleArrowFront
-     * @private
+     * @public
      * @description DrawSimpleArrowFront method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
      * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
@@ -1669,7 +1575,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSimpleArrowDown
-     * @private
+     * @public
      * @description DrawSimpleArrowDown method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
      * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
@@ -1692,7 +1598,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSimpleArrowLeft
-     * @private
+     * @public
      * @description DrawSimpleArrowLeft method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
      * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
@@ -1724,7 +1630,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSimpleArrowRight
-     * @private
+     * @public
      * @description DrawSimpleArrowRight method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
      * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
@@ -1756,7 +1662,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawArrowFront
-     * @private
+     * @public
      * @description DrawArrowFront method of the Arcade widget. This method draws a guiding arrow in front of the vehicle.
      * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
@@ -1794,7 +1700,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawArrowRight
-     * @private
+     * @public
      * @description DrawArrowRight method of the Arcade widget. This method draws a guiding arrow, turned right, in front of the vehicle.
      * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
@@ -1840,7 +1746,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawArrowLeft
-     * @private
+     * @public
      * @description DrawArrowLeft method of the Arcade widget. This method draws a guiding arrow, turned left, in front of the vehicle.
      * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
@@ -1888,7 +1794,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSprite
-     * @private
+     * @public
      * @description DrawSprite method of the Arcade widget. This method draws an image of spritesheetsImages array. Usually it uses index 0, since this method is used to
      * draw objects and index 0 has the spritesheet image with all available objects. This method either receives only a sprite (and null as other arguments) or receives
      * an image, x, y and scale (sprite as a null argument). This allows to use render different images and sprites.
@@ -1919,7 +1825,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSegmentPortion
-     * @private
+     * @public
      * @description DrawSegmentPortion method of the Arcade widget. This method draws a segment portion.
      * @param pos1 {Float}
      * @param scale1 {Float}
@@ -1949,7 +1855,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawBackground
-     * @private
+     * @public
      * @description DrawBackground method of the Arcade widget. This method draws the main_sprites.background image, in position 'position'.
      * @param position {Float} Value of posx in controllable_car object, i.e. horizontal position, which is computed by adding/subtracting the turning field value every time the vehicle is turned left or right, in updateControllableCar method.
      * @memberof module:Arcade
@@ -1967,7 +1873,7 @@ define(function (require, exports, module) {
 
     /**
      * @function setColorsEndCanvas
-     * @private
+     * @public
      * @description SetColorsEndCanvas method of the Arcade widget. This method set the final colors of the track segment and lane.
      * The goal is to create the illusion of the starting/finishing line, which is black and white, and therefore, different from the colors that
      * those two segments have during the simulation.
@@ -1985,7 +1891,7 @@ define(function (require, exports, module) {
 
     /**
      * @function setColorsCanvas
-     * @private
+     * @public
      * @description SetColorsCanvas method of the Arcade widget. This method set the initial colors of canvas, which will prevail until the end of the track is reached.
      * @param alternate {Boolean} Value of comparison "counter < numberOfSegmentPerColor", which allows to choose the color of the segment depending on which segment is currently being rendered.
      * That is, numberOfSegmentPerColor has the number of sequential segments to be colored with the same color, and when reached the following segments must be rendered with another color so the simulator can
@@ -2015,7 +1921,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSegment
-     * @private
+     * @public
      * @description DrawSegment method of the Arcade widget. This method draws a segment of the simulator(which corresponds to an entire strip of the canvas).
      * To do so, this method uses drawSegmentPortion, setColorsEndCanvas methods. The latter is used to draw the finishing line (different colors).
      * @param position1 {Float}
@@ -2121,7 +2027,7 @@ define(function (require, exports, module) {
 
     /**
      * @function updateControllableCar
-     * @private
+     * @public
      * @description UpdateControllableCar method of the Arcade widget. This method updates the controllable car position and speed.
      * @memberof module:Arcade
      * @returns {carSprite} The created object with car sprite (image) and its X,Y coordinates, to be rendered after current position and speed has been changed.
@@ -2285,7 +2191,7 @@ define(function (require, exports, module) {
 
      /**
      * @function setControllableCarPosition
-     * @private
+     * @public
      * @description SetControllableCarPosition method of the Arcade widget. This method sets the controllable car position, posx, speed and vehicle sprite based on current direction.
      * @param {String} vehicleCurrentDirection the current vehicle direction, that allows to select the proper vehicle sprite(faced front, left or right).
      * @param {Float} newSpeed the new value of speed.
@@ -2339,7 +2245,7 @@ define(function (require, exports, module) {
 
     /**
      * @function calculateNewControllableCarPosition
-     * @private
+     * @public
      * @description calculateNewControllableCarPosition method of the Arcade widget. This method calculates the new controllable car position, based on
      * its speed, current position and posx values updated by the render method, using PVS status.
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -2518,7 +2424,7 @@ define(function (require, exports, module) {
 
     /**
      * @function getNrIterations
-     * @private
+     * @public
      * @description GetNrIterations method of the Arcade widget. This method computes the number of iterations required to draw the track defined in the JSON configuration file.
      * In the final version, the JSON structure, see example 1), will be the same, however fields 'height' and 'curve' will have other values
      * other than 0 and 0, respectively.
@@ -2574,7 +2480,7 @@ define(function (require, exports, module) {
 
     /**
      * @function detectBrowserType
-     * @private
+     * @public
      * @description DetectBrowserType method of the Arcade widget. This method detects current open Browser.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -2598,7 +2504,7 @@ define(function (require, exports, module) {
 
     /**
      * @function init
-     * @private
+     * @public
      * @description Init method of the Arcade widget. This method inits the canvas and adds the events onkeydown and onkeyup to capture the desired actions, i.e. accelerate, brake, etc.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -2608,19 +2514,6 @@ define(function (require, exports, module) {
         this.canvasInformations.canvas = d3.select("#arcadeSimulator_"+this.WIDGETID)[0][0];
         this.canvasInformations.context = this.canvasInformations.canvas.getContext('2d');
         return this;
-    };
-
-    /**
-     * @function render
-     * @public
-     * @description Render method of the Arcade widget.
-     * @param pvsState {Float} the new PVS state.
-     * @memberof module:Arcade
-     * @instance
-     */
-    Arcade.prototype.render = function (pvsState) {
-        this.WIDGETSTATE = pvsState;
-        return this.reveal();
     };
 
     module.exports = Arcade;
