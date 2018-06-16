@@ -1,0 +1,363 @@
+{"frames": [
+
+{
+	"filename": "real_background.png",
+	"frame": {"x":0,"y":601,"w":320,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":320,"h":140},
+	"sourceSize": {"w":320,"h":140},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_background2.png",
+	"frame": {"x":0,"y":321,"w":320,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":320,"h":140},
+	"sourceSize": {"w":320,"h":140},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_background3.png",
+	"frame": {"x":320,"y":321,"w":320,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":320,"h":140},
+	"sourceSize": {"w":320,"h":140},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_background4.png",
+	"frame": {"x":640,"y":321,"w":320,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":320,"h":140},
+	"sourceSize": {"w":320,"h":140},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_background5.png",
+	"frame": {"x":0,"y":461,"w":320,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":320,"h":140},
+	"sourceSize": {"w":320,"h":140},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_background6.png",
+	"frame": {"x":320,"y":461,"w":320,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":320,"h":140},
+	"sourceSize": {"w":320,"h":140},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_background7.png",
+	"frame": {"x":640,"y":461,"w":320,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":320,"h":140},
+	"sourceSize": {"w":320,"h":140},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_bicycle_back.png",
+	"frame": {"x":163,"y":185,"w":61,"h":107},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":61,"h":107},
+	"sourceSize": {"w":61,"h":107},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_bicycle_front.png",
+	"frame": {"x":471,"y":185,"w":61,"h":115},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":61,"h":115},
+	"sourceSize": {"w":61,"h":115},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_bicycle_left.png",
+	"frame": {"x":224,"y":185,"w":72,"h":108},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":72,"h":108},
+	"sourceSize": {"w":72,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_bicycle_right.png",
+	"frame": {"x":296,"y":185,"w":83,"h":110},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":83,"h":110},
+	"sourceSize": {"w":83,"h":110},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_boulder.png",
+	"frame": {"x":538,"y":0,"w":80,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":79},
+	"sourceSize": {"w":80,"h":79},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_boulder2.png",
+	"frame": {"x":0,"y":0,"w":67,"h":35},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":35},
+	"sourceSize": {"w":67,"h":35},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_bush.png",
+	"frame": {"x":331,"y":0,"w":128,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":75},
+	"sourceSize": {"w":128,"h":75},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_bush1.png",
+	"frame": {"x":320,"y":601,"w":225,"h":150},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":225,"h":150},
+	"sourceSize": {"w":225,"h":150},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_car_faced_front.png",
+	"frame": {"x":155,"y":0,"w":66,"h":60},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":60},
+	"sourceSize": {"w":66,"h":60},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_car_faced_left.png",
+	"frame": {"x":67,"y":0,"w":88,"h":60},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":88,"h":60},
+	"sourceSize": {"w":88,"h":60},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_car_faced_right.png",
+	"frame": {"x":221,"y":0,"w":87,"h":61},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":87,"h":61},
+	"sourceSize": {"w":87,"h":61},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_coconut_tree.png",
+	"frame": {"x":468,"y":83,"w":71,"h":101},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":71,"h":101},
+	"sourceSize": {"w":71,"h":101},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_column.png",
+	"frame": {"x":308,"y":0,"w":23,"h":74},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":23,"h":74},
+	"sourceSize": {"w":23,"h":74},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_dead_tree.png",
+	"frame": {"x":545,"y":601,"w":150,"h":157},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":157},
+	"sourceSize": {"w":150,"h":157},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_logo.png",
+	"frame": {"x":702,"y":83,"w":163,"h":102},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":163,"h":102},
+	"sourceSize": {"w":163,"h":102},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_logo2.png",
+	"frame": {"x":0,"y":185,"w":163,"h":102},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":163,"h":102},
+	"sourceSize": {"w":163,"h":102},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_logo3.png",
+	"frame": {"x":539,"y":83,"w":163,"h":102},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":163,"h":102},
+	"sourceSize": {"w":163,"h":102},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_motorbike2_back.png",
+	"frame": {"x":844,"y":0,"w":58,"h":83},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":58,"h":83},
+	"sourceSize": {"w":58,"h":83},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_motorbike2_front.png",
+	"frame": {"x":0,"y":83,"w":58,"h":83},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":58,"h":83},
+	"sourceSize": {"w":58,"h":83},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_motorbike2_left.png",
+	"frame": {"x":58,"y":83,"w":93,"h":85},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":93,"h":85},
+	"sourceSize": {"w":93,"h":85},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_motorbike2_right.png",
+	"frame": {"x":699,"y":0,"w":91,"h":80},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":80},
+	"sourceSize": {"w":91,"h":80},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_motorbike3_back.png",
+	"frame": {"x":790,"y":0,"w":54,"h":82},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":54,"h":82},
+	"sourceSize": {"w":54,"h":82},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_motorbike3_front.png",
+	"frame": {"x":902,"y":0,"w":58,"h":83},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":58,"h":83},
+	"sourceSize": {"w":58,"h":83},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_motorbike3_left.png",
+	"frame": {"x":618,"y":0,"w":81,"h":80},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":81,"h":80},
+	"sourceSize": {"w":81,"h":80},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_motorbike3_right.png",
+	"frame": {"x":459,"y":0,"w":79,"h":78},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":78},
+	"sourceSize": {"w":79,"h":78},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_motorbike_back.png",
+	"frame": {"x":244,"y":83,"w":66,"h":90},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":90},
+	"sourceSize": {"w":66,"h":90},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_motorbike_front.png",
+	"frame": {"x":403,"y":83,"w":65,"h":98},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":98},
+	"sourceSize": {"w":65,"h":98},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_motorbike_left.png",
+	"frame": {"x":151,"y":83,"w":93,"h":90},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":93,"h":90},
+	"sourceSize": {"w":93,"h":90},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_motorbike_right.png",
+	"frame": {"x":310,"y":83,"w":93,"h":90},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":93,"h":90},
+	"sourceSize": {"w":93,"h":90},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_palm_tree.png",
+	"frame": {"x":532,"y":185,"w":169,"h":127},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":169,"h":127},
+	"sourceSize": {"w":169,"h":127},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_tree.png",
+	"frame": {"x":379,"y":185,"w":92,"h":113},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":92,"h":113},
+	"sourceSize": {"w":92,"h":113},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "real_tree2.png",
+	"frame": {"x":701,"y":185,"w":250,"h":136},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":250,"h":136},
+	"sourceSize": {"w":250,"h":136},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "spritesheet.png",
+	"format": "RGBA8888",
+	"size": {"w":960,"h":758},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:73909c6f4593111b40a07f51ba9277be:adf0a976871951735ab438e1dd38d3b1:729adc6043343cfda41c447ce8f464d6$"
+}
+}

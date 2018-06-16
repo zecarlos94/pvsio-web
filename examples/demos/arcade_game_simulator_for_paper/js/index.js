@@ -379,7 +379,7 @@ require([
             // arcade.drawGamepad.callClickPVS("leftStick");
         }
 
-        var demoFolder = "arcade_game_simulator";
+        var demoFolder = "arcade_game_simulator_for_paper";
         //register event listener for websocket connection from the client
         client.addListener('WebSocketConnectionOpened', function (e) {
             console.log("web socket connected");
