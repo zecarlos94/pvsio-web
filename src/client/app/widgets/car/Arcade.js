@@ -778,13 +778,13 @@ define(function (require, exports, module) {
         }
 
         if(this.spritesImgsInformation.backgroundIndex!==null){
-            backgroundRegex = new RegExp("^"+this.realPrefix+"background"+this.backgroundImgIndex+"$");
+            backgroundRegex = new RegExp("^"+this.realPrefix+"background"+this.spritesImgsInformation.backgroundIndex+"$");
         }else{
             backgroundRegex = new RegExp("^"+this.realPrefix+"background");
         }
 
         if(this.spritesImgsInformation.logoIndex!==null){
-            logoRegex   = new RegExp("^"+this.realPrefix+"logo"+this.logoImgIndex+"$");
+            logoRegex   = new RegExp("^"+this.realPrefix+"logo"+this.spritesImgsInformation.logoIndex+"$");
         }else{
             logoRegex   = new RegExp("^"+this.realPrefix+"logo$");
         }
@@ -825,156 +825,156 @@ define(function (require, exports, module) {
 		    }
 
 		    if(this.main_sprites.background===undefined || this.main_sprites.background===null){
-		        if(this.spritesImgsInformation.vehicleRealistic){
-		            if(this.spritesImgsInformation.backgroundIndex!==null){ // realistic image with that index does not exist
-		                backgroundRegex = new RegExp("^"+this.realPrefix+"background$");
-		            }else{  // realistic image does not exist
-		                backgroundRegex = new RegExp("^background");
-		            }
-		        }else{
-		            backgroundRegex = new RegExp("^background");
-		        }
+                if(this.spritesImgsInformation.vehicleRealistic){
+                    if(this.spritesImgsInformation.backgroundIndex!==null){ // realistic image with that index does not exist
+                        backgroundRegex = new RegExp("^"+this.realPrefix+"background$");
+                    }else{  // realistic image does not exist
+                        backgroundRegex = new RegExp("^background");
+                    }
+                }else{
+                    backgroundRegex = new RegExp("^background");
+                }
 
-		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-		            this.spritesAvailable[k]={
-		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-		                value:this.spritesReadJSON.frames[k].frame
-		            };
-		            if(this.spritesAvailable[k].name.match(backgroundRegex)){
-		                this.main_sprites.background = this.spritesAvailable[k].value;
-		            }
-		        }
-		    }
+                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+                    this.spritesAvailable[k]={
+                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+                        value:this.spritesReadJSON.frames[k].frame
+                    };
+                    if(this.spritesAvailable[k].name.match(backgroundRegex)){
+                        this.main_sprites.background = this.spritesAvailable[k].value;
+                    }
+                }
+            }
 
-		    if(this.main_sprites.logo===undefined || this.main_sprites.logo===null){
-		        if(this.spritesImgsInformation.vehicleRealistic){
-		            if(this.spritesImgsInformation.logoIndex!==null){
-		                logoRegex   = new RegExp("^"+this.realPrefix+"logo$");
-		            }else{
-		                logoRegex   = new RegExp("^logo$");
-		            }
-		        }else{
-		            logoRegex   = new RegExp("^logo$");
-		        }
+            if(this.main_sprites.logo===undefined || this.main_sprites.logo===null){
+                if(this.spritesImgsInformation.vehicleRealistic){
+                    if(this.spritesImgsInformation.logoIndex!==null){
+                        logoRegex   = new RegExp("^"+this.realPrefix+"logo$");
+                    }else{
+                        logoRegex   = new RegExp("^logo$");
+                    }
+                }else{
+                    logoRegex   = new RegExp("^logo$");
+                }
 
-		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-		            this.spritesAvailable[k]={
-		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-		                value:this.spritesReadJSON.frames[k].frame
-		            };
-		            if(this.spritesAvailable[k].name.match(logoRegex)){
-		                this.main_sprites.logo = this.spritesAvailable[k].value;
-		            }
-		        }
-		    }
+                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+                    this.spritesAvailable[k]={
+                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+                        value:this.spritesReadJSON.frames[k].frame
+                    };
+                    if(this.spritesAvailable[k].name.match(logoRegex)){
+                        this.main_sprites.logo = this.spritesAvailable[k].value;
+                    }
+                }
+            }
 
-		    if(this.vehicle_faced_front===undefined || this.main_sprites.vehicle_faced_left===undefined || this.main_sprites.vehicle_faced_right===undefined || this.vehicle_faced_front===null || this.main_sprites.vehicle_faced_left===null || this.main_sprites.vehicle_faced_right===null){
-		        if(this.spritesImgsInformation.vehicleRealistic){
-		            if(this.spritesImgsInformation.vehicleIndex!==null){ // Realistic image with index does not exist
-		                frontRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_front$");
-		                leftRegex       = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_left$");
-		                rightRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_right$");
-		            }else{ // Realistic image without index does not exist
-		                frontRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_front$");
-		                leftRegex       = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_left$");
-		                rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
-		            }
-		        }
-		        else{
-		            frontRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_front$");
-		            leftRegex       = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_left$");
-		            rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
-		        }
+            if(this.vehicle_faced_front===undefined || this.main_sprites.vehicle_faced_left===undefined || this.main_sprites.vehicle_faced_right===undefined || this.vehicle_faced_front===null || this.main_sprites.vehicle_faced_left===null || this.main_sprites.vehicle_faced_right===null){
+                if(this.spritesImgsInformation.vehicleRealistic){
+                    if(this.spritesImgsInformation.vehicleIndex!==null){ // Realistic image with index does not exist
+                        frontRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_front$");
+                        leftRegex       = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_left$");
+                        rightRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+"_faced_right$");
+                    }else{ // Realistic image without index does not exist
+                        frontRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_front$");
+                        leftRegex       = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_left$");
+                        rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
+                    }
+                }
+                else{
+                    frontRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_front$");
+                    leftRegex       = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_left$");
+                    rightRegex      = new RegExp("^"+this.spritesImgsInformation.vehicleType+"_faced_right$");
+                }
 
-		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-		            this.spritesAvailable[k]={
-		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-		                value:this.spritesReadJSON.frames[k].frame
-		            };
-		            if(this.spritesAvailable[k].name.match(frontRegex)){
-		                this.vehicle_faced_front = this.spritesAvailable[k].value;
-		            }
-		            if(this.spritesAvailable[k].name.match(leftRegex)){
-		                this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-		            }
-		            if(this.spritesAvailable[k].name.match(rightRegex)){
-		                this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-		            }
-		        }
-		    }
+                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+                    this.spritesAvailable[k]={
+                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+                        value:this.spritesReadJSON.frames[k].frame
+                    };
+                    if(this.spritesAvailable[k].name.match(frontRegex)){
+                        this.vehicle_faced_front = this.spritesAvailable[k].value;
+                    }
+                    if(this.spritesAvailable[k].name.match(leftRegex)){
+                        this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                    }
+                    if(this.spritesAvailable[k].name.match(rightRegex)){
+                        this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                    }
+                }
+            }
 
-		    if(this.main_sprites.background!==undefined && this.main_sprites.logo!==undefined && this.vehicle_faced_front!==undefined && this.main_sprites.vehicle_faced_left!==undefined && this.main_sprites.vehicle_faced_right!==undefined && this.main_sprites.background!==null && this.main_sprites.logo!==null && this.vehicle_faced_front!==null && this.main_sprites.vehicle_faced_left!==null && this.main_sprites.vehicle_faced_right!==null){
-		        this.readSprite=true;
-		    }else{
-		        for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-		            this.spritesAvailable[k]={
-		                name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-		                value:this.spritesReadJSON.frames[k].frame
-		            };
-		            if(this.spritesAvailable[k].name.match(/^background$/)){
-		                this.main_sprites.background = this.spritesAvailable[k].value;
-		            }
-		            if(this.spritesAvailable[k].name.match(/^logo$/)){
-		                this.main_sprites.logo = this.spritesAvailable[k].value;
-		            }
-		            if(this.spritesImgsInformation.vehicleType==="airplane"){
-		                if(this.spritesAvailable[k].name.match(/^airplane_faced_front$/)){
-		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^airplane_faced_left$/)){
-		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^airplane_faced_right$/)){
-		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-		                }
-		            }
-		            else if(this.spritesImgsInformation.vehicleType==="bicycle"){
-		                if(this.spritesAvailable[k].name.match(/^bicycle_faced_front$/)){
-		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^bicycle_faced_left$/)){
-		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^bicycle_faced_right$/)){
-		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-		                }
-		            }
-		            else if(this.spritesImgsInformation.vehicleType==="car") {
-		                if(this.spritesAvailable[k].name.match(/^car_faced_front$/)){
-		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^car_faced_left$/)){
-		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^car_faced_right$/)){
-		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-		                }
-		            }
-		            else if(this.spritesImgsInformation.vehicleType==="helicopter"){
-		                if(this.spritesAvailable[k].name.match(/^helicopter_faced_front$/)){
-		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^helicopter_faced_left$/)){
-		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^helicopter_faced_right$/)){
-		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-		                }
-		            }
-		            else if(this.spritesImgsInformation.vehicleType==="motorbike"){
-		                if(this.spritesAvailable[k].name.match(/^motorbike_faced_front$/)){
-		                    this.vehicle_faced_front = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^motorbike_faced_left$/)){
-		                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-		                }
-		                if(this.spritesAvailable[k].name.match(/^motorbike_faced_right$/)){
-		                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-		                }
-		            }
-		        }
-		        this.readSprite=true;
-		    }
+            if(this.main_sprites.background!==undefined && this.main_sprites.logo!==undefined && this.vehicle_faced_front!==undefined && this.main_sprites.vehicle_faced_left!==undefined && this.main_sprites.vehicle_faced_right!==undefined && this.main_sprites.background!==null && this.main_sprites.logo!==null && this.vehicle_faced_front!==null && this.main_sprites.vehicle_faced_left!==null && this.main_sprites.vehicle_faced_right!==null){
+                this.readSprite=true;
+            }else{
+                for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+                    this.spritesAvailable[k]={
+                        name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+                        value:this.spritesReadJSON.frames[k].frame
+                    };
+                    if(this.spritesAvailable[k].name.match(/^background$/)){
+                        this.main_sprites.background = this.spritesAvailable[k].value;
+                    }
+                    if(this.spritesAvailable[k].name.match(/^logo$/)){
+                        this.main_sprites.logo = this.spritesAvailable[k].value;
+                    }
+                    if(this.spritesImgsInformation.vehicleType==="airplane"){
+                        if(this.spritesAvailable[k].name.match(/^airplane_faced_front$/)){
+                            this.vehicle_faced_front = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^airplane_faced_left$/)){
+                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^airplane_faced_right$/)){
+                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                        }
+                    }
+                    else if(this.spritesImgsInformation.vehicleType==="bicycle"){
+                        if(this.spritesAvailable[k].name.match(/^bicycle_faced_front$/)){
+                            this.vehicle_faced_front = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^bicycle_faced_left$/)){
+                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^bicycle_faced_right$/)){
+                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                        }
+                    }
+                    else if(this.spritesImgsInformation.vehicleType==="car") {
+                        if(this.spritesAvailable[k].name.match(/^car_faced_front$/)){
+                            this.vehicle_faced_front = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^car_faced_left$/)){
+                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^car_faced_right$/)){
+                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                        }
+                    }
+                    else if(this.spritesImgsInformation.vehicleType==="helicopter"){
+                        if(this.spritesAvailable[k].name.match(/^helicopter_faced_front$/)){
+                            this.vehicle_faced_front = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^helicopter_faced_left$/)){
+                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^helicopter_faced_right$/)){
+                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                        }
+                    }
+                    else if(this.spritesImgsInformation.vehicleType==="motorbike"){
+                        if(this.spritesAvailable[k].name.match(/^motorbike_faced_front$/)){
+                            this.vehicle_faced_front = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^motorbike_faced_left$/)){
+                            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+                        }
+                        if(this.spritesAvailable[k].name.match(/^motorbike_faced_right$/)){
+                            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+                        }
+                    }
+                }
+                this.readSprite=true;
+            }
 		}
 
         this.onPageLoad(this.spritesFiles);

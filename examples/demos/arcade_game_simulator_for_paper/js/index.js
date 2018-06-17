@@ -294,8 +294,8 @@ require([
             realisticImgs: true,
             vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
             // vehicleImgIndex: 2, // defines vehicle sprite image suffix
-            logoImgIndex: 1, // defines logo sprite image suffix
-            backgroundImgIndex: 1, // defines background sprite image suffix
+            logoImgIndex: 3, // defines logo sprite image suffix
+            // backgroundImgIndex: 2, // defines background sprite image suffix
             stripePositions: {
                 trackP1: -0.55,
                 trackP2: 0.55,
