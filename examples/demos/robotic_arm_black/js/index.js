@@ -83,67 +83,6 @@ require([
             }
         }
 
-        //  window.addEventListener('keydown', (event) => {
-        //     const keyCode = event.keyCode;
-        //     // console.log(keyCode);
-        //     if(keyCode===85){
-        //       // key 'u'
-        //       // console.log("UP");
-        //       document.getElementById("forearm_flat").style.visibility = "hidden";
-        //       document.getElementById("hand_flat").style.visibility = "hidden";
-        //       document.getElementById("forearm_down").style.visibility = "hidden";
-        //       document.getElementById("hand_down").style.visibility = "hidden";
-        //       document.getElementById("hand_up_only").style.visibility = "hidden";
-        //       document.getElementById("hand_down_only").style.visibility = "hidden";
-        //       document.getElementById("forearm_up").style.visibility = "visible";
-        //       document.getElementById("hand_up").style.visibility = "visible";
-        //     }else if(keyCode===68){
-        //       // key 'd'
-        //       // console.log("DOWN");
-        //       document.getElementById("forearm_flat").style.visibility = "hidden";
-        //       document.getElementById("hand_flat").style.visibility = "hidden";
-        //       document.getElementById("forearm_up").style.visibility = "hidden";
-        //       document.getElementById("hand_up").style.visibility = "hidden";
-        //       document.getElementById("hand_up_only").style.visibility = "hidden";
-        //       document.getElementById("hand_down_only").style.visibility = "hidden";
-        //       document.getElementById("forearm_down").style.visibility = "visible";
-        //       document.getElementById("hand_down").style.visibility = "visible";
-        //     }else if(keyCode===70){
-        //       // key 'f'
-        //       // console.log("FLAT");
-        //       document.getElementById("forearm_flat").style.visibility = "visible";
-        //       document.getElementById("hand_flat").style.visibility = "visible";
-        //       document.getElementById("forearm_up").style.visibility = "hidden";
-        //       document.getElementById("hand_up").style.visibility = "hidden";
-        //       document.getElementById("forearm_down").style.visibility = "hidden";
-        //       document.getElementById("hand_down").style.visibility = "hidden";
-        //       document.getElementById("hand_up_only").style.visibility = "hidden";
-        //       document.getElementById("hand_down_only").style.visibility = "hidden";
-        //     }else if(keyCode===72){
-        //       // key 'h'
-        //       // console.log("HAND UP");
-        //       document.getElementById("forearm_flat").style.visibility = "visible";
-        //       document.getElementById("hand_flat").style.visibility = "hidden";
-        //       document.getElementById("forearm_down").style.visibility = "hidden";
-        //       document.getElementById("hand_down").style.visibility = "hidden";
-        //       document.getElementById("forearm_up").style.visibility = "hidden";
-        //       document.getElementById("hand_up").style.visibility = "hidden";
-        //       document.getElementById("hand_up_only").style.visibility = "visible";
-        //       document.getElementById("hand_down_only").style.visibility = "hidden";
-        //     }else if(keyCode===74){
-        //       // key 'j'
-        //       // console.log("HAND DOWN");
-        //       document.getElementById("forearm_flat").style.visibility = "visible";
-        //       document.getElementById("hand_flat").style.visibility = "hidden";
-        //       document.getElementById("forearm_up").style.visibility = "hidden";
-        //       document.getElementById("hand_up").style.visibility = "hidden";
-        //       document.getElementById("forearm_down").style.visibility = "hidden";
-        //       document.getElementById("hand_down").style.visibility = "hidden";
-        //       document.getElementById("hand_up_only").style.visibility = "hidden";
-        //       document.getElementById("hand_down_only").style.visibility = "visible";
-        //     }
-        // });
-
         var gamepad = {};
         // ----------------------------- GAMEPAD CONTROLLER -----------------------------
        

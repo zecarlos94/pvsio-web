@@ -1,7 +1,6 @@
 /**
- * @author Paolo Masci, Patrick Oladimeji, José Carlos
- * @date 27/03/15 20:30:33 PM
- * Last Modified @date 27/02/18 09:07:15 PM
+ * @author José Carlos
+ * @date 27/02/18 09:07:15 PM
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 require.config({
