@@ -706,13 +706,13 @@ define(function (require, exports, module) {
         }
 
         if(this.spritesImgsInformation.backgroundIndex!==null){
-            backgroundRegex = new RegExp("^"+this.realPrefix+"background"+this.backgroundImgIndex+"$");
+            backgroundRegex = new RegExp("^"+this.realPrefix+"background"+this.spritesImgsInformation.backgroundIndex+"$");
         }else{
             backgroundRegex = new RegExp("^"+this.realPrefix+"background");
         }
 
         if(this.spritesImgsInformation.logoIndex!==null){
-            logoRegex   = new RegExp("^"+this.realPrefix+"logo"+this.logoImgIndex+"$");
+            logoRegex   = new RegExp("^"+this.realPrefix+"logo"+this.spritesImgsInformation.logoIndex+"$");
         }else{
             logoRegex   = new RegExp("^"+this.realPrefix+"logo$");
         }
@@ -987,16 +987,29 @@ define(function (require, exports, module) {
             if(this.readConfiguration && this.readSprite){
                 this.canvasInformations.context.drawImage(this.spritesheetsImages[0],  this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, 110, 15, 0.7*this.main_sprites.logo.w, 0.7*this.main_sprites.logo.h);
 
-                this.drawText("Instructions:",{x: 120, y: 90}, 1);
-                this.drawText("Click on space bar to start",{x: 60, y: 110}, 1);
-                this.drawText("Click on key s to pause",{x: 60, y: 120}, 1);
-                this.drawText("Click on key q to end",{x: 60, y: 130}, 1);
-                this.drawText("Use left and rigth arrows",{x: 80, y: 145}, 1);
-                this.drawText("to control the vehicle",{x: 90, y: 155}, 1);
-                this.drawText("You can start now",{x: 110, y: 175}, 1);
-                this.drawText("Credits:",{x: 145, y: 195}, 1);
-                this.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
-                this.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
+                if(this.realPrefix!==""){
+                    this.drawText("Instructions:",{x: 130, y: 100}, 1);
+                    this.drawText("Click on space bar to start",{x: 80, y: 120}, 1);
+                    this.drawText("Click on key s to pause",{x: 80, y: 130}, 1);
+                    this.drawText("Click on key q to end",{x: 80, y: 140}, 1);
+                    this.drawText("Use left and rigth arrows",{x: 90, y: 155}, 1);
+                    this.drawText("to control the vehicle",{x: 100, y: 165}, 1);
+                    this.drawText("You can start now",{x: 110, y: 185}, 1);
+                    this.drawText("Credits:",{x: 145, y: 205}, 1);
+                    this.drawText("Jose Carlos and PVSio-web",{x: 90, y: 220}, 1);
+                    this.drawText("Interactive Prototype Builder",{x: 80, y: 230}, 1);
+                }else{
+                    this.drawText("Instructions:",{x: 120, y: 90}, 1);
+                    this.drawText("Click on space bar to start",{x: 60, y: 110}, 1);
+                    this.drawText("Click on key s to pause",{x: 60, y: 120}, 1);
+                    this.drawText("Click on key q to end",{x: 60, y: 130}, 1);
+                    this.drawText("Use left and rigth arrows",{x: 80, y: 145}, 1);
+                    this.drawText("to control the vehicle",{x: 90, y: 155}, 1);
+                    this.drawText("You can start now",{x: 110, y: 175}, 1);
+                    this.drawText("Credits:",{x: 145, y: 195}, 1);
+                    this.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
+                    this.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
+                }
 
                 if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
                     clearInterval(this.intervals.splashInterval);
@@ -1064,12 +1077,21 @@ define(function (require, exports, module) {
 
         this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, 110, 15, 0.7*this.main_sprites.logo.w, 0.7*this.main_sprites.logo.h);
 
-        this.drawText("Click on space bar to resume",{x: 60, y: 100}, 1);
-        this.drawText("Use left and rigth arrows",{x: 70, y: 135}, 1);
-        this.drawText("to control the car",{x: 100, y: 155}, 1);
-        this.drawText("Credits:",{x: 145, y: 195}, 1);
-        this.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
-        this.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
+        if(this.realPrefix!==""){
+            this.drawText("Click on space bar to resume",{x: 80, y: 100}, 1);
+            this.drawText("Use left and rigth arrows",{x: 90, y: 135}, 1);
+            this.drawText("to control the car",{x: 110, y: 155}, 1);
+            this.drawText("Credits:",{x: 145, y: 195}, 1);
+            this.drawText("Jose Carlos and PVSio-web",{x: 90, y: 210}, 1);
+            this.drawText("Interactive Prototype Builder",{x: 80, y: 220}, 1);
+        }else{
+            this.drawText("Click on space bar to resume",{x: 60, y: 100}, 1);
+            this.drawText("Use left and rigth arrows",{x: 70, y: 135}, 1);
+            this.drawText("to control the car",{x: 100, y: 155}, 1);
+            this.drawText("Credits:",{x: 145, y: 195}, 1);
+            this.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
+            this.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
+        }
 
         if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
             this.canvasInformations.chronometer.start();
@@ -1103,6 +1125,7 @@ define(function (require, exports, module) {
         return this;
     };
 
+
     /**
      * @function renderSplashEndFrame
      * @public
@@ -1121,11 +1144,19 @@ define(function (require, exports, module) {
 
         this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, 110, 15, 0.7*this.main_sprites.logo.w, 0.7*this.main_sprites.logo.h);
 
-        this.drawText("Thank you for playing!",{x: 90, y: 100}, 1);
-        this.drawText("Click on space bar to start again",{x: 40, y: 125}, 1);
-        this.drawText("Credits:",{x: 145, y: 195}, 1);
-        this.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
-        this.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
+        if(this.realPrefix!==""){
+            this.drawText("Thank you for playing!",{x: 100, y: 100}, 1);
+            this.drawText("Click on space bar to start again",{x: 75, y: 125}, 1);
+            this.drawText("Credits:",{x: 145, y: 195}, 1);
+            this.drawText("Jose Carlos and PVSio-web",{x: 90, y: 210}, 1);
+            this.drawText("Interactive Prototype Builder",{x: 80, y: 220}, 1);
+        }else{
+            this.drawText("Thank you for playing!",{x: 90, y: 100}, 1);
+            this.drawText("Click on space bar to start again",{x: 40, y: 125}, 1);
+            this.drawText("Credits:",{x: 145, y: 195}, 1);
+            this.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
+            this.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
+        }
 
         if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
             clearInterval(this.intervals.splashInterval);
@@ -1177,7 +1208,7 @@ define(function (require, exports, module) {
      * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.renderSimulatorFrame = function () {
+     Arcade.prototype.renderSimulatorFrame = function () {
         if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.quit_attribute){ // Key 'q' ends current simulator
             this.canvasInformations.chronometer.stop();
             this.soundWidget.hide();
@@ -1307,59 +1338,86 @@ define(function (require, exports, module) {
         this.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
 
         if(this.lapInformation.lapNumber!==0){ 
-	        if(this.WIDGETSTATE!==null){
-	            this.lapInformation.currentLapNumber = parseInt(this.WIDGETSTATE[this.vehicle.lap_attribute][this.vehicle.lap_value]);
+            if(this.WIDGETSTATE!==null){
+                this.lapInformation.currentLapNumber = parseInt(this.WIDGETSTATE[this.vehicle.lap_attribute][this.vehicle.lap_value]);
 
-	            if(absoluteIndex >= this.arcadeParams.numIterations-this.renderCanvas.depthOfField-1){
-	                if(this.lapInformation.currentLapNumber<=this.lapInformation.lapNumber && this.lapInformation.counterAux===0){
-	                    ButtonActionsQueue.queueGUIAction(this.vehicle.newLap_functionNamePVS, this.lapInformation.callback);
-	                }
-	                this.lapInformation.counterAux=1;
-	            }
+                if(absoluteIndex >= this.arcadeParams.numIterations-this.renderCanvas.depthOfField-1){
+                    if(this.lapInformation.currentLapNumber<=this.lapInformation.lapNumber && this.lapInformation.counterAux===0){
+                        ButtonActionsQueue.queueGUIAction(this.vehicle.newLap_functionNamePVS, this.lapInformation.callback);
+                    }
+                    this.lapInformation.counterAux=1;
+                }
 
-	            if(this.lapInformation.lastLapNumber===this.lapInformation.currentLapNumber-1){
-	                this.lapInformation.lastLapNumber=this.lapInformation.currentLapNumber;
-	                this.lapInformation.counterAux=0;
-	            }
+                if(this.lapInformation.lastLapNumber===this.lapInformation.currentLapNumber-1){
+                    this.lapInformation.lastLapNumber=this.lapInformation.currentLapNumber;
+                    this.lapInformation.counterAux=0;
+                }
 
-	            if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber){
-	                this.drawText("1 Lap",{x: 10, y: 15}, 1);
-	                this.drawText("To Go",{x: 10, y: 25}, 1);
-	            }
+                if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber){
+                    if(this.realPrefix!==""){
+                        this.drawText("1 Lap",{x: 10, y: 25}, 1);
+                        this.drawText("To Go",{x: 10, y: 35}, 1);
+                    }else{
+                        this.drawText("1 Lap",{x: 10, y: 15}, 1);
+                        this.drawText("To Go",{x: 10, y: 25}, 1);
+                    }
+                }
 
-	            if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber && this.lapInformation.currentPercentage>=100){
-	                clearInterval(this.intervals.simulatorInterval);
-	                this.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
-	                this.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
-	                this.drawText("The Simulator", {x: 100, y: 70}, 1);
-	                this.soundWidget.pauseAll();
+                if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber && this.lapInformation.currentPercentage>=100){
+                    clearInterval(this.intervals.simulatorInterval);
+                    if(this.realPrefix!==""){
+                        this.drawText("Simulation Ended!", {x: 90, y: 50}, 1);
+                        this.drawText("Wait 5 Seconds To Reload", {x: 60, y: 70}, 1);
+                        this.drawText("The Simulator", {x: 100, y: 80}, 1);
+                    }else{
+                        this.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
+                        this.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
+                        this.drawText("The Simulator", {x: 100, y: 70}, 1); 
+                    }
+                    this.soundWidget.pauseAll();
 
-	                // Delayed function call by 5 seconds to reload simulator
-	                // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
-	                setTimeout(
-	                    (function(self) {         //Self-executing func which takes 'this' as self
-	                        return function() {   //Return a function in the context of 'self'
-	                            location.reload(); //Thing you wanted to run as non-window 'this'
-	                        }
-	                    })(this),
-	                    5000     //normal interval, 'this' scope not impacted here.
-	                ); 
-	            }
-	        } 
+                    // Delayed function call by 5 seconds to reload simulator
+                    // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
+                    setTimeout(
+                        (function(self) {         //Self-executing func which takes 'this' as self
+                            return function() {   //Return a function in the context of 'self'
+                                location.reload(); //Thing you wanted to run as non-window 'this'
+                            }
+                        })(this),
+                        5000     //normal interval, 'this' scope not impacted here.
+                    ); 
+                }
+            } 
 
-	        // Draw Header
-	        if(this.lapInformation.currentLapNumber<this.lapInformation.lapNumber){
-	            this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 1}, 1);
-	        }else{
-	            this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 1}, 1);
-	        }
+            // Draw Header
+            if(this.lapInformation.currentLapNumber<this.lapInformation.lapNumber){
+                if(this.realPrefix!==""){
+                   this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 11}, 1);
+                }else{
+                   this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 1}, 1);
+                }
+            }else{
+                if(this.realPrefix!==""){
+                   this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 11}, 1);
+                }else{
+                   this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 1}, 1);
+                }
+            }
 
-	        this.lapInformation.currentPercentage = Math.round(absoluteIndex/(this.arcadeParams.numIterations-this.renderCanvas.depthOfField)*100);
-	        if(this.lapInformation.currentPercentage>100){
-	            this.drawText("Current Lap 100%",{x: 100, y: 1},1);
-	        }else{
-	            this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: 100, y: 1},1);
-	        }
+            this.lapInformation.currentPercentage = Math.round(absoluteIndex/(this.arcadeParams.numIterations-this.renderCanvas.depthOfField)*100);
+            if(this.lapInformation.currentPercentage>100){
+                if(this.realPrefix!==""){
+                   this.drawText("Current Lap 100%",{x: 100, y: 11},1);
+                }else{
+                   this.drawText("Current Lap 100%",{x: 100, y: 1},1);
+                }
+            }else{
+                if(this.realPrefix!==""){
+                   this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: 100, y: 11},1);
+                }else{
+                   this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: 100, y: 1},1);
+                }
+            }
         }// else infinit simulation
 
 
@@ -1373,16 +1431,32 @@ define(function (require, exports, module) {
                     this.lastPVSValues.lastSpeedPVS = Math.ceil(speedValue);
                 }
                 if(this.lapInformation.lapNumber!==0){
-                	this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 260, y: 1}, 1);
-            	}else{
-            		this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 15, y: 5}, 1);
-            	}
+                    if(this.realPrefix!==""){
+                       this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 260, y: 11}, 1);
+                    }else{
+                       this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 260, y: 1}, 1);    
+                    }
+                }else{
+                    if(this.realPrefix!==""){
+                      this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 15, y: 15}, 1);
+                    }else{
+                      this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 15, y: 5}, 1);
+                    }
+                }
             }else{
-            	if(this.lapInformation.lapNumber!==0){
-                	this.drawText(""+0+" kmh", {x: 260, y: 1}, 1);
-            	}else{
-            		this.drawText(""+0+" kmh", {x: 15, y: 5}, 1);
-            	}
+                if(this.lapInformation.lapNumber!==0){
+                    if(this.realPrefix!==""){
+                       this.drawText(""+0+" kmh", {x: 260, y: 11}, 1);
+                    }else{
+                       this.drawText(""+0+" kmh", {x: 260, y: 1}, 1);
+                    }
+                }else{
+                    if(this.realPrefix!==""){
+                      this.drawText(""+0+" kmh", {x: 15, y: 15}, 1);
+                    }else{
+                      this.drawText(""+0+" kmh", {x: 15, y: 5}, 1);
+                    }
+                }
             }
             if(this.WIDGETSTATE.rpm!=="0"){
                 let currentRPMPVS = this.WIDGETSTATE.rpm;
@@ -1392,16 +1466,32 @@ define(function (require, exports, module) {
                     this.lastPVSValues.lastRPMPVS = Math.ceil(rpmValue);
                 }
                 if(this.lapInformation.lapNumber!==0){
-                	this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 10}, 1);
-            	}else{
-            		this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 5}, 1);
-            	}
+                    if(this.realPrefix!==""){
+                       this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 20}, 1);
+                    }else{
+                       this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 10}, 1);
+                    }
+                }else{
+                    if(this.realPrefix!==""){
+                      this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 15}, 1);
+                    }else{
+                      this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 5}, 1);
+                    }
+                }
             }else{
-            	if(this.lapInformation.lapNumber!==0){
-                	this.drawText(""+0+" rpm", {x: 260, y: 10}, 1);
-            	}else{
-            		this.drawText(""+0+" rpm", {x: 260, y: 5}, 1);
-            	}
+                if(this.lapInformation.lapNumber!==0){
+                    if(this.realPrefix!==""){
+                       this.drawText(""+0+" rpm", {x: 260, y: 20}, 1);
+                    }else{
+                       this.drawText(""+0+" rpm", {x: 260, y: 10}, 1);
+                    }
+                }else{
+                    if(this.realPrefix!==""){
+                      this.drawText(""+0+" rpm", {x: 260, y: 15}, 1);
+                    }else{
+                      this.drawText(""+0+" rpm", {x: 260, y: 5}, 1);
+                    }
+                }
             }
         }
 
@@ -1410,9 +1500,17 @@ define(function (require, exports, module) {
         this.canvasInformations.currentTimeString = res[0] + " h:" + this.canvasInformations.time[1] + " m:" + this.canvasInformations.time[2] + " s:" + this.canvasInformations.time[3] + " ms";
         
         if(this.lapInformation.lapNumber!==0){
-        	this.drawText(this.canvasInformations.currentTimeString, {x: 80, y: 15}, 1);
+            if(this.realPrefix!==""){
+               this.drawText(this.canvasInformations.currentTimeString, {x: 90, y: 25}, 1);
+            }else{
+                this.drawText(this.canvasInformations.currentTimeString, {x: 80, y: 15}, 1);
+            }
         }else{
-        	this.drawText(this.canvasInformations.currentTimeString, {x: 80, y: 5}, 1);
+            if(this.realPrefix!==""){
+               this.drawText(this.canvasInformations.currentTimeString, {x: 90, y: 15}, 1);
+            }else{
+               this.drawText(this.canvasInformations.currentTimeString, {x: 80, y: 5}, 1);
+            }
         }
 
         // Draw Simulator Logo
@@ -1427,24 +1525,25 @@ define(function (require, exports, module) {
             if(this.WIDGETSTATE[this.vehicle.sound_attribute]!==this.lastPVSValues.lastSoundPVS){
                 this.lastPVSValues.lastSoundPVS = this.WIDGETSTATE[this.vehicle.sound_attribute];
                 if(this.lastPVSValues.lastSoundPVS===this.vehicle.mute_attribute){
-                	this.soundWidget.mute();
+                    this.soundWidget.mute();
                 }else if(this.lastPVSValues.lastSoundPVS===this.vehicle.unmute_attribute){
-					this.soundWidget.reveal();
-		            this.soundWidget.playSound(2); //startup song
-		            this.soundWidget.playSound(0); //background song
-		            this.soundWidget.setVolume(0.4,0);
-		            this.soundWidget.onEndedSound(2,[
-		                {
-		                indexPlayNext: 1, //idle song
-		                newVolume: 1.0
-		                }
-		            ]);
+                    this.soundWidget.reveal();
+                    this.soundWidget.playSound(2); //startup song
+                    this.soundWidget.playSound(0); //background song
+                    this.soundWidget.setVolume(0.4,0);
+                    this.soundWidget.onEndedSound(2,[
+                        {
+                        indexPlayNext: 1, //idle song
+                        newVolume: 1.0
+                        }
+                    ]);
                 }
             }
         }
 
         return this;
     };
+
 
     /**
      * @function drawText
@@ -1459,11 +1558,19 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.drawText = function (string, pos, imageIndex) {
-        string = string.toUpperCase();
-        let cur = pos.x;
-        for(let i=0; i < string.length; i++) {
-            this.canvasInformations.context.drawImage(this.spritesheetsImages[imageIndex], (string.charCodeAt(i) - 32) * 8, 0, 8, 8, cur, pos.y, 8, 8);
-            cur += 8;
+       if(this.realPrefix!==""){
+            string = string.toUpperCase();
+            this.canvasInformations.context.font = "10px Arial";
+            this.canvasInformations.context.fillStyle = "white";
+            this.canvasInformations.context.fillText(string,pos.x,pos.y);
+        }
+        else{
+            string = string.toUpperCase();
+            let cur = pos.x;
+            for(let i=0; i < string.length; i++) {
+                this.canvasInformations.context.drawImage(this.spritesheetsImages[imageIndex], (string.charCodeAt(i) - 32) * 8, 0, 8, 8, cur, pos.y, 8, 8);
+                cur += 8;
+            }
         }
         return this;
     };
