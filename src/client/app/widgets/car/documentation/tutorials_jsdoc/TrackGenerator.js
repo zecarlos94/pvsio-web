@@ -2,12 +2,14 @@
  * @module TrackGenerator
  * @version 2.0.0
  * @author José Carlos
- * @desc This module generates randomly the 2D driving simulator, straight lines only version, using HTML5 Canvas.
+ * @desc This module allows to either generate randomly or generate based on trackLayout optional field the track, which will be used to create the environment of the 2D driving simulator, using HTML5 Canvas.
+ * The trackLayout optional field allows to specifiy the desired layout, which will be parsed and iterated to create all segments that matches that layout.
  *
  * @date Apr 02, 2018
- * last modified @date Jun 13, 2018
+ * last modified @date Jun 16, 2018
  *
- * @example <caption>Usage of TrackGenerator within a PVSio-web demo.</caption>
+ *
+ * @example <caption>Usage of public API to create a desired track, using trackLayout, with straight lines, curves and slopes.</caption>
  * define(function (require, exports, module) {
  *     "use strict";
  *
@@ -15,1166 +17,158 @@
  *     require("widgets/car/TrackGenerator");
  *
  *     function main() {
- *          // After TrackGenerator module was loaded, initialize it
- *          let trackGenerator = new TrackGenerator(
- *               'example', // id of the TrackGenerator element that will be created
- *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
- *               { 
- *                  parent: "content", // defines parent div, which is div id="body" by default
- *                  spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
- *                  render: {
- *                      width: 320,
- *                      height: 240,
- *                      depthOfField: 150,
- *                      camera_distance: 30,
- *                      camera_height: 100
- *                  },
- *                  trackSegmentSize: 5,
- *                  numberOfSegmentPerColor: 4,
- *                  numLanes: 3,
- *                  laneWidth: 0.02,
- *                  trackParam: {
- *                      numZones:  12, // number of different portions of the track
- *                      zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
- *                  },
- *                  // Information regarding current controllable_car's car
- *                  controllable_car: {
- *                      position: 10,
- *                      speed: 0,
- *                      acceleration: 0.05,
- *                      deceleration: 0.04,
- *                      breaking: 0.3,
- *                      turning: 5.0,
- *                      posx: 0,
- *                      maxSpeed: 20
- *                  },
- *                  objects: ["tree","boulder"], // sprite names to be drawed in the landscape
- *                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
- *                  obstaclePerIteration: 50, // each 50 iterations a new obstacle will be placed within the track
- *                  // trackLayout: [ 
- *                  //     // trackLayout1.json File
- *                  //     // describing the desired track, which is straight line, with 8 zones (8 blocks) and with 
- *                  //     // profiles "flat".
- *                  //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
- *                  //     // those angles to define different curvatures, instead of generating the same curvature for the same
- *                  //     // side
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 8,
- *                  //     }
- *                  // ],
- *                  trackLayout: [ 
- *                     // trackLayout2.json File
- *                     // describing the desired track, which is curve to left, straight line, 
- *                     // curve to right, straight line, curve to left and straight line each with 3 zones (blocks) and with different 
- *                     // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
- *                     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
- *                     // those angles to define different curvatures, instead of generating the same curvature for the same
- *                     // side
- *                     {
- *                         topography: {
- *                             name:"left",
- *                             curvature: -90
- *                         },
- *                         profile: "flat",
- *                         numZones: 3
- *                     },
- *                     {
- *                         topography: {
- *                             name:"straight",
- *                             curvature: 0
- *                         },
- *                         profile: "down",
- *                         numZones: 3
- *                     },
- *                     {
- *                         topography: {
- *                             name:"right",
- *                             curvature: 90
- *                         },
- *                         profile: "flat",
- *                         numZones: 3
- *                     },
- *                     {
- *                         topography: {
- *                             name:"straight",
- *                             curvature: 0
- *                         },
- *                         profile: "up",
- *                         numZones: 3
- *                     },
- *                     {
- *                         topography: {
- *                             name:"left",
- *                             curvature: -90
- *                         },
- *                         profile: "flat",
- *                         numZones: 3,
- *                     },
- *                     {
- *                         topography: {
- *                             name:"straight",
- *                             curvature: 0
- *                         },
- *                         profile: "flat",
- *                         numZones: 3,
- *                     }
- *                    ],
- *                  // trackLayout: [ 
- *                  //     // trackLayout3.json File
- *                  //     // describing the desired track, which is straight line, followed by curve to left, straight line, 
- *                  //     // curve to right, straight line and curve to left each with 3 zones (blocks) and with different 
- *                  //     // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
- *                  //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
- *                  //     // those angles to define different curvatures, instead of generating the same curvature for the same
- *                  //     // side
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1,
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"left",
- *                  //             curvature: -90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1,
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "up",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"right",
- *                  //             curvature: 90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "down",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"left",
- *                  //             curvature: -90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     }
- *                  // ],
- *                  // trackLayout: [ 
- *                  //     // trackLayout4.json File
- *                  //     // describing the desired track, which is curve to right, with 4 zones (blocks) and with  
- *                  //     // profile "flat". This layout allows to render a closed circular track (with 4 curves to right 
- *                  //     // where a new curve starts after the previous ends) 
- *                  //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
- *                  //     // those angles to define different curvatures, instead of generating the same curvature for the same
- *                  //     // side
- *                  //     {
- *                  //         topography: {
- *                  //             name:"right",
- *                  //             curvature: 90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 4
- *                  //     }
- *                  // ],
- *                  // trackLayout: [ 
- *                  //     // trackLayout5.json File
- *                  //     // describing the desired track, which is curve to left, straight line, 
- *                  //     // curve to left, straight line, curve to left, straight line, curve to left and straight line,
- *                  //     // each with 1 zone (block) and with profile "flat".
- *                  //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
- *                  //     // those angles to define different curvatures, instead of generating the same curvature for the same
- *                  //     // side
- *                  //     {
- *                  //         topography: {
- *                  //             name:"left",
- *                  //             curvature: -90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"left",
- *                  //             curvature: -90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"left",
- *                  //             curvature: -90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"left",
- *                  //             curvature: -90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     }
- *                  // ],
- *                  // trackLayout: [ 
- *                  //     // trackLayout6.json File
- *                  //     // describing the desired track, which is curve to left, straight line, 
- *                  //     // curve to right, straight line and curve to left each with 1 zone (block) and with different 
- *                  //     // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
- *                  //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
- *                  //     // those angles to define different curvatures, instead of generating the same curvature for the same
- *                  //     // side
- *                  //     {
- *                  //         topography: {
- *                  //             name:"left",
- *                  //             curvature: -90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "down",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"right",
- *                  //             curvature: 90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "up",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"left",
- *                  //             curvature: -90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     }
- *                  // ],
- *                  // trackLayout: [ 
- *                  //      // trackLayout7.json File
- *                  //      // describing the desired track, which is curve to left, with 4 zones (blocks) and with  
- *                  //      // profile "flat". This layout allows to render a closed circular track (with 4 curves to left 
- *                  //      // where a new curve starts after the previous ends) 
- *                  //      // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
- *                  //      // those angles to define different curvatures, instead of generating the same curvature for the same
- *                  //      // side
- *                  //      {
- *                  //          topography: {
- *                  //              name:"left",
- *                  //              curvature: -90
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 4
- *                  //      }
- *                  //  ],
- *                  //  trackLayout: [ 
- *                  //      // trackLayout8.json File
- *                  //      // describing the desired track, which is curve to right, straight line, 
- *                  //      // curve to left, straight line and curve to right each with 1 zone (block) and with different 
- *                  //      // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
- *                  //      // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
- *                  //      // those angles to define different curvatures, instead of generating the same curvature for the same
- *                  //      // side
- *                  //      {
- *                  //          topography: {
- *                  //              name:"right",
- *                  //              curvature: 90
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"straight",
- *                  //              curvature: 0
- *                  //          },
- *                  //          profile: "down",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"left",
- *                  //              curvature: -90
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"straight",
- *                  //              curvature: 0
- *                  //          },
- *                  //          profile: "up",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"right",
- *                  //              curvature: 90
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      }
- *                  //  ],
- *                  //  trackLayout: [ 
- *                  //      // trackLayout9.json File
- *                  //      // describing the desired track, which is curve to right, straight line, 
- *                  //      // curve to right, straight line, curve to right, straight line, curve to right and straight line,
- *                  //      // each with 1 zone (block) and with profile "flat".
- *                  //      // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
- *                  //      // those angles to define different curvatures, instead of generating the same curvature for the same
- *                  //      // side
- *                  //      {
- *                  //          topography: {
- *                  //              name:"right",
- *                  //              curvature: 90
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"straight",
- *                  //              curvature: 0
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"right",
- *                  //              curvature: 90
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"straight",
- *                  //              curvature: 0
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"right",
- *                  //              curvature: 90
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"straight",
- *                  //              curvature: 0
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"right",
- *                  //              curvature: 90
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"straight",
- *                  //              curvature: 0
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      }
- *                  //  ],
- *              } // append on div 'content'
- *           );
- * 
- *          // Available methods:
- *          // Hides the TrackGenerator widget
- *          trackGenerator.hide();
- * 
- *          // OR
- * 
- *          // Reveals the TrackGenerator widget
- *          trackGenerator.reveal();
- * 
- *          // OR
- * 
- *          // Render the TrackGenerator widget
- *          trackGenerator.render();
- * 
- *          // OR
- * 
- *          // Generates randomly the track, with only straight lines (i.e. height:0, curves:0)
- *          trackGenerator.generateStraightTrack();
- * 
- *          // OR
- * 
- *          // Generates randomly the track, with straight lines, curves and slopes
- *          trackGenerator.generateTrackCurvesSlopes();
- * 
- *          // OR
- *          trackGenerator.generateTrackBasedOnTrackLayoutOptField();
- * 
+ *       // After TrackGenerator module was loaded, initialize it
+ *       let trackGenerator = new TrackGenerator("trackGeneratorWidget", {
+ *           top: 80,
+ *           left: 650,
+ *           width: 780,
+ *           height: 650
+ *       }, {
+ *           parent: "content", // defines parent div, which is div id="body" by default
+ *           spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+ *           render: {
+ *               width: 320,
+ *               height: 240,
+ *               depthOfField: 150,
+ *               camera_distance: 30,
+ *               camera_height: 100
+ *           },
+ *           trackSegmentSize: 5,
+ *           numberOfSegmentPerColor: 4,
+ *           numLanes: 3,
+ *           laneWidth: 0.02,
+ *           trackParam: {
+ *               numZones:    12, // number of different portions of the track
+ *               zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
+ *           },
+ *           // Information regarding current controllable_car's car
+ *           controllable_car: {
+ *               position: 10,
+ *               speed: 0,
+ *               acceleration: 0.05,
+ *               deceleration: 0.04,
+ *               breaking: 0.3,
+ *               turning: 5.0,
+ *               posx: 0,
+ *               maxSpeed: 20
+ *           },
+ *           objects: ["tree","stump","boulder","tree2","brunetteGirlBack","bush2","hatManBack"],
+ *           obstacle: ["dead_tree2","column","dearRight"],
+ *           obstaclePerIteration: 20,
+ *           trackColors: {
+ *               grass1: "#699864",
+ *               border1: "#e00",
+ *               border2: "#fff",
+ *               outborder1: "#496a46",
+ *               outborder_end1: "#474747",
+ *               track_segment1: "#777",
+ *               lane1: "#fff",
+ *               lane2: "#777",
+ *               laneArrow1: "#00FF00",
+ *               track_segment_end:"#000",
+ *               lane_end: "#fff"
+ *           },
+ *           trackLayout: [ 
+ *               // trackLayout2.json File
+ *               // describing the desired track, which is curve to left, straight line, 
+ *               // curve to right, straight line, curve to left and straight line each with 3 zones (blocks) and with different 
+ *               // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
+ *               // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
+ *               // those angles to define different curvatures, instead of generating the same curvature for the same
+ *               // side
+ *               {
+ *                   topography: {
+ *                       name:"left",
+ *                       curvature: -90
+ *                   },
+ *                   profile: "flat",
+ *                   numZones: 3
+ *               },
+ *               {
+ *                   topography: {
+ *                       name:"straight",
+ *                       curvature: 0
+ *                   },
+ *                   profile: "down",
+ *                   numZones: 3
+ *               },
+ *               {
+ *                   topography: {
+ *                       name:"right",
+ *                       curvature: 90
+ *                   },
+ *                   profile: "flat",
+ *                   numZones: 3
+ *               },
+ *               {
+ *                   topography: {
+ *                       name:"straight",
+ *                       curvature: 0
+ *                   },
+ *                   profile: "up",
+ *                   numZones: 3
+ *               },
+ *               {
+ *                   topography: {
+ *                       name:"left",
+ *                       curvature: -90
+ *                   },
+ *                   profile: "flat",
+ *                   numZones: 3,
+ *               },
+ *               {
+ *                   topography: {
+ *                       name:"straight",
+ *                       curvature: 0
+ *                   },
+ *                   profile: "flat",
+ *                   numZones: 3,
+ *               }
+ *           ],
+ *           callback: onMessageReceived
+ *       });
+ *
+ *       // Reveals TrackGenerator Widget
+ *       trackGenerator.prototype.render(); 
+ *      
+ *       // Creates the track based on trackLayout optional field
+ *       trackGenerator.generateTrackBasedOnTrackLayoutOptField();    
  *     }
  * });
- * 
- * @example <caption>Usage of <strong>Protected API</strong> within TrackGenerator Widget. That is, API which is only used internally by the TrackGenerator Widget to create the desired track</caption>
- *          // Loads the JSON file received as opt field
- *          trackGenerator.prototype.loadFile();
- * 
- * @example <caption>Usage of API to create a new track, using trackLayout, with only straight lines</caption>
- *  define(function (require, exports, module) {
- *     "use strict";
  *
- *     // Require the TrackGenerator module
- *     require("widgets/car/TrackGenerator");
+ * @example <caption>To create a new track, using trackLayout, with only straight lines it is only necessary to modify the trackLayout optional field, 
+ * in the previous example, as it follows,</caption>
  *
- *     function main() {
- *          // After TrackGenerator module was loaded, initialize it
- *          let trackGenerator = new TrackGenerator(
- *               'example', // id of the TrackGenerator element that will be created
- *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
- *               { 
- *                  parent: "content", // defines parent div, which is div id="body" by default
- *                  spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
- *                  render: {
- *                      width: 320,
- *                      height: 240,
- *                      depthOfField: 150,
- *                      camera_distance: 30,
- *                      camera_height: 100
- *                  },
- *                  trackSegmentSize: 5,
- *                  numberOfSegmentPerColor: 4,
- *                  numLanes: 3,
- *                  laneWidth: 0.02,
- *                  trackParam: {
- *                      numZones:  12, // number of different portions of the track
- *                      zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
- *                  },
- *                  // Information regarding current controllable_car's car
- *                  controllable_car: {
- *                      position: 10,
- *                      speed: 0,
- *                      acceleration: 0.05,
- *                      deceleration: 0.04,
- *                      breaking: 0.3,
- *                      turning: 5.0,
- *                      posx: 0,
- *                      maxSpeed: 20
- *                  },
- *                  objects: ["tree","boulder"], // sprite names to be drawed in the landscape
- *                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
- *                  obstaclePerIteration: 50, // each 50 iterations a new obstacle will be placed within the track
- *                  trackColors: {
- *                      grass1: "#699864",
- *                      border1: "#e00",
- *                      border2: "#fff",
- *                      outborder1: "#496a46",
- *                      outborder_end1: "#474747",
- *                      track_segment1: "#777",
- *                      lane1: "#fff",
- *                      lane2: "#777",
- *                      laneArrow1: "#00FF00",
- *                      track_segment_end:"#000",
- *                      lane_end: "#fff"
- *                  },                 
- *                  trackLayout: [ 
- *                      // describing the desired track, which is a 12-zone straight line, i.e. track with only straight lines with length 12. 
- *                      {
- *                       topography: {
- *                           name:"straight",
- *                           curvature: 0
- *                       },
- *                       profile: "flat",
- *                       numZones: 12,
- *                      }
- *                  ],
- *              } // append on div 'content'
- *           );
- * 
- *          // Generates the track, with based on trackLayout (i.e. height:0, curves:0)
- *          trackGenerator.generateTrackBasedOnTrackLayoutOptField();
- *     }
- * });
- * 
- * @example <caption>Usage of API to create a new track, randomly, with only straight lines</caption>
- *  define(function (require, exports, module) {
- *     "use strict";
+ *           trackLayout: [ 
+ *               // describing the desired track, which is a 12-zone straight line, i.e. track with only straight lines with length 12. 
+ *               {
+ *                   topography: {
+ *                       name:"straight",
+ *                       curvature: 0
+ *                   },
+ *                   profile: "flat",
+ *                   numZones: 12
+ *               }
+ *            ]
  *
- *     // Require the TrackGenerator module
- *     require("widgets/car/TrackGenerator");
  *
- *     function main() {
- *          // After TrackGenerator module was loaded, initialize it
- *          let trackGenerator = new TrackGenerator(
- *               'example', // id of the TrackGenerator element that will be created
- *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
- *               { 
- *                  parent: "content", // defines parent div, which is div id="body" by default
- *                  spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
- *                  render: {
- *                      width: 320,
- *                      height: 240,
- *                      depthOfField: 150,
- *                      camera_distance: 30,
- *                      camera_height: 100
- *                  },
- *                  trackSegmentSize: 5,
- *                  numberOfSegmentPerColor: 4,
- *                  numLanes: 3,
- *                  laneWidth: 0.02,
- *                  trackParam: {
- *                      numZones:  12, // number of different portions of the track
- *                      zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
- *                  },
- *                  // Information regarding current controllable_car's car
- *                  controllable_car: {
- *                      position: 10,
- *                      speed: 0,
- *                      acceleration: 0.05,
- *                      deceleration: 0.04,
- *                      breaking: 0.3,
- *                      turning: 5.0,
- *                      posx: 0,
- *                      maxSpeed: 20
- *                  },
- *                  objects: ["tree","boulder"], // sprite names to be drawed in the landscape
- *                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
- *                  obstaclePerIteration: 50, // each 50 iterations a new obstacle will be placed within the track
- *                  trackColors: {
- *                      grass1: "#699864",
- *                      border1: "#e00",
- *                      border2: "#fff",
- *                      outborder1: "#496a46",
- *                      outborder_end1: "#474747",
- *                      track_segment1: "#777",
- *                      lane1: "#fff",
- *                      lane2: "#777",
- *                      laneArrow1: "#00FF00",
- *                      track_segment_end:"#000",
- *                      lane_end: "#fff"
- *                  }                 
- *              } // append on div 'content'
- *           );
  * 
- *          // Generates the track, with based on trackLayout (i.e. height:0, curves:0)
- *          trackGenerator.generateStraightTrack();
- *     }
- * });
- *  
- * @example <caption>Usage of API to create a new track, using trackLayout, with curves and slopes</caption>
- *  define(function (require, exports, module) {
- *     "use strict";
+ * @example <caption>Usage of other public API's of TrackGenerator Widget.</caption>
  *
- *     // Require the TrackGenerator module
- *     require("widgets/car/TrackGenerator");
+ *  Using variable TrackGenerator created in the previous example is also possible to call the following,
  *
- *     function main() {
- *          // After TrackGenerator module was loaded, initialize it
- *          let trackGenerator = new TrackGenerator(
- *               'example', // id of the TrackGenerator element that will be created
- *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
- *               { 
- *                  parent: "content", // defines parent div, which is div id="body" by default
- *                  spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
- *                  render: {
- *                      width: 320,
- *                      height: 240,
- *                      depthOfField: 150,
- *                      camera_distance: 30,
- *                      camera_height: 100
- *                  },
- *                  trackSegmentSize: 5,
- *                  numberOfSegmentPerColor: 4,
- *                  numLanes: 3,
- *                  laneWidth: 0.02,
- *                  trackParam: {
- *                      numZones:  12, // number of different portions of the track
- *                      zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
- *                  },
- *                  // Information regarding current controllable_car's car
- *                  controllable_car: {
- *                      position: 10,
- *                      speed: 0,
- *                      acceleration: 0.05,
- *                      deceleration: 0.04,
- *                      breaking: 0.3,
- *                      turning: 5.0,
- *                      posx: 0,
- *                      maxSpeed: 20
- *                  },
- *                  objects: ["tree","boulder"], // sprite names to be drawed in the landscape
- *                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
- *                  obstaclePerIteration: 50, // each 50 iterations a new obstacle will be placed within the track
- *                  trackColors: {
- *                      grass1: "#699864",
- *                      border1: "#e00",
- *                      border2: "#fff",
- *                      outborder1: "#496a46",
- *                      outborder_end1: "#474747",
- *                      track_segment1: "#777",
- *                      lane1: "#fff",
- *                      lane2: "#777",
- *                      laneArrow1: "#00FF00",
- *                      track_segment_end:"#000",
- *                      lane_end: "#fff"
- *                  },
- *                  // trackLayout: [ 
- *                  //     // trackLayout1.json File
- *                  //     // describing the desired track, which is straight line, with 8 zones (8 blocks) and with 
- *                  //     // profiles "flat".
- *                  //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
- *                  //     // those angles to define different curvatures, instead of generating the same curvature for the same
- *                  //     // side
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 8,
- *                  //     }
- *                  // ],
- *                  trackLayout: [ 
- *                     // trackLayout2.json File
- *                     // describing the desired track, which is curve to left, straight line, 
- *                     // curve to right, straight line, curve to left and straight line each with 3 zones (blocks) and with different 
- *                     // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
- *                     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
- *                     // those angles to define different curvatures, instead of generating the same curvature for the same
- *                     // side
- *                     {
- *                         topography: {
- *                             name:"left",
- *                             curvature: -90
- *                         },
- *                         profile: "flat",
- *                         numZones: 3
- *                     },
- *                     {
- *                         topography: {
- *                             name:"straight",
- *                             curvature: 0
- *                         },
- *                         profile: "down",
- *                         numZones: 3
- *                     },
- *                     {
- *                         topography: {
- *                             name:"right",
- *                             curvature: 90
- *                         },
- *                         profile: "flat",
- *                         numZones: 3
- *                     },
- *                     {
- *                         topography: {
- *                             name:"straight",
- *                             curvature: 0
- *                         },
- *                         profile: "up",
- *                         numZones: 3
- *                     },
- *                     {
- *                         topography: {
- *                             name:"left",
- *                             curvature: -90
- *                         },
- *                         profile: "flat",
- *                         numZones: 3,
- *                     },
- *                     {
- *                         topography: {
- *                             name:"straight",
- *                             curvature: 0
- *                         },
- *                         profile: "flat",
- *                         numZones: 3,
- *                     }
- *                    ],
- *                  // trackLayout: [ 
- *                  //     // trackLayout3.json File
- *                  //     // describing the desired track, which is straight line, followed by curve to left, straight line, 
- *                  //     // curve to right, straight line and curve to left each with 3 zones (blocks) and with different 
- *                  //     // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
- *                  //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
- *                  //     // those angles to define different curvatures, instead of generating the same curvature for the same
- *                  //     // side
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1,
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"left",
- *                  //             curvature: -90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1,
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "up",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"right",
- *                  //             curvature: 90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "down",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"left",
- *                  //             curvature: -90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     }
- *                  // ],
- *                  // trackLayout: [ 
- *                  //     // trackLayout4.json File
- *                  //     // describing the desired track, which is curve to right, with 4 zones (blocks) and with  
- *                  //     // profile "flat". This layout allows to render a closed circular track (with 4 curves to right 
- *                  //     // where a new curve starts after the previous ends) 
- *                  //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
- *                  //     // those angles to define different curvatures, instead of generating the same curvature for the same
- *                  //     // side
- *                  //     {
- *                  //         topography: {
- *                  //             name:"right",
- *                  //             curvature: 90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 4
- *                  //     }
- *                  // ],
- *                  // trackLayout: [ 
- *                  //     // trackLayout5.json File
- *                  //     // describing the desired track, which is curve to left, straight line, 
- *                  //     // curve to left, straight line, curve to left, straight line, curve to left and straight line,
- *                  //     // each with 1 zone (block) and with profile "flat".
- *                  //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
- *                  //     // those angles to define different curvatures, instead of generating the same curvature for the same
- *                  //     // side
- *                  //     {
- *                  //         topography: {
- *                  //             name:"left",
- *                  //             curvature: -90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"left",
- *                  //             curvature: -90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"left",
- *                  //             curvature: -90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"left",
- *                  //             curvature: -90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     }
- *                  // ],
- *                  // trackLayout: [ 
- *                  //     // trackLayout6.json File
- *                  //     // describing the desired track, which is curve to left, straight line, 
- *                  //     // curve to right, straight line and curve to left each with 1 zone (block) and with different 
- *                  //     // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
- *                  //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
- *                  //     // those angles to define different curvatures, instead of generating the same curvature for the same
- *                  //     // side
- *                  //     {
- *                  //         topography: {
- *                  //             name:"left",
- *                  //             curvature: -90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "down",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"right",
- *                  //             curvature: 90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"straight",
- *                  //             curvature: 0
- *                  //         },
- *                  //         profile: "up",
- *                  //         numZones: 1
- *                  //     },
- *                  //     {
- *                  //         topography: {
- *                  //             name:"left",
- *                  //             curvature: -90
- *                  //         },
- *                  //         profile: "flat",
- *                  //         numZones: 1
- *                  //     }
- *                  // ],
- *                  // trackLayout: [ 
- *                  //      // trackLayout7.json File
- *                  //      // describing the desired track, which is curve to left, with 4 zones (blocks) and with  
- *                  //      // profile "flat". This layout allows to render a closed circular track (with 4 curves to left 
- *                  //      // where a new curve starts after the previous ends) 
- *                  //      // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
- *                  //      // those angles to define different curvatures, instead of generating the same curvature for the same
- *                  //      // side
- *                  //      {
- *                  //          topography: {
- *                  //              name:"left",
- *                  //              curvature: -90
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 4
- *                  //      }
- *                  //  ],
- *                  //  trackLayout: [ 
- *                  //      // trackLayout8.json File
- *                  //      // describing the desired track, which is curve to right, straight line, 
- *                  //      // curve to left, straight line and curve to right each with 1 zone (block) and with different 
- *                  //      // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
- *                  //      // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
- *                  //      // those angles to define different curvatures, instead of generating the same curvature for the same
- *                  //      // side
- *                  //      {
- *                  //          topography: {
- *                  //              name:"right",
- *                  //              curvature: 90
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"straight",
- *                  //              curvature: 0
- *                  //          },
- *                  //          profile: "down",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"left",
- *                  //              curvature: -90
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"straight",
- *                  //              curvature: 0
- *                  //          },
- *                  //          profile: "up",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"right",
- *                  //              curvature: 90
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      }
- *                  //  ],
- *                  //  trackLayout: [ 
- *                  //      // trackLayout9.json File
- *                  //      // describing the desired track, which is curve to right, straight line, 
- *                  //      // curve to right, straight line, curve to right, straight line, curve to right and straight line,
- *                  //      // each with 1 zone (block) and with profile "flat".
- *                  //      // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
- *                  //      // those angles to define different curvatures, instead of generating the same curvature for the same
- *                  //      // side
- *                  //      {
- *                  //          topography: {
- *                  //              name:"right",
- *                  //              curvature: 90
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"straight",
- *                  //              curvature: 0
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"right",
- *                  //              curvature: 90
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"straight",
- *                  //              curvature: 0
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"right",
- *                  //              curvature: 90
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"straight",
- *                  //              curvature: 0
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"right",
- *                  //              curvature: 90
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      },
- *                  //      {
- *                  //          topography: {
- *                  //              name:"straight",
- *                  //              curvature: 0
- *                  //          },
- *                  //          profile: "flat",
- *                  //          numZones: 1
- *                  //      }
- *                  //  ],
- *              } // append on div 'content'
- *           );
- * 
- *          // Generates randomly the track, with straight lines, curves and slopes
- *          trackGenerator.generateTrackBasedOnTrackLayoutOptField();
- *     }
- * });
- * 
- * @example <caption>Usage of API to create a new track, randomly, with curves and slopes</caption>
- *  define(function (require, exports, module) {
- *     "use strict";
+ *       // Hides the TrackGenerator widget, i.e., the main div becomes invisible.
+ *       trackGenerator.hide();
  *
- *     // Require the TrackGenerator module
- *     require("widgets/car/TrackGenerator");
+ *       // Reveals the TrackGenerator widget, i.e., the main div becomes visible.
+ *       trackGenerator.reveal(); 
  *
- *     function main() {
- *          // After TrackGenerator module was loaded, initialize it
- *          let trackGenerator = new TrackGenerator(
- *               'example', // id of the TrackGenerator element that will be created
- *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
- *               { 
- *                  parent: "content", // defines parent div, which is div id="body" by default
- *                  spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
- *                  render: {
- *                      width: 320,
- *                      height: 240,
- *                      depthOfField: 150,
- *                      camera_distance: 30,
- *                      camera_height: 100
- *                  },
- *                  trackSegmentSize: 5,
- *                  numberOfSegmentPerColor: 4,
- *                  numLanes: 3,
- *                  laneWidth: 0.02,
- *                  trackParam: {
- *                      numZones:  12, // number of different portions of the track
- *                      zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
- *                  },
- *                  // Information regarding current controllable_car's car
- *                  controllable_car: {
- *                      position: 10,
- *                      speed: 0,
- *                      acceleration: 0.05,
- *                      deceleration: 0.04,
- *                      breaking: 0.3,
- *                      turning: 5.0,
- *                      posx: 0,
- *                      maxSpeed: 20
- *                  },
- *                  objects: ["tree","boulder"], // sprite names to be drawed in the landscape
- *                  obstacle: ["boulder"], // sprite names to be drawed within the track as obstacles
- *                  obstaclePerIteration: 50, // each 50 iterations a new obstacle will be placed within the track
- *                  trackColors: {
- *                      grass1: "#699864",
- *                      border1: "#e00",
- *                      border2: "#fff",
- *                      outborder1: "#496a46",
- *                      outborder_end1: "#474747",
- *                      track_segment1: "#777",
- *                      lane1: "#fff",
- *                      lane2: "#777",
- *                      laneArrow1: "#00FF00",
- *                      track_segment_end:"#000",
- *                      lane_end: "#fff"
- *                  }
- *              } // append on div 'content'
- *           );
- * 
- *          // Generates randomly the track, with straight lines, curves and slopes
- *          trackGenerator.generateTrackCurvesSlopes();
- *     }
- * });
- * 
+ *       // Generates randomly a track with only straight lines.
+ *       trackGenerator.generateStraightTrack(); 
+ *
+ *       // Generates randomly a track with straight lines, curves and slopes.
+ *       trackGenerator.generateTrackCurvesSlopes(); 
+ *    
  */
 /*jslint lets: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*jshint esnext:true */
@@ -1201,20 +195,20 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
-     *          <li>parent {String}: the HTML element where the display will be appended (default is "body").</li>
-     *          <li>spritesFilename {String}: the spritesheet filename(json file) that will be loaded (default is "spritesheet").</li>
-     *          <li>render {Object}: the rendering configurations, i.e. width, height, etc. (default is  {width: 320, height: 240, depthOfField: 150, camera_distance: 30, camera_height: 100}).</li>
-     *          <li>trackSegmentSize {Int}: the size of the track segment (default is 5).</li>
-     *          <li>numberOfSegmentPerColor {Int}: the number of segments per color, i.e. how many sequenced segments to alternate colors (default is 4).</li>
-     *          <li>numLanes {Int}: the number of lanes the track will be draw (default is 3).</li>
-     *          <li>laneWidth {Float}: the width of the lane separator (default is 0.02).</li>
-     *          <li>trackParam {Object}: the track configurations, i.e. number of zones(track length), etc (default is {numZones: 12, zoneSize: 250}).</li>
-     *          <li>controllable_car {Object}: the vehicle configurations, i.e. initial position, acceleration and deceleration values, etc (default is {position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20}).</li>
-     *          <li>objects {Array}: the sprite names to be drawed in the landscape (default is ["tree","rock"]).</li>
-     *          <li>obstacle {Array}: the sprite names to be drawed within the track as obstacles (default is ["rock"]).</li>
-     *          <li>trackLayout {Array}: the track layout that will be used to create the corresponding segments. (default is []).</li>
-     *          <li>trackColors {Array}: the track colors that will be used to color the segments in each stripe. (default is {grass1: "#699864", border1: "#e00", border2: "#fff", outborder1: "#496a46", outborder_end1: "#474747", track_segment1: "#777", lane1: "#fff", lane2: "#777", laneArrow1: "#00FF00", track_segment_end:"#000", lane_end: "#fff"}).</li>
-     *          <li>obstaclePerIteration {Int}: the number of iterations where a new obstacle will be placed within the track (default is 50).</li>
+     * @param [opt.parent] {String} the HTML element where the display will be appended (default is "body").
+     * @param [opt.spritesFilename] {String} the spritesheet filename(json file) that will be loaded (default is "spritesheet").
+     * @param [opt.render] {Object} the rendering configurations, i.e. width, height, etc. (default is {width: 320, height: 240, depthOfField: 150, camera_distance: 30, camera_height: 100}).
+     * @param [opt.trackSegmentSize] {Int} the size of the track segment (default is 5).
+     * @param [opt.numberOfSegmentPerColor] {Int} the number of segments per color, i.e. how many sequenced segments to alternate colors (default is 4).
+     * @param [opt.numLanes] {Int} the number of lanes the track will be draw (default is 3).
+     * @param [opt.laneWidth] {Float} the width of the lane separator (default is 0.02).
+     * @param [opt.trackParam] {Object} the track configurations, i.e. number of zones(track length), etc (default is {numZones: 12, zoneSize: 250}).
+     * @param [opt.controllable_car] {Object} the vehicle configurations, i.e. initial position, acceleration and deceleration values, etc (default is {position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20}).
+     * @param [opt.objects] {Array} the sprite names to be drawed in the landscape (default is ["tree","rock"]).
+     * @param [opt.obstacle] {Array} the sprite names to be drawed within the track as obstacles (default is ["rock"]).
+     * @param [opt.trackLayout] {Array} the track layout that will be used to create the corresponding segments. (default is []).
+     * @param [opt.trackColors] {Array} the track colors that will be used to color the segments in each stripe. (default is {grass1: "#699864", border1: "#e00", border2: "#fff", outborder1: "#496a46", outborder_end1: "#474747", track_segment1: "#777", lane1: "#fff", lane2: "#777", laneArrow1: "#00FF00", track_segment_end:"#000", lane_end: "#fff"}).
+     * @param [opt.obstaclePerIteration] {Int} the number of iterations where a new obstacle will be placed within the track (default is 50).
      * @returns {TrackGenerator} The created instance of the widget TrackGenerator.
      * @memberof module:TrackGenerator
      * @instance
@@ -1245,12 +239,12 @@ define(function (require, exports, module) {
         this.height = coords.height || 750;
 
         this.spritesAvailable=[];
-    	this.generatedTrack=[];
-		this.generatedObstacles=[];
+        this.generatedTrack=[];
+        this.generatedObstacles=[];
 
-	    // Random numbers to place sprites randomly within the landscape territory
-	    this.randomPos = Math.random;
-	    
+        // Random numbers to place sprites randomly within the landscape territory
+        this.randomPos = Math.random;
+        
         this.renderCanvas            = (opt.render) ? opt.render : { width: 320, height: 240, depthOfField: 150, camera_distance: 30, camera_height: 100 };
         this.trackSegmentSize        = (opt.trackSegmentSize) ? opt.trackSegmentSize : 5;
         this.numberOfSegmentPerColor = (opt.numberOfSegmentPerColor) ? opt.numberOfSegmentPerColor : 4;
@@ -1312,7 +306,7 @@ define(function (require, exports, module) {
     TrackGenerator.prototype.constructor = TrackGenerator;
     TrackGenerator.prototype.parentClass = Widget.prototype;
 
-	/**
+    /**
      * @function generateTrackBasedOnTrackLayoutOptField
      * @public  
      * @description GenerateTrackBasedOnTrackLayoutOptField method of the TrackGenerator widget. This method generates the track present in the trackLayout opt field.
@@ -1330,160 +324,160 @@ define(function (require, exports, module) {
      * @instance
      */
     TrackGenerator.prototype.generateTrackBasedOnTrackLayoutOptField = function () {
-		this.loadFile();
-    	setTimeout(
+        this.loadFile();
+        setTimeout(
             (function(self) {         //Self-executing func which takes 'this' as self
                 return function() {   //Return a function in the context of 'self'
                    //Thing you wanted to run as non-window 'this'
 
-	      			let sprite = false;
-		            let spritePos = null;
-		            let spritePosgeneratedObstaclesRandom = null;
-		            let spritePosRightRandom = null;
-		            let spritePosLeftRandom =  null;
-		            let spriteTypeRandom = null;
-		            let chooseIndexFromObjects=null;
-		            let chooseObjectFromDesiredObjects=null;
-		            let chooseIndexFromObstacle=null;
-		            let chooseObstacleFromDesiredObstacle=null;
-		            let spriteSidesRandom = null;
-		            let spritesAvailableLength = self.spritesAvailable.length;
-		            let index=null;
-		            let iter = 0;
-		            let finalNumZones = 0;
-		            self.trackLayout.forEach(el => iter+=el.numZones);
-		            finalNumZones = iter;
-		            
-		            let trackLayoutProfile = 0; //0=flat 1=up -1=down
-		            let trackLayoutTopographyName = 0; //0=straight 1=left -1=right
-		            let currentZone = {
-		                height: 0,
-		                curve: 0
-		            };
+                    let sprite = false;
+                    let spritePos = null;
+                    let spritePosgeneratedObstaclesRandom = null;
+                    let spritePosRightRandom = null;
+                    let spritePosLeftRandom =  null;
+                    let spriteTypeRandom = null;
+                    let chooseIndexFromObjects=null;
+                    let chooseObjectFromDesiredObjects=null;
+                    let chooseIndexFromObstacle=null;
+                    let chooseObstacleFromDesiredObstacle=null;
+                    let spriteSidesRandom = null;
+                    let spritesAvailableLength = self.spritesAvailable.length;
+                    let index=null;
+                    let iter = 0;
+                    let finalNumZones = 0;
+                    self.trackLayout.forEach(el => iter+=el.numZones);
+                    finalNumZones = iter;
+                    
+                    let trackLayoutProfile = 0; //0=flat 1=up -1=down
+                    let trackLayoutTopographyName = 0; //0=straight 1=left -1=right
+                    let currentZone = {
+                        height: 0,
+                        curve: 0
+                    };
 
-		            let tmpIter=1;
-		            let tmpPos=1;
+                    let tmpIter=1;
+                    let tmpPos=1;
 
-         			while(iter){
-		                if(tmpIter<=self.trackLayout[self.trackLayout.length-tmpPos].numZones){
-		                    // Generate current Zone
-		                    let intendedHeightForCurrentZone;
-		                    let intendedCurveForCurrentZone = parseInt(self.trackLayout[self.trackLayout.length-tmpPos].topography.curvature);
-		                    switch(self.trackLayout[self.trackLayout.length-tmpPos].profile){
-		                        case "flat":
-		                            intendedHeightForCurrentZone=0;
-		                            break; 
-		                        case "up": 
-		                            intendedHeightForCurrentZone = 900 * self.randomPos(); // Ease vertical transitions
-		                            break;
-		                        case "down": 
-		                            intendedHeightForCurrentZone = -900 * self.randomPos();
-		                            break;  
-		                    }
-		                   
-		                    for(let i=0; i < self.params.zoneSize; i++){
-		                        // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
-		                        chooseIndexFromObjects = Math.floor((self.randomPos() * self.objects.length));
-		                        chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
-		                        index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects);
+                    while(iter){
+                        if(tmpIter<=self.trackLayout[self.trackLayout.length-tmpPos].numZones){
+                            // Generate current Zone
+                            let intendedHeightForCurrentZone;
+                            let intendedCurveForCurrentZone = parseInt(self.trackLayout[self.trackLayout.length-tmpPos].topography.curvature);
+                            switch(self.trackLayout[self.trackLayout.length-tmpPos].profile){
+                                case "flat":
+                                    intendedHeightForCurrentZone=0;
+                                    break; 
+                                case "up": 
+                                    intendedHeightForCurrentZone = 900 * self.randomPos(); // Ease vertical transitions
+                                    break;
+                                case "down": 
+                                    intendedHeightForCurrentZone = -900 * self.randomPos();
+                                    break;  
+                            }
+                           
+                            for(let i=0; i < self.params.zoneSize; i++){
+                                // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
+                                chooseIndexFromObjects = Math.floor((self.randomPos() * self.objects.length));
+                                chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
+                                index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects);
 
-		                        // generates random integer numbers between 1 and 2
-		                        spriteSidesRandom = Math.floor((self.randomPos() * 2) + 1);
+                                // generates random integer numbers between 1 and 2
+                                spriteSidesRandom = Math.floor((self.randomPos() * 2) + 1);
 
-		                        spritePosgeneratedObstaclesRandom = (self.randomPos() * 0.50) - 0.25;
+                                spritePosgeneratedObstaclesRandom = (self.randomPos() * 0.50) - 0.25;
 
-		                        if(i%self.obstaclePerIteration==0){
-		                            // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
-		                            // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
-		                            chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
-		                            chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
-		                            index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle);
-		                            // console.log(self.spritePosgeneratedObstaclesRandom);
-		                            // console.log(self.spritesAvailable[index]);
-		                            self.generatedObstacles.push(spritePosgeneratedObstaclesRandom);
-		                            // spritePosgeneratedObstaclesRandom has the relative position of the obstacle
-		                            sprite = {type: self.spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
-		                        }
-		                        else {
-		                            // choose randomly sprite image
-		                            // generates random float numbers greater than 0.55
-		                            spritePosRightRandom = self.randomPos() + 0.90;
-		                            // generates random float numbers lesser than -0.55
-		                            spritePosLeftRandom =  (self.randomPos() * -0.55) - 0.55;
+                                if(i%self.obstaclePerIteration==0){
+                                    // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
+                                    // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
+                                    chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
+                                    chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
+                                    index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle);
+                                    // console.log(self.spritePosgeneratedObstaclesRandom);
+                                    // console.log(self.spritesAvailable[index]);
+                                    self.generatedObstacles.push(spritePosgeneratedObstaclesRandom);
+                                    // spritePosgeneratedObstaclesRandom has the relative position of the obstacle
+                                    sprite = {type: self.spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
+                                }
+                                else {
+                                    // choose randomly sprite image
+                                    // generates random float numbers greater than 0.55
+                                    spritePosRightRandom = self.randomPos() + 0.90;
+                                    // generates random float numbers lesser than -0.55
+                                    spritePosLeftRandom =  (self.randomPos() * -0.55) - 0.55;
 
-		                            // choose randomly sprite size
-		                            if(spriteSidesRandom == 1){
-		                                spritePos = spritePosLeftRandom;
-		                            }else if(spriteSidesRandom == 2){
-		                                spritePos = spritePosRightRandom;
-		                            }
-		                            // console.log(spritePos);
-		                            if(self.randomPos() < 0.25){
-		                                sprite = {type: self.spritesAvailable[index].value, pos: spritePos-0.5, obstacle: 0};
-		                            } if(self.randomPos() < 0.5){
-		                                sprite = {type: self.spritesAvailable[index].value, pos: spritePos, obstacle: 0};
-		                            }else{
-		                                sprite = {type: self.spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
-		                            }
-		                        }
+                                    // choose randomly sprite size
+                                    if(spriteSidesRandom == 1){
+                                        spritePos = spritePosLeftRandom;
+                                    }else if(spriteSidesRandom == 2){
+                                        spritePos = spritePosRightRandom;
+                                    }
+                                    // console.log(spritePos);
+                                    if(self.randomPos() < 0.25){
+                                        sprite = {type: self.spritesAvailable[index].value, pos: spritePos-0.5, obstacle: 0};
+                                    } if(self.randomPos() < 0.5){
+                                        sprite = {type: self.spritesAvailable[index].value, pos: spritePos, obstacle: 0};
+                                    }else{
+                                        sprite = {type: self.spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
+                                    }
+                                }
 
-		                        // Draw segments next to each other with 'i/params.zoneSize'
-		                        // Avoid horizontal gaps with 'Math.PI-Math.PI/2'
-		                        // Avoid vertical gaps with '1 +' 
-		                        // Better perspective with '2*'
-		                        // 2 * (1 + Math.sin(i/params.zoneSize *))
+                                // Draw segments next to each other with 'i/params.zoneSize'
+                                // Avoid horizontal gaps with 'Math.PI-Math.PI/2'
+                                // Avoid vertical gaps with '1 +' 
+                                // Better perspective with '2*'
+                                // 2 * (1 + Math.sin(i/params.zoneSize *))
 
-		                        self.generatedTrack.push({
-		                            height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/self.params.zoneSize * Math.PI-Math.PI/2)),
-		                            curve: currentZone.curve+intendedCurveForCurrentZone / 2 * (1 + Math.sin(i/self.params.zoneSize * Math.PI-Math.PI/2)),
-		                            sprite: sprite
-		                        })
-		                    }
+                                self.generatedTrack.push({
+                                    height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/self.params.zoneSize * Math.PI-Math.PI/2)),
+                                    curve: currentZone.curve+intendedCurveForCurrentZone / 2 * (1 + Math.sin(i/self.params.zoneSize * Math.PI-Math.PI/2)),
+                                    sprite: sprite
+                                })
+                            }
 
-		                    currentZone.height += intendedHeightForCurrentZone;
-		                    currentZone.curve += intendedCurveForCurrentZone;
+                            currentZone.height += intendedHeightForCurrentZone;
+                            currentZone.curve += intendedCurveForCurrentZone;
 
-		                    tmpIter++;
-		                    iter--;
-		                }else{
-		                    tmpIter=1;
-		                    if(tmpPos<=self.trackLayout.length) {
-		                        tmpPos++;
-		                    }
-		                }
-		            }
-		            self.params.numZones = finalNumZones * self.params.zoneSize;
+                            tmpIter++;
+                            iter--;
+                        }else{
+                            tmpIter=1;
+                            if(tmpPos<=self.trackLayout.length) {
+                                tmpPos++;
+                            }
+                        }
+                    }
+                    self.params.numZones = finalNumZones * self.params.zoneSize;
 
-		            self.trackParam.numZones = finalNumZones;
+                    self.trackParam.numZones = finalNumZones;
 
-          			self.generatedJSON = {
-		                controllable_car: self.controllable_car,
-		                laneWidth: self.laneWidth,
-		                numLanes: self.numLanes,
-		                numberOfSegmentPerColor: self.numberOfSegmentPerColor,
-		                render: self.renderCanvas,
-		                track: self.generatedTrack,
-		                trackParam: self.trackParam,
-		                trackSegmentSize: self.trackSegmentSize,
-		                trackColors: self.trackColors
-		            };
+                    self.generatedJSON = {
+                        controllable_car: self.controllable_car,
+                        laneWidth: self.laneWidth,
+                        numLanes: self.numLanes,
+                        numberOfSegmentPerColor: self.numberOfSegmentPerColor,
+                        render: self.renderCanvas,
+                        track: self.generatedTrack,
+                        trackParam: self.trackParam,
+                        trackSegmentSize: self.trackSegmentSize,
+                        trackColors: self.trackColors
+                    };
 
-					setTimeout(
-					    (function(self2) {         //Self-executing func which takes 'this' as self
-					        return function() {   //Return a function in the context of 'self'
-						    	d3.select("#created_"+self2.TRACKGENERATORID).text("Success: True"); 
-					            // TODO writeFile track.json with its content with Paolo Masci new API (when it has been implemented)
-					            // console.log(self2.generatedJSON);
-					            console.log(JSON.stringify(self2.generatedJSON));
-					        }
-					    })(self),
-					    1000     //normal interval, 'this' scope not impacted here.
-					); 
+                    setTimeout(
+                        (function(self2) {         //Self-executing func which takes 'this' as self
+                            return function() {   //Return a function in the context of 'self'
+                                d3.select("#created_"+self2.TRACKGENERATORID).text("Success: True"); 
+                                // TODO writeFile track.json with its content with Paolo Masci new API (when it has been implemented)
+                                // console.log(self2.generatedJSON);
+                                console.log(JSON.stringify(self2.generatedJSON));
+                            }
+                        })(self),
+                        1000     //normal interval, 'this' scope not impacted here.
+                    ); 
                 }
             })(this),
             50     //normal interval, 'this' scope not impacted here.
         );
-    	return this;
+        return this;
     };
 
     /**
@@ -1500,189 +494,258 @@ define(function (require, exports, module) {
      * After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in and whether those are obstacles or not,
      * a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
      * within this context on the PVSio-web platform.
+     * @example <caption>Usage of public API to create randomly track, with straight lines, curves and slopes.</caption>
+     * define(function (require, exports, module) {
+     *     "use strict";
+     *
+     *     // Require the TrackGenerator module
+     *     require("widgets/car/TrackGenerator");
+     *
+     *     function main() {
+     *       // After TrackGenerator module was loaded, initialize it
+     *       let trackGenerator = new TrackGenerator("trackGeneratorWidget", {
+     *           top: 80,
+     *           left: 650,
+     *           width: 780,
+     *           height: 650
+     *       }, {
+     *           parent: "content", // defines parent div, which is div id="body" by default
+     *           spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+     *           render: {
+     *               width: 320,
+     *               height: 240,
+     *               depthOfField: 150,
+     *               camera_distance: 30,
+     *               camera_height: 100
+     *           },
+     *           trackSegmentSize: 5,
+     *           numberOfSegmentPerColor: 4,
+     *           numLanes: 3,
+     *           laneWidth: 0.02,
+     *           trackParam: {
+     *               numZones:    12, // number of different portions of the track
+     *               zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
+     *           },
+     *           // Information regarding current controllable_car's car
+     *           controllable_car: {
+     *               position: 10,
+     *               speed: 0,
+     *               acceleration: 0.05,
+     *               deceleration: 0.04,
+     *               breaking: 0.3,
+     *               turning: 5.0,
+     *               posx: 0,
+     *               maxSpeed: 20
+     *           },
+     *           objects: ["tree","stump","boulder","tree2","brunetteGirlBack","bush2","hatManBack"],
+     *           obstacle: ["dead_tree2","column","dearRight"],
+     *           obstaclePerIteration: 20,
+     *           trackColors: {
+     *               grass1: "#699864",
+     *               border1: "#e00",
+     *               border2: "#fff",
+     *               outborder1: "#496a46",
+     *               outborder_end1: "#474747",
+     *               track_segment1: "#777",
+     *               lane1: "#fff",
+     *               lane2: "#777",
+     *               laneArrow1: "#00FF00",
+     *               track_segment_end:"#000",
+     *               lane_end: "#fff"
+     *           },
+     *           callback: onMessageReceived
+     *       });
+     *
+     *       // Reveals TrackGenerator Widget
+     *       trackGenerator.prototype.render(); 
+     *      
+     *       // Creates the track randomly
+     *       trackGenerator.generateTrackCurvesSlopes();    
+     *     }
+     * });
      * @memberof module:TrackGenerator
      * @instance
      */
     TrackGenerator.prototype.generateTrackCurvesSlopes = function () {
-		this.loadFile();
-    	setTimeout(
+        this.loadFile();
+        setTimeout(
             (function(self) {         //Self-executing func which takes 'this' as self
                 return function() {   //Return a function in the context of 'self'
                     //Thing you wanted to run as non-window 'this'
-	      			// Generate current Zone
-		            let sprite = false;
-		            let spritePos = null;
-		            let spritePosgeneratedObstaclesRandom = null;
-		            let spritePosRightRandom = null;
-		            let spritePosLeftRandom =  null;
-		            let spriteTypeRandom = null;
-		            let chooseIndexFromObjects=null;
-		            let chooseObjectFromDesiredObjects=null;
-		            let chooseIndexFromObstacle=null;
-		            let chooseObstacleFromDesiredObstacle=null;
-		            let spriteSidesRandom = null;
-		            let slopesTransitionRandom = null;
-		            let curvesTransitionRandom = null;
-		            let spritesAvailableLength = self.spritesAvailable.length;
-		            let index=null;
+                    // Generate current Zone
+                    let sprite = false;
+                    let spritePos = null;
+                    let spritePosgeneratedObstaclesRandom = null;
+                    let spritePosRightRandom = null;
+                    let spritePosLeftRandom =  null;
+                    let spriteTypeRandom = null;
+                    let chooseIndexFromObjects=null;
+                    let chooseObjectFromDesiredObjects=null;
+                    let chooseIndexFromObstacle=null;
+                    let chooseObstacleFromDesiredObstacle=null;
+                    let spriteSidesRandom = null;
+                    let slopesTransitionRandom = null;
+                    let curvesTransitionRandom = null;
+                    let spritesAvailableLength = self.spritesAvailable.length;
+                    let index=null;
 
-		            let heightType = 0; //0=plain 1=up -1=down
-		            let slopesTransitions = {
-		                plainToUpToDownTransition: [0,1,-1],
-		                plainToDownToDownTransition: [0,-1,-1],
-		                plainToUpToUpTransition: [0,1,1]
-		            };
+                    let heightType = 0; //0=plain 1=up -1=down
+                    let slopesTransitions = {
+                        plainToUpToDownTransition: [0,1,-1],
+                        plainToDownToDownTransition: [0,-1,-1],
+                        plainToUpToUpTransition: [0,1,1]
+                    };
 
-		            let curveType = 0; //0=straight 1=left -1=right
-		            let curvesTransitions = {
-		                straightToLeftToRightTransition: [0,1,-1],
-		                straightToRightToRightTransition: [0,-1,-1],
-		                straightToLeftToLeftTransition: [0,1,1]
-		            };
+                    let curveType = 0; //0=straight 1=left -1=right
+                    let curvesTransitions = {
+                        straightToLeftToRightTransition: [0,1,-1],
+                        straightToRightToRightTransition: [0,-1,-1],
+                        straightToLeftToLeftTransition: [0,1,1]
+                    };
 
-		            let currentZone = {
-		                height: 0,
-		                curve: 0
-		            };
+                    let currentZone = {
+                        height: 0,
+                        curve: 0
+                    };
 
-		            let iter = self.params.numZones;
+                    let iter = self.params.numZones;
 
-		            while(iter){
-		                // Generate current Zone
-		                let intendedHeightForCurrentZone;
-		                switch(heightType){
-		                    case 0:
-		                        intendedHeightForCurrentZone = 0; break;
-		                    case 1:
-		                        intendedHeightForCurrentZone = 900 * self.randomPos(); break;
-		                    case -1:
-		                        intendedHeightForCurrentZone = - 900 * self.randomPos(); break;
-		                }
-		                let intendedCurveForCurrentZone;
-		                switch(curveType){
-		                    case 0:
-		                        intendedCurveForCurrentZone = 0; break;
-		                    case 1:
-		                        intendedCurveForCurrentZone = - 400 * self.randomPos(); break;
-		                    case -1:
-		                        intendedCurveForCurrentZone = 400 * self.randomPos(); break;
-		                }
-		                
-		                for(let i=0; i < self.params.zoneSize; i++){
-		                    // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
-		                    chooseIndexFromObjects = Math.floor((self.randomPos() * self.objects.length));
-		                    chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
-		                    index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects);
+                    while(iter){
+                        // Generate current Zone
+                        let intendedHeightForCurrentZone;
+                        switch(heightType){
+                            case 0:
+                                intendedHeightForCurrentZone = 0; break;
+                            case 1:
+                                intendedHeightForCurrentZone = 900 * self.randomPos(); break;
+                            case -1:
+                                intendedHeightForCurrentZone = - 900 * self.randomPos(); break;
+                        }
+                        let intendedCurveForCurrentZone;
+                        switch(curveType){
+                            case 0:
+                                intendedCurveForCurrentZone = 0; break;
+                            case 1:
+                                intendedCurveForCurrentZone = - 400 * self.randomPos(); break;
+                            case -1:
+                                intendedCurveForCurrentZone = 400 * self.randomPos(); break;
+                        }
+                        
+                        for(let i=0; i < self.params.zoneSize; i++){
+                            // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
+                            chooseIndexFromObjects = Math.floor((self.randomPos() * self.objects.length));
+                            chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
+                            index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects);
 
-		                    // generates random integer numbers between 1 and 2
-		                    spriteSidesRandom = Math.floor((self.randomPos() * 2) + 1);
-		        
-		                    spritePosgeneratedObstaclesRandom = self.randomPos() - 0.5;
-		                    
-		                    if(i%self.obstaclePerIteration==0){
-		                        // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
-		                        // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
-		                        chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
-		                        chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
-		                        index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle);
-		                        self.generatedObstacles.push(spritePosgeneratedObstaclesRandom);
-		                        // spritePosgeneratedObstaclesRandom has the relative position of the obstacle
-		                        sprite = {type: self.spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
-		                    }
-		                    else {
-		                        // choose randomly sprite image
-		                        // generates random float numbers greater than 0.55
-		                        spritePosRightRandom = self.randomPos() + 0.90;
-		                        // generates random float numbers lesser than -0.55
-		                        spritePosLeftRandom =  (self.randomPos() * -0.56) - 0.56;
-		        
-		                        // choose randomly sprite size
-		                        if(spriteSidesRandom == 1){
-		                            spritePos = spritePosLeftRandom;
-		                        }else if(spriteSidesRandom == 2){
-		                            spritePos = spritePosRightRandom;
-		                        }
-		                        if(self.randomPos() < 0.25){
-		                            sprite = {type: self.spritesAvailable[index].value, pos: spritePos-0.5, obstacle: 0};
-		                        } if(self.randomPos() < 0.5){
-		                            sprite = {type: self.spritesAvailable[index].value, pos: spritePos, obstacle: 0};
-		                        }else{
-		                            sprite = {type: self.spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
-		                        }
-		                    }
-		                   
-		                    self.generatedTrack.push({
-		                        height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/self.params.zoneSize * Math.PI-Math.PI/2)),
-		                        curve: currentZone.curve+intendedCurveForCurrentZone / 2 * (1 + Math.sin(i/self.params.zoneSize * Math.PI-Math.PI/2)),
-		                        sprite: sprite
-		                    })
-		                }
-		                currentZone.height += intendedHeightForCurrentZone;
-		                currentZone.curve += intendedCurveForCurrentZone;
-		        
-		                // Find next zone
-		                if(self.randomPos() < 0.8){
-		                    slopesTransitionRandom = 1+Math.round(self.randomPos());
-		                }else {
-		                    slopesTransitionRandom = 0;
-		                }
-		        
-		                if(self.randomPos() < 0.8){
-		                    curvesTransitionRandom = 1+Math.round(self.randomPos());
-		                }else {
-		                    curvesTransitionRandom = 0;
-		                }
-		        
-		                switch(heightType){
-		                    case 0:
-		                        heightType = slopesTransitions.plainToUpToDownTransition[slopesTransitionRandom]; break;
-		                    case 1:
-		                        heightType = slopesTransitions.plainToDownToDownTransition[slopesTransitionRandom]; break;
-		                    case -1:
-		                        heightType = slopesTransitions.plainToUpToUpTransition[slopesTransitionRandom]; break;
-		                }
-		        
-		                switch(curveType){
-		                    case 0:
-		                        curveType = curvesTransitions.straightToLeftToRightTransition[curvesTransitionRandom]; break;
-		                    case 1:
-		                        curveType = curvesTransitions.straightToRightToRightTransition[curvesTransitionRandom]; break;
-		                    case -1:
-		                        curveType = curvesTransitions.straightToLeftToLeftTransition[curvesTransitionRandom]; break;
-		                }
-		        
-		                iter--;
-		            }
-		            self.params.numZones = self.params.numZones * self.params.zoneSize;
+                            // generates random integer numbers between 1 and 2
+                            spriteSidesRandom = Math.floor((self.randomPos() * 2) + 1);
+                
+                            spritePosgeneratedObstaclesRandom = self.randomPos() - 0.5;
+                            
+                            if(i%self.obstaclePerIteration==0){
+                                // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
+                                // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
+                                chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
+                                chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
+                                index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle);
+                                self.generatedObstacles.push(spritePosgeneratedObstaclesRandom);
+                                // spritePosgeneratedObstaclesRandom has the relative position of the obstacle
+                                sprite = {type: self.spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
+                            }
+                            else {
+                                // choose randomly sprite image
+                                // generates random float numbers greater than 0.55
+                                spritePosRightRandom = self.randomPos() + 0.90;
+                                // generates random float numbers lesser than -0.55
+                                spritePosLeftRandom =  (self.randomPos() * -0.56) - 0.56;
+                
+                                // choose randomly sprite size
+                                if(spriteSidesRandom == 1){
+                                    spritePos = spritePosLeftRandom;
+                                }else if(spriteSidesRandom == 2){
+                                    spritePos = spritePosRightRandom;
+                                }
+                                if(self.randomPos() < 0.25){
+                                    sprite = {type: self.spritesAvailable[index].value, pos: spritePos-0.5, obstacle: 0};
+                                } if(self.randomPos() < 0.5){
+                                    sprite = {type: self.spritesAvailable[index].value, pos: spritePos, obstacle: 0};
+                                }else{
+                                    sprite = {type: self.spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
+                                }
+                            }
+                           
+                            self.generatedTrack.push({
+                                height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/self.params.zoneSize * Math.PI-Math.PI/2)),
+                                curve: currentZone.curve+intendedCurveForCurrentZone / 2 * (1 + Math.sin(i/self.params.zoneSize * Math.PI-Math.PI/2)),
+                                sprite: sprite
+                            })
+                        }
+                        currentZone.height += intendedHeightForCurrentZone;
+                        currentZone.curve += intendedCurveForCurrentZone;
+                
+                        // Find next zone
+                        if(self.randomPos() < 0.8){
+                            slopesTransitionRandom = 1+Math.round(self.randomPos());
+                        }else {
+                            slopesTransitionRandom = 0;
+                        }
+                
+                        if(self.randomPos() < 0.8){
+                            curvesTransitionRandom = 1+Math.round(self.randomPos());
+                        }else {
+                            curvesTransitionRandom = 0;
+                        }
+                
+                        switch(heightType){
+                            case 0:
+                                heightType = slopesTransitions.plainToUpToDownTransition[slopesTransitionRandom]; break;
+                            case 1:
+                                heightType = slopesTransitions.plainToDownToDownTransition[slopesTransitionRandom]; break;
+                            case -1:
+                                heightType = slopesTransitions.plainToUpToUpTransition[slopesTransitionRandom]; break;
+                        }
+                
+                        switch(curveType){
+                            case 0:
+                                curveType = curvesTransitions.straightToLeftToRightTransition[curvesTransitionRandom]; break;
+                            case 1:
+                                curveType = curvesTransitions.straightToRightToRightTransition[curvesTransitionRandom]; break;
+                            case -1:
+                                curveType = curvesTransitions.straightToLeftToLeftTransition[curvesTransitionRandom]; break;
+                        }
+                
+                        iter--;
+                    }
+                    self.params.numZones = self.params.numZones * self.params.zoneSize;
 
-          			self.generatedJSON = {
-		                controllable_car: self.controllable_car,
-		                laneWidth: self.laneWidth,
-		                numLanes: self.numLanes,
-		                numberOfSegmentPerColor: self.numberOfSegmentPerColor,
-		                render: self.renderCanvas,
-		                track: self.generatedTrack,
-		                trackParam: self.trackParam,
-		                trackSegmentSize: self.trackSegmentSize,
-		                trackColors: self.trackColors
-		            };
+                    self.generatedJSON = {
+                        controllable_car: self.controllable_car,
+                        laneWidth: self.laneWidth,
+                        numLanes: self.numLanes,
+                        numberOfSegmentPerColor: self.numberOfSegmentPerColor,
+                        render: self.renderCanvas,
+                        track: self.generatedTrack,
+                        trackParam: self.trackParam,
+                        trackSegmentSize: self.trackSegmentSize,
+                        trackColors: self.trackColors
+                    };
 
-					setTimeout(
-					    (function(self2) {         //Self-executing func which takes 'this' as self
-					        return function() {   //Return a function in the context of 'self'
-						    	d3.select("#created_"+self2.TRACKGENERATORID).text("Success: True"); 
-					            // TODO writeFile track.json with its content with Paolo Masci new API (when it has been implemented)
-					            // console.log(self2.generatedJSON);
-					            console.log(JSON.stringify(self2.generatedJSON));
-					        }
-					    })(self),
-					    1000     //normal interval, 'this' scope not impacted here.
-					); 
+                    setTimeout(
+                        (function(self2) {         //Self-executing func which takes 'this' as self
+                            return function() {   //Return a function in the context of 'self'
+                                d3.select("#created_"+self2.TRACKGENERATORID).text("Success: True"); 
+                                // TODO writeFile track.json with its content with Paolo Masci new API (when it has been implemented)
+                                // console.log(self2.generatedJSON);
+                                console.log(JSON.stringify(self2.generatedJSON));
+                            }
+                        })(self),
+                        1000     //normal interval, 'this' scope not impacted here.
+                    ); 
                 }
             })(this),
             50     //normal interval, 'this' scope not impacted here.
         );
-    	return this;
+        return this;
     };
 
     /**
@@ -1699,138 +762,207 @@ define(function (require, exports, module) {
      * After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in and whether those are obstacles or not,
      * a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
      * within this context on the PVSio-web platform.
+     * @example <caption>Usage of public API to create randomly track, with only straight lines.</caption>
+     * define(function (require, exports, module) {
+     *     "use strict";
+     *
+     *     // Require the TrackGenerator module
+     *     require("widgets/car/TrackGenerator");
+     *
+     *     function main() {
+     *       // After TrackGenerator module was loaded, initialize it
+     *       let trackGenerator = new TrackGenerator("trackGeneratorWidget", {
+     *           top: 80,
+     *           left: 650,
+     *           width: 780,
+     *           height: 650
+     *       }, {
+     *           parent: "content", // defines parent div, which is div id="body" by default
+     *           spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+     *           render: {
+     *               width: 320,
+     *               height: 240,
+     *               depthOfField: 150,
+     *               camera_distance: 30,
+     *               camera_height: 100
+     *           },
+     *           trackSegmentSize: 5,
+     *           numberOfSegmentPerColor: 4,
+     *           numLanes: 3,
+     *           laneWidth: 0.02,
+     *           trackParam: {
+     *               numZones:    12, // number of different portions of the track
+     *               zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
+     *           },
+     *           // Information regarding current controllable_car's car
+     *           controllable_car: {
+     *               position: 10,
+     *               speed: 0,
+     *               acceleration: 0.05,
+     *               deceleration: 0.04,
+     *               breaking: 0.3,
+     *               turning: 5.0,
+     *               posx: 0,
+     *               maxSpeed: 20
+     *           },
+     *           objects: ["tree","stump","boulder","tree2","brunetteGirlBack","bush2","hatManBack"],
+     *           obstacle: ["dead_tree2","column","dearRight"],
+     *           obstaclePerIteration: 20,
+     *           trackColors: {
+     *               grass1: "#699864",
+     *               border1: "#e00",
+     *               border2: "#fff",
+     *               outborder1: "#496a46",
+     *               outborder_end1: "#474747",
+     *               track_segment1: "#777",
+     *               lane1: "#fff",
+     *               lane2: "#777",
+     *               laneArrow1: "#00FF00",
+     *               track_segment_end:"#000",
+     *               lane_end: "#fff"
+     *           },
+     *           callback: onMessageReceived
+     *       });
+     *
+     *       // Reveals TrackGenerator Widget
+     *       trackGenerator.prototype.render(); 
+     *      
+     *       // Creates the track randomly
+     *       trackGenerator.generateStraightTrack();    
+     *     }
+     * });
      * @memberof module:TrackGenerator
      * @instance
      */ 
     TrackGenerator.prototype.generateStraightTrack = function () {
-		this.loadFile();
-    	setTimeout(
+        this.loadFile();
+        setTimeout(
             (function(self) {         //Self-executing func which takes 'this' as self
                 return function() {   //Return a function in the context of 'self'
                     //Thing you wanted to run as non-window 'this'
-		            // Generate current Zone
-		            let numIterations = self.params.numZones * self.params.zoneSize;
-		            let sprite = false;
-		            let spritePos = null;
-		            let spritePosgeneratedObstaclesRandom = null;
-		            let spritePosRightRandom = null;
-		            let spritePosLeftRandom =  null;
-		            let spriteTypeRandom = null;
-		            let spriteSidesRandom = null;
-		            let spritesAvailableLength = self.spritesAvailable.length;
-		        
-		            for(let i=0; i < numIterations; i++){            
-		                // generates random integer numbers between 0 and spritesAvailable.length
-		                spriteTypeRandom = Math.floor(self.randomPos() * spritesAvailableLength);
-		                // generates random integer numbers between 1 and 2
-		                spriteSidesRandom = Math.floor((self.randomPos() * 2) + 1);
-		        
-		                spritePosgeneratedObstaclesRandom = self.randomPos() - 0.5;
-		                
-		                if(self.spritesAvailable[spriteTypeRandom].name.match(/car[0-9]?/)===null && self.spritesAvailable[spriteTypeRandom].name.match(/background[0-9]?/)===null && self.spritesAvailable[spriteTypeRandom].name.match(/logo[0-9]?/)===null){
-		                    if(i%self.obstaclePerIteration===0){
-		                        self.obstacle.forEach((element) => {
-		                            let index = self.spritesAvailable.findIndex(el => el.name === element);
-		                            // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
-		                            self.generatedObstacles.push(spritePosgeneratedObstaclesRandom);
-		                            // spritePosgeneratedObstaclesRandom has the relative position of the obstacle
-		                            sprite = {type: self.spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
-		                            
-		                            self.generatedTrack.push({
-		                                height: 0,
-		                                curve: 0,
-		                                sprite: sprite
-		                            });
-		                        });
-		                    }else{
-		                        self.objects.forEach((element) => {
-		                            // console.log(element);
-		                            let index = self.spritesAvailable.findIndex(el => el.name === element);
-		                            // generates random float numbers greater than 0.55
-		                            spritePosRightRandom = self.randomPos() + 0.90;
-		                            // generates random float numbers lesser than -0.55
-		                            spritePosLeftRandom =  (self.randomPos() * -0.56) - 0.56;
-		        
-		                            // choose randomly sprite size
-		                            if(spriteSidesRandom === 1){
-		                                spritePos = spritePosLeftRandom;
-		                            }else if(spriteSidesRandom === 2){
-		                                spritePos = spritePosRightRandom;
-		                            }
-		        
-		                            if(self.randomPos() < 0.25){
-		                                sprite = {type: self.spritesAvailable[index].value, pos: spritePos-0.5, obstacle: 0};
-		                            } if(self.randomPos() < 0.5){
-		                                sprite = {type: self.spritesAvailable[index].value, pos: spritePos, obstacle: 0};
-		                            }else{
-		                                sprite = {type: self.spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
-		                            }
+                    // Generate current Zone
+                    let numIterations = self.params.numZones * self.params.zoneSize;
+                    let sprite = false;
+                    let spritePos = null;
+                    let spritePosgeneratedObstaclesRandom = null;
+                    let spritePosRightRandom = null;
+                    let spritePosLeftRandom =  null;
+                    let spriteTypeRandom = null;
+                    let spriteSidesRandom = null;
+                    let spritesAvailableLength = self.spritesAvailable.length;
+                
+                    for(let i=0; i < numIterations; i++){            
+                        // generates random integer numbers between 0 and spritesAvailable.length
+                        spriteTypeRandom = Math.floor(self.randomPos() * spritesAvailableLength);
+                        // generates random integer numbers between 1 and 2
+                        spriteSidesRandom = Math.floor((self.randomPos() * 2) + 1);
+                
+                        spritePosgeneratedObstaclesRandom = self.randomPos() - 0.5;
+                        
+                        if(self.spritesAvailable[spriteTypeRandom].name.match(/car[0-9]?/)===null && self.spritesAvailable[spriteTypeRandom].name.match(/background[0-9]?/)===null && self.spritesAvailable[spriteTypeRandom].name.match(/logo[0-9]?/)===null){
+                            if(i%self.obstaclePerIteration===0){
+                                self.obstacle.forEach((element) => {
+                                    let index = self.spritesAvailable.findIndex(el => el.name === element);
+                                    // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
+                                    self.generatedObstacles.push(spritePosgeneratedObstaclesRandom);
+                                    // spritePosgeneratedObstaclesRandom has the relative position of the obstacle
+                                    sprite = {type: self.spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
+                                    
+                                    self.generatedTrack.push({
+                                        height: 0,
+                                        curve: 0,
+                                        sprite: sprite
+                                    });
+                                });
+                            }else{
+                                self.objects.forEach((element) => {
+                                    // console.log(element);
+                                    let index = self.spritesAvailable.findIndex(el => el.name === element);
+                                    // generates random float numbers greater than 0.55
+                                    spritePosRightRandom = self.randomPos() + 0.90;
+                                    // generates random float numbers lesser than -0.55
+                                    spritePosLeftRandom =  (self.randomPos() * -0.56) - 0.56;
+                
+                                    // choose randomly sprite size
+                                    if(spriteSidesRandom === 1){
+                                        spritePos = spritePosLeftRandom;
+                                    }else if(spriteSidesRandom === 2){
+                                        spritePos = spritePosRightRandom;
+                                    }
+                
+                                    if(self.randomPos() < 0.25){
+                                        sprite = {type: self.spritesAvailable[index].value, pos: spritePos-0.5, obstacle: 0};
+                                    } if(self.randomPos() < 0.5){
+                                        sprite = {type: self.spritesAvailable[index].value, pos: spritePos, obstacle: 0};
+                                    }else{
+                                        sprite = {type: self.spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
+                                    }
 
-		                            self.generatedTrack.push({
-		                                height: 0,
-		                                curve: 0,
-		                                sprite: sprite
-		                            });
-		                        });
-		                    }
-		                }
-		            }
+                                    self.generatedTrack.push({
+                                        height: 0,
+                                        curve: 0,
+                                        sprite: sprite
+                                    });
+                                });
+                            }
+                        }
+                    }
 
-		            self.params.numZones = numIterations; 
+                    self.params.numZones = numIterations; 
 
-          			self.generatedJSON = {
-		                controllable_car: self.controllable_car,
-		                laneWidth: self.laneWidth,
-		                numLanes: self.numLanes,
-		                numberOfSegmentPerColor: self.numberOfSegmentPerColor,
-		                render: self.renderCanvas,
-		                track: self.generatedTrack,
-		                trackParam: self.trackParam,
-		                trackSegmentSize: self.trackSegmentSize,
-		                trackColors: self.trackColors
-		            };
+                    self.generatedJSON = {
+                        controllable_car: self.controllable_car,
+                        laneWidth: self.laneWidth,
+                        numLanes: self.numLanes,
+                        numberOfSegmentPerColor: self.numberOfSegmentPerColor,
+                        render: self.renderCanvas,
+                        track: self.generatedTrack,
+                        trackParam: self.trackParam,
+                        trackSegmentSize: self.trackSegmentSize,
+                        trackColors: self.trackColors
+                    };
 
-					setTimeout(
-					    (function(self2) {         //Self-executing func which takes 'this' as self
-					        return function() {   //Return a function in the context of 'self'
-						    	d3.select("#created_"+self2.TRACKGENERATORID).text("Success: True"); 
-					            // TODO writeFile track.json with its content with Paolo Masci new API (when it has been implemented)
-					            // console.log(self2.generatedJSON);
-					            console.log(JSON.stringify(self2.generatedJSON));
-					        }
-					    })(self),
-					    1000     //normal interval, 'this' scope not impacted here.
-					); 
+                    setTimeout(
+                        (function(self2) {         //Self-executing func which takes 'this' as self
+                            return function() {   //Return a function in the context of 'self'
+                                d3.select("#created_"+self2.TRACKGENERATORID).text("Success: True"); 
+                                // TODO writeFile track.json with its content with Paolo Masci new API (when it has been implemented)
+                                // console.log(self2.generatedJSON);
+                                console.log(JSON.stringify(self2.generatedJSON));
+                            }
+                        })(self),
+                        1000     //normal interval, 'this' scope not impacted here.
+                    ); 
                 }
             })(this),
             50     //normal interval, 'this' scope not impacted here.
         );
-    	return this;
+        return this;
     };
 
 
     /**
      * @function loadFile
-     * @protected
+     * @private
      * @description LoadFile method of the TrackGenerator widget. This method loads the desired JSON File.
      * @memberof module:TrackGenerator
      * @instance
      */
     TrackGenerator.prototype.loadFile = function () {
-		setTimeout(
+        setTimeout(
             (function(self) {         //Self-executing func which takes 'this' as self
                 return function() {   //Return a function in the context of 'self'
-					self.spritesheetJSON = d3.select("#spritesheet_file_loaded_opt_field_"+self.TRACKGENERATORID)[0][0].innerHTML; //Thing you wanted to run as non-window 'this'
-					if(self.spritesheetJSON){
-			           self.spritesReadJSON = JSON.parse(self.spritesheetJSON);
-			           // Reading all JSON Sprites Available
-			           for(let k=0;k<self.spritesReadJSON.frames.length;k++){
-			               self.spritesAvailable[k]={
-			                   name:self.spritesReadJSON.frames[k].filename.split(".")[0],
-			                   value:self.spritesReadJSON.frames[k].frame
-			               };
-			           }    
-			       }
+                    self.spritesheetJSON = d3.select("#spritesheet_file_loaded_opt_field_"+self.TRACKGENERATORID)[0][0].innerHTML; //Thing you wanted to run as non-window 'this'
+                    if(self.spritesheetJSON){
+                       self.spritesReadJSON = JSON.parse(self.spritesheetJSON);
+                       // Reading all JSON Sprites Available
+                       for(let k=0;k<self.spritesReadJSON.frames.length;k++){
+                           self.spritesAvailable[k]={
+                               name:self.spritesReadJSON.frames[k].filename.split(".")[0],
+                               value:self.spritesReadJSON.frames[k].frame
+                           };
+                       }    
+                   }
                 }
             })(this),
             50     //normal interval, 'this' scope not impacted here.
@@ -1863,7 +995,7 @@ define(function (require, exports, module) {
     /**
      * @function render
      * @public
-     * @description Render method of the TrackGenerator widget. 
+     * @description Render method of the TrackGenerator widget. This method reveals the widget.
      * @memberof module:TrackGenerator
      * @instance
      */

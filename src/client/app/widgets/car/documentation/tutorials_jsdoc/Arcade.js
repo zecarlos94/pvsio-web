@@ -5,205 +5,9 @@
  * @desc This module draws the 2D arcade driving simulator, using HTML5 Canvas.
  *
  * @date Apr 02, 2018
- * last modified @date Jun 13, 2018
+ * last modified @date Jun 16, 2018
  *
- * @example <caption>Usage of Arcade within a PVSio-web demo.</caption>
- * define(function (require, exports, module) {
- *     "use strict";
- *
- *     // Require the Arcade module
- *     require("widgets/car/Arcade");
- *
- *     function main() {
- *          // After Arcade module was loaded, initialize it
- *          let arcade = new Arcade(
- *               'example', // id of the Arcade element that will be created
- *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
- *               { parent: 'content',
- *				   scaleWindow: 2.2, // scales canvas div
- *                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
- *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
- *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
- *                 realisticImgs: false,
- *                 vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
- *                 vehicleImgIndex: 2, // defines vehicle sprite image suffix
- *                 // logoImgIndex: 1, // defines logo sprite image suffix
- *                 // backgroundImgIndex: 1, // defines background sprite image suffix
- *                 stripePositions: {
- *                    trackP1: -0.50,
- *                    trackP2: 0.50,
- *                    borderWidth: 0.08,
- *                    inOutBorderWidth: 0.02,
- *                    landscapeOutBorderWidth: 0.13,
- *                    diffTrackBorder: 0.05,
- *                    finishLineP1: -0.40,
- *                    finishLineP2: 0.40,
- *                    diffLanesFinishLine: 0.05
- *                  },
- *                  lapNumber: 2,
- *                  // showOfficialLogo: true,
- *                  // loadPVSSpeedPositions: true,
- *                  // predefinedTracks: 5,
- *                  // newLap_functionNamePVS: "new_lap",
- *                  // action_attribute: "action",
- *                  // direction_attribute: "direction",
- *                  // sound_attribute: "sound",
- *                  // lap_attribute: "lap",
- *                  // speed_attribute: "speed",
- *                  // posx_attribute: "posx",
- *                  // position_attribute: "position",
- *                  // lap_value: "val",
- *                  // speed_value: "val",
- *                  // posx_value: "val",
- *                  // position_value: "val",
- *                  // left_attribute: "left",
- *                  // right_attribute: "right",
- *                  // straight_attribute: "straight",
- *                  // accelerate_attribute: "acc",
- *                  // brake_attribute: "brake",
- *                  // idle_attribute: "idle",
- *                  // quit_attribute: "quit",
- *                  // pause_attribute: "pause",
- *                  // resume_attribute: "resume",
- *                  // mute_attribute: "mute",
- *                  // unmute_attribute: "unmute",
- *               }// append on div 'content'
- *           );
- *
- *          // Available methods:
- *          // Starts the simulation using constructor's opt fields (arguments)
- *          arcade.startSimulation();
- *
- *          // Render the Arcade widget, updating Widget status with PVS status (vehicle position, posx and speed)
- *          // This API will be called by onMessageReceived callback, which processes PVS status within a PVSio-web demo, so
- *          // each new pvs status can be propagated to the widget.
- *          arcade.render();
- *
- *          // OR
- *
- *          // Hides the Arcade widget
- *          arcade.hide();
- *
- *          // OR
- *
- *          // Reveals the Arcade widget
- *          arcade.reveal();
- *     }
- * });
- *
- * @example <caption>Usage of <strong>Protected API</strong> within Arcade Widget. That is, API which is only used internally by the Arcade Widget to create the desired simulation</caption>
- *     // Loading all spritesheets (images)
- *     arcade.onPageLoad(this.spritesFiles);
- *
- *     // Loading track number of iterations to be rendered
- *     arcade.getNrIterations();
- *
- *     // Detecting current browser
- *     arcade.detectBrowserType();
- *
- *     // Init the canvas, on div with id 'arcadeSimulator'
- *     arcade.init();
- *
- *     // Drawing simulator home page
- *     arcade.renderSplashFrame();
- *
- *     // Drawing simulator pause page
- *     arcade.renderSplashPauseFrame();
- *
- *     // Drawing simulator end page
- *     arcade.renderSplashEndFrame();
- *
- *     // Draws the string "Hello" in the screen coordinates (100,100) with font available at spritesheet image (spritesheetsImages array) at index 1
- *     // By default index 1 has "spritesheet.text.png" image
- *     arcade.drawText("Hello",{x: 100, y: 100}, 1);
- *
- *     // Every 30ms arcade.renderSimulatorFrame method is invoked, drawing the current simulation frame
- *     simulatorInterval = setInterval(arcade.renderSimulatorFrame, 30);
- *
- *     // Updates car's current position (listening for actions: acceleration, etc)
- *     let carSprite = arcade.updateControllableCar();
- *
- *     // Calculates new speed, position, posx and vehicle sprite coordinates x,y based on current direction (listening for actions: acceleration, etc)
- *     arcade.calculateNewControllableCarPosition();
- *
- *     // Sets new speed, position, posx and vehicle sprite coordinates x,y based on vehicleCurrentDirection, newSpeed, newPosition, newPositionX, vehicleXPosition, vehicleYPosition arguments
- *     // Such values must be calculated or given taking into consideration the previous values.
- *     let carSprite = arcade.setControllableCarPosition(vehicleCurrentDirection, newSpeed, newPosition, newPositionX, vehicleXPosition, vehicleYPosition);
- *
- *     // Draws the background image based on car's current horizontal position(posx)
- *     arcade.drawBackground(-posx);
- *
- *     // Setting colors during simulation
- *     arcade.setColorsCanvas(counter < arcadeParams.numberOfSegmentPerColor, "#699864", "#e00", "#fff", "#496a46", "#474747", "#777", "#fff", "#777", "#00FF00");
- *
- *     // Drawing current segment (entire horizontal stripe)
- *     arcade.drawSegment(
- *              render.height / 2 + currentHeight,
- *              currentScaling, currentSegment.curve - baseOffset - lastDelta * currentScaling,
- *              render.height / 2 + endProjectedHeight,
- *              endScaling,
- *              nextSegment.curve - baseOffset - lastDelta * endScaling,
- *              currentSegmentIndex == 2 || currentSegmentIndex == (arcadeParams.numIterations-render.depthOfField)
- *     );
- *
- *     // Draws sprite received as first argument
- *     arcade.drawSprite(
- *      {
- *         y: render.height / 2 + startProjectedHeight,
- *         x: render.width / 2 - currentSegment.sprite.pos * render.width * currentScaling + currentSegment.curve - baseOffset - (controllable_car.posx - baseOffset*2) * currentScaling,
- *         ymax: render.height / 2 + lastProjectedHeight,
- *         s: 0.5*currentScaling,
- *         i: currentSegment.sprite.type,
- *         pos: currentSegment.sprite.pos,
- *         obstacle: currentSegment.sprite.obstacle
- *      },
- *      null,
- *      null,
- *      null,
- *      null
- *     );
- *
- *     // OR
- *     // Draws image carSprite, in coordinates (carSprite.x, carSprite.y) with scale 1 (original size)
- *     arcade.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
- *
- *     // Sets the color of the finishing line
- *     arcade.prototype.setColorsEndCanvas("#000", "#fff");
- *
- *     // Draws the track current segment portion
- *     arcade.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.5, 0.5, "#fff");
- *
- *     // Draws the lanes
- *     arcade.drawLanes(position1, scale1, offset1, position2, scale2, offset2, arcadeColors.lane, 3, 0.02);
- *
- *     // Draws one lane at position 0 (i.e. in middle of the track) with width laneWidth
- *     arcade.drawLanePos(position1, scale1, offset1, position2, scale2, offset2, arcadeColors.lane, 0, arcadeParams.laneWidth);
- *
- *     // Draws the guiding line
- *     arcade.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, "#00FF00");
- *
- *     // Draws the guiding arrow, turned front, with tail and with color rgb(100,200,187) received as arguments at (10,30) with width 20px and height also 20px
- *     arcade.drawArrowFront(10, 30, 20, 20, "rgb(100,200,187)", 1);
- *
- *     // Draws the guiding arrow, turned left, with tail and with color rgb(100,200,187) received as arguments at (30,20) with width 20px and height also 20px
- *     arcade.drawArrowLeft(30, 20, 20, 20, arcadeColors.laneArrow, 1);
- *
- *     // Draws the guiding arrow, turned right, with tail and with color rgb(100,200,187) received as arguments at (160,150) with width 20px and height also 20px
- *     arcade.drawArrowRight(160, 150, 20, 20, arcadeColors.laneArrow, 1);
- *
- *     // Draws the simple guiding arrow, turned front, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
- *     arcade.drawSimpleArrowFront(canvas.width-50,30,arcadeColors.laneArrow);
- *
- *     // Draws the simple guiding arrow, turned down, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
- *     arcade.drawSimpleArrowDown(canvas.width-50,30,arcadeColors.laneArrow);
- *
- *     // Draws the simple guiding arrow, turned left, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
- *     arcade.drawSimpleArrowLeft(canvas.width-50,30,arcadeColors.laneArrow,{inverse:true});
- *
- *     // Draws the simple guiding arrow, turned right, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
- *     arcade.drawSimpleArrowRight(canvas.width-50,30,arcadeColors.laneArrow,{inverse:true});
- *
- * @example <caption>Usage of API to create a new simulation, after creating a track with curves and slopes, and using a car as a vehicle.
+ * @example <caption>Usage of API to create a new simulation within a PVSio-web demo, after creating a track with curves and slopes, and using a car as a vehicle.
  * Opt field trackFilename is the JSON file, which was created by TrackGenerator Widget or by hand or by other future Widget that creates tracks.
  * </caption>
  *   define(function (require, exports, module) {
@@ -218,7 +22,7 @@
  *               'example', // id of the Arcade element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
  *               { parent: 'content',
- *				   scaleWindow: 2.2, // scales canvas div
+ *                 scaleWindow: 2.2, // scales canvas div
  *                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -274,12 +78,13 @@
  *          // Render the Arcade widget, updating Widget status with PVS status (vehicle position, posx and speed)
  *          // This API will be called by onMessageReceived callback, which processes PVS status within a PVSio-web demo, so
  *          // each new pvs status can be propagated to the widget.
- *          arcade.render();
- *
+ *          // 'res' is provided by the function that automatically is invoked by PVSio-web when the back-end sends states updates, i.e.,
+ *          // 'res' has the latest pvs state.
+ *          arcade.render(res);
  *     }
  * });
  *
- * @example <caption>Usage of API to create a new simulation, after creating a track with only straight lines, and using a helicopter as a vehicle.
+ * @example <caption>Usage of API to create a new simulation within a PVSio-web demo, after creating a track with only straight lines, and using a helicopter as a vehicle.
  * Opt field trackFilename is the JSON file, which was created by TrackGenerator Widget or by hand or by other future Widget that creates tracks.
  * </caption>
  *   define(function (require, exports, module) {
@@ -294,7 +99,7 @@
  *               'example', // id of the Arcade element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
  *               { parent: 'content',
- *				   scaleWindow: 2.2, // scales canvas div
+ *                 scaleWindow: 2.2, // scales canvas div
  *                 trackFilename: "track-straight", // "track-curves-slopes", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -314,7 +119,7 @@
  *                    finishLineP2: 0.40,
  *                    diffLanesFinishLine: 0.05
  *                  },
- *                  lapNumber: 2,
+ *                  // lapNumber: 2, // By default is 0, i.e. infinit loop
  *                  // showOfficialLogo: true,
  *                  // loadPVSSpeedPositions: true,
  *                  // predefinedTracks: 5,
@@ -350,10 +155,22 @@
  *          // Render the Arcade widget, updating Widget status with PVS status (vehicle position, posx and speed)
  *          // This API will be called by onMessageReceived callback, which processes PVS status within a PVSio-web demo, so
  *          // each new pvs status can be propagated to the widget.
- *          arcade.render();
- *
+ *          // 'res' is provided by the function that automatically is invoked by PVSio-web when the back-end sends states updates, i.e.,
+ *          // 'res' has the latest pvs state.
+ *          arcade.render(res);
  *     }
  * });
+ *
+ *
+ * @example <caption>Usage of other public API's of Arcade Widget.</caption>
+ *
+ *  Using variable Arcade created in the previous example is also possible to call the following,
+ *
+ *       // Hides the Arcade widget.
+ *       arcade.hide();
+ *
+ *       // Reveals the Arcade widget.
+ *       arcade.reveal();
  *
  */
 /*jslint lets: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
@@ -384,44 +201,44 @@ define(function (require, exports, module) {
      *        the left, top corner, and the width and height of the (rectangular) display.
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
-     *          <li>parent {String}: the HTML element where the display will be appended (default is "body").</li>
-     *          <li>scaleWindow {Float}: the scale to be set on canvas (default is 2.2).</li>
-     *          <li>trackFilename {String}: the track configuration filename, i.e. JSON file with the track that will be drawed as well as the required sprite coordinates, etc (default is "track").</li>
-     *          <li>spritesFilename {String}: the spritesheet configuration filename, i.e. JSON file with the all available sprites, whose coordinates are the same in trackFilename, i.e. the track must have been generated with this JSON as well so the coordinates will match (default is "spritesheet").</li>
-     *          <li>spritesFiles {Array}: array with spritesheets(images) names (default is ["spritesheet","spritesheet.text"]).</li>
-     *          <li>vehicleImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the vehicle image (front, left side, right side) (default is null).</li>
-     *          <li>logoImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the logo image (default is null).</li>
-     *          <li>backgroundImgIndex {Int}: number placed as suffix in the JSON file with the sprite of the background image (default is null).</li>
-     *          <li>realisticImgs {Bool}: value that indicates if the sprite of the vehicle to be used is a realistic image or if it is a pixelated image as in arcade games (default is "false").</li>
-     *          <li>vehicle {String}: the type of vehicle to be used in the simulation. The types available are ["airplane", "bicycle", "car", "helicopter", "motorbike"]. It should be noted that these types must exist in the spritesheet if they are to be used. (default is "car").</li>
-     *          <li>stripePositions {Object}: position values and respective widths (borders, track and finish line) to be rendered on a stripe. (default is { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 }).</li>
-     *          <li>lapNumber {Int}: the number of desired laps in the simulation (default is 2 laps).</li>
-     *          <li>showOfficialLogo {Bool}: the option to render extra image, on the bottom-left corner, which is the PVSio-web logo created in this thesis (default is false).</li>
-     *          <li>loadPVSSpeedPositions {Bool}: allows to use PVS calculated positions and speed in the simulation. (default is true).</li>
-     *          <li>predefinedTracks {Int}: allows to use predefined tracks, present on JSON files with filename "trackLayout"+predefined+".json", in car/configurations/ directory. (default is null).</li>
-     *          <li>newLap_functionNamePVS {String}: allows to set pvs function name for new lap. (default is "new_lap").</li>
-     *          <li>action_attribute {String}: allows to set pvs attribute name for action. (default is "action").</li>
-     *          <li>direction_attribute {String}: allows to set pvs attribute name for direction. (default is "direction").</li>
-     *          <li>sound_attribute {String}: allows to set pvs attribute name for sound. (default is "sound").</li>
-     *          <li>lap_attribute {String}: allows to set pvs attribute name for lap. (default is "lap").</li>
-     *          <li>speed_attribute {String}: allows to set pvs attribute name for speed. (default is "speed").</li>
-     *          <li>posx_attribute {String}: allows to set pvs attribute name for posx. (default is "posx").</li>
-     *          <li>position_attribute {String}: allows to set pvs attribute name for position. (default is "position").</li>
-     *          <li>lap_value {String}: allows to set pvs val name for lap attribute. (default is "val").</li>
-     *          <li>speed_value {String}: allows to set pvs val name for speed attribute. (default is "val").</li>
-     *          <li>posx_value {String}: allows to set pvs val name for posx attribute. (default is "val").</li>
-     *          <li>position_value {String}: allows to set pvs val name for position attribute. (default is "val").</li>
-     *          <li>left_attribute {String}: allows to set pvs attribute name for left direction. (default is "left").</li>
-     *          <li>right_attribute {String}: allows to set pvs attribute name for right direction. (default is "right").</li>
-     *          <li>accelerate_attribute {String}: allows to set pvs attribute name for accelerate action. (default is "acc").</li>
-     *          <li>brake_attribute {String}: allows to set pvs attribute name for brake action. (default is "brake").</li>
-     *          <li>idle_attribute {String}: allows to set pvs attribute name for idle action. (default is "idle").</li>
-     *          <li>quit_attribute {String}: allows to set pvs attribute name for quit action. (default is "quit").</li>
-     *          <li>pause_attribute {String}: allows to set pvs attribute name for pause action. (default is "pause").</li>
-     *          <li>resume_attribute {String}: allows to set pvs attribute name for resume action. (default is "resume").</li>
-     *          <li>mute_attribute {String}: allows to set pvs attribute name for mute sound. (default is "mute").</li>
-     *          <li>unmute_attribute {String}: allows to set pvs attribute name for unmute sound. (default is "unmute").</li>
-     * @returns {Arcade} The created instance of the widget Arcade.
+     * @param [opt.parent] {String} the HTML element where the display will be appended (default is "body").
+	 * @param [opt.scaleWindow] {Float} the scale to be set on canvas (default is 2.2).
+	 * @param [opt.trackFilename] {String} the track configuration filename, i.e. JSON file with the track that will be drawed as well as the required sprite coordinates, etc (default is "track").
+	 * @param [opt.spritesFilename] {String} the spritesheet configuration filename, i.e. JSON file with the all available sprites, whose coordinates are the same in trackFilename, i.e. the track must have been generated with this JSON as well so the coordinates will match (default is "spritesheet").
+	 * @param [opt.spritesFiles] {Array} array with spritesheets(images) names (default is ["spritesheet","spritesheet.text"]).
+	 * @param [opt.vehicleImgIndex] {Int} number placed as suffix in the JSON file with the sprite of the vehicle image (front, left side, right side) (default is null).
+	 * @param [opt.logoImgIndex] {Int} number placed as suffix in the JSON file with the sprite of the logo image (default is null).
+	 * @param [opt.backgroundImgIndex] {Int} number placed as suffix in the JSON file with the sprite of the background image (default is null).
+	 * @param [opt.realisticImgs] {Bool} value that indicates if the sprite of the vehicle to be used is a realistic image or if it is a pixelated image as in arcade games (default is "false").
+	 * @param [opt.vehicle] {String} the type of vehicle to be used in the simulation. The types available are ["airplane", "bicycle", "car", "helicopter", "motorbike"]. It should be noted that these types must exist in the spritesheet if they are to be used. (default is "car").
+	 * @param [opt.stripePositions] {Object} position values and respective widths (borders, track and finish line) to be rendered on a stripe. (default is { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 }).
+	 * @param [opt.lapNumber] {Int} the number of desired laps in the simulation (default is 2 laps).
+	 * @param [opt.showOfficialLogo] {Bool} the option to render extra image, on the bottom-left corner, which is the PVSio-web logo created in this thesis (default is false).
+	 * @param [opt.loadPVSSpeedPositions] {Bool} allows to use PVS calculated positions and speed in the simulation. (default is true).
+	 * @param [opt.predefinedTracks] {Int} allows to use predefined tracks, present on JSON files with filename "trackLayout"+predefined+".json", in car/configurations/ directory. (default is null).
+	 * @param [opt.newLap_functionNamePVS] {String} allows to set pvs function name for new lap. (default is "new_lap").
+	 * @param [opt.action_attribute] {String} allows to set pvs attribute name for action. (default is "action").
+	 * @param [opt.direction_attribute] {String} allows to set pvs attribute name for direction. (default is "direction").
+	 * @param [opt.sound_attribute] {String} allows to set pvs attribute name for sound. (default is "sound").
+	 * @param [opt.lap_attribute] {String} allows to set pvs attribute name for lap. (default is "lap").
+	 * @param [opt.speed_attribute] {String} allows to set pvs attribute name for speed. (default is "speed").
+	 * @param [opt.posx_attribute] {String} allows to set pvs attribute name for posx. (default is "posx").
+	 * @param [opt.position_attribute] {String} allows to set pvs attribute name for position. (default is "position").
+	 * @param [opt.lap_value] {String} allows to set pvs val name for lap attribute. (default is "val").
+	 * @param [opt.speed_value] {String} allows to set pvs val name for speed attribute. (default is "val").
+	 * @param [opt.posx_value] {String} allows to set pvs val name for posx attribute. (default is "val").
+	 * @param [opt.position_value] {String} allows to set pvs val name for position attribute. (default is "val").
+	 * @param [opt.left_attribute] {String} allows to set pvs attribute name for left direction. (default is "left").
+	 * @param [opt.right_attribute] {String} allows to set pvs attribute name for right direction. (default is "right").
+	 * @param [opt.accelerate_attribute] {String} allows to set pvs attribute name for accelerate action. (default is "acc").
+	 * @param [opt.brake_attribute] {String} allows to set pvs attribute name for brake action. (default is "brake").
+	 * @param [opt.idle_attribute] {String} allows to set pvs attribute name for idle action. (default is "idle").
+	 * @param [opt.quit_attribute] {String} allows to set pvs attribute name for quit action. (default is "quit").
+	 * @param [opt.pause_attribute] {String} allows to set pvs attribute name for pause action. (default is "pause").
+	 * @param [opt.resume_attribute] {String} allows to set pvs attribute name for resume action. (default is "resume").
+	 * @param [opt.mute_attribute] {String} allows to set pvs attribute name for mute sound. (default is "mute").
+	 * @param [opt.unmute_attribute] {String} allows to set pvs attribute name for unmute sound. (default is "unmute").
+   	 * @returns {Arcade} The created instance of the widget Arcade.
      * @memberof module:Arcade
      * @instance
      */
@@ -880,7 +697,7 @@ define(function (require, exports, module) {
 
     /**
      * @function startSimulationAux
-     * @public
+     * @private
      * @description StartSimulationAux method of the Arcade widget. This method loads the desired JSON Files and starts the corresponding simulation.
      * @memberof module:Arcade
      * @instance
@@ -1196,7 +1013,7 @@ define(function (require, exports, module) {
 
     /**
      * @function onPageLoad
-     * @protected
+     * @private
      * @description onPageLoad method of the Arcade widget. This method starts the arcade simulation and loads the required spritesheets, with all sprites defined in track object.
      * @param spritesFiles {Array} array of strings, with the names of the sprites images (spritesheets) to use. By default two are used, one for the objects and another for the font (text).
      * @memberof module:Arcade
@@ -1242,7 +1059,7 @@ define(function (require, exports, module) {
 
     /**
      * @function renderSplashFrame
-     * @protected
+     * @private
      * @description RenderSplashFrame method of the Arcade widget. This method draws the simulator home page, where the commands to control the simulator are displayed.
      * It is also initialized the lap timer, using jchronometer lib, as soon as the user uses the command to start the simulation(renderSimulatorFrame).
      * @memberof module:Arcade
@@ -1325,7 +1142,7 @@ define(function (require, exports, module) {
 
      /**
      * @function renderSplashPauseFrame
-     * @protected
+     * @private
      * @description RenderSplashPauseFrame method of the Arcade widget. This method draws the simulator pause page, where the commands to control the simulator and to resume the simulation(renderSimulatorFrame) are displayed.
      * It is also resumed the lap timer, using jchronometer lib, as soon as the user uses the command to resume the simulation.
      * @memberof module:Arcade
@@ -1382,7 +1199,7 @@ define(function (require, exports, module) {
 
     /**
      * @function renderSplashEndFrame
-     * @protected
+     * @private
      * @description RenderSplashEndFrame method of the Arcade widget. This method draws the simulator end page, where the commands to control the simulator and to start another simulation(renderSimulatorFrame) are displayed.
      * It is also initialized the new lap timer, using jchronometer lib, as soon as the user uses the command to start the new simulation.
      * @memberof module:Arcade
@@ -1448,7 +1265,7 @@ define(function (require, exports, module) {
 
     /**
      * @function renderSimulatorFrame
-     * @protected
+     * @private
      * @description RenderSimulatorFrame method of the Arcade widget. This method renders each frame during the simulation.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -1725,7 +1542,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawText
-     * @protected
+     * @private
      * @description DrawText method of the Arcade widget. This method draws text using sprite letters to simulate the arcade look.
      * That is, reading string and for each letter draw the corresponding sprite letter, using image spritesheetsImages[imageIndex].
      * @param string {String} Text to be rendered with the available text font.
@@ -1747,7 +1564,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawLanePos
-     * @protected
+     * @private
      * @description DrawLanePos method of the Arcade widget. This method draws one lane in the desired position, received as argument.
      * @param pos1 {Float}
      * @param scale1 {Float}
@@ -1769,7 +1586,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawLanes
-     * @protected
+     * @private
      * @description DrawLanes method of the Arcade widget. This method draws lanes according to numLanes, received as argument.
      * @param pos1 {Float}
      * @param scale1 {Float}
@@ -1800,7 +1617,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawGuidingLine
-     * @protected
+     * @private
      * @description DrawGuidingLine method of the Arcade widget. This method draws a guiding line within the track.
      * @param pos1 {Float}
      * @param scale1 {Float}
@@ -1829,7 +1646,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSimpleArrowFront
-     * @protected
+     * @private
      * @description DrawSimpleArrowFront method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
      * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
@@ -1852,7 +1669,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSimpleArrowDown
-     * @protected
+     * @private
      * @description DrawSimpleArrowDown method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
      * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
@@ -1875,7 +1692,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSimpleArrowLeft
-     * @protected
+     * @private
      * @description DrawSimpleArrowLeft method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
      * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
@@ -1907,7 +1724,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSimpleArrowRight
-     * @protected
+     * @private
      * @description DrawSimpleArrowRight method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
      * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
@@ -1939,7 +1756,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawArrowFront
-     * @protected
+     * @private
      * @description DrawArrowFront method of the Arcade widget. This method draws a guiding arrow in front of the vehicle.
      * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
@@ -1977,7 +1794,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawArrowRight
-     * @protected
+     * @private
      * @description DrawArrowRight method of the Arcade widget. This method draws a guiding arrow, turned right, in front of the vehicle.
      * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
@@ -2023,7 +1840,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawArrowLeft
-     * @protected
+     * @private
      * @description DrawArrowLeft method of the Arcade widget. This method draws a guiding arrow, turned left, in front of the vehicle.
      * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
@@ -2071,7 +1888,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSprite
-     * @protected
+     * @private
      * @description DrawSprite method of the Arcade widget. This method draws an image of spritesheetsImages array. Usually it uses index 0, since this method is used to
      * draw objects and index 0 has the spritesheet image with all available objects. This method either receives only a sprite (and null as other arguments) or receives
      * an image, x, y and scale (sprite as a null argument). This allows to use render different images and sprites.
@@ -2102,7 +1919,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSegmentPortion
-     * @protected
+     * @private
      * @description DrawSegmentPortion method of the Arcade widget. This method draws a segment portion.
      * @param pos1 {Float}
      * @param scale1 {Float}
@@ -2132,7 +1949,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawBackground
-     * @protected
+     * @private
      * @description DrawBackground method of the Arcade widget. This method draws the main_sprites.background image, in position 'position'.
      * @param position {Float} Value of posx in controllable_car object, i.e. horizontal position, which is computed by adding/subtracting the turning field value every time the vehicle is turned left or right, in updateControllableCar method.
      * @memberof module:Arcade
@@ -2150,7 +1967,7 @@ define(function (require, exports, module) {
 
     /**
      * @function setColorsEndCanvas
-     * @protected
+     * @private
      * @description SetColorsEndCanvas method of the Arcade widget. This method set the final colors of the track segment and lane.
      * The goal is to create the illusion of the starting/finishing line, which is black and white, and therefore, different from the colors that
      * those two segments have during the simulation.
@@ -2168,7 +1985,7 @@ define(function (require, exports, module) {
 
     /**
      * @function setColorsCanvas
-     * @protected
+     * @private
      * @description SetColorsCanvas method of the Arcade widget. This method set the initial colors of canvas, which will prevail until the end of the track is reached.
      * @param alternate {Boolean} Value of comparison "counter < numberOfSegmentPerColor", which allows to choose the color of the segment depending on which segment is currently being rendered.
      * That is, numberOfSegmentPerColor has the number of sequential segments to be colored with the same color, and when reached the following segments must be rendered with another color so the simulator can
@@ -2198,7 +2015,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSegment
-     * @protected
+     * @private
      * @description DrawSegment method of the Arcade widget. This method draws a segment of the simulator(which corresponds to an entire strip of the canvas).
      * To do so, this method uses drawSegmentPortion, setColorsEndCanvas methods. The latter is used to draw the finishing line (different colors).
      * @param position1 {Float}
@@ -2304,7 +2121,7 @@ define(function (require, exports, module) {
 
     /**
      * @function updateControllableCar
-     * @protected
+     * @private
      * @description UpdateControllableCar method of the Arcade widget. This method updates the controllable car position and speed.
      * @memberof module:Arcade
      * @returns {carSprite} The created object with car sprite (image) and its X,Y coordinates, to be rendered after current position and speed has been changed.
@@ -2468,7 +2285,7 @@ define(function (require, exports, module) {
 
      /**
      * @function setControllableCarPosition
-     * @protected
+     * @private
      * @description SetControllableCarPosition method of the Arcade widget. This method sets the controllable car position, posx, speed and vehicle sprite based on current direction.
      * @param {String} vehicleCurrentDirection the current vehicle direction, that allows to select the proper vehicle sprite(faced front, left or right).
      * @param {Float} newSpeed the new value of speed.
@@ -2522,7 +2339,7 @@ define(function (require, exports, module) {
 
     /**
      * @function calculateNewControllableCarPosition
-     * @protected
+     * @private
      * @description calculateNewControllableCarPosition method of the Arcade widget. This method calculates the new controllable car position, based on
      * its speed, current position and posx values updated by the render method, using PVS status.
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -2701,7 +2518,7 @@ define(function (require, exports, module) {
 
     /**
      * @function getNrIterations
-     * @protected
+     * @private
      * @description GetNrIterations method of the Arcade widget. This method computes the number of iterations required to draw the track defined in the JSON configuration file.
      * In the final version, the JSON structure, see example 1), will be the same, however fields 'height' and 'curve' will have other values
      * other than 0 and 0, respectively.
@@ -2757,7 +2574,7 @@ define(function (require, exports, module) {
 
     /**
      * @function detectBrowserType
-     * @protected
+     * @private
      * @description DetectBrowserType method of the Arcade widget. This method detects current open Browser.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -2781,7 +2598,7 @@ define(function (require, exports, module) {
 
     /**
      * @function init
-     * @protected
+     * @private
      * @description Init method of the Arcade widget. This method inits the canvas and adds the events onkeydown and onkeyup to capture the desired actions, i.e. accelerate, brake, etc.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.

@@ -110,8 +110,6 @@ require([
             laneWidth: 0.02,
             trackParam: {
                 numZones:    12, // number of different portions of the track
-                curvy:     0.8,
-                mountainy: 0.8,
                 zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
             },
             // Information regarding current controllable_car's car
@@ -573,8 +571,6 @@ require([
             laneWidth: 0.02,
             trackParam: {
                 numZones:    12, // number of different portions of the track
-                curvy:     0.8,
-                mountainy: 0.8,
                 zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
             },
             // Information regarding current controllable_car's car

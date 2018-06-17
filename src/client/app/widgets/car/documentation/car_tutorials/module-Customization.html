@@ -121,42 +121,10 @@
 
     <h5>Examples</h5>
     
-        <p class="code-caption">Usage of Customization within a PVSio-web demo.</p>
+        <p class="code-caption">Defining initial CSS properties and re-render CSS properties after ending customization options. </p>
     
-    <pre class="prettyprint"><code>define(function (require, exports, module) {
-    "use strict";
-
-    // Require the Customization module
-    require("widgets/car/Customization");
-
-    function main() {
- 		let steeringWheel = "ferrari";
-         let sliders = {
-             maxValueSpeedometer: {
-                 id: "Speedometer",
-                 value: null
-             },
-             maxValueTachometer: {
-                 id: "Tachometer",
-                 value: null
-             },
-             maxValueLanes: {
-                 id: "Lanes",
-                 value: null
-             },
-             maxValueObstacles: {
-                 id: "Obstacles",
-                 value: null
-             },
-             maxValueLapNumber: {
-                 id: "Laps",
-                 value: null
-             },
-             maxValuePVSInstructions: {
-                 id: "Pvs",
-                 value: null
-             }
-         };
+    <pre class="prettyprint"><code>	Before declaring Customization it is advised to define all CSS before and after rendering the Customization Widget,
+ 		
          let initWindowCSSValues = [
              {
                  id: "mySidenav",
@@ -233,6 +201,7 @@
                  ]
              }
          ];
+
          let reRenderedWindowCSSValues = [
              {
                  id: "steering_wheel",
@@ -289,6 +258,10 @@
                      {
                          property: "border",
                          value: "none"
+                     },
+						{
+                         property: "display",
+                         value: "none"
                      }
                  ]
              },
@@ -302,7 +275,7 @@
                      },
                      {
                          property: "margin-top",
-                         value: "-900px"
+                         value: "-220px"
                      },
                      {
                          property: "visibility",
@@ -400,11 +373,11 @@
                      },
                      {
                          property: "margin-left",
-                         value: "300px"
+                         value: "280px"
                      },
                      {   
                          property: "margin-top",
-                         value: "-2900px"
+                         value: "200px"
                      },
                      {
                          property: "visibility",
@@ -461,503 +434,30 @@
                  class: "customization_customization-widget",
                  styles: [
                      {
-                         property: "visibility",
-                         value: "hidden"
+                         property: "display",
+                         value: "none"
                      }
                  ]
              },
-         ];      
+         ];   </code></pre>
 
-         // After Customization module was loaded, initialize it
-         let customization = new Customization(
-         "customization-widget",  // id of the gauge element that will be created
-         {top: 100, left: 700, width: 750, height: 750}, // coordinates object
-         {
-           parent: "content", // defines parent div, which is div id="body" by default
-           sliderColor: "#4CAF50",
-           imagesSteeringWheels: [
-           {
-             path: "../../../client/app/widgets/car/steering_wheels/basic_steering_wheel.svg",
-             value: "basic_steering_wheel.svg",
-           },
-           {
-             path: "../../../client/app/widgets/car/steering_wheels/ferrari_steering_wheel.svg",
-             value: "ferrari_steering_wheel.svg",
-           },
-           {
-             path: "../../../client/app/widgets/car/steering_wheels/porsche_steering_wheel.svg",
-             value: "porsche_steering_wheel.svg",
-           },
-           {
-             path: "../../../client/app/widgets/car/steering_wheels/sparco_steering_wheel.svg",
-             value: "sparco_steering_wheel.svg",
-           }
-           ],
-           sliderRanges: [
-           {
-             name: "speedometer",
-             min: 0,
-             max: 400,
-             value: 340
-            },
-            {
-             name: "tachometer",
-             min: 0,
-             max: 20,
-             value: 16
-            },
-            {
-              name: "lanes",
-              min: 0,
-              max: 3,
-              value: 0
-            },
-            {
-              name: "obstacles",
-              min: 0,
-              max: 10,
-              value: 0
-            },
-			   {
-               name: "laps",
-               min: 0,
-               max: 3,
-               value: 0
-             },
-             {
-               name: "pvs",
-               min: 0,
-               max: 1,
-               value: 0
-             }
-            ],
-            controlsText: ["Car controls:", "[left/right arrow keys] Turn Left/Right", "[up/down arrow keys] Accelerate/Brake" ],
-            gauges: [
-            {
-              name: "speedometer-gauge",
-              styleId: "",
-              style: ""
-            },
-            {
-              name: "tachometer-gauge",
-              styleId: "float",
-              style: "right"
-            }
-            ],
-            gaugesStyles: [
-            {
-              zoom: "45%",
-              marginLeft: "370px",
-              marginTop: "430px"
-            }
-            ],
-            callback: onMessageReceived
-         } // options
-         );
-
-         // Available methods:
-         // Render the Customization widget
-         customization.render();
-
-         // OR
-
-         // Reveals the Customization widget
-         customization.reveal();
-
-         // OR
-
-         // Hides the Customization widget
-         customization.hide();
-
-         // OR
-
-         // Returns the current main div
-         customization.show();
-
-         // Starts the imagepicker, and sets all initial CSS styles.
-         customization.setInitRenderingDiv(initWindowCSSValues);
-
-         // Updates all sliders (ranges values)
-         sliders=customization.rangeEvents(sliders);
-
-         // Adds the "last-gauge" id to all div with class "gauge"
-         customization.setLastRenderingDiv("gauge");
-
-         // Re-renders new widgets and sets new layout (new CSS styles)
-         customization.endRange(onMessageReceived,car,reRenderedWindowCSSValues,sliders,steeringWheel);
-
-    }
-});</code></pre>
-
-        <p class="code-caption">Usage of <strong>Protected API</strong> within Customization Widget. That is, API which is only used internally by the Customization Widget to create the customization menu.</p>
+        <p class="code-caption">Also add the CSS regarding new sliders as it follows,</p>
     
-    <pre class="prettyprint"><code>         // Sets the imagepicker actions, and sets all CSS styles
-         let aux = initWindowCSSValues[initWindowCSSValues.length - 1];
-         customization.setImagePicker(aux);
+    <pre class="prettyprint"><code>For each slider declared on sliderRanges optional field is advised to set its CSS at pvsio-web/src/client/lib/image-picker/css/slider.css
+as it follows, "#slidecontainer-"+SLIDER_NAME+"_"+Customization_WIDGET_ID
 
-         // Updates the last selected steering wheel image (imagepicker)
-         steeringWheel = customization.getSteeringWheelImage();
+For instance to create slider pvs on Customization Widget, with id="customization-widget", it should be declared the following CSS,
+#slidecontainer-pvs_customization-widget{
+	// all CSS properties regarding this slider
+}
 
-         // Removes all divs(html) within div "speedometer-gauge"
-         customization.removeParentAllChilds("speedometer-gauge");
+If this step is skipped the only difference is that the Customization menu instead of having two columns of sliders will have 
+a slider per paragraph, i.e., each slider will have 100% width. In other words, if not declared, the widget itself will also work
+perfectly. In the future, when PVSio-web has a file-writing api, this step will disappear, therefore simplifying the process even more.</code></pre>
 
-         // Removes all divs(html) within div "tachometer-gauge"
-         customization.removeParentAllChilds("tachometer-gauge");
-
-         // Removes div(html) "steering_wheel"
-         customization.removeChild("steering_wheel");
-
-         // Sets all reRendered CSS styles.
-         customization.reRenderedWindowCSS(CSSValues);</code></pre>
-
-        <p class="code-caption">Usage of API to create a new customization menu.</p>
+        <p class="code-caption">Usage of API to create a new customization menu, within a PVSio-web demo.</p>
     
-    <pre class="prettyprint"><code>  define(function (require, exports, module) {
-    "use strict";
-
-    // Require the Customization module
-    require("widgets/car/Customization");
-
-    function main() {
- 		let steeringWheel = "ferrari";
-         let sliders = {
-             maxValueSpeedometer: {
-                 id: "Speedometer",
-                 value: null
-             },
-             maxValueTachometer: {
-                 id: "Tachometer",
-                 value: null
-             },
-             maxValueLanes: {
-                 id: "Lanes",
-                 value: null
-             },
-             maxValueObstacles: {
-                 id: "Obstacles",
-                 value: null
-             },
-             maxValueLapNumber: {
-                 id: "Laps",
-                 value: null
-             },
-             maxValuePVSInstructions: {
-                 id: "Pvs",
-                 value: null
-             }
-         };
-         let initWindowCSSValues = [
-             {
-                 id: "mySidenav",
-                 class: null,
-                 styles: [
-                     {
-                         property: "width",
-                         value: "630px"
-                     }
-                 ]
-             },
-             {
-                 id: "menu",
-                 class: null,
-                 styles: [
-                     {
-                         property: "margin-left",
-                         value: "450px"
-                     },
-                     {
-                         property: "visibility",
-                         value: "hidden"
-                     }
-                 ]
-             },
-             {
-                 id: "game-window",
-                 class: null,
-                 styles: [
-                     {
-                         property: "border",
-                         value: "5px solid black"
-                     }
-                 ]
-             },
-             {
-                 id: "instructions",
-                 class: null,
-                 styles: [
-                     {
-                         property: "margin-left",
-                         value: "-60px"
-                     }
-                 ]
-             },
-             {
-                 id: null,
-                 class: "dashboard-widgets",
-                 styles: [
-                     {
-                         property: "visibility",
-                         value: "hidden"
-                     }
-                 ]
-             },
-             {
-                 id: "steering_wheel",
-                 class: "last-steering_wheel",
-                 styles: [
-                     {
-                         property: "visibility",
-                         value: "hidden"
-                     }
-                 ]
-             },
-             {
-                 id: "track_img",
-                 class: null,
-                 styles: [
-                     {
-                         property: "visibility",
-                         value: "visible"
-                     }
-                 ]
-             }
-         ];
-         let reRenderedWindowCSSValues = [
-             {
-                 id: "steering_wheel",
-                 class: "last-steering_wheel",
-                 styles: [
-                     {
-                         property: "display",
-                         value: "block"
-                     }
-                 ]
-             },
-             {
-                 id: "mySidenav",
-                 class: null,
-                 styles: [
-                     {
-                         property: "width",
-                         value: "0px"
-                     }
-                 ]
-             },
-             {
-                 id: "menu",
-                 class: null,
-                 styles: [
-                     {
-                         property: "margin-left",
-                         value: "-170px"
-                     },
-                     {
-                         property: "margin-left",
-                         value: "0px"
-                     },
-                     {
-                         property: "visibility",
-                         value: "visible"
-                     }
-                 ]
-             },
-             {
-                 id: "track_img",
-                 class: null,
-                 styles: [
-                     {
-                         property: "visibility",
-                         value: "hidden"
-                     }
-                 ]
-             },
-             {
-                 id: "game-window",
-                 class: null,
-                 styles: [
-                     {
-                         property: "border",
-                         value: "none"
-                     }
-                 ]
-             },
-             {
-                 id: "instructions",
-                 class: null,
-                 styles: [
-                     {
-                         property: "margin-left",
-                         value: "650px"
-                     },
-                     {
-                         property: "margin-top",
-                         value: "-900px"
-                     },
-                     {
-                         property: "visibility",
-                         value: "visible"
-                     }
-                 ]
-             },
-             {
-                 id: "writeTopography_customization-widget",
-                 class: null,
-                 styles: [
-                     {
-                         property: "display",
-                         value: "none"
-                     }
-                 ]
-             },
-             {
-                 id: "writeSpritesheetJSONFilename_customization-widget",
-                 class: null,
-                 styles: [
-                     {
-                         property: "display",
-                         value: "none"
-                     }
-                 ]
-             },
-             {
-                 id: "writeSpritesheetImages_customization-widget",
-                 class: null,
-                 styles: [
-                     {
-                         property: "display",
-                         value: "none"
-                     }
-                 ]
-             },
-             {
-                 id: "writeLandscapeObjects_customization-widget",
-                 class: null,
-                 styles: [
-                     {
-                         property: "display",
-                         value: "none"
-                     }
-                 ]
-             },
-             {
-                 id: "writeTrackObstacles_customization-widget",
-                 class: null,
-                 styles: [
-                     {
-                         property: "display",
-                         value: "none"
-                     }
-                 ]
-             },
-             {
-                 id: "writeTrackParams_customization-widget",
-                 class: null,
-                 styles: [
-                     {
-                         property: "display",
-                         value: "none"
-                     }
-                 ]
-             },
-             {
-                 id: "writeArcadeVehicle_customization-widget",
-                 class: null,
-                 styles: [
-                     {
-                         property: "display",
-                         value: "none"
-                     }
-                 ]
-             },
-             {
-                 id: "colorPicker_customization-widget",
-                 class: null,
-                 styles: [
-                     {
-                         property: "display",
-                         value: "none"
-                     }
-                 ]
-             },
-             {
-                 id: "gauges",
-                 class: null,
-                 styles: [
-                     {
-                         property: "position",
-                         value: "absolute"
-                     },
-                     {
-                         property: "margin-left",
-                         value: "300px"
-                     },
-                     {   
-                         property: "margin-top",
-                         value: "-2900px"
-                     },
-                     {
-                         property: "visibility",
-                         value: "visible"
-                     }
-                 ]
-             },
-             {
-                 id: "steering_wheel",
-                 class: null,
-                 styles: [
-                     {
-                         property: "margin-top",
-                         value: "200px"
-                     },
-                     {
-                         property: "visibility",
-                         value: "visible"
-                     }
-                 ]
-             },
-             {
-                 id: "mobileDevicesController",
-                 class: null,
-                 styles: [
-                     {
-                         property: "visibility",
-                         value: "visible"
-                     }
-                 ]
-             },
-             {
-                 id: "gamepadImage",
-                 class: null,
-                 styles: [
-                     {
-                         property: "visibility",
-                         value: "visible"
-                     }
-                 ]
-             },
-             {
-                 id: null,
-                 class: "dashboard-widgets",
-                 styles: [
-                     {
-                         property: "margin-top",
-                         value: "200px"
-                     }
-                 ]
-             },
-             {
-                 id: null,
-                 class: "customization_customization-widget",
-                 styles: [
-                     {
-                         property: "visibility",
-                         value: "hidden"
-                     }
-                 ]
-             },
-         ];   
-
-         // After Customization module was loaded, initialize it
+    <pre class="prettyprint"><code>         // After Customization module was loaded, initialize it
          let customization = new Customization(
          "customization-widget",  // id of the gauge element that will be created
          {top: 100, left: 700, width: 750, height: 750}, // coordinates object
@@ -1057,6 +557,57 @@
          customization.endRange(onMessageReceived,car,reRenderedWindowCSSValues,sliders,steeringWheel);
     }
 });</code></pre>
+
+        <p class="code-caption">Usage of other public API's of Customization Widget.</p>
+    
+    <pre class="prettyprint"><code> Using variable Customization created in the previous example is also possible to call the following,
+
+      // Hides the Customization widget.
+      customization.hide();
+
+		 // Reveals the Customization widget
+      customization.reveal();
+
+	     // Returns the current main div
+      customization.show();
+
+      // Starts the imagepicker, and sets all initial CSS styles.
+      customization.setInitRenderingDiv(initWindowCSSValues);
+
+      // Updates all sliders (ranges values)
+		 let sliders = {
+             maxValueSpeedometer: {
+                 id: "Speedometer",
+                 value: null
+             },
+             maxValueTachometer: {
+                 id: "Tachometer",
+                 value: null
+             },
+             maxValueLanes: {
+                 id: "Lanes",
+                 value: null
+             },
+             maxValueObstacles: {
+                 id: "Obstacles",
+                 value: null
+             },
+             maxValueLapNumber: {
+                 id: "Laps",
+                 value: null
+             },
+             maxValuePVSInstructions: {
+                 id: "Pvs",
+                 value: null
+             }
+      };
+      sliders=customization.rangeEvents(sliders);
+
+      // Adds the "last-gauge" id to all div with class "gauge"
+      customization.setLastRenderingDiv("gauge");
+
+      // Re-renders new widgets and sets new layout (new CSS styles)
+      customization.endRange(onMessageReceived,car,reRenderedWindowCSSValues,sliders,steeringWheel);</code></pre>
 
 
 
@@ -1196,13 +747,265 @@
             
 
             <td class="description last">Options:
-			<li>parent {String}: the parent div (default is "body").</li>
-         <li>sliderColor {String}: the sliders circle color (default is "#4CAF50").</li>
-         <li>imagesSteeringWheels {Array}: array of objects with all the images to insert in the imagepicker, providing the path and value fields (default values are {"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg" and default paths are "widgets/car/steering_wheels/"+{"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg").</li>
-         <li>sliderRanges {Array}: array of objects with all the sliders to be created, giving the name (to put in the div), the values min, max (slider intervals) and value (default value) (default is [{name: "speedometer",min: 0,max: 400,value: 340},{name: "tachometer",min: 0,max: 20,value: 16},{name: "lanes",min: 0,max: 3,value: 0},{name: "hills",min: 0,max: 10,value: 0},{name: "obstacles",min: 0,max: 10,value: 0},{name: "other-cars",min: 0,max: 10,value: 0}]).</li>
-         <li>controlsText {Array}: array of objects with information about widget control (default is ["Car controls:","[left/right arrow keys] Turn Left/Right","[up/down arrow keys] Accelerate/Brake"]).</li>
-         <li>gauges {Array}: array of objects with information about gauge widgets to create (default is [{name:"speedometer-gauge",styleId:"",style:""},{name:"tachometer-gauge",styleId:"float",style:"right"}]).</li>
-         <li>gaugesStyles {Array}: array of objects with CSS styles to add to the above gauge widgets (default is [{zoom: "45%",marginLeft: "370px",marginTop: "430px"}]).</li></td>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>parent</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the parent div (default is "body").</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sliderColor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the sliders circle color (default is "#4CAF50").</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>imagesSteeringWheels</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">array of objects with all the images to insert in the imagepicker, providing the path and value fields (default values are {"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg" and default paths are "widgets/car/steering_wheels/"+{"basic","ferrari","porsche","sparco"}+"_steering_wheel.svg").</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sliderRanges</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">array of objects with all the sliders to be created, giving the name (to put in the div), the values min, max (slider intervals) and value (default value) (default is [{name: "speedometer",min: 0,max: 400,value: 340},{name: "tachometer",min: 0,max: 20,value: 16},{name: "lanes",min: 0,max: 3,value: 0},{name: "hills",min: 0,max: 10,value: 0},{name: "obstacles",min: 0,max: 10,value: 0},{name: "other-cars",min: 0,max: 10,value: 0}]).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>controlsText</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">array of objects with information about widget control (default is ["Car controls:","[left/right arrow keys] Turn Left/Right","[up/down arrow keys] Accelerate/Brake"]).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>gauges</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">array of objects with information about gauge widgets to create (default is [{name:"speedometer-gauge",styleId:"",style:""},{name:"tachometer-gauge",styleId:"float",style:"right"}]).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>gaugesStyles</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">array of objects with CSS styles to add to the above gauge widgets (default is [{zoom: "45%",marginLeft: "370px",marginTop: "430px"}]).</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -1575,88 +1378,6 @@ If the id is null, the class field is used to select the respective div. Otherwi
     
 
     
-    <h4 class="name" id="getSteeringWheelImage"><span class="type-signature">(protected) </span>getSteeringWheelImage<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    GetSteeringWheelImage method of the Customization widget. This method selects the div text with id="# selectedSteeringWheel_"+this.CUSTOMIZATIONID, which in turn contains the name 
-of the last selected image in the imagepicker. This content will be used to render the new Steering Wheel widget.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
     <h4 class="name" id="hide"><span class="type-signature"></span>hide<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
@@ -1891,311 +1612,6 @@ which will be used to name the id of its div, and the value of that, which by de
     
 
     
-    <h4 class="name" id="removeChild"><span class="type-signature">(protected) </span>removeChild<span class="signature">(id)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    removeChild method of the Customization widget. This method removes the node, with id received as argument.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the div id name to be removed.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    The created instance of the widget Customization.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Customization</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="removeParentAllChilds"><span class="type-signature">(protected) </span>removeParentAllChilds<span class="signature">(id)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    RemoveParentAllChilds method of the Customization widget. This method removes all the divs(html) within the div with the received id as the argument.
-That is, it removes all child nodes from the parent div, with id="#(argument id)".
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the parent div id name, where all child nodes will be removed.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    The created instance of the widget Customization.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Customization</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
     <h4 class="name" id="render"><span class="type-signature"></span>render<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
@@ -2277,167 +1693,6 @@ That is, it removes all child nodes from the parent div, with id="#(argument id)
     
 
     
-    <h4 class="name" id="reRenderedWindowCSS"><span class="type-signature">(protected) </span>reRenderedWindowCSS<span class="signature">(reRenderedWindowCSSValues)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    ReRenderedWindowCSS method of the Customization widget. This method is responsible for updating all required styles in the re-rendering process.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>reRenderedWindowCSSValues</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">array of objects with all the ids, class, and styles to update. 
-That is, it has all the CSS parameters, which are necessary in the re-rendering process, which will produce the new layout on the screen (re-organized widgets).
-For example, one of these objects will be example 2).
-This object will update the style of the div with id="a", with class="b". And the style that will be added is display:"block;", given by the fields, property and value. To allow more than one style, the styles field is also an array of objects, with values of all properties to be added.
-If the id is null, the class field is used to select the respective div. Otherwise the id value is the one to be used. When the two values exist, what happens is the creation of the attribute class, in the selected div, with the id value.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    The created instance of the widget Customization.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Customization</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>2) {id:"a",class:"b",styles:[{property:"display",value:"block"}]}.</code></pre>
-
-
-
-        
-            
-
-    
-
-    
     <h4 class="name" id="reveal"><span class="type-signature"></span>reveal<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
@@ -2510,166 +1765,6 @@ If the id is null, the class field is used to select the respective div. Otherwi
 
 
 
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="setImagePicker"><span class="type-signature">(protected) </span>setImagePicker<span class="signature">(aux)</span><span class="type-signature"> &rarr; {Customization}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    SetImagePicker method of the Customization widget. This method is responsible for getting values related to the image selected in the imagepicker.
-In this, it adds the name of the selected image, taken from the path field, to the div with id="#selectedSteeringWheel_"+this.CUSTOMIZATIONID, so that the currently selected image can be accessed at any time.
-Also adds the value of the path field to the div with id/class provided in the aux object, so that it can be viewed in that div (larger size, i.e. highlighted) as well as all its styles.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>aux</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the last object of initWindowCSSValues, argument of the setInitRenderingDiv method, which refers to the div where the selected image in the image picker can be highlighted, 
-as example 3) shows. This object has the id/class of that div, as well as an array of styles to add, with properties and its values.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    The created instance of the widget Customization.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Customization</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>3) {id: "track_img", class: null, styles: [{property: "visibility",value: "visible"}]}</code></pre>
 
 
 
@@ -3092,7 +2187,7 @@ It should be invoked after creating new Gauge Widgets(Speedometer, Tachometer). 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jun 16 2018 09:56:44 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Jun 17 2018 09:37:06 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

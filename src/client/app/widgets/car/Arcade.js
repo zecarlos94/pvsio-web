@@ -690,7 +690,7 @@ define(function (require, exports, module) {
                     self.startSimulationAux(); //Thing you wanted to run as non-window 'this'
                 }
             })(this),
-            50     //normal interval, 'this' scope not impacted here.
+            250     //normal interval, 'this' scope not impacted here.
         ); 
         return this;
     };
