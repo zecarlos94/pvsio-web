@@ -1,0 +1,58 @@
+% ---------------------------------------------------------------
+%  Theory: robotic_arm_black_demo
+%  Author: José Carlos
+%          Universidade do Minho
+% ---------------------------------------------------------------
+
+main: THEORY
+ BEGIN
+
+  Action: TYPE = { robotSettingsNotChanged, robotSettingsChanged, upArm, downArm, upOnlyArm, downOnlyArm, flatArm }
+  
+  state: TYPE = [#
+    action: Action
+  #]
+
+  %-- initial state
+  init(x: real): state = (#
+    action := robotSettingsNotChanged
+  #)
+    
+  upArm(st: state): state = (#
+    action := upArm
+  #)
+
+  downArm(st: state): state = (#
+    action := downArm
+  #)
+
+  upOnlyArm(st: state): state = (#
+    action := upOnlyArm
+  #)
+
+  downOnlyArm(st: state): state = (#
+    action := downOnlyArm
+  #)
+
+  flatArm(st: state): state = (#
+    action := flatArm
+  #)
+
+  %-- APIs
+  press_upArm(st: state): state = upArm(st) WITH [ action := upArm ]
+  release_upArm(st: state): state = st WITH [ action := robotSettingsChanged ]
+
+  press_downArm(st: state): state = downArm(st) WITH [ action := downArm ]
+  release_downArm(st: state): state = st WITH [ action := robotSettingsChanged ]
+
+  press_upOnlyArm(st: state): state = upOnlyArm(st) WITH [ action := upOnlyArm ]
+  release_upOnlyArm(st: state): state = st WITH [ action := robotSettingsChanged ]
+
+  press_downOnlyArm(st: state): state = downOnlyArm(st) WITH [ action := downOnlyArm ]
+  release_downOnlyArm(st: state): state = st WITH [ action := robotSettingsChanged ]
+
+  press_flatArm(st: state): state = flatArm(st) WITH [ action := flatArm ]
+  release_flatArm(st: state): state = st WITH [ action := robotSettingsChanged ]
+
+
+END main

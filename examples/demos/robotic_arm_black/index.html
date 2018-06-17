@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link href="../../client/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="../../client/app/plugins/graphbuilder/graph.css" rel="stylesheet" type="text/css"/>
+        <link href="../../client/css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="css/960.css" rel="stylesheet" type="text/css"/>
+        <style>
+          #base, #forearm_flat, #hand_flat {
+            visibility: visible;
+          }
+          #forearm_up, #forearm_down, #hand_up, #hand_down, #hand_up_only, #hand_down_only, #hand1_down {
+            visibility: hidden;
+          }
+        </style>
+    </head>
+    <body>
+        <div class="col-xs-12 text-center">
+            Robotic Arm Black Controls: <br>
+            key 'u' ("UP") <br>
+            key 'd' ("DOWN") <br>
+            key 'f' ("FLAT") <br>
+            key 'h' ("HAND UP") <br>
+            key 'j' ("HAND DOWN") <br>
+        </div>
+
+        <div id="content" class="content" style="display:none;">
+          <svg width="1800" height="900">
+            <image id="base" xlink:href="img/base.jpg" x="300" y="500" transform="scale(0.75)"/>
+            <image id="forearm_flat" xlink:href="img/forearm.jpg" x="528" y="500" transform="scale(0.75)"/>
+            <image id="forearm_up" xlink:href="img/forearm.jpg" x="528" y="500" transform="scale(0.75)
+                                                                     skewY(-45)
+                                                                     translate(1,520)"/> 
+            <image id="forearm_down" xlink:href="img/forearm.jpg" x="440" y="0" transform="scale(0.75)
+                                                                     skewY(35)
+                                                                     translate(88,118)"/>
+            <image id="hand_flat" xlink:href="img/hand.jpg" x="860" y="500" transform="scale(0.75)"/>    
+            <image id="hand_up" xlink:href="img/hand.jpg" x="860" y="500" transform="scale(0.75)
+                                                                    skewY(-45)
+                                                                    translate(0,520)"/>
+            <image id="hand_down" xlink:href="img/hand.jpg" x="860" y="0" transform="scale(0.75) 
+                                                                  skewY(35)
+                                                                  translate(4,110)"/> 
+            <image id="hand_up_only" xlink:href="img/hand.jpg" x="860" y="700" transform="scale(0.75)
+                                                                  skewY(-45)
+                                                                  translate(0,650)"/>
+            <image id="hand_down_only" xlink:href="img/hand.jpg" x="860" y="-250" transform="scale(0.75) 
+                                                                skewY(35)
+                                                              translate(1,140)"/>
+          </svg>
+        </div>
+        <div id="splash" class="demo-splash">
+            <div class="loader">
+                <div class="version">Sound Simulator</div>
+                <div class="bar">
+                    Loading
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+        <script type="application/javascript" src="../../client/lib/layout.js"></script>
+        <script type="application/javascript" src="../../client/lib/promise-0.1.1.js"></script>
+        <script type="application/javascript" src="../../client/lib/keys.js"></script>
+        <script type="text/javascript" src="../../client/lib/jquery.js"></script>
+        <script type="text/javascript" src="../../client/lib/underscore/underscore.js"></script>
+        <script type="text/javascript" src="../../client/lib/d3/d3.js"></script>
+        <script type="text/javascript" src="../../client/lib/backbone.js"></script>
+        <script type="text/javascript" src="../../client/lib/handlebars-v1.3.0.js"></script>
+        <script type="text/javascript" src="../../client/lib/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Recently included files -->
+        <script type="text/javascript" src="../../client/require.js" data-main="js/index.js"></script>
+    </body>
+</html>
