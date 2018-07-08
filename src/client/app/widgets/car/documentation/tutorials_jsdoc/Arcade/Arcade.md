@@ -5,72 +5,72 @@ Guide step-by-step to create a new track with TrackGenerator Widget and, then, r
 1. **Open <http://localhost:8082/demos/arcade_game_simulator/>**
 2. **Select the image with the desired steering wheel, which will be used during the simulation.**
 
-<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectSteeringWheel.png" alt="selectSteeringWheel" width="700" style="margin-left: 150px" >
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectSteeringWheel.png" alt="selectSteeringWheel" width="700" style="margin-left: 150px" >
 
 3. **Use the color pickers to select the track colors.**
 
-<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectTrackColors.png" alt="selectTrackColors" width="700" style="margin-left: 150px" >
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectTrackColors.png" alt="selectTrackColors" width="700" style="margin-left: 150px" >
 
 4. **Insert within the square brackets the topography of the lane that you intend to use in the simulation, i.e., the lane that will be constructed and rendered. Use only the keywords: 'left', 'right' and 'straight' to describe the topography of the track, after "name:". Use only the keywords: 'flat', 'up' and 'down' to describe the profile/height of the track after "profile:". Use angles, in degrees, to define the curvature angle after "curvature". The angle 0 represents a straight line. To represent left curvatures the angle must be between 0 and -90. To represent right curvatures the angle must be between 0 and 90.**
 
-<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectTrackTopography.png" alt="selectTrackTopography" width="700" style="margin-left: 150px" >
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectTrackTopography.png" alt="selectTrackTopography" width="700" style="margin-left: 150px" >
 
 5. **Insert the spritesheet JSON filename.**
 
-<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectSpritesheetJSON.png" alt="selectSpritesheetJSON" width="700" style="margin-left: 150px" >
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectSpritesheetJSON.png" alt="selectSpritesheetJSON" width="700" style="margin-left: 150px" >
 
 6. **Insert the spritesheet images filename, one with only letters and other with all objects/obstacles.**
 
-<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectSpritesheetImages.png" alt="selectSpritesheetImages" width="700" style="margin-left: 150px" >
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectSpritesheetImages.png" alt="selectSpritesheetImages" width="700" style="margin-left: 150px" >
 
 7. **Insert within the square brackets the landscape sprites, separated by ','.**
 
-<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectLandscapeObjects.png" alt="selectLandscapeObjects" width="700" style="margin-left: 150px" >
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectLandscapeObjects.png" alt="selectLandscapeObjects" width="700" style="margin-left: 150px" >
 
 8. **Insert within the square brackets the track sprites (obstacles), separated by ','.**
 
-<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectTrackObstacles.png" alt="selectTrackObstacles" width="700" style="margin-left: 150px" >
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectTrackObstacles.png" alt="selectTrackObstacles" width="700" style="margin-left: 150px" >
 
 9. **Fill within the brackets each track parameters, after ':'.**
 
-<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectTrackParams.png" alt="selectTrackParams" width="700" style="margin-left: 150px" >
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectTrackParams.png" alt="selectTrackParams" width="700" style="margin-left: 150px" >
 
 10. **Select arcade vehicle, present in both provided spritesheet JSON and png files, in steps 5 and 6.**
 
-<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectArcadeVehicle.png" alt="selectArcadeVehicle" width="700" style="margin-left: 150px" >
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectArcadeVehicle.png" alt="selectArcadeVehicle" width="700" style="margin-left: 150px" >
 
 11. **Select other customization options for the dashboard widgets, which will be used during the simulation, and other rendering aspects using the following set of ranges.**
 
-<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectRanges.png" alt="selectRanges" width="700" style="margin-left: 150px" >
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectRanges.png" alt="selectRanges" width="700" style="margin-left: 150px" >
 
 > Select the maximum values that the speedometer and tachometer widgets will have, in the 'Value of Speedometer' and 'Value of Tachometer' ranges. 
 
-<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectRangesSpeedometerTachometer.png" alt="selectRangesSpeedometerTachometer" width="500" style="margin-left: 150px" >
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectRangesSpeedometerTachometer.png" alt="selectRangesSpeedometerTachometer" width="500" style="margin-left: 150px" >
 
 > If the values selected in these ranges are 200 and 9, respectively, and if the steering wheel selected is the porsche steering wheel ( purple steering wheel ), then the final vehicle dashboard, which will be used during the simulation, is
 
-<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/customizationResult.png" alt="customizationResult" width="500" style="margin-left: 150px" >
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/customizationResult.png" alt="customizationResult" width="500" style="margin-left: 150px" >
 
 
-> Select the desired number of lanes, to draw within the track during the simulation, in the 'Value of Lanes' range.
+> Select the desired number of lanes, to draw within the track during the simulation, in the 'Number of Lanes' range.
 
-<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectRangeLanes.png" alt="selectRangeLanes" width="200" style="margin-left: 300px" >
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectRangeLanes.png" alt="selectRangeLanes" width="200" style="margin-left: 300px" >
 
 > Select the frequency of obstacles to be placed within the track during the simulation, in the 'Frequence of Obstacles' range, i.e. choose how many iterations a new obstacle arises.
 
-<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectRangesObstacles.png" alt="selectRangesObstacles" width="200" style="margin-left: 300px" >
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectRangesObstacles.png" alt="selectRangesObstacles" width="200" style="margin-left: 300px" >
 
-> Select the desired number of laps, to be rendered by Arcade widget during the simulation.
+> Select the desired number of laps, in the 'Number of Laps' range, to be rendered by Arcade widget during the simulation.
 
-<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectLaps.png" alt="selectLaps" width="200" style="margin-left: 300px" >
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectLaps.png" alt="selectLaps" width="200" style="margin-left: 300px" >
 
 > Choose if Arcade widget will use the PVS instructions during the simulation. By default, i.e. value 0, this widget will use PVS instructions to update the vehicle status during the simulation. This slider allows to test the difference in the rendering processs speed, since PVS instructions turns the simulation much slower than using a self-contained widget that calculates those values.
 
-<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/selectPVS.png" alt="selectPVS" width="200" style="margin-left: 300px" >
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectPVS.png" alt="selectPVS" width="200" style="margin-left: 300px" >
 
 > To finish the customization, slide the last range to the right.
 
-<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/tutorials_jsdoc/img/endRange.png" alt="EndRange" width="50" style="margin-left: 400px" >
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/endRange.png" alt="EndRange" width="50" style="margin-left: 400px" >
 
 > Although it was not an objective in this dissertation, the widget 'Customization' was created to ease the simulation process. However, since this is not a priority, this widget can be improved over time, for example by adding other customization options that match the optional fields that the TrackGenerator and Arcade widgets have.
 
@@ -109,8 +109,6 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     laneWidth: 0.02,
     trackParam: {
         numZones:    12, // number of different portions of the track
-        curvy:     0.8,
-        mountainy: 0.8,
         zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
     },
     // Information regarding current controllable_car's car
@@ -622,9 +620,9 @@ trackColors: {
 trackLayout: []
 ```
 
-> The desired layout, 'trackLayout' optional field, will only be translated into canvas segments, which will be represented by the Arcade widget, by the generateDesiredTrack() method. The generateStraightTrack() and generateTrackCurvesSlopes() methods can be invoked when the user wants to render random track, with only straight lines or with straight lines, curves and slopes, respectively.
+> The desired layout, 'trackLayout' optional field, will only be translated into canvas segments, which will be represented by the Arcade widget, by the generateTrackBasedOnTrackLayoutOptField() method. The generateStraightTrack() and generateTrackCurvesSlopes() methods can be invoked when the user wants to render random track, with only straight lines or with straight lines, curves and slopes, respectively.
 
-> Invoking the above APIs ( generateStraightTrack(),generateTrackCurvesSlopes(),generateDesiredTrack ) results in the creation of a JSON file with the following structure,
+> Invoking the above APIs ( generateStraightTrack(),generateTrackCurvesSlopes(),generateTrackBasedOnTrackLayoutOptField() ) results in the creation of a JSON file with the following structure,
 
 ```
 generatedJSON = {
@@ -641,7 +639,9 @@ generatedJSON = {
 };
 ```
 
-> Currently, PVSio-web does not have any file-writing APIs in the context of widgets, and as such, the TrackGenerator widget is not able to write the JSON file. Then, the user needs to perform ```console.log(JSON.stringify(generatedJSON))``` and copy/paste the result into a JSON file, that is, the user needs to perform the non-existent API process manually. Predefined file names are "track-straight.json" or "track-curves-slopes.json", however it is possible to use other file names, since the Arcade widget receives the filename as optional field. When the file-writing API exists, it should be added on lines 628 and 847 with ```console.log(JSON.stringify(generatedJSON))```, as well as the filename, as arguments, in TrackGenerator.js file. This file-writing API, must return the filename just created, so it can be used in the pipeline Customization Widget -> TrackGenerator Widget -> Arcade Widget automatically, for more detailed information see <https://github.com/zecarlos94/pvsio-web/tree/gaming/src/client/app/widgets/car/Customization.js> (line 1855 to 1865).
+> Currently, PVSio-web does not have any file-writing APIs in the context of widgets, and as such, the TrackGenerator widget is not able to write the JSON file. Then, the user needs to perform ```console.log(JSON.stringify(self2.generatedJSON));``` and copy/paste the result into a JSON file, that is, the user needs to perform the non-existent API process manually. Predefined file names are "track-straight-random.json" or "track-curves-slopes-random.json", however it is possible to use other file names, since the Arcade widget receives the filename as optional field. 
+
+> When the file-writing API exists, it should be added on lines 471, 739 and 931 with ```console.log(JSON.stringify(self2.generatedJSON));``` in <https://github.com/zecarlos94/pvsio-web/tree/gamingDev/src/client/app/widgets/car/TrackGenerator.js> file, as well as the filename, as arguments. This file-writing API, must return the filename just created, so it can be used in the pipeline Customization Widget -> TrackGenerator Widget -> Arcade Widget automatically, for more detailed information see <https://github.com/zecarlos94/pvsio-web/tree/gamingDev/src/client/app/widgets/car/Customization.js> (line 1673 should have the value obtained in line 1659, i.e. the value returned by the file-writing API).
 
 > Once the JSON file with the desired track has been created, it will be possible to render it using the Arcade widget.
 
