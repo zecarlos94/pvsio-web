@@ -96,7 +96,7 @@ require([
             height: 650
         }, {
             parent: "content", // defines parent div, which is div id="body" by default
-            spritesFilename: "spritesheet2", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+            spritesFilename: "spritesheet3", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             render: {
                 width: 320,
                 height: 240,
@@ -123,8 +123,8 @@ require([
                 posx: 0,
                 maxSpeed: 20
             },
-            objects: ["real_tree","real_tree2","real_bush","real_bush1","real_boulder2"],
-            obstacle: ["real_column","real_boulder"],
+            objects: ["real_tree","real_tree2","real_bush","real_bush1","real_boulder2","no_parking","transit_forbidden"],
+            obstacle: ["horizontal_speed_rubber_bump","traffic_cone","traffic_cone2","traffic_cone3","stop","street_barrier", "street_fire_hydrant_pump","under_construction_barrier","under_construction","road_work_ahead","50kmh_limit","30kmh_limit","70kmh_limit"],
             obstaclePerIteration: 20,
             trackColors: {
                 grass1: "#344C32",

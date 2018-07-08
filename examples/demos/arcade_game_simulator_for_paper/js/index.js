@@ -289,13 +289,13 @@ require([
             parent: "content", // defines parent div, which is div id="body" by default
             scaleWindow: 2.2, // scales canvas div
             trackFilename: "trackLayout_real", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
-            spritesFilename: "spritesheet2", // defines spritesheet configuration filename, which is "spritesheet.json" by default
-            spritesFiles: ["spritesheet2","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
+            spritesFilename: "spritesheet3", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+            spritesFiles: ["spritesheet3","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
             realisticImgs: true,
             vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
             // vehicleImgIndex: 2, // defines vehicle sprite image suffix
             logoImgIndex: 3, // defines logo sprite image suffix
-            // backgroundImgIndex: 2, // defines background sprite image suffix
+            backgroundImgIndex: 1, // defines background sprite image suffix
             stripePositions: {
                 trackP1: -0.55,
                 trackP2: 0.55,
