@@ -404,23 +404,24 @@ define(function (require, exports, module) {
     /**
      * @function hide
      * @public
-     * @description Hide method of the VirtualKeypadController widget. This method changes the main div, i.e. this.buttonsDiv+"_"+this.VIRTUALKEYPADID div, visibility to hidden.
+     * @description Hide method of the VirtualKeypadController widget. This method changes the main div, i.e. this.buttonsDiv+"_"+this.VIRTUALKEYPADID div, and the 'keyboardDiv' div visibility to hidden.
      * @memberof module:VirtualKeypadController
      * @instance
      */
     VirtualKeypadController.prototype.hide = function () {
+        this.keyboardDiv.style("visibility", "hidden");
         return this.div.style("visibility", "hidden");
     };
 
     /**
      * @function reveal
      * @public
-     * @description Reveal method of the VirtualKeypadController widget. This method changes the main div, i.e. this.buttonsDiv+"_"+this.VIRTUALKEYPADID div, visibility to visible.
+     * @description Reveal method of the VirtualKeypadController widget. This method changes the 'keyboardDiv' div visibility to visible.
      * @memberof module:VirtualKeypadController
      * @instance
      */
     VirtualKeypadController.prototype.reveal = function () {
-        return this.div.style("visibility", "visible");
+        return this.keyboardDiv.style("visibility", "visible");
     };
 
     /**

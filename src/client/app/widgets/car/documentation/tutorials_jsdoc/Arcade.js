@@ -27,6 +27,7 @@
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
  *                 realisticImgs: false,
+ *                 useVehicle: true,
  *                 vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
  *                 vehicleImgIndex: 2, // defines vehicle sprite image suffix
  *                 // logoImgIndex: 1, // defines logo sprite image suffix
@@ -104,6 +105,7 @@
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
  *                 realisticImgs: false,
+ *                 useVehicle: true,
  *                 vehicle: "helicopter", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
  *                 vehicleImgIndex: 1, // defines vehicle sprite image suffix
  *                 // logoImgIndex: 1, // defines logo sprite image suffix
@@ -210,6 +212,7 @@ define(function (require, exports, module) {
 	 * @param [opt.logoImgIndex] {Int} number placed as suffix in the JSON file with the sprite of the logo image (default is null).
 	 * @param [opt.backgroundImgIndex] {Int} number placed as suffix in the JSON file with the sprite of the background image (default is null).
 	 * @param [opt.realisticImgs] {Bool} value that indicates if the sprite of the vehicle to be used is a realistic image or if it is a pixelated image as in arcade games (default is "false").
+	 * @param [opt.useVehicle] {Bool} value that indicates if arcade will display a sprite of the vehicle (default is true).
 	 * @param [opt.vehicle] {String} the type of vehicle to be used in the simulation. The types available are ["airplane", "bicycle", "car", "helicopter", "motorbike"]. It should be noted that these types must exist in the spritesheet if they are to be used. (default is "car").
 	 * @param [opt.stripePositions] {Object} position values and respective widths (borders, track and finish line) to be rendered on a stripe. (default is { trackP1: -0.55, trackP2: 0.55, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 }).
 	 * @param [opt.lapNumber] {Int} the number of desired laps in the simulation (default is 2 laps).
@@ -253,6 +256,7 @@ define(function (require, exports, module) {
         opt.logoImgIndex = opt.logoImgIndex;
         opt.backgroundImgIndex = opt.backgroundImgIndex;
         opt.realisticImgs = opt.realisticImgs;
+        opt.useVehicle = opt.useVehicle;
         opt.vehicle = opt.vehicle;
         opt.stripePositions = opt.stripePositions;
         opt.showOfficialLogo = opt.showOfficialLogo;
@@ -550,6 +554,7 @@ define(function (require, exports, module) {
         this.predefinedTracks = (opt.predefinedTracks) ? opt.predefinedTracks : null;
 
         this.lapInformation.lapNumber = this.lapNumber;
+        this.useVehicle = (!opt.useVehicle) ? opt.useVehicle : true;
 
         this.stripeConfiguration.trackP1=this.stripePositions.trackP1;
         this.stripeConfiguration.trackP2=this.stripePositions.trackP2;
@@ -1427,8 +1432,10 @@ define(function (require, exports, module) {
             this.drawSprite(this.sptB, null, null, null, null);
         }
 
-        // Draw the car
-        this.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
+        // Draw the car by default, but if user declares in opt field 'useVehicle' not to use, then the simulator will not render it
+        if(this.useVehicle){
+        	this.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
+        }
 
         if(this.lapInformation.lapNumber!==0){ 
 	        if(this.WIDGETSTATE!==null){
