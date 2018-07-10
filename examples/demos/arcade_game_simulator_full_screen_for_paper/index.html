@@ -21,6 +21,14 @@
     </head>
     <body>
         <div id="content" class="content" style="display:none;">
+            <div id="gauges" class="container dashboard-container" style="zoom:50%;position:absolute;top:1100px;left:1100px;z-index:1;visibility: hidden;">
+                <div class="col-xs-4" >
+                    <span id="speedometer-gauge"></span>
+                </div>
+                <div class="col-xs-4">
+                    <span id="tachometer-gauge" style="float:right;"></span>
+                </div>
+            </div>
             <div id="gamepads">
                 <!--
                 GamepadController widget will append GamepadController HTML here
@@ -30,17 +38,7 @@
                 <!--
                 GyroscopeController widget will append GyroscopeController HTML here
                 -->
-            </div> 
-            <div id="gauges" class="container dashboard-container" style="zoom:50%;position:absolute;top:1100px;left:1100px;z-index:1;visibility: hidden;">
-                <div class="col-xs-4" >
-                    <span id="speedometer-gauge"></span>
-                </div>
-                <div class="col-xs-4">
-                    <span id="tachometer-gauge" style="float:right;"></span>
-                </div>
             </div>
-            <img id="MKC_before_recall" src="img/MKC-before-recall.png" alt="before" style="scale:200%;position:absolute;top:590px;left:1055px;z-index:1;visibility: hidden;">
-            <!-- <img id="MKC_after_recall" src="img/MKC-after-recall.png" alt="after" style="scale:200%;position:absolute;top:590px;left:1055px;z-index:1;visibility: hidden;"> -->
         </div>
         <div id="splash" class="demo-splash">
             <div class="loader">

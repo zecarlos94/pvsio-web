@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: DrawGamepad</title>
+    <title>JSDoc: Module: LincolnMKCDashboard</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: DrawGamepad</h1>
+    <h1 class="page-title">Module: LincolnMKCDashboard</h1>
 
     
 
@@ -38,9 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">This module allows to design the PlayStation4 and XBOX One gamepads. That is, allows to draw an SVG image of the gamepad 
-where its buttons are defined, whose action is formally specified in the main.pvs file. Interactive buttons were defined using 
-ButtonEVO Widget.</div>
+            <div class="description">This module allows to design the 2015 Lincoln MKC Dashboard, for the case study discussed in the ICGI2018 paper.</div>
         
 
         
@@ -64,7 +62,7 @@ ButtonEVO Widget.</div>
 
     
     <dt class="tag-version">Version:</dt>
-    <dd class="tag-version"><ul class="dummy"><li>2.0.0</li></ul></dd>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
     
 
     
@@ -99,7 +97,7 @@ ButtonEVO Widget.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line1">line 1</a>
+        <a href="LincolnMKCDashboard.js.html">LincolnMKCDashboard.js</a>, <a href="LincolnMKCDashboard.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -128,77 +126,48 @@ ButtonEVO Widget.</div>
 
     <h5>Examples</h5>
     
-        <p class="code-caption">Usage of DrawGamepad within a PVSio-web demo(PS4 gamepad).</p>
+        <p class="code-caption">Usage of LincolnMKCDashboard within a PVSio-web demo.</p>
     
     <pre class="prettyprint"><code>define(function (require, exports, module) {
     "use strict";
 
-    // Require the DrawGamepad module
-    require("widgets/car/DrawGamepad");
+    // Require the LincolnMKCDashboard module
+    require("widgets/car/LincolnMKCDashboard");
 
     function main() {
-         // After DrawGamepad module was loaded, initialize it
-         let drawGamepad = new DrawGamepad(
+         // After LincolnMKCDashboard module was loaded, initialize it
+         let lincolnMKCDashboard = new LincolnMKCDashboard(
               'example', // id of the gauge element that will be created
               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
               { 
                  parent: "content", // defines parent div, which is div id="body" by default   
-                 style: 'ps4', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
-                 buttonsPVS: [ "cross", "circle", "triangle", "square", "options", "share", "touchpad", "ps", "ps4_leftArrow", "ps4_upArrow", "ps4_rightArrow", "ps4_downArrow", "ps4_rightStick", "ps4_leftStick" ],
-                 // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_cross"/"release_cross".
-                 // Left and Right sticks are not defined as ['press/release'] events, so actions will be "click_ps4_rightStick".
+                 design: "before", // "after"  
+                 buttonsPVS: [ "startAndStop", "activateSportMode"],
+                 // actions defined in main.pvs file, i.e., button startAndStop of Lincoln MKC Dashboard action will be "press_startAndStop"/"release_startAndStop".
               } // options
           );
 
          // Available methods:
-         // Render the DrawGamepad widget
-         drawGamepad.render();
+         // Render the LincolnMKCDashboard widget
+         lincolnMKCDashboard.render();
     }
 });</code></pre>
 
-        <p class="code-caption">Usage of DrawGamepad within a PVSio-web demo(XBOX One gamepad).</p>
+        <p class="code-caption">Usage of other public API's of LincolnMKCDashboard Widget.</p>
     
-    <pre class="prettyprint"><code>define(function (require, exports, module) {
-    "use strict";
+    <pre class="prettyprint"><code> Using variable LincolnMKCDashboard created in the previous example is also possible to call the following,
 
-    // Require the DrawGamepad module
-    require("widgets/car/DrawGamepad");
+      // Hides the LincolnMKCDashboard widget
+      lincolnMKCDashboard.hide();
 
-    function main() {
-         // After DrawGamepad module was loaded, initialize it
-         let drawGamepad = new DrawGamepad(
-              'example', // id of the gauge element that will be created
-              { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
-              { 
-                 parent: "content", // defines parent div, which is div id="body" by default   
-                 style: 'xbox', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
-                 buttonsPVS: [ "a", "b", "y", "x", "menu", "windows", "xbox", "xbox_leftArrow", "xbox_upArrow", "xbox_rightArrow", "xbox_downArrow", "xbox_rightStick", "xbox_leftStick" ],
-                 // actions defined in main.pvs file, i.e., button a of XBOX One gamepad action will be "press_a"/"release_a".
-                 // Left and Right sticks are not defined as ['press/release'] events, so actions will be "click_xbox_rightStick".
-              } // options
-          );
+      // Reveals/Shows the LincolnMKCDashboard widget
+      lincolnMKCDashboard.reveal();
 
-         // Available methods:
-         // Render the DrawGamepad widget
-         drawGamepad.render();
-    }
-});</code></pre>
+      // Triggers action "startAndStop", using ButtonActionsQueue instance.
+      lincolnMKCDashboard.callClickPVS("startAndStop");
 
-        <p class="code-caption">Usage of other public API's of DrawGamepad Widget.</p>
-    
-    <pre class="prettyprint"><code> Using variable DrawGamepad created in the previous example is also possible to call the following,
-
-      // Hides the DrawGamepad widget
-      drawGamepad.hide();
-
-      // Reveals/Shows the DrawGamepad widget
-      drawGamepad.reveal();
-
-      // Triggers action "click_ps4_rightStick", using ButtonActionsQueue instance.
-      drawGamepad.callClickPVS("ps4_rightStick");
-
-      // Triggers actions "press_cross" and "release_cross", using ButtonActionsQueue instance.
-      drawGamepad.callPressReleasePVS("cross");</code></pre>
+      // Triggers actions "press_startAndStop" and "release_startAndStop", using ButtonActionsQueue instance.
+      lincolnMKCDashboard.callPressReleasePVS("startAndStop");</code></pre>
 
 
 
@@ -237,7 +206,7 @@ ButtonEVO Widget.</div>
 
 
 <div class="description">
-    CallClickPVS method of the DrawGamepad widget. This method calls a PVS click function in main.pvs file, based on the required buttonName.
+    CallClickPVS method of the LincolnMKCDashboard widget. This method calls a PVS click function in main.pvs file, based on the required buttonName.
 </div>
 
 
@@ -289,7 +258,7 @@ ButtonEVO Widget.</div>
 
             
 
-            <td class="description last">Clicked ButtonEVO name, i.e. name of the clicked interactive button on the gamepad image, which will be used to invoke the PVS action, which is formally specified in the main.pvs file.</td>
+            <td class="description last">Clicked ButtonEVO name, i.e. name of the clicked interactive button on the Lincoln MKC Dashboard image, which will be used to invoke the PVS action, which is formally specified in the main.pvs file.</td>
         </tr>
 
     
@@ -330,7 +299,7 @@ ButtonEVO Widget.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line468">line 468</a>
+        <a href="LincolnMKCDashboard.js.html">LincolnMKCDashboard.js</a>, <a href="LincolnMKCDashboard.js.html#line231">line 231</a>
     </li></ul></dd>
     
 
@@ -359,30 +328,28 @@ ButtonEVO Widget.</div>
 
     <h5>Example</h5>
     
-        <p class="code-caption">Usage of API to invoke a click event on button "ps4_rightStick", using a ButtonActionsQueue instance.
-button "ps4_rightStick" will only be created by the constructor if "ps4_rightStick" is present in buttonsPVS opt field, by default is.</p>
+        <p class="code-caption">Usage of API to invoke a click event on button "startAndStop", using a ButtonActionsQueue instance.
+button "startAndStop" will only be created by the constructor if "startAndStop" is present in buttonsPVS opt field, by default is.</p>
     
     <pre class="prettyprint"><code> define(function (require, exports, module) {
     "use strict";
 
-    // Require the DrawGamepad module
-    require("widgets/car/DrawGamepad");
+    // Require the LincolnMKCDashboard module
+    require("widgets/car/LincolnMKCDashboard");
 
     function main() {
-         // After DrawGamepad module was loaded, initialize it
-         let drawGamepad = new DrawGamepad(
+         // After LincolnMKCDashboard module was loaded, initialize it
+         let lincolnMKCDashboard = new LincolnMKCDashboard(
               'example', // id of the gauge element that will be created
               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
               {  
-                 parent: "content", // defines parent div, which is div id="body" by default  
-                 style: 'ps4', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
-                 buttonsPVS: [ "cross", "circle", "triangle", "square", "options", "share", "touchpad", "ps", "ps4_leftArrow", "ps4_upArrow", "ps4_rightArrow", "ps4_downArrow", "ps4_rightStick", "ps4_leftStick" ],
-                 // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_cross"/"release_cross".
-                 // Left and Right sticks are not defined as ['press/release'] events, so actions will be "click_ps4_rightStick".
-              } // options
+                 parent: "content", // defines parent div, which is div id="body" by default
+                 buttonsPVS: [ "startAndStop", "activateSportMode" ],
+                 // actions defined in main.pvs file, i.e., button startAndStop of Lincoln MKC Dashboard action will be "press_startAndStop"/"release_startAndStop".
+              } // options  
           );
 
-         drawGamepad.callClickPVS("ps4_rightStick");
+         lincolnMKCDashboard.callClickPVS("startAndStop");
     }
 });</code></pre>
 
@@ -402,7 +369,7 @@ button "ps4_rightStick" will only be created by the constructor if "ps4_rightSti
 
 
 <div class="description">
-    CallPressReleasePVS method of the DrawGamepad widget. This method calls a PVS press/release function in main.pvs file, based on the required buttonName.
+    CallPressReleasePVS method of the LincolnMKCDashboard widget. This method calls a PVS press/release function in main.pvs file, based on the required buttonName.
 </div>
 
 
@@ -454,7 +421,7 @@ button "ps4_rightStick" will only be created by the constructor if "ps4_rightSti
 
             
 
-            <td class="description last">Pressed ButtonEVO name, i.e. name of the pressed interactive button on the gamepad image, which will be used to invoke the PVS action, which is formally specified in the main.pvs file.</td>
+            <td class="description last">Pressed ButtonEVO name, i.e. name of the pressed interactive button on the Lincoln MKC Dashboard image, which will be used to invoke the PVS action, which is formally specified in the main.pvs file.</td>
         </tr>
 
     
@@ -495,7 +462,7 @@ button "ps4_rightStick" will only be created by the constructor if "ps4_rightSti
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line430">line 430</a>
+        <a href="LincolnMKCDashboard.js.html">LincolnMKCDashboard.js</a>, <a href="LincolnMKCDashboard.js.html#line195">line 195</a>
     </li></ul></dd>
     
 
@@ -524,30 +491,28 @@ button "ps4_rightStick" will only be created by the constructor if "ps4_rightSti
 
     <h5>Example</h5>
     
-        <p class="code-caption">Usage of API to invoke a press/release event on button "cross", using a ButtonActionsQueue instance.
+        <p class="code-caption">Usage of API to invoke a press/release event on button "startAndStop", using a ButtonActionsQueue instance.
 button "cross" will only be created by the constructor if "cross" is present in buttonsPVS opt field, by default is.</p>
     
     <pre class="prettyprint"><code> define(function (require, exports, module) {
     "use strict";
 
-    // Require the DrawGamepad module
-    require("widgets/car/DrawGamepad");
+    // Require the LincolnMKCDashboard module
+    require("widgets/car/LincolnMKCDashboard");
 
     function main() {
-         // After DrawGamepad module was loaded, initialize it
-         let drawGamepad = new DrawGamepad(
+         // After LincolnMKCDashboard module was loaded, initialize it
+         let lincolnMKCDashboard = new LincolnMKCDashboard(
               'example', // id of the gauge element that will be created
               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
               {  
                  parent: "content", // defines parent div, which is div id="body" by default  
-                 style: 'ps4', // Possible values are 'ps4' and 'xbox', since we only have those 2 gamepads images with all its buttons defined.
-                 buttonsPVS: [ "cross", "circle", "triangle", "square", "options", "share", "touchpad", "ps", "ps4_leftArrow", "ps4_upArrow", "ps4_rightArrow", "ps4_downArrow", "ps4_rightStick", "ps4_leftStick" ],
-                 // actions defined in main.pvs file, i.e., button cross of PS4 gamepad action will be "press_cross"/"release_cross".
-                 // Left and Right sticks are not defined as ['press/release'] events, so actions will be "click_ps4_rightStick".
+                 buttonsPVS: [ "startAndStop", "activateSportMode" ],
+                 // actions defined in main.pvs file, i.e., button startAndStop of Lincoln MKC Dashboard action will be "press_startAndStop"/"release_startAndStop".
               } // options
           );
 
-         drawGamepad.callPressReleasePVS("cross");
+         lincolnMKCDashboard.callPressReleasePVS("startAndStop");
     }
 });</code></pre>
 
@@ -559,7 +524,7 @@ button "cross" will only be created by the constructor if "cross" is present in 
     
 
     
-    <h4 class="name" id="constructor"><span class="type-signature"></span>constructor<span class="signature">(id, coords, opt)</span><span class="type-signature"> &rarr; {DrawGamepad}</span></h4>
+    <h4 class="name" id="constructor"><span class="type-signature"></span>constructor<span class="signature">(id, coords, opt)</span><span class="type-signature"> &rarr; {LincolnMKCDashboard}</span></h4>
     
 
     
@@ -567,7 +532,7 @@ button "cross" will only be created by the constructor if "cross" is present in 
 
 
 <div class="description">
-    Constructor for the DrawGamepad widget.
+    Constructor for the LincolnMKCDashboard widget.
 </div>
 
 
@@ -728,7 +693,7 @@ button "cross" will only be created by the constructor if "cross" is present in 
 
         <tr>
             
-                <td class="name"><code>style</code></td>
+                <td class="name"><code>design</code></td>
             
 
             <td class="type">
@@ -754,7 +719,7 @@ button "cross" will only be created by the constructor if "cross" is present in 
 
             
 
-            <td class="description last">a valid style identifier (default is "ps4").</td>
+            <td class="description last">the image with lincolnMKCDashboard to load. Only has 2 values: 'before', i.e. the design before General Motors recalled the vehicles, and 'after', i.e. the design after General Motors recalled the vehicles (default is "before").</td>
         </tr>
 
     
@@ -787,7 +752,7 @@ button "cross" will only be created by the constructor if "cross" is present in 
 
             
 
-            <td class="description last">the actions defined in main.pvs file, which are used to define all gamepad buttons, ButtonEVO, ids (default is [ "a", "b", "y", "x", "menu", "windows", "xbox", "xbox_leftArrow", "xbox_upArrow", "xbox_rightArrow", "xbox_downArrow", "xbox_rightStick", "xbox_leftStick" ] for style "xbox" and [ "cross", "circle", "triangle", "square", "options", "share", "touchpad", "ps", "ps4_leftArrow", "ps4_upArrow", "ps4_rightArrow", "ps4_downArrow", "ps4_rightStick", "ps4_leftStick" ] for style "ps4").</td>
+            <td class="description last">the actions defined in main.pvs file, which are used to define all Lincoln MKC Dashboard buttons, ButtonEVO, ids (default is [ "startAndStop", "activateSportMode" ]).</td>
         </tr>
 
     
@@ -835,7 +800,7 @@ button "cross" will only be created by the constructor if "cross" is present in 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line93">line 93</a>
+        <a href="LincolnMKCDashboard.js.html">LincolnMKCDashboard.js</a>, <a href="LincolnMKCDashboard.js.html#line62">line 62</a>
     </li></ul></dd>
     
 
@@ -862,7 +827,7 @@ button "cross" will only be created by the constructor if "cross" is present in 
 
         
 <div class="param-desc">
-    The created instance of the widget DrawGamepad.
+    The created instance of the widget LincolnMKCDashboard.
 </div>
 
 
@@ -873,7 +838,7 @@ button "cross" will only be created by the constructor if "cross" is present in 
     </dt>
     <dd>
         
-<span class="param-type">DrawGamepad</span>
+<span class="param-type">LincolnMKCDashboard</span>
 
 
     </dd>
@@ -899,7 +864,7 @@ button "cross" will only be created by the constructor if "cross" is present in 
 
 
 <div class="description">
-    Hide method of the DrawGamepad widget. This method changes parent div display to none.
+    Hide method of the LincolnMKCDashboard widget. This method changes parent div display to none.
 </div>
 
 
@@ -943,7 +908,7 @@ button "cross" will only be created by the constructor if "cross" is present in 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line408">line 408</a>
+        <a href="LincolnMKCDashboard.js.html">LincolnMKCDashboard.js</a>, <a href="LincolnMKCDashboard.js.html#line173">line 173</a>
     </li></ul></dd>
     
 
@@ -985,7 +950,7 @@ button "cross" will only be created by the constructor if "cross" is present in 
 
 
 <div class="description">
-    Render method of the DrawGamepad widget. Basically, it renders all ButtonEVO Widgets defined based on opt.style value, i.e., based on the required gamepad.
+    Render method of the LincolnMKCDashboard widget. Basically, it renders all ButtonEVO Widgets defined
 </div>
 
 
@@ -1029,7 +994,7 @@ button "cross" will only be created by the constructor if "cross" is present in 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line505">line 505</a>
+        <a href="LincolnMKCDashboard.js.html">LincolnMKCDashboard.js</a>, <a href="LincolnMKCDashboard.js.html#line266">line 266</a>
     </li></ul></dd>
     
 
@@ -1071,7 +1036,7 @@ button "cross" will only be created by the constructor if "cross" is present in 
 
 
 <div class="description">
-    Reveal method of the DrawGamepad widget. This method changes parent div display to block.
+    Reveal method of the LincolnMKCDashboard widget. This method changes parent div display to block.
 </div>
 
 
@@ -1115,7 +1080,7 @@ button "cross" will only be created by the constructor if "cross" is present in 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="DrawGamepad.js.html">DrawGamepad.js</a>, <a href="DrawGamepad.js.html#line419">line 419</a>
+        <a href="LincolnMKCDashboard.js.html">LincolnMKCDashboard.js</a>, <a href="LincolnMKCDashboard.js.html#line184">line 184</a>
     </li></ul></dd>
     
 

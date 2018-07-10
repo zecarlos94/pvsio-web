@@ -292,6 +292,7 @@ require([
             spritesFilename: "spritesheet3", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             spritesFiles: ["spritesheet3","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
             realisticImgs: true,
+            useVehicle: true,
             vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
             // vehicleImgIndex: 2, // defines vehicle sprite image suffix
             logoImgIndex: 3, // defines logo sprite image suffix

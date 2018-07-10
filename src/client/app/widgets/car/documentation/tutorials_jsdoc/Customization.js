@@ -1673,7 +1673,8 @@ define(function (require, exports, module) {
 					            trackFilename: "trackLayout2",// "track-curves-slopes-random", // "track-straight-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
 					            spritesFilename: spritesheetJSONFilename_Final, // defines spritesheet configuration filename, which is "spritesheet.json" by default
 					            spritesFiles: JSON.parse(spritesheetImages_Final), // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
-					            realisticImgs: realisticImgs_Final,
+                                realisticImgs: realisticImgs_Final,
+                                useVehicle: true,
 					            vehicle: vehicle_Final, // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
 					            vehicleImgIndex: parseInt(vehicleImgIndex_Final), // defines vehicle sprite image suffix
 					            // logoImgIndex: 1, // defines logo sprite image suffix

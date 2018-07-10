@@ -22,7 +22,6 @@ require.config({
 
 require([
         "widgets/car/ButtonExternalController",
-        "widgets/core/ButtonEVO",
         "widgets/TouchscreenButton",
         "widgets/TouchscreenDisplay",
         "widgets/BasicDisplay",
@@ -42,13 +41,13 @@ require([
         "widgets/car/GyroscopeController",
         "widgets/car/Customization",
         "widgets/car/Arcade",
+        "widgets/car/LincolnMKCDashboard",
 
         "widgets/ButtonActionsQueue",
         "stateParser",
         "PVSioWebClient"
     ], function (
         ButtonExternalController,
-        ButtonEVO,
         TouchscreenButton,
         TouchscreenDisplay,
         BasicDisplay,
@@ -69,6 +68,7 @@ require([
         GyroscopeController,
         Customization,
         Arcade,
+        LincolnMKCDashboard,
 
         ButtonActionsQueue,
         stateParser,
@@ -125,29 +125,15 @@ require([
 
         var arcade = {};
 
-        // // ----------------------------- DRAWGAMEPAD COMPONENTS -----------------------------
-        // // arcade.drawGamepad = new DrawGamepad("drawGamepad", {
-        // //     top: 700,
-        // //     left: 750,
-        // //     width: 750,
-        // //     height: 750
-        // // }, {
-        // //     parent: "content", // defines parent div, which is div id="body" by default
-        // //     style: "xbox", // defines parent div, which is "ps4" by default
-        // //     buttonsPVS: [ "accelerate", "brake", "mute", "unmute", "pause", "quit", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
-        // //     callback: onMessageReceived
-        // // });
-        // arcade.drawGamepad = new DrawGamepad("drawGamepad", {
-        //     top: 700,
-        //     left: 750,
-        //     width: 750,
-        //     height: 750
-        // }, {
-        //     parent: "content", // defines parent div, which is div id="body" by default
-        //     style: "ps4", // defines parent div, which is "ps4" by default
-        //     buttonsPVS: [ "accelerate", "brake", "unmute", "mute", "pause", "quit", "touchpad", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
-        //     callback: onMessageReceived
-        // });
+        arcade.lincolnMKCDashboard = new LincolnMKCDashboard('lincolnMKCDashboard', { 
+            top: 540, left: 1035, width: 140, height: 140 
+        },{ 
+            parent: "content", // defines parent div, which is div id="body" by default 
+            design: "before", // "after",
+            buttonsPVS: [ "startAndStop", "activateSportMode"],
+            callback: onMessageReceived
+            } 
+        );
 
         // ---------------- VIRTUAL KEYPAD CONTROLLER ----------------
         arcade.virtualKeypadController = new VirtualKeypadController("virtualKeypad_controller", {
@@ -281,27 +267,27 @@ require([
 
         /*
         // ---------------- CURRENT SHIFT -------------------------
-        // arcade.shiftDisplay = new Shift('current-shift');
+        arcade.shiftDisplay = new Shift('current-shift');
         // ---------------- CLOCK ----------------------------------
-        // arcade.clockDisplay = new Clock('clock');
+        arcade.clockDisplay = new Clock('clock');
         // ---------------- ENVIRONMENT TEMPERATURE ----------------
-        // arcade.envThermometer = new Thermometer('env-temp');
+        arcade.envThermometer = new Thermometer('env-temp');
         */
 
         // ----------------------------- ARCADE GAME COMPONENTS -----------------------------
         arcade.arcadeWidget = new Arcade("arcadeWidget", {
             top: 0,
-            left: -2,
+            left: 0,
             width: 1500,
-            height: 850
+            height: 780
         }, {
             parent: "content", // defines parent div, which is div id="body" by default
             scaleWindow: 1, // scales canvas div
             trackFilename: "trackLayout_real", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
             spritesFilename: "spritesheet3", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             spritesFiles: ["spritesheet3","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
-            useVehicle: false,
             realisticImgs: true,
+            useVehicle: false,
             vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
             // vehicleImgIndex: 2, // defines vehicle sprite image suffix
             logoImgIndex: 3, // defines logo sprite image suffix
@@ -374,47 +360,13 @@ require([
             keyCode: 85 // key 'u'
         });
 
-        // // Create ButtonEVOs for MKC Case Study image placed at top:590px;left:1055px
-        // arcade.startAndStop= new ButtonEVO("startAndStop", {
-        //     top: 745, left: 1077, width: 32, height: 32
-        // }, {
-        //     keyCode: 72, // Key 'h' 
-        //     parent: "content",
-        //     callback: onMessageReceived,
-        //     evts: ['press/release']
-        // });
-
-        // arcade.activateSportMode= new ButtonEVO("activateSportMode", {
-        //     top: 710, left: 1077, width: 32, height: 32
-        // }, {
-        //     keyCode: 74, // Key 'j' 
-        //     parent: "content",
-        //     callback: onMessageReceived,
-        //     evts: ['press/release']
-        // });
-
-        arcade.startAndStop= new ButtonExternalController("startAndStop", {
-            top: 745, left: 1077, width: 32, height: 32
-        }, {
-            keyCode: 72, // Key 'h' 
-            parent: "content",
-            callback: onMessageReceived,
-            evts: ['press/release']
-        });
-
-        arcade.activateSportMode= new ButtonExternalController("activateSportMode", {
-            top: 710, left: 1077, width: 32, height: 32
-        }, {
-            keyCode: 74, // Key 'j' 
-            parent: "content",
-            callback: onMessageReceived,
-            evts: ['press/release']
-        });
-
-        // Start Simulation
         arcade.arcadeWidget.startSimulation();
-        $("#arcadeSimulator_arcadeWidget").css("top", "15px");
-
+        $("#arcadeSimulator_arcadeWidget").css("top", "3px");
+        $("#arcadeSimulator_arcadeWidget").css("left", "0px");
+        $("#tog_soundWidget_arcadeWidget").css("top", "710px");
+        $("#tog_soundWidget_arcadeWidget").css("left", "100px");
+        $("#tog_soundWidget_arcadeWidget").css("z-index", "1");
+        
         // Render arcade game components
         let firstResume = 0;
         function render(res) {
@@ -423,17 +375,15 @@ require([
             }
             if(res.action==="pause" || res.action==="quit"){
                 firstResume = 0;
-                // Render Case Study Dashboard Image
-                $("#MKC_before_recall").css("visibility", "hidden");
-                // $("#MKC_after_recall").css("visibility", "hidden");
+                // Hide Case Study Dashboard Image
+                arcade.lincolnMKCDashboard.hide();
                 $("#gauges").css("visibility", "hidden");
                 arcade.steeringWheel.hide();
                 arcade.virtualKeypadController.hide();
             }
             if(res.action!=="pause" && res.action!=="quit" && firstResume===1){
                 // Render Case Study Dashboard Image
-                $("#MKC_before_recall").css("visibility", "visible");
-                // $("#MKC_after_recall").css("visibility", "visible");
+                arcade.lincolnMKCDashboard.render();
                 $("#gauges").css("visibility", "visible");
                 arcade.virtualKeypadController.reveal();
                 // Overlapping VirtualKeypadController in relation to Arcade Simulator
@@ -449,11 +399,9 @@ require([
             arcade.gamepadController.render();
             arcade.gyroscopeController.render();          
             arcade.arcadeWidget.render(res);
-            // arcade.startAndStop.render();
-            // arcade.activateSportMode.render();
-            // arcade.drawGamepad.render();
-            // arcade.drawGamepad.callPressReleasePVS("accelerate");
-            // arcade.drawGamepad.callClickPVS("leftStick");
+            // arcade.lincolnMKCDashboard.render();  
+            // arcade.lincolnMKCDashboard.callPressReleasePVS("startAndStop");
+            // arcade.lincolnMKCDashboard.callClickPVS("activateSportMode");
         }
 
         var demoFolder = "arcade_game_simulator_full_screen_for_paper";
