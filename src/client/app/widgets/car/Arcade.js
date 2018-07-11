@@ -1408,7 +1408,7 @@ define(function (require, exports, module) {
                         y: this.renderCanvas.height / 2 + startProjectedHeight,
                         x: this.renderCanvas.width / 2 - currentSegment.sprite.pos * this.renderCanvas.width * currentScaling + currentSegment.curve - baseOffset - (this.controllable_car.posx - baseOffset*2) * currentScaling,
                         ymax: this.renderCanvas.height / 2 + lastProjectedHeight,
-                        s: currentScaling,
+                        s: 1.5*currentScaling,
                         i: currentSegment.sprite.type,
                         pos: currentSegment.sprite.pos,
                         obstacle: currentSegment.sprite.obstacle
