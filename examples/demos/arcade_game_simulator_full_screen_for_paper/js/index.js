@@ -125,10 +125,13 @@ require([
 
         var arcade = {};
 
-        arcade.lincolnMKCDashboard = new LincolnMKCDashboard('lincolnMKCDashboard', { 
-            top: 540, left: 1035, width: 140, height: 140 
+        arcade.lincolnMKCDashboard = new LincolnMKCDashboard('lincolnMKCDashboard', 
+        // { top: 540, left: 1035, width: 140, height: 140 }, // cropped section of dashboard
+        {
+            top: 280, left: 1000, width: 140, height: 140 
         },{ 
             parent: "content", // defines parent div, which is div id="body" by default 
+            fullDashboard: true, // allows to visualize the entire dashboard, or just the cropped section of dashboard to analyze
             design: "before", // "after",
             buttonsPVS: [ "startAndStop", "activateSportMode"],
             callback: onMessageReceived
@@ -193,7 +196,7 @@ require([
             width: 600,
             height: 600
         }, {
-            style: "ferrari",
+            style: "lincoln_mkc_2015_2", // "lincoln_mkc_2015_1", // will show steering wheel with its gauges (this won't move-static image)
             "z-index": 1, // to overlap the gauges
             callback: onMessageReceived
         });

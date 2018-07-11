@@ -97,6 +97,7 @@ define(function (require, exports, module) {
      *        Default is { top: 0, left: 0, width: 250, height: 250 }.
      * @param opt {Object} Options:
      * @param [opt.parent] {String} the HTML element where the display will be appended (default is "body").
+     * @param [opt.fullDashboard] {Bool} allows to display full dashboard or just the cropped section to analyze (default is false).
      * @param [opt.design] {String} the image with lincolnMKCDashboard to load. Only has 2 values: 'before', i.e. the design before General Motors recalled the vehicles, and 'after', i.e. the design after General Motors recalled the vehicles (default is "before").
      * @param [opt.buttonsPVS] {Array} the actions defined in main.pvs file, which are used to define all Lincoln MKC Dashboard buttons, ButtonEVO, ids (default is [ "startAndStop", "activateSportMode" ]).
      * @returns {LincolnMKCDashboard} The created instance of the widget LincolnMKCDashboard.
@@ -119,11 +120,25 @@ define(function (require, exports, module) {
 
         this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
         this.design = (opt.design) ? (opt.design) : "before";
-       
+        this.fullDashboard = (opt.fullDashboard) ? (opt.fullDashboard) : false;
+
+
         let _this = this;
-        let lincolnMKCDashboard_file = "text!widgets/car/lincoln_mkc_dashboard_case_study/MKC-"+this.design+"-recall.svg";
+        let lincolnMKCDashboard_file;
+
+        if(this.fullDashboard){
+        	lincolnMKCDashboard_file = "text!widgets/car/lincoln_mkc_dashboard_case_study/2015_lincoln_mkc_"+this.design+"_recall.svg";
+        }else{
+        	lincolnMKCDashboard_file = "text!widgets/car/lincoln_mkc_dashboard_case_study/MKC_"+this.design+"_recall.svg";
+        }
+
         require([lincolnMKCDashboard_file], function(lincolnMKCDashboardFile) {
-            _this.div.append("div").attr("id", "lincolnMKCDashboard_"+id+"_SW").attr("style", "zoom: 150%").html(lincolnMKCDashboardFile);
+        	if(_this.fullDashboard){
+				_this.div.append("div").attr("id", "lincolnMKCDashboard_"+id+"_SW").attr("style", "zoom: 280%").html(lincolnMKCDashboardFile);
+        	} else{
+            	_this.div.append("div").attr("id", "lincolnMKCDashboard_"+id+"_SW").attr("style", "zoom: 150%").html(lincolnMKCDashboardFile);
+        	}
+
             // Scale svg according to scale factor
             let svgHeight = parseFloat(_this.div.select("svg").style("height").replace("px", ""));
             let svgWidth = parseFloat(_this.div.select("svg").style("width").replace("px", ""));
@@ -137,7 +152,7 @@ define(function (require, exports, module) {
             return _this;
         });
 
-        this.div = d3.select(this.parent)
+    	this.div = d3.select(this.parent)
                      .append("div").attr("id", "lincolnMKCDashboardImage")
                      .style("position", "absolute")
                      .style("top", this.top + "px")
@@ -151,44 +166,86 @@ define(function (require, exports, module) {
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
 
-        if(this.design==="before"){
-            this.startAndStop= new Button(this.buttonsPVS[0], {
-                top: 230, left: 40, width: 36, height: 56
-            }, {
-                keyCode: 72, // Key 'h' 
-                parent: "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID,
-                callback: opt.callback,
-                evts: ['press/release']
-            });
-    
-            this.activateSportMode= new Button(this.buttonsPVS[1], {
-                top: 190, left: 35, width: 36, height: 36
-            }, {
-                keyCode: 74, // Key 'j' 
-                parent: "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID,
-                callback: opt.callback,
-                evts: ['press/release']
-            });
-        }
-        else if(this.design==="after"){
-            this.startAndStop= new Button(this.buttonsPVS[0], {
-                top: 45, left: 20, width: 36, height: 36
-            }, {
-                keyCode: 72, // Key 'h' 
-                parent: "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID,
-                callback: opt.callback,
-                evts: ['press/release']
-            });
-    
-            this.activateSportMode= new Button(this.buttonsPVS[1], {
-                top: 240, left: 35, width: 36, height: 56
-            }, {
-                keyCode: 74, // Key 'j' 
-                parent: "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID,
-                callback: opt.callback,
-                evts: ['press/release']
-            });
-        }
+		if(this.fullDashboard){
+			if(this.design==="before"){
+	            this.startAndStop= new Button(this.buttonsPVS[0], {
+	                top: 350, left: 40, width: 36, height: 56
+	            }, {
+	                keyCode: 72, // Key 'h' 
+	                parent: "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID,
+	                callback: opt.callback,
+	                evts: ['press/release']
+	            });
+	    
+	            this.activateSportMode= new Button(this.buttonsPVS[1], {
+	                top: 305, left: 40, width: 36, height: 36
+	            }, {
+	                keyCode: 74, // Key 'j' 
+	                parent: "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID,
+	                callback: opt.callback,
+	                evts: ['press/release']
+	            });
+	        }
+	        else if(this.design==="after"){
+	            this.startAndStop= new Button(this.buttonsPVS[0], {
+	                top: 120, left: 50, width: 36, height: 56
+	            }, {
+	                keyCode: 72, // Key 'h' 
+	                parent: "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID,
+	                callback: opt.callback,
+	                evts: ['press/release']
+	            });
+	    
+	            this.activateSportMode= new Button(this.buttonsPVS[1], {
+	                top: 440, left: 50, width: 36, height: 56
+	            }, {
+	                keyCode: 74, // Key 'j' 
+	                parent: "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID,
+	                callback: opt.callback,
+	                evts: ['press/release']
+	            });
+	        }
+		}
+		else{
+	        if(this.design==="before"){
+	            this.startAndStop= new Button(this.buttonsPVS[0], {
+	                top: 230, left: 40, width: 36, height: 56
+	            }, {
+	                keyCode: 72, // Key 'h' 
+	                parent: "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID,
+	                callback: opt.callback,
+	                evts: ['press/release']
+	            });
+	    
+	            this.activateSportMode= new Button(this.buttonsPVS[1], {
+	                top: 190, left: 35, width: 36, height: 36
+	            }, {
+	                keyCode: 74, // Key 'j' 
+	                parent: "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID,
+	                callback: opt.callback,
+	                evts: ['press/release']
+	            });
+	        }
+	        else if(this.design==="after"){
+	            this.startAndStop= new Button(this.buttonsPVS[0], {
+	                top: 45, left: 20, width: 36, height: 36
+	            }, {
+	                keyCode: 72, // Key 'h' 
+	                parent: "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID,
+	                callback: opt.callback,
+	                evts: ['press/release']
+	            });
+	    
+	            this.activateSportMode= new Button(this.buttonsPVS[1], {
+	                top: 240, left: 35, width: 36, height: 56
+	            }, {
+	                keyCode: 74, // Key 'j' 
+	                parent: "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID,
+	                callback: opt.callback,
+	                evts: ['press/release']
+	            });
+	        }
+	    }
 
         Widget.call(this, id, coords, opt);
         return this;
@@ -322,7 +379,7 @@ define(function (require, exports, module) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jul 10 2018 16:43:35 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jul 11 2018 10:42:46 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>
