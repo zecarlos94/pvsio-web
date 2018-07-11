@@ -125,13 +125,15 @@ require([
 
         var arcade = {};
 
-        arcade.lincolnMKCDashboard = new LincolnMKCDashboard('lincolnMKCDashboard', 
-        // { top: 540, left: 1035, width: 140, height: 140 }, // cropped section of dashboard
+        arcade.lincolnMKCDashboard = new LincolnMKCDashboard('lincolnMKCDashboard',
+        // { top: 175, left: 0, width: 450, height: 140 }, // before with index 1
+        // { top: 290, left: 0, width: 450, height: 140 }, // after with index 1
+        // { top: 275, left: 0, width: 450, height: 140 }, // after with index 2
         {
-            top: 280, left: 1000, width: 140, height: 140 
+            top: 175, left: 0, width: 450, height: 140 
         },{ 
             parent: "content", // defines parent div, which is div id="body" by default 
-            fullDashboard: true, // allows to visualize the entire dashboard, or just the cropped section of dashboard to analyze
+            dashIndex: 1,
             design: "before", // "after",
             buttonsPVS: [ "startAndStop", "activateSportMode"],
             callback: onMessageReceived
@@ -139,15 +141,19 @@ require([
         );
 
         // ---------------- VIRTUAL KEYPAD CONTROLLER ----------------
-        arcade.virtualKeypadController = new VirtualKeypadController("virtualKeypad_controller", {
-            top: 730,
-            left: 175,
+        arcade.virtualKeypadController = new VirtualKeypadController("virtualKeypad_controller", 
+        // { top: 650, left: 1180, width: 750, height: 750 }, // before with index 1
+        // { top: 630, left: 1075, width: 750, height: 750 }, // after with index 1
+        // { top: 650, left: 1110, width: 750, height: 750 }, // after with index 2
+        {
+            top: 650,
+            left: 1180,
             width: 750,
             height: 750
         }, {
             keyboardImgDiv: "mobileDevicesController", // defines keyboard image div, which is div id="mobileDevicesController" by default
             keyboardClass: "icon keyboard",
-            keyboardLeftDesktop: 20,
+            keyboardLeftDesktop: 1370,
             keyboardTopDesktop: 710,
             keyboardHoverInitialTitle: "Click to open virtual keypad controller",
             keyboardHoverSecondTitle: "Click to close virtual keypad controller",
@@ -190,9 +196,13 @@ require([
         });
 
         // ---------------- STEERING WHEEL ----------------
-        arcade.steeringWheel = new SteeringWheel("steering_wheel", {
-            top: 500,
-            left: 450,
+        arcade.steeringWheel = new SteeringWheel("steering_wheel", 
+        // { top: 440, left: -75, width: 600, height: 600 }, // before with index 1
+        // { top: 460, left: 100, width: 480, height: 480 }, // after with index 1
+        // { top: 460, left: 70, width: 500, height: 500 }, // after with index 2
+        {
+            top: 440,
+            left: -75,
             width: 600,
             height: 600
         }, {
@@ -281,8 +291,8 @@ require([
         arcade.arcadeWidget = new Arcade("arcadeWidget", {
             top: 0,
             left: 0,
-            width: 1500,
-            height: 780
+            width: 1440,
+            height: 650
         }, {
             parent: "content", // defines parent div, which is div id="body" by default
             scaleWindow: 1, // scales canvas div
@@ -366,8 +376,17 @@ require([
         arcade.arcadeWidget.startSimulation();
         $("#arcadeSimulator_arcadeWidget").css("top", "3px");
         $("#arcadeSimulator_arcadeWidget").css("left", "0px");
+        $("#arcadeSimulator_arcadeWidget").css("height", "770px");
+        $("#arcadeSimulator_arcadeWidget").css("z-index", "-1");
+        // Placing Gauges within steering wheel
+        // { top: 980px, left: 85px }, zoom:50% // before with index 1
+        // { top: 1330px, left:500px }, zoom:38% // after with index 1
+        // { top: 1350px, left: 450px }, zoom:38% // after with index 2
+        $("#gauges").css("zoom", "50%");
+        $("#gauges").css("top", "980px");
+        $("#gauges").css("left", "85px");
         $("#tog_soundWidget_arcadeWidget").css("top", "710px");
-        $("#tog_soundWidget_arcadeWidget").css("left", "100px");
+        $("#tog_soundWidget_arcadeWidget").css("left", "1300px");
         $("#tog_soundWidget_arcadeWidget").css("z-index", "1");
         
         // Render arcade game components
@@ -377,6 +396,7 @@ require([
                 firstResume = 1;
             }
             if(res.action==="pause" || res.action==="quit"){
+                $("#arcadeSimulator_arcadeWidget").css("height", "770px");
                 firstResume = 0;
                 // Hide Case Study Dashboard Image
                 arcade.lincolnMKCDashboard.hide();
@@ -385,6 +405,7 @@ require([
                 arcade.virtualKeypadController.hide();
             }
             if(res.action!=="pause" && res.action!=="quit" && firstResume===1){
+                $("#arcadeSimulator_arcadeWidget").css("height", "650px");
                 // Render Case Study Dashboard Image
                 arcade.lincolnMKCDashboard.render();
                 $("#gauges").css("visibility", "visible");
@@ -402,9 +423,9 @@ require([
             arcade.gamepadController.render();
             arcade.gyroscopeController.render();          
             arcade.arcadeWidget.render(res);
-            // arcade.lincolnMKCDashboard.render();  
-            // arcade.lincolnMKCDashboard.callPressReleasePVS("startAndStop");
-            // arcade.lincolnMKCDashboard.callClickPVS("activateSportMode");
+            // // arcade.lincolnMKCDashboard.render();  
+            // // arcade.lincolnMKCDashboard.callPressReleasePVS("startAndStop");
+            // // arcade.lincolnMKCDashboard.callClickPVS("activateSportMode");
         }
 
         var demoFolder = "arcade_game_simulator_full_screen_for_paper";
