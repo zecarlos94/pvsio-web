@@ -29,8 +29,9 @@ require([
         "widgets/LED",
 
         // Added car components here
-        "widgets/car/Speedometer",
-        "widgets/car/Tachometer",
+        "widgets/car/Gauge",
+        // "widgets/car/Speedometer",
+        // "widgets/car/Tachometer",
         // "widgets/car/Shift",
         // "widgets/car/Clock",
         // "widgets/car/Thermometer",
@@ -56,8 +57,9 @@ require([
 
         // Added Arcade Widget Components here
         // Added car components here
-        Speedometer,
-        Tachometer,
+        Gauge,
+        // Speedometer,
+        // Tachometer,
         // Shift,
         // Clock,
         // Thermometer,
@@ -126,11 +128,8 @@ require([
         var arcade = {};
 
         arcade.lincolnMKCDashboard = new LincolnMKCDashboard('lincolnMKCDashboard',
-        // { top: 175, left: 0, width: 450, height: 140 }, // before with index 1
-        // { top: 290, left: 0, width: 450, height: 140 }, // after with index 1
-        // { top: 275, left: 0, width: 450, height: 140 }, // after with index 2
         {
-            top: 175, left: 0, width: 450, height: 140 
+            top: 5, left: 0, width: 450, height: 140 
         },{ 
             parent: "content", // defines parent div, which is div id="body" by default 
             dashIndex: 1,
@@ -142,12 +141,9 @@ require([
 
         // ---------------- VIRTUAL KEYPAD CONTROLLER ----------------
         arcade.virtualKeypadController = new VirtualKeypadController("virtualKeypad_controller", 
-        // { top: 650, left: 1180, width: 750, height: 750 }, // before with index 1
-        // { top: 630, left: 1075, width: 750, height: 750 }, // after with index 1
-        // { top: 650, left: 1110, width: 750, height: 750 }, // after with index 2
         {
-            top: 650,
-            left: 1180,
+            top: 580,
+            left: 1280,
             width: 750,
             height: 750
         }, {
@@ -183,28 +179,43 @@ require([
 
         // ----------------------------- DASHBOARD COMPONENTS -----------------------------
         // ---------------- SPEEDOMETER ----------------
-        arcade.speedometerGauge = new Speedometer('speedometer-gauge', {
+        arcade.speedometerGauge = new Gauge('speedometer-gauge', {
+            width: 136,
+            height: 136,
+            top: 0,
+            left: 0
+        }, {
             max: 260,
             min: 0,
-            label: "kmh"
+            label: "kmh",
+            redZones: [ { from: 240, to: 260 } ],
+            majorTicks: 11,
+            innerFillColor: "#0b0605"
         });
+        arcade.speedometerGauge.render(0);
         // ---------------- TACHOMETER ----------------
-        arcade.tachometerGauge = new Tachometer('tachometer-gauge', {
+        arcade.tachometerGauge = new Gauge('tachometer-gauge', {
+            width: 100,
+            height: 100,
+            top: 0,
+            left: 0
+        }, {
             max: 9,
             min: 0,
-            label: "x1000/min"
+            label: "x1000/min",
+            redZones: [ { from: 7, to: 9 } ],
+            majorTicks: 10,
+            innerFillColor: "#0b0605"
         });
+        arcade.tachometerGauge.render(0);
 
         // ---------------- STEERING WHEEL ----------------
         arcade.steeringWheel = new SteeringWheel("steering_wheel", 
-        // { top: 440, left: -75, width: 600, height: 600 }, // before with index 1
-        // { top: 460, left: 100, width: 480, height: 480 }, // after with index 1
-        // { top: 460, left: 70, width: 500, height: 500 }, // after with index 2
         {
-            top: 440,
-            left: -75,
-            width: 600,
-            height: 600
+            top: 470,
+            left: 430,
+            width: 350,
+            height: 350
         }, {
             style: "lincoln_mkc_2015_2", // "lincoln_mkc_2015_1", // will show steering wheel with its gauges (this won't move-static image)
             "z-index": 1, // to overlap the gauges
@@ -378,13 +389,10 @@ require([
         $("#arcadeSimulator_arcadeWidget").css("left", "0px");
         $("#arcadeSimulator_arcadeWidget").css("height", "770px");
         $("#arcadeSimulator_arcadeWidget").css("z-index", "-1");
-        // Placing Gauges within steering wheel
-        // { top: 980px, left: 85px }, zoom:50% // before with index 1
-        // { top: 1330px, left:500px }, zoom:38% // after with index 1
-        // { top: 1350px, left: 450px }, zoom:38% // after with index 2
-        $("#gauges").css("zoom", "50%");
-        $("#gauges").css("top", "980px");
-        $("#gauges").css("left", "85px");
+        // Placing Gauges behind the steering wheel
+        $("#gauges").css("zoom", "75%");
+        $("#gauges").css("top", "695px");
+        $("#gauges").css("left", "720px");
         $("#tog_soundWidget_arcadeWidget").css("top", "710px");
         $("#tog_soundWidget_arcadeWidget").css("left", "1300px");
         $("#tog_soundWidget_arcadeWidget").css("z-index", "1");
@@ -423,7 +431,6 @@ require([
             arcade.gamepadController.render();
             arcade.gyroscopeController.render();          
             arcade.arcadeWidget.render(res);
-            // // arcade.lincolnMKCDashboard.render();  
             // // arcade.lincolnMKCDashboard.callPressReleasePVS("startAndStop");
             // // arcade.lincolnMKCDashboard.callClickPVS("activateSportMode");
         }

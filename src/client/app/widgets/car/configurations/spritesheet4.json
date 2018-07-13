@@ -1,0 +1,100 @@
+{"frames": [
+
+{
+	"filename": "real_background.png",
+	"frame": {"x":0,"y":688,"w":320,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":320,"h":140},
+	"sourceSize": {"w":320,"h":140}
+},
+{
+	"filename": "rsz_1rsz_logo.png",
+	"frame": {"x":0,"y":828,"w":377,"h":213},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":377,"h":213},
+	"sourceSize": {"w":377,"h":213}
+},
+{
+	"filename": "rsz_1rsz_real_building2.png",
+	"frame": {"x":0,"y":455,"w":227,"h":120},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":227,"h":120},
+	"sourceSize": {"w":227,"h":120}
+},
+{
+	"filename": "rsz_1rsz_under_construction_barrier.png",
+	"frame": {"x":178,"y":0,"w":192,"h":192},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":192,"h":192},
+	"sourceSize": {"w":192,"h":192}
+},
+{
+	"filename": "rsz_70kmh_limit.png",
+	"frame": {"x":0,"y":230,"w":200,"h":200},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":200},
+	"sourceSize": {"w":200,"h":200}
+},
+{
+	"filename": "rsz_real_car_faced_front.png",
+	"frame": {"x":0,"y":575,"w":245,"h":113},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":245,"h":113},
+	"sourceSize": {"w":245,"h":113}
+},
+{
+	"filename": "rsz_real_car_faced_left.png",
+	"frame": {"x":245,"y":575,"w":245,"h":113},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":245,"h":113},
+	"sourceSize": {"w":245,"h":113}
+},
+{
+	"filename": "rsz_real_car_faced_right.png",
+	"frame": {"x":227,"y":455,"w":245,"h":113},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":245,"h":113},
+	"sourceSize": {"w":245,"h":113}
+},
+{
+	"filename": "rsz_real_tree2.png",
+	"frame": {"x":200,"y":230,"w":219,"h":225},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":219,"h":225},
+	"sourceSize": {"w":219,"h":225}
+},
+{
+	"filename": "rsz_traffic_light_red.png",
+	"frame": {"x":0,"y":0,"w":48,"h":230},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":230},
+	"sourceSize": {"w":48,"h":230}
+},
+{
+	"filename": "traffic_cone.png",
+	"frame": {"x":48,"y":0,"w":130,"h":191},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":191},
+	"sourceSize": {"w":130,"h":191}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "spritesheet4.png",
+	"format": "RGBA8888",
+	"size": {"w":490,"h":1041},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:5dde32d0151c9b979f7f188819dc1811:0cf449f17367b441c1b40f33940f07ac:d579f0fac00ece3de007ef1595dee2d7$"
+}
+}

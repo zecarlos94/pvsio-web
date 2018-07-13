@@ -96,7 +96,7 @@ require([
             height: 650
         }, {
             parent: "content", // defines parent div, which is div id="body" by default
-            spritesFilename: "spritesheet3", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+            spritesFilename: "spritesheet4", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             render: {
                 width: 320,
                 height: 240,
@@ -123,8 +123,8 @@ require([
                 posx: 0,
                 maxSpeed: 20
             },
-            objects: ["real_tree","real_tree2","real_bush","real_bush1","real_boulder2","no_parking","transit_forbidden"],
-            obstacle: ["horizontal_speed_rubber_bump","traffic_cone","traffic_cone2","traffic_cone3","stop","street_barrier", "street_fire_hydrant_pump","under_construction_barrier","under_construction","road_work_ahead","50kmh_limit","30kmh_limit","70kmh_limit"],
+            objects: ["rsz_70kmh_limit","rsz_real_tree2"],
+            obstacle: ["rsz_1rsz_under_construction_barrier", "traffic_cone", "rsz_traffic_light_red"],
             obstaclePerIteration: 20,
             trackColors: {
                 grass1: "#344C32",
@@ -141,59 +141,14 @@ require([
             },
             trackLayout: [ 
                 // trackLayout_real.json File
-                // describing the desired track, which is curve to left, straight line, 
-                // curve to right, straight line, curve to left and straight line each with 3 zones (blocks) and with different 
-                // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
-                // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
-                // those angles to define different curvatures, instead of generating the same curvature for the same
-                // side
+                // describing the desired track, which is 4 curve to left.
                 {
                     topography: {
                         name:"left",
                         curvature: -90
                     },
                     profile: "flat",
-                    numZones: 3
-                },
-                {
-                    topography: {
-                        name:"straight",
-                        curvature: 0
-                    },
-                    profile: "down",
-                    numZones: 3
-                },
-                {
-                    topography: {
-                        name:"right",
-                        curvature: 90
-                    },
-                    profile: "flat",
-                    numZones: 3
-                },
-                {
-                    topography: {
-                        name:"straight",
-                        curvature: 0
-                    },
-                    profile: "up",
-                    numZones: 3
-                },
-                {
-                    topography: {
-                        name:"left",
-                        curvature: -90
-                    },
-                    profile: "flat",
-                    numZones: 3,
-                },
-                {
-                    topography: {
-                        name:"straight",
-                        curvature: 0
-                    },
-                    profile: "flat",
-                    numZones: 3,
+                    numZones: 4
                 }
             ],
             callback: onMessageReceived

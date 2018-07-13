@@ -89,7 +89,7 @@ define(function (require, exports, module) {
         this.width = coords.width || 250;
         this.height = coords.height || 250;
 
-        this.buttonsPVS = (opt.buttonsPVS && opt.buttonsPVS.length===14) ? opt.buttonsPVS : [ "startAndStop", "activateSportMode" ];
+        this.buttonsPVS = (opt.buttonsPVS && opt.buttonsPVS.length===2) ? opt.buttonsPVS : [ "startAndStop", "activateSportMode" ];
 
         this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
         this.design = (opt.design) ? (opt.design) : "before";
@@ -101,13 +101,9 @@ define(function (require, exports, module) {
         require([lincolnMKCDashboard_file], function(lincolnMKCDashboardFile) {
             if(_this.dashIndex===1){
                 if(_this.design==="before"){
-                    _this.div.append("div").attr("id", "lincolnMKCDashboard_"+id+"_SW").attr("style", "zoom: 135%").html(lincolnMKCDashboardFile);
+                    _this.div.append("div").attr("id", "lincolnMKCDashboard_"+id+"_SW").attr("style", "zoom: 77%").html(lincolnMKCDashboardFile);
                 }else if(_this.design==="after"){
-                    _this.div.append("div").attr("id", "lincolnMKCDashboard_"+id+"_SW").attr("style", "zoom: 145%").html(lincolnMKCDashboardFile);
-                }
-            }else if(_this.dashIndex===2){
-                if(_this.design==="after"){
-                    _this.div.append("div").attr("id", "lincolnMKCDashboard_"+id+"_SW").attr("style", "zoom: 165%").html(lincolnMKCDashboardFile);
+                    _this.div.append("div").attr("id", "lincolnMKCDashboard_"+id+"_SW").attr("style", "zoom: 77%").html(lincolnMKCDashboardFile);
                 }
             }
         	
@@ -131,7 +127,7 @@ define(function (require, exports, module) {
         if(this.dashIndex===1){
             if(this.design==="before"){
                 this.startAndStop= new Button(this.buttonsPVS[0], {
-                    top: 570, left: 560, width: 36, height: 56
+                    top: 685, left: 840, width: 16, height: 26
                 }, {
                     keyCode: 72, // Key 'h' 
                     parent: "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID,
@@ -140,7 +136,7 @@ define(function (require, exports, module) {
                 });
         
                 this.activateSportMode= new Button(this.buttonsPVS[1], {
-                    top: 530, left: 555, width: 36, height: 36
+                    top: 655, left: 835, width: 16, height: 22
                 }, {
                     keyCode: 74, // Key 'j' 
                     parent: "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID,
@@ -150,7 +146,7 @@ define(function (require, exports, module) {
             }
             else if(this.design==="after"){
                 this.startAndStop= new Button(this.buttonsPVS[0], {
-                    top: 245, left: 615, width: 26, height: 36
+                    top: 545, left: 825, width: 16, height: 22
                 }, {
                     keyCode: 72, // Key 'h' 
                     parent: "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID,
@@ -159,27 +155,7 @@ define(function (require, exports, module) {
                 });
         
                 this.activateSportMode= new Button(this.buttonsPVS[1], {
-                    top: 420, left: 615, width: 26, height: 36
-                }, {
-                    keyCode: 74, // Key 'j' 
-                    parent: "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID,
-                    callback: opt.callback,
-                    evts: ['press/release']
-                });
-            }
-        }else if(this.dashIndex===2){
-            if(this.design==="after"){
-                this.startAndStop= new Button(this.buttonsPVS[0], {
-                    top: 285, left: 605, width: 26, height: 36
-                }, {
-                    keyCode: 72, // Key 'h' 
-                    parent: "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID,
-                    callback: opt.callback,
-                    evts: ['press/release']
-                });
-        
-                this.activateSportMode= new Button(this.buttonsPVS[1], {
-                    top: 470, left: 605, width: 26, height: 36
+                    top: 685, left: 840, width: 16, height: 26
                 }, {
                     keyCode: 74, // Key 'j' 
                     parent: "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID,
@@ -188,7 +164,6 @@ define(function (require, exports, module) {
                 });
             }
         }
-		
 
         Widget.call(this, id, coords, opt);
         return this;
