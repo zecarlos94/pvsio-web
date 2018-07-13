@@ -9,7 +9,7 @@
 	"sourceSize": {"w":320,"h":140}
 },
 {
-	"filename": "rsz_1rsz_logo.png",
+	"filename": "logo.png",
 	"frame": {"x":0,"y":828,"w":377,"h":213},
 	"rotated": false,
 	"trimmed": false,
@@ -17,7 +17,7 @@
 	"sourceSize": {"w":377,"h":213}
 },
 {
-	"filename": "rsz_1rsz_real_building2.png",
+	"filename": "real_building2.png",
 	"frame": {"x":0,"y":455,"w":227,"h":120},
 	"rotated": false,
 	"trimmed": false,
@@ -25,7 +25,7 @@
 	"sourceSize": {"w":227,"h":120}
 },
 {
-	"filename": "rsz_1rsz_under_construction_barrier.png",
+	"filename": "under_construction_barrier.png",
 	"frame": {"x":178,"y":0,"w":192,"h":192},
 	"rotated": false,
 	"trimmed": false,
@@ -33,7 +33,7 @@
 	"sourceSize": {"w":192,"h":192}
 },
 {
-	"filename": "rsz_70kmh_limit.png",
+	"filename": "70kmh_limit.png",
 	"frame": {"x":0,"y":230,"w":200,"h":200},
 	"rotated": false,
 	"trimmed": false,
@@ -41,7 +41,7 @@
 	"sourceSize": {"w":200,"h":200}
 },
 {
-	"filename": "rsz_real_car_faced_front.png",
+	"filename": "real_car_faced_front.png",
 	"frame": {"x":0,"y":575,"w":245,"h":113},
 	"rotated": false,
 	"trimmed": false,
@@ -49,7 +49,7 @@
 	"sourceSize": {"w":245,"h":113}
 },
 {
-	"filename": "rsz_real_car_faced_left.png",
+	"filename": "real_car_faced_left.png",
 	"frame": {"x":245,"y":575,"w":245,"h":113},
 	"rotated": false,
 	"trimmed": false,
@@ -57,7 +57,7 @@
 	"sourceSize": {"w":245,"h":113}
 },
 {
-	"filename": "rsz_real_car_faced_right.png",
+	"filename": "real_car_faced_right.png",
 	"frame": {"x":227,"y":455,"w":245,"h":113},
 	"rotated": false,
 	"trimmed": false,
@@ -65,7 +65,7 @@
 	"sourceSize": {"w":245,"h":113}
 },
 {
-	"filename": "rsz_real_tree2.png",
+	"filename": "real_tree2.png",
 	"frame": {"x":200,"y":230,"w":219,"h":225},
 	"rotated": false,
 	"trimmed": false,
@@ -73,7 +73,7 @@
 	"sourceSize": {"w":219,"h":225}
 },
 {
-	"filename": "rsz_traffic_light_red.png",
+	"filename": "traffic_light_red.png",
 	"frame": {"x":0,"y":0,"w":48,"h":230},
 	"rotated": false,
 	"trimmed": false,

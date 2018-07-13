@@ -797,6 +797,8 @@ define(function (require, exports, module) {
             this.readColorsJSON.laneArrow1=aux.trackColors.laneArrow1;
             this.readColorsJSON.track_segment_end=aux.trackColors.track_segment_end;
             this.readColorsJSON.lane_end=aux.trackColors.lane_end;
+            this.renderCanvas.width=this.width;
+            this.renderCanvas.height=this.height;
             this.readParams=true;
             this.track=aux.track;
             this.readConfiguration=true;
@@ -1100,42 +1102,45 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.renderSplashFrame = function () {
-        this.canvasInformations.canvas.height = 240;
-        this.canvasInformations.canvas.width = 320;
+        this.canvasInformations.canvas.height = this.height;
+        this.canvasInformations.canvas.width = this.width;
         this.canvasInformations.context.fillStyle = "rgb(100,200,187)";
         this.canvasInformations.context.fillRect(0, 0, this.canvasInformations.canvas.width, this.canvasInformations.canvas.height);
         
         if(this.readParams){
             this.canvasInformations.canvas = $("#arcadeSimulator_"+this.WIDGETID)[0];
             this.canvasInformations.context = this.canvasInformations.canvas.getContext('2d');
-            // this.canvasInformations.canvas.height = this.renderCanvas.height;
-            // this.canvasInformations.canvas.width = this.renderCanvas.width;
 
             if(this.readConfiguration &amp;&amp; this.readSprite){
-                this.canvasInformations.context.drawImage(this.spritesheetsImages[0],  this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, 110, 15, 0.7*this.main_sprites.logo.w, 0.7*this.main_sprites.logo.h);
+                let centerX = Math.floor(this.renderCanvas.width / 2);
+                let centerY = Math.floor(this.renderCanvas.height / 2);
+                let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
+                this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
+                let centerDeviation = 40;
+                let centerDeviationSpritesFont = 70;
 
                 if(this.realPrefix!==""){
-                    this.drawText("Instructions:",{x: 130, y: 100}, 1);
-                    this.drawText("Click on space bar to start",{x: 80, y: 120}, 1);
-                    this.drawText("Click on key s to pause",{x: 80, y: 130}, 1);
-                    this.drawText("Click on key q to end",{x: 80, y: 140}, 1);
-                    this.drawText("Use left and rigth arrows",{x: 90, y: 155}, 1);
-                    this.drawText("to control the vehicle",{x: 100, y: 165}, 1);
-                    this.drawText("You can start now",{x: 110, y: 185}, 1);
-                    this.drawText("Credits:",{x: 145, y: 205}, 1);
-                    this.drawText("Jose Carlos and PVSio-web",{x: 90, y: 220}, 1);
-                    this.drawText("Interactive Prototype Builder",{x: 80, y: 230}, 1);
+                    this.drawText("Instructions:",{x: centerX-centerDeviation, y: centerY-centerDeviation}, 1, ratioFonts);
+                    this.drawText("Click on space bar to start",{x: centerX-4*centerDeviation, y: centerY}, 1, ratioFonts);
+                    this.drawText("Click on key s to pause",{x: centerX-3*centerDeviation, y: centerY+centerDeviation}, 1, ratioFonts);
+                    this.drawText("Click on key q to end",{x: centerX-3*centerDeviation, y: centerY+2*centerDeviation}, 1, ratioFonts);
+                    this.drawText("Use left and rigth arrows",{x: centerX-4*centerDeviation, y: centerY+3*centerDeviation}, 1, ratioFonts);
+                    this.drawText("to control the vehicle",{x: centerX-3*centerDeviation, y: centerY+4*centerDeviation}, 1, ratioFonts);
+                    this.drawText("You can start now",{x: centerX-2*centerDeviation, y: centerY+5*centerDeviation}, 1, ratioFonts);
+                    this.drawText("Credits:",{x: centerX, y: centerY+6*centerDeviation}, 1, ratioFonts);
+                    this.drawText("Jose Carlos and PVSio-web",{x: centerX-4*centerDeviation, y: centerY+7*centerDeviation}, 1, ratioFonts);
+                    this.drawText("Interactive Prototype Builder",{x: centerX-5*centerDeviation, y: centerY+8*centerDeviation}, 1, ratioFonts);
                 }else{
-                    this.drawText("Instructions:",{x: 120, y: 90}, 1);
-                    this.drawText("Click on space bar to start",{x: 60, y: 110}, 1);
-                    this.drawText("Click on key s to pause",{x: 60, y: 120}, 1);
-                    this.drawText("Click on key q to end",{x: 60, y: 130}, 1);
-                    this.drawText("Use left and rigth arrows",{x: 80, y: 145}, 1);
-                    this.drawText("to control the vehicle",{x: 90, y: 155}, 1);
-                    this.drawText("You can start now",{x: 110, y: 175}, 1);
-                    this.drawText("Credits:",{x: 145, y: 195}, 1);
-                    this.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
-                    this.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
+                    this.drawText("Instructions:",{x: centerX-centerDeviationSpritesFont, y: centerY-centerDeviationSpritesFont}, 1, ratioFonts);
+                    this.drawText("Click on space bar to start",{x: centerX-3*centerDeviationSpritesFont, y: centerY-0.5*centerDeviationSpritesFont}, 1, ratioFonts);
+                    this.drawText("Click on key s to pause",{x: centerX-2.5*centerDeviationSpritesFont, y: centerY}, 1, ratioFonts);
+                    this.drawText("Click on key q to end",{x: centerX-2*centerDeviationSpritesFont, y: centerY+0.5*centerDeviationSpritesFont}, 1, ratioFonts);
+                    this.drawText("Use left and rigth arrows",{x: centerX-3*centerDeviationSpritesFont, y: centerY+centerDeviationSpritesFont}, 1, ratioFonts);
+                    this.drawText("to control the vehicle",{x: centerX-2.5*centerDeviationSpritesFont, y: centerY+1.5*centerDeviationSpritesFont}, 1, ratioFonts);
+                    this.drawText("You can start now",{x: centerX-1.5*centerDeviationSpritesFont, y: centerY+2*centerDeviationSpritesFont}, 1, ratioFonts);
+                    this.drawText("Credits:",{x: centerX, y: centerY+3*centerDeviationSpritesFont}, 1, ratioFonts);
+                    this.drawText("Jose Carlos and PVSio-web",{x: centerX-3*centerDeviationSpritesFont, y: centerY+3.5*centerDeviationSpritesFont}, 1, ratioFonts);
+                    this.drawText("Interactive Prototype Builder",{x: centerX-3.5*centerDeviationSpritesFont, y: centerY+4*centerDeviationSpritesFont}, 1, ratioFonts);
                 }
 
                 if(this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
@@ -1177,10 +1182,10 @@ define(function (require, exports, module) {
                     }
                 }
             }else{
-                this.drawText("Loading Configurations...",{x: 100, y: 95}, 1);
+                this.drawText("Loading Configurations...",{x: 100, y: 95}, 1, 1);
             }
         }else{
-            this.drawText("Loading Parameters...",{x: 100, y: 68}, 1);
+            this.drawText("Loading Parameters...",{x: 100, y: 68}, 1, 1);
         }
 
         return this;
@@ -1196,28 +1201,32 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.renderSplashPauseFrame = function () {
-        this.canvasInformations.canvas.height = 240;
-        this.canvasInformations.canvas.width = 320;
+        this.canvasInformations.canvas.height = this.height;
+        this.canvasInformations.canvas.width = this.width;
         this.canvasInformations.context.fillStyle = "rgb(100,200,187)";
         this.canvasInformations.context.fillRect(0, 0, this.canvasInformations.canvas.width, this.canvasInformations.canvas.height);
-        // this.canvasInformations.context.fillRect(0, 0, this.renderCanvas.width, this.renderCanvas.height);
 
-        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, 110, 15, 0.7*this.main_sprites.logo.w, 0.7*this.main_sprites.logo.h);
+        let centerX = Math.floor(this.renderCanvas.width / 2);
+        let centerY = Math.floor(this.renderCanvas.height / 2);
+        let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
+        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
+        let centerDeviation = 40;
+        let centerDeviationSpritesFont = 70;
 
         if(this.realPrefix!==""){
-            this.drawText("Click on space bar to resume",{x: 80, y: 100}, 1);
-            this.drawText("Use left and rigth arrows",{x: 90, y: 135}, 1);
-            this.drawText("to control the car",{x: 110, y: 155}, 1);
-            this.drawText("Credits:",{x: 145, y: 195}, 1);
-            this.drawText("Jose Carlos and PVSio-web",{x: 90, y: 210}, 1);
-            this.drawText("Interactive Prototype Builder",{x: 80, y: 220}, 1);
+            this.drawText("Click on space bar to resume",{x: centerX-4*centerDeviation, y: centerY}, 1, ratioFonts);
+            this.drawText("Use left and rigth arrows",{x: centerX-4*centerDeviation, y: centerY+3*centerDeviation}, 1, ratioFonts);
+            this.drawText("to control the vehicle",{x: centerX-3*centerDeviation, y: centerY+4*centerDeviation}, 1, ratioFonts);
+            this.drawText("Credits:",{x: centerX, y: centerY+6*centerDeviation}, 1, ratioFonts);
+            this.drawText("Jose Carlos and PVSio-web",{x: centerX-4*centerDeviation, y: centerY+7*centerDeviation}, 1, ratioFonts);
+            this.drawText("Interactive Prototype Builder",{x: centerX-5*centerDeviation, y: centerY+8*centerDeviation}, 1, ratioFonts);
         }else{
-            this.drawText("Click on space bar to resume",{x: 60, y: 100}, 1);
-            this.drawText("Use left and rigth arrows",{x: 70, y: 135}, 1);
-            this.drawText("to control the car",{x: 100, y: 155}, 1);
-            this.drawText("Credits:",{x: 145, y: 195}, 1);
-            this.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
-            this.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
+            this.drawText("Click on space bar to resume",{x: centerX-3*centerDeviationSpritesFont, y: centerY-0.5*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Use left and rigth arrows",{x: centerX-3*centerDeviationSpritesFont, y: centerY+centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("to control the vehicle",{x: centerX-2.5*centerDeviationSpritesFont, y: centerY+1.5*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Credits:",{x: centerX, y: centerY+3*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Jose Carlos and PVSio-web",{x: centerX-3*centerDeviationSpritesFont, y: centerY+3.5*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Interactive Prototype Builder",{x: centerX-3.5*centerDeviationSpritesFont, y: centerY+4*centerDeviationSpritesFont}, 1, ratioFonts);
         }
 
         if(this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
@@ -1262,28 +1271,32 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.renderSplashEndFrame = function () {
-        this.canvasInformations.canvas.height = 240;
-        this.canvasInformations.canvas.width = 320;
+        this.canvasInformations.canvas.height = this.height;
+        this.canvasInformations.canvas.width = this.width;
         this.canvasInformations.context.fillStyle = "rgb(100,200,187)";
         this.canvasInformations.context.fillRect(0, 0, this.canvasInformations.canvas.width, this.canvasInformations.canvas.height);
-        // this.canvasInformations.context.fillRect(0, 0, this.renderCanvas.width, this.renderCanvas.height);
-
-        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, 110, 15, 0.7*this.main_sprites.logo.w, 0.7*this.main_sprites.logo.h);
+       
+        let centerX = Math.floor(this.renderCanvas.width / 2);
+        let centerY = Math.floor(this.renderCanvas.height / 2);
+        let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
+        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
+        let centerDeviation = 40;
+        let centerDeviationSpritesFont = 70;
 
         if(this.realPrefix!==""){
-            this.drawText("Thank you for playing!",{x: 100, y: 100}, 1);
-            this.drawText("Click on space bar to start again",{x: 75, y: 125}, 1);
-            this.drawText("Credits:",{x: 145, y: 195}, 1);
-            this.drawText("Jose Carlos and PVSio-web",{x: 90, y: 210}, 1);
-            this.drawText("Interactive Prototype Builder",{x: 80, y: 220}, 1);
+            this.drawText("Thank you for playing!",{x: centerX-3*centerDeviation, y: centerY}, 1, ratioFonts);
+            this.drawText("Click on space bar to start again",{x: centerX-5*centerDeviation, y: centerY+3*centerDeviation}, 1, ratioFonts);
+            this.drawText("Credits:",{x: centerX, y: centerY+6*centerDeviation}, 1, ratioFonts);
+            this.drawText("Jose Carlos and PVSio-web",{x: centerX-4*centerDeviation, y: centerY+7*centerDeviation}, 1, ratioFonts);
+            this.drawText("Interactive Prototype Builder",{x: centerX-5*centerDeviation, y: centerY+8*centerDeviation}, 1, ratioFonts);
         }else{
-            this.drawText("Thank you for playing!",{x: 90, y: 100}, 1);
-            this.drawText("Click on space bar to start again",{x: 40, y: 125}, 1);
-            this.drawText("Credits:",{x: 145, y: 195}, 1);
-            this.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
-            this.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
+            this.drawText("Thank you for playing!",{x: centerX-2.5*centerDeviationSpritesFont, y: centerY-0.5*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Click on space bar to start again",{x: centerX-4.5*centerDeviationSpritesFont, y: centerY+centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Credits:",{x: centerX, y: centerY+3*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Jose Carlos and PVSio-web",{x: centerX-3*centerDeviationSpritesFont, y: centerY+3.5*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Interactive Prototype Builder",{x: centerX-3.5*centerDeviationSpritesFont, y: centerY+4*centerDeviationSpritesFont}, 1, ratioFonts);
         }
-
+        
         if(this.WIDGETSTATE!==null &amp;&amp; this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
             clearInterval(this.intervals.splashInterval);
             clearInterval(this.intervals.simulatorInterval);
@@ -1366,9 +1379,12 @@ define(function (require, exports, module) {
         }
 
         // Clean screen
-        // this.canvasInformations.context.fillStyle = "#dc9"; // rgb(221, 204, 153) matches first background color
         this.canvasInformations.context.fillStyle = "#76665d";
         this.canvasInformations.context.fillRect(0, 0, this.renderCanvas.width, this.renderCanvas.height);
+
+        let centerX = Math.floor(this.renderCanvas.width / 2);
+        let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
+        let centerDeviationDuringSimulation = 70;
 
         let carSprite = null;
 
@@ -1483,24 +1499,24 @@ define(function (require, exports, module) {
 
 	            if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber){
                     if(this.realPrefix!==""){
-    	                this.drawText("1 Lap",{x: 10, y: 25}, 1);
-    	                this.drawText("To Go",{x: 10, y: 35}, 1);
+    	                this.drawText("1 Lap",{x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-30}, 1, ratioFonts);
+    	                this.drawText("To Go",{x: centerX-7*centerDeviationDuringSimulation+20, y: centerDeviationDuringSimulation-30}, 1, ratioFonts);
                     }else{
-                        this.drawText("1 Lap",{x: 10, y: 15}, 1);
-                        this.drawText("To Go",{x: 10, y: 25}, 1);
+                        this.drawText("1 Lap",{x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation+30}, 1, ratioFonts);
+                        this.drawText("To Go",{x: centerX-7*centerDeviationDuringSimulation+60, y: centerDeviationDuringSimulation+30}, 1, ratioFonts);
                     }
 	            }
 
 	            if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber &amp;&amp; this.lapInformation.currentPercentage>=100){
 	                clearInterval(this.intervals.simulatorInterval);
                     if(this.realPrefix!==""){
-    	                this.drawText("Simulation Ended!", {x: 90, y: 50}, 1);
-    	                this.drawText("Wait 5 Seconds To Reload", {x: 60, y: 70}, 1);
-    	                this.drawText("The Simulator", {x: 100, y: 80}, 1);
+    	                this.drawText("Simulation Ended!", {x: centerX-centerDeviationDuringSimulation, y: 4*centerDeviationDuringSimulation}, 1, ratioFonts);
+    	                this.drawText("Wait 5 Seconds To Reload", {x: centerX-2*centerDeviationDuringSimulation, y: 5*centerDeviationDuringSimulation}, 1, ratioFonts);
+    	                this.drawText("The Simulator", {x: centerX-centerDeviationDuringSimulation, y: 6*centerDeviationDuringSimulation}, 1, ratioFonts);
                     }else{
-                        this.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
-                        this.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
-                        this.drawText("The Simulator", {x: 100, y: 70}, 1); 
+                        this.drawText("Simulation Ended!", {x: centerX-centerDeviationDuringSimulation, y: 4*centerDeviationDuringSimulation}, 1, ratioFonts);
+    	                this.drawText("Wait 5 Seconds To Reload", {x: centerX-2*centerDeviationDuringSimulation, y: 5*centerDeviationDuringSimulation}, 1, ratioFonts);
+    	                this.drawText("The Simulator", {x: centerX-centerDeviationDuringSimulation, y: 6*centerDeviationDuringSimulation}, 1, ratioFonts);
                     }
 	                this.soundWidget.pauseAll();
 
@@ -1520,30 +1536,30 @@ define(function (require, exports, module) {
 	        // Draw Header
 	        if(this.lapInformation.currentLapNumber&lt;this.lapInformation.lapNumber){
                 if(this.realPrefix!==""){
-	               this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 11}, 1);
+	               this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: centerX-4*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-30}, 1, ratioFonts);
                 }else{
-                   this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 1}, 1);
+                   this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10}, 1, ratioFonts);
                 }
 	        }else{
                 if(this.realPrefix!==""){
-	               this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 11}, 1);
+	               this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: centerX-4*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-30}, 1, ratioFonts);
                 }else{
-                   this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 1}, 1);
+                   this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10}, 1, ratioFonts);
                 }
 	        }
 
 	        this.lapInformation.currentPercentage = Math.round(absoluteIndex/(this.arcadeParams.numIterations-this.renderCanvas.depthOfField)*100);
 	        if(this.lapInformation.currentPercentage>100){
                 if(this.realPrefix!==""){
-	               this.drawText("Current Lap 100%",{x: 100, y: 11},1);
+	               this.drawText("Current Lap 100%",{x: centerX-3*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation},1,ratioFonts);
                 }else{
-                   this.drawText("Current Lap 100%",{x: 100, y: 1},1);
+                   this.drawText("Current Lap 100%",{x: centerX-5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10},1,ratioFonts);
                 }
 	        }else{
                 if(this.realPrefix!==""){
-	               this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: 100, y: 11},1);
+	               this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: centerX-3*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation},1,ratioFonts);
                 }else{
-                   this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: 100, y: 1},1);
+                   this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: centerX-5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10},1,ratioFonts);
                 }
 	        }
         }// else infinit simulation
@@ -1560,29 +1576,29 @@ define(function (require, exports, module) {
                 }
                 if(this.lapInformation.lapNumber!==0){
                     if(this.realPrefix!==""){
-                	   this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 260, y: 11}, 1);
+                	   this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation}, 1, ratioFonts);
                     }else{
-                       this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 260, y: 1}, 1);    
+                        this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-10}, 1, ratioFonts);    
                     }
             	}else{
                     if(this.realPrefix!==""){
-            		  this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 15, y: 15}, 1);
+            		    this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-5}, 1, ratioFonts);
                     }else{
-                      this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 15, y: 5}, 1);
+                        this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-15}, 1, ratioFonts);
                     }
             	}
             }else{
             	if(this.lapInformation.lapNumber!==0){
                     if(this.realPrefix!==""){
-                	   this.drawText(""+0+" kmh", {x: 260, y: 11}, 1);
+                	   this.drawText(""+0+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation}, 1, ratioFonts);
                     }else{
-                       this.drawText(""+0+" kmh", {x: 260, y: 1}, 1);
+                       this.drawText(""+0+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-10}, 1, ratioFonts);
                     }
             	}else{
                     if(this.realPrefix!==""){
-            		  this.drawText(""+0+" kmh", {x: 15, y: 15}, 1);
+            		  this.drawText(""+0+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-5}, 1, ratioFonts);
                     }else{
-                      this.drawText(""+0+" kmh", {x: 15, y: 5}, 1);
+                      this.drawText(""+0+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-15}, 1, ratioFonts);
                     }
             	}
             }
@@ -1595,29 +1611,29 @@ define(function (require, exports, module) {
                 }
                 if(this.lapInformation.lapNumber!==0){
                     if(this.realPrefix!==""){
-                	   this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 20}, 1);
+                	   this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation}, 1, ratioFonts);
                     }else{
-                       this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 10}, 1);
+                       this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10}, 1, ratioFonts);
                     }
             	}else{
                     if(this.realPrefix!==""){
-            		  this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 15}, 1);
+            		  this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-5}, 1, ratioFonts);
                     }else{
-                      this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 5}, 1);
+                      this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-15}, 1, ratioFonts);
                     }
             	}
             }else{
             	if(this.lapInformation.lapNumber!==0){
                     if(this.realPrefix!==""){
-                	   this.drawText(""+0+" rpm", {x: 260, y: 20}, 1);
+                	   this.drawText(""+0+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation}, 1, ratioFonts);
                     }else{
-                       this.drawText(""+0+" rpm", {x: 260, y: 10}, 1);
+                       this.drawText(""+0+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10}, 1, ratioFonts);
                     }
             	}else{
                     if(this.realPrefix!==""){
-            		  this.drawText(""+0+" rpm", {x: 260, y: 15}, 1);
+                        this.drawText(""+0+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-5}, 1, ratioFonts);
                     }else{
-                      this.drawText(""+0+" rpm", {x: 260, y: 5}, 1);
+                        this.drawText(""+0+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-15}, 1, ratioFonts);
                     }
             	}
             }
@@ -1629,24 +1645,22 @@ define(function (require, exports, module) {
         
         if(this.lapInformation.lapNumber!==0){
             if(this.realPrefix!==""){
-        	   this.drawText(this.canvasInformations.currentTimeString, {x: 90, y: 25}, 1);
+        	   this.drawText(this.canvasInformations.currentTimeString, {x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation}, 1, ratioFonts);
             }else{
-                this.drawText(this.canvasInformations.currentTimeString, {x: 80, y: 15}, 1);
+                this.drawText(this.canvasInformations.currentTimeString, {x: centerX-8*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-10}, 1, ratioFonts);
             }
         }else{
             if(this.realPrefix!==""){
-        	   this.drawText(this.canvasInformations.currentTimeString, {x: 90, y: 15}, 1);
+                this.drawText(this.canvasInformations.currentTimeString, {x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10}, 1, ratioFonts);
             }else{
-               this.drawText(this.canvasInformations.currentTimeString, {x: 80, y: 5}, 1);
+                this.drawText(this.canvasInformations.currentTimeString, {x: centerX-8*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-20}, 1, ratioFonts);
             }
         }
 
         // Draw Simulator Logo
         if(this.canvasInformations.showOfficialLogo){
-            // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo1,15,215,0.6*60,0.6*32);
-            this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo2,15,215,0.6*60,0.6*32);
-            // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo1,10,225,0.4*60,0.4*32);
-            // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo2,10,225,0.4*60,0.4*32);
+            // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo1,1.65*centerDeviationDuringSimulation,10,(1-(1/ratioFonts))*60,(1-(1/ratioFonts))*32);
+            this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo2,1.65*centerDeviationDuringSimulation,10,(1-(1/ratioFonts))*60,(1-(1/ratioFonts))*32);
         }
 
         if(this.WIDGETSTATE!==null){
@@ -1680,14 +1694,16 @@ define(function (require, exports, module) {
      * @param string {String} Text to be rendered with the available text font.
      * @param pos {Object} Screen coordinates, i.e. object with x, y, width and height values.
      * @param imageIndex {Int} spritesheetsImages (array) index, which has the text font sprite image.
+     * @param ratioRealisticFont {Float} The font ratio to be applied.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.drawText = function (string, pos, imageIndex) {
+    Arcade.prototype.drawText = function (string, pos, imageIndex, ratioRealisticFont) {
         if(this.realPrefix!==""){
+            let font = ratioRealisticFont * 10;
             string = string.toUpperCase();
-            this.canvasInformations.context.font = "10px Arial";
+            this.canvasInformations.context.font = font+"px Arial";
             this.canvasInformations.context.fillStyle = "white";
             this.canvasInformations.context.fillText(string,pos.x,pos.y);
         }
@@ -1695,8 +1711,8 @@ define(function (require, exports, module) {
             string = string.toUpperCase();
             let cur = pos.x;
             for(let i=0; i &lt; string.length; i++) {
-                this.canvasInformations.context.drawImage(this.spritesheetsImages[imageIndex], (string.charCodeAt(i) - 32) * 8, 0, 8, 8, cur, pos.y, 8, 8);
-                cur += 8;
+                this.canvasInformations.context.drawImage(this.spritesheetsImages[imageIndex], (string.charCodeAt(i) - 32) * 8, 0, 8, 8, cur, pos.y, ratioRealisticFont*8, ratioRealisticFont*8);
+                cur += ratioRealisticFont*8;
             }
         }
         return this;
@@ -2097,13 +2113,50 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.drawBackground = function (position) {
+        // Scale background according to scale factor
+        let backgroundHeight = parseFloat(this.main_sprites.background.w);
+        let backgroundWidth = parseFloat(this.main_sprites.background.w);
+        let widthDiff = backgroundWidth - this.renderCanvas.width;
+        let heightDiff = backgroundHeight - this.renderCanvas.height;
+        let ratio = (widthDiff === heightDiff || widthDiff > heightDiff) ?
+        this.renderCanvas.width / backgroundWidth : this.renderCanvas.height / backgroundHeight;
+    
         let first = position / 2 % (this.main_sprites.background.w);
-        //(image, x, y, scale) args
-        this.drawSprite(null, this.main_sprites.background, first-this.main_sprites.background.w +1, 0, 1);
-        this.drawSprite(null, this.main_sprites.background, first+this.main_sprites.background.w-1, 0, 1);
-        this.drawSprite(null, this.main_sprites.background, first, 0, 1);
+        // (image, x, y, scale) args
+        // LEFT 
+        this.drawSprite(null, this.main_sprites.background, first-(Math.ceil(ratio)*this.main_sprites.background.w)+1, 0, Math.ceil(ratio));
+        // CENTER (Starts in (0,0) - Variable 'first' is 0 in the beginning of the simulation, since 'position' is also 0) 
+        this.drawSprite(null, this.main_sprites.background, first, 0, Math.ceil(ratio));
+        // RIGHT 
+        this.drawSprite(null, this.main_sprites.background, first+(Math.ceil(ratio)*this.main_sprites.background.w)-1, 0, Math.ceil(ratio));
+        
+        
+        // // To create a backgroung with a pattern of background image
+        // let backgroundImage = spriteToImage(this.spritesheetsImages[0], this.main_sprites.background);    
+        // function spriteToImage(spritesheetImage, spriteImageMapping) {
+        //     var tempCanvas=document.createElement("canvas");
+        //     var tempCtx=tempCanvas.getContext("2d");
+        //     tempCanvas.width=spriteImageMapping.w;
+        //     tempCanvas.height=spriteImageMapping.h;
+        //     tempCtx.drawImage(spritesheetImage,
+        //         spriteImageMapping.x,
+        //         spriteImageMapping.y,
+        //         spriteImageMapping.w,
+        //         spriteImageMapping.h,
+        //         0,
+        //         0,
+        //         spriteImageMapping.w,
+        //         spriteImageMapping.h);
+        //     let res=new Image();
+        //     res.src=tempCanvas.toDataURL();
+        //     return res;            
+        // }       
+        // let pattern = this.canvasInformations.context.createPattern(backgroundImage, 'repeat');
+        // this.canvasInformations.context.fillStyle = pattern;
+        // this.canvasInformations.context.fillRect(0, 0, this.renderCanvas.width, this.renderCanvas.height);        
         return this;
     };
+
 
     /**
      * @function setColorsEndCanvas
@@ -2671,8 +2724,6 @@ define(function (require, exports, module) {
      *       "zoneSize": 250
      *     },
      *     "render": {
-     *       "width": 320,
-     *       "height": 240,
      *       "depthOfField": 150,
      *       "camera_distance": 30,
      *       "camera_height": 100
@@ -2781,7 +2832,7 @@ define(function (require, exports, module) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Jul 13 2018 11:29:10 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Jul 13 2018 18:34:42 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

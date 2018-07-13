@@ -98,8 +98,6 @@ require([
             parent: "content", // defines parent div, which is div id="body" by default
             spritesFilename: "spritesheet4", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             render: {
-                width: 320,
-                height: 240,
                 depthOfField: 150,
                 camera_distance: 30,
                 camera_height: 100
@@ -123,8 +121,8 @@ require([
                 posx: 0,
                 maxSpeed: 20
             },
-            objects: ["rsz_70kmh_limit","rsz_real_tree2"],
-            obstacle: ["rsz_1rsz_under_construction_barrier", "traffic_cone", "rsz_traffic_light_red"],
+            objects: ["70kmh_limit","tree2"],
+            obstacle: ["under_construction_barrier", "traffic_cone", "traffic_light_red"],
             obstaclePerIteration: 20,
             trackColors: {
                 grass1: "#344C32",

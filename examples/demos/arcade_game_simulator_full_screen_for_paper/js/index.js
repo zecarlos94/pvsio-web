@@ -308,8 +308,8 @@ require([
             parent: "content", // defines parent div, which is div id="body" by default
             scaleWindow: 1, // scales canvas div
             trackFilename: "trackLayout_real", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
-            spritesFilename: "spritesheet3", // defines spritesheet configuration filename, which is "spritesheet.json" by default
-            spritesFiles: ["spritesheet3","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
+            spritesFilename: "spritesheet4", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+            spritesFiles: ["spritesheet4","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
             realisticImgs: true,
             useVehicle: false,
             vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
@@ -396,12 +396,14 @@ require([
         $("#tog_soundWidget_arcadeWidget").css("top", "710px");
         $("#tog_soundWidget_arcadeWidget").css("left", "1300px");
         $("#tog_soundWidget_arcadeWidget").css("z-index", "1");
+        $("#mobileDevicesController_virtualKeypad_controller").css("visibility", "hidden");
         
         // Render arcade game components
         let firstResume = 0;
         function render(res) {
             if(res.action==="resume"){
                 firstResume = 1;
+                $("#mobileDevicesController_virtualKeypad_controller").css("visibility", "visible");
             }
             if(res.action==="pause" || res.action==="quit"){
                 $("#arcadeSimulator_arcadeWidget").css("height", "770px");

@@ -7,118 +7,172 @@
  * @date Apr 02, 2018
  * last modified @date Jun 16, 2018
  *
- * @example <caption>Usage of <strong>Private API</strong> within Arcade Widget. That is, API which is only used internally by the Arcade Widget to create the desired simulation</caption>
- *     // Loading all spritesheets (images)
- *     arcade.onPageLoad(this.spritesFiles);
+ * @example <caption>Usage of API to create a new simulation within a PVSio-web demo, after creating a track with curves and slopes, and using a car as a vehicle.
+ * Opt field trackFilename is the JSON file, which was created by TrackGenerator Widget or by hand or by other future Widget that creates tracks.
+ * </caption>
+ *   define(function (require, exports, module) {
+ *     "use strict";
  *
- *     // Loading track number of iterations to be rendered
- *     arcade.getNrIterations();
+ *     // Require the Arcade module
+ *     require("widgets/car/Arcade");
  *
- *     // Detecting current browser
- *     arcade.detectBrowserType();
+ *     function main() {
+ *          // After Arcade module was loaded, initialize it
+ *          let arcade = new Arcade(
+ *               'example', // id of the Arcade element that will be created
+ *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
+ *               { parent: 'content',
+ *                 scaleWindow: 2.2, // scales canvas div
+ *                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
+ *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+ *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
+ *                 realisticImgs: false,
+ *                 useVehicle: true,
+ *                 vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
+ *                 vehicleImgIndex: 2, // defines vehicle sprite image suffix
+ *                 // logoImgIndex: 1, // defines logo sprite image suffix
+ *                 // backgroundImgIndex: 1, // defines background sprite image suffix
+ *                 stripePositions: {
+ *                    trackP1: -0.55,
+ *                    trackP2: 0.55,
+ *                    borderWidth: 0.08,
+ *                    inOutBorderWidth: 0.02,
+ *                    landscapeOutBorderWidth: 0.13,
+ *                    diffTrackBorder: 0.05,
+ *                    finishLineP1: -0.40,
+ *                    finishLineP2: 0.40,
+ *                    diffLanesFinishLine: 0.05
+ *                  },
+ *                  lapNumber: 2,
+ *                  // showOfficialLogo: true,
+ *                  // loadPVSSpeedPositions: true,
+ *                  // predefinedTracks: 5,
+ *                  // newLap_functionNamePVS: "new_lap",
+ *                  // action_attribute: "action",
+ *                  // direction_attribute: "direction",
+ *                  // sound_attribute: "sound",
+ *                  // lap_attribute: "lap",
+ *                  // speed_attribute: "speed",
+ *                  // posx_attribute: "posx",
+ *                  // position_attribute: "position",
+ *                  // lap_value: "val",
+ *                  // speed_value: "val",
+ *                  // posx_value: "val",
+ *                  // position_value: "val",
+ *                  // left_attribute: "left",
+ *                  // right_attribute: "right",
+ *                  // straight_attribute: "straight",
+ *                  // accelerate_attribute: "acc",
+ *                  // brake_attribute: "brake",
+ *                  // idle_attribute: "idle",
+ *                  // quit_attribute: "quit",
+ *                  // pause_attribute: "pause",
+ *                  // resume_attribute: "resume",
+ *                  // mute_attribute: "mute",
+ *                  // unmute_attribute: "unmute",
+ *               }// append on div 'content'
+ *           );
  *
- *     // Init the canvas, on div with id 'arcadeSimulator'
- *     arcade.init();
+ *          // Starts the simulation using constructor's opt fields (arguments)
+ *          arcade.startSimulation();
  *
- *     // Drawing simulator home page
- *     arcade.renderSplashFrame();
+ *          // Render the Arcade widget, updating Widget status with PVS status (vehicle position, posx and speed)
+ *          // This API will be called by onMessageReceived callback, which processes PVS status within a PVSio-web demo, so
+ *          // each new pvs status can be propagated to the widget.
+ *          // 'res' is provided by the function that automatically is invoked by PVSio-web when the back-end sends states updates, i.e.,
+ *          // 'res' has the latest pvs state.
+ *          arcade.render(res);
+ *     }
+ * });
  *
- *     // Drawing simulator pause page
- *     arcade.renderSplashPauseFrame();
+ * @example <caption>Usage of API to create a new simulation within a PVSio-web demo, after creating a track with only straight lines, and using a helicopter as a vehicle.
+ * Opt field trackFilename is the JSON file, which was created by TrackGenerator Widget or by hand or by other future Widget that creates tracks.
+ * </caption>
+ *   define(function (require, exports, module) {
+ *     "use strict";
  *
- *     // Drawing simulator end page
- *     arcade.renderSplashEndFrame();
+ *     // Require the Arcade module
+ *     require("widgets/car/Arcade");
  *
- *     // Draws the string "Hello" in the screen coordinates (100,100) with font available at spritesheet image (spritesheetsImages array) at index 1
- *     // By default index 1 has "spritesheet.text.png" image
- *     arcade.drawText("Hello",{x: 100, y: 100}, 1);
+ *     function main() {
+ *          // After Arcade module was loaded, initialize it
+ *          let arcade = new Arcade(
+ *               'example', // id of the Arcade element that will be created
+ *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
+ *               { parent: 'content',
+ *                 scaleWindow: 2.2, // scales canvas div
+ *                 trackFilename: "track-straight", // "track-curves-slopes", // defines track configuration filename, which is "track-curves-slopes.json" by default
+ *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+ *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
+ *                 realisticImgs: false,
+ *                 useVehicle: true,
+ *                 vehicle: "helicopter", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
+ *                 vehicleImgIndex: 1, // defines vehicle sprite image suffix
+ *                 // logoImgIndex: 1, // defines logo sprite image suffix
+ *                 // backgroundImgIndex: 1, // defines background sprite image suffix
+ *                 stripePositions: {
+ *                    trackP1: -0.55,
+ *                    trackP2: 0.55,
+ *                    borderWidth: 0.08,
+ *                    inOutBorderWidth: 0.02,
+ *                    landscapeOutBorderWidth: 0.13,
+ *                    diffTrackBorder: 0.05,
+ *                    finishLineP1: -0.40,
+ *                    finishLineP2: 0.40,
+ *                    diffLanesFinishLine: 0.05
+ *                  },
+ *                  // lapNumber: 2, // By default is 0, i.e. infinit loop
+ *                  // showOfficialLogo: true,
+ *                  // loadPVSSpeedPositions: true,
+ *                  // predefinedTracks: 5,
+ *                  // newLap_functionNamePVS: "new_lap",
+ *                  // action_attribute: "action",
+ *                  // direction_attribute: "direction",
+ *                  // sound_attribute: "sound",
+ *                  // lap_attribute: "lap",
+ *                  // speed_attribute: "speed",
+ *                  // posx_attribute: "posx",
+ *                  // position_attribute: "position",
+ *                  // lap_value: "val",
+ *                  // speed_value: "val",
+ *                  // posx_value: "val",
+ *                  // position_value: "val",
+ *                  // left_attribute: "left",
+ *                  // right_attribute: "right",
+ *                  // straight_attribute: "straight",
+ *                  // accelerate_attribute: "acc",
+ *                  // brake_attribute: "brake",
+ *                  // idle_attribute: "idle",
+ *                  // quit_attribute: "quit",
+ *                  // pause_attribute: "pause",
+ *                  // resume_attribute: "resume",
+ *                  // mute_attribute: "mute",
+ *                  // unmute_attribute: "unmute",
+ *               }// append on div 'content'
+ *           );
  *
- *     // Every 30ms arcade.renderSimulatorFrame method is invoked, drawing the current simulation frame
- *     simulatorInterval = setInterval(arcade.renderSimulatorFrame, 30);
+ *          // Starts the simulation using constructor's opt fields (arguments)
+ *          arcade.startSimulation();
  *
- *     // Updates car's current position (listening for actions: acceleration, etc)
- *     let carSprite = arcade.updateControllableCar();
+ *          // Render the Arcade widget, updating Widget status with PVS status (vehicle position, posx and speed)
+ *          // This API will be called by onMessageReceived callback, which processes PVS status within a PVSio-web demo, so
+ *          // each new pvs status can be propagated to the widget.
+ *          // 'res' is provided by the function that automatically is invoked by PVSio-web when the back-end sends states updates, i.e.,
+ *          // 'res' has the latest pvs state.
+ *          arcade.render(res);
+ *     }
+ * });
  *
- *     // Calculates new speed, position, posx and vehicle sprite coordinates x,y based on current direction (listening for actions: acceleration, etc)
- *     arcade.calculateNewControllableCarPosition();
  *
- *     // Sets new speed, position, posx and vehicle sprite coordinates x,y based on vehicleCurrentDirection, newSpeed, newPosition, newPositionX, vehicleXPosition, vehicleYPosition arguments
- *     // Such values must be calculated or given taking into consideration the previous values.
- *     let carSprite = arcade.setControllableCarPosition(vehicleCurrentDirection, newSpeed, newPosition, newPositionX, vehicleXPosition, vehicleYPosition);
+ * @example <caption>Usage of other public API's of Arcade Widget.</caption>
  *
- *     // Draws the background image based on car's current horizontal position(posx)
- *     arcade.drawBackground(-posx);
+ *  Using variable Arcade created in the previous example is also possible to call the following,
  *
- *     // Setting colors during simulation
- *     arcade.setColorsCanvas(counter < arcadeParams.numberOfSegmentPerColor, "#699864", "#e00", "#fff", "#496a46", "#474747", "#777", "#fff", "#777", "#00FF00");
+ *       // Hides the Arcade widget.
+ *       arcade.hide();
  *
- *     // Drawing current segment (entire horizontal stripe)
- *     arcade.drawSegment(
- *              render.height / 2 + currentHeight,
- *              currentScaling, currentSegment.curve - baseOffset - lastDelta * currentScaling,
- *              render.height / 2 + endProjectedHeight,
- *              endScaling,
- *              nextSegment.curve - baseOffset - lastDelta * endScaling,
- *              currentSegmentIndex == 2 || currentSegmentIndex == (arcadeParams.numIterations-render.depthOfField)
- *     );
- *
- *     // Draws sprite received as first argument
- *     arcade.drawSprite(
- *      {
- *         y: render.height / 2 + startProjectedHeight,
- *         x: render.width / 2 - currentSegment.sprite.pos * render.width * currentScaling + currentSegment.curve - baseOffset - (controllable_car.posx - baseOffset*2) * currentScaling,
- *         ymax: render.height / 2 + lastProjectedHeight,
- *         s: 0.5*currentScaling,
- *         i: currentSegment.sprite.type,
- *         pos: currentSegment.sprite.pos,
- *         obstacle: currentSegment.sprite.obstacle
- *      },
- *      null,
- *      null,
- *      null,
- *      null
- *     );
- *
- *     // OR
- *     // Draws image carSprite, in coordinates (carSprite.x, carSprite.y) with scale 1 (original size)
- *     arcade.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
- *
- *     // Sets the color of the finishing line
- *     arcade.prototype.setColorsEndCanvas("#000", "#fff");
- *
- *     // Draws the track current segment portion
- *     arcade.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -0.5, 0.5, "#fff");
- *
- *     // Draws the lanes
- *     arcade.drawLanes(position1, scale1, offset1, position2, scale2, offset2, arcadeColors.lane, 3, 0.02);
- *
- *     // Draws one lane at position 0 (i.e. in middle of the track) with width laneWidth
- *     arcade.drawLanePos(position1, scale1, offset1, position2, scale2, offset2, arcadeColors.lane, 0, arcadeParams.laneWidth);
- *
- *     // Draws the guiding line
- *     arcade.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, "#00FF00");
- *
- *     // Draws the guiding arrow, turned front, with tail and with color rgb(100,200,187) received as arguments at (10,30) with width 20px and height also 20px
- *     arcade.drawArrowFront(10, 30, 20, 20, "rgb(100,200,187)", 1);
- *
- *     // Draws the guiding arrow, turned left, with tail and with color rgb(100,200,187) received as arguments at (30,20) with width 20px and height also 20px
- *     arcade.drawArrowLeft(30, 20, 20, 20, arcadeColors.laneArrow, 1);
- *
- *     // Draws the guiding arrow, turned right, with tail and with color rgb(100,200,187) received as arguments at (160,150) with width 20px and height also 20px
- *     arcade.drawArrowRight(160, 150, 20, 20, arcadeColors.laneArrow, 1);
- *
- *     // Draws the simple guiding arrow, turned front, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
- *     arcade.drawSimpleArrowFront(canvas.width-50,30,arcadeColors.laneArrow);
- *
- *     // Draws the simple guiding arrow, turned down, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
- *     arcade.drawSimpleArrowDown(canvas.width-50,30,arcadeColors.laneArrow);
- *
- *     // Draws the simple guiding arrow, turned left, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
- *     arcade.drawSimpleArrowLeft(canvas.width-50,30,arcadeColors.laneArrow,{inverse:true});
- *
- *     // Draws the simple guiding arrow, turned right, with tail and with color laneArrow received as arguments at (canvas.width-50,30)
- *     arcade.drawSimpleArrowRight(canvas.width-50,30,arcadeColors.laneArrow,{inverse:true});
- *
+ *       // Reveals the Arcade widget.
+ *       arcade.reveal();
  *
  */
 /*jslint lets: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
@@ -159,8 +213,8 @@ define(function (require, exports, module) {
 	 * @param [opt.backgroundImgIndex] {Int} number placed as suffix in the JSON file with the sprite of the background image (default is null).
 	 * @param [opt.realisticImgs] {Bool} value that indicates if the sprite of the vehicle to be used is a realistic image or if it is a pixelated image as in arcade games (default is "false").
 	 * @param [opt.useVehicle] {Bool} value that indicates if arcade will display a sprite of the vehicle (default is true).
-     * @param [opt.vehicle] {String} the type of vehicle to be used in the simulation. The types available are ["airplane", "bicycle", "car", "helicopter", "motorbike"]. It should be noted that these types must exist in the spritesheet if they are to be used. (default is "car").
-	 * @param [opt.stripePositions] {Object} position values and respective widths (borders, track and finish line) to be rendered on a stripe. (default is { trackP1: -0.50, trackP2: 0.50, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 }).
+	 * @param [opt.vehicle] {String} the type of vehicle to be used in the simulation. The types available are ["airplane", "bicycle", "car", "helicopter", "motorbike"]. It should be noted that these types must exist in the spritesheet if they are to be used. (default is "car").
+	 * @param [opt.stripePositions] {Object} position values and respective widths (borders, track and finish line) to be rendered on a stripe. (default is { trackP1: -0.55, trackP2: 0.55, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 }).
 	 * @param [opt.lapNumber] {Int} the number of desired laps in the simulation (default is 2 laps).
 	 * @param [opt.showOfficialLogo] {Bool} the option to render extra image, on the bottom-left corner, which is the PVSio-web logo created in this thesis (default is false).
 	 * @param [opt.loadPVSSpeedPositions] {Bool} allows to use PVS calculated positions and speed in the simulation. (default is true).
@@ -627,8 +681,28 @@ define(function (require, exports, module) {
     Arcade.prototype.parentClass = Widget.prototype;
 
     /**
-     * @function startSimulationAux
+     * @function startSimulation
      * @public
+     * @description StartSimulation method of the Arcade widget. This method sets timeout to load all configuration files provided as opt fields (dynamic require).
+     * @memberof module:Arcade
+     * @instance
+     */
+    Arcade.prototype.startSimulation = function () {
+        // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
+        setTimeout(
+            (function(self) {         //Self-executing func which takes 'this' as self
+                return function() {   //Return a function in the context of 'self'
+                    self.startSimulationAux(); //Thing you wanted to run as non-window 'this'
+                }
+            })(this),
+            250     //normal interval, 'this' scope not impacted here.
+        ); 
+        return this;
+    };
+
+    /**
+     * @function startSimulationAux
+     * @private
      * @description StartSimulationAux method of the Arcade widget. This method loads the desired JSON Files and starts the corresponding simulation.
      * @memberof module:Arcade
      * @instance
@@ -695,6 +769,8 @@ define(function (require, exports, module) {
             this.readColorsJSON.laneArrow1=aux.trackColors.laneArrow1;
             this.readColorsJSON.track_segment_end=aux.trackColors.track_segment_end;
             this.readColorsJSON.lane_end=aux.trackColors.lane_end;
+            this.renderCanvas.width=this.width;
+            this.renderCanvas.height=this.height;
             this.readParams=true;
             this.track=aux.track;
             this.readConfiguration=true;
@@ -720,7 +796,7 @@ define(function (require, exports, module) {
             logoRegex   = new RegExp("^"+this.realPrefix+"logo$");
         }
 
-        if(this.spritesImgsInformation.vehicleIndex!==null){
+		if(this.spritesImgsInformation.vehicleIndex!==null){
             frontRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+this.spritesImgsInformation.vehicleIndex+"_faced_front$");
             leftRegex       = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+this.spritesImgsInformation.vehicleIndex+"_faced_left$");
             rightRegex      = new RegExp("^"+this.realPrefix+this.spritesImgsInformation.vehicleType+this.spritesImgsInformation.vehicleIndex+"_faced_right$");
@@ -731,31 +807,31 @@ define(function (require, exports, module) {
         }
 
         if(this.configurationFiles.spritesheetJSON){
-            this.spritesReadJSON = JSON.parse(this.configurationFiles.spritesheetJSON);
-            // Reading all JSON Sprites Available
-            for(let k=0;k<this.spritesReadJSON.frames.length;k++){
-                this.spritesAvailable[k]={
-                    name:this.spritesReadJSON.frames[k].filename.split(".")[0],
-                    value:this.spritesReadJSON.frames[k].frame
-                };
-                if(this.spritesAvailable[k].name.match(backgroundRegex)){
-                    this.main_sprites.background = this.spritesAvailable[k].value;
-                }
-                if(this.spritesAvailable[k].name.match(logoRegex)){
-                    this.main_sprites.logo = this.spritesAvailable[k].value;
-                }
-                if(this.spritesAvailable[k].name.match(frontRegex)){
-                    this.vehicle_faced_front = this.spritesAvailable[k].value;
-                }
-                if(this.spritesAvailable[k].name.match(leftRegex)){
-                    this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
-                }
-                if(this.spritesAvailable[k].name.match(rightRegex)){
-                    this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
-                }
-            }
+		    this.spritesReadJSON = JSON.parse(this.configurationFiles.spritesheetJSON);
+		    // Reading all JSON Sprites Available
+		    for(let k=0;k<this.spritesReadJSON.frames.length;k++){
+		        this.spritesAvailable[k]={
+		            name:this.spritesReadJSON.frames[k].filename.split(".")[0],
+		            value:this.spritesReadJSON.frames[k].frame
+		        };
+		        if(this.spritesAvailable[k].name.match(backgroundRegex)){
+		            this.main_sprites.background = this.spritesAvailable[k].value;
+		        }
+		        if(this.spritesAvailable[k].name.match(logoRegex)){
+		            this.main_sprites.logo = this.spritesAvailable[k].value;
+		        }
+		        if(this.spritesAvailable[k].name.match(frontRegex)){
+		            this.vehicle_faced_front = this.spritesAvailable[k].value;
+		        }
+		        if(this.spritesAvailable[k].name.match(leftRegex)){
+		            this.main_sprites.vehicle_faced_left = this.spritesAvailable[k].value;
+		        }
+		        if(this.spritesAvailable[k].name.match(rightRegex)){
+		            this.main_sprites.vehicle_faced_right = this.spritesAvailable[k].value;
+		        }
+		    }
 
-            if(this.main_sprites.background===undefined || this.main_sprites.background===null){
+		    if(this.main_sprites.background===undefined || this.main_sprites.background===null){
                 if(this.spritesImgsInformation.vehicleRealistic){
                     if(this.spritesImgsInformation.backgroundIndex!==null){ // realistic image with that index does not exist
                         backgroundRegex = new RegExp("^"+this.realPrefix+"background$");
@@ -906,7 +982,7 @@ define(function (require, exports, module) {
                 }
                 this.readSprite=true;
             }
-        }
+		}
 
         this.onPageLoad(this.spritesFiles);
         // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
@@ -921,8 +997,30 @@ define(function (require, exports, module) {
     };
 
     /**
-     * @function onPageLoad
+     * @function hide
      * @public
+     * @description Hide method of the Arcade widget. This method changes the current main div visibility to 'hidden'.
+     * @memberof module:Arcade
+     * @instance
+     */
+    Arcade.prototype.hide = function () {
+        return this.div.style("visibility", "hidden");
+    };
+
+    /**
+     * @function reveal
+     * @public
+     * @description Reveal method of the Arcade widget. This method changes the current main div visibility to 'visible'.
+     * @memberof module:Arcade
+     * @instance
+     */
+    Arcade.prototype.reveal = function () {
+        return this.div.style("visibility", "visible");
+    };
+
+    /**
+     * @function onPageLoad
+     * @private
      * @description onPageLoad method of the Arcade widget. This method starts the arcade simulation and loads the required spritesheets, with all sprites defined in track object.
      * @param spritesFiles {Array} array of strings, with the names of the sprites images (spritesheets) to use. By default two are used, one for the objects and another for the font (text).
      * @memberof module:Arcade
@@ -968,7 +1066,7 @@ define(function (require, exports, module) {
 
     /**
      * @function renderSplashFrame
-     * @public
+     * @private
      * @description RenderSplashFrame method of the Arcade widget. This method draws the simulator home page, where the commands to control the simulator are displayed.
      * It is also initialized the lap timer, using jchronometer lib, as soon as the user uses the command to start the simulation(renderSimulatorFrame).
      * @memberof module:Arcade
@@ -976,42 +1074,45 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.renderSplashFrame = function () {
-        this.canvasInformations.canvas.height = 240;
-        this.canvasInformations.canvas.width = 320;
+        this.canvasInformations.canvas.height = this.height;
+        this.canvasInformations.canvas.width = this.width;
         this.canvasInformations.context.fillStyle = "rgb(100,200,187)";
         this.canvasInformations.context.fillRect(0, 0, this.canvasInformations.canvas.width, this.canvasInformations.canvas.height);
         
         if(this.readParams){
             this.canvasInformations.canvas = $("#arcadeSimulator_"+this.WIDGETID)[0];
             this.canvasInformations.context = this.canvasInformations.canvas.getContext('2d');
-            // this.canvasInformations.canvas.height = this.renderCanvas.height;
-            // this.canvasInformations.canvas.width = this.renderCanvas.width;
 
             if(this.readConfiguration && this.readSprite){
-                this.canvasInformations.context.drawImage(this.spritesheetsImages[0],  this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, 110, 15, 0.7*this.main_sprites.logo.w, 0.7*this.main_sprites.logo.h);
+                let centerX = Math.floor(this.renderCanvas.width / 2);
+                let centerY = Math.floor(this.renderCanvas.height / 2);
+                let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
+                this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
+                let centerDeviation = 40;
+                let centerDeviationSpritesFont = 70;
 
                 if(this.realPrefix!==""){
-                    this.drawText("Instructions:",{x: 130, y: 100}, 1);
-                    this.drawText("Click on space bar to start",{x: 80, y: 120}, 1);
-                    this.drawText("Click on key s to pause",{x: 80, y: 130}, 1);
-                    this.drawText("Click on key q to end",{x: 80, y: 140}, 1);
-                    this.drawText("Use left and rigth arrows",{x: 90, y: 155}, 1);
-                    this.drawText("to control the vehicle",{x: 100, y: 165}, 1);
-                    this.drawText("You can start now",{x: 110, y: 185}, 1);
-                    this.drawText("Credits:",{x: 145, y: 205}, 1);
-                    this.drawText("Jose Carlos and PVSio-web",{x: 90, y: 220}, 1);
-                    this.drawText("Interactive Prototype Builder",{x: 80, y: 230}, 1);
+                    this.drawText("Instructions:",{x: centerX-centerDeviation, y: centerY-centerDeviation}, 1, ratioFonts);
+                    this.drawText("Click on space bar to start",{x: centerX-4*centerDeviation, y: centerY}, 1, ratioFonts);
+                    this.drawText("Click on key s to pause",{x: centerX-3*centerDeviation, y: centerY+centerDeviation}, 1, ratioFonts);
+                    this.drawText("Click on key q to end",{x: centerX-3*centerDeviation, y: centerY+2*centerDeviation}, 1, ratioFonts);
+                    this.drawText("Use left and rigth arrows",{x: centerX-4*centerDeviation, y: centerY+3*centerDeviation}, 1, ratioFonts);
+                    this.drawText("to control the vehicle",{x: centerX-3*centerDeviation, y: centerY+4*centerDeviation}, 1, ratioFonts);
+                    this.drawText("You can start now",{x: centerX-2*centerDeviation, y: centerY+5*centerDeviation}, 1, ratioFonts);
+                    this.drawText("Credits:",{x: centerX, y: centerY+6*centerDeviation}, 1, ratioFonts);
+                    this.drawText("Jose Carlos and PVSio-web",{x: centerX-4*centerDeviation, y: centerY+7*centerDeviation}, 1, ratioFonts);
+                    this.drawText("Interactive Prototype Builder",{x: centerX-5*centerDeviation, y: centerY+8*centerDeviation}, 1, ratioFonts);
                 }else{
-                    this.drawText("Instructions:",{x: 120, y: 90}, 1);
-                    this.drawText("Click on space bar to start",{x: 60, y: 110}, 1);
-                    this.drawText("Click on key s to pause",{x: 60, y: 120}, 1);
-                    this.drawText("Click on key q to end",{x: 60, y: 130}, 1);
-                    this.drawText("Use left and rigth arrows",{x: 80, y: 145}, 1);
-                    this.drawText("to control the vehicle",{x: 90, y: 155}, 1);
-                    this.drawText("You can start now",{x: 110, y: 175}, 1);
-                    this.drawText("Credits:",{x: 145, y: 195}, 1);
-                    this.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
-                    this.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
+                    this.drawText("Instructions:",{x: centerX-centerDeviationSpritesFont, y: centerY-centerDeviationSpritesFont}, 1, ratioFonts);
+                    this.drawText("Click on space bar to start",{x: centerX-3*centerDeviationSpritesFont, y: centerY-0.5*centerDeviationSpritesFont}, 1, ratioFonts);
+                    this.drawText("Click on key s to pause",{x: centerX-2.5*centerDeviationSpritesFont, y: centerY}, 1, ratioFonts);
+                    this.drawText("Click on key q to end",{x: centerX-2*centerDeviationSpritesFont, y: centerY+0.5*centerDeviationSpritesFont}, 1, ratioFonts);
+                    this.drawText("Use left and rigth arrows",{x: centerX-3*centerDeviationSpritesFont, y: centerY+centerDeviationSpritesFont}, 1, ratioFonts);
+                    this.drawText("to control the vehicle",{x: centerX-2.5*centerDeviationSpritesFont, y: centerY+1.5*centerDeviationSpritesFont}, 1, ratioFonts);
+                    this.drawText("You can start now",{x: centerX-1.5*centerDeviationSpritesFont, y: centerY+2*centerDeviationSpritesFont}, 1, ratioFonts);
+                    this.drawText("Credits:",{x: centerX, y: centerY+3*centerDeviationSpritesFont}, 1, ratioFonts);
+                    this.drawText("Jose Carlos and PVSio-web",{x: centerX-3*centerDeviationSpritesFont, y: centerY+3.5*centerDeviationSpritesFont}, 1, ratioFonts);
+                    this.drawText("Interactive Prototype Builder",{x: centerX-3.5*centerDeviationSpritesFont, y: centerY+4*centerDeviationSpritesFont}, 1, ratioFonts);
                 }
 
                 if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
@@ -1053,10 +1154,10 @@ define(function (require, exports, module) {
                     }
                 }
             }else{
-                this.drawText("Loading Configurations...",{x: 100, y: 95}, 1);
+                this.drawText("Loading Configurations...",{x: 100, y: 95}, 1, 1);
             }
         }else{
-            this.drawText("Loading Parameters...",{x: 100, y: 68}, 1);
+            this.drawText("Loading Parameters...",{x: 100, y: 68}, 1, 1);
         }
 
         return this;
@@ -1064,7 +1165,7 @@ define(function (require, exports, module) {
 
      /**
      * @function renderSplashPauseFrame
-     * @public
+     * @private
      * @description RenderSplashPauseFrame method of the Arcade widget. This method draws the simulator pause page, where the commands to control the simulator and to resume the simulation(renderSimulatorFrame) are displayed.
      * It is also resumed the lap timer, using jchronometer lib, as soon as the user uses the command to resume the simulation.
      * @memberof module:Arcade
@@ -1072,28 +1173,32 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.renderSplashPauseFrame = function () {
-        this.canvasInformations.canvas.height = 240;
-        this.canvasInformations.canvas.width = 320;
+        this.canvasInformations.canvas.height = this.height;
+        this.canvasInformations.canvas.width = this.width;
         this.canvasInformations.context.fillStyle = "rgb(100,200,187)";
         this.canvasInformations.context.fillRect(0, 0, this.canvasInformations.canvas.width, this.canvasInformations.canvas.height);
-        // this.canvasInformations.context.fillRect(0, 0, this.renderCanvas.width, this.renderCanvas.height);
 
-        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, 110, 15, 0.7*this.main_sprites.logo.w, 0.7*this.main_sprites.logo.h);
+        let centerX = Math.floor(this.renderCanvas.width / 2);
+        let centerY = Math.floor(this.renderCanvas.height / 2);
+        let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
+        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
+        let centerDeviation = 40;
+        let centerDeviationSpritesFont = 70;
 
         if(this.realPrefix!==""){
-            this.drawText("Click on space bar to resume",{x: 80, y: 100}, 1);
-            this.drawText("Use left and rigth arrows",{x: 90, y: 135}, 1);
-            this.drawText("to control the car",{x: 110, y: 155}, 1);
-            this.drawText("Credits:",{x: 145, y: 195}, 1);
-            this.drawText("Jose Carlos and PVSio-web",{x: 90, y: 210}, 1);
-            this.drawText("Interactive Prototype Builder",{x: 80, y: 220}, 1);
+            this.drawText("Click on space bar to resume",{x: centerX-4*centerDeviation, y: centerY}, 1, ratioFonts);
+            this.drawText("Use left and rigth arrows",{x: centerX-4*centerDeviation, y: centerY+3*centerDeviation}, 1, ratioFonts);
+            this.drawText("to control the vehicle",{x: centerX-3*centerDeviation, y: centerY+4*centerDeviation}, 1, ratioFonts);
+            this.drawText("Credits:",{x: centerX, y: centerY+6*centerDeviation}, 1, ratioFonts);
+            this.drawText("Jose Carlos and PVSio-web",{x: centerX-4*centerDeviation, y: centerY+7*centerDeviation}, 1, ratioFonts);
+            this.drawText("Interactive Prototype Builder",{x: centerX-5*centerDeviation, y: centerY+8*centerDeviation}, 1, ratioFonts);
         }else{
-            this.drawText("Click on space bar to resume",{x: 60, y: 100}, 1);
-            this.drawText("Use left and rigth arrows",{x: 70, y: 135}, 1);
-            this.drawText("to control the car",{x: 100, y: 155}, 1);
-            this.drawText("Credits:",{x: 145, y: 195}, 1);
-            this.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
-            this.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
+            this.drawText("Click on space bar to resume",{x: centerX-3*centerDeviationSpritesFont, y: centerY-0.5*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Use left and rigth arrows",{x: centerX-3*centerDeviationSpritesFont, y: centerY+centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("to control the vehicle",{x: centerX-2.5*centerDeviationSpritesFont, y: centerY+1.5*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Credits:",{x: centerX, y: centerY+3*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Jose Carlos and PVSio-web",{x: centerX-3*centerDeviationSpritesFont, y: centerY+3.5*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Interactive Prototype Builder",{x: centerX-3.5*centerDeviationSpritesFont, y: centerY+4*centerDeviationSpritesFont}, 1, ratioFonts);
         }
 
         if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
@@ -1128,10 +1233,9 @@ define(function (require, exports, module) {
         return this;
     };
 
-
     /**
      * @function renderSplashEndFrame
-     * @public
+     * @private
      * @description RenderSplashEndFrame method of the Arcade widget. This method draws the simulator end page, where the commands to control the simulator and to start another simulation(renderSimulatorFrame) are displayed.
      * It is also initialized the new lap timer, using jchronometer lib, as soon as the user uses the command to start the new simulation.
      * @memberof module:Arcade
@@ -1139,28 +1243,32 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.renderSplashEndFrame = function () {
-        this.canvasInformations.canvas.height = 240;
-        this.canvasInformations.canvas.width = 320;
+        this.canvasInformations.canvas.height = this.height;
+        this.canvasInformations.canvas.width = this.width;
         this.canvasInformations.context.fillStyle = "rgb(100,200,187)";
         this.canvasInformations.context.fillRect(0, 0, this.canvasInformations.canvas.width, this.canvasInformations.canvas.height);
-        // this.canvasInformations.context.fillRect(0, 0, this.renderCanvas.width, this.renderCanvas.height);
-
-        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, 110, 15, 0.7*this.main_sprites.logo.w, 0.7*this.main_sprites.logo.h);
+       
+        let centerX = Math.floor(this.renderCanvas.width / 2);
+        let centerY = Math.floor(this.renderCanvas.height / 2);
+        let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
+        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
+        let centerDeviation = 40;
+        let centerDeviationSpritesFont = 70;
 
         if(this.realPrefix!==""){
-            this.drawText("Thank you for playing!",{x: 100, y: 100}, 1);
-            this.drawText("Click on space bar to start again",{x: 75, y: 125}, 1);
-            this.drawText("Credits:",{x: 145, y: 195}, 1);
-            this.drawText("Jose Carlos and PVSio-web",{x: 90, y: 210}, 1);
-            this.drawText("Interactive Prototype Builder",{x: 80, y: 220}, 1);
+            this.drawText("Thank you for playing!",{x: centerX-3*centerDeviation, y: centerY}, 1, ratioFonts);
+            this.drawText("Click on space bar to start again",{x: centerX-5*centerDeviation, y: centerY+3*centerDeviation}, 1, ratioFonts);
+            this.drawText("Credits:",{x: centerX, y: centerY+6*centerDeviation}, 1, ratioFonts);
+            this.drawText("Jose Carlos and PVSio-web",{x: centerX-4*centerDeviation, y: centerY+7*centerDeviation}, 1, ratioFonts);
+            this.drawText("Interactive Prototype Builder",{x: centerX-5*centerDeviation, y: centerY+8*centerDeviation}, 1, ratioFonts);
         }else{
-            this.drawText("Thank you for playing!",{x: 90, y: 100}, 1);
-            this.drawText("Click on space bar to start again",{x: 40, y: 125}, 1);
-            this.drawText("Credits:",{x: 145, y: 195}, 1);
-            this.drawText("Jose Carlos and PVSio-web",{x: 70, y: 210}, 1);
-            this.drawText("Interactive Prototype Builder",{x: 60, y: 220}, 1);
+            this.drawText("Thank you for playing!",{x: centerX-2.5*centerDeviationSpritesFont, y: centerY-0.5*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Click on space bar to start again",{x: centerX-4.5*centerDeviationSpritesFont, y: centerY+centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Credits:",{x: centerX, y: centerY+3*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Jose Carlos and PVSio-web",{x: centerX-3*centerDeviationSpritesFont, y: centerY+3.5*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Interactive Prototype Builder",{x: centerX-3.5*centerDeviationSpritesFont, y: centerY+4*centerDeviationSpritesFont}, 1, ratioFonts);
         }
-
+        
         if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
             clearInterval(this.intervals.splashInterval);
             clearInterval(this.intervals.simulatorInterval);
@@ -1205,13 +1313,13 @@ define(function (require, exports, module) {
 
     /**
      * @function renderSimulatorFrame
-     * @public
+     * @private
      * @description RenderSimulatorFrame method of the Arcade widget. This method renders each frame during the simulation.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-     Arcade.prototype.renderSimulatorFrame = function () {
+    Arcade.prototype.renderSimulatorFrame = function () {
         if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.quit_attribute){ // Key 'q' ends current simulator
             this.canvasInformations.chronometer.stop();
             this.soundWidget.hide();
@@ -1243,9 +1351,12 @@ define(function (require, exports, module) {
         }
 
         // Clean screen
-        // this.canvasInformations.context.fillStyle = "#dc9"; // rgb(221, 204, 153) matches first background color
         this.canvasInformations.context.fillStyle = "#76665d";
         this.canvasInformations.context.fillRect(0, 0, this.renderCanvas.width, this.renderCanvas.height);
+
+        let centerX = Math.floor(this.renderCanvas.width / 2);
+        let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
+        let centerDeviationDuringSimulation = 70;
 
         let carSprite = null;
 
@@ -1339,90 +1450,90 @@ define(function (require, exports, module) {
 
         // Draw the car by default, but if user declares in opt field 'useVehicle' not to use, then the simulator will not render it
         if(this.useVehicle){
-            this.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
+        	this.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
         }
 
         if(this.lapInformation.lapNumber!==0){ 
-            if(this.WIDGETSTATE!==null){
-                this.lapInformation.currentLapNumber = parseInt(this.WIDGETSTATE[this.vehicle.lap_attribute][this.vehicle.lap_value]);
+	        if(this.WIDGETSTATE!==null){
+	            this.lapInformation.currentLapNumber = parseInt(this.WIDGETSTATE[this.vehicle.lap_attribute][this.vehicle.lap_value]);
 
-                if(absoluteIndex >= this.arcadeParams.numIterations-this.renderCanvas.depthOfField-1){
-                    if(this.lapInformation.currentLapNumber<=this.lapInformation.lapNumber && this.lapInformation.counterAux===0){
-                        ButtonActionsQueue.queueGUIAction(this.vehicle.newLap_functionNamePVS, this.lapInformation.callback);
-                    }
-                    this.lapInformation.counterAux=1;
-                }
+	            if(absoluteIndex >= this.arcadeParams.numIterations-this.renderCanvas.depthOfField-1){
+	                if(this.lapInformation.currentLapNumber<=this.lapInformation.lapNumber && this.lapInformation.counterAux===0){
+	                    ButtonActionsQueue.queueGUIAction(this.vehicle.newLap_functionNamePVS, this.lapInformation.callback);
+	                }
+	                this.lapInformation.counterAux=1;
+	            }
 
-                if(this.lapInformation.lastLapNumber===this.lapInformation.currentLapNumber-1){
-                    this.lapInformation.lastLapNumber=this.lapInformation.currentLapNumber;
-                    this.lapInformation.counterAux=0;
-                }
+	            if(this.lapInformation.lastLapNumber===this.lapInformation.currentLapNumber-1){
+	                this.lapInformation.lastLapNumber=this.lapInformation.currentLapNumber;
+	                this.lapInformation.counterAux=0;
+	            }
 
-                if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber){
+	            if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber){
                     if(this.realPrefix!==""){
-                        this.drawText("1 Lap",{x: 10, y: 25}, 1);
-                        this.drawText("To Go",{x: 10, y: 35}, 1);
+    	                this.drawText("1 Lap",{x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-30}, 1, ratioFonts);
+    	                this.drawText("To Go",{x: centerX-7*centerDeviationDuringSimulation+20, y: centerDeviationDuringSimulation-30}, 1, ratioFonts);
                     }else{
-                        this.drawText("1 Lap",{x: 10, y: 15}, 1);
-                        this.drawText("To Go",{x: 10, y: 25}, 1);
+                        this.drawText("1 Lap",{x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation+30}, 1, ratioFonts);
+                        this.drawText("To Go",{x: centerX-7*centerDeviationDuringSimulation+60, y: centerDeviationDuringSimulation+30}, 1, ratioFonts);
                     }
-                }
+	            }
 
-                if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber && this.lapInformation.currentPercentage>=100){
-                    clearInterval(this.intervals.simulatorInterval);
+	            if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber && this.lapInformation.currentPercentage>=100){
+	                clearInterval(this.intervals.simulatorInterval);
                     if(this.realPrefix!==""){
-                        this.drawText("Simulation Ended!", {x: 90, y: 50}, 1);
-                        this.drawText("Wait 5 Seconds To Reload", {x: 60, y: 70}, 1);
-                        this.drawText("The Simulator", {x: 100, y: 80}, 1);
+    	                this.drawText("Simulation Ended!", {x: centerX-centerDeviationDuringSimulation, y: 4*centerDeviationDuringSimulation}, 1, ratioFonts);
+    	                this.drawText("Wait 5 Seconds To Reload", {x: centerX-2*centerDeviationDuringSimulation, y: 5*centerDeviationDuringSimulation}, 1, ratioFonts);
+    	                this.drawText("The Simulator", {x: centerX-centerDeviationDuringSimulation, y: 6*centerDeviationDuringSimulation}, 1, ratioFonts);
                     }else{
-                        this.drawText("Simulation Ended!", {x: 90, y: 40}, 1);
-                        this.drawText("Wait 5 Seconds To Reload", {x: 60, y: 60}, 1);
-                        this.drawText("The Simulator", {x: 100, y: 70}, 1); 
+                        this.drawText("Simulation Ended!", {x: centerX-centerDeviationDuringSimulation, y: 4*centerDeviationDuringSimulation}, 1, ratioFonts);
+    	                this.drawText("Wait 5 Seconds To Reload", {x: centerX-2*centerDeviationDuringSimulation, y: 5*centerDeviationDuringSimulation}, 1, ratioFonts);
+    	                this.drawText("The Simulator", {x: centerX-centerDeviationDuringSimulation, y: 6*centerDeviationDuringSimulation}, 1, ratioFonts);
                     }
-                    this.soundWidget.pauseAll();
+	                this.soundWidget.pauseAll();
 
-                    // Delayed function call by 5 seconds to reload simulator
-                    // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
-                    setTimeout(
-                        (function(self) {         //Self-executing func which takes 'this' as self
-                            return function() {   //Return a function in the context of 'self'
-                                location.reload(); //Thing you wanted to run as non-window 'this'
-                            }
-                        })(this),
-                        5000     //normal interval, 'this' scope not impacted here.
-                    ); 
-                }
-            } 
+	                // Delayed function call by 5 seconds to reload simulator
+	                // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
+	                setTimeout(
+	                    (function(self) {         //Self-executing func which takes 'this' as self
+	                        return function() {   //Return a function in the context of 'self'
+	                            location.reload(); //Thing you wanted to run as non-window 'this'
+	                        }
+	                    })(this),
+	                    5000     //normal interval, 'this' scope not impacted here.
+	                ); 
+	            }
+	        } 
 
-            // Draw Header
-            if(this.lapInformation.currentLapNumber<this.lapInformation.lapNumber){
+	        // Draw Header
+	        if(this.lapInformation.currentLapNumber<this.lapInformation.lapNumber){
                 if(this.realPrefix!==""){
-                   this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 11}, 1);
+	               this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: centerX-4*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-30}, 1, ratioFonts);
                 }else{
-                   this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 1}, 1);
+                   this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10}, 1, ratioFonts);
                 }
-            }else{
+	        }else{
                 if(this.realPrefix!==""){
-                   this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 11}, 1);
+	               this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: centerX-4*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-30}, 1, ratioFonts);
                 }else{
-                   this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: 10, y: 1}, 1);
+                   this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10}, 1, ratioFonts);
                 }
-            }
+	        }
 
-            this.lapInformation.currentPercentage = Math.round(absoluteIndex/(this.arcadeParams.numIterations-this.renderCanvas.depthOfField)*100);
-            if(this.lapInformation.currentPercentage>100){
+	        this.lapInformation.currentPercentage = Math.round(absoluteIndex/(this.arcadeParams.numIterations-this.renderCanvas.depthOfField)*100);
+	        if(this.lapInformation.currentPercentage>100){
                 if(this.realPrefix!==""){
-                   this.drawText("Current Lap 100%",{x: 100, y: 11},1);
+	               this.drawText("Current Lap 100%",{x: centerX-3*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation},1,ratioFonts);
                 }else{
-                   this.drawText("Current Lap 100%",{x: 100, y: 1},1);
+                   this.drawText("Current Lap 100%",{x: centerX-5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10},1,ratioFonts);
                 }
-            }else{
+	        }else{
                 if(this.realPrefix!==""){
-                   this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: 100, y: 11},1);
+	               this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: centerX-3*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation},1,ratioFonts);
                 }else{
-                   this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: 100, y: 1},1);
+                   this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: centerX-5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10},1,ratioFonts);
                 }
-            }
+	        }
         }// else infinit simulation
 
 
@@ -1437,31 +1548,31 @@ define(function (require, exports, module) {
                 }
                 if(this.lapInformation.lapNumber!==0){
                     if(this.realPrefix!==""){
-                       this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 260, y: 11}, 1);
+                	   this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation}, 1, ratioFonts);
                     }else{
-                       this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 260, y: 1}, 1);    
+                        this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-10}, 1, ratioFonts);    
                     }
-                }else{
+            	}else{
                     if(this.realPrefix!==""){
-                      this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 15, y: 15}, 1);
+            		    this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-5}, 1, ratioFonts);
                     }else{
-                      this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: 15, y: 5}, 1);
+                        this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-15}, 1, ratioFonts);
                     }
-                }
+            	}
             }else{
-                if(this.lapInformation.lapNumber!==0){
+            	if(this.lapInformation.lapNumber!==0){
                     if(this.realPrefix!==""){
-                       this.drawText(""+0+" kmh", {x: 260, y: 11}, 1);
+                	   this.drawText(""+0+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation}, 1, ratioFonts);
                     }else{
-                       this.drawText(""+0+" kmh", {x: 260, y: 1}, 1);
+                       this.drawText(""+0+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-10}, 1, ratioFonts);
                     }
-                }else{
+            	}else{
                     if(this.realPrefix!==""){
-                      this.drawText(""+0+" kmh", {x: 15, y: 15}, 1);
+            		  this.drawText(""+0+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-5}, 1, ratioFonts);
                     }else{
-                      this.drawText(""+0+" kmh", {x: 15, y: 5}, 1);
+                      this.drawText(""+0+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-15}, 1, ratioFonts);
                     }
-                }
+            	}
             }
             if(this.WIDGETSTATE.rpm!=="0"){
                 let currentRPMPVS = this.WIDGETSTATE.rpm;
@@ -1472,31 +1583,31 @@ define(function (require, exports, module) {
                 }
                 if(this.lapInformation.lapNumber!==0){
                     if(this.realPrefix!==""){
-                       this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 20}, 1);
+                	   this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation}, 1, ratioFonts);
                     }else{
-                       this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 10}, 1);
+                       this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10}, 1, ratioFonts);
                     }
-                }else{
+            	}else{
                     if(this.realPrefix!==""){
-                      this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 15}, 1);
+            		  this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-5}, 1, ratioFonts);
                     }else{
-                      this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: 260, y: 5}, 1);
+                      this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-15}, 1, ratioFonts);
                     }
-                }
+            	}
             }else{
-                if(this.lapInformation.lapNumber!==0){
+            	if(this.lapInformation.lapNumber!==0){
                     if(this.realPrefix!==""){
-                       this.drawText(""+0+" rpm", {x: 260, y: 20}, 1);
+                	   this.drawText(""+0+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation}, 1, ratioFonts);
                     }else{
-                       this.drawText(""+0+" rpm", {x: 260, y: 10}, 1);
+                       this.drawText(""+0+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10}, 1, ratioFonts);
                     }
-                }else{
+            	}else{
                     if(this.realPrefix!==""){
-                      this.drawText(""+0+" rpm", {x: 260, y: 15}, 1);
+                        this.drawText(""+0+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-5}, 1, ratioFonts);
                     }else{
-                      this.drawText(""+0+" rpm", {x: 260, y: 5}, 1);
+                        this.drawText(""+0+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-15}, 1, ratioFonts);
                     }
-                }
+            	}
             }
         }
 
@@ -1506,42 +1617,40 @@ define(function (require, exports, module) {
         
         if(this.lapInformation.lapNumber!==0){
             if(this.realPrefix!==""){
-               this.drawText(this.canvasInformations.currentTimeString, {x: 90, y: 25}, 1);
+        	   this.drawText(this.canvasInformations.currentTimeString, {x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation}, 1, ratioFonts);
             }else{
-                this.drawText(this.canvasInformations.currentTimeString, {x: 80, y: 15}, 1);
+                this.drawText(this.canvasInformations.currentTimeString, {x: centerX-8*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-10}, 1, ratioFonts);
             }
         }else{
             if(this.realPrefix!==""){
-               this.drawText(this.canvasInformations.currentTimeString, {x: 90, y: 15}, 1);
+                this.drawText(this.canvasInformations.currentTimeString, {x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10}, 1, ratioFonts);
             }else{
-               this.drawText(this.canvasInformations.currentTimeString, {x: 80, y: 5}, 1);
+                this.drawText(this.canvasInformations.currentTimeString, {x: centerX-8*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-20}, 1, ratioFonts);
             }
         }
 
         // Draw Simulator Logo
         if(this.canvasInformations.showOfficialLogo){
-            // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo1,15,215,0.6*60,0.6*32);
-            this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo2,15,215,0.6*60,0.6*32);
-            // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo1,10,225,0.4*60,0.4*32);
-            // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo2,10,225,0.4*60,0.4*32);
+            // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo1,1.65*centerDeviationDuringSimulation,10,(1-(1/ratioFonts))*60,(1-(1/ratioFonts))*32);
+            this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo2,1.65*centerDeviationDuringSimulation,10,(1-(1/ratioFonts))*60,(1-(1/ratioFonts))*32);
         }
 
         if(this.WIDGETSTATE!==null){
             if(this.WIDGETSTATE[this.vehicle.sound_attribute]!==this.lastPVSValues.lastSoundPVS){
                 this.lastPVSValues.lastSoundPVS = this.WIDGETSTATE[this.vehicle.sound_attribute];
                 if(this.lastPVSValues.lastSoundPVS===this.vehicle.mute_attribute){
-                    this.soundWidget.mute();
+                	this.soundWidget.mute();
                 }else if(this.lastPVSValues.lastSoundPVS===this.vehicle.unmute_attribute){
-                    this.soundWidget.reveal();
-                    this.soundWidget.playSound(2); //startup song
-                    this.soundWidget.playSound(0); //background song
-                    this.soundWidget.setVolume(0.4,0);
-                    this.soundWidget.onEndedSound(2,[
-                        {
-                        indexPlayNext: 1, //idle song
-                        newVolume: 1.0
-                        }
-                    ]);
+					this.soundWidget.reveal();
+		            this.soundWidget.playSound(2); //startup song
+		            this.soundWidget.playSound(0); //background song
+		            this.soundWidget.setVolume(0.4,0);
+		            this.soundWidget.onEndedSound(2,[
+		                {
+		                indexPlayNext: 1, //idle song
+		                newVolume: 1.0
+		                }
+		            ]);
                 }
             }
         }
@@ -1549,23 +1658,24 @@ define(function (require, exports, module) {
         return this;
     };
 
-
     /**
      * @function drawText
-     * @public
+     * @private
      * @description DrawText method of the Arcade widget. This method draws text using sprite letters to simulate the arcade look.
      * That is, reading string and for each letter draw the corresponding sprite letter, using image spritesheetsImages[imageIndex].
      * @param string {String} Text to be rendered with the available text font.
      * @param pos {Object} Screen coordinates, i.e. object with x, y, width and height values.
      * @param imageIndex {Int} spritesheetsImages (array) index, which has the text font sprite image.
+     * @param ratioRealisticFont {Float} The font ratio to be applied.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.drawText = function (string, pos, imageIndex) {
-       if(this.realPrefix!==""){
+    Arcade.prototype.drawText = function (string, pos, imageIndex, ratioRealisticFont) {
+        if(this.realPrefix!==""){
+            let font = ratioRealisticFont * 10;
             string = string.toUpperCase();
-            this.canvasInformations.context.font = "10px Arial";
+            this.canvasInformations.context.font = font+"px Arial";
             this.canvasInformations.context.fillStyle = "white";
             this.canvasInformations.context.fillText(string,pos.x,pos.y);
         }
@@ -1573,8 +1683,8 @@ define(function (require, exports, module) {
             string = string.toUpperCase();
             let cur = pos.x;
             for(let i=0; i < string.length; i++) {
-                this.canvasInformations.context.drawImage(this.spritesheetsImages[imageIndex], (string.charCodeAt(i) - 32) * 8, 0, 8, 8, cur, pos.y, 8, 8);
-                cur += 8;
+                this.canvasInformations.context.drawImage(this.spritesheetsImages[imageIndex], (string.charCodeAt(i) - 32) * 8, 0, 8, 8, cur, pos.y, ratioRealisticFont*8, ratioRealisticFont*8);
+                cur += ratioRealisticFont*8;
             }
         }
         return this;
@@ -1582,7 +1692,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawLanePos
-     * @public
+     * @private
      * @description DrawLanePos method of the Arcade widget. This method draws one lane in the desired position, received as argument.
      * @param pos1 {Float}
      * @param scale1 {Float}
@@ -1604,7 +1714,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawLanes
-     * @public
+     * @private
      * @description DrawLanes method of the Arcade widget. This method draws lanes according to numLanes, received as argument.
      * @param pos1 {Float}
      * @param scale1 {Float}
@@ -1635,7 +1745,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawGuidingLine
-     * @public
+     * @private
      * @description DrawGuidingLine method of the Arcade widget. This method draws a guiding line within the track.
      * @param pos1 {Float}
      * @param scale1 {Float}
@@ -1664,7 +1774,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSimpleArrowFront
-     * @public
+     * @private
      * @description DrawSimpleArrowFront method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
      * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
@@ -1687,7 +1797,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSimpleArrowDown
-     * @public
+     * @private
      * @description DrawSimpleArrowDown method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
      * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
@@ -1710,7 +1820,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSimpleArrowLeft
-     * @public
+     * @private
      * @description DrawSimpleArrowLeft method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
      * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
@@ -1742,7 +1852,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSimpleArrowRight
-     * @public
+     * @private
      * @description DrawSimpleArrowRight method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
      * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
@@ -1774,7 +1884,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawArrowFront
-     * @public
+     * @private
      * @description DrawArrowFront method of the Arcade widget. This method draws a guiding arrow in front of the vehicle.
      * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
@@ -1812,7 +1922,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawArrowRight
-     * @public
+     * @private
      * @description DrawArrowRight method of the Arcade widget. This method draws a guiding arrow, turned right, in front of the vehicle.
      * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
@@ -1858,7 +1968,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawArrowLeft
-     * @public
+     * @private
      * @description DrawArrowLeft method of the Arcade widget. This method draws a guiding arrow, turned left, in front of the vehicle.
      * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
@@ -1906,7 +2016,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSprite
-     * @public
+     * @private
      * @description DrawSprite method of the Arcade widget. This method draws an image of spritesheetsImages array. Usually it uses index 0, since this method is used to
      * draw objects and index 0 has the spritesheet image with all available objects. This method either receives only a sprite (and null as other arguments) or receives
      * an image, x, y and scale (sprite as a null argument). This allows to use render different images and sprites.
@@ -1937,7 +2047,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSegmentPortion
-     * @public
+     * @private
      * @description DrawSegmentPortion method of the Arcade widget. This method draws a segment portion.
      * @param pos1 {Float}
      * @param scale1 {Float}
@@ -1967,7 +2077,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawBackground
-     * @public
+     * @private
      * @description DrawBackground method of the Arcade widget. This method draws the main_sprites.background image, in position 'position'.
      * @param position {Float} Value of posx in controllable_car object, i.e. horizontal position, which is computed by adding/subtracting the turning field value every time the vehicle is turned left or right, in updateControllableCar method.
      * @memberof module:Arcade
@@ -1975,17 +2085,54 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.drawBackground = function (position) {
+        // Scale background according to scale factor
+        let backgroundHeight = parseFloat(this.main_sprites.background.w);
+        let backgroundWidth = parseFloat(this.main_sprites.background.w);
+        let widthDiff = backgroundWidth - this.renderCanvas.width;
+        let heightDiff = backgroundHeight - this.renderCanvas.height;
+        let ratio = (widthDiff === heightDiff || widthDiff > heightDiff) ?
+        this.renderCanvas.width / backgroundWidth : this.renderCanvas.height / backgroundHeight;
+    
         let first = position / 2 % (this.main_sprites.background.w);
-        //(image, x, y, scale) args
-        this.drawSprite(null, this.main_sprites.background, first-this.main_sprites.background.w +1, 0, 1);
-        this.drawSprite(null, this.main_sprites.background, first+this.main_sprites.background.w-1, 0, 1);
-        this.drawSprite(null, this.main_sprites.background, first, 0, 1);
+        // (image, x, y, scale) args
+        // LEFT 
+        this.drawSprite(null, this.main_sprites.background, first-(Math.ceil(ratio)*this.main_sprites.background.w)+1, 0, Math.ceil(ratio));
+        // CENTER (Starts in (0,0) - Variable 'first' is 0 in the beginning of the simulation, since 'position' is also 0) 
+        this.drawSprite(null, this.main_sprites.background, first, 0, Math.ceil(ratio));
+        // RIGHT 
+        this.drawSprite(null, this.main_sprites.background, first+(Math.ceil(ratio)*this.main_sprites.background.w)-1, 0, Math.ceil(ratio));
+        
+        
+        // // To create a backgroung with a pattern of background image
+        // let backgroundImage = spriteToImage(this.spritesheetsImages[0], this.main_sprites.background);    
+        // function spriteToImage(spritesheetImage, spriteImageMapping) {
+        //     var tempCanvas=document.createElement("canvas");
+        //     var tempCtx=tempCanvas.getContext("2d");
+        //     tempCanvas.width=spriteImageMapping.w;
+        //     tempCanvas.height=spriteImageMapping.h;
+        //     tempCtx.drawImage(spritesheetImage,
+        //         spriteImageMapping.x,
+        //         spriteImageMapping.y,
+        //         spriteImageMapping.w,
+        //         spriteImageMapping.h,
+        //         0,
+        //         0,
+        //         spriteImageMapping.w,
+        //         spriteImageMapping.h);
+        //     let res=new Image();
+        //     res.src=tempCanvas.toDataURL();
+        //     return res;            
+        // }       
+        // let pattern = this.canvasInformations.context.createPattern(backgroundImage, 'repeat');
+        // this.canvasInformations.context.fillStyle = pattern;
+        // this.canvasInformations.context.fillRect(0, 0, this.renderCanvas.width, this.renderCanvas.height);        
         return this;
     };
 
+
     /**
      * @function setColorsEndCanvas
-     * @public
+     * @private
      * @description SetColorsEndCanvas method of the Arcade widget. This method set the final colors of the track segment and lane.
      * The goal is to create the illusion of the starting/finishing line, which is black and white, and therefore, different from the colors that
      * those two segments have during the simulation.
@@ -2003,7 +2150,7 @@ define(function (require, exports, module) {
 
     /**
      * @function setColorsCanvas
-     * @public
+     * @private
      * @description SetColorsCanvas method of the Arcade widget. This method set the initial colors of canvas, which will prevail until the end of the track is reached.
      * @param alternate {Boolean} Value of comparison "counter < numberOfSegmentPerColor", which allows to choose the color of the segment depending on which segment is currently being rendered.
      * That is, numberOfSegmentPerColor has the number of sequential segments to be colored with the same color, and when reached the following segments must be rendered with another color so the simulator can
@@ -2033,7 +2180,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSegment
-     * @public
+     * @private
      * @description DrawSegment method of the Arcade widget. This method draws a segment of the simulator(which corresponds to an entire strip of the canvas).
      * To do so, this method uses drawSegmentPortion, setColorsEndCanvas methods. The latter is used to draw the finishing line (different colors).
      * @param position1 {Float}
@@ -2139,7 +2286,7 @@ define(function (require, exports, module) {
 
     /**
      * @function updateControllableCar
-     * @public
+     * @private
      * @description UpdateControllableCar method of the Arcade widget. This method updates the controllable car position and speed.
      * @memberof module:Arcade
      * @returns {carSprite} The created object with car sprite (image) and its X,Y coordinates, to be rendered after current position and speed has been changed.
@@ -2303,7 +2450,7 @@ define(function (require, exports, module) {
 
      /**
      * @function setControllableCarPosition
-     * @public
+     * @private
      * @description SetControllableCarPosition method of the Arcade widget. This method sets the controllable car position, posx, speed and vehicle sprite based on current direction.
      * @param {String} vehicleCurrentDirection the current vehicle direction, that allows to select the proper vehicle sprite(faced front, left or right).
      * @param {Float} newSpeed the new value of speed.
@@ -2357,7 +2504,7 @@ define(function (require, exports, module) {
 
     /**
      * @function calculateNewControllableCarPosition
-     * @public
+     * @private
      * @description calculateNewControllableCarPosition method of the Arcade widget. This method calculates the new controllable car position, based on
      * its speed, current position and posx values updated by the render method, using PVS status.
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -2536,7 +2683,7 @@ define(function (require, exports, module) {
 
     /**
      * @function getNrIterations
-     * @public
+     * @private
      * @description GetNrIterations method of the Arcade widget. This method computes the number of iterations required to draw the track defined in the JSON configuration file.
      * In the final version, the JSON structure, see example 1), will be the same, however fields 'height' and 'curve' will have other values
      * other than 0 and 0, respectively.
@@ -2549,8 +2696,6 @@ define(function (require, exports, module) {
      *       "zoneSize": 250
      *     },
      *     "render": {
-     *       "width": 320,
-     *       "height": 240,
      *       "depthOfField": 150,
      *       "camera_distance": 30,
      *       "camera_height": 100
@@ -2592,7 +2737,7 @@ define(function (require, exports, module) {
 
     /**
      * @function detectBrowserType
-     * @public
+     * @private
      * @description DetectBrowserType method of the Arcade widget. This method detects current open Browser.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -2616,7 +2761,7 @@ define(function (require, exports, module) {
 
     /**
      * @function init
-     * @public
+     * @private
      * @description Init method of the Arcade widget. This method inits the canvas and adds the events onkeydown and onkeyup to capture the desired actions, i.e. accelerate, brake, etc.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -2626,6 +2771,19 @@ define(function (require, exports, module) {
         this.canvasInformations.canvas = d3.select("#arcadeSimulator_"+this.WIDGETID)[0][0];
         this.canvasInformations.context = this.canvasInformations.canvas.getContext('2d');
         return this;
+    };
+
+    /**
+     * @function render
+     * @public
+     * @description Render method of the Arcade widget.
+     * @param pvsState {Float} the new PVS state.
+     * @memberof module:Arcade
+     * @instance
+     */
+    Arcade.prototype.render = function (pvsState) {
+        this.WIDGETSTATE = pvsState;
+        return this.reveal();
     };
 
     module.exports = Arcade;
