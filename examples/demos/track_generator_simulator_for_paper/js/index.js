@@ -96,7 +96,7 @@ require([
             height: 650
         }, {
             parent: "content", // defines parent div, which is div id="body" by default
-            spritesFilename: "spritesheet4", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+            spritesFilename: "spritesheet5", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             render: {
                 depthOfField: 150,
                 camera_distance: 30,
@@ -121,8 +121,10 @@ require([
                 posx: 0,
                 maxSpeed: 20
             },
-            objects: ["70kmh_limit","tree2"],
-            obstacle: ["under_construction_barrier", "traffic_cone", "traffic_light_red"],
+            // objects: ["70kmh_limit","tree2"],
+            // obstacle: ["under_construction_barrier", "traffic_cone", "traffic_light_red"],
+            objects: ["real_tree3","real_tree4","real_building","real_building2","real_skyscraper"],
+            obstacle: ["30kmh_limit","horizontal_pedrestrian_crossing_rubber_bump","under_construction_barrier", "traffic_cone", "traffic_light_red"],
             obstaclePerIteration: 20,
             trackColors: {
                 grass1: "#344C32",
