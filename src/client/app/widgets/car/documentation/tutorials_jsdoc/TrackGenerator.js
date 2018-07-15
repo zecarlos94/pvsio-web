@@ -52,8 +52,85 @@
  *               posx: 0,
  *               maxSpeed: 20
  *           },
- *           objects: ["tree","stump","boulder","tree2","brunetteGirlBack","bush2","hatManBack"],
- *           obstacle: ["dead_tree2","column","dearRight"],
+ *           objects: [
+ *            {
+ *                filename:"real_tree3",
+ *                scale: 1,
+ *                positionsX: [
+ *                     -0.8,
+ *                     0.6
+ *                ]
+ *             },
+ *             {
+ *                 filename:"real_tree4",
+ *                 scale: 1,
+ *                 positionsX: [
+ *                     -0.6,
+ *                     0.8
+ *                 ]
+ *             },
+ *             {
+ *                 filename:"real_building",
+ *                 scale: 1,
+ *                 positionsX: [
+ *                     -0.7,
+ *                    0.9
+ *                 ]
+ *             },
+ *            {
+ *                filename:"real_building2",
+ *                scale: 1,
+ *                positionsX: [
+ *                     -0.9,
+ *                     0.7
+ *                 ]
+ *            },
+ *             {
+ *                 filename:"real_skyscraper",
+ *                 scale: 1,
+ *                 positionsX: [
+ *                     1.9,
+ *                     -1.7
+ *                 ]
+ *             }
+ *           ],
+ *           obstacle: [
+ *             {
+ *                 filename:"30kmh_limit",
+ *                 scale: 1,
+ *                 positionsX: [
+ *                     0.1
+ *                 ]
+ *            },
+ *             {
+ *                filename:"horizontal_pedrestrian_crossing_rubber_bump",
+ *                scale: 1,
+ *                positionsX: [
+ *                     -0.1
+ *                 ]
+ *             },
+ *             {
+ *                 filename:"under_construction_barrier",
+ *                 scale: 1,
+ *                 positionsX: [
+ *                    0.4
+ *                 ]
+ *             },
+ *             {
+ *                filename:"traffic_cone",
+ *                scale: 1,
+ *                positionsX: [
+ *                     -0.4
+ *                 ]
+ *             },
+ *             {
+ *                filename:"traffic_light_red",
+ *                scale: 1,
+ *                positionsX: [
+ *                     0
+ *                 ]
+ *             }
+ *           ],
  *           obstaclePerIteration: 20,
  *           trackColors: {
  *               grass1: "#699864",
@@ -82,15 +159,47 @@
  *                       curvature: -90
  *                   },
  *                   profile: "flat",
- *                   numZones: 3
- *               },
+ *                   numZones: 3,
+ *                   trafficSignals: [
+ *                       {
+ *                           filename:"traffic_cone",
+ *                           scale: 1,
+ *                           zone: 1,
+ *                           posX: -0.4,
+ *                           zoneDistance: 30 // (max distance is zoneSize) 
+ *                       },
+ *                       {
+ *                           filename:"under_construction_barrier", 
+ *                           scale: 1,
+ *                           zone: 3,
+ *                           posX: 0.4,
+ *                           zoneDistance: 100
+ *                       }
+ *                  ]
+ *                },
  *               {
  *                   topography: {
  *                       name:"straight",
  *                       curvature: 0
  *                   },
  *                   profile: "down",
- *                   numZones: 3
+ *                   numZones: 3,
+ *                   trafficSignals: [
+ *                       {
+ *                           filename:"traffic_cone",
+ *                           scale: 1,
+ *                           zone: 1,
+ *                           posX: -0.4,
+ *                           zoneDistance: 30 // (max distance is zoneSize) 
+ *                       },
+ *                       {
+ *                           filename:"under_construction_barrier",
+ *                           scale: 1,
+ *                           zone: 3,
+ *                           posX: 0.4,
+ *                           zoneDistance: 100
+ *                       }
+ *                  ]
  *               },
  *               {
  *                   topography: {
@@ -98,7 +207,23 @@
  *                       curvature: 90
  *                   },
  *                   profile: "flat",
- *                   numZones: 3
+ *                   numZones: 3,
+ *                   trafficSignals: [
+ *                       {
+ *                           filename:"traffic_cone",
+ *                           scale: 1,
+ *                           zone: 1,
+ *                           posX: -0.4,
+ *                           zoneDistance: 30 // (max distance is zoneSize) 
+ *                       },
+ *                       {
+ *                           filename:"under_construction_barrier", 
+ *                           scale: 1,
+ *                           zone: 3,
+ *                           posX: 0.4,
+ *                           zoneDistance: 100
+ *                       }
+ *                  ]
  *               },
  *               {
  *                   topography: {
@@ -106,7 +231,23 @@
  *                       curvature: 0
  *                   },
  *                   profile: "up",
- *                   numZones: 3
+ *                   numZones: 3,
+ *                   trafficSignals: [
+ *                       {
+ *                           filename:"traffic_cone",
+ *                           scale: 1,
+ *                           zone: 1,
+ *                           posX: -0.4,
+ *                           zoneDistance: 30 // (max distance is zoneSize) 
+ *                       },
+ *                       {
+ *                           filename:"under_construction_barrier", 
+ *                           scale: 1,
+ *                           zone: 3,
+ *                           posX: 0.4,
+ *                           zoneDistance: 100
+ *                       }
+ *                  ]
  *               },
  *               {
  *                   topography: {
@@ -115,6 +256,22 @@
  *                   },
  *                   profile: "flat",
  *                   numZones: 3,
+ *                   trafficSignals: [
+ *                       {
+ *                           filename:"traffic_cone",
+ *                           scale: 1,
+ *                           zone: 1,
+ *                           posX: -0.4,
+ *                           zoneDistance: 30 // (max distance is zoneSize) 
+ *                       },
+ *                       {
+ *                           filename:"under_construction_barrier", 
+ *                           scale: 1,
+ *                           zone: 3,
+ *                           posX: 0.4,
+ *                           zoneDistance: 100
+ *                       }
+ *                  ]
  *               },
  *               {
  *                   topography: {
@@ -123,6 +280,22 @@
  *                   },
  *                   profile: "flat",
  *                   numZones: 3,
+ *                   trafficSignals: [
+ *                       {
+ *                           filename:"traffic_cone",
+ *                           scale: 1,
+ *                           zone: 1,
+ *                           posX: -0.4,
+ *                           zoneDistance: 30 // (max distance is zoneSize) 
+ *                       },
+ *                       {
+ *                           filename:"under_construction_barrier",
+ *                           scale: 1,
+ *                           zone: 3,
+ *                           posX: 0.4,
+ *                           zoneDistance: 100
+ *                       }
+ *                  ]
  *               }
  *           ],
  *           callback: onMessageReceived
@@ -254,8 +427,8 @@ define(function (require, exports, module) {
         this.params                  = JSON.parse(JSON.stringify(this.trackParam));
         this.controllable_car        = (opt.controllable_car) ? opt.controllable_car : { position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20 };
 
-        this.objects  = (opt.objects) ? opt.objects : ["tree","boulder"];
-        this.obstacle = (opt.obstacle) ? opt.obstacle : ["boulder"];
+        this.objects  = (opt.objects) ? opt.objects : [];
+        this.obstacle = (opt.obstacle) ? opt.obstacle : [];
         this.trackLayout = (opt.trackLayout) ? opt.trackLayout : [];
         this.trackColors = (opt.trackColors) ? opt.trackColors : {
             grass1: "#699864",
@@ -331,25 +504,16 @@ define(function (require, exports, module) {
                    //Thing you wanted to run as non-window 'this'
 
                     let sprite = false;
-                    let spritePos = null;
-                    let spritePosgeneratedObstaclesRandom = null;
-                    let spritePosRightRandom = null;
-                    let spritePosLeftRandom =  null;
-                    let spriteTypeRandom = null;
                     let chooseIndexFromObjects=null;
                     let chooseObjectFromDesiredObjects=null;
                     let chooseIndexFromObstacle=null;
                     let chooseObstacleFromDesiredObstacle=null;
-                    let spriteSidesRandom = null;
-                    let spritesAvailableLength = self.spritesAvailable.length;
                     let index=null;
                     let iter = 0;
                     let finalNumZones = 0;
                     self.trackLayout.forEach(el => iter+=el.numZones);
                     finalNumZones = iter;
                     
-                    let trackLayoutProfile = 0; //0=flat 1=up -1=down
-                    let trackLayoutTopographyName = 0; //0=straight 1=left -1=right
                     let currentZone = {
                         height: 0,
                         curve: 0
@@ -357,12 +521,18 @@ define(function (require, exports, module) {
 
                     let tmpIter=1;
                     let tmpPos=1;
+                    let zoneDistanceSprite=0;
+                    let trafficSignalSprite=null;
+                    let numtrafficSignalPlacement=0;
+                    let zoneNumbertrafficSignalSprite=null;
+                    let spriteScale=1;
 
                     while(iter){
                         if(tmpIter<=self.trackLayout[self.trackLayout.length-tmpPos].numZones){
                             // Generate current Zone
                             let intendedHeightForCurrentZone;
                             let intendedCurveForCurrentZone = parseInt(self.trackLayout[self.trackLayout.length-tmpPos].topography.curvature);
+
                             switch(self.trackLayout[self.trackLayout.length-tmpPos].profile){
                                 case "flat":
                                     intendedHeightForCurrentZone=0;
@@ -374,51 +544,74 @@ define(function (require, exports, module) {
                                     intendedHeightForCurrentZone = -900 * self.randomPos();
                                     break;  
                             }
-                           
-                            for(let i=0; i < self.params.zoneSize; i++){
-                                // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
-                                chooseIndexFromObjects = Math.floor((self.randomPos() * self.objects.length));
-                                chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
-                                index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects);
-
-                                // generates random integer numbers between 1 and 2
-                                spriteSidesRandom = Math.floor((self.randomPos() * 2) + 1);
-
-                                spritePosgeneratedObstaclesRandom = (self.randomPos() * 0.50) - 0.25;
-
-                                if(i%self.obstaclePerIteration==0){
-                                    // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
-                                    // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
-                                    chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
-                                    chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
-                                    index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle);
-                                    // console.log(self.spritePosgeneratedObstaclesRandom);
-                                    // console.log(self.spritesAvailable[index]);
-                                    self.generatedObstacles.push(spritePosgeneratedObstaclesRandom);
-                                    // spritePosgeneratedObstaclesRandom has the relative position of the obstacle
-                                    sprite = {type: self.spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
+                                    
+                            self.trackLayout[self.trackLayout.length-tmpPos].trafficSignals.forEach(el => {
+                                    if(el.zone===tmpIter){
+                                        index = self.spritesAvailable.findIndex(el2 => el2.name === el.filename);
+                                        zoneDistanceSprite = el.zoneDistance;
+                                        zoneNumbertrafficSignalSprite = el.zone;
+                                        spriteScale = el.scale;
+                                        trafficSignalSprite = {type: self.spritesAvailable[index].value, pos: el.posX, obstacle: 0, scale: spriteScale};
+                                    }
                                 }
-                                else {
-                                    // choose randomly sprite image
-                                    // generates random float numbers greater than 0.55
-                                    spritePosRightRandom = self.randomPos() + 0.90;
-                                    // generates random float numbers lesser than -0.55
-                                    spritePosLeftRandom =  (self.randomPos() * -0.55) - 0.55;
+                            );
 
-                                    // choose randomly sprite size
-                                    if(spriteSidesRandom == 1){
-                                        spritePos = spritePosLeftRandom;
-                                    }else if(spriteSidesRandom == 2){
-                                        spritePos = spritePosRightRandom;
+                            for(let i=0; i < self.params.zoneSize; i++){
+                                if(zoneNumbertrafficSignalSprite===tmpIter){
+                                    if(i===zoneDistanceSprite){
+                                        if(numtrafficSignalPlacement===0){
+                                            sprite=trafficSignalSprite;
+                                            numtrafficSignalPlacement++;
+                                        }
                                     }
-                                    // console.log(spritePos);
-                                    if(self.randomPos() < 0.25){
-                                        sprite = {type: self.spritesAvailable[index].value, pos: spritePos-0.5, obstacle: 0};
-                                    } if(self.randomPos() < 0.5){
-                                        sprite = {type: self.spritesAvailable[index].value, pos: spritePos, obstacle: 0};
-                                    }else{
-                                        sprite = {type: self.spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
+                                    else if(i===self.params.zoneSize-1){
+                                        numtrafficSignalPlacement=0;
                                     }
+                                    else{
+                                        if(i%self.obstaclePerIteration==0){
+                                            if(self.obstacle.length!==0){
+                                                // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
+                                                // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
+                                                chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
+                                                chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
+                                                index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle.filename);
+                                                spriteScale = chooseObstacleFromDesiredObstacle.scale;
+                                                sprite = {type: self.spritesAvailable[index].value, pos: chooseObstacleFromDesiredObstacle.positionsX[Math.floor((self.randomPos() * (chooseObstacleFromDesiredObstacle.positionsX.length)))], obstacle: 1, scale: spriteScale};
+                                            }
+                                        }
+                                        else {
+                                            if(self.objects.length!==0){
+                                                // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
+                                                chooseIndexFromObjects = Math.floor(self.randomPos() * (self.objects.length));
+                                                chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
+                                                spriteScale = chooseObjectFromDesiredObjects.scale;
+                                                index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects.filename);
+                                                sprite = {type: self.spritesAvailable[index].value, pos: chooseObjectFromDesiredObjects.positionsX[Math.floor((self.randomPos() * (chooseObjectFromDesiredObjects.positionsX.length)))], obstacle: 0, scale: spriteScale};
+                                            }
+                                        } 
+                                    }
+                                }else{
+                                    if(i%self.obstaclePerIteration==0){
+                                        if(self.obstacle.length!==0){
+                                            // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
+                                            // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
+                                            chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
+                                            chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
+                                            spriteScale = chooseObstacleFromDesiredObstacle.scale;
+                                            index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle.filename);
+                                            sprite = {type: self.spritesAvailable[index].value, pos: chooseObstacleFromDesiredObstacle.positionsX[Math.floor((self.randomPos() * (chooseObstacleFromDesiredObstacle.positionsX.length)))], obstacle: 1, scale: spriteScale};
+                                        }
+                                    }
+                                    else {
+                                        if(self.objects.length!==0){
+                                            // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
+                                            chooseIndexFromObjects = Math.floor(self.randomPos() * (self.objects.length));
+                                            chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
+                                            spriteScale = chooseObjectFromDesiredObjects.scale;
+                                            index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects.filename);
+                                            sprite = {type: self.spritesAvailable[index].value, pos: chooseObjectFromDesiredObjects.positionsX[Math.floor((self.randomPos() * (chooseObjectFromDesiredObjects.positionsX.length)))], obstacle: 0, scale: spriteScale};
+                                        }
+                                    } 
                                 }
 
                                 // Draw segments next to each other with 'i/params.zoneSize'
@@ -426,7 +619,6 @@ define(function (require, exports, module) {
                                 // Avoid vertical gaps with '1 +' 
                                 // Better perspective with '2*'
                                 // 2 * (1 + Math.sin(i/params.zoneSize *))
-
                                 self.generatedTrack.push({
                                     height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/self.params.zoneSize * Math.PI-Math.PI/2)),
                                     curve: currentZone.curve+intendedCurveForCurrentZone / 2 * (1 + Math.sin(i/self.params.zoneSize * Math.PI-Math.PI/2)),
@@ -439,6 +631,7 @@ define(function (require, exports, module) {
 
                             tmpIter++;
                             iter--;
+                            
                         }else{
                             tmpIter=1;
                             if(tmpPos<=self.trackLayout.length) {
@@ -537,8 +730,85 @@ define(function (require, exports, module) {
      *               posx: 0,
      *               maxSpeed: 20
      *           },
-     *           objects: ["tree","stump","boulder","tree2","brunetteGirlBack","bush2","hatManBack"],
-     *           obstacle: ["dead_tree2","column","dearRight"],
+     *           objects: [
+     *            {
+     *                filename:"real_tree3",
+     *                scale: 1,
+     *                positionsX: [
+     *                     -0.8,
+     *                     0.6
+     *                ]
+     *             },
+     *             {
+     *                 filename:"real_tree4",
+     *                 scale: 1,
+     *                 positionsX: [
+     *                     -0.6,
+     *                     0.8
+     *                 ]
+     *             },
+     *             {
+     *                 filename:"real_building",
+     *                 scale: 1,
+     *                 positionsX: [
+     *                     -0.7,
+     *                    0.9
+     *                 ]
+     *             },
+     *            {
+     *                filename:"real_building2",
+     *                scale: 1,
+     *                positionsX: [
+     *                     -0.9,
+     *                     0.7
+     *                 ]
+     *            },
+     *             {
+     *                 filename:"real_skyscraper",
+     *                 scale: 1,
+     *                 positionsX: [
+     *                     1.9,
+     *                     -1.7
+     *                 ]
+     *             }
+     *           ],
+     *           obstacle: [
+     *             {
+     *                 filename:"30kmh_limit",
+     *                 scale: 1,
+     *                 positionsX: [
+     *                     0.1
+     *                 ]
+     *            },
+     *             {
+     *                filename:"horizontal_pedrestrian_crossing_rubber_bump",
+     *                scale: 1,
+     *                positionsX: [
+     *                     -0.1
+     *                 ]
+     *             },
+     *             {
+     *                 filename:"under_construction_barrier",
+     *                 scale: 1,
+     *                 positionsX: [
+     *                    0.4
+     *                 ]
+     *             },
+     *             {
+     *                filename:"traffic_cone",
+     *                scale: 1,
+     *                positionsX: [
+     *                     -0.4
+     *                 ]
+     *             },
+     *             {
+     *                filename:"traffic_light_red",
+     *                scale: 1,
+     *                positionsX: [
+     *                     0
+     *                 ]
+     *             }
+     *           ],
      *           obstaclePerIteration: 20,
      *           trackColors: {
      *               grass1: "#699864",
@@ -574,19 +844,12 @@ define(function (require, exports, module) {
                     //Thing you wanted to run as non-window 'this'
                     // Generate current Zone
                     let sprite = false;
-                    let spritePos = null;
-                    let spritePosgeneratedObstaclesRandom = null;
-                    let spritePosRightRandom = null;
-                    let spritePosLeftRandom =  null;
-                    let spriteTypeRandom = null;
                     let chooseIndexFromObjects=null;
                     let chooseObjectFromDesiredObjects=null;
                     let chooseIndexFromObstacle=null;
                     let chooseObstacleFromDesiredObstacle=null;
-                    let spriteSidesRandom = null;
                     let slopesTransitionRandom = null;
                     let curvesTransitionRandom = null;
-                    let spritesAvailableLength = self.spritesAvailable.length;
                     let index=null;
 
                     let heightType = 0; //0=plain 1=up -1=down
@@ -609,6 +872,7 @@ define(function (require, exports, module) {
                     };
 
                     let iter = self.params.numZones;
+                    let spriteScale=1;
 
                     while(iter){
                         // Generate current Zone
@@ -632,48 +896,28 @@ define(function (require, exports, module) {
                         }
                         
                         for(let i=0; i < self.params.zoneSize; i++){
-                            // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
-                            chooseIndexFromObjects = Math.floor((self.randomPos() * self.objects.length));
-                            chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
-                            index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects);
-
-                            // generates random integer numbers between 1 and 2
-                            spriteSidesRandom = Math.floor((self.randomPos() * 2) + 1);
-                
-                            spritePosgeneratedObstaclesRandom = self.randomPos() - 0.5;
-                            
                             if(i%self.obstaclePerIteration==0){
-                                // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
-                                // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
-                                chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
-                                chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
-                                index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle);
-                                self.generatedObstacles.push(spritePosgeneratedObstaclesRandom);
-                                // spritePosgeneratedObstaclesRandom has the relative position of the obstacle
-                                sprite = {type: self.spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
+                                if(self.obstacle.length!==0){
+                                    // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
+                                    // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
+                                    chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
+                                    chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
+                                    index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle.filename);
+                                    spriteScale = chooseObstacleFromDesiredObstacle.scale;
+                                    sprite = {type: self.spritesAvailable[index].value, pos: chooseObstacleFromDesiredObstacle.positionsX[Math.floor((self.randomPos() * (chooseObstacleFromDesiredObstacle.positionsX.length)))], obstacle: 1, scale: spriteScale};
+                                }
                             }
                             else {
-                                // choose randomly sprite image
-                                // generates random float numbers greater than 0.55
-                                spritePosRightRandom = self.randomPos() + 0.90;
-                                // generates random float numbers lesser than -0.55
-                                spritePosLeftRandom =  (self.randomPos() * -0.56) - 0.56;
-                
-                                // choose randomly sprite size
-                                if(spriteSidesRandom == 1){
-                                    spritePos = spritePosLeftRandom;
-                                }else if(spriteSidesRandom == 2){
-                                    spritePos = spritePosRightRandom;
-                                }
-                                if(self.randomPos() < 0.25){
-                                    sprite = {type: self.spritesAvailable[index].value, pos: spritePos-0.5, obstacle: 0};
-                                } if(self.randomPos() < 0.5){
-                                    sprite = {type: self.spritesAvailable[index].value, pos: spritePos, obstacle: 0};
-                                }else{
-                                    sprite = {type: self.spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
+                                if(self.objects.length!==0){
+                                    // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
+                                    chooseIndexFromObjects = Math.floor((self.randomPos() * self.objects.length));
+                                    chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
+                                    index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects.filename);
+                                    spriteScale = chooseObjectFromDesiredObjects.scale;
+                                    sprite = {type: self.spritesAvailable[index].value, pos: chooseObjectFromDesiredObjects.positionsX[Math.floor((self.randomPos() * (chooseObjectFromDesiredObjects.positionsX.length)))], obstacle: 0, scale: spriteScale};
                                 }
                             }
-                           
+
                             self.generatedTrack.push({
                                 height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/self.params.zoneSize * Math.PI-Math.PI/2)),
                                 curve: currentZone.curve+intendedCurveForCurrentZone / 2 * (1 + Math.sin(i/self.params.zoneSize * Math.PI-Math.PI/2)),
@@ -805,9 +1049,85 @@ define(function (require, exports, module) {
      *               posx: 0,
      *               maxSpeed: 20
      *           },
-     *           objects: ["tree","stump","boulder","tree2","brunetteGirlBack","bush2","hatManBack"],
-     *           obstacle: ["dead_tree2","column","dearRight"],
-     *           obstaclePerIteration: 20,
+         *           objects: [
+     *            {
+     *                filename:"real_tree3",
+     *                scale: 1,
+     *                positionsX: [
+     *                     -0.8,
+     *                     0.6
+     *                ]
+     *             },
+     *             {
+     *                 filename:"real_tree4",
+     *                 scale: 1,
+     *                 positionsX: [
+     *                     -0.6,
+     *                     0.8
+     *                 ]
+     *             },
+     *             {
+     *                 filename:"real_building",
+     *                 scale: 1,
+     *                 positionsX: [
+     *                     -0.7,
+     *                    0.9
+     *                 ]
+     *             },
+     *            {
+     *                filename:"real_building2",
+     *                scale: 1,
+     *                positionsX: [
+     *                     -0.9,
+     *                     0.7
+     *                 ]
+     *            },
+     *             {
+     *                 filename:"real_skyscraper",
+     *                 scale: 1,
+     *                 positionsX: [
+     *                     1.9,
+     *                     -1.7
+     *                 ]
+     *             }
+     *           ],
+     *           obstacle: [
+     *             {
+     *                 filename:"30kmh_limit",
+     *                 scale: 1,
+     *                 positionsX: [
+     *                     0.1
+     *                 ]
+     *            },
+     *             {
+     *                filename:"horizontal_pedrestrian_crossing_rubber_bump",
+     *                scale: 1,
+     *                positionsX: [
+     *                     -0.1
+     *                 ]
+     *             },
+     *             {
+     *                 filename:"under_construction_barrier",
+     *                 scale: 1,
+     *                 positionsX: [
+     *                    0.4
+     *                 ]
+     *             },
+     *             {
+     *                filename:"traffic_cone",
+     *                scale: 1,
+     *                positionsX: [
+     *                     -0.4
+     *                 ]
+     *             },
+     *             {
+     *                filename:"traffic_light_red",
+     *                scale: 1,
+     *                positionsX: [
+     *                     0
+     *                 ]
+     *             }
+     *           ],
      *           trackColors: {
      *               grass1: "#699864",
      *               border1: "#e00",
@@ -843,69 +1163,41 @@ define(function (require, exports, module) {
                     // Generate current Zone
                     let numIterations = self.params.numZones * self.params.zoneSize;
                     let sprite = false;
-                    let spritePos = null;
-                    let spritePosgeneratedObstaclesRandom = null;
-                    let spritePosRightRandom = null;
-                    let spritePosLeftRandom =  null;
-                    let spriteTypeRandom = null;
-                    let spriteSidesRandom = null;
-                    let spritesAvailableLength = self.spritesAvailable.length;
+                    let spriteScale=1;
+                    let chooseIndexFromObjects=null;
+                    let chooseObjectFromDesiredObjects=null;
+                    let chooseIndexFromObstacle=null;
+                    let chooseObstacleFromDesiredObstacle=null;
+                    let index=null;
                 
                     for(let i=0; i < numIterations; i++){            
-                        // generates random integer numbers between 0 and spritesAvailable.length
-                        spriteTypeRandom = Math.floor(self.randomPos() * spritesAvailableLength);
-                        // generates random integer numbers between 1 and 2
-                        spriteSidesRandom = Math.floor((self.randomPos() * 2) + 1);
-                
-                        spritePosgeneratedObstaclesRandom = self.randomPos() - 0.5;
-                        
-                        if(self.spritesAvailable[spriteTypeRandom].name.match(/car[0-9]?/)===null && self.spritesAvailable[spriteTypeRandom].name.match(/background[0-9]?/)===null && self.spritesAvailable[spriteTypeRandom].name.match(/logo[0-9]?/)===null){
-                            if(i%self.obstaclePerIteration===0){
-                                self.obstacle.forEach((element) => {
-                                    let index = self.spritesAvailable.findIndex(el => el.name === element);
-                                    // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
-                                    self.generatedObstacles.push(spritePosgeneratedObstaclesRandom);
-                                    // spritePosgeneratedObstaclesRandom has the relative position of the obstacle
-                                    sprite = {type: self.spritesAvailable[index].value, pos: spritePosgeneratedObstaclesRandom, obstacle: 1};
-                                    
-                                    self.generatedTrack.push({
-                                        height: 0,
-                                        curve: 0,
-                                        sprite: sprite
-                                    });
-                                });
-                            }else{
-                                self.objects.forEach((element) => {
-                                    // console.log(element);
-                                    let index = self.spritesAvailable.findIndex(el => el.name === element);
-                                    // generates random float numbers greater than 0.55
-                                    spritePosRightRandom = self.randomPos() + 0.90;
-                                    // generates random float numbers lesser than -0.55
-                                    spritePosLeftRandom =  (self.randomPos() * -0.56) - 0.56;
-                
-                                    // choose randomly sprite size
-                                    if(spriteSidesRandom === 1){
-                                        spritePos = spritePosLeftRandom;
-                                    }else if(spriteSidesRandom === 2){
-                                        spritePos = spritePosRightRandom;
-                                    }
-                
-                                    if(self.randomPos() < 0.25){
-                                        sprite = {type: self.spritesAvailable[index].value, pos: spritePos-0.5, obstacle: 0};
-                                    } if(self.randomPos() < 0.5){
-                                        sprite = {type: self.spritesAvailable[index].value, pos: spritePos, obstacle: 0};
-                                    }else{
-                                        sprite = {type: self.spritesAvailable[index].value, pos: 3*spritePos, obstacle: 0};
-                                    }
-
-                                    self.generatedTrack.push({
-                                        height: 0,
-                                        curve: 0,
-                                        sprite: sprite
-                                    });
-                                });
+                        if(i%self.obstaclePerIteration==0){
+                            if(self.obstacle.length!==0){
+                                // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
+                                // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
+                                chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
+                                chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
+                                index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle.filename);
+                                spriteScale = chooseObstacleFromDesiredObstacle.scale;
+                                sprite = {type: self.spritesAvailable[index].value, pos: chooseObstacleFromDesiredObstacle.positionsX[Math.floor((self.randomPos() * (chooseObstacleFromDesiredObstacle.positionsX.length)))], obstacle: 1, scale: spriteScale};
                             }
                         }
+                        else {
+                            if(self.objects.length!==0){
+                                // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
+                                chooseIndexFromObjects = Math.floor((self.randomPos() * self.objects.length));
+                                chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
+                                index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects.filename);
+                                spriteScale = chooseObjectFromDesiredObjects.scale;
+                                sprite = {type: self.spritesAvailable[index].value, pos: chooseObjectFromDesiredObjects.positionsX[Math.floor((self.randomPos() * (chooseObjectFromDesiredObjects.positionsX.length)))], obstacle: 0, scale: spriteScale};
+                            }
+                        }
+
+                        self.generatedTrack.push({
+                            height: 0,
+                            curve: 0,
+                            sprite: sprite
+                        })
                     }
 
                     self.params.numZones = numIterations; 

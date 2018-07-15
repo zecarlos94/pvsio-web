@@ -166,8 +166,85 @@ The trackLayout optional field allows to specifiy the desired layout, which will
               posx: 0,
               maxSpeed: 20
           },
-          objects: ["tree","stump","boulder","tree2","brunetteGirlBack","bush2","hatManBack"],
-          obstacle: ["dead_tree2","column","dearRight"],
+          objects: [
+           {
+               filename:"real_tree3",
+               scale: 1,
+               positionsX: [
+                    -0.8,
+                    0.6
+               ]
+            },
+            {
+                filename:"real_tree4",
+                scale: 1,
+                positionsX: [
+                    -0.6,
+                    0.8
+                ]
+            },
+            {
+                filename:"real_building",
+                scale: 1,
+                positionsX: [
+                    -0.7,
+                   0.9
+                ]
+            },
+           {
+               filename:"real_building2",
+               scale: 1,
+               positionsX: [
+                    -0.9,
+                    0.7
+                ]
+           },
+            {
+                filename:"real_skyscraper",
+                scale: 1,
+                positionsX: [
+                    1.9,
+                    -1.7
+                ]
+            }
+          ],
+          obstacle: [
+            {
+                filename:"30kmh_limit",
+                scale: 1,
+                positionsX: [
+                    0.1
+                ]
+           },
+            {
+               filename:"horizontal_pedrestrian_crossing_rubber_bump",
+               scale: 1,
+               positionsX: [
+                    -0.1
+                ]
+            },
+            {
+                filename:"under_construction_barrier",
+                scale: 1,
+                positionsX: [
+                   0.4
+                ]
+            },
+            {
+               filename:"traffic_cone",
+               scale: 1,
+               positionsX: [
+                    -0.4
+                ]
+            },
+            {
+               filename:"traffic_light_red",
+               scale: 1,
+               positionsX: [
+                    0
+                ]
+            }
+          ],
           obstaclePerIteration: 20,
           trackColors: {
               grass1: "#699864",
@@ -196,15 +273,47 @@ The trackLayout optional field allows to specifiy the desired layout, which will
                       curvature: -90
                   },
                   profile: "flat",
-                  numZones: 3
-              },
+                  numZones: 3,
+                  trafficSignals: [
+                      {
+                          filename:"traffic_cone",
+                          scale: 1,
+                          zone: 1,
+                          posX: -0.4,
+                          zoneDistance: 30 // (max distance is zoneSize) 
+                      },
+                      {
+                          filename:"under_construction_barrier", 
+                          scale: 1,
+                          zone: 3,
+                          posX: 0.4,
+                          zoneDistance: 100
+                      }
+                 ]
+               },
               {
                   topography: {
                       name:"straight",
                       curvature: 0
                   },
                   profile: "down",
-                  numZones: 3
+                  numZones: 3,
+                  trafficSignals: [
+                      {
+                          filename:"traffic_cone",
+                          scale: 1,
+                          zone: 1,
+                          posX: -0.4,
+                          zoneDistance: 30 // (max distance is zoneSize) 
+                      },
+                      {
+                          filename:"under_construction_barrier",
+                          scale: 1,
+                          zone: 3,
+                          posX: 0.4,
+                          zoneDistance: 100
+                      }
+                 ]
               },
               {
                   topography: {
@@ -212,7 +321,23 @@ The trackLayout optional field allows to specifiy the desired layout, which will
                       curvature: 90
                   },
                   profile: "flat",
-                  numZones: 3
+                  numZones: 3,
+                  trafficSignals: [
+                      {
+                          filename:"traffic_cone",
+                          scale: 1,
+                          zone: 1,
+                          posX: -0.4,
+                          zoneDistance: 30 // (max distance is zoneSize) 
+                      },
+                      {
+                          filename:"under_construction_barrier", 
+                          scale: 1,
+                          zone: 3,
+                          posX: 0.4,
+                          zoneDistance: 100
+                      }
+                 ]
               },
               {
                   topography: {
@@ -220,7 +345,23 @@ The trackLayout optional field allows to specifiy the desired layout, which will
                       curvature: 0
                   },
                   profile: "up",
-                  numZones: 3
+                  numZones: 3,
+                  trafficSignals: [
+                      {
+                          filename:"traffic_cone",
+                          scale: 1,
+                          zone: 1,
+                          posX: -0.4,
+                          zoneDistance: 30 // (max distance is zoneSize) 
+                      },
+                      {
+                          filename:"under_construction_barrier", 
+                          scale: 1,
+                          zone: 3,
+                          posX: 0.4,
+                          zoneDistance: 100
+                      }
+                 ]
               },
               {
                   topography: {
@@ -229,6 +370,22 @@ The trackLayout optional field allows to specifiy the desired layout, which will
                   },
                   profile: "flat",
                   numZones: 3,
+                  trafficSignals: [
+                      {
+                          filename:"traffic_cone",
+                          scale: 1,
+                          zone: 1,
+                          posX: -0.4,
+                          zoneDistance: 30 // (max distance is zoneSize) 
+                      },
+                      {
+                          filename:"under_construction_barrier", 
+                          scale: 1,
+                          zone: 3,
+                          posX: 0.4,
+                          zoneDistance: 100
+                      }
+                 ]
               },
               {
                   topography: {
@@ -237,6 +394,22 @@ The trackLayout optional field allows to specifiy the desired layout, which will
                   },
                   profile: "flat",
                   numZones: 3,
+                  trafficSignals: [
+                      {
+                          filename:"traffic_cone",
+                          scale: 1,
+                          zone: 1,
+                          posX: -0.4,
+                          zoneDistance: 30 // (max distance is zoneSize) 
+                      },
+                      {
+                          filename:"under_construction_barrier",
+                          scale: 1,
+                          zone: 3,
+                          posX: 0.4,
+                          zoneDistance: 100
+                      }
+                 ]
               }
           ],
           callback: onMessageReceived
@@ -1131,9 +1304,85 @@ within this context on the PVSio-web platform.
               posx: 0,
               maxSpeed: 20
           },
-          objects: ["tree","stump","boulder","tree2","brunetteGirlBack","bush2","hatManBack"],
-          obstacle: ["dead_tree2","column","dearRight"],
-          obstaclePerIteration: 20,
+          objects: [
+           {
+               filename:"real_tree3",
+               scale: 1,
+               positionsX: [
+                    -0.8,
+                    0.6
+               ]
+            },
+            {
+                filename:"real_tree4",
+                scale: 1,
+                positionsX: [
+                    -0.6,
+                    0.8
+                ]
+            },
+            {
+                filename:"real_building",
+                scale: 1,
+                positionsX: [
+                    -0.7,
+                   0.9
+                ]
+            },
+           {
+               filename:"real_building2",
+               scale: 1,
+               positionsX: [
+                    -0.9,
+                    0.7
+                ]
+           },
+            {
+                filename:"real_skyscraper",
+                scale: 1,
+                positionsX: [
+                    1.9,
+                    -1.7
+                ]
+            }
+          ],
+          obstacle: [
+            {
+                filename:"30kmh_limit",
+                scale: 1,
+                positionsX: [
+                    0.1
+                ]
+           },
+            {
+               filename:"horizontal_pedrestrian_crossing_rubber_bump",
+               scale: 1,
+               positionsX: [
+                    -0.1
+                ]
+            },
+            {
+                filename:"under_construction_barrier",
+                scale: 1,
+                positionsX: [
+                   0.4
+                ]
+            },
+            {
+               filename:"traffic_cone",
+               scale: 1,
+               positionsX: [
+                    -0.4
+                ]
+            },
+            {
+               filename:"traffic_light_red",
+               scale: 1,
+               positionsX: [
+                    0
+                ]
+            }
+          ],
           trackColors: {
               grass1: "#699864",
               border1: "#e00",
@@ -1387,8 +1636,85 @@ within this context on the PVSio-web platform.
               posx: 0,
               maxSpeed: 20
           },
-          objects: ["tree","stump","boulder","tree2","brunetteGirlBack","bush2","hatManBack"],
-          obstacle: ["dead_tree2","column","dearRight"],
+          objects: [
+           {
+               filename:"real_tree3",
+               scale: 1,
+               positionsX: [
+                    -0.8,
+                    0.6
+               ]
+            },
+            {
+                filename:"real_tree4",
+                scale: 1,
+                positionsX: [
+                    -0.6,
+                    0.8
+                ]
+            },
+            {
+                filename:"real_building",
+                scale: 1,
+                positionsX: [
+                    -0.7,
+                   0.9
+                ]
+            },
+           {
+               filename:"real_building2",
+               scale: 1,
+               positionsX: [
+                    -0.9,
+                    0.7
+                ]
+           },
+            {
+                filename:"real_skyscraper",
+                scale: 1,
+                positionsX: [
+                    1.9,
+                    -1.7
+                ]
+            }
+          ],
+          obstacle: [
+            {
+                filename:"30kmh_limit",
+                scale: 1,
+                positionsX: [
+                    0.1
+                ]
+           },
+            {
+               filename:"horizontal_pedrestrian_crossing_rubber_bump",
+               scale: 1,
+               positionsX: [
+                    -0.1
+                ]
+            },
+            {
+                filename:"under_construction_barrier",
+                scale: 1,
+                positionsX: [
+                   0.4
+                ]
+            },
+            {
+               filename:"traffic_cone",
+               scale: 1,
+               positionsX: [
+                    -0.4
+                ]
+            },
+            {
+               filename:"traffic_light_red",
+               scale: 1,
+               positionsX: [
+                    0
+                ]
+            }
+          ],
           obstaclePerIteration: 20,
           trackColors: {
               grass1: "#699864",
@@ -1681,7 +2007,7 @@ within this context on the PVSio-web platform.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Jul 13 2018 18:34:46 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Jul 15 2018 19:35:54 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

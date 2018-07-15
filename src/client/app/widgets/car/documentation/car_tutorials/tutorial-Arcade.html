@@ -122,9 +122,8 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     height: 650
 }, {
     parent: &quot;content&quot;, // defines parent div, which is div id=&quot;body&quot; by default
-    spritesFilename: &quot;spritesheet&quot;, // defines spritesheet configuration filename, which is &quot;spritesheet.json&quot; by default
+    spritesFilename: &quot;spritesheet2&quot;, // defines spritesheet configuration filename, which is &quot;spritesheet.json&quot; by default
     render: {
-        width: 320,
         height: 240,
         depthOfField: 150,
         camera_distance: 30,
@@ -149,8 +148,71 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
         posx: 0,
         maxSpeed: 20
     },
-    objects: [&quot;tree&quot;,&quot;stump&quot;,&quot;boulder&quot;,&quot;tree2&quot;,&quot;brunetteGirlBack&quot;,&quot;bush2&quot;,&quot;hatManBack&quot;],
-    obstacle: [&quot;dead_tree2&quot;,&quot;column&quot;,&quot;dearRight&quot;],
+    objects: [
+        {
+            filename:&quot;real_tree3&quot;,
+            scale: 1,
+            positionsX: [
+                -0.8,
+                0.6
+            ]
+        },
+        {
+            filename:&quot;real_tree4&quot;,
+            scale: 1,
+            positionsX: [
+                -0.6,
+                0.8
+            ]
+        },
+        {
+            filename:&quot;real_building&quot;,
+            scale: 1,
+            positionsX: [
+                -0.7,
+                0.9
+            ]
+        },
+        {
+            filename:&quot;real_building2&quot;,
+            scale: 1,
+            positionsX: [
+                -0.9,
+                0.7
+            ]
+        },
+        {
+            filename:&quot;real_skyscraper&quot;,
+            scale: 1,
+            positionsX: [
+                1.9,
+                -1.7
+            ]
+        }
+    ],
+    obstacle: [
+        {
+            filename:&quot;30kmh_limit&quot;,
+            scale: 1,
+            positionsX: [
+                0.1
+            ]
+        },
+        {
+            filename:&quot;horizontal_pedrestrian_crossing_rubber_bump&quot;,
+            scale: 1,
+            positionsX: [
+                -0.1
+            ]
+        },
+        {
+            filename:&quot;traffic_light_red&quot;,
+            scale: 1,
+            positionsX: [
+                0
+            ]
+        }
+    ],
     obstaclePerIteration: 20,
     trackColors: {
         grass1: &quot;#699864&quot;,
@@ -179,6 +241,22 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //         },
     //         profile: &quot;flat&quot;,
     //         numZones: 8,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          },
+    //          {
+    //             filename:&quot;under_construction_barrier&quot;,
+    //             zone: 3,
+    //             scale: 1,
+    //             posX: 0.4,
+    //             zoneDistance: 100
+    //          }
+    //         ]
     //     }
     // ],
     trackLayout: [ 
@@ -195,7 +273,23 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
                 curvature: -90
             },
             profile: &quot;flat&quot;,
-            numZones: 3
+            numZones: 3,
+            trafficSignals: [
+              {
+                 filename:&quot;traffic_cone&quot;,
+                 scale: 1,
+                 zone: 1,
+                 posX: -0.4,
+                 zoneDistance: 30  (max distance is zoneSize) 
+              },
+              {
+                 filename:&quot;under_construction_barrier&quot;,
+                 zone: 3,
+                 scale: 1,
+                 posX: 0.4,
+                 zoneDistance: 100
+              }
+            ]
         },
         {
             topography: {
@@ -203,7 +297,23 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
                 curvature: 0
             },
             profile: &quot;down&quot;,
-            numZones: 3
+            numZones: 3,
+            trafficSignals: [
+              {
+                 filename:&quot;traffic_cone&quot;,
+                 scale: 1,
+                 zone: 1,
+                 posX: -0.4,
+                 zoneDistance: 30  (max distance is zoneSize) 
+              },
+              {
+                 filename:&quot;under_construction_barrier&quot;,
+                 zone: 3,
+                 scale: 1,
+                 posX: 0.4,
+                 zoneDistance: 100
+              }
+            ]
         },
         {
             topography: {
@@ -211,7 +321,23 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
                 curvature: 90
             },
             profile: &quot;flat&quot;,
-            numZones: 3
+            numZones: 3,
+            trafficSignals: [
+              {
+                 filename:&quot;traffic_cone&quot;,
+                 scale: 1,
+                 zone: 1,
+                 posX: -0.4,
+                 zoneDistance: 30  (max distance is zoneSize) 
+              },
+              {
+                 filename:&quot;under_construction_barrier&quot;,
+                 zone: 3,
+                 scale: 1,
+                 posX: 0.4,
+                 zoneDistance: 100
+              }
+            ]
         },
         {
             topography: {
@@ -219,7 +345,23 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
                 curvature: 0
             },
             profile: &quot;up&quot;,
-            numZones: 3
+            numZones: 3,
+            trafficSignals: [
+              {
+                 filename:&quot;traffic_cone&quot;,
+                 scale: 1,
+                 zone: 1,
+                 posX: -0.4,
+                 zoneDistance: 30  (max distance is zoneSize) 
+              },
+              {
+                 filename:&quot;under_construction_barrier&quot;,
+                 zone: 3,
+                 scale: 1,
+                 posX: 0.4,
+                 zoneDistance: 100
+              }
+            ]
         },
         {
             topography: {
@@ -228,6 +370,22 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
             },
             profile: &quot;flat&quot;,
             numZones: 3,
+            trafficSignals: [
+              {
+                 filename:&quot;traffic_cone&quot;,
+                 scale: 1,
+                 zone: 1,
+                 posX: -0.4,
+                 zoneDistance: 30  (max distance is zoneSize) 
+              },
+              {
+                 filename:&quot;under_construction_barrier&quot;,
+                 zone: 3,
+                 scale: 1,
+                 posX: 0.4,
+                 zoneDistance: 100
+              }
+            ]
         },
         {
             topography: {
@@ -236,6 +394,22 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
             },
             profile: &quot;flat&quot;,
             numZones: 3,
+            trafficSignals: [
+              {
+                 filename:&quot;traffic_cone&quot;,
+                 scale: 1,
+                 zone: 1,
+                 posX: -0.4,
+                 zoneDistance: 30  (max distance is zoneSize) 
+              },
+              {
+                 filename:&quot;under_construction_barrier&quot;,
+                 zone: 3,
+                 scale: 1,
+                 posX: 0.4,
+                 zoneDistance: 100
+              }
+            ]
         }
     ],
     // trackLayout: [ 
@@ -253,6 +427,15 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //         },
     //         profile: &quot;flat&quot;,
     //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -261,6 +444,15 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //         },
     //         profile: &quot;flat&quot;,
     //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -268,7 +460,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 0
     //         },
     //         profile: &quot;up&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -276,7 +477,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 90
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -284,7 +494,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 0
     //         },
     //         profile: &quot;down&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -292,7 +511,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: -90
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     }
     // ],
     // trackLayout: [ 
@@ -309,7 +537,23 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 90
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 4
+    //         numZones: 4,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          },
+    //          {
+    //             filename:&quot;under_construction_barrier&quot;,
+    //             zone: 3,
+    //             scale: 1,
+    //             posX: 0.4,
+    //             zoneDistance: 100
+    //          }
+    //         ]
     //     }
     // ],
     // trackLayout: [ 
@@ -326,7 +570,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: -90
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -334,7 +587,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 0
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -342,7 +604,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: -90
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -350,7 +621,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 0
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -358,7 +638,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: -90
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -366,7 +655,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 0
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -374,7 +672,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: -90
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -382,7 +689,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 0
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     }
     // ],
     // trackLayout: [ 
@@ -399,7 +715,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: -90
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -407,7 +732,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 0
     //         },
     //         profile: &quot;down&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -415,7 +749,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 90
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -423,7 +766,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 0
     //         },
     //         profile: &quot;up&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -431,7 +783,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: -90
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     }
     // ],
     // trackLayout: [ 
@@ -448,7 +809,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: -90
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 4
+    //         numZones: 4,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     }
     // ],
     // trackLayout: [ 
@@ -465,7 +835,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 90
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -473,7 +852,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 0
     //         },
     //         profile: &quot;down&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -481,7 +869,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: -90
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -489,7 +886,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 0
     //         },
     //         profile: &quot;up&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -497,7 +903,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 90
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     }
     // ],
     // trackLayout: [ 
@@ -514,7 +929,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 90
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -522,7 +946,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 0
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -530,7 +963,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 90
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -538,7 +980,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 0
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -546,7 +997,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 90
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -554,7 +1014,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 0
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -562,7 +1031,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 90
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     },
     //     {
     //         topography: {
@@ -570,7 +1048,16 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
     //             curvature: 0
     //         },
     //         profile: &quot;flat&quot;,
-    //         numZones: 1
+    //         numZones: 1,
+    //         trafficSignals: [
+    //          {
+    //             filename:&quot;traffic_cone&quot;,
+    //             scale: 1,
+    //             zone: 1,
+    //             posX: -0.4,
+    //             zoneDistance: 30 // (max distance is zoneSize) 
+    //          }
+    //         ]
     //     }
     // ],
     callback: onMessageReceived
@@ -593,8 +1080,6 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator(&quot;trackGeneratorWid
 <pre class="prettyprint source"><code>parent: &quot;body&quot;,
 spritesFilename: &quot;spritesheet&quot;,
 render: {
-    width: 320,
-    height: 240,
     depthOfField: 150,
     camera_distance: 30,
     camera_height: 100
@@ -617,8 +1102,8 @@ controllable_car: {
     posx: 0,
     maxSpeed: 20
 },
-objects: [&quot;tree&quot;,&quot;boulder&quot;],
-obstacle: [&quot;boulder&quot;],
+objects: [],
+obstacle: [],
 obstaclePerIteration: 50,
 trackColors: {
     grass1: &quot;#699864&quot;,
@@ -664,6 +1149,20 @@ trackLayout: []</code></pre></blockquote>
 <li><strong>Render the desired track, created previously, i.e. created in step 1.</strong></li>
 </ol>
 <pre class="prettyprint source"><code>let arcade = {};
+
+// ----------------------------- LINCOLN MKC DASHBOARD DESIGN -----------------------------
+arcade.lincolnMKCDashboard = new LincolnMKCDashboard('lincolnMKCDashboard',
+    {
+        top: 5, left: 0, width: 450, height: 140 
+    },{ 
+        parent: &quot;content&quot;, // defines parent div, which is div id=&quot;body&quot; by default 
+        dashIndex: 1,
+        design: &quot;before&quot;, // &quot;after&quot;,
+        buttonsPVS: [ &quot;startAndStop&quot;, &quot;activateSportMode&quot;],
+        callback: onMessageReceived
+        } 
+    );
+
 // ----------------------------- DASHBOARD INTERACTION -----------------------------
 arcade.up = new ButtonExternalController(&quot;accelerate&quot;, { width: 0, height: 0 }, {
     callback: onMessageReceived,
@@ -709,9 +1208,10 @@ arcade.arcadeWidget = new Arcade(&quot;arcadeWidget&quot;, {
     height: 240
 }, {
     parent: &quot;content&quot;, // defines parent div, which is div id=&quot;body&quot; by default
+    scaleWindow: 1, // scales canvas div
     trackFilename: &quot;trackLayout2&quot;,// &quot;track-curves-slopes-random&quot;, // &quot;track-straight-random&quot;, // defines track configuration filename, which is &quot;track-curves-slopes-random.json&quot; by default
-    spritesFilename: &quot;spritesheet&quot;, // defines spritesheet configuration filename, which is &quot;spritesheet.json&quot; by default
-    spritesFiles: [&quot;spritesheet&quot;,&quot;spritesheet.text&quot;], // defines all spritesheets(images). Default are &quot;spritesheet.png&quot; and &quot;spritesheet.text.png&quot;
+    spritesFilename: &quot;spritesheet2&quot;, // defines spritesheet configuration filename, which is &quot;spritesheet.json&quot; by default
+    spritesFiles: [&quot;spritesheet2&quot;,&quot;spritesheet.text&quot;], // defines all spritesheets(images). Default are &quot;spritesheet.png&quot; and &quot;spritesheet.text.png&quot;
     realisticImgs: false,
     vehicle: &quot;car&quot;, // available vehicles: [&quot;airplane&quot;,&quot;bicycle&quot;,&quot;car&quot;,&quot;helicopter&quot;,&quot;motorbike&quot;]
     vehicleImgIndex: 2, // defines vehicle sprite image suffix
@@ -863,7 +1363,7 @@ unmute_attribute: &quot;unmute&quot;,</code></pre></blockquote>
 </blockquote>
 <pre class="prettyprint source"><code>% ---------------------------------------------------------------
 %  Theory: car_demo
-%  Author: Paolo Masci and José Carlos
+%  Author: Paolo Masci and Jose Carlos
 %          INESC TEC and Universidade do Minho
 % ---------------------------------------------------------------
 
@@ -923,6 +1423,8 @@ main: THEORY
   Action: TYPE = { idle, acc, brake, pause, resume, quit }
   Direction: TYPE = { left, right, straight }
   Sound: TYPE = { unmute, mute }
+  Startstopbutton: TYPE = { off, on }
+  Sportmodebutton: TYPE = { off, on }
   Time: TYPE = [# hour: int, min: int #]
 
   state: TYPE = [#
@@ -938,6 +1440,8 @@ main: THEORY
     action: Action,
     direction: Direction,
     sound: Sound,
+    startstopbutton: Startstopbutton,
+    sportmodebutton: Sportmodebutton,
     lap: Lap
   #]
 
@@ -957,6 +1461,8 @@ main: THEORY
     action := idle,
     direction := straight,
     sound := unmute,
+    startstopbutton := off,
+    sportmodebutton := off,
     lap := (# val := LAP_INIT #)
   #)
 
@@ -982,7 +1488,22 @@ main: THEORY
      g = GEAR_5 -> 0.6,
      g = GEAR_6 -> 0.3
    ENDCOND
+
+  getAccSportMode(g: Gear): Speed_Val =
+   COND
+      g = P OR g = N -> 0,
+      g = R -> -5,
+      g = GEAR_1 -> 1.3,
+      g = GEAR_2 -> 1.5,
+      g = GEAR_3 -> 1.8,
+      g = GEAR_4 -> 2,
+      g = GEAR_5 -> 2.2,
+      g = GEAR_6 -> 2.5
+   ENDCOND
+
   getBrk(g: Gear): [# speed: real, rpm: real #] = (# speed := -2, rpm := -1 #)
+
+  getBrkSportMode(g: Gear): [# speed: real, rpm: real #] = (# speed := -8, rpm := -2 #)
 
   gearUP(st: state): state =
     LET g = gear(st) IN
@@ -1017,11 +1538,37 @@ main: THEORY
     st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
      IN IF rpm(st) > 6 THEN gearUP(st) ELSE st ENDIF
 
+  accelerateSportMode(st: state): state =
+    LET st = st WITH [ gear := IF gear(st) = N THEN GEAR_1 ELSE gear(st) ENDIF ],
+        step = getAccSportMode(gear(st)),
+        st = IF speed(st)`val + step &lt; MAX_SPEED
+             THEN st WITH [ speed := speed(st) WITH [ val:= speed(st)`val + step ]]
+         ELSE st WITH [ speed := speed(st) WITH [ val:= MAX_SPEED ]] ENDIF,
+    new_rpm = getRPM(st),
+    st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+     IN IF rpm(st) > 6 THEN gearUP(st) ELSE st ENDIF
+
   brake(st: state): state =
     LET step = getBrk(gear(st)),
         st = IF speed(st)`val >= 0
          THEN st WITH [ speed := speed(st) WITH
-                    [ val := IF speed(st)`val + step`speed > 0
+              [ val := IF speed(st)`val + step`speed > 0
+                   THEN speed(st)`val + step`speed
+                   ELSE 0 ENDIF ]]
+         ELSE %-- the car was driving in reverse, so the speed was negative
+                  st WITH [ speed := speed(st) WITH
+                  [ val:= IF speed(st)`val - step`speed &lt; 0
+                  THEN speed(st)`val - step`speed
+                  ELSE 0 ENDIF ]] ENDIF,
+    new_rpm = getRPM(st),
+        st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+     IN IF rpm(st) &lt; 4 THEN gearDOWN(st) ELSE st ENDIF
+
+  brakeSportMode(st: state): state =
+    LET step = getBrkSportMode(gear(st)),
+        st = IF speed(st)`val >= 0
+         THEN st WITH [ speed := speed(st) WITH
+              [ val := IF speed(st)`val + step`speed > 0
                    THEN speed(st)`val + step`speed
                    ELSE 0 ENDIF ]]
          ELSE %-- the car was driving in reverse, so the speed was negative
@@ -1049,9 +1596,9 @@ main: THEORY
                                             ELSE -> speed(st)`val ENDCOND,
             st = st WITH [ speed := speed(st) WITH [ val := new_speed ]]
          IN st WITH [ rpm := getRPM(st),
-                         odo := inc(odo(st), speed(st)),
+                      odo := inc(odo(st), speed(st)),
               posx := posx(st) WITH [ val := COND steering(st) >= 20 -> posx(st)`val + POSX_STEP,
-                                                     steering(st) &lt;= -20 -> posx(st)`val - POSX_STEP,
+                                                  steering(st) &lt;= -20 -> posx(st)`val - POSX_STEP,
                                   ELSE -> posx(st)`val ENDCOND ],
                   direction := COND steering(st) >= 20 -> right,
                         steering(st) &lt;= -20 -> left,
@@ -1060,10 +1607,16 @@ main: THEORY
 
 
   %-- APIs
-  press_accelerate(st: state): state = accelerate(st) WITH [ action := acc ]
+  press_accelerate(st: state): state = IF sportmodebutton(st) = off
+                                        THEN accelerate(st) WITH [ action := acc ]
+                                        ELSE accelerateSportMode(st) WITH [ action := acc ]
+                                      ENDIF
   release_accelerate(st: state): state = st WITH [ action := idle ]
 
-  press_brake(st: state): state = brake(st) WITH [ action := brake ]
+  press_brake(st: state): state = IF sportmodebutton(st) = off
+                                    THEN brake(st) WITH [ action := brake ]
+                                    ELSE brakeSportMode(st) WITH [ action := brake ]
+                                  ENDIF
   release_brake(st: state): state = st WITH [ action := idle ]
 
   STEERING_STEP: real = 20 %deg
@@ -1085,16 +1638,22 @@ main: THEORY
 
   %-- API for virtual Keypad controller 
   %-- TODO create the interactions with Arcade Driving Simulator
-  press_quit(st: state): state = st WITH [ action := quit ]
+  press_quit(st: state): state = st WITH [ action := quit, startstopbutton := off ]
   release_quit(st: state): state = st WITH [ action := idle ]
-  press_pause(st: state): state = st WITH [ action := pause ]
+  press_pause(st: state): state = st WITH [ action := pause, startstopbutton := off ]
   release_pause(st: state): state = st WITH [ action := idle ]
-  press_resume(st: state): state = st WITH [ action := resume ]
+  press_resume(st: state): state = st WITH [ action := resume, startstopbutton := on ]
   release_resume(st: state): state = st WITH [ action := idle ]
 
   %-- API for external controllers such as PS4 gamepad
-  click_accelerate(st: state): state = accelerate(st) WITH [ action := acc ]
-  click_brake(st: state): state = brake(st) WITH [ action := brake ]
+  click_accelerate(st: state): state = IF sportmodebutton(st) = off
+                                        THEN accelerate(st) WITH [ action := acc ]
+                                        ELSE accelerateSportMode(st) WITH [ action := acc ]
+                                      ENDIF
+  click_brake(st: state): state = IF sportmodebutton(st) = off
+                                    THEN brake(st) WITH [ action := brake ]
+                                    ELSE brakeSportMode(st) WITH [ action := brake ]
+                                  ENDIF
 
   %-- API for external controller interactive image
   press_rightArrow(st: state): state = steering_wheel_right(st)
@@ -1102,6 +1661,27 @@ main: THEORY
 
   press_leftArrow(st: state): state = steering_wheel_left(st)
   release_leftArrow(st: state): state = st
+
+  %-- API for case study 2015 Lincoln MCK interactive dashboard image
+  startAndStop(st: state): state = 
+    LET st = IF startstopbutton(st) = off
+              THEN st WITH [ action := resume, startstopbutton := on ]
+              ELSE st WITH [ action := quit, startstopbutton := off ] 
+             ENDIF
+    IN st 
+
+  activateSportMode(st: state): state = 
+    LET st = IF sportmodebutton(st) = off
+              THEN st WITH [ sportmodebutton := on ]
+              ELSE st WITH [ sportmodebutton := off ] 
+             ENDIF
+    IN st 
+
+  press_startAndStop(st: state): state = startAndStop(st)
+  release_startAndStop(st: state): state = st WITH [ action := idle ]
+
+  press_activateSportMode(st: state): state = activateSportMode(st)
+  release_activateSportMode(st: state): state = st WITH [ action := idle ]
 
 END main</code></pre><blockquote>
 <p>This set of specifications was leveraged from the demo 'car', <a href="http://localhost:8082/demos/car/">http://localhost:8082/demos/car/</a>, and developed in order to add the necessary parameters, to maintain the state of the simulation. The modifications that were added were,</p>
@@ -1139,8 +1719,59 @@ state: TYPE = [#
     direction: Direction,
     sound: Sound,
     lap: Lap
-#]</code></pre><blockquote>
+#]
+
+getAccSportMode(g: Gear): Speed_Val =
+    COND
+      g = P OR g = N -> 0,
+      g = R -> -5,
+      g = GEAR_1 -> 1.3,
+      g = GEAR_2 -> 1.5,
+      g = GEAR_3 -> 1.8,
+      g = GEAR_4 -> 2,
+      g = GEAR_5 -> 2.2,
+      g = GEAR_6 -> 2.5
+    ENDCOND
+
+getBrk(g: Gear): [# speed: real, rpm: real #] = (# speed := -2, rpm := -1 #)
+
+getBrkSportMode(g: Gear): [# speed: real, rpm: real #] = (# speed := -8, rpm := -2 #)
+
+accelerateSportMode(st: state): state =
+    LET st = st WITH [ gear := IF gear(st) = N THEN GEAR_1 ELSE gear(st) ENDIF ],
+        step = getAccSportMode(gear(st)),
+        st = IF speed(st)`val + step &lt; MAX_SPEED
+             THEN st WITH [ speed := speed(st) WITH [ val:= speed(st)`val + step ]]
+         ELSE st WITH [ speed := speed(st) WITH [ val:= MAX_SPEED ]] ENDIF,
+    new_rpm = getRPM(st),
+    st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+     IN IF rpm(st) > 6 THEN gearUP(st) ELSE st ENDIF
+
+brakeSportMode(st: state): state =
+    LET step = getBrkSportMode(gear(st)),
+        st = IF speed(st)`val >= 0
+         THEN st WITH [ speed := speed(st) WITH
+              [ val := IF speed(st)`val + step`speed > 0
+                   THEN speed(st)`val + step`speed
+                   ELSE 0 ENDIF ]]
+         ELSE %-- the car was driving in reverse, so the speed was negative
+                  st WITH [ speed := speed(st) WITH
+                  [ val:= IF speed(st)`val - step`speed &lt; 0
+                  THEN speed(st)`val - step`speed
+                  ELSE 0 ENDIF ]] ENDIF,
+    new_rpm = getRPM(st),
+        st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+     IN IF rpm(st) &lt; 4 THEN gearDOWN(st) ELSE st ENDIF
+
+press_startAndStop(st: state): state = startAndStop(st)
+release_startAndStop(st: state): state = st WITH [ action := idle ]
+
+press_activateSportMode(st: state): state = activateSportMode(st)
+release_activateSportMode(st: state): state = st WITH [ action := idle ]</code></pre><blockquote>
 <p>Position, PosX and Speed allows to set the vehicle's position and speed during the simulation. Sound allows the Arcade widget to know when to mute/unmute the audio files, using the Sound widget API. PosX value changes based on the steering wheel rotation. Position value changes based on actions 'accelerate'/'brake' and the current speed value. Actions 'pause','resume' and 'quit' allows the Arcade widget to reveal the 'pause','resume' and 'quit' menus, respetively. Lap allows to set multiple laps in the simulation, updating the current lap number when new_lap function is invoked.</p>
+</blockquote>
+<blockquote>
+<p>Specifications 'startAndStop' and 'activateSportMode' are defining the behaviour, in the realistic demo done for the conference ICGI 2018 paper. That is, is the specification that allows to simulate the activation of the sport mode when the proper button is clicked and observe the design issue/flaw reported by many drivers, which led its manufacturer to recall the vehicles and replace that design. </p>
 </blockquote>
 </article>
 
@@ -1155,7 +1786,7 @@ state: TYPE = [#
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Jul 13 2018 18:34:46 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Jul 15 2018 19:35:54 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -196,7 +196,7 @@ define(function (require, exports, module) {
 
     /**
      * @function constructor
-     * @public
+     * @private
      * @description Constructor for the Arcade widget.
      * @param id {String} The id of the widget instance.
      * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
@@ -682,7 +682,7 @@ define(function (require, exports, module) {
 
     /**
      * @function startSimulation
-     * @public
+     * @private
      * @description StartSimulation method of the Arcade widget. This method sets timeout to load all configuration files provided as opt fields (dynamic require).
      * @memberof module:Arcade
      * @instance
@@ -702,7 +702,7 @@ define(function (require, exports, module) {
 
     /**
      * @function startSimulationAux
-     * @private
+     * @public
      * @description StartSimulationAux method of the Arcade widget. This method loads the desired JSON Files and starts the corresponding simulation.
      * @memberof module:Arcade
      * @instance
@@ -998,7 +998,7 @@ define(function (require, exports, module) {
 
     /**
      * @function hide
-     * @public
+     * @private
      * @description Hide method of the Arcade widget. This method changes the current main div visibility to 'hidden'.
      * @memberof module:Arcade
      * @instance
@@ -1009,7 +1009,7 @@ define(function (require, exports, module) {
 
     /**
      * @function reveal
-     * @public
+     * @private
      * @description Reveal method of the Arcade widget. This method changes the current main div visibility to 'visible'.
      * @memberof module:Arcade
      * @instance
@@ -1020,7 +1020,7 @@ define(function (require, exports, module) {
 
     /**
      * @function onPageLoad
-     * @private
+     * @public
      * @description onPageLoad method of the Arcade widget. This method starts the arcade simulation and loads the required spritesheets, with all sprites defined in track object.
      * @param spritesFiles {Array} array of strings, with the names of the sprites images (spritesheets) to use. By default two are used, one for the objects and another for the font (text).
      * @memberof module:Arcade
@@ -1066,7 +1066,7 @@ define(function (require, exports, module) {
 
     /**
      * @function renderSplashFrame
-     * @private
+     * @public
      * @description RenderSplashFrame method of the Arcade widget. This method draws the simulator home page, where the commands to control the simulator are displayed.
      * It is also initialized the lap timer, using jchronometer lib, as soon as the user uses the command to start the simulation(renderSimulatorFrame).
      * @memberof module:Arcade
@@ -1165,7 +1165,7 @@ define(function (require, exports, module) {
 
      /**
      * @function renderSplashPauseFrame
-     * @private
+     * @public
      * @description RenderSplashPauseFrame method of the Arcade widget. This method draws the simulator pause page, where the commands to control the simulator and to resume the simulation(renderSimulatorFrame) are displayed.
      * It is also resumed the lap timer, using jchronometer lib, as soon as the user uses the command to resume the simulation.
      * @memberof module:Arcade
@@ -1235,7 +1235,7 @@ define(function (require, exports, module) {
 
     /**
      * @function renderSplashEndFrame
-     * @private
+     * @public
      * @description RenderSplashEndFrame method of the Arcade widget. This method draws the simulator end page, where the commands to control the simulator and to start another simulation(renderSimulatorFrame) are displayed.
      * It is also initialized the new lap timer, using jchronometer lib, as soon as the user uses the command to start the new simulation.
      * @memberof module:Arcade
@@ -1313,7 +1313,7 @@ define(function (require, exports, module) {
 
     /**
      * @function renderSimulatorFrame
-     * @private
+     * @public
      * @description RenderSimulatorFrame method of the Arcade widget. This method renders each frame during the simulation.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -1660,7 +1660,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawText
-     * @private
+     * @public
      * @description DrawText method of the Arcade widget. This method draws text using sprite letters to simulate the arcade look.
      * That is, reading string and for each letter draw the corresponding sprite letter, using image spritesheetsImages[imageIndex].
      * @param string {String} Text to be rendered with the available text font.
@@ -1692,7 +1692,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawLanePos
-     * @private
+     * @public
      * @description DrawLanePos method of the Arcade widget. This method draws one lane in the desired position, received as argument.
      * @param pos1 {Float}
      * @param scale1 {Float}
@@ -1714,7 +1714,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawLanes
-     * @private
+     * @public
      * @description DrawLanes method of the Arcade widget. This method draws lanes according to numLanes, received as argument.
      * @param pos1 {Float}
      * @param scale1 {Float}
@@ -1745,7 +1745,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawGuidingLine
-     * @private
+     * @public
      * @description DrawGuidingLine method of the Arcade widget. This method draws a guiding line within the track.
      * @param pos1 {Float}
      * @param scale1 {Float}
@@ -1774,7 +1774,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSimpleArrowFront
-     * @private
+     * @public
      * @description DrawSimpleArrowFront method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
      * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
@@ -1797,7 +1797,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSimpleArrowDown
-     * @private
+     * @public
      * @description DrawSimpleArrowDown method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
      * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
@@ -1820,7 +1820,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSimpleArrowLeft
-     * @private
+     * @public
      * @description DrawSimpleArrowLeft method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
      * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
@@ -1852,7 +1852,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSimpleArrowRight
-     * @private
+     * @public
      * @description DrawSimpleArrowRight method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
      * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
@@ -1884,7 +1884,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawArrowFront
-     * @private
+     * @public
      * @description DrawArrowFront method of the Arcade widget. This method draws a guiding arrow in front of the vehicle.
      * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
@@ -1922,7 +1922,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawArrowRight
-     * @private
+     * @public
      * @description DrawArrowRight method of the Arcade widget. This method draws a guiding arrow, turned right, in front of the vehicle.
      * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
@@ -1968,7 +1968,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawArrowLeft
-     * @private
+     * @public
      * @description DrawArrowLeft method of the Arcade widget. This method draws a guiding arrow, turned left, in front of the vehicle.
      * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
      * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
@@ -2016,7 +2016,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSprite
-     * @private
+     * @public
      * @description DrawSprite method of the Arcade widget. This method draws an image of spritesheetsImages array. Usually it uses index 0, since this method is used to
      * draw objects and index 0 has the spritesheet image with all available objects. This method either receives only a sprite (and null as other arguments) or receives
      * an image, x, y and scale (sprite as a null argument). This allows to use render different images and sprites.
@@ -2047,7 +2047,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSegmentPortion
-     * @private
+     * @public
      * @description DrawSegmentPortion method of the Arcade widget. This method draws a segment portion.
      * @param pos1 {Float}
      * @param scale1 {Float}
@@ -2077,7 +2077,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawBackground
-     * @private
+     * @public
      * @description DrawBackground method of the Arcade widget. This method draws the main_sprites.background image, in position 'position'.
      * @param position {Float} Value of posx in controllable_car object, i.e. horizontal position, which is computed by adding/subtracting the turning field value every time the vehicle is turned left or right, in updateControllableCar method.
      * @memberof module:Arcade
@@ -2132,7 +2132,7 @@ define(function (require, exports, module) {
 
     /**
      * @function setColorsEndCanvas
-     * @private
+     * @public
      * @description SetColorsEndCanvas method of the Arcade widget. This method set the final colors of the track segment and lane.
      * The goal is to create the illusion of the starting/finishing line, which is black and white, and therefore, different from the colors that
      * those two segments have during the simulation.
@@ -2150,7 +2150,7 @@ define(function (require, exports, module) {
 
     /**
      * @function setColorsCanvas
-     * @private
+     * @public
      * @description SetColorsCanvas method of the Arcade widget. This method set the initial colors of canvas, which will prevail until the end of the track is reached.
      * @param alternate {Boolean} Value of comparison "counter < numberOfSegmentPerColor", which allows to choose the color of the segment depending on which segment is currently being rendered.
      * That is, numberOfSegmentPerColor has the number of sequential segments to be colored with the same color, and when reached the following segments must be rendered with another color so the simulator can
@@ -2180,7 +2180,7 @@ define(function (require, exports, module) {
 
     /**
      * @function drawSegment
-     * @private
+     * @public
      * @description DrawSegment method of the Arcade widget. This method draws a segment of the simulator(which corresponds to an entire strip of the canvas).
      * To do so, this method uses drawSegmentPortion, setColorsEndCanvas methods. The latter is used to draw the finishing line (different colors).
      * @param position1 {Float}
@@ -2286,7 +2286,7 @@ define(function (require, exports, module) {
 
     /**
      * @function updateControllableCar
-     * @private
+     * @public
      * @description UpdateControllableCar method of the Arcade widget. This method updates the controllable car position and speed.
      * @memberof module:Arcade
      * @returns {carSprite} The created object with car sprite (image) and its X,Y coordinates, to be rendered after current position and speed has been changed.
@@ -2450,7 +2450,7 @@ define(function (require, exports, module) {
 
      /**
      * @function setControllableCarPosition
-     * @private
+     * @public
      * @description SetControllableCarPosition method of the Arcade widget. This method sets the controllable car position, posx, speed and vehicle sprite based on current direction.
      * @param {String} vehicleCurrentDirection the current vehicle direction, that allows to select the proper vehicle sprite(faced front, left or right).
      * @param {Float} newSpeed the new value of speed.
@@ -2504,7 +2504,7 @@ define(function (require, exports, module) {
 
     /**
      * @function calculateNewControllableCarPosition
-     * @private
+     * @public
      * @description calculateNewControllableCarPosition method of the Arcade widget. This method calculates the new controllable car position, based on
      * its speed, current position and posx values updated by the render method, using PVS status.
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -2683,7 +2683,7 @@ define(function (require, exports, module) {
 
     /**
      * @function getNrIterations
-     * @private
+     * @public
      * @description GetNrIterations method of the Arcade widget. This method computes the number of iterations required to draw the track defined in the JSON configuration file.
      * In the final version, the JSON structure, see example 1), will be the same, however fields 'height' and 'curve' will have other values
      * other than 0 and 0, respectively.
@@ -2737,7 +2737,7 @@ define(function (require, exports, module) {
 
     /**
      * @function detectBrowserType
-     * @private
+     * @public
      * @description DetectBrowserType method of the Arcade widget. This method detects current open Browser.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -2761,7 +2761,7 @@ define(function (require, exports, module) {
 
     /**
      * @function init
-     * @private
+     * @public
      * @description Init method of the Arcade widget. This method inits the canvas and adds the events onkeydown and onkeyup to capture the desired actions, i.e. accelerate, brake, etc.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -2775,7 +2775,7 @@ define(function (require, exports, module) {
 
     /**
      * @function render
-     * @public
+     * @private
      * @description Render method of the Arcade widget.
      * @param pvsState {Float} the new PVS state.
      * @memberof module:Arcade

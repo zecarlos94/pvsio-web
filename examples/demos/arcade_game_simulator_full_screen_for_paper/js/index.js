@@ -400,10 +400,15 @@ require([
         
         // Render arcade game components
         let firstResume = 0;
+        let renderHands = false;
         function render(res) {
             if(res.action==="resume"){
                 firstResume = 1;
                 $("#mobileDevicesController_virtualKeypad_controller").css("visibility", "visible");
+                if(renderHands){
+                    $("#hand_right").css("visibility", "visible");
+                    $("#hand_left").css("visibility", "visible");
+                }
             }
             if(res.action==="pause" || res.action==="quit"){
                 $("#arcadeSimulator_arcadeWidget").css("height", "770px");
@@ -411,6 +416,10 @@ require([
                 // Hide Case Study Dashboard Image
                 arcade.lincolnMKCDashboard.hide();
                 $("#gauges").css("visibility", "hidden");
+                if(renderHands){
+                    $("#hand_right").css("visibility", "hidden");
+                    $("#hand_left").css("visibility", "hidden");
+                }
                 arcade.steeringWheel.hide();
                 arcade.virtualKeypadController.hide();
             }
@@ -419,6 +428,10 @@ require([
                 // Render Case Study Dashboard Image
                 arcade.lincolnMKCDashboard.render();
                 $("#gauges").css("visibility", "visible");
+                if(renderHands){
+                    $("#hand_right").css("visibility", "visible");
+                    $("#hand_left").css("visibility", "visible");
+                }
                 arcade.virtualKeypadController.reveal();
                 // Overlapping VirtualKeypadController in relation to Arcade Simulator
                 $("#mobileDevicesController_virtualKeypad_controller").css("z-index", "1");
@@ -428,6 +441,445 @@ require([
                 arcade.speedometerGauge.render(evaluate(res.speed.val));
                 arcade.tachometerGauge.render(evaluate(res.rpm));
                 arcade.steeringWheel.render(evaluate(res.steering));
+
+                if(renderHands){
+                    let rotateAngle = "";
+                    switch(evaluate(res.steering)){
+                        case 0: 
+                            rotateAngle = "rotate(" + 8 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "880px",
+                                "left" :"1105px"
+                            });
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1330px",
+                                "left" :"760px"
+                            });
+                            break;
+                        case 10: 
+                            rotateAngle = "rotate(" + 60 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1100px",
+                                "left" :"975px"
+                            });
+                            rotateAngle = "rotate(" + 20 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1420px",
+                                "left" :"500px"
+                            });
+                            break;
+                        case 20: 
+                            rotateAngle = "rotate(" + 60 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1100px",
+                                "left" :"975px"
+                            });
+                            rotateAngle = "rotate(" + 20 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1420px",
+                                "left" :"500px"
+                            });
+                            break;
+                        case 30: 
+                            rotateAngle = "rotate(" + 60 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1130px",
+                                "left" :"975px"
+                            });
+                            rotateAngle = "rotate(" + 20 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1400px",
+                                "left" :"500px"
+                            });
+                            break;
+                        case 40: 
+                            rotateAngle = "rotate(" + 60 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1130px",
+                                "left" :"975px"
+                            });
+                            rotateAngle = "rotate(" + 20 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1400px",
+                                "left" :"500px"
+                            });
+                            break;
+                        case 50: 
+                            rotateAngle = "rotate(" + 60 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1150px",
+                                "left" :"975px"
+                            });
+                            rotateAngle = "rotate(" + 20 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1380px",
+                                "left" :"500px"
+                            });
+                            break;
+                        case 60: 
+                            rotateAngle = "rotate(" + 60 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1150px",
+                                "left" :"975px"
+                            });
+                            rotateAngle = "rotate(" + 20 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1380px",
+                                "left" :"500px"
+                            });
+                            break;
+                        case 70:
+                            rotateAngle = "rotate(" + 60 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1170px",
+                                "left" :"975px"
+                            });
+                            rotateAngle = "rotate(" + 20 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1360px",
+                                "left" :"500px"
+                            });
+                            break;
+                        case 80:
+                            rotateAngle = "rotate(" + 60 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1170px",
+                                "left" :"975px"
+                            });
+                            rotateAngle = "rotate(" + 20 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1360px",
+                                "left" :"500px"
+                            });
+                            break;
+                        case 100:
+                            rotateAngle = "rotate(" + 60 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1190px",
+                                "left" :"975px"
+                            });
+                            rotateAngle = "rotate(" + 20 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1340px",
+                                "left" :"500px"
+                            });
+                            break;
+                        case 90:
+                            rotateAngle = "rotate(" + 60 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1170px",
+                                "left" :"975px"
+                            });
+                            rotateAngle = "rotate(" + 20 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1360px",
+                                "left" :"500px"
+                            });
+                            break;
+                        case -10: 
+                            rotateAngle = "rotate(" + 0 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1270px",
+                                "left" :"1285px"
+                            });
+                            rotateAngle = "rotate(" + -8 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1520px",
+                                "left" :"780px"
+                            });
+                            break;
+                        case -20: 
+                            rotateAngle = "rotate(" + 0 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1270px",
+                                "left" :"1285px"
+                            });
+                            rotateAngle = "rotate(" + -8 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1520px",
+                                "left" :"780px"
+                            });
+                            break;
+                        case -30: 
+                            rotateAngle = "rotate(" + 0 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1270px",
+                                "left" :"1285px"
+                            });
+                            rotateAngle = "rotate(" + -8 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1500px",
+                                "left" :"780px"
+                            });
+                            break;
+                        case -40: 
+                            rotateAngle = "rotate(" + 0 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1270px",
+                                "left" :"1285px"
+                            });
+                            rotateAngle = "rotate(" + -8 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1500px",
+                                "left" :"780px"
+                            });
+                            break;
+                        case -50: 
+                            rotateAngle = "rotate(" + 0 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1270px",
+                                "left" :"1280px"
+                            });
+                            rotateAngle = "rotate(" + -8 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1480px",
+                                "left" :"780px"
+                            });
+                            break;
+                        case -60: 
+                            rotateAngle = "rotate(" + 0 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1270px",
+                                "left" :"1280px"
+                            });
+                            rotateAngle = "rotate(" + -8 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1480px",
+                                "left" :"780px"
+                            });
+                            break;
+                        case -70: 
+                            rotateAngle = "rotate(" + 0 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1270px",
+                                "left" :"1285px"
+                            });
+                            rotateAngle = "rotate(" + -8 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1460px",
+                                "left" :"780px"
+                            });
+                            break;
+                        case -80: 
+                            rotateAngle = "rotate(" + 0 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1270px",
+                                "left" :"1285px"
+                            });
+                            rotateAngle = "rotate(" + -8 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1460px",
+                                "left" :"780px"
+                            });
+                            break;
+                        case -100: 
+                            rotateAngle = "rotate(" + 0 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1270px",
+                                "left" :"1280px"
+                            });
+                            rotateAngle = "rotate(" + -8 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1440px",
+                                "left" :"785px"
+                            });
+                            break;
+                        case -90: 
+                            rotateAngle = "rotate(" + 0 + "deg)";
+                            $("#hand_right").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1270px",
+                                "left" :"1285px"
+                            });
+                            rotateAngle = "rotate(" + -8 + "deg)";
+                            $("#hand_left").css({
+                                "-webkit-transform" : rotateAngle,
+                                "transform" : rotateAngle,
+                                "-webkit-transform-origin" : "50% 50%",
+                                "transform-origin" : "50% 50%",
+                                "top" : "1480px",
+                                "left" :"785px"
+                            });
+                            break;
+                    }
+
+                    // let rotateAngle = "rotate(" + evaluate(res.steering) + "deg)";
+                    // $("#hand_right").css({
+                    //   "-webkit-transform" : rotateAngle,
+                    //   "transform" : rotateAngle,
+                    //   "-webkit-transform-origin" : "50% 50%",
+                    //   "transform-origin" : "50% 50%"
+                    // });
+                    // $("#hand_left").css({
+                    //     "-webkit-transform" : rotateAngle,
+                    //     "transform" : rotateAngle,
+                    //     "-webkit-transform-origin" : "50% 50%",
+                    //     "transform-origin" : "50% 50%"
+                    // });
+                }
             }
             
             arcade.gamepadController.render();
