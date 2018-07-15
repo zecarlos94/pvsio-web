@@ -124,35 +124,35 @@ require([
             objects: [
                 {
                     filename:"real_tree3",
-                    positions: [
+                    positionsX: [
                         -0.8,
                         0.6
                     ]
                 },
                 {
                     filename:"real_tree4",
-                    positions: [
+                    positionsX: [
                         -0.6,
                         0.8
                     ]
                 },
                 {
                     filename:"real_building",
-                    positions: [
+                    positionsX: [
                         -0.7,
                         0.9
                     ]
                 },
                 {
                     filename:"real_building2",
-                    positions: [
+                    positionsX: [
                         -0.9,
                         0.7
                     ]
                 },
                 {
                     filename:"real_skyscraper",
-                    positions: [
+                    positionsX: [
                         1.9,
                         -1.7
                     ]
@@ -161,31 +161,31 @@ require([
             obstacle: [
                 {
                     filename:"30kmh_limit",
-                    positions: [
+                    positionsX: [
                         0.1
                     ]
                 },
                 {
                     filename:"horizontal_pedrestrian_crossing_rubber_bump",
-                    positions: [
+                    positionsX: [
                         -0.1
                     ]
                 },
-                {
-                    filename:"under_construction_barrier",
-                    positions: [
-                        0.4
-                    ]
-                },
-                {
-                    filename:"traffic_cone",
-                    positions: [
-                        -0.4
-                    ]
-                },
+                // {
+                //     filename:"under_construction_barrier",
+                //     positionsX: [
+                //         0.4
+                //     ]
+                // },
+                // {
+                //     filename:"traffic_cone",
+                //     positionsX: [
+                //         -0.4
+                //     ]
+                // },
                 {
                     filename:"traffic_light_red",
-                    positions: [
+                    positionsX: [
                         0
                     ]
                 }
@@ -213,7 +213,22 @@ require([
                         curvature: -90
                     },
                     profile: "flat",
-                    numZones: 4
+                    numZones: 4,
+                    trafficSignals: [
+                        {
+                            filename:"traffic_cone",
+                            zone: 1,
+                            posX: -0.4,
+                            zoneDistance: 30 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"under_construction_barrier",
+                            zone: 3,
+                            posX: 0.4,
+                            zoneDistance: 100
+                        }
+
+                    ]
                 }
             ],
             callback: onMessageReceived
