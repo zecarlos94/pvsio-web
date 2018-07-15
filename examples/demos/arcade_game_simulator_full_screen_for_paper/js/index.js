@@ -308,8 +308,8 @@ require([
             parent: "content", // defines parent div, which is div id="body" by default
             scaleWindow: 1, // scales canvas div
             trackFilename: "trackLayout_real", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
-            spritesFilename: "spritesheet5", // defines spritesheet configuration filename, which is "spritesheet.json" by default
-            spritesFiles: ["spritesheet5","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
+            spritesFilename: "spritesheet2", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+            spritesFiles: ["spritesheet2","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
             realisticImgs: true,
             useVehicle: false,
             vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
