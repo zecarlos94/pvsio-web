@@ -121,8 +121,75 @@ require([
                 posx: 0,
                 maxSpeed: 20
             },
-            objects: ["real_tree3","real_tree4","real_building","real_building2","real_skyscraper"],
-            obstacle: ["30kmh_limit","horizontal_pedrestrian_crossing_rubber_bump","under_construction_barrier", "traffic_cone", "traffic_light_red"],
+            objects: [
+                {
+                    filename:"real_tree3",
+                    positions: [
+                        -0.8,
+                        0.6
+                    ]
+                },
+                {
+                    filename:"real_tree4",
+                    positions: [
+                        -0.6,
+                        0.8
+                    ]
+                },
+                {
+                    filename:"real_building",
+                    positions: [
+                        -0.7,
+                        0.9
+                    ]
+                },
+                {
+                    filename:"real_building2",
+                    positions: [
+                        -0.9,
+                        0.7
+                    ]
+                },
+                {
+                    filename:"real_skyscraper",
+                    positions: [
+                        1.9,
+                        -1.7
+                    ]
+                }
+            ],
+            obstacle: [
+                {
+                    filename:"30kmh_limit",
+                    positions: [
+                        0.1
+                    ]
+                },
+                {
+                    filename:"horizontal_pedrestrian_crossing_rubber_bump",
+                    positions: [
+                        -0.1
+                    ]
+                },
+                {
+                    filename:"under_construction_barrier",
+                    positions: [
+                        0.4
+                    ]
+                },
+                {
+                    filename:"traffic_cone",
+                    positions: [
+                        -0.4
+                    ]
+                },
+                {
+                    filename:"traffic_light_red",
+                    positions: [
+                        0
+                    ]
+                }
+            ],
             obstaclePerIteration: 20,
             trackColors: {
                 grass1: "#344C32",
