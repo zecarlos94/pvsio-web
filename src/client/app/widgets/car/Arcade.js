@@ -1087,7 +1087,8 @@ define(function (require, exports, module) {
                 let centerX = Math.floor(this.renderCanvas.width / 2);
                 let centerY = Math.floor(this.renderCanvas.height / 2);
                 let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
-                this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
+                this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
+                
                 let centerDeviation = 40;
                 let centerDeviationSpritesFont = 70;
 
@@ -1181,7 +1182,8 @@ define(function (require, exports, module) {
         let centerX = Math.floor(this.renderCanvas.width / 2);
         let centerY = Math.floor(this.renderCanvas.height / 2);
         let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
-        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
+        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
+        // this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
         let centerDeviation = 40;
         let centerDeviationSpritesFont = 70;
 
@@ -1251,7 +1253,8 @@ define(function (require, exports, module) {
         let centerX = Math.floor(this.renderCanvas.width / 2);
         let centerY = Math.floor(this.renderCanvas.height / 2);
         let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
-        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
+        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
+        // this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
         let centerDeviation = 40;
         let centerDeviationSpritesFont = 70;
 
@@ -1381,7 +1384,6 @@ define(function (require, exports, module) {
         let currentSegment         = this.track[currentSegmentIndex];
 
         let lastProjectedHeight     = Number.POSITIVE_INFINITY;
-        let probedDepth             = 0;
         let counter                 = absoluteIndex % (2 * this.arcadeParams.numberOfSegmentPerColor); // for alternating color band
 
         let controllable_carPosSegmentHeight     = this.track[absoluteIndex % this.track.length].height;
@@ -1424,7 +1426,7 @@ define(function (require, exports, module) {
                         y: this.renderCanvas.height / 2 + startProjectedHeight,
                         x: this.renderCanvas.width / 2 - currentSegment.sprite.pos * this.renderCanvas.width * currentScaling + currentSegment.curve - baseOffset - (this.controllable_car.posx - baseOffset*2) * currentScaling,
                         ymax: this.renderCanvas.height / 2 + lastProjectedHeight,
-                        s: 1.5*currentScaling,
+                        s: currentSegment.sprite.scale*currentScaling,
                         i: currentSegment.sprite.type,
                         pos: currentSegment.sprite.pos,
                         obstacle: currentSegment.sprite.obstacle
@@ -1433,8 +1435,6 @@ define(function (require, exports, module) {
             }
 
             lastProjectedHeight    = currentHeight;
-
-            probedDepth            = currentSegmentPosition;
 
             currentSegmentIndex    = nextSegmentIndex;
             currentSegment         = nextSegment;
@@ -1535,7 +1535,6 @@ define(function (require, exports, module) {
                 }
 	        }
         }// else infinit simulation
-
 
         // Draw Virtual Speedometer and Tachometer based on Speedometer, Tachometer Widgets
         if(this.WIDGETSTATE!==null){

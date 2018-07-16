@@ -121,71 +121,91 @@ require([
                 posx: 0,
                 maxSpeed: 20
             },
-            objects: [
-                {
-                    filename:"real_tree3",
-                    scale: 1,
-                    positionsX: [
-                        -0.8,
-                        0.6
-                    ]
-                },
-                {
-                    filename:"real_tree4",
-                    scale: 1,
-                    positionsX: [
-                        -0.6,
-                        0.8
-                    ]
-                },
-                {
-                    filename:"real_building",
-                    scale: 1,
-                    positionsX: [
-                        -0.7,
-                        0.9
-                    ]
-                },
-                {
-                    filename:"real_building2",
-                    scale: 1,
-                    positionsX: [
-                        -0.9,
-                        0.7
-                    ]
-                },
-                {
-                    filename:"real_skyscraper",
-                    scale: 1,
-                    positionsX: [
-                        1.9,
-                        -1.7
-                    ]
-                }
-            ],
-            obstacle: [
-                {
-                    filename:"30kmh_limit",
-                    scale: 1,
-                    positionsX: [
-                        0.1
-                    ]
-                },
-                {
-                    filename:"horizontal_pedrestrian_crossing_rubber_bump",
-                    scale: 1,
-                    positionsX: [
-                        -0.1
-                    ]
-                },
-                {
-                    filename:"traffic_light_red",
-                    scale: 1,
-                    positionsX: [
-                        0
-                    ]
-                }
-            ],
+            // objects: [
+            //     {
+            //         filename:"real_tree",
+            //         scale: 3.5,
+            //         positionsX: [
+            //             -2.4,
+            //             2.3
+            //         ]
+            //     },
+            //     {
+            //         filename:"real_tree2",
+            //         scale: 3.5,
+            //         positionsX: [
+            //             -2.9,
+            //             4.2
+            //         ]
+            //     },
+            //     {
+            //         filename:"real_tree3",
+            //         scale: 3.5,
+            //         positionsX: [
+            //             -1.8,
+            //             1.6
+            //         ]
+            //     },
+            //     {
+            //         filename:"real_tree4",
+            //         scale: 3.5,
+            //         positionsX: [
+            //             -1.6,
+            //             1.8
+            //         ]
+            //     },
+            //     {
+            //         filename:"real_building",
+            //         scale: 6,
+            //         positionsX: [
+            //             -1.7,
+            //             1.9
+            //         ]
+            //     },
+            //     {
+            //         filename:"real_building2",
+            //         scale: 6,
+            //         positionsX: [
+            //             -1.9,
+            //             1.7
+            //         ]
+            //     },
+            //     {
+            //         filename:"real_skyscraper",
+            //         scale: 7,
+            //         positionsX: [
+            //             2.9,
+            //             -2.7
+            //         ]
+            //     }
+            // ],
+            // obstacle: [
+            //     // {
+            //     //     filename:"under_construction_barrier",
+            //     //     scale: 2.75,
+            //     //     positionsX: [
+            //     //         0.4
+            //     //     ]
+            //     // },
+            //     // {
+            //     //     filename:"road_work_ahead",
+            //     //     scale: 2.75,
+            //     //     positionsX: [
+            //     //         0.4
+            //     //     ]
+            //     // },
+            //     {
+            //         filename:"traffic_cone",
+            //         scale: 1.75,
+            //         positionsX: [
+            //             -0.4,
+            //             0.4,
+            //             -0.3,
+            //             0.2,
+            //             0
+            //         ]
+            //     }
+            // ],
             obstaclePerIteration: 20,
             trackColors: {
                 grass1: "#344C32",
@@ -212,19 +232,134 @@ require([
                     numZones: 4,
                     trafficSignals: [
                         {
-                            filename:"traffic_cone",
-                            scale: 1,
+                            filename:"traffic_light_green",
                             zone: 1,
+                            scale: 4,
                             posX: -0.4,
-                            zoneDistance: 30 // (max distance is zoneSize) 
+                            zoneDistance: 10 // (max distance is zoneSize) 
                         },
                         {
-                            filename:"under_construction_barrier",
+                            filename:"dangerous_curve_left",
+                            zone: 1,
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 20 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"50kmh_limit",
+                            zone: 1,
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 90 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"vehicle_surpass_forbidden",
+                            zone: 1,
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 130 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"dangerous_curve_left",
+                            zone: 2,
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 20 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"30kmh_limit",
+                            zone: 2,
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 90 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"dangerous_curve_left",
                             zone: 3,
-                            scale: 1,
-                            posX: 0.4,
-                            zoneDistance: 100
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 20 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"50kmh_limit",
+                            zone: 3,
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 90 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"dangerous_curve_left",
+                            zone: 4,
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 20 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"30kmh_limit",
+                            zone: 4,
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 90 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"traffic_light_red",
+                            zone: 4,
+                            scale: 4,
+                            posX: -0.4,
+                            zoneDistance: 0 // (max distance is zoneSize) 
                         }
+                    ]
+                },
+                {
+                    topography: {
+                        name:"right",
+                        curvature: 90
+                    },
+                    profile: "flat",
+                    numZones: 2,
+                    trafficSignals: [
+                        {
+                            filename:"traffic_light_green",
+                            zone: 1,
+                            scale: 4,
+                            posX: -0.4,
+                            zoneDistance: 10 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"dangerous_curve_left",
+                            zone: 1,
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 20 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"50kmh_limit",
+                            zone: 1,
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 90 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"vehicle_surpass_forbidden",
+                            zone: 1,
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 130 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"dangerous_curve_left",
+                            zone: 2,
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 20 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"30kmh_limit",
+                            zone: 2,
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 90 // (max distance is zoneSize) 
+                        },
                     ]
                 }
             ],
