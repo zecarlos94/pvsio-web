@@ -310,59 +310,6 @@ require([
                         }
                     ]
                 }
-                // ,
-                // {
-                //     topography: {
-                //         name:"right",
-                //         curvature: 90
-                //     },
-                //     profile: "flat",
-                //     numZones: 2,
-                //     trafficSignals: [
-                //         {
-                //             filename:"traffic_light_green",
-                //             zone: 1,
-                //             scale: 4,
-                //             posX: -0.4,
-                //             zoneDistance: 10 // (max distance is zoneSize) 
-                //         },
-                //         {
-                //             filename:"dangerous_curve_left",
-                //             zone: 1,
-                //             scale: 3,
-                //             posX: -0.4,
-                //             zoneDistance: 20 // (max distance is zoneSize) 
-                //         },
-                //         {
-                //             filename:"50kmh_limit",
-                //             zone: 1,
-                //             scale: 3,
-                //             posX: -0.4,
-                //             zoneDistance: 90 // (max distance is zoneSize) 
-                //         },
-                //         {
-                //             filename:"vehicle_surpass_forbidden",
-                //             zone: 1,
-                //             scale: 3,
-                //             posX: -0.4,
-                //             zoneDistance: 130 // (max distance is zoneSize) 
-                //         },
-                //         {
-                //             filename:"dangerous_curve_left",
-                //             zone: 2,
-                //             scale: 3,
-                //             posX: -0.4,
-                //             zoneDistance: 20 // (max distance is zoneSize) 
-                //         },
-                //         {
-                //             filename:"30kmh_limit",
-                //             zone: 2,
-                //             scale: 3,
-                //             posX: -0.4,
-                //             zoneDistance: 90 // (max distance is zoneSize) 
-                //         },
-                //     ]
-                // }
             ],
             callback: onMessageReceived
         });
