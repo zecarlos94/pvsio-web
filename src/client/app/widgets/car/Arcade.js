@@ -272,7 +272,7 @@ define(function (require, exports, module) {
             lastPositionPVS: 10,
             lastPosXPVS: 0
         };
-    
+
         this.configurationFiles = {
             spritesheetJSON: null,
             trackJSON: null,
@@ -349,7 +349,8 @@ define(function (require, exports, module) {
             backgroundIndex: null
         };
     
-        this.controllable_car=null;
+        this.controllable_vehicle=null;
+
         this.renderCanvas=null;
     
         this.arcadeParams = {
@@ -406,12 +407,12 @@ define(function (require, exports, module) {
             showOfficialLogo: null, // Information regarding the visibility of the official logo
             canvas: null, //  Information regarding the canvas
             context: null, //  Information regarding the context of the above canvas (2D driving simulator)
-            chronometer: null, //  Keep tracking controllable_car's lap time
-            time: null, //  Keep tracking controllable_car's lap time
-            currentTimeString: null //  Shows controllable_car's lap time
+            chronometer: null, //  Keep tracking controllable_vehicle's lap time
+            time: null, //  Keep tracking controllable_vehicle's lap time
+            currentTimeString: null //  Shows controllable_vehicle's lap time
         };
 
-        //  Tracking controllable_car's position
+        //  Tracking controllable_vehicle's position
         this.lastDelta = 0;
 
         this.intervals = {
@@ -425,7 +426,7 @@ define(function (require, exports, module) {
 
         // Information regarding the available sprites loaded from the JSON file
         this.spritesReadJSON = [];
-
+ 
         // Information regarding the number of laps of the present simulation
         this.lapInformation = {
             lapNumber: null,
@@ -435,7 +436,7 @@ define(function (require, exports, module) {
             currentPercentage: 0,
             callback: null
         };
-
+ 
         this.arcadeColors = {
             grass: null,
             border: null,
@@ -445,8 +446,8 @@ define(function (require, exports, module) {
             lane: null,
             laneArrow: null
         };
-
-        // Read from JSON configuration file
+ 
+         // Read from JSON configuration file
         this.readColorsJSON = {
             grass1: null, 
             border1: null, 
@@ -460,7 +461,7 @@ define(function (require, exports, module) {
             track_segment_end: null, 
             lane_end: null
         };
-      
+
         this.vehicle.newLap_functionNamePVS = {};
         this.vehicle.newLap_functionNamePVS = opt.newLap_functionNamePVS || "new_lap";
 
@@ -529,12 +530,12 @@ define(function (require, exports, module) {
 
         this.vehicle.unmute_attribute = {};
         this.vehicle.unmute_attribute = opt.unmute_attribute ||"unmute";
-
-        this.id = id;
-        this.top = coords.top || 100;
-        this.left = coords.left || 700;
-        this.width = coords.width || 750;
-        this.height = coords.height || 750;
+       
+        this.id     = id;
+        this.top    = (coords.top!==undefined) ? coords.top : 100;
+        this.left   = (coords.left!==undefined) ? coords.left : 700;
+        this.width  = (coords.width!==undefined) ? coords.width : 700;
+        this.height = (coords.height!==undefined) ? coords.height : 500;
 
         this.WIDGETSTATE = null;
         this.WIDGETID = this.id;
@@ -611,11 +612,10 @@ define(function (require, exports, module) {
         this.configurationFiles.trackCurvesSlopesJSONPredefined = require("text!widgets/car/configurations/track-curves-slopes-random.json");
         this.configurationFiles.spritesheetJSONPredefined = require("text!widgets/car/configurations/spritesheet.json");
 
-        this.scaleWindow = (opt.scaleWindow) ? (opt.scaleWindow) : 2.2;
+        this.scaleWindow = (opt.scaleWindow) ? (opt.scaleWindow) : 1;
 		this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
 
-        this.div = d3.select(this.parent).append("div").attr("id", "game_window_"+this.WIDGETID)
-                     .attr("class","container game_view");
+        this.div = d3.select(this.parent).append("div").attr("id", "game_window_"+this.WIDGETID);
 
         this.div.append("canvas").attr("id", "arcadeSimulator_"+this.id)
                 .style("-webkit-transform","scale("+this.scaleWindow+")")
@@ -631,7 +631,7 @@ define(function (require, exports, module) {
             width: 750,
             height: 750
         }, {
-        	parent: this.parent.slice(1), // removing '#'
+            parent: this.parent.slice(1), // removing '#'
             callback: opt.callback,
             invokePVS: true,
             mute_functionNamePVS: "mute",
@@ -662,11 +662,15 @@ define(function (require, exports, module) {
         this.soundOff = this.soundWidget.getSoundOff();
 
         if(this.soundOff){
-        	this.lastPVSValues.lastSoundPVS = this.vehicle.mute_attribute;
+            this.lastPVSValues.lastSoundPVS = this.vehicle.mute_attribute;
         }else{
-        	this.lastPVSValues.lastSoundPVS = this.vehicle.unmute_attribute;
+            this.lastPVSValues.lastSoundPVS = this.vehicle.unmute_attribute;
         }
-        
+
+        // ----------- STATIC TO REMOVE --------------------
+        this.lap = 1;
+        this.numLaps = 3;
+                
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
         this.lapInformation.callback = this.callback;
@@ -688,14 +692,13 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.startSimulation = function () {
-        // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
         setTimeout(
-            (function(self) {         //Self-executing func which takes 'this' as self
-                return function() {   //Return a function in the context of 'self'
-                    self.startSimulationAux(); //Thing you wanted to run as non-window 'this'
+            (function(self) {
+                return function() {   
+                    self.startSimulationAux();
                 }
             })(this),
-            250     //normal interval, 'this' scope not impacted here.
+            250 
         ); 
         return this;
     };
@@ -751,7 +754,7 @@ define(function (require, exports, module) {
         }
         if(this.configurationFiles.trackJSON){
             let aux = JSON.parse(this.configurationFiles.trackJSON);
-            this.controllable_car=aux.controllable_car;
+            this.controllable_vehicle=aux.controllable_vehicle;
             this.arcadeParams.laneWidth=aux.laneWidth;
             this.arcadeParams.numLanes=aux.numLanes;
             this.arcadeParams.numberOfSegmentPerColor=aux.numberOfSegmentPerColor;
@@ -986,42 +989,21 @@ define(function (require, exports, module) {
 
         this.onPageLoad(this.spritesFiles);
         // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
-        this.loadingTrackNrIterations = setInterval(
-            (function(self) {         //Self-executing func which takes 'this' as self
-                return function() {   //Return a function in the context of 'self'
-                    self.getNrIterations(); //Thing you wanted to run as non-window 'this'
-                }
-            })(this),
-            500     //normal interval, 'this' scope not impacted here.
-        ); 
-    };
-
-    /**
-     * @function hide
-     * @public
-     * @description Hide method of the Arcade widget. This method changes the current main div visibility to 'hidden'.
-     * @memberof module:Arcade
-     * @instance
-     */
-    Arcade.prototype.hide = function () {
-        return this.div.style("visibility", "hidden");
-    };
-
-    /**
-     * @function reveal
-     * @public
-     * @description Reveal method of the Arcade widget. This method changes the current main div visibility to 'visible'.
-     * @memberof module:Arcade
-     * @instance
-     */
-    Arcade.prototype.reveal = function () {
-        return this.div.style("visibility", "visible");
+        // this.loadingTrackNrIterations = setInterval(
+        //     (function(self) {         //Self-executing func which takes 'this' as self
+        //         return function() {   //Return a function in the context of 'self'
+        //             self.getNrIterations(); //Thing you wanted to run as non-window 'this'
+        //         }
+        //     })(this),
+        //     500     //normal interval, 'this' scope not impacted here.
+        // ); 
+        return this;
     };
 
     /**
      * @function onPageLoad
      * @private
-     * @description onPageLoad method of the Arcade widget. This method starts the arcade simulation and loads the required spritesheets, with all sprites defined in track object.
+     * @description OnPageLoad method of the Arcade widget. This method starts the arcade simulation and loads the required spritesheets, with all sprites defined in track object.
      * @param spritesFiles {Array} array of strings, with the names of the sprites images (spritesheets) to use. By default two are used, one for the objects and another for the font (text).
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -1039,50 +1021,207 @@ define(function (require, exports, module) {
             this.simulatorLogos.simulatorLogo2.src = "../../client/app/widgets/car/configurations/img/simulatorLogo2.png";
 
             this.spritesFiles.forEach(
-            (function(self) {         //Self-executing func which takes 'this' as self
-                return function(el,ind) {   //Return a function in the context of 'self'
+            (function(self) {         
+                return function(el,ind) {   
                     self.spritesheetsImages[ind] = new Image();
                     self.spritesheetsImages[ind].src = "../../client/app/widgets/car/configurations/img/"+self.spritesFiles[ind]+".png";
                 }
             })(this));
 
             this.spritesheetsImages[0].onload = (function(self) {         
-                //Self-executing func which takes 'this' as self
-                return function() {   //Return a function in the context of 'self'
-                    self.intervals.splashInterval = setInterval(
-                        (function(self2) {         //Self-executing func which takes 'this' as self2
-                            return function() {   //Return a function in the context of 'self2'
-                                self2.renderSplashFrame(); //Thing you wanted to run as non-window 'this'
+                return function() {   
+                    self.intervals.splashInterval  = setInterval(
+                        (function(self2) {         
+                            return function() {  
+                                self2.renderSimulation(); 
                             }
                         })(self),
-                        30     //normal interval, 'this' scope not impacted here.
+                        30    
                     ); 
                 }
             })(this);
+        }
+        return this;
+    };
 
+
+    /**
+     * @function init
+     * @private
+     * @description Init method of the Arcade widget. This method inits the canvas and adds the events onkeydown and onkeyup to capture the desired actions, i.e. accelerate, brake, etc.
+     * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
+     * @instance
+     */
+    Arcade.prototype.init = function () { 
+        // configure canvas
+        this.canvasInformations.canvas = d3.select("#arcadeSimulator_"+this.WIDGETID)[0][0];
+        this.canvasInformations.context = this.canvasInformations.canvas.getContext('2d');
+        
+        this.canvasInformations.canvas.height = this.renderCanvas.height;
+        this.canvasInformations.canvas.width = this.renderCanvas.width;
+
+        return this;
+    };
+
+     /**
+     * @function renderPauseMenu
+     * @private
+     * @description RenderPauseMenu method of the Arcade widget. This method draws the simulator pause page, where the commands to control the simulator and to resume the simulation(renderSimulatorFrame) are displayed.
+     * It is also resumed the lap timer, using jchronometer lib, as soon as the user uses the command to resume the simulation.
+     * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
+     * @instance
+     */
+    Arcade.prototype.renderPauseMenu = function () {
+        this.canvasInformations.context.fillStyle = "rgb(100,200,187)";
+        this.canvasInformations.context.fillRect(0, 0, this.canvasInformations.canvas.width, this.canvasInformations.canvas.height);
+
+        let centerX = Math.floor(this.renderCanvas.width / 2);
+        let centerY = Math.floor(this.renderCanvas.height / 2);
+        let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
+        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
+        // this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
+        let centerDeviation = 40;
+        let centerDeviationSpritesFont = 70;
+
+        if(this.realPrefix!==""){
+            this.drawText("Click on space bar to resume",{x: centerX-4*centerDeviation, y: centerY}, 1, ratioFonts);
+            this.drawText("Use left and rigth arrows",{x: centerX-4*centerDeviation, y: centerY+3*centerDeviation}, 1, ratioFonts);
+            this.drawText("to control the vehicle",{x: centerX-3*centerDeviation, y: centerY+4*centerDeviation}, 1, ratioFonts);
+            this.drawText("Credits:",{x: centerX, y: centerY+6*centerDeviation}, 1, ratioFonts);
+            this.drawText("Jose Carlos and PVSio-web",{x: centerX-4*centerDeviation, y: centerY+7*centerDeviation}, 1, ratioFonts);
+            this.drawText("Interactive Prototype Builder",{x: centerX-5*centerDeviation, y: centerY+8*centerDeviation}, 1, ratioFonts);
+        }else{
+            this.drawText("Click on space bar to resume",{x: centerX-3*centerDeviationSpritesFont, y: centerY-0.5*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Use left and rigth arrows",{x: centerX-3*centerDeviationSpritesFont, y: centerY+centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("to control the vehicle",{x: centerX-2.5*centerDeviationSpritesFont, y: centerY+1.5*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Credits:",{x: centerX, y: centerY+3*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Jose Carlos and PVSio-web",{x: centerX-3*centerDeviationSpritesFont, y: centerY+3.5*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Interactive Prototype Builder",{x: centerX-3.5*centerDeviationSpritesFont, y: centerY+4*centerDeviationSpritesFont}, 1, ratioFonts);
+        }
+
+        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
+            this.canvasInformations.chronometer.start();
+            clearInterval(this.intervals.splashInterval);
+                
+            this.intervals.simulatorInterval = setInterval(
+                    (function(self) {         
+                    return function() {   
+                        self.renderEachSimulationFrame(); 
+                    }
+                })(this),
+                30  
+            ); 
+
+            this.soundWidget.reveal();
+            this.soundOff = this.soundWidget.getSoundOff();
+            if(!this.soundOff){
+                this.soundWidget.playSound(2); //startup song
+                this.soundWidget.playSound(0); //background song
+                this.soundWidget.setVolume(0.4,0);
+                this.soundWidget.onEndedSound(2,[
+                    {
+                    indexPlayNext: 1, //idle song
+                    newVolume: 1.0
+                    }
+                ]);
+            }
         }
         return this;
     };
 
     /**
-     * @function renderSplashFrame
+     * @function renderEndMenu
      * @private
-     * @description RenderSplashFrame method of the Arcade widget. This method draws the simulator home page, where the commands to control the simulator are displayed.
+     * @description RenderEndMenu method of the Arcade widget. This method draws the simulator end page, where the commands to control the simulator and to start another simulation(renderSimulatorFrame) are displayed.
+     * It is also initialized the new lap timer, using jchronometer lib, as soon as the user uses the command to start the new simulation.
+     * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
+     * @instance
+     */
+    Arcade.prototype.renderEndMenu = function () {
+        this.canvasInformations.context.fillStyle = "rgb(100,200,187)";
+        this.canvasInformations.context.fillRect(0, 0, this.canvasInformations.canvas.width, this.canvasInformations.canvas.height);
+
+        let centerX = Math.floor(this.renderCanvas.width / 2);
+        let centerY = Math.floor(this.renderCanvas.height / 2);
+        let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
+        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
+        // this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
+        let centerDeviation = 40;
+        let centerDeviationSpritesFont = 70;
+
+        if(this.realPrefix!==""){
+            this.drawText("Thank you for playing!",{x: centerX-3*centerDeviation, y: centerY}, 1, ratioFonts);
+            this.drawText("Click on space bar to start again",{x: centerX-5*centerDeviation, y: centerY+3*centerDeviation}, 1, ratioFonts);
+            this.drawText("Credits:",{x: centerX, y: centerY+6*centerDeviation}, 1, ratioFonts);
+            this.drawText("Jose Carlos and PVSio-web",{x: centerX-4*centerDeviation, y: centerY+7*centerDeviation}, 1, ratioFonts);
+            this.drawText("Interactive Prototype Builder",{x: centerX-5*centerDeviation, y: centerY+8*centerDeviation}, 1, ratioFonts);
+        }else{
+            this.drawText("Thank you for playing!",{x: centerX-2.5*centerDeviationSpritesFont, y: centerY-0.5*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Click on space bar to start again",{x: centerX-4.5*centerDeviationSpritesFont, y: centerY+centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Credits:",{x: centerX, y: centerY+3*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Jose Carlos and PVSio-web",{x: centerX-3*centerDeviationSpritesFont, y: centerY+3.5*centerDeviationSpritesFont}, 1, ratioFonts);
+            this.drawText("Interactive Prototype Builder",{x: centerX-3.5*centerDeviationSpritesFont, y: centerY+4*centerDeviationSpritesFont}, 1, ratioFonts);
+        }
+        
+        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
+            clearInterval(this.intervals.simulatorInterval);
+            clearInterval(this.intervals.splashInterval);
+            this.controllable_vehicle = {
+                position: 10,
+                speed: 0,
+                acceleration: 0.05,
+                deceleration: 0.3,
+                breaking: 0.6,
+                turning: 5.0,
+                posx: 0,
+                maxSpeed: 15
+            };
+
+            this.intervals.simulatorInterval = setInterval(
+                    (function(self) {         
+                    return function() { 
+                        self.renderEachSimulationFrame(); 
+                    }
+                })(this),
+                30   
+            );
+            this.canvasInformations.chronometer.start();
+
+            this.soundWidget.reveal();
+            this.soundOff = this.soundWidget.getSoundOff();
+            if(!this.soundOff){
+                this.soundWidget.playSound(2); //startup song
+                this.soundWidget.playSound(0); //background song
+                this.soundWidget.setVolume(0.4,0);
+                this.soundWidget.onEndedSound(2,[
+                    {
+                    indexPlayNext: 1, //idle song
+                    newVolume: 1.0
+                    }
+                ]);
+            }
+        }
+        return this;
+    };
+
+    /**
+     * @function renderSimulation
+     * @private
+     * @description RenderSimulation method of the Arcade widget. This method draws the simulator home page, where the commands to control the simulator are displayed.
      * It is also initialized the lap timer, using jchronometer lib, as soon as the user uses the command to start the simulation(renderSimulatorFrame).
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.renderSplashFrame = function () {
-        this.canvasInformations.canvas.height = this.height;
-        this.canvasInformations.canvas.width = this.width;
+    Arcade.prototype.renderSimulation = function(){
+        // clean previous canvas window frame (to prevent any overlay between each frame)
         this.canvasInformations.context.fillStyle = "rgb(100,200,187)";
         this.canvasInformations.context.fillRect(0, 0, this.canvasInformations.canvas.width, this.canvasInformations.canvas.height);
-        
-        if(this.readParams){
-            this.canvasInformations.canvas = $("#arcadeSimulator_"+this.WIDGETID)[0];
-            this.canvasInformations.context = this.canvasInformations.canvas.getContext('2d');
 
+        if(this.readParams){
             if(this.readConfiguration && this.readSprite){
                 let centerX = Math.floor(this.renderCanvas.width / 2);
                 let centerY = Math.floor(this.renderCanvas.height / 2);
@@ -1119,14 +1258,13 @@ define(function (require, exports, module) {
                 if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
                     clearInterval(this.intervals.splashInterval);
 
-                    // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
                     this.intervals.simulatorInterval = setInterval(
-                            (function(self) {         //Self-executing func which takes 'this' as self
-                            return function() {   //Return a function in the context of 'self'
-                                self.renderSimulatorFrame(); //Thing you wanted to run as non-window 'this'
+                            (function(self) {        
+                            return function() {   
+                                self.renderEachSimulationFrame(); 
                             }
                         })(this),
-                        30     //normal interval, 'this' scope not impacted here.
+                        30    
                     ); 
                                         
                     this.soundWidget.reveal();
@@ -1160,180 +1298,102 @@ define(function (require, exports, module) {
         }else{
             this.drawText("Loading Parameters...",{x: 100, y: 68}, 1, 1);
         }
-
         return this;
-    };
-
-     /**
-     * @function renderSplashPauseFrame
-     * @private
-     * @description RenderSplashPauseFrame method of the Arcade widget. This method draws the simulator pause page, where the commands to control the simulator and to resume the simulation(renderSimulatorFrame) are displayed.
-     * It is also resumed the lap timer, using jchronometer lib, as soon as the user uses the command to resume the simulation.
-     * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.renderSplashPauseFrame = function () {
-        this.canvasInformations.canvas.height = this.height;
-        this.canvasInformations.canvas.width = this.width;
-        this.canvasInformations.context.fillStyle = "rgb(100,200,187)";
-        this.canvasInformations.context.fillRect(0, 0, this.canvasInformations.canvas.width, this.canvasInformations.canvas.height);
-
-        let centerX = Math.floor(this.renderCanvas.width / 2);
-        let centerY = Math.floor(this.renderCanvas.height / 2);
-        let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
-        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
-        // this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
-        let centerDeviation = 40;
-        let centerDeviationSpritesFont = 70;
-
-        if(this.realPrefix!==""){
-            this.drawText("Click on space bar to resume",{x: centerX-4*centerDeviation, y: centerY}, 1, ratioFonts);
-            this.drawText("Use left and rigth arrows",{x: centerX-4*centerDeviation, y: centerY+3*centerDeviation}, 1, ratioFonts);
-            this.drawText("to control the vehicle",{x: centerX-3*centerDeviation, y: centerY+4*centerDeviation}, 1, ratioFonts);
-            this.drawText("Credits:",{x: centerX, y: centerY+6*centerDeviation}, 1, ratioFonts);
-            this.drawText("Jose Carlos and PVSio-web",{x: centerX-4*centerDeviation, y: centerY+7*centerDeviation}, 1, ratioFonts);
-            this.drawText("Interactive Prototype Builder",{x: centerX-5*centerDeviation, y: centerY+8*centerDeviation}, 1, ratioFonts);
-        }else{
-            this.drawText("Click on space bar to resume",{x: centerX-3*centerDeviationSpritesFont, y: centerY-0.5*centerDeviationSpritesFont}, 1, ratioFonts);
-            this.drawText("Use left and rigth arrows",{x: centerX-3*centerDeviationSpritesFont, y: centerY+centerDeviationSpritesFont}, 1, ratioFonts);
-            this.drawText("to control the vehicle",{x: centerX-2.5*centerDeviationSpritesFont, y: centerY+1.5*centerDeviationSpritesFont}, 1, ratioFonts);
-            this.drawText("Credits:",{x: centerX, y: centerY+3*centerDeviationSpritesFont}, 1, ratioFonts);
-            this.drawText("Jose Carlos and PVSio-web",{x: centerX-3*centerDeviationSpritesFont, y: centerY+3.5*centerDeviationSpritesFont}, 1, ratioFonts);
-            this.drawText("Interactive Prototype Builder",{x: centerX-3.5*centerDeviationSpritesFont, y: centerY+4*centerDeviationSpritesFont}, 1, ratioFonts);
-        }
-
-        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
-            this.canvasInformations.chronometer.start();
-            clearInterval(this.intervals.splashInterval);
-                
-            // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
-            this.intervals.simulatorInterval = setInterval(
-                    (function(self) {         //Self-executing func which takes 'this' as self
-                    return function() {   //Return a function in the context of 'self'
-                        self.renderSimulatorFrame(); //Thing you wanted to run as non-window 'this'
-                    }
-                })(this),
-                30     //normal interval, 'this' scope not impacted here.
-            ); 
-
-            this.soundWidget.reveal();
-            this.soundOff = this.soundWidget.getSoundOff();
-            if(!this.soundOff){
-                this.soundWidget.playSound(2); //startup song
-                this.soundWidget.playSound(0); //background song
-                this.soundWidget.setVolume(0.4,0);
-                this.soundWidget.onEndedSound(2,[
-                    {
-                    indexPlayNext: 1, //idle song
-                    newVolume: 1.0
-                    }
-                ]);
-            }
-        }
-
-        return this;
-    };
+    }
 
     /**
-     * @function renderSplashEndFrame
-     * @private
-     * @description RenderSplashEndFrame method of the Arcade widget. This method draws the simulator end page, where the commands to control the simulator and to start another simulation(renderSimulatorFrame) are displayed.
-     * It is also initialized the new lap timer, using jchronometer lib, as soon as the user uses the command to start the new simulation.
+     * @function updatePlayer
+     * @public
+     * @description UpdatePlayer method of the Arcade widget.
      * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.renderSplashEndFrame = function () {
-        this.canvasInformations.canvas.height = this.height;
-        this.canvasInformations.canvas.width = this.width;
-        this.canvasInformations.context.fillStyle = "rgb(100,200,187)";
-        this.canvasInformations.context.fillRect(0, 0, this.canvasInformations.canvas.width, this.canvasInformations.canvas.height);
-       
-        let centerX = Math.floor(this.renderCanvas.width / 2);
-        let centerY = Math.floor(this.renderCanvas.height / 2);
-        let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
-        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
-        // this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
-        let centerDeviation = 40;
-        let centerDeviationSpritesFont = 70;
-
-        if(this.realPrefix!==""){
-            this.drawText("Thank you for playing!",{x: centerX-3*centerDeviation, y: centerY}, 1, ratioFonts);
-            this.drawText("Click on space bar to start again",{x: centerX-5*centerDeviation, y: centerY+3*centerDeviation}, 1, ratioFonts);
-            this.drawText("Credits:",{x: centerX, y: centerY+6*centerDeviation}, 1, ratioFonts);
-            this.drawText("Jose Carlos and PVSio-web",{x: centerX-4*centerDeviation, y: centerY+7*centerDeviation}, 1, ratioFonts);
-            this.drawText("Interactive Prototype Builder",{x: centerX-5*centerDeviation, y: centerY+8*centerDeviation}, 1, ratioFonts);
-        }else{
-            this.drawText("Thank you for playing!",{x: centerX-2.5*centerDeviationSpritesFont, y: centerY-0.5*centerDeviationSpritesFont}, 1, ratioFonts);
-            this.drawText("Click on space bar to start again",{x: centerX-4.5*centerDeviationSpritesFont, y: centerY+centerDeviationSpritesFont}, 1, ratioFonts);
-            this.drawText("Credits:",{x: centerX, y: centerY+3*centerDeviationSpritesFont}, 1, ratioFonts);
-            this.drawText("Jose Carlos and PVSio-web",{x: centerX-3*centerDeviationSpritesFont, y: centerY+3.5*centerDeviationSpritesFont}, 1, ratioFonts);
-            this.drawText("Interactive Prototype Builder",{x: centerX-3.5*centerDeviationSpritesFont, y: centerY+4*centerDeviationSpritesFont}, 1, ratioFonts);
-        }
+    //renders one frame
+    Arcade.prototype.updatePlayer = function(){
+        // --------------------------
+        // -- Update the car state --
+        // --------------------------
         
-        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.resume_attribute){
-            clearInterval(this.intervals.splashInterval);
-            clearInterval(this.intervals.simulatorInterval);
-            this.controllable_car = {
-                position: 10,
-                speed: 0,
-                acceleration: 0.05,
-                deceleration: 0.3,
-                breaking: 0.6,
-                turning: 5.0,
-                posx: 0,
-                maxSpeed: 15
-            };
+        if (Math.abs(this.lastDelta) > 130){
+            // if (this.controllable_vehicle.speed > 3) {
+            //     this.controllable_vehicle.speed -= 0.2;
+            // }
+        } else {
+            // read acceleration controls
+            if(this.WIDGETSTATE!==null && this.WIDGETSTATE!==undefined){
+                if(this.WIDGETSTATE.action==="acc"){
+                    this.controllable_vehicle.speed += this.controllable_vehicle.acceleration;
+                }else if(this.WIDGETSTATE.action==="brake"){
+                    this.controllable_vehicle.speed -= this.controllable_vehicle.breaking;
+                }
+                // else{
+                //     this.controllable_vehicle.speed -= this.controllable_vehicle.deceleration;
+                // }
+            }
 
-            // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
-            this.intervals.simulatorInterval = setInterval(
-                    (function(self) {         //Self-executing func which takes 'this' as self
-                    return function() {   //Return a function in the context of 'self'
-                        self.renderSimulatorFrame(); //Thing you wanted to run as non-window 'this'
-                    }
-                })(this),
-                30     //normal interval, 'this' scope not impacted here.
-            );
-            this.canvasInformations.chronometer.start();
+        }
+        this.controllable_vehicle.speed = Math.max(this.controllable_vehicle.speed, 0); //cannot go in reverse
+        this.controllable_vehicle.speed = Math.min(this.controllable_vehicle.speed, this.controllable_vehicle.maxSpeed); //maximum speed
+        this.controllable_vehicle.position += this.controllable_vehicle.speed;
+        
+        let carSprite;
 
-            this.soundWidget.reveal();
-            this.soundOff = this.soundWidget.getSoundOff();
-            if(!this.soundOff){
-                this.soundWidget.playSound(2); //startup song
-                this.soundWidget.playSound(0); //background song
-                this.soundWidget.setVolume(0.4,0);
-                this.soundWidget.onEndedSound(2,[
-                    {
-                    indexPlayNext: 1, //idle song
-                    newVolume: 1.0
-                    }
-                ]);
+        // car turning
+        if(this.WIDGETSTATE!==null && this.WIDGETSTATE!==undefined){
+            if(this.WIDGETSTATE.direction==="left"){
+                // 37 left
+                if(this.controllable_vehicle.speed > 0){
+                    this.controllable_vehicle.posx -= this.controllable_vehicle.turning;
+                }
+                carSprite = {
+                    a: this.main_sprites.vehicle_faced_left,
+                    x: 117,
+                    y: 190
+                };
+                // console.log("left");
+            }else if(this.WIDGETSTATE.direction==="right"){
+                // 39 right
+                if(this.controllable_vehicle.speed > 0){
+                    this.controllable_vehicle.posx += this.controllable_vehicle.turning;
+                }
+                carSprite = {
+                    a: this.main_sprites.vehicle_faced_right,
+                    x: 125,
+                    y: 190
+                };
+                // console.log("right");
+            }else if(this.WIDGETSTATE.direction==="straight"){
+                carSprite = {
+                    a: this.vehicle_faced_front, 
+                    x:125, 
+                    y:190
+                };
+                // console.log("front");
             }
         }
         return this;
     };
 
     /**
-     * @function renderSimulatorFrame
-     * @private
-     * @description RenderSimulatorFrame method of the Arcade widget. This method renders each frame during the simulation.
+     * @function renderEachSimulationFrame
+     * @public
+     * @description RenderEachSimulationFrame method of the Arcade widget.
      * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.renderSimulatorFrame = function () {
+    //renders one frame
+    Arcade.prototype.renderEachSimulationFrame = function(){
         if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.quit_attribute){ // Key 'q' ends current simulator
             this.canvasInformations.chronometer.stop();
             this.soundWidget.hide();
             clearInterval(this.intervals.simulatorInterval);
             this.intervals.splashInterval = setInterval(
-                    (function(self) {         //Self-executing func which takes 'this' as self
-                    return function() {   //Return a function in the context of 'self'
-                        self.renderSplashEndFrame(); //Thing you wanted to run as non-window 'this'
+                    (function(self) {         
+                    return function() {  
+                        self.renderEndMenu(); 
                     }
                 })(this),
-                30     //normal interval, 'this' scope not impacted here.
+                30     
             );
             this.soundWidget.pauseAll();
         }
@@ -1343,319 +1403,173 @@ define(function (require, exports, module) {
             this.soundWidget.hide();
             clearInterval(this.intervals.simulatorInterval);
             this.intervals.splashInterval = setInterval(
-                    (function(self) {         //Self-executing func which takes 'this' as self
-                    return function() {   //Return a function in the context of 'self'
-                        self.renderSplashPauseFrame(); //Thing you wanted to run as non-window 'this'
+                    (function(self) {         
+                    return function() {   
+                        self.renderPauseMenu(); 
                     }
                 })(this),
-                30     //normal interval, 'this' scope not impacted here.
+                30    
             );
             this.soundWidget.pauseAll();
         }
 
         // Clean screen
-        this.canvasInformations.context.fillStyle = "#76665d";
-        this.canvasInformations.context.fillRect(0, 0, this.renderCanvas.width, this.renderCanvas.height);
-
-        let centerX = Math.floor(this.renderCanvas.width / 2);
-        let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
-        let centerDeviationDuringSimulation = 70;
-
-        let carSprite = null;
-
-        if(this.loadPVSSpeedPositions){
-            // Using PVS results
-            this.calculateNewControllableCarPosition();
-            carSprite = this.setControllableCarPosition(this.auxiliaryPVSValues.vehicleCurrentDirectionAux, this.auxiliaryPVSValues.newSpeedAux, this.auxiliaryPVSValues.newPositionAux, this.auxiliaryPVSValues.newPositionXAux, this.auxiliaryPVSValues.vehicleXPositionAux, this.auxiliaryPVSValues.vehicleYPositionAux);
-        }else{
-            // Using only JS to update rendered vehicle
-            carSprite = this.updateControllableCar();
-        }
-
-        this.drawBackground(-this.controllable_car.posx);
-
+        this.canvasInformations.context.fillStyle = "#dc9";
+        this.canvasInformations.context.fillRect(0, 0,  this.canvasInformations.canvas.width,  this.canvasInformations.canvas.height);
+        
+        this.updatePlayer();
+     
         let spriteBuffer = [];
-
-        // Render the track
-        let absoluteIndex = Math.floor(this.controllable_car.position / this.arcadeParams.trackSegmentSize);
-
+        
+        // --------------------------
+        // --   Render the track    --
+        // --------------------------
+        let absoluteIndex = Math.floor(this.controllable_vehicle.position / this.arcadeParams.trackSegmentSize);
+        
+        if(absoluteIndex >= this.arcadeParams.trackParam.length-this.renderCanvas.depthOfField-1){
+            if(this.lap<this.numLaps){
+                this.controllable_vehicle.position= 10;
+                this.controllable_vehicle.posx= 0;
+                this.lap++;
+            }else{
+                clearInterval(this.intervals.simulatorInterval);
+            }
+        }
+        
         let currentSegmentIndex    = (absoluteIndex - 2) % this.track.length;
-        let currentSegmentPosition = (absoluteIndex - 2) * this.arcadeParams.trackSegmentSize - this.controllable_car.position;
+        let currentSegmentPosition = (absoluteIndex - 2) * this.arcadeParams.trackSegmentSize - this.controllable_vehicle.position;
         let currentSegment         = this.track[currentSegmentIndex];
-
+        
         let lastProjectedHeight     = Number.POSITIVE_INFINITY;
+        let probedDepth             = 0;
         let counter                 = absoluteIndex % (2 * this.arcadeParams.numberOfSegmentPerColor); // for alternating color band
-
-        let controllable_carPosSegmentHeight     = this.track[absoluteIndex % this.track.length].height;
-        let controllable_carPosNextSegmentHeight = this.track[(absoluteIndex + 1) % this.track.length].height;
-        let controllable_carPosRelative          = (this.controllable_car.position % this.arcadeParams.trackSegmentSize) / this.arcadeParams.trackSegmentSize;
-        let controllable_carHeight               = this.renderCanvas.camera_height + controllable_carPosSegmentHeight + (controllable_carPosNextSegmentHeight - controllable_carPosSegmentHeight) * controllable_carPosRelative;
-
-        let baseOffset                 =  currentSegment.curve + (this.track[(currentSegmentIndex + 1) % this.track.length].curve - currentSegment.curve) * controllable_carPosRelative;
-
-        this.lastDelta = this.controllable_car.posx - baseOffset*2;
-
+        
+        let playerPosSegmentHeight     = this.track[absoluteIndex % this.track.length].height;
+        let playerPosNextSegmentHeight = this.track[(absoluteIndex + 1) % this.track.length].height;
+        let playerPosRelative          = (this.controllable_vehicle.position % this.arcadeParams.trackSegmentSize) / this.arcadeParams.trackSegmentSize;
+        let playerHeight               = this.renderCanvas.camera_height + playerPosSegmentHeight + (playerPosNextSegmentHeight - playerPosSegmentHeight) * playerPosRelative;
+        
+        let baseOffset                 =  currentSegment.curve + (this.track[(currentSegmentIndex + 1) % this.track.length].curve - currentSegment.curve) * playerPosRelative;
+        
+        this.lastDelta = this.controllable_vehicle.posx - baseOffset*2;
+        
         let iter = this.renderCanvas.depthOfField;
+        
         while (iter--) {
             // Next Segment:
             let nextSegmentIndex       = (currentSegmentIndex + 1) % this.track.length;
             let nextSegment            = this.track[nextSegmentIndex];
 
-            let startProjectedHeight = Math.floor((controllable_carHeight - currentSegment.height) * this.renderCanvas.camera_distance / (this.renderCanvas.camera_distance + currentSegmentPosition));
+            let startProjectedHeight = Math.floor((playerHeight - currentSegment.height) * this.renderCanvas.camera_distance / (this.renderCanvas.camera_distance + currentSegmentPosition));
             let startScaling         = 30 / (this.renderCanvas.camera_distance + currentSegmentPosition);
-
-            let endProjectedHeight   = Math.floor((controllable_carHeight - nextSegment.height) * this.renderCanvas.camera_distance / (this.renderCanvas.camera_distance + currentSegmentPosition + this.arcadeParams.trackSegmentSize));
+        
+            let endProjectedHeight   = Math.floor((playerHeight - nextSegment.height) * this.renderCanvas.camera_distance / (this.renderCanvas.camera_distance + currentSegmentPosition + this.arcadeParams.trackSegmentSize));
             let endScaling           = 30 / (this.renderCanvas.camera_distance + currentSegmentPosition + this.arcadeParams.trackSegmentSize);
 
             let currentHeight        = Math.min(lastProjectedHeight, startProjectedHeight);
             let currentScaling       = startScaling;
-
+            
             if(currentHeight > endProjectedHeight){
-                this.setColorsCanvas(counter < this.arcadeParams.numberOfSegmentPerColor, this.readColorsJSON.grass1, this.readColorsJSON.border1, this.readColorsJSON.border2, this.readColorsJSON.outborder1, this.readColorsJSON.outborder_end1, this.readColorsJSON.track_segment1, this.readColorsJSON.lane1, this.readColorsJSON.lane2, this.readColorsJSON.laneArrow1);
                 this.drawSegment(
-                    this.renderCanvas.height / 2 + currentHeight,
-                    currentScaling, currentSegment.curve - baseOffset - this.lastDelta * currentScaling,
-                    this.renderCanvas.height / 2 + endProjectedHeight,
-                    endScaling,
-                    nextSegment.curve - baseOffset - this.lastDelta * endScaling,
-                    currentSegmentIndex === 2 || currentSegmentIndex === (this.arcadeParams.numIterations-this.renderCanvas.depthOfField));
+                    this.renderCanvas.height / 2 + currentHeight, 
+                    currentScaling, currentSegment.curve - baseOffset - this.lastDelta * currentScaling, 
+                    this.renderCanvas.height / 2 + endProjectedHeight, 
+                    endScaling, 
+                    nextSegment.curve - baseOffset - this.lastDelta * endScaling, 
+                    counter < this.arcadeParams.numberOfSegmentPerColor, currentSegmentIndex == 2 || currentSegmentIndex == (this.arcadeParams.trackParam.length-this.renderCanvas.depthOfField));
             }
             if(currentSegment.sprite){
-                spriteBuffer.push(
-                    {
-                        y: this.renderCanvas.height / 2 + startProjectedHeight,
-                        x: this.renderCanvas.width / 2 - currentSegment.sprite.pos * this.renderCanvas.width * currentScaling + currentSegment.curve - baseOffset - (this.controllable_car.posx - baseOffset*2) * currentScaling,
-                        ymax: this.renderCanvas.height / 2 + lastProjectedHeight,
-                        s: currentSegment.sprite.scale*currentScaling,
-                        i: currentSegment.sprite.type,
-                        pos: currentSegment.sprite.pos,
-                        obstacle: currentSegment.sprite.obstacle
-                    }
-                );
+                spriteBuffer.push({
+                    y: this.renderCanvas.height / 2 + startProjectedHeight, 
+                    x: this.renderCanvas.width / 2 - currentSegment.sprite.pos * this.renderCanvas.width * currentScaling + /* */currentSegment.curve - baseOffset - (this.controllable_vehicle.posx - baseOffset*2) * currentScaling,
+                    ymax: this.renderCanvas.height / 2 + lastProjectedHeight, 
+                    s: 2.5*currentScaling, 
+                    i: currentSegment.sprite.type});
             }
-
+            
+            
             lastProjectedHeight    = currentHeight;
+            
+            probedDepth            = currentSegmentPosition;
 
             currentSegmentIndex    = nextSegmentIndex;
             currentSegment         = nextSegment;
-
+            
             currentSegmentPosition += this.arcadeParams.trackSegmentSize;
-
+            
             counter = (counter + 1) % (2 * this.arcadeParams.numberOfSegmentPerColor);
         }
-
-        while((this.sptB = spriteBuffer.pop())!==undefined) {
-            this.drawSprite(this.sptB, null, null, null, null);
-        }
-
-        // Draw the car by default, but if user declares in opt field 'useVehicle' not to use, then the simulator will not render it
-        if(this.useVehicle){
-        	this.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
-        }
-
-        if(this.lapInformation.lapNumber!==0){ 
-	        if(this.WIDGETSTATE!==null){
-	            this.lapInformation.currentLapNumber = parseInt(this.WIDGETSTATE[this.vehicle.lap_attribute][this.vehicle.lap_value]);
-
-	            if(absoluteIndex >= this.arcadeParams.numIterations-this.renderCanvas.depthOfField-1){
-	                if(this.lapInformation.currentLapNumber<=this.lapInformation.lapNumber && this.lapInformation.counterAux===0){
-	                    ButtonActionsQueue.queueGUIAction(this.vehicle.newLap_functionNamePVS, this.lapInformation.callback);
-	                }
-	                this.lapInformation.counterAux=1;
-	            }
-
-	            if(this.lapInformation.lastLapNumber===this.lapInformation.currentLapNumber-1){
-	                this.lapInformation.lastLapNumber=this.lapInformation.currentLapNumber;
-	                this.lapInformation.counterAux=0;
-	            }
-
-	            if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber){
-                    if(this.realPrefix!==""){
-    	                this.drawText("1 Lap",{x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-30}, 1, ratioFonts);
-    	                this.drawText("To Go",{x: centerX-7*centerDeviationDuringSimulation+20, y: centerDeviationDuringSimulation-30}, 1, ratioFonts);
-                    }else{
-                        this.drawText("1 Lap",{x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation+30}, 1, ratioFonts);
-                        this.drawText("To Go",{x: centerX-7*centerDeviationDuringSimulation+60, y: centerDeviationDuringSimulation+30}, 1, ratioFonts);
-                    }
-	            }
-
-	            if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber && this.lapInformation.currentPercentage>=100){
-	                clearInterval(this.intervals.simulatorInterval);
-                    if(this.realPrefix!==""){
-    	                this.drawText("Simulation Ended!", {x: centerX-centerDeviationDuringSimulation, y: 4*centerDeviationDuringSimulation}, 1, ratioFonts);
-    	                this.drawText("Wait 5 Seconds To Reload", {x: centerX-2*centerDeviationDuringSimulation, y: 5*centerDeviationDuringSimulation}, 1, ratioFonts);
-    	                this.drawText("The Simulator", {x: centerX-centerDeviationDuringSimulation, y: 6*centerDeviationDuringSimulation}, 1, ratioFonts);
-                    }else{
-                        this.drawText("Simulation Ended!", {x: centerX-centerDeviationDuringSimulation, y: 4*centerDeviationDuringSimulation}, 1, ratioFonts);
-    	                this.drawText("Wait 5 Seconds To Reload", {x: centerX-2*centerDeviationDuringSimulation, y: 5*centerDeviationDuringSimulation}, 1, ratioFonts);
-    	                this.drawText("The Simulator", {x: centerX-centerDeviationDuringSimulation, y: 6*centerDeviationDuringSimulation}, 1, ratioFonts);
-                    }
-	                this.soundWidget.pauseAll();
-
-	                // Delayed function call by 5 seconds to reload simulator
-	                // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
-	                setTimeout(
-	                    (function(self) {         //Self-executing func which takes 'this' as self
-	                        return function() {   //Return a function in the context of 'self'
-	                            location.reload(); //Thing you wanted to run as non-window 'this'
-	                        }
-	                    })(this),
-	                    5000     //normal interval, 'this' scope not impacted here.
-	                ); 
-	            }
-	        } 
-
-	        // Draw Header
-	        if(this.lapInformation.currentLapNumber<this.lapInformation.lapNumber){
-                if(this.realPrefix!==""){
-	               this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: centerX-4*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-30}, 1, ratioFonts);
-                }else{
-                   this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10}, 1, ratioFonts);
-                }
-	        }else{
-                if(this.realPrefix!==""){
-	               this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: centerX-4*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-30}, 1, ratioFonts);
-                }else{
-                   this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10}, 1, ratioFonts);
-                }
-	        }
-
-	        this.lapInformation.currentPercentage = Math.round(absoluteIndex/(this.arcadeParams.numIterations-this.renderCanvas.depthOfField)*100);
-	        if(this.lapInformation.currentPercentage>100){
-                if(this.realPrefix!==""){
-	               this.drawText("Current Lap 100%",{x: centerX-3*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation},1,ratioFonts);
-                }else{
-                   this.drawText("Current Lap 100%",{x: centerX-5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10},1,ratioFonts);
-                }
-	        }else{
-                if(this.realPrefix!==""){
-	               this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: centerX-3*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation},1,ratioFonts);
-                }else{
-                   this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: centerX-5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10},1,ratioFonts);
-                }
-	        }
-        }// else infinit simulation
-
-        // Draw Virtual Speedometer and Tachometer based on Speedometer, Tachometer Widgets
-        if(this.WIDGETSTATE!==null){
-            if(this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value]!=="0"){
-                let currentSpeedPVS = this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value];
-                let arraySpeed = currentSpeedPVS.split("/");
-                let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
-                if(!isNaN(speedValue)){
-                    this.lastPVSValues.lastSpeedPVS = Math.ceil(speedValue);
-                }
-                if(this.lapInformation.lapNumber!==0){
-                    if(this.realPrefix!==""){
-                	   this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation}, 1, ratioFonts);
-                    }else{
-                        this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-10}, 1, ratioFonts);    
-                    }
-            	}else{
-                    if(this.realPrefix!==""){
-            		    this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-5}, 1, ratioFonts);
-                    }else{
-                        this.drawText(""+this.lastPVSValues.lastSpeedPVS+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-15}, 1, ratioFonts);
-                    }
-            	}
-            }else{
-            	if(this.lapInformation.lapNumber!==0){
-                    if(this.realPrefix!==""){
-                	   this.drawText(""+0+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation}, 1, ratioFonts);
-                    }else{
-                       this.drawText(""+0+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-10}, 1, ratioFonts);
-                    }
-            	}else{
-                    if(this.realPrefix!==""){
-            		  this.drawText(""+0+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-5}, 1, ratioFonts);
-                    }else{
-                      this.drawText(""+0+" kmh", {x: this.width-3.5*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-15}, 1, ratioFonts);
-                    }
-            	}
-            }
-            if(this.WIDGETSTATE.rpm!=="0"){
-                let currentRPMPVS = this.WIDGETSTATE.rpm;
-                let arrayRPM = currentRPMPVS.split("/");
-                let rpmValue = parseInt(arrayRPM[0])/parseInt(arrayRPM[1]);
-                if(!isNaN(rpmValue)){
-                    this.lastPVSValues.lastRPMPVS = Math.ceil(rpmValue);
-                }
-                if(this.lapInformation.lapNumber!==0){
-                    if(this.realPrefix!==""){
-                	   this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation}, 1, ratioFonts);
-                    }else{
-                       this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10}, 1, ratioFonts);
-                    }
-            	}else{
-                    if(this.realPrefix!==""){
-            		  this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-5}, 1, ratioFonts);
-                    }else{
-                      this.drawText(""+this.lastPVSValues.lastRPMPVS+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-15}, 1, ratioFonts);
-                    }
-            	}
-            }else{
-            	if(this.lapInformation.lapNumber!==0){
-                    if(this.realPrefix!==""){
-                	   this.drawText(""+0+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation}, 1, ratioFonts);
-                    }else{
-                       this.drawText(""+0+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10}, 1, ratioFonts);
-                    }
-            	}else{
-                    if(this.realPrefix!==""){
-                        this.drawText(""+0+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-5}, 1, ratioFonts);
-                    }else{
-                        this.drawText(""+0+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-15}, 1, ratioFonts);
-                    }
-            	}
-            }
-        }
-
-        // Draw Lap Time
-        let res = this.canvasInformations.time[0].split("-");
-        this.canvasInformations.currentTimeString = res[0] + " h:" + this.canvasInformations.time[1] + " m:" + this.canvasInformations.time[2] + " s:" + this.canvasInformations.time[3] + " ms";
         
-        if(this.lapInformation.lapNumber!==0){
-            if(this.realPrefix!==""){
-        	   this.drawText(this.canvasInformations.currentTimeString, {x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation}, 1, ratioFonts);
-            }else{
-                this.drawText(this.canvasInformations.currentTimeString, {x: centerX-8*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-10}, 1, ratioFonts);
-            }
-        }else{
-            if(this.realPrefix!==""){
-                this.drawText(this.canvasInformations.currentTimeString, {x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10}, 1, ratioFonts);
-            }else{
-                this.drawText(this.canvasInformations.currentTimeString, {x: centerX-8*centerDeviationDuringSimulation, y: 0.5*centerDeviationDuringSimulation-20}, 1, ratioFonts);
-            }
-        }
+        // --------------------------
+        // --     Draw the car     --
+        // --------------------------
 
-        // Draw Simulator Logo
-        if(this.canvasInformations.showOfficialLogo){
-            // this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo1,1.65*centerDeviationDuringSimulation,10,(1-(1/ratioFonts))*60,(1-(1/ratioFonts))*32);
-            this.canvasInformations.context.drawImage(this.simulatorLogos.simulatorLogo2,1.65*centerDeviationDuringSimulation,10,(1-(1/ratioFonts))*60,(1-(1/ratioFonts))*32);
-        }
-
-        if(this.WIDGETSTATE!==null){
-            if(this.WIDGETSTATE[this.vehicle.sound_attribute]!==this.lastPVSValues.lastSoundPVS){
-                this.lastPVSValues.lastSoundPVS = this.WIDGETSTATE[this.vehicle.sound_attribute];
-                if(this.lastPVSValues.lastSoundPVS===this.vehicle.mute_attribute){
-                	this.soundWidget.mute();
-                }else if(this.lastPVSValues.lastSoundPVS===this.vehicle.unmute_attribute){
-					this.soundWidget.reveal();
-		            this.soundWidget.playSound(2); //startup song
-		            this.soundWidget.playSound(0); //background song
-		            this.soundWidget.setVolume(0.4,0);
-		            this.soundWidget.onEndedSound(2,[
-		                {
-		                indexPlayNext: 1, //idle song
-		                newVolume: 1.0
-		                }
-		            ]);
-                }
-            }
-        }
-
+        // ---------------------------------
+        // --     Draw the lap number     --
+        // ---------------------------------        
+        
+        // --------------------------
+        // --     Draw the hud     --
+        // --------------------------         
+        let speed = Math.round(this.controllable_vehicle.speed / this.controllable_vehicle.maxSpeed * 200);
         return this;
     };
+    
+
+    /**
+     * @function drawSegment
+     * @public
+     * @description DrawSegment method of the Arcade widget.
+     * @memberof module:Arcade
+     * @instance
+     */
+    Arcade.prototype.drawSegment = function (position1, scale1, offset1, position2, scale2, offset2, alternate, finishStart){
+        let grass     = (alternate) ? "#eda" : "#dc9";
+        let border    = (alternate) ? "#e00" : "#fff";
+        let road      = (alternate) ? "#999" : "#777";
+        let lane      = (alternate) ? "#fff" : "#777";
+
+        if(finishStart){
+            road = "#fff";
+            lane = "#fff";
+            border = "#fff";
+        }
+        
+        //draw grass:
+        this.canvasInformations.context.fillStyle = grass;
+        this.canvasInformations.context.fillRect(0,position2,this.canvasInformations.canvas.width,(position1-position2));
+        
+        // draw the road
+        this.drawTrapez(position1, scale1, offset1, position2, scale2, offset2, -0.5, 0.5, road);
+        
+        //draw the road border
+        this.drawTrapez(position1, scale1, offset1, position2, scale2, offset2, -0.5, -0.47, border);
+        this.drawTrapez(position1, scale1, offset1, position2, scale2, offset2, 0.47,   0.5, border);
+        
+        // draw the lane line
+        this.drawTrapez(position1, scale1, offset1, position2, scale2, offset2, -0.18, -0.15, lane);
+        this.drawTrapez(position1, scale1, offset1, position2, scale2, offset2,  0.15,  0.18, lane);
+        return this;
+    }
+    
+    /**
+     * @function drawTrapez
+     * @public
+     * @description DrawTrapez method of the Arcade widget.
+     * @memberof module:Arcade
+     * @instance
+     */
+    Arcade.prototype.drawTrapez = function(pos1, scale1, offset1, pos2, scale2, offset2, delta1, delta2, color){
+        let demiWidth = this.canvasInformations.canvas.width / 2;
+        this.canvasInformations.context.fillStyle = color;
+        this.canvasInformations.context.beginPath();
+        this.canvasInformations.context.moveTo(demiWidth + delta1 * this.canvasInformations.canvas.width * scale1 + offset1, pos1);
+        this.canvasInformations.context.lineTo(demiWidth + delta1 * this.canvasInformations.canvas.width * scale2 + offset2, pos2); 
+        this.canvasInformations.context.lineTo(demiWidth + delta2 * this.canvasInformations.canvas.width * scale2 + offset2, pos2); 
+        this.canvasInformations.context.lineTo(demiWidth + delta2 * this.canvasInformations.canvas.width * scale1 + offset1, pos1);
+        this.canvasInformations.context.fill();
+        return this;
+    }
 
     /**
      * @function drawText
@@ -1689,1050 +1603,90 @@ define(function (require, exports, module) {
         return this;
     };
 
-    /**
-     * @function drawLanePos
-     * @private
-     * @description DrawLanePos method of the Arcade widget. This method draws one lane in the desired position, received as argument.
-     * @param pos1 {Float}
-     * @param scale1 {Float}
-     * @param offset1 {Float}
-     * @param pos2 {Float}
-     * @param scale2 {Float}
-     * @param offset2 {Float}
-     * @param color {String} CSS color to render the lane, usually hexadecimal value.
-     * @param indexPos {Float} Desired position where lane will be rendered.
-     * @param laneWidth {Float} The width of each lane to be rendered.
-     * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.drawLanePos = function (pos1, scale1, offset1, pos2, scale2, offset2, color, indexPos, laneWidth) {
-        this.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2,  indexPos-laneWidth, indexPos, color);
-        return this;
-    };
+    // /**
+    //  * @function drawSprite
+    //  * @private
+    //  * @description DrawSprite method of the Arcade widget. This method draws an image of spritesheetsImages array. Usually it uses index 0, since this method is used to
+    //  * draw objects and index 0 has the spritesheet image with all available objects. This method either receives only a sprite (and null as other arguments) or receives
+    //  * an image, x, y and scale (sprite as a null argument). This allows to use render different images and sprites.
+    //  * @param sprite {Float} Sprite to be rendered.
+    //  * @param image {Float} Image to be rendered.
+    //  * @param x {Float} X screen coordinate, used to place the object to be rendered.
+    //  * @param y {Float} Y screen coordinate, used to place the object to be rendered.
+    //  * @param scale {Float} Scaling value to render object. It is used to enlarge or to shrink the object to better fit in the screen.
+    //  * @memberof module:Arcade
+    //  * @returns {Arcade} The created instance of the widget Arcade.
+    //  * @instance
+    //  */
+    // Arcade.prototype.drawSprite = function (sprite, image, x, y, scale) {
+    //     if(sprite!==null){
+    //         let destY = sprite.y - sprite.i.h * sprite.s;
+    //         let h = null;
+    //         if(sprite.ymax < sprite.y) {
+    //             h = Math.min(sprite.i.h * (sprite.ymax - destY) / (sprite.i.h * sprite.s), sprite.i.h);
+    //         } else {
+    //             h = sprite.i.h;
+    //         }
+    //         if(h > 0) this.canvasInformations.context.drawImage(this.spritesheetsImages[0],  sprite.i.x, sprite.i.y, sprite.i.w, h, sprite.x, destY, sprite.s * sprite.i.w, sprite.s * h);
+    //     }else{
+    //         this.canvasInformations.context.drawImage(this.spritesheetsImages[0],  image.x, image.y, image.w, image.h, x, y, scale*image.w, scale*image.h);
+    //     }
+    //     return this;
+    // };
 
-    /**
-     * @function drawLanes
-     * @private
-     * @description DrawLanes method of the Arcade widget. This method draws lanes according to numLanes, received as argument.
-     * @param pos1 {Float}
-     * @param scale1 {Float}
-     * @param offset1 {Float}
-     * @param pos2 {Float}
-     * @param scale2 {Float}
-     * @param offset2 {Float}
-     * @param color {String} CSS color to render the lane, usually hexadecimal value.
-     * @param numLanes {Int} Number of lanes to be rendered.
-     * @param laneWidth {Float} The width of each lane to be rendered.
-     * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.drawLanes = function (pos1, scale1, offset1, pos2, scale2, offset2, color, numLanes, laneWidth) {
-        let alpha = 1.10/numLanes;
-        if(numLanes>3){
-            for(let i=0;i<numLanes;i++){
-                this.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2, this.stripeConfiguration.trackP1+(i*alpha), this.stripeConfiguration.trackP1+(i*alpha)+laneWidth, color);
-                this.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2, this.stripeConfiguration.trackP2-(i*alpha)-laneWidth, this.stripeConfiguration.trackP2-(i*alpha), color);
-            }
-        }else{
-            this.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2, this.stripeConfiguration.trackP1+alpha, this.stripeConfiguration.trackP1+alpha+laneWidth, color);
-            this.drawSegmentPortion(pos1, scale1, offset1, pos2, scale2, offset2, this.stripeConfiguration.trackP2-alpha-laneWidth, this.stripeConfiguration.trackP2-alpha, color);
-        }
-        return this;
-    };
-
-    /**
-     * @function drawGuidingLine
-     * @private
-     * @description DrawGuidingLine method of the Arcade widget. This method draws a guiding line within the track.
-     * @param pos1 {Float}
-     * @param scale1 {Float}
-     * @param offset1 {Float}
-     * @param pos2 {Float}
-     * @param scale2 {Float}
-     * @param offset2 {Float}
-     * @param delta1 {Float}
-     * @param delta2 {Float}
-     * @param color {String} CSS color to render the lane, usually hexadecimal value.
-     * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.drawGuidingLine = function (pos1, scale1, offset1, pos2, scale2, offset2, delta1, delta2, color) {
-        let demiWidth = this.renderCanvas.width / 2;
-        this.canvasInformations.context.fillStyle = color;
-        this.canvasInformations.context.beginPath();
-        this.canvasInformations.context.moveTo(demiWidth + delta1 * this.renderCanvas.width * scale1 + offset1, pos1);
-        this.canvasInformations.context.lineTo(demiWidth + delta1 * this.renderCanvas.width * scale2 + offset2, pos2);
-        this.canvasInformations.context.lineTo(demiWidth + delta2 * this.renderCanvas.width * scale2 + offset2, pos2);
-        this.canvasInformations.context.lineTo(demiWidth + delta2 * this.renderCanvas.width * scale1 + offset1, pos1);
-        this.canvasInformations.context.fill();
-        return this;
-    };
-
-    /**
-     * @function drawSimpleArrowFront
-     * @private
-     * @description DrawSimpleArrowFront method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
-     * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
-     * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
-     * @param color {String} CSS color to render the simple arrow, usually hexadecimal value.
-     * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.drawSimpleArrowFront = function (x,y,color){
-        this.canvasInformations.context.fillStyle = color;
-        this.canvasInformations.context.strokeStyle = color;
-        this.canvasInformations.context.lineWidth = 6;
-        this.canvasInformations.context.beginPath();
-        this.canvasInformations.context.moveTo(x,y+10);
-        this.canvasInformations.context.lineTo(x+10,y);
-        this.canvasInformations.context.lineTo(x+20,y+10);
-        this.canvasInformations.context.stroke();
-        return this;
-    };
-
-    /**
-     * @function drawSimpleArrowDown
-     * @private
-     * @description DrawSimpleArrowDown method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
-     * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
-     * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
-     * @param color {String} CSS color to render the simple arrow, usually hexadecimal value.
-     * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.drawSimpleArrowDown = function (x,y,color){
-        this.canvasInformations.context.fillStyle = color;
-        this.canvasInformations.context.strokeStyle = color;
-        this.canvasInformations.context.lineWidth = 6;
-        this.canvasInformations.context.beginPath();
-        this.canvasInformations.context.moveTo(x,y);
-        this.canvasInformations.context.lineTo(x+10,y+10);
-        this.canvasInformations.context.lineTo(x+20,y);
-        this.canvasInformations.context.stroke();
-        return this;
-    };
-
-    /**
-     * @function drawSimpleArrowLeft
-     * @private
-     * @description DrawSimpleArrowLeft method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
-     * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
-     * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
-     * @param color {String} CSS color to render the simple arrow, usually hexadecimal value.
-     * @param direction {Object} Object with inverse property, which indicates whether the guide
-     * arrow points in the opposite direction of the vehicle, i.e. if it points to the lane,
-     * i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points
-     * in the direction of the vehicle, i.e., points to the direction of the vehicle at the present
-     * moment of the simulation. The abovementioned object is then {inverse:true}.
-     * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.drawSimpleArrowLeft = function (x,y,color,direction){
-        if(direction.inverse){
-            this.canvasInformations.context.fillStyle = color;
-            this.canvasInformations.context.strokeStyle = color;
-            this.canvasInformations.context.lineWidth = 6;
-            this.canvasInformations.context.beginPath();
-            this.canvasInformations.context.moveTo(x+13,y);
-            this.canvasInformations.context.lineTo(x+3,y+10);
-            this.canvasInformations.context.lineTo(x+13,y+20);
-            this.canvasInformations.context.stroke();
-        }else {
-            this.drawSimpleArrowRight(x,y,color,{inverse:true});
-        }
-        return this;
-    };
-
-    /**
-     * @function drawSimpleArrowRight
-     * @private
-     * @description DrawSimpleArrowRight method of the Arcade widget. This method draws a guiding arrow on right top corner of the canvas.
-     * @param x {Int} Coordinate X of starting point, i.e. where simple arrow will be drawed.
-     * @param y {Int} Coordinate Y of starting point, i.e. where simple arrow will be drawed.
-     * @param color {String} CSS color to render the simple arrow, usually hexadecimal value.
-     * @param direction {Object} Object with inverse property, which indicates whether the guide
-     * arrow points in the opposite direction of the vehicle, i.e. if it points to the lane,
-     * i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points
-     * in the direction of the vehicle, i.e., points to the direction of the vehicle at the present
-     * moment of the simulation. The abovementioned object is then {inverse:true}.
-     * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.drawSimpleArrowRight = function (x,y,color,direction){
-        if(direction.inverse){
-            this.canvasInformations.context.fillStyle = color;
-            this.canvasInformations.context.strokeStyle = color;
-            this.canvasInformations.context.lineWidth = 6;
-            this.canvasInformations.context.beginPath();
-            this.canvasInformations.context.moveTo(x,y);
-            this.canvasInformations.context.lineTo(x+10,y+10);
-            this.canvasInformations.context.lineTo(x,y+20);
-            this.canvasInformations.context.stroke();
-        }else {
-            this.drawSimpleArrowLeft(x,y,color,{inverse:true});
-        }
-        return this;
-    };
-
-    /**
-     * @function drawArrowFront
-     * @private
-     * @description DrawArrowFront method of the Arcade widget. This method draws a guiding arrow in front of the vehicle.
-     * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
-     * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
-     * @param width {Int} Arrow width(triangle).
-     * @param height {Int} Arrow height(triangle).
-     * @param color {String} CSS color to render the arrow, usually hexadecimal value.
-     * @param withLine {Int} Boolean, i.e. value 0 does not render line(arrow tail) and 1 renders.
-     * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.drawArrowFront = function (x, y, width, height, color, withLine){
-        // Arrow Head
-        this.canvasInformations.context.fillStyle = color;
-        this.canvasInformations.context.beginPath();
-        this.canvasInformations.context.moveTo(x, y);
-        this.canvasInformations.context.lineTo(x - width, y + height);
-        this.canvasInformations.context.lineTo(x + width, y + height);
-        this.canvasInformations.context.closePath();
-        this.canvasInformations.context.fill();
-
-        if(withLine===1){
-            // Arrow Line
-            this.canvasInformations.context.strokeStyle = color;
-            this.canvasInformations.context.fillStyle = color;
-            this.canvasInformations.context.lineWidth = 6;
-            this.canvasInformations.context.beginPath();
-            this.canvasInformations.context.moveTo(x, y+10);
-            this.canvasInformations.context.lineTo(x, y+35);
-            this.canvasInformations.context.stroke();
-            this.canvasInformations.context.fill();
-        }
-        return this;
-    };
-
-    /**
-     * @function drawArrowRight
-     * @private
-     * @description DrawArrowRight method of the Arcade widget. This method draws a guiding arrow, turned right, in front of the vehicle.
-     * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
-     * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
-     * @param width {Int} Arrow width(triangle).
-     * @param height {Int} Arrow height(triangle).
-     * @param color {String} CSS color to render the arrow, usually hexadecimal value.
-     * @param withLine {Int} Boolean, i.e. value 0 does not render line(arrow tail) and 1 renders.
-     * @param direction {Object} Object with inverse property, which indicates whether the guide
-     * arrow points in the opposite direction of the vehicle, i.e. if it points to the lane,
-     * i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points
-     * in the direction of the vehicle, i.e., points to the direction of the vehicle at the present
-     * moment of the simulation. The abovementioned object is then {inverse:true}.
-     * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.drawArrowRight = function (x, y, width, height, color, withLine, direction) {
-        if(direction.inverse){
-            this.canvasInformations.context.fillStyle = color;
-            this.canvasInformations.context.beginPath();
-            this.canvasInformations.context.moveTo(x, y); // reposition at x (horizontal axis), y (vertical axis)
-            this.canvasInformations.context.lineTo(x, y + height);  // draw straight down by height
-            this.canvasInformations.context.lineTo(x - width, y + height/2); // draw up toward left
-            this.canvasInformations.context.closePath(); // connect and fill
-            this.canvasInformations.context.fill();
-
-            if(withLine===1){
-                // Arrow Line
-                this.canvasInformations.context.strokeStyle = color;
-                this.canvasInformations.context.fillStyle = color;
-                this.canvasInformations.context.lineWidth = 6;
-                this.canvasInformations.context.beginPath();
-                this.canvasInformations.context.moveTo(x + width/2 - width, y + height - 5);
-                this.canvasInformations.context.lineTo(x - width + 2, y + height/2 + 20);
-                this.canvasInformations.context.stroke();
-                this.canvasInformations.context.fill();
-            }
-        }else{
-            this.drawArrowLeft(x, y, width, height, color, withLine, {inverse:true});
-        }
-        return this;
-    };
-
-    /**
-     * @function drawArrowLeft
-     * @private
-     * @description DrawArrowLeft method of the Arcade widget. This method draws a guiding arrow, turned left, in front of the vehicle.
-     * @param x {Int} Coordinate X of starting point, i.e. where arrow apex will be drawed.
-     * @param y {Int} Coordinate Y of starting point, i.e. where arrow apex will be drawed.
-     * @param width {Int} Arrow width(triangle).
-     * @param height {Int} Arrow height(triangle).
-     * @param color {String} CSS color to render the arrow, usually hexadecimal value.
-     * @param withLine {Int} Boolean, i.e. value 0 does not render line(arrow tail) and 1 renders.
-     * @param direction {Object} Object with inverse property, which indicates whether the guide
-     * arrow points in the opposite direction of the vehicle, i.e. if it points to the lane,
-     * i.e. if it indicates the direction the vehicle should follow, or if the guide arrow points
-     * in the direction of the vehicle, i.e., points to the direction of the vehicle at the present
-     * moment of the simulation. The abovementioned object is then {inverse:true}.
-     * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.drawArrowLeft = function (x, y, width, height, color, withLine, direction){
-        if(direction.inverse){
-            this.canvasInformations.context.save();
-            this.canvasInformations.context.fillStyle = color;
-            this.canvasInformations.context.beginPath();
-            this.canvasInformations.context.moveTo(x, y);
-            this.canvasInformations.context.lineTo(x, y + height);
-            this.canvasInformations.context.lineTo(x + width, y + height/2);
-            this.canvasInformations.context.closePath();
-            this.canvasInformations.context.fill();
-
-            if(withLine===1){
-                // Arrow Line
-                this.canvasInformations.context.strokeStyle = color;
-                this.canvasInformations.context.fillStyle = color;
-                this.canvasInformations.context.lineWidth = 6;
-                this.canvasInformations.context.beginPath();
-                this.canvasInformations.context.moveTo(x + width/2, y + height - 5);
-                this.canvasInformations.context.lineTo(x + width - 2, y + height/2 + 20);
-                this.canvasInformations.context.stroke();
-                this.canvasInformations.context.fill();
-            }
-            this.canvasInformations.context.restore();
-        }else{
-            this.drawArrowRight(x, y, width, height, color, withLine, {inverse:true});
-        }
-        return this;
-    };
-
-    /**
-     * @function drawSprite
-     * @private
-     * @description DrawSprite method of the Arcade widget. This method draws an image of spritesheetsImages array. Usually it uses index 0, since this method is used to
-     * draw objects and index 0 has the spritesheet image with all available objects. This method either receives only a sprite (and null as other arguments) or receives
-     * an image, x, y and scale (sprite as a null argument). This allows to use render different images and sprites.
-     * @param sprite {Float} Sprite to be rendered.
-     * @param image {Float} Image to be rendered.
-     * @param x {Float} X screen coordinate, used to place the object to be rendered.
-     * @param y {Float} Y screen coordinate, used to place the object to be rendered.
-     * @param scale {Float} Scaling value to render object. It is used to enlarge or to shrink the object to better fit in the screen.
-     * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.drawSprite = function (sprite, image, x, y, scale) {
-        if(sprite!==null){
-            let destY = sprite.y - sprite.i.h * sprite.s;
-            let h = null;
-            if(sprite.ymax < sprite.y) {
-                h = Math.min(sprite.i.h * (sprite.ymax - destY) / (sprite.i.h * sprite.s), sprite.i.h);
-            } else {
-                h = sprite.i.h;
-            }
-            if(h > 0) this.canvasInformations.context.drawImage(this.spritesheetsImages[0],  sprite.i.x, sprite.i.y, sprite.i.w, h, sprite.x, destY, sprite.s * sprite.i.w, sprite.s * h);
-        }else{
-            this.canvasInformations.context.drawImage(this.spritesheetsImages[0],  image.x, image.y, image.w, image.h, x, y, scale*image.w, scale*image.h);
-        }
-        return this;
-    };
-
-    /**
-     * @function drawSegmentPortion
-     * @private
-     * @description DrawSegmentPortion method of the Arcade widget. This method draws a segment portion.
-     * @param pos1 {Float}
-     * @param scale1 {Float}
-     * @param offset1 {Float}
-     * @param pos2 {Float}
-     * @param scale2 {Float}
-     * @param offset2 {Float}
-     * @param delta1 {Float}
-     * @param delta2 {Float}
-     * @param color {String} CSS color to render the lane, usually hexadecimal value.
-     * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.drawSegmentPortion = function (pos1, scale1, offset1, pos2, scale2, offset2, delta1, delta2, color) {
-        let demiWidth = this.renderCanvas.width / 2;
-
-        this.canvasInformations.context.fillStyle = color;
-        this.canvasInformations.context.beginPath();
-        this.canvasInformations.context.moveTo(demiWidth + delta1 * this.renderCanvas.width * scale1 + offset1, pos1);
-        this.canvasInformations.context.lineTo(demiWidth + delta1 * this.renderCanvas.width * scale2 + offset2, pos2);
-        this.canvasInformations.context.lineTo(demiWidth + delta2 * this.renderCanvas.width * scale2 + offset2, pos2);
-        this.canvasInformations.context.lineTo(demiWidth + delta2 * this.renderCanvas.width * scale1 + offset1, pos1);
-        this.canvasInformations.context.fill();
-        return this;
-    };
-
-    /**
-     * @function drawBackground
-     * @private
-     * @description DrawBackground method of the Arcade widget. This method draws the main_sprites.background image, in position 'position'.
-     * @param position {Float} Value of posx in controllable_car object, i.e. horizontal position, which is computed by adding/subtracting the turning field value every time the vehicle is turned left or right, in updateControllableCar method.
-     * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.drawBackground = function (position) {
-        // Scale background according to scale factor
-        let backgroundHeight = parseFloat(this.main_sprites.background.w);
-        let backgroundWidth = parseFloat(this.main_sprites.background.w);
-        let widthDiff = backgroundWidth - this.renderCanvas.width;
-        let heightDiff = backgroundHeight - this.renderCanvas.height;
-        let ratio = (widthDiff === heightDiff || widthDiff > heightDiff) ?
-        this.renderCanvas.width / backgroundWidth : this.renderCanvas.height / backgroundHeight;
+    // /**
+    //  * @function drawBackground
+    //  * @private
+    //  * @description DrawBackground method of the Arcade widget. This method draws the main_sprites.background image, in position 'position'.
+    //  * @param position {Float} Value of posx in controllable_vehicle object, i.e. horizontal position, which is computed by adding/subtracting the turning field value every time the vehicle is turned left or right, in updateControllableCar method.
+    //  * @memberof module:Arcade
+    //  * @returns {Arcade} The created instance of the widget Arcade.
+    //  * @instance
+    //  */
+    // Arcade.prototype.drawBackground = function (position) {
+    //     // Scale background according to scale factor
+    //     let backgroundHeight = parseFloat(this.main_sprites.background.w);
+    //     let backgroundWidth = parseFloat(this.main_sprites.background.w);
+    //     let widthDiff = backgroundWidth - this.renderCanvas.width;
+    //     let heightDiff = backgroundHeight - this.renderCanvas.height;
+    //     let ratio = (widthDiff === heightDiff || widthDiff > heightDiff) ?
+    //     this.renderCanvas.width / backgroundWidth : this.renderCanvas.height / backgroundHeight;
     
-        let first = position / 2 % (this.main_sprites.background.w);
-        // (image, x, y, scale) args
-        // LEFT 
-        this.drawSprite(null, this.main_sprites.background, first-(Math.ceil(ratio)*this.main_sprites.background.w)+1, 0, Math.ceil(ratio));
-        // CENTER (Starts in (0,0) - Variable 'first' is 0 in the beginning of the simulation, since 'position' is also 0) 
-        this.drawSprite(null, this.main_sprites.background, first, 0, Math.ceil(ratio));
-        // RIGHT 
-        this.drawSprite(null, this.main_sprites.background, first+(Math.ceil(ratio)*this.main_sprites.background.w)-1, 0, Math.ceil(ratio));
+    //     let first = position / 2 % (this.main_sprites.background.w);
+    //     // (image, x, y, scale) args
+    //     // LEFT 
+    //     this.drawSprite(null, this.main_sprites.background, first-(Math.ceil(ratio)*this.main_sprites.background.w)+1, 0, Math.ceil(ratio));
+    //     // CENTER (Starts in (0,0) - Variable 'first' is 0 in the beginning of the simulation, since 'position' is also 0) 
+    //     this.drawSprite(null, this.main_sprites.background, first, 0, Math.ceil(ratio));
+    //     // RIGHT 
+    //     this.drawSprite(null, this.main_sprites.background, first+(Math.ceil(ratio)*this.main_sprites.background.w)-1, 0, Math.ceil(ratio));
         
         
-        // // To create a backgroung with a pattern of background image
-        // let backgroundImage = spriteToImage(this.spritesheetsImages[0], this.main_sprites.background);    
-        // function spriteToImage(spritesheetImage, spriteImageMapping) {
-        //     var tempCanvas=document.createElement("canvas");
-        //     var tempCtx=tempCanvas.getContext("2d");
-        //     tempCanvas.width=spriteImageMapping.w;
-        //     tempCanvas.height=spriteImageMapping.h;
-        //     tempCtx.drawImage(spritesheetImage,
-        //         spriteImageMapping.x,
-        //         spriteImageMapping.y,
-        //         spriteImageMapping.w,
-        //         spriteImageMapping.h,
-        //         0,
-        //         0,
-        //         spriteImageMapping.w,
-        //         spriteImageMapping.h);
-        //     let res=new Image();
-        //     res.src=tempCanvas.toDataURL();
-        //     return res;            
-        // }       
-        // let pattern = this.canvasInformations.context.createPattern(backgroundImage, 'repeat');
-        // this.canvasInformations.context.fillStyle = pattern;
-        // this.canvasInformations.context.fillRect(0, 0, this.renderCanvas.width, this.renderCanvas.height);        
-        return this;
-    };
-
-
-    /**
-     * @function setColorsEndCanvas
-     * @private
-     * @description SetColorsEndCanvas method of the Arcade widget. This method set the final colors of the track segment and lane.
-     * The goal is to create the illusion of the starting/finishing line, which is black and white, and therefore, different from the colors that
-     * those two segments have during the simulation.
-     * @param track_segment {String} CSS color to render the final track segment, usually hexadecimal value.
-     * @param lane {String} CSS color to render the final lane, usually hexadecimal value.
-     * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.setColorsEndCanvas = function (track_segment, lane) {
-        this.arcadeColors.track_segment = track_segment;
-        this.arcadeColors.lane          = lane;
-        return this;
-    };
-
-    /**
-     * @function setColorsCanvas
-     * @private
-     * @description SetColorsCanvas method of the Arcade widget. This method set the initial colors of canvas, which will prevail until the end of the track is reached.
-     * @param alternate {Boolean} Value of comparison "counter < numberOfSegmentPerColor", which allows to choose the color of the segment depending on which segment is currently being rendered.
-     * That is, numberOfSegmentPerColor has the number of sequential segments to be colored with the same color, and when reached the following segments must be rendered with another color so the simulator can
-     * offer alternate colors. This is used, for instance, to render the track separators (separates track from landscape), which is colored red and white alternately.
-     * @param border1 {String} CSS color to render the first border sequence of segments, usually hexadecimal value.
-     * @param border2 {String} CSS color to render the second border sequence of segments, usually hexadecimal value.
-     * @param outborder1 {String} CSS color to render the outborder (line that separates the track from the track separator) segments, usually hexadecimal value.
-     * @param outborder_end1 {String} CSS color to render the outborder_end (line that separates the track separator from the landscape) segments, usually hexadecimal value.
-     * @param track_segment1 {String} CSS color to render the track segments, usually hexadecimal value.
-     * @param lane1 {String} CSS color to render the first lane sequence of segments (allows discontinuous lanes), usually hexadecimal value. To have continuous lanes, lane1 and lane2 arguments must have the same value (color).
-     * @param lane2 {String} CSS color to render the second lane sequence of segments, usually hexadecimal value.
-     * @param laneArrow1 {String} CSS color to render the guiding arrow segment, usually hexadecimal value.
-     * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.setColorsCanvas = function (alternate, grass1, border1, border2, outborder1, outborder_end1, track_segment1, lane1, lane2, laneArrow1) {
-        this.arcadeColors.grass          = grass1;
-        this.arcadeColors.border         = (alternate) ? border1 : border2;
-        this.arcadeColors.outborder      = outborder1;
-        this.arcadeColors.outborder_end  = outborder_end1;
-        this.arcadeColors.track_segment  = track_segment1;
-        this.arcadeColors.lane           = (alternate) ? lane1 : lane2;
-        this.arcadeColors.laneArrow      = laneArrow1;
-        return this;
-    };
-
-    /**
-     * @function drawSegment
-     * @private
-     * @description DrawSegment method of the Arcade widget. This method draws a segment of the simulator(which corresponds to an entire strip of the canvas).
-     * To do so, this method uses drawSegmentPortion, setColorsEndCanvas methods. The latter is used to draw the finishing line (different colors).
-     * @param position1 {Float}
-     * @param scale1 {Float}
-     * @param offset1 {Float}
-     * @param position2 {Float}
-     * @param scale2 {Float}
-     * @param offset2 {Float}
-     * @param finishStart {Boolean} Value of comparison "currentSegmentIndex == 2 || currentSegmentIndex == (arcadeParams.numIterations-render.depthOfField)", which verifies if current segment
-     * is the second or the last segment, i.e. the starting segment or the final segment to be rendered.
-     * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.drawSegment = function (position1, scale1, offset1, position2, scale2, offset2, finishStart) {
-        if(finishStart){
-            this.setColorsEndCanvas(this.readColorsJSON.track_segment_end, this.readColorsJSON.lane_end);
-
-            //draw grass:
-            this.canvasInformations.context.fillStyle = this.arcadeColors.grass;
-            this.canvasInformations.context.fillRect(0,position2,this.renderCanvas.width,(position1-position2));
-
-            // draw the track
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, this.stripeConfiguration.trackP1, this.stripeConfiguration.trackP2, "#fff");
-
-            //draw the track border
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, this.stripeConfiguration.borderP1, this.stripeConfiguration.borderP2, this.arcadeColors.border);
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -this.stripeConfiguration.borderP2, -this.stripeConfiguration.borderP1, this.arcadeColors.border);
-
-            //draw the track outborder dark green
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, this.stripeConfiguration.inBorderP1, this.stripeConfiguration.inBorderP2, this.arcadeColors.outborder_end);
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, this.stripeConfiguration.landscapeOutBorderP1, this.stripeConfiguration.landscapeOutBorderP2, this.arcadeColors.outborder);
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, this.stripeConfiguration.outBorderP2, this.stripeConfiguration.outBorderP1, this.arcadeColors.outborder_end);
-
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -this.stripeConfiguration.inBorderP2, -this.stripeConfiguration.inBorderP1, this.arcadeColors.outborder_end);
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -this.stripeConfiguration.landscapeOutBorderP2, -this.stripeConfiguration.landscapeOutBorderP1, this.arcadeColors.outborder);
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -this.stripeConfiguration.outBorderP1, -this.stripeConfiguration.outBorderP2, this.arcadeColors.outborder_end);
-
-            //draw the lane line
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, this.stripeConfiguration.laneP1, this.stripeConfiguration.laneP2, "#000");
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, this.stripeConfiguration.laneP3, this.stripeConfiguration.laneP4, "#000");
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, this.stripeConfiguration.laneP5, this.stripeConfiguration.laneP6, "#000");
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, this.stripeConfiguration.laneP7, this.stripeConfiguration.laneP8, "#000");
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -this.stripeConfiguration.laneP8, 0, "#000");
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -this.stripeConfiguration.laneP6, -this.stripeConfiguration.laneP7, "#000");
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -this.stripeConfiguration.laneP4, -this.stripeConfiguration.laneP5, "#000");
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -this.stripeConfiguration.laneP2, -this.stripeConfiguration.laneP3, "#000");
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -this.stripeConfiguration.laneP1+this.stripeConfiguration.diffLanesFinishLine, -this.stripeConfiguration.laneP1, "#000");
-
-            // draw arrow or guiding line
-            // Arcade.prototype.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, arcadeColors.laneArrow);
-            if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.straight_attribute){
-                // this.drawArrowFront(160, 150, 12, 18, this.arcadeColors.laneArrow, 1);
-                this.drawSimpleArrowFront(this.canvasInformations.canvas.width-50,30,this.arcadeColors.laneArrow);
-            }else if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.right_attribute){
-                // this.drawArrowLeft(160, 150, 20, 20, arcadeColors.laneArrow, 1, {inverse:false});
-                this.drawSimpleArrowLeft(this.canvasInformations.canvas.width-50,30,this.arcadeColors.laneArrow,{inverse:false});
-            }else if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.left_attribute){
-                // this.drawArrowRight(160, 150, 20, 20, arcadeColors.laneArrow, 1, {inverse:false});
-                this.drawSimpleArrowRight(this.canvasInformations.canvas.width-50,30,this.arcadeColors.laneArrow,{inverse:false});
-            }
-        }
-        else{
-            //draw grass:
-            this.canvasInformations.context.fillStyle = this.arcadeColors.grass;
-            this.canvasInformations.context.fillRect(0,position2,this.renderCanvas.width,(position1-position2));
-
-            // draw the track
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, this.stripeConfiguration.trackP1, this.stripeConfiguration.trackP2, this.arcadeColors.track_segment);
-
-            //draw the track border
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, this.stripeConfiguration.borderP1, this.stripeConfiguration.borderP2, this.arcadeColors.border);
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -this.stripeConfiguration.borderP2, -this.stripeConfiguration.borderP1, this.arcadeColors.border);
-
-            //draw the track outborder dark green
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, this.stripeConfiguration.inBorderP1, this.stripeConfiguration.inBorderP2, this.arcadeColors.outborder_end);
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, this.stripeConfiguration.landscapeOutBorderP1, this.stripeConfiguration.landscapeOutBorderP2, this.arcadeColors.outborder);
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, this.stripeConfiguration.outBorderP2, this.stripeConfiguration.outBorderP1, this.arcadeColors.outborder_end);
-
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -this.stripeConfiguration.inBorderP2, -this.stripeConfiguration.inBorderP1, this.arcadeColors.outborder_end);
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -this.stripeConfiguration.landscapeOutBorderP2, -this.stripeConfiguration.landscapeOutBorderP1, this.arcadeColors.outborder);
-            this.drawSegmentPortion(position1, scale1, offset1, position2, scale2, offset2, -this.stripeConfiguration.outBorderP1, -this.stripeConfiguration.outBorderP2, this.arcadeColors.outborder_end);
-
-            //draw the lane line
-            this.drawLanes(position1, scale1, offset1, position2, scale2, offset2, this.arcadeColors.lane, this.arcadeParams.numLanes, this.arcadeParams.laneWidth);
-            // this.drawLanePos(position1, scale1, offset1, position2, scale2, offset2, this.arcadeColors.lane, 0, this.arcadeParams.laneWidth);
-
-            // draw arrow or guiding line
-            // this.drawGuidingLine(position1, scale1, offset1, position2, scale2, offset2, -0.02, 0.02, this.arcadeColors.laneArrow);
-            if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.straight_attribute){
-                // this.drawArrowFront(160, 150, 12, 18, this.arcadeColors.laneArrow, 1);
-                this.drawSimpleArrowFront(this.canvasInformations.canvas.width-50,30,this.arcadeColors.laneArrow);
-            }else if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.right_attribute){
-                // this.drawArrowLeft(160, 150, 20, 20, this.arcadeColors.laneArrow, 1, {inverse:false});
-                this.drawSimpleArrowLeft(this.canvasInformations.canvas.width-50,30,this.arcadeColors.laneArrow, {inverse:false});
-            }else if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.left_attribute){
-                // this.drawArrowRight(160, 150, 20, 20, this.arcadeColors.laneArrow, 1, {inverse:false});
-                this.drawSimpleArrowRight(this.canvasInformations.canvas.width-50,30,this.arcadeColors.laneArrow, {inverse:false});
-            }
-        }
-        return this;
-    };
-
-    /**
-     * @function updateControllableCar
-     * @private
-     * @description UpdateControllableCar method of the Arcade widget. This method updates the controllable car position and speed.
-     * @memberof module:Arcade
-     * @returns {carSprite} The created object with car sprite (image) and its X,Y coordinates, to be rendered after current position and speed has been changed.
-     * That is, returns the new state after the action performed by the user (acceleration, braking, change of direction).
-     * @instance
-     */
-    Arcade.prototype.updateControllableCar = function () {
-
-        if(this.vehicle_faced_front===undefined || this.main_sprites.vehicle_faced_left===undefined || this.main_sprites.vehicle_faced_right===undefined || this.vehicle_faced_front===null || this.main_sprites.vehicle_faced_left===null || this.main_sprites.vehicle_faced_right===null){
-            console.log("Check if constructor args are correct!");
-            console.log("Maybe Vehicle Image does not exist! Check Spritesheet image and Spritesheet.json");
-            console.log("Vehicle Image Type and Realistic Image does not have a match");
-        }
-
-        // Update the car state
-        // TODO understand lastDelta
-        if (Math.abs(this.lastDelta) > 130){
-            if (this.controllable_car.speed > 3) {
-                this.controllable_car.speed -= 0.2;
-            }
-        } else {
-            // readSprite acceleration controls
-            this.soundOff = this.soundWidget.getSoundOff();
-            if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.accelerate_attribute) {
-                this.controllable_car.speed += this.controllable_car.acceleration;
-                if(!this.soundOff){
-                    this.soundWidget.playSound(3); //accelerating song
-                }
-            } else if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.brake_attribute) {
-                this.controllable_car.speed -= this.controllable_car.breaking;
-                if(!this.soundOff){
-                    this.soundWidget.pauseSound(3); //accelerating song
-                }
-            } else {
-                this.controllable_car.speed -= this.controllable_car.deceleration;
-                if(!this.soundOff){
-                    this.soundWidget.pauseSound(3); //accelerating song
-                }
-            }
-        }
-        this.controllable_car.speed = Math.max(this.controllable_car.speed, 0); //cannot go in reverse
-        this.controllable_car.speed = Math.min(this.controllable_car.speed, this.controllable_car.maxSpeed); //maximum speed
-        this.controllable_car.position += this.controllable_car.speed;
-        let carSprite;
-        let vehicleXFrontPosition;
-        let vehicleYFrontPosition;
-
-        let vehicleXLeftPosition;
-        let vehicleYLeftPosition;
-
-        let vehicleXRightPosition;
-        let vehicleYRightPosition;
-
-        switch (this.spritesImgsInformation.vehicleType) {
-            case "airplane":
-                if(this.spritesImgsInformation.vehicleIndex===2){
-                    vehicleXFrontPosition = 50;
-                    vehicleYFrontPosition = 110;
-                    vehicleXLeftPosition= 50;
-                    vehicleYLeftPosition= 70;
-                    vehicleXRightPosition= 50;
-                    vehicleYRightPosition= 70;
-                }else{
-                    vehicleXFrontPosition = 110;
-                    vehicleYFrontPosition = 100;
-                    vehicleXLeftPosition= 110;
-                    vehicleYLeftPosition= 100;
-                    vehicleXRightPosition= 110;
-                    vehicleYRightPosition= 100;
-                }
-                break;
-            case "bicycle":
-                if(this.spritesImgsInformation.vehicleRealistic){
-                    vehicleXFrontPosition = 135;
-                    vehicleYFrontPosition = 160;
-                    vehicleXLeftPosition= 135;
-                    vehicleYLeftPosition= 160;
-                    vehicleXRightPosition= 135;
-                    vehicleYRightPosition= 160;
-                }else{
-                    vehicleXFrontPosition = 140;
-                    vehicleYFrontPosition = 175;
-                    vehicleXLeftPosition= 140;
-                    vehicleYLeftPosition= 175;
-                    vehicleXRightPosition= 140;
-                    vehicleYRightPosition= 175;
-                }
-                break;
-            case "car":
-                if(this.spritesImgsInformation.vehicleRealistic){
-                    vehicleXFrontPosition = 125;
-                    vehicleYFrontPosition = 180;
-                    vehicleXLeftPosition= 125;
-                    vehicleYLeftPosition= 180;
-                    vehicleXRightPosition= 125;
-                    vehicleYRightPosition= 180;
-                }else{
-                    vehicleXFrontPosition = 125;
-                    vehicleYFrontPosition = 190;
-                    vehicleXLeftPosition= 125;
-                    vehicleYLeftPosition= 190;
-                    vehicleXRightPosition= 125;
-                    vehicleYRightPosition= 190;
-                }
-                break;
-            case "helicopter":
-                vehicleXFrontPosition = 100;
-                vehicleYFrontPosition = 90;
-                vehicleXLeftPosition= 70;
-                vehicleYLeftPosition= 60;
-                vehicleXRightPosition= 70;
-                vehicleYRightPosition= 60;
-                break;
-            case "motorbike":
-                if(this.spritesImgsInformation.vehicleRealistic){
-                    vehicleXFrontPosition = 130;
-                    vehicleYFrontPosition = 160;
-                    vehicleXLeftPosition= 130;
-                    vehicleYLeftPosition= 160;
-                    vehicleXRightPosition= 130;
-                    vehicleYRightPosition= 160;
-                }else{
-                    vehicleXFrontPosition = 150;
-                    vehicleYFrontPosition = 175;
-                    vehicleXLeftPosition= 120;
-                    vehicleYLeftPosition= 175;
-                    vehicleXRightPosition= 140;
-                    vehicleYRightPosition= 175;
-                }
-                break;
-        }
-
-        // car turning
-        if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.left_attribute) {
-            if(this.controllable_car.speed > 0){
-                this.controllable_car.posx -= this.controllable_car.turning;
-            }
-            carSprite = {
-                car: this.main_sprites.vehicle_faced_left,
-                x: vehicleXLeftPosition,
-                y: vehicleYLeftPosition
-            };
-        } else if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute]===this.vehicle.right_attribute) {
-            if(this.controllable_car.speed > 0){
-                this.controllable_car.posx += this.controllable_car.turning;
-            }
-            carSprite = {
-                car: this.main_sprites.vehicle_faced_right,
-                x: vehicleXRightPosition,
-                y: vehicleYRightPosition
-            };
-        } else {
-            carSprite = {
-                car: this.vehicle_faced_front,
-                x: vehicleXFrontPosition,
-                y: vehicleYFrontPosition
-            };
-        }
-        return carSprite;
-    };
-
-     /**
-     * @function setControllableCarPosition
-     * @private
-     * @description SetControllableCarPosition method of the Arcade widget. This method sets the controllable car position, posx, speed and vehicle sprite based on current direction.
-     * @param {String} vehicleCurrentDirection the current vehicle direction, that allows to select the proper vehicle sprite(faced front, left or right).
-     * @param {Float} newSpeed the new value of speed.
-     * @param {Float} newPosition the new value of position.
-     * @param {Float} newPositionX the new value of posx.
-     * @param {Int} vehicleXPosition the X-coordinate of the sprite of the vehicle with vehicleCurrentDirection as its current direction.
-     * @param {Int} vehicleYPosition the Y-coordinate of the sprite of the vehicle with vehicleCurrentDirection as its current direction.
-     * @returns {carSprite} The created object with car sprite (image) and its X,Y coordinates, to be rendered after current position and speed has been changed.
-     * That is, returns the new state after the action performed by the user (acceleration, braking, change of direction).
-     * @instance
-     */
-    Arcade.prototype.setControllableCarPosition = function (vehicleCurrentDirection, newSpeed, newPosition, newPositionX, vehicleXPosition, vehicleYPosition) {
-
-        if(this.vehicle_faced_front===undefined || this.main_sprites.vehicle_faced_left===undefined || this.main_sprites.vehicle_faced_right===undefined || this.vehicle_faced_front===null || this.main_sprites.vehicle_faced_left===null || this.main_sprites.vehicle_faced_right===null){
-            console.log("Check if constructor args are correct!");
-            console.log("Maybe Vehicle Image does not exist! Check Spritesheet image and Spritesheet.json");
-            console.log("Vehicle Image Type and Realistic Image does not have a match");
-        }
-
-        this.controllable_car.speed    = newSpeed;
-        this.controllable_car.position = newPosition;
-
-        let carSprite={};
-
-        if(this.controllable_car.speed > 0){
-            this.controllable_car.posx = newPositionX;
-        }
-
-        if(vehicleCurrentDirection===this.vehicle.straight_attribute){
-            carSprite = {
-                car: this.vehicle_faced_front,
-                x: vehicleXPosition,
-                y: vehicleYPosition
-            };
-        }else if(vehicleCurrentDirection===this.vehicle.left_attribute){
-            carSprite = {
-                car: this.main_sprites.vehicle_faced_left,
-                x: vehicleXPosition,
-                y: vehicleYPosition
-            };
-        }else if(vehicleCurrentDirection===this.vehicle.right_attribute){
-            carSprite = {
-                car: this.main_sprites.vehicle_faced_right,
-                x: vehicleXPosition,
-                y: vehicleYPosition
-            };
-        }
-
-        return carSprite;
-    };
-
-    /**
-     * @function calculateNewControllableCarPosition
-     * @private
-     * @description calculateNewControllableCarPosition method of the Arcade widget. This method calculates the new controllable car position, based on
-     * its speed, current position and posx values updated by the render method, using PVS status.
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.calculateNewControllableCarPosition = function () {
-        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value]!=="0"){
-            // readSprite acceleration controls
-            this.soundOff = this.soundWidget.getSoundOff();
-            let currentSpeedPVS = this.WIDGETSTATE[this.vehicle.speed_attribute][this.vehicle.speed_value];
-            let arraySpeed = currentSpeedPVS.split("/");
-            let speedValue = parseInt(arraySpeed[0])/parseInt(arraySpeed[1]);
-            if(!isNaN(speedValue)){
-                this.lastPVSValues.lastSpeedPVS = Math.ceil(speedValue);
-            }
-            if(Math.abs(this.lastDelta) > 130){
-                if (this.auxiliaryPVSValues.newSpeedAux > 150) {
-                    this.auxiliaryPVSValues.newSpeedAux -= this.lastPVSValues.lastSpeedPVS*0.10;
-                }
-            }else{
-                this.auxiliaryPVSValues.newSpeedAux = this.lastPVSValues.lastSpeedPVS*0.10;
-            }
-
-            if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.accelerate_attribute) {
-                if(!this.soundOff){
-                    this.soundWidget.playSound(3); //accelerating song
-                }
-            }else if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.brake_attribute) {
-                if(!this.soundOff){
-                    this.soundWidget.pauseSound(3); //accelerating song
-                }
-            }else if (this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.action_attribute]===this.vehicle.idle_attribute){
-                if(!this.soundOff){
-                    this.soundWidget.pauseSound(3); //accelerating song
-                }
-            }
-        }
-
-        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.posx_attribute][this.vehicle.posx_value]!=="0.0"){
-            let currentPositionXPVS = this.WIDGETSTATE[this.vehicle.posx_attribute][this.vehicle.posx_value];
-            let positionXValue = parseInt(currentPositionXPVS);
-            if(!isNaN(positionXValue)){
-                this.lastPVSValues.lastPosXPVS = Math.ceil(positionXValue);
-            }
-            this.auxiliaryPVSValues.newPositionXAux = this.lastPVSValues.lastPosXPVS;
-        }
-
-        this.auxiliaryPVSValues.vehicleCurrentDirectionAux = this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.direction_attribute];
-        if(this.WIDGETSTATE!==null && this.WIDGETSTATE[this.vehicle.position_attribute][this.vehicle.position_value]!=="10.0"){
-            let currentPositionPVS = this.WIDGETSTATE[this.vehicle.position_attribute][this.vehicle.position_value];
-            let arrayPosition = currentPositionPVS.split("/");
-            let positionValue = parseInt(arrayPosition[0])/parseInt(arrayPosition[1]);
-            if(!isNaN(positionValue)){
-                this.lastPVSValues.lastPositionPVS = Math.ceil(positionValue);
-            }
-            this.auxiliaryPVSValues.newPositionAux = this.lastPVSValues.lastPositionPVS;
-        }
-
-        switch (this.spritesImgsInformation.vehicleType) {
-            case "airplane":
-                if(this.spritesImgsInformation.vehicleIndex===2){
-                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= 50;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= 70;
-                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= 50;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= 70;
-                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux = 50;
-                        this.auxiliaryPVSValues.vehicleYPositionAux = 110;
-                    }
-                }else{
-                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= 110;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= 100;
-                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= 110;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= 100;
-                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux = 110;
-                        this.auxiliaryPVSValues.vehicleYPositionAux = 100;
-                    }
-                }
-                break;
-            case "bicycle":
-                if(this.spritesImgsInformation.vehicleRealistic){
-                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= 135;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= 160;
-                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= 135;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= 160;
-                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux = 135;
-                        this.auxiliaryPVSValues.vehicleYPositionAux = 160;
-                    }
-                }else{
-                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= 140;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= 175;
-                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= 140;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= 175;
-                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux = 140;
-                        this.auxiliaryPVSValues.vehicleYPositionAux = 175;
-                    }
-                }
-                break;
-            case "car":
-                if(this.spritesImgsInformation.vehicleRealistic){
-                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= 125;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= 180;
-                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= 125;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= 180;
-                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux = 125;
-                        this.auxiliaryPVSValues.vehicleYPositionAux = 180;
-                    }
-                }else{
-                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= 125;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= 190;
-                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= 125;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= 190;
-                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux = 125;
-                        this.auxiliaryPVSValues.vehicleYPositionAux = 190;
-                    }
-                }
-                break;
-            case "helicopter":
-                if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-                    this.auxiliaryPVSValues.vehicleXPositionAux= 70;
-                    this.auxiliaryPVSValues.vehicleYPositionAux= 60;
-                }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-                    this.auxiliaryPVSValues.vehicleXPositionAux= 70;
-                    this.auxiliaryPVSValues.vehicleYPositionAux= 60;
-                }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-                    this.auxiliaryPVSValues.vehicleXPositionAux = 100;
-                    this.auxiliaryPVSValues.vehicleYPositionAux = 90;
-                }
-                break;
-            case "motorbike":
-                if(this.spritesImgsInformation.vehicleRealistic){
-                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= 130;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= 160;
-                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= 130;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= 160;
-                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux = 130;
-                        this.auxiliaryPVSValues.vehicleYPositionAux = 160;
-                    }
-                }else{
-                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= 120;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= 175;
-                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= 140;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= 175;
-                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux = 150;
-                        this.auxiliaryPVSValues.vehicleYPositionAux = 175;
-                    }
-                }
-                break;
-        }
-
-        return this;
-    };
-
-    /**
-     * @function getNrIterations
-     * @private
-     * @description GetNrIterations method of the Arcade widget. This method computes the number of iterations required to draw the track defined in the JSON configuration file.
-     * In the final version, the JSON structure, see example 1), will be the same, however fields 'height' and 'curve' will have other values
-     * other than 0 and 0, respectively.
-     * @example
-     * 1) JSON Structure Straight Version
-     *
-     * {
-     *     "trackParam": {
-     *       "numZones": 12,
-     *       "zoneSize": 250
-     *     },
-     *     "render": {
-     *       "depthOfField": 150,
-     *       "camera_distance": 30,
-     *       "camera_height": 100
-     *     },
-     *     "trackSegmentSize": 5,
-     *     "numberOfSegmentPerColor": 4,
-     *     "numLanes": 3,
-     *     "laneWidth": 0.02,
-     *     "controllable_car": {
-     *       "position": 10,
-     *       "speed": 0,
-     *       "acceleration": 0.05,
-     *       "deceleration": 0.04,
-     *       "breaking": 0.3,
-     *       "turning": 5.0,
-     *       "posx": 0,
-     *       "maxSpeed": 20
-     *     },
-     *     "track": [
-     *        {"height":0,"curve":0,"sprite":{"type":{"x":535,"y":648,"w":168,"h":248},"pos":-0.14646203875343766,"obstacle":1}},
-     *        {"height":0,"curve":0,"sprite":{"type":{"x":535,"y":648,"w":168,"h":248},"pos":3.5676653178824482,"obstacle":0}}
-     *     ]
-     * }
-     *
-     * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
-     * @instance
-     */
-    Arcade.prototype.getNrIterations = function () {
-        try {
-            this.arcadeParams.numIterations = this.arcadeParams.trackParam.numZones * this.arcadeParams.trackParam.zoneSize;
-            clearInterval(this.loadingTrackNrIterations);
-        } catch (error) {
-            console.log("Error Loading Track... "+error);
-        }
-
-        return this;
-    };
+    //     // // To create a backgroung with a pattern of background image
+    //     // let backgroundImage = spriteToImage(this.spritesheetsImages[0], this.main_sprites.background);    
+    //     // function spriteToImage(spritesheetImage, spriteImageMapping) {
+    //     //     var tempCanvas=document.createElement("canvas");
+    //     //     var tempCtx=tempCanvas.getContext("2d");
+    //     //     tempCanvas.width=spriteImageMapping.w;
+    //     //     tempCanvas.height=spriteImageMapping.h;
+    //     //     tempCtx.drawImage(spritesheetImage,
+    //     //         spriteImageMapping.x,
+    //     //         spriteImageMapping.y,
+    //     //         spriteImageMapping.w,
+    //     //         spriteImageMapping.h,
+    //     //         0,
+    //     //         0,
+    //     //         spriteImageMapping.w,
+    //     //         spriteImageMapping.h);
+    //     //     let res=new Image();
+    //     //     res.src=tempCanvas.toDataURL();
+    //     //     return res;            
+    //     // }       
+    //     // let pattern = this.canvasInformations.context.createPattern(backgroundImage, 'repeat');
+    //     // this.canvasInformations.context.fillStyle = pattern;
+    //     // this.canvasInformations.context.fillRect(0, 0, this.renderCanvas.width, this.renderCanvas.height);        
+    //     return this;
+    // };
 
     /**
      * @function detectBrowserType
@@ -2758,18 +1712,28 @@ define(function (require, exports, module) {
         return this;
     };
 
+
     /**
-     * @function init
-     * @private
-     * @description Init method of the Arcade widget. This method inits the canvas and adds the events onkeydown and onkeyup to capture the desired actions, i.e. accelerate, brake, etc.
+     * @function reveal
+     * @public
+     * @description Reveal method of the Arcade widget.
      * @memberof module:Arcade
-     * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
      */
-    Arcade.prototype.init = function () {
-        this.canvasInformations.canvas = d3.select("#arcadeSimulator_"+this.WIDGETID)[0][0];
-        this.canvasInformations.context = this.canvasInformations.canvas.getContext('2d');
-        return this;
+    Arcade.prototype.reveal = function () {
+        return this.div.style("visibility", "visible");
+    };
+
+
+    /**
+     * @function hide
+     * @public
+     * @description Hide method of the Arcade widget.
+     * @memberof module:Arcade
+     * @instance
+     */
+    Arcade.prototype.hide = function () {
+        return this.div.style("visibility", "hidden");
     };
 
     /**
@@ -2781,7 +1745,9 @@ define(function (require, exports, module) {
      * @instance
      */
     Arcade.prototype.render = function (pvsState) {
-        this.WIDGETSTATE = pvsState;
+        if(pvsState!==undefined || pvsState!==null){
+            this.WIDGETSTATE = pvsState;
+        }
         return this.reveal();
     };
 

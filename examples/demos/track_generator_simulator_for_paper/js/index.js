@@ -100,7 +100,7 @@ require([
             render: {
                 depthOfField: 150,
                 camera_distance: 30,
-                camera_height: 100
+                camera_height: 300
             },
             trackSegmentSize: 5,
             numberOfSegmentPerColor: 4,
@@ -110,8 +110,8 @@ require([
                 numZones:    12, // number of different portions of the track
                 zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
             },
-            // Information regarding current controllable_car's car
-            controllable_car: {
+            // Information regarding current controllable_vehicle's sprite
+            controllable_vehicle: {
                 position: 10,
                 speed: 0,
                 acceleration: 0.05,
@@ -119,7 +119,7 @@ require([
                 breaking: 0.3,
                 turning: 5.0,
                 posx: 0,
-                maxSpeed: 20
+                maxSpeed: 15
             },
             objects: [
                 {
@@ -334,7 +334,9 @@ require([
         // API to generate track with parameters received as argument by the constructor, i.e. new TrackGenerator()
         // trackGenerator.trackGeneratorWidget.generateStraightTrack();
         // trackGenerator.trackGeneratorWidget.generateTrackCurvesSlopes();
-        trackGenerator.trackGeneratorWidget.generateTrackBasedOnTrackLayoutOptField();
+        // trackGenerator.trackGeneratorWidget.generateTrackBasedOnTrackLayoutOptField();
+
+        trackGenerator.trackGeneratorWidget.generateRoad();
 
         var demoFolder = "track_generator_simulator_for_paper";
         //register event listener for websocket connection from the client

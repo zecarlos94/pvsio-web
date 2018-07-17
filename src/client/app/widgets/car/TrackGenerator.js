@@ -41,8 +41,8 @@
  *               numZones:    12, // number of different portions of the track
  *               zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
  *           },
- *           // Information regarding current controllable_car's car
- *           controllable_car: {
+ *           // Information regarding current controllable_vehicle's car
+ *           controllable_vehicle: {
  *               position: 10,
  *               speed: 0,
  *               acceleration: 0.05,
@@ -376,7 +376,7 @@ define(function (require, exports, module) {
      * @param [opt.numLanes] {Int} the number of lanes the track will be draw (default is 3).
      * @param [opt.laneWidth] {Float} the width of the lane separator (default is 0.02).
      * @param [opt.trackParam] {Object} the track configurations, i.e. number of zones(track length), etc (default is {numZones: 12, zoneSize: 250}).
-     * @param [opt.controllable_car] {Object} the vehicle configurations, i.e. initial position, acceleration and deceleration values, etc (default is {position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20}).
+     * @param [opt.controllable_vehicle] {Object} the vehicle configurations, i.e. initial position, acceleration and deceleration values, etc (default is {position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20}).
      * @param [opt.objects] {Array} the sprite names to be drawed in the landscape (default is ["tree","rock"]).
      * @param [opt.obstacle] {Array} the sprite names to be drawed within the track as obstacles (default is ["rock"]).
      * @param [opt.trackLayout] {Array} the track layout that will be used to create the corresponding segments. (default is []).
@@ -397,7 +397,7 @@ define(function (require, exports, module) {
         opt.numLanes = opt.numLanes;
         opt.laneWidth = opt.laneWidth;
         opt.trackParam = opt.trackParam; 
-        opt.controllable_car = opt.controllable_car;
+        opt.controllable_vehicle = opt.controllable_vehicle;
         opt.objects = opt.objects;
         opt.obstacle = opt.obstacle;
         opt.trackLayout = opt.trackLayout;
@@ -425,7 +425,7 @@ define(function (require, exports, module) {
         this.laneWidth               = (opt.laneWidth) ? opt.laneWidth: 0.02;
         this.trackParam              = (opt.trackParam) ? opt.trackParam : { numZones: 12, /*number of different portions of the track*/ zoneSize:  250 /*length of each numZones (the bigger this value. the longer it will take to finish)*/ };        
         this.params                  = JSON.parse(JSON.stringify(this.trackParam));
-        this.controllable_car        = (opt.controllable_car) ? opt.controllable_car : { position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20 };
+        this.controllable_vehicle        = (opt.controllable_vehicle) ? opt.controllable_vehicle : { position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20 };
 
         this.objects  = (opt.objects) ? opt.objects : [];
         this.obstacle = (opt.obstacle) ? opt.obstacle : [];
@@ -660,7 +660,7 @@ define(function (require, exports, module) {
                     self.trackParam.numZones = finalNumZones;
 
                     self.generatedJSON = {
-                        controllable_car: self.controllable_car,
+                        controllable_vehicle: self.controllable_vehicle,
                         laneWidth: self.laneWidth,
                         numLanes: self.numLanes,
                         numberOfSegmentPerColor: self.numberOfSegmentPerColor,
@@ -735,8 +735,8 @@ define(function (require, exports, module) {
      *               numZones:    12, // number of different portions of the track
      *               zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
      *           },
-     *           // Information regarding current controllable_car's car
-     *           controllable_car: {
+     *           // Information regarding current controllable_vehicle's car
+     *           controllable_vehicle: {
      *               position: 10,
      *               speed: 0,
      *               acceleration: 0.05,
@@ -979,7 +979,7 @@ define(function (require, exports, module) {
                     self.params.numZones = self.params.numZones * self.params.zoneSize;
 
                     self.generatedJSON = {
-                        controllable_car: self.controllable_car,
+                        controllable_vehicle: self.controllable_vehicle,
                         laneWidth: self.laneWidth,
                         numLanes: self.numLanes,
                         numberOfSegmentPerColor: self.numberOfSegmentPerColor,
@@ -1054,8 +1054,8 @@ define(function (require, exports, module) {
      *               numZones:    12, // number of different portions of the track
      *               zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
      *           },
-     *           // Information regarding current controllable_car's car
-     *           controllable_car: {
+     *           // Information regarding current controllable_vehicle's car
+     *           controllable_vehicle: {
      *               position: 10,
      *               speed: 0,
      *               acceleration: 0.05,
@@ -1219,7 +1219,7 @@ define(function (require, exports, module) {
                     self.params.numZones = numIterations; 
 
                     self.generatedJSON = {
-                        controllable_car: self.controllable_car,
+                        controllable_vehicle: self.controllable_vehicle,
                         laneWidth: self.laneWidth,
                         numLanes: self.numLanes,
                         numberOfSegmentPerColor: self.numberOfSegmentPerColor,
@@ -1247,8 +1247,7 @@ define(function (require, exports, module) {
         );
         return this;
     };
-
-
+    
     /**
      * @function loadFile
      * @private
@@ -1275,6 +1274,211 @@ define(function (require, exports, module) {
             })(this),
             50     //normal interval, 'this' scope not impacted here.
         );
+        return this;
+    };
+
+    /**
+     * @function generateRoad
+     * @public
+     * @description GenerateRoad method of the Arcade widget.
+     * @memberof module:TrackGenerator
+     * @instance
+     */
+    TrackGenerator.prototype.generateRoad = function () { 
+        this.lap = 1;
+        this.numLaps = 3;
+        this.r = Math.random;
+        
+        this.canvas;
+        this.context;
+        this.lastDelta = 0;
+        this.currentTimeString = "";
+        
+        this.roadParam = {
+            maxHeight: 900,
+            maxCurve:  900,
+            length:    10,
+            curvy:     0.8,
+            mountainy: 0.8,
+            zoneSize:  250
+        }
+            
+        this.road = [];
+        this.roadSegmentSize = 5;
+        this.numberOfSegmentPerColor = 4;
+        
+        this.renderCanvas = {
+            width: 1440,
+            height: 650,
+            depthOfField: 150,
+            camera_distance: 30,
+            camera_height: 320
+        };
+        
+        this.player = {
+            position: 10,
+            speed: 0,
+            acceleration: 0.05,
+            deceleration: 0.3,
+            breaking: 0.6,
+            turning: 5.0,
+            posx: 0,
+            maxSpeed: 15
+        };
+        
+        this.splashInterval;
+        this.gameInterval;
+        
+        this.car = { 
+            x: 0,
+            y: 130,
+            w: 69,
+            h: 38
+        };
+        this.car_4 = { 
+            x: 70,
+            y: 130,
+            w: 77,
+            h: 38
+        };
+        this.car_8 = { 
+            x: 148,
+            y: 130,
+            w: 77,
+            h: 38
+        };
+        
+        this.background = {
+            x: 0,
+            y: 9,
+            w: 320,
+            h: 120
+        };
+        
+        this.tree = {
+            x: 321,
+            y: 9,
+            w: 23,
+            h: 50
+        };
+        this.rock = {
+            x: 345,
+            y: 9,
+            w: 11,
+            h: 14
+        };
+        
+        this.logo = {
+            x: 161,
+            y: 39,
+            w: 115,
+            h: 20
+        };
+
+        let currentStateH = 0; //0=flat 1=up 2= down
+        let transitionH = [[0,1,2],[0,2,2],[0,1,1]];
+        
+        let currentStateC = 0; //0=straight 1=left 2= right
+        let transitionC = [[0,1,2],[0,2,2],[0,1,1]];
+
+        let currentHeight = 0;
+        let currentCurve  = 0;
+
+        let zones     = this.roadParam.length;
+        while(zones--){
+            // Generate current Zone
+            let finalHeight;
+            switch(currentStateH){
+                case 0:
+                    finalHeight = 0; break;
+                case 1:
+                    finalHeight = this.roadParam.maxHeight * this.r(); break;
+                case 2:
+                    finalHeight = - this.roadParam.maxHeight * this.r(); break;
+            }
+            let finalCurve;
+            switch(currentStateC){
+                case 0:
+                    finalCurve = 0; break;
+                case 1:
+                    finalCurve = - this.roadParam.maxCurve * this.r(); break;
+                case 2:
+                    finalCurve = this.roadParam.maxCurve * this.r(); break;
+            }
+            let sprite;
+            for(let i=0; i < this.roadParam.zoneSize; i++){
+                // add a tree
+                if(i % this.roadParam.zoneSize / 4 == 0){
+                    sprite = {type: this.rock, pos: -0.55};
+                } else {
+                    if(this.r() < 0.05) {
+                        let spriteType = this.tree;
+                        sprite = {type: spriteType, pos: 0.6 + 4*this.r()};
+                        if(this.r() < 0.5){
+                            sprite.pos = -sprite.pos;
+                        }
+                    } else {
+                        sprite = false;
+                    }
+                }
+
+                this.road.push({
+                    height: currentHeight+finalHeight / 2 * (1 + Math.sin(i/this.roadParam.zoneSize * Math.PI-Math.PI/2)),
+                    curve: currentCurve+finalCurve / 2 * (1 + Math.sin(i/this.roadParam.zoneSize * Math.PI-Math.PI/2)),
+                    sprite: sprite
+                })
+
+            }
+            currentHeight += finalHeight;
+            currentCurve += finalCurve;
+
+            if(zones===1){
+                // Find next zone
+                currentStateH = transitionH[currentStateH][0];
+                
+                currentStateC = transitionC[currentStateC][2];
+               
+            }else{
+                // Find next zone
+                if(this.r() < this.roadParam.mountainy){
+                    currentStateH = transitionH[currentStateH][1+Math.round(this.r())];
+                } else {
+                    currentStateH = transitionH[currentStateH][0];
+                }
+                if(this.r() < this.roadParam.curvy){
+                    currentStateC = transitionC[currentStateC][1+Math.round(this.r())];
+                } else {
+                    currentStateC = transitionC[currentStateC][0];
+                }
+            }
+
+        }
+
+        this.generatedJSON = {
+            controllable_vehicle: this.player,
+            laneWidth: 0.02,
+            numLanes: 2,
+            numberOfSegmentPerColor: this.numberOfSegmentPerColor,
+            render: this.renderCanvas,
+            track: this.road,
+            trackParam: this.roadParam,
+            trackSegmentSize: this.roadSegmentSize,
+            trackColors: {"grass1":"#344C32","border1":"#ffa500","border2":"#ffffff","outborder1":"#7F967D","outborder_end1":"#474747","track_segment1":"#777777","lane1":"#ffffff","lane2":"#777777","laneArrow1":"#ffff00","track_segment_end":"#000000","lane_end":"#ffffff"}
+        };
+
+        this.roadParam.length = this.roadParam.length * this.roadParam.zoneSize;
+
+
+        setTimeout(
+            (function(self) {         
+                return function() {   
+                    d3.select("#created_"+self.TRACKGENERATORID).text("Success: True"); 
+                    console.log(JSON.stringify(self.generatedJSON));
+                }
+            })(this),
+            1000     //normal interval, 'this' scope not impacted here.
+        ); 
+
         return this;
     };
 
