@@ -1346,7 +1346,7 @@ define(function (require, exports, module) {
                     this.controllable_vehicle.posx -= this.controllable_vehicle.turning;
                 }
                 carSprite = {
-                    a: this.main_sprites.vehicle_faced_left,
+                    vehicle: this.main_sprites.vehicle_faced_left,
                     x: 117,
                     y: 190
                 };
@@ -1357,21 +1357,22 @@ define(function (require, exports, module) {
                     this.controllable_vehicle.posx += this.controllable_vehicle.turning;
                 }
                 carSprite = {
-                    a: this.main_sprites.vehicle_faced_right,
+                    vehicle: this.main_sprites.vehicle_faced_right,
                     x: 125,
                     y: 190
                 };
                 // console.log("right");
             }else if(this.WIDGETSTATE.direction==="straight"){
                 carSprite = {
-                    a: this.vehicle_faced_front, 
+                    vehicle: this.vehicle_faced_front, 
                     x:125, 
                     y:190
                 };
                 // console.log("front");
             }
         }
-        return this;
+
+        return carSprite;
     };
 
     /**
@@ -1417,7 +1418,10 @@ define(function (require, exports, module) {
         this.canvasInformations.context.fillStyle = "#dc9";
         this.canvasInformations.context.fillRect(0, 0,  this.canvasInformations.canvas.width,  this.canvasInformations.canvas.height);
         
-        this.updatePlayer();
+        let carSprite = null;
+        carSprite=this.updatePlayer();
+
+        this.drawBackground(-this.controllable_vehicle.posx);
      
         let spriteBuffer = [];
         
@@ -1503,6 +1507,13 @@ define(function (require, exports, module) {
         // --------------------------
         // --     Draw the car     --
         // --------------------------
+        // Draw the car by default, but if user declares in opt field 'useVehicle' not to use, then the simulator will not render it
+        this.useVehicle=true;
+        // if(this.useVehicle){
+        // 	this.drawSprite(null, carSprite.car, carSprite.x, carSprite.y, 1);
+        // }
+        console.log(carSprite);
+
 
         // ---------------------------------
         // --     Draw the lap number     --
@@ -1603,90 +1614,90 @@ define(function (require, exports, module) {
         return this;
     };
 
-    // /**
-    //  * @function drawSprite
-    //  * @private
-    //  * @description DrawSprite method of the Arcade widget. This method draws an image of spritesheetsImages array. Usually it uses index 0, since this method is used to
-    //  * draw objects and index 0 has the spritesheet image with all available objects. This method either receives only a sprite (and null as other arguments) or receives
-    //  * an image, x, y and scale (sprite as a null argument). This allows to use render different images and sprites.
-    //  * @param sprite {Float} Sprite to be rendered.
-    //  * @param image {Float} Image to be rendered.
-    //  * @param x {Float} X screen coordinate, used to place the object to be rendered.
-    //  * @param y {Float} Y screen coordinate, used to place the object to be rendered.
-    //  * @param scale {Float} Scaling value to render object. It is used to enlarge or to shrink the object to better fit in the screen.
-    //  * @memberof module:Arcade
-    //  * @returns {Arcade} The created instance of the widget Arcade.
-    //  * @instance
-    //  */
-    // Arcade.prototype.drawSprite = function (sprite, image, x, y, scale) {
-    //     if(sprite!==null){
-    //         let destY = sprite.y - sprite.i.h * sprite.s;
-    //         let h = null;
-    //         if(sprite.ymax < sprite.y) {
-    //             h = Math.min(sprite.i.h * (sprite.ymax - destY) / (sprite.i.h * sprite.s), sprite.i.h);
-    //         } else {
-    //             h = sprite.i.h;
-    //         }
-    //         if(h > 0) this.canvasInformations.context.drawImage(this.spritesheetsImages[0],  sprite.i.x, sprite.i.y, sprite.i.w, h, sprite.x, destY, sprite.s * sprite.i.w, sprite.s * h);
-    //     }else{
-    //         this.canvasInformations.context.drawImage(this.spritesheetsImages[0],  image.x, image.y, image.w, image.h, x, y, scale*image.w, scale*image.h);
-    //     }
-    //     return this;
-    // };
+    /**
+     * @function drawSprite
+     * @private
+     * @description DrawSprite method of the Arcade widget. This method draws an image of spritesheetsImages array. Usually it uses index 0, since this method is used to
+     * draw objects and index 0 has the spritesheet image with all available objects. This method either receives only a sprite (and null as other arguments) or receives
+     * an image, x, y and scale (sprite as a null argument). This allows to use render different images and sprites.
+     * @param sprite {Float} Sprite to be rendered.
+     * @param image {Float} Image to be rendered.
+     * @param x {Float} X screen coordinate, used to place the object to be rendered.
+     * @param y {Float} Y screen coordinate, used to place the object to be rendered.
+     * @param scale {Float} Scaling value to render object. It is used to enlarge or to shrink the object to better fit in the screen.
+     * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
+     * @instance
+     */
+    Arcade.prototype.drawSprite = function (sprite, image, x, y, scale) {
+        if(sprite!==null){
+            let destY = sprite.y - sprite.i.h * sprite.s;
+            let h = null;
+            if(sprite.ymax < sprite.y) {
+                h = Math.min(sprite.i.h * (sprite.ymax - destY) / (sprite.i.h * sprite.s), sprite.i.h);
+            } else {
+                h = sprite.i.h;
+            }
+            if(h > 0) this.canvasInformations.context.drawImage(this.spritesheetsImages[0],  sprite.i.x, sprite.i.y, sprite.i.w, h, sprite.x, destY, sprite.s * sprite.i.w, sprite.s * h);
+        }else{
+            this.canvasInformations.context.drawImage(this.spritesheetsImages[0],  image.x, image.y, image.w, image.h, x, y, scale*image.w, scale*image.h);
+        }
+        return this;
+    };
 
-    // /**
-    //  * @function drawBackground
-    //  * @private
-    //  * @description DrawBackground method of the Arcade widget. This method draws the main_sprites.background image, in position 'position'.
-    //  * @param position {Float} Value of posx in controllable_vehicle object, i.e. horizontal position, which is computed by adding/subtracting the turning field value every time the vehicle is turned left or right, in updateControllableCar method.
-    //  * @memberof module:Arcade
-    //  * @returns {Arcade} The created instance of the widget Arcade.
-    //  * @instance
-    //  */
-    // Arcade.prototype.drawBackground = function (position) {
-    //     // Scale background according to scale factor
-    //     let backgroundHeight = parseFloat(this.main_sprites.background.w);
-    //     let backgroundWidth = parseFloat(this.main_sprites.background.w);
-    //     let widthDiff = backgroundWidth - this.renderCanvas.width;
-    //     let heightDiff = backgroundHeight - this.renderCanvas.height;
-    //     let ratio = (widthDiff === heightDiff || widthDiff > heightDiff) ?
-    //     this.renderCanvas.width / backgroundWidth : this.renderCanvas.height / backgroundHeight;
+    /**
+     * @function drawBackground
+     * @private
+     * @description DrawBackground method of the Arcade widget. This method draws the main_sprites.background image, in position 'position'.
+     * @param position {Float} Value of posx in controllable_vehicle object, i.e. horizontal position, which is computed by adding/subtracting the turning field value every time the vehicle is turned left or right, in updateControllableCar method.
+     * @memberof module:Arcade
+     * @returns {Arcade} The created instance of the widget Arcade.
+     * @instance
+     */
+    Arcade.prototype.drawBackground = function (position) {
+        // Scale background according to scale factor
+        let backgroundHeight = parseFloat(this.main_sprites.background.w);
+        let backgroundWidth = parseFloat(this.main_sprites.background.w);
+        let widthDiff = backgroundWidth - this.renderCanvas.width;
+        let heightDiff = backgroundHeight - this.renderCanvas.height;
+        let ratio = (widthDiff === heightDiff || widthDiff > heightDiff) ?
+        this.renderCanvas.width / backgroundWidth : this.renderCanvas.height / backgroundHeight;
     
-    //     let first = position / 2 % (this.main_sprites.background.w);
-    //     // (image, x, y, scale) args
-    //     // LEFT 
-    //     this.drawSprite(null, this.main_sprites.background, first-(Math.ceil(ratio)*this.main_sprites.background.w)+1, 0, Math.ceil(ratio));
-    //     // CENTER (Starts in (0,0) - Variable 'first' is 0 in the beginning of the simulation, since 'position' is also 0) 
-    //     this.drawSprite(null, this.main_sprites.background, first, 0, Math.ceil(ratio));
-    //     // RIGHT 
-    //     this.drawSprite(null, this.main_sprites.background, first+(Math.ceil(ratio)*this.main_sprites.background.w)-1, 0, Math.ceil(ratio));
+        let first = position / 2 % (this.main_sprites.background.w);
+        // (image, x, y, scale) args
+        // LEFT 
+        this.drawSprite(null, this.main_sprites.background, first-(Math.ceil(ratio)*this.main_sprites.background.w)+1, 0, Math.ceil(ratio));
+        // CENTER (Starts in (0,0) - Variable 'first' is 0 in the beginning of the simulation, since 'position' is also 0) 
+        this.drawSprite(null, this.main_sprites.background, first, 0, Math.ceil(ratio));
+        // RIGHT 
+        this.drawSprite(null, this.main_sprites.background, first+(Math.ceil(ratio)*this.main_sprites.background.w)-1, 0, Math.ceil(ratio));
         
         
-    //     // // To create a backgroung with a pattern of background image
-    //     // let backgroundImage = spriteToImage(this.spritesheetsImages[0], this.main_sprites.background);    
-    //     // function spriteToImage(spritesheetImage, spriteImageMapping) {
-    //     //     var tempCanvas=document.createElement("canvas");
-    //     //     var tempCtx=tempCanvas.getContext("2d");
-    //     //     tempCanvas.width=spriteImageMapping.w;
-    //     //     tempCanvas.height=spriteImageMapping.h;
-    //     //     tempCtx.drawImage(spritesheetImage,
-    //     //         spriteImageMapping.x,
-    //     //         spriteImageMapping.y,
-    //     //         spriteImageMapping.w,
-    //     //         spriteImageMapping.h,
-    //     //         0,
-    //     //         0,
-    //     //         spriteImageMapping.w,
-    //     //         spriteImageMapping.h);
-    //     //     let res=new Image();
-    //     //     res.src=tempCanvas.toDataURL();
-    //     //     return res;            
-    //     // }       
-    //     // let pattern = this.canvasInformations.context.createPattern(backgroundImage, 'repeat');
-    //     // this.canvasInformations.context.fillStyle = pattern;
-    //     // this.canvasInformations.context.fillRect(0, 0, this.renderCanvas.width, this.renderCanvas.height);        
-    //     return this;
-    // };
+        // // To create a backgroung with a pattern of background image
+        // let backgroundImage = spriteToImage(this.spritesheetsImages[0], this.main_sprites.background);    
+        // function spriteToImage(spritesheetImage, spriteImageMapping) {
+        //     var tempCanvas=document.createElement("canvas");
+        //     var tempCtx=tempCanvas.getContext("2d");
+        //     tempCanvas.width=spriteImageMapping.w;
+        //     tempCanvas.height=spriteImageMapping.h;
+        //     tempCtx.drawImage(spritesheetImage,
+        //         spriteImageMapping.x,
+        //         spriteImageMapping.y,
+        //         spriteImageMapping.w,
+        //         spriteImageMapping.h,
+        //         0,
+        //         0,
+        //         spriteImageMapping.w,
+        //         spriteImageMapping.h);
+        //     let res=new Image();
+        //     res.src=tempCanvas.toDataURL();
+        //     return res;            
+        // }       
+        // let pattern = this.canvasInformations.context.createPattern(backgroundImage, 'repeat');
+        // this.canvasInformations.context.fillStyle = pattern;
+        // this.canvasInformations.context.fillRect(0, 0, this.renderCanvas.width, this.renderCanvas.height);        
+        return this;
+    };
 
     /**
      * @function detectBrowserType
