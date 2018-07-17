@@ -583,26 +583,27 @@ define(function (require, exports, module) {
                             }
 
                             while(zoneNumbertrafficSignalSprite[aux]===zoneNumbertrafficSignalSprite[aux+1]){
-                                // console.log(trafficSignalSprite[aux], zoneNumbertrafficSignalSprite[aux]);
                                 aux++;
                             }
                             aux++;
                             positionsSprites.push(aux);
                            
                             for(let i=0; i < self.params.zoneSize; i++){
-                                // console.log("init: "+positionsSprites[auxTemp]);
-                                // console.log("end: "+positionsSprites[auxTemp+1]);
-                                // console.log(positionsSprites[auxTemp],positionsSprites[auxTemp+1]);
-
+                                sprite=false;
                                 for(let k=positionsSprites[auxTemp];k<positionsSprites[auxTemp+1];k++){
-                                    // console.log(zoneNumbertrafficSignalSprite[k]);
-                                    // console.log(trafficSignalSprite[k],tmpIter,currentZoneNumber+1);
                                     if(zoneNumbertrafficSignalSprite[k]===tmpIter){
-                                        console.log(tmpIter,zoneNumbertrafficSignalSprite[k],trafficSignalSprite[k],zoneDistanceSprite[k],scaleSprite[k],numtrafficSignalPlacement[k]);
+                                        if(i===zoneDistanceSprite[k]){
+                                            if(numtrafficSignalPlacement[k]===0){
+                                                sprite=trafficSignalSprite[k];
+                                                numtrafficSignalPlacement[k]=1;
+                                            }else{
+                                                sprite=false;                                      
+                                            }
+                                        }
                                     }
                                 }
-                                
-                                // else{
+
+                                if(sprite===false){
                                     if(i%self.obstaclePerIteration==0){
                                         if(self.obstacle.length!==0){
                                             // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
@@ -624,7 +625,7 @@ define(function (require, exports, module) {
                                             sprite = {type: self.spritesAvailable[index].value, pos: chooseObjectFromDesiredObjects.positionsX[Math.floor((self.randomPos() * (chooseObjectFromDesiredObjects.positionsX.length)))], obstacle: 0, scale: spriteScale};
                                         }
                                     } 
-                                // }
+                                }
 
                                 // Draw segments next to each other with 'i/params.zoneSize'
                                 // Avoid horizontal gaps with 'Math.PI-Math.PI/2'

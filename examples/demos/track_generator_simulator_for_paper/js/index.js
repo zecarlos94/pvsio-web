@@ -121,64 +121,64 @@ require([
                 posx: 0,
                 maxSpeed: 20
             },
-            // objects: [
-            //     {
-            //         filename:"real_tree",
-            //         scale: 3.5,
-            //         positionsX: [
-            //             -2.4,
-            //             2.3
-            //         ]
-            //     },
-            //     {
-            //         filename:"real_tree2",
-            //         scale: 3.5,
-            //         positionsX: [
-            //             -2.9,
-            //             4.2
-            //         ]
-            //     },
-            //     {
-            //         filename:"real_tree3",
-            //         scale: 3.5,
-            //         positionsX: [
-            //             -1.8,
-            //             1.6
-            //         ]
-            //     },
-            //     {
-            //         filename:"real_tree4",
-            //         scale: 3.5,
-            //         positionsX: [
-            //             -1.6,
-            //             1.8
-            //         ]
-            //     },
-            //     {
-            //         filename:"real_building",
-            //         scale: 6,
-            //         positionsX: [
-            //             -1.7,
-            //             1.9
-            //         ]
-            //     },
-            //     {
-            //         filename:"real_building2",
-            //         scale: 6,
-            //         positionsX: [
-            //             -1.9,
-            //             1.7
-            //         ]
-            //     },
-            //     {
-            //         filename:"real_skyscraper",
-            //         scale: 7,
-            //         positionsX: [
-            //             2.9,
-            //             -2.7
-            //         ]
-            //     }
-            // ],
+            objects: [
+                {
+                    filename:"real_tree",
+                    scale: 3.5,
+                    positionsX: [
+                        -2.4,
+                        2.3
+                    ]
+                },
+                {
+                    filename:"real_tree2",
+                    scale: 3.5,
+                    positionsX: [
+                        -2.9,
+                        4.2
+                    ]
+                },
+                {
+                    filename:"real_tree3",
+                    scale: 3.5,
+                    positionsX: [
+                        -1.8,
+                        1.6
+                    ]
+                },
+                {
+                    filename:"real_tree4",
+                    scale: 3.5,
+                    positionsX: [
+                        -1.6,
+                        1.8
+                    ]
+                },
+                {
+                    filename:"real_building",
+                    scale: 6,
+                    positionsX: [
+                        -1.7,
+                        1.9
+                    ]
+                },
+                {
+                    filename:"real_building2",
+                    scale: 6,
+                    positionsX: [
+                        -1.9,
+                        1.7
+                    ]
+                },
+                {
+                    filename:"real_skyscraper",
+                    scale: 7,
+                    positionsX: [
+                        2.9,
+                        -2.7
+                    ]
+                }
+            ],
             // obstacle: [
             //     // {
             //     //     filename:"under_construction_barrier",
@@ -235,8 +235,8 @@ require([
                             filename:"traffic_light_green",
                             zone: 1,
                             scale: 4,
-                            posX: -0.4,
-                            zoneDistance: 10 // (max distance is zoneSize) 
+                            posX: -0.5,
+                            zoneDistance: 5 // (max distance is zoneSize) 
                         },
                         {
                             filename:"dangerous_curve_left",
@@ -305,63 +305,64 @@ require([
                             filename:"traffic_light_red",
                             zone: 4,
                             scale: 4,
-                            posX: -0.4,
-                            zoneDistance: 0 // (max distance is zoneSize) 
+                            posX: -0.5,
+                            zoneDistance: 100 // (max distance is zoneSize) 
                         }
                     ]
-                },
-                {
-                    topography: {
-                        name:"right",
-                        curvature: 90
-                    },
-                    profile: "flat",
-                    numZones: 2,
-                    trafficSignals: [
-                        {
-                            filename:"traffic_light_green",
-                            zone: 1,
-                            scale: 4,
-                            posX: -0.4,
-                            zoneDistance: 10 // (max distance is zoneSize) 
-                        },
-                        {
-                            filename:"dangerous_curve_left",
-                            zone: 1,
-                            scale: 3,
-                            posX: -0.4,
-                            zoneDistance: 20 // (max distance is zoneSize) 
-                        },
-                        {
-                            filename:"50kmh_limit",
-                            zone: 1,
-                            scale: 3,
-                            posX: -0.4,
-                            zoneDistance: 90 // (max distance is zoneSize) 
-                        },
-                        {
-                            filename:"vehicle_surpass_forbidden",
-                            zone: 1,
-                            scale: 3,
-                            posX: -0.4,
-                            zoneDistance: 130 // (max distance is zoneSize) 
-                        },
-                        {
-                            filename:"dangerous_curve_left",
-                            zone: 2,
-                            scale: 3,
-                            posX: -0.4,
-                            zoneDistance: 20 // (max distance is zoneSize) 
-                        },
-                        {
-                            filename:"30kmh_limit",
-                            zone: 2,
-                            scale: 3,
-                            posX: -0.4,
-                            zoneDistance: 90 // (max distance is zoneSize) 
-                        },
-                    ]
                 }
+                // ,
+                // {
+                //     topography: {
+                //         name:"right",
+                //         curvature: 90
+                //     },
+                //     profile: "flat",
+                //     numZones: 2,
+                //     trafficSignals: [
+                //         {
+                //             filename:"traffic_light_green",
+                //             zone: 1,
+                //             scale: 4,
+                //             posX: -0.4,
+                //             zoneDistance: 10 // (max distance is zoneSize) 
+                //         },
+                //         {
+                //             filename:"dangerous_curve_left",
+                //             zone: 1,
+                //             scale: 3,
+                //             posX: -0.4,
+                //             zoneDistance: 20 // (max distance is zoneSize) 
+                //         },
+                //         {
+                //             filename:"50kmh_limit",
+                //             zone: 1,
+                //             scale: 3,
+                //             posX: -0.4,
+                //             zoneDistance: 90 // (max distance is zoneSize) 
+                //         },
+                //         {
+                //             filename:"vehicle_surpass_forbidden",
+                //             zone: 1,
+                //             scale: 3,
+                //             posX: -0.4,
+                //             zoneDistance: 130 // (max distance is zoneSize) 
+                //         },
+                //         {
+                //             filename:"dangerous_curve_left",
+                //             zone: 2,
+                //             scale: 3,
+                //             posX: -0.4,
+                //             zoneDistance: 20 // (max distance is zoneSize) 
+                //         },
+                //         {
+                //             filename:"30kmh_limit",
+                //             zone: 2,
+                //             scale: 3,
+                //             posX: -0.4,
+                //             zoneDistance: 90 // (max distance is zoneSize) 
+                //         },
+                //     ]
+                // }
             ],
             callback: onMessageReceived
         });
