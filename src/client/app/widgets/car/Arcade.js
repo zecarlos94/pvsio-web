@@ -426,7 +426,7 @@ define(function (require, exports, module) {
 
         // Information regarding the available sprites loaded from the JSON file
         this.spritesReadJSON = [];
- 
+
         // Information regarding the number of laps of the present simulation
         this.lapInformation = {
             lapNumber: null,
@@ -555,6 +555,7 @@ define(function (require, exports, module) {
         this.predefinedTracks = (opt.predefinedTracks) ? opt.predefinedTracks : null;
 
         this.lapInformation.lapNumber = this.lapNumber;
+        this.infiniteLaps = (this.lapInformation.lapNumber===0) ? true : false;
         this.useVehicle = (!opt.useVehicle) ? opt.useVehicle : true;
 
         this.stripeConfiguration.trackP1=this.stripePositions.trackP1;
@@ -666,10 +667,6 @@ define(function (require, exports, module) {
         }else{
             this.lastPVSValues.lastSoundPVS = this.vehicle.unmute_attribute;
         }
-
-        // ----------- STATIC TO REMOVE --------------------
-        this.lap = 1;
-        this.numLaps = 3;
                 
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
@@ -1753,14 +1750,34 @@ define(function (require, exports, module) {
         // --   Render the track    --
         // --------------------------
         let absoluteIndex = Math.floor(this.controllable_vehicle.position / this.arcadeParams.trackSegmentSize);
+        this.lapInformation.currentPercentage = Math.round(absoluteIndex/(this.arcadeParams.trackParam.length-this.renderCanvas.depthOfField)*100);
         
         if(absoluteIndex >= this.arcadeParams.trackParam.length-this.renderCanvas.depthOfField-1){
-            if(this.lap<this.numLaps){
+            if(this.lapInformation.currentLapNumber<this.lapInformation.lapNumber || this.infiniteLaps){
                 this.controllable_vehicle.position= 10;
                 this.controllable_vehicle.posx= 0;
-                this.lap++;
+                this.lapInformation.currentLapNumber++;
             }else{
                 clearInterval(this.intervals.simulatorInterval);
+                if(this.realPrefix!==""){
+                    this.drawText("Simulation Ended!", {x: centerX-centerDeviationDuringSimulation, y: 3.5*centerDeviationDuringSimulation}, 1, ratioFonts);
+                    this.drawText("Wait 5 Seconds To Reload", {x: centerX-2*centerDeviationDuringSimulation, y: 4*centerDeviationDuringSimulation}, 1, ratioFonts);
+                    this.drawText("The Simulator", {x: centerX-centerDeviationDuringSimulation, y: 4.5*centerDeviationDuringSimulation}, 1, ratioFonts);
+                }else{
+                    this.drawText("Simulation Ended!", {x: centerX-centerDeviationDuringSimulation, y: 3.5*centerDeviationDuringSimulation}, 1, ratioFonts);
+                    this.drawText("Wait 5 Seconds To Reload", {x: centerX-2*centerDeviationDuringSimulation, y: 4*centerDeviationDuringSimulation}, 1, ratioFonts);
+                    this.drawText("The Simulator", {x: centerX-centerDeviationDuringSimulation, y: 4.5*centerDeviationDuringSimulation}, 1, ratioFonts);
+                }
+                this.soundWidget.pauseAll();
+
+                setTimeout(
+                    (function(self) {         
+                        return function() {  
+                            location.reload(); 
+                        }
+                    })(this),
+                    5000   
+                ); 
             }
         }
         
@@ -1910,6 +1927,40 @@ define(function (require, exports, module) {
                         this.drawText(""+0+" rpm", {x: this.width-3.5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-15}, 1, ratioFonts);
                     }
             	}
+            }
+        }
+
+        // Draw Lap Information
+        if(this.lapInformation.currentLapNumber===this.lapInformation.lapNumber){
+            if(this.realPrefix!==""){
+                this.drawText("1 Lap",{x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-30}, 1, ratioFonts);
+                this.drawText("To Go",{x: centerX-7*centerDeviationDuringSimulation+20, y: centerDeviationDuringSimulation-30}, 1, ratioFonts);
+                this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: centerX-4*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-30}, 1, ratioFonts);
+
+            }else{
+                this.drawText("1 Lap",{x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation+30}, 1, ratioFonts);
+                this.drawText("To Go",{x: centerX-7*centerDeviationDuringSimulation+60, y: centerDeviationDuringSimulation+30}, 1, ratioFonts);
+                this.drawText("Lap "+this.lapInformation.lapNumber+"/"+this.lapInformation.lapNumber,{x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10}, 1, ratioFonts);
+            }
+        }else if(this.lapInformation.currentLapNumber<this.lapInformation.lapNumber){
+            if(this.realPrefix!==""){
+               this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: centerX-4*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-30}, 1, ratioFonts);
+            }else{
+               this.drawText("Lap "+this.lapInformation.currentLapNumber+"/"+this.lapInformation.lapNumber,{x: centerX-8*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10}, 1, ratioFonts);
+            }
+        }
+
+        if(this.lapInformation.currentPercentage>100){
+            if(this.realPrefix!==""){
+               this.drawText("Current Lap 100%",{x: centerX-3*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation},1,ratioFonts);
+            }else{
+               this.drawText("Current Lap 100%",{x: centerX-5*centerDeviationDuringSimulation, y: centerDeviationDuringSimulation-10},1,ratioFonts);
+            }
+        }else{
+            if(this.realPrefix!==""){
+               this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: centerX-3*centerDeviationDuringSimulation, y: 0.85*centerDeviationDuringSimulation},1,ratioFonts);
+            }else{
+               this.drawText("Current Lap "+this.lapInformation.currentPercentage+"%",{x: centerX-5*centerDeviationDuringSimulation, y: 0.85*centerDeviationDuringSimulation-10},1,ratioFonts);
             }
         }
  
