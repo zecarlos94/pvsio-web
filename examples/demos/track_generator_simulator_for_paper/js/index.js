@@ -107,7 +107,7 @@ require([
             numLanes: 2,
             laneWidth: 0.02,
             trackParam: {
-                numZones:    10, // number of different portions of the track
+                numZones:    4, // number of different portions of the track
                 zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
             },
             // Information regarding current controllable_vehicle's sprite
@@ -307,58 +307,6 @@ require([
                             scale: 4,
                             posX: -0.5,
                             zoneDistance: 100 // (max distance is zoneSize) 
-                        }
-                    ]
-                },
-                {
-                    topography: {
-                        name:"right",
-                        curvature: 90
-                    },
-                    profile: "up",
-                    numZones: 2,
-                    trafficSignals: [
-                        {
-                            filename:"traffic_light_green",
-                            zone: 5,
-                            scale: 4,
-                            posX: -0.5,
-                            zoneDistance: 5 // (max distance is zoneSize) 
-                        },
-                        {
-                            filename:"dangerous_curve_left",
-                            zone: 5,
-                            scale: 3,
-                            posX: -0.4,
-                            zoneDistance: 20 // (max distance is zoneSize) 
-                        },
-                        {
-                            filename:"50kmh_limit",
-                            zone: 5,
-                            scale: 3,
-                            posX: -0.4,
-                            zoneDistance: 90 // (max distance is zoneSize) 
-                        },
-                        {
-                            filename:"vehicle_surpass_forbidden",
-                            zone: 5,
-                            scale: 3,
-                            posX: -0.4,
-                            zoneDistance: 130 // (max distance is zoneSize) 
-                        },
-                        {
-                            filename:"dangerous_curve_left",
-                            zone: 6,
-                            scale: 3,
-                            posX: -0.4,
-                            zoneDistance: 20 // (max distance is zoneSize) 
-                        },
-                        {
-                            filename:"30kmh_limit",
-                            zone: 6,
-                            scale: 3,
-                            posX: -0.4,
-                            zoneDistance: 90 // (max distance is zoneSize) 
                         }
                     ]
                 }

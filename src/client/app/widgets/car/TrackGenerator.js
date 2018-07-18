@@ -505,29 +505,11 @@ define(function (require, exports, module) {
                     let chooseObjectFromDesiredObjects=null;
                     let chooseIndexFromObstacle=null;
                     let chooseObstacleFromDesiredObstacle=null;
-                    let slopesTransitionRandom = null;
-                    let curvesTransitionRandom = null;
                     let index=null;
-
-                    // let heightType = 0; //0=plain 1=up -1=down
-                    // let slopesTransitions = {
-                    //     plainToUpToDownTransition: [0,1,-1],
-                    //     plainToDownToDownTransition: [0,-1,-1],
-                    //     plainToUpToUpTransition: [0,1,1]
-                    // };
-
-                    // let curveType = 0; //0=straight 1=left -1=right
-                    // let curvesTransitions = {
-                    //     straightToLeftToRightTransition: [0,1,-1],
-                    //     straightToRightToRightTransition: [0,-1,-1],
-                    //     straightToLeftToLeftTransition: [0,1,1]
-                    // };
-
-                    // let currentZone = {
-                    //     height: 0,
-                    //     curve: 0
-                    // };
-
+                    let currentZone = {
+                        height: 0,
+                        curve: 0
+                    };
                     let iterAux=0;
                     let topographyRead=[];
 
@@ -548,31 +530,33 @@ define(function (require, exports, module) {
                     let iter = self.trackParam.numZones;
                     let tmpIter=0;
                     while(tmpIter<iter){
-                        // console.log(topographyRead[tmpIter], tmpIter);
-                        // console.log("current zone #" , (tmpIter+1));
-                        // console.log(topographyRead[tmpIter].profile);
-                        // console.log(topographyRead[tmpIter].topography);
-                        // console.log(topographyRead[tmpIter].trafficSignals);
+                        // Generate current Zone
+                        let intendedHeightForCurrentZone;
+                        let intendedCurveForCurrentZone;
 
-                        // // Generate current Zone
-                        // let intendedHeightForCurrentZone;
-                        // switch(heightType){
-                        //     case 0:
-                        //         intendedHeightForCurrentZone = 0; break;
-                        //     case 1:
-                        //         intendedHeightForCurrentZone = 900 * self.randomPos(); break;
-                        //     case -1:
-                        //         intendedHeightForCurrentZone = - 900 * self.randomPos(); break;
-                        // }
-                        // let intendedCurveForCurrentZone;
-                        // switch(curveType){
-                        //     case 0:
-                        //         intendedCurveForCurrentZone = 0; break;
-                        //     case 1:
-                        //         intendedCurveForCurrentZone = - 900 * self.randomPos(); break;
-                        //     case -1:
-                        //         intendedCurveForCurrentZone = 900 * self.randomPos(); break;
-                        // }
+                        switch(topographyRead[tmpIter].profile){
+                            case "flat":
+                                intendedHeightForCurrentZone=0;
+                                break; 
+                            case "up": 
+                                intendedHeightForCurrentZone = 900 * self.randomPos();
+                                break;
+                            case "down": 
+                                intendedHeightForCurrentZone = - 900 * self.randomPos();
+                                break;  
+                        }
+
+                        switch(topographyRead[tmpIter].topography.name){
+                            case "straight":
+                                intendedCurveForCurrentZone=0;
+                                break; 
+                            case "left": 
+                                intendedCurveForCurrentZone = (parseInt(topographyRead[tmpIter].topography.curvature) * 10) * self.randomPos();
+                                break;
+                            case "right": 
+                                intendedCurveForCurrentZone = (parseInt(topographyRead[tmpIter].topography.curvature) * 10) * self.randomPos();
+                                break;  
+                        }
 
                         for(let i=0; i < self.trackParam.zoneSize; i++){
                             for(let k=0;k<topographyRead[tmpIter].trafficSignals.length;k++){
@@ -635,52 +619,21 @@ define(function (require, exports, module) {
                                 } 
                             }
 
-                            self.generatedTrack.push({
-                                height: 0,
-                                curve: 0,
-                                sprite: sprite
-                            })
-
                             // self.generatedTrack.push({
-                            //     height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/self.trackParam.zoneSize * Math.PI-Math.PI/2)),
-                            //     curve: currentZone.curve+intendedCurveForCurrentZone / 2 * (1 + Math.sin(i/self.trackParam.zoneSize * Math.PI-Math.PI/2)),
+                            //     height: 0,
+                            //     curve: 0,
                             //     sprite: sprite
                             // })
+
+                            self.generatedTrack.push({
+                                height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/self.trackParam.zoneSize * Math.PI-Math.PI/2)),
+                                curve: currentZone.curve+intendedCurveForCurrentZone / 2 * (1 + Math.sin(i/self.trackParam.zoneSize * Math.PI-Math.PI/2)),
+                                sprite: sprite
+                            })
                     
                         }
-                        // currentZone.height += intendedHeightForCurrentZone;
-                        // currentZone.curve += intendedCurveForCurrentZone;
-
-                        // // Find next zone
-                        // if(self.randomPos() < 0.8){
-                        //     slopesTransitionRandom = 1+Math.round(self.randomPos());
-                        // }else {
-                        //     slopesTransitionRandom = 0;
-                        // }
-                
-                        // if(self.randomPos() < 0.8){
-                        //     curvesTransitionRandom = 1+Math.round(self.randomPos());
-                        // }else {
-                        //     curvesTransitionRandom = 0;
-                        // }
-                
-                        // switch(heightType){
-                        //     case 0:
-                        //         heightType = slopesTransitions.plainToUpToDownTransition[slopesTransitionRandom]; break;
-                        //     case 1:
-                        //         heightType = slopesTransitions.plainToDownToDownTransition[slopesTransitionRandom]; break;
-                        //     case -1:
-                        //         heightType = slopesTransitions.plainToUpToUpTransition[slopesTransitionRandom]; break;
-                        // }
-                
-                        // switch(curveType){
-                        //     case 0:
-                        //         curveType = curvesTransitions.straightToLeftToRightTransition[curvesTransitionRandom]; break;
-                        //     case 1:
-                        //         curveType = curvesTransitions.straightToRightToRightTransition[curvesTransitionRandom]; break;
-                        //     case -1:
-                        //         curveType = curvesTransitions.straightToLeftToLeftTransition[curvesTransitionRandom]; break;
-                        // }
+                        currentZone.height += intendedHeightForCurrentZone;
+                        currentZone.curve += intendedCurveForCurrentZone;
 
                         tmpIter++;
                     }
