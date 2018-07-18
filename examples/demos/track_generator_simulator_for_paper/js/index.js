@@ -100,14 +100,14 @@ require([
             render: {
                 depthOfField: 150,
                 camera_distance: 30,
-                camera_height: 300
+                camera_height: 320
             },
             trackSegmentSize: 5,
             numberOfSegmentPerColor: 4,
             numLanes: 2,
             laneWidth: 0.02,
             trackParam: {
-                numZones:    12, // number of different portions of the track
+                numZones:    10, // number of different portions of the track
                 zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
             },
             // Information regarding current controllable_vehicle's sprite
@@ -115,8 +115,8 @@ require([
                 position: 10,
                 speed: 0,
                 acceleration: 0.05,
-                deceleration: 0.04,
-                breaking: 0.3,
+                deceleration: 0.3,
+                breaking: 0.6,
                 turning: 5.0,
                 posx: 0,
                 maxSpeed: 15
@@ -309,6 +309,58 @@ require([
                             zoneDistance: 100 // (max distance is zoneSize) 
                         }
                     ]
+                },
+                {
+                    topography: {
+                        name:"right",
+                        curvature: 90
+                    },
+                    profile: "up",
+                    numZones: 2,
+                    trafficSignals: [
+                        {
+                            filename:"traffic_light_green",
+                            zone: 5,
+                            scale: 4,
+                            posX: -0.5,
+                            zoneDistance: 5 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"dangerous_curve_left",
+                            zone: 5,
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 20 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"50kmh_limit",
+                            zone: 5,
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 90 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"vehicle_surpass_forbidden",
+                            zone: 5,
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 130 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"dangerous_curve_left",
+                            zone: 6,
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 20 // (max distance is zoneSize) 
+                        },
+                        {
+                            filename:"30kmh_limit",
+                            zone: 6,
+                            scale: 3,
+                            posX: -0.4,
+                            zoneDistance: 90 // (max distance is zoneSize) 
+                        }
+                    ]
                 }
             ],
             callback: onMessageReceived
@@ -334,9 +386,7 @@ require([
         // API to generate track with parameters received as argument by the constructor, i.e. new TrackGenerator()
         // trackGenerator.trackGeneratorWidget.generateStraightTrack();
         // trackGenerator.trackGeneratorWidget.generateTrackCurvesSlopes();
-        // trackGenerator.trackGeneratorWidget.generateTrackBasedOnTrackLayoutOptField();
-
-        trackGenerator.trackGeneratorWidget.generateRoad();
+        trackGenerator.trackGeneratorWidget.generateTrackBasedOnTrackLayoutOptField();
 
         var demoFolder = "track_generator_simulator_for_paper";
         //register event listener for websocket connection from the client

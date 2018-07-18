@@ -1054,8 +1054,10 @@ define(function (require, exports, module) {
         this.canvasInformations.canvas = d3.select("#arcadeSimulator_"+this.WIDGETID)[0][0];
         this.canvasInformations.context = this.canvasInformations.canvas.getContext('2d');
         
-        this.canvasInformations.canvas.height = this.renderCanvas.height;
-        this.canvasInformations.canvas.width = this.renderCanvas.width;
+        if(this.renderCanvas){
+            this.canvasInformations.canvas.height = this.renderCanvas.height;
+            this.canvasInformations.canvas.width = this.renderCanvas.width;
+        }
 
         return this;
     };
@@ -1770,9 +1772,9 @@ define(function (require, exports, module) {
         // --   Render the track    --
         // --------------------------
         let absoluteIndex = Math.floor(this.controllable_vehicle.position / this.arcadeParams.trackSegmentSize);
-        this.lapInformation.currentPercentage = Math.round(absoluteIndex/(this.arcadeParams.trackParam.length-this.renderCanvas.depthOfField)*100);
+        this.lapInformation.currentPercentage = Math.round(absoluteIndex/(this.arcadeParams.trackParam.numZones-this.renderCanvas.depthOfField)*100);
         
-        if(absoluteIndex >= this.arcadeParams.trackParam.length-this.renderCanvas.depthOfField-1){
+        if(absoluteIndex >= this.arcadeParams.trackParam.numZones-this.renderCanvas.depthOfField-1){
             if(this.lapInformation.currentLapNumber<this.lapInformation.lapNumber || this.infiniteLaps){
                 ButtonActionsQueue.queueGUIAction(this.vehicle.newLap_functionNamePVS, this.lapInformation.callback);
                 this.controllable_vehicle.position= 10;
@@ -1843,7 +1845,7 @@ define(function (require, exports, module) {
                     this.renderCanvas.height / 2 + endProjectedHeight, 
                     endScaling, 
                     nextSegment.curve - baseOffset - this.lastDelta * endScaling, 
-                    counter < this.arcadeParams.numberOfSegmentPerColor, currentSegmentIndex == 2 || currentSegmentIndex == (this.arcadeParams.trackParam.length-this.renderCanvas.depthOfField));
+                    counter < this.arcadeParams.numberOfSegmentPerColor, currentSegmentIndex == 2 || currentSegmentIndex == (this.arcadeParams.trackParam.numZones-this.renderCanvas.depthOfField));
             }
             if(currentSegment.sprite){
                 spriteBuffer.push({
