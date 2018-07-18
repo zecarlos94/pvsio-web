@@ -1329,51 +1329,8 @@ define(function (require, exports, module) {
         this.splashInterval;
         this.gameInterval;
         
-        this.car = { 
-            x: 0,
-            y: 130,
-            w: 69,
-            h: 38
-        };
-        this.car_4 = { 
-            x: 70,
-            y: 130,
-            w: 77,
-            h: 38
-        };
-        this.car_8 = { 
-            x: 148,
-            y: 130,
-            w: 77,
-            h: 38
-        };
-        
-        this.background = {
-            x: 0,
-            y: 9,
-            w: 320,
-            h: 120
-        };
-        
-        this.tree = {
-            x: 321,
-            y: 9,
-            w: 23,
-            h: 50
-        };
-        this.rock = {
-            x: 345,
-            y: 9,
-            w: 11,
-            h: 14
-        };
-        
-        this.logo = {
-            x: 161,
-            y: 39,
-            w: 115,
-            h: 20
-        };
+        this.tree = {"x":812,"y":924,"w":128,"h":176};
+        this.rock = {"x":889,"y":0,"w":75,"h":60};
 
         let currentStateH = 0; //0=flat 1=up 2= down
         let transitionH = [[0,1,2],[0,2,2],[0,1,1]];
