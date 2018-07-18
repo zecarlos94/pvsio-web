@@ -1409,11 +1409,11 @@ define(function (require, exports, module) {
             for(let i=0; i < this.roadParam.zoneSize; i++){
                 // add a tree
                 if(i % this.roadParam.zoneSize / 4 == 0){
-                    sprite = {type: this.rock, pos: -0.55};
+                    sprite = {type: this.rock, pos: -0.55, obstacle: 1, scale: 2};
                 } else {
                     if(this.r() < 0.05) {
                         let spriteType = this.tree;
-                        sprite = {type: spriteType, pos: 0.6 + 4*this.r()};
+                        sprite = {type: spriteType, pos: 0.6 + 4*this.r(), obstacle: 0, scale: 3};
                         if(this.r() < 0.5){
                             sprite.pos = -sprite.pos;
                         }
