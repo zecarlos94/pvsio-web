@@ -52,11 +52,6 @@ main: THEORY
     val: real
   #]
 
-  LAP_INIT: real = 1.0
-  Lap: TYPE = [#
-    val: real
-  #]
-
   Action: TYPE = { idle, acc, brake, pause, resume, quit }
   Direction: TYPE = { left, right, straight }
   Sound: TYPE = { unmute, mute }
@@ -78,8 +73,7 @@ main: THEORY
     direction: Direction,
     sound: Sound,
     startstopbutton: Startstopbutton,
-    sportmodebutton: Sportmodebutton,
-    lap: Lap
+    sportmodebutton: Sportmodebutton
   #]
 
   get_current_time: Time = (# hour := get_time`hour, min := get_time`minute #)
@@ -99,8 +93,7 @@ main: THEORY
     direction := straight,
     sound := unmute,
     startstopbutton := off,
-    sportmodebutton := off,
-    lap := (# val := LAP_INIT #)
+    sportmodebutton := off
   #)
 
   %-- utility functions
@@ -263,8 +256,7 @@ main: THEORY
   steering_wheel_rotate(x: real)(st: state): state = st WITH [ steering := x ]
 
   %-- API for new laps
-  LAP_STEP: real = 1.0 
-  new_lap(st: state): state = st WITH [  position := (# val := POSITION_INIT  #), lap := lap(st) WITH [ val:= lap(st)`val + LAP_STEP ] ]
+  set_positions_init(st: state): state = st WITH [ position := (# val := POSITION_INIT  #), posx := (# val := POSX_INIT #) ]
 
   %-- API for sound controls 
   press_mute(st: state): state = st WITH [ sound := mute ]

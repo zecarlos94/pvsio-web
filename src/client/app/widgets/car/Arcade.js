@@ -47,7 +47,7 @@
  *                  // showOfficialLogo: true,
  *                  // loadPVSSpeedPositions: true,
  *                  // predefinedTracks: 5,
- *                  // newLap_functionNamePVS: "new_lap",
+ *                  // newLap_functionNamePVS: "set_positions_init",
  *                  // action_attribute: "action",
  *                  // direction_attribute: "direction",
  *                  // sound_attribute: "sound",
@@ -125,7 +125,7 @@
  *                  // showOfficialLogo: true,
  *                  // loadPVSSpeedPositions: true,
  *                  // predefinedTracks: 5,
- *                  // newLap_functionNamePVS: "new_lap",
+ *                  // newLap_functionNamePVS: "set_positions_init",
  *                  // action_attribute: "action",
  *                  // direction_attribute: "direction",
  *                  // sound_attribute: "sound",
@@ -219,7 +219,7 @@ define(function (require, exports, module) {
 	 * @param [opt.showOfficialLogo] {Bool} the option to render extra image, on the bottom-left corner, which is the PVSio-web logo created in this thesis (default is false).
 	 * @param [opt.loadPVSSpeedPositions] {Bool} allows to use PVS calculated positions and speed in the simulation. (default is true).
 	 * @param [opt.predefinedTracks] {Int} allows to use predefined tracks, present on JSON files with filename "trackLayout"+predefined+".json", in car/configurations/ directory. (default is null).
-	 * @param [opt.newLap_functionNamePVS] {String} allows to set pvs function name for new lap. (default is "new_lap").
+	 * @param [opt.newLap_functionNamePVS] {String} allows to set pvs function name for new lap. (default is "set_positions_init").
 	 * @param [opt.action_attribute] {String} allows to set pvs attribute name for action. (default is "action").
 	 * @param [opt.direction_attribute] {String} allows to set pvs attribute name for direction. (default is "direction").
 	 * @param [opt.sound_attribute] {String} allows to set pvs attribute name for sound. (default is "sound").
@@ -358,8 +358,7 @@ define(function (require, exports, module) {
             numLanes: null,
             numberOfSegmentPerColor: null,
             trackParam: null,
-            trackSegmentSize: null,
-            numIterations: null
+            trackSegmentSize: null
         };
     
         this.stripeConfiguration = {
@@ -463,7 +462,7 @@ define(function (require, exports, module) {
         };
 
         this.vehicle.newLap_functionNamePVS = {};
-        this.vehicle.newLap_functionNamePVS = opt.newLap_functionNamePVS || "new_lap";
+        this.vehicle.newLap_functionNamePVS = opt.newLap_functionNamePVS || "set_positions_init";
 
         this.vehicle.action_attribute = {};
         this.vehicle.action_attribute = opt.action_attribute || "action";
@@ -1775,6 +1774,7 @@ define(function (require, exports, module) {
         
         if(absoluteIndex >= this.arcadeParams.trackParam.length-this.renderCanvas.depthOfField-1){
             if(this.lapInformation.currentLapNumber<this.lapInformation.lapNumber || this.infiniteLaps){
+                ButtonActionsQueue.queueGUIAction(this.vehicle.newLap_functionNamePVS, this.lapInformation.callback);
                 this.controllable_vehicle.position= 10;
                 this.controllable_vehicle.posx= 0;
                 this.lapInformation.currentLapNumber++;
@@ -2044,7 +2044,7 @@ define(function (require, exports, module) {
      * @param position2 {Float}
      * @param scale2 {Float}
      * @param offset2 {Float}
-     * @param finishStart {Boolean} Value of comparison "currentSegmentIndex == 2 || currentSegmentIndex == (arcadeParams.numIterations-render.depthOfField)", which verifies if current segment
+     * @param finishStart {Boolean} Value of comparison "currentSegmentIndex == 2 || currentSegmentIndex == (arcadeParams.trackParam.length-render.depthOfField)", which verifies if current segment
      * is the second or the last segment, i.e. the starting segment or the final segment to be rendered.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
