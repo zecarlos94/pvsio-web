@@ -62,7 +62,7 @@
 
     
     <dt class="tag-version">Version:</dt>
-    <dd class="tag-version"><ul class="dummy"><li>2.0.0</li></ul></dd>
+    <dd class="tag-version"><ul class="dummy"><li>3.0.0</li></ul></dd>
     
 
     
@@ -126,7 +126,7 @@
 
     <h5>Examples</h5>
     
-        <p class="code-caption">Usage of API to create a new simulation within a PVSio-web demo, after creating a track with curves and slopes, and using a car as a vehicle.
+        <p class="code-caption">Usage of API to create a new simulation within a PVSio-web demo, after creating a track with curves and slopes, and using either a car or a airplane or a helicopter or a motorbike or a bicycle as a vehicle.
 Opt field trackFilename is the JSON file, which was created by TrackGenerator Widget or by hand or by other future Widget that creates tracks.
 </p>
     
@@ -167,7 +167,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
                  // showOfficialLogo: true,
                  // loadPVSSpeedPositions: true,
                  // predefinedTracks: 5,
-                 // newLap_functionNamePVS: "new_lap",
+                 // newLap_functionNamePVS: "set_positions_init",
                  // action_attribute: "action",
                  // direction_attribute: "direction",
                  // sound_attribute: "sound",
@@ -246,7 +246,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
                  // showOfficialLogo: true,
                  // loadPVSSpeedPositions: true,
                  // predefinedTracks: 5,
-                 // newLap_functionNamePVS: "new_lap",
+                 // newLap_functionNamePVS: "set_positions_init",
                  // action_attribute: "action",
                  // direction_attribute: "direction",
                  // sound_attribute: "sound",
@@ -518,7 +518,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
 
             
 
-            <td class="description last">the scale to be set on canvas (default is 2.2).</td>
+            <td class="description last">the scale to be set on canvas (default is 1).</td>
         </tr>
 
     
@@ -881,7 +881,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
 
             
 
-            <td class="description last">the number of desired laps in the simulation (default is 2 laps).</td>
+            <td class="description last">the number of desired laps in the simulation (default is 0 laps, i.e. infinite simulation).</td>
         </tr>
 
     
@@ -1013,7 +1013,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
 
             
 
-            <td class="description last">allows to set pvs function name for new lap. (default is "new_lap").</td>
+            <td class="description last">allows to set pvs function name for new lap. (default is "set_positions_init").</td>
         </tr>
 
     
@@ -1818,7 +1818,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
 
 
 <div class="description">
-    Hide method of the Arcade widget. This method changes the current main div visibility to 'hidden'.
+    Hide method of the Arcade widget.
 </div>
 
 
@@ -1862,7 +1862,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line999">line 999</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2690">line 2690</a>
     </li></ul></dd>
     
 
@@ -1997,7 +1997,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2776">line 2776</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2701">line 2701</a>
     </li></ul></dd>
     
 
@@ -2031,7 +2031,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
     
 
     
-    <h4 class="name" id="reveal"><span class="type-signature"></span>reveal<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="renderEachSimulationFrame"><span class="type-signature"></span>renderEachSimulationFrame<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -2039,7 +2039,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
 
 
 <div class="description">
-    Reveal method of the Arcade widget. This method changes the current main div visibility to 'visible'.
+    RenderEachSimulationFrame method of the Arcade widget. This method renders each frame during the simulation.
 </div>
 
 
@@ -2083,7 +2083,93 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1010">line 1010</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1699">line 1699</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="reveal"><span class="type-signature"></span>reveal<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Reveal method of the Arcade widget.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2678">line 2678</a>
     </li></ul></dd>
     
 
@@ -2219,7 +2305,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Jul 15 2018 19:35:45 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jul 21 2018 11:01:04 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

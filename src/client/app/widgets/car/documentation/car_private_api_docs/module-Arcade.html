@@ -62,7 +62,7 @@
 
     
     <dt class="tag-version">Version:</dt>
-    <dd class="tag-version"><ul class="dummy"><li>2.0.0</li></ul></dd>
+    <dd class="tag-version"><ul class="dummy"><li>3.0.0</li></ul></dd>
     
 
     
@@ -126,7 +126,7 @@
 
     <h5>Examples</h5>
     
-        <p class="code-caption">Usage of API to create a new simulation within a PVSio-web demo, after creating a track with curves and slopes, and using a car as a vehicle.
+        <p class="code-caption">Usage of API to create a new simulation within a PVSio-web demo, after creating a track with curves and slopes, and using either a car or a airplane or a helicopter or a motorbike or a bicycle as a vehicle.
 Opt field trackFilename is the JSON file, which was created by TrackGenerator Widget or by hand or by other future Widget that creates tracks.
 </p>
     
@@ -167,7 +167,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
                  // showOfficialLogo: true,
                  // loadPVSSpeedPositions: true,
                  // predefinedTracks: 5,
-                 // newLap_functionNamePVS: "new_lap",
+                 // newLap_functionNamePVS: "set_positions_init",
                  // action_attribute: "action",
                  // direction_attribute: "direction",
                  // sound_attribute: "sound",
@@ -246,7 +246,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
                  // showOfficialLogo: true,
                  // loadPVSSpeedPositions: true,
                  // predefinedTracks: 5,
-                 // newLap_functionNamePVS: "new_lap",
+                 // newLap_functionNamePVS: "set_positions_init",
                  // action_attribute: "action",
                  // direction_attribute: "direction",
                  // sound_attribute: "sound",
@@ -323,7 +323,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
     
 
     
-    <h4 class="name" id="calculateNewControllableCarPosition"><span class="type-signature"></span>calculateNewControllableCarPosition<span class="signature">()</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="calculateNewControllableVehiclePosition"><span class="type-signature"></span>calculateNewControllableVehiclePosition<span class="signature">()</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
     
 
     
@@ -331,7 +331,7 @@ Opt field trackFilename is the JSON file, which was created by TrackGenerator Wi
 
 
 <div class="description">
-    calculateNewControllableCarPosition method of the Arcade widget. This method calculates the new controllable car position, based on
+    CalculateNewControllableVehiclePosition method of the Arcade widget. This method calculates the new controllable vehicle position, based on
 its speed, current position and posx values updated by the render method, using PVS status.
 </div>
 
@@ -376,7 +376,7 @@ its speed, current position and posx values updated by the render method, using 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2505">line 2505</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1455">line 1455</a>
     </li></ul></dd>
     
 
@@ -484,7 +484,7 @@ its speed, current position and posx values updated by the render method, using 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2738">line 2738</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2653">line 2653</a>
     </li></ul></dd>
     
 
@@ -756,7 +756,7 @@ its speed, current position and posx values updated by the render method, using 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1885">line 1885</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2404">line 2404</a>
     </li></ul></dd>
     
 
@@ -1055,7 +1055,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1969">line 1969</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2488">line 2488</a>
     </li></ul></dd>
     
 
@@ -1354,7 +1354,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1923">line 1923</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2442">line 2442</a>
     </li></ul></dd>
     
 
@@ -1470,7 +1470,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
 
             
 
-            <td class="description last">Value of posx in controllable_car object, i.e. horizontal position, which is computed by adding/subtracting the turning field value every time the vehicle is turned left or right, in updateControllableCar method.</td>
+            <td class="description last">Value of posx in controllable_vehicle object, i.e. horizontal position, which is computed by adding/subtracting the turning field value every time the vehicle is turned left or right, in updateControllableVehicle method.</td>
         </tr>
 
     
@@ -1511,7 +1511,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2078">line 2078</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2599">line 2599</a>
     </li></ul></dd>
     
 
@@ -1852,7 +1852,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1746">line 1746</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2265">line 2265</a>
     </li></ul></dd>
     
 
@@ -2193,7 +2193,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1693">line 1693</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2243">line 2243</a>
     </li></ul></dd>
     
 
@@ -2534,7 +2534,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1715">line 1715</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2212">line 2212</a>
     </li></ul></dd>
     
 
@@ -2789,7 +2789,7 @@ To do so, this method uses drawSegmentPortion, setColorsEndCanvas methods. The l
 
             
 
-            <td class="description last">Value of comparison "currentSegmentIndex == 2 || currentSegmentIndex == (arcadeParams.numIterations-render.depthOfField)", which verifies if current segment
+            <td class="description last">Value of comparison "currentSegmentIndex == 2 || currentSegmentIndex == (arcadeParams.trackParam.length-render.depthOfField)", which verifies if current segment
 is the second or the last segment, i.e. the starting segment or the final segment to be rendered.</td>
         </tr>
 
@@ -2831,7 +2831,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2181">line 2181</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2029">line 2029</a>
     </li></ul></dd>
     
 
@@ -3172,7 +3172,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2048">line 2048</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2135">line 2135</a>
     </li></ul></dd>
     
 
@@ -3375,7 +3375,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1798">line 1798</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2317">line 2317</a>
     </li></ul></dd>
     
 
@@ -3578,7 +3578,7 @@ is the second or the last segment, i.e. the starting segment or the final segmen
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1775">line 1775</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2294">line 2294</a>
     </li></ul></dd>
     
 
@@ -3808,7 +3808,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1821">line 1821</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2340">line 2340</a>
     </li></ul></dd>
     
 
@@ -4038,7 +4038,7 @@ moment of the simulation. The abovementioned object is then {inverse:true}.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1853">line 1853</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2372">line 2372</a>
     </li></ul></dd>
     
 
@@ -4289,7 +4289,7 @@ an image, x, y and scale (sprite as a null argument). This allows to use render 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2017">line 2017</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2568">line 2568</a>
     </li></ul></dd>
     
 
@@ -4516,7 +4516,7 @@ That is, reading string and for each letter draw the corresponding sprite letter
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1661">line 1661</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2536">line 2536</a>
     </li></ul></dd>
     
 
@@ -4563,151 +4563,6 @@ That is, reading string and for each letter draw the corresponding sprite letter
     
 
 
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="getNrIterations"><span class="type-signature"></span>getNrIterations<span class="signature">()</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    GetNrIterations method of the Arcade widget. This method computes the number of iterations required to draw the track defined in the JSON configuration file.
-In the final version, the JSON structure, see example 1), will be the same, however fields 'height' and 'curve' will have other values
-other than 0 and 0, respectively.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2684">line 2684</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    The created instance of the widget Arcade.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Arcade</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>1) JSON Structure Straight Version
-
-{
-    "trackParam": {
-      "numZones": 12,
-      "zoneSize": 250
-    },
-    "render": {
-      "depthOfField": 150,
-      "camera_distance": 30,
-      "camera_height": 100
-    },
-    "trackSegmentSize": 5,
-    "numberOfSegmentPerColor": 4,
-    "numLanes": 3,
-    "laneWidth": 0.02,
-    "controllable_car": {
-      "position": 10,
-      "speed": 0,
-      "acceleration": 0.05,
-      "deceleration": 0.04,
-      "breaking": 0.3,
-      "turning": 5.0,
-      "posx": 0,
-      "maxSpeed": 20
-    },
-    "track": [
-       {"height":0,"curve":0,"sprite":{"type":{"x":535,"y":648,"w":168,"h":248},"pos":-0.14646203875343766,"obstacle":1}},
-       {"height":0,"curve":0,"sprite":{"type":{"x":535,"y":648,"w":168,"h":248},"pos":3.5676653178824482,"obstacle":0}}
-    ]
-}</code></pre>
 
 
 
@@ -4769,7 +4624,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2762">line 2762</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1035">line 1035</a>
     </li></ul></dd>
     
 
@@ -4833,7 +4688,7 @@ other than 0 and 0, respectively.
 
 
 <div class="description">
-    onPageLoad method of the Arcade widget. This method starts the arcade simulation and loads the required spritesheets, with all sprites defined in track object.
+    OnPageLoad method of the Arcade widget. This method starts the arcade simulation and loads the required spritesheets, with all sprites defined in track object.
 </div>
 
 
@@ -4926,7 +4781,7 @@ other than 0 and 0, respectively.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1021">line 1021</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line990">line 990</a>
     </li></ul></dd>
     
 
@@ -4982,7 +4837,7 @@ other than 0 and 0, respectively.
     
 
     
-    <h4 class="name" id="renderSimulatorFrame"><span class="type-signature"></span>renderSimulatorFrame<span class="signature">()</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="renderEndMenu"><span class="type-signature"></span>renderEndMenu<span class="signature">()</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
     
 
     
@@ -4990,115 +4845,7 @@ other than 0 and 0, respectively.
 
 
 <div class="description">
-    RenderSimulatorFrame method of the Arcade widget. This method renders each frame during the simulation.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1314">line 1314</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    The created instance of the widget Arcade.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Arcade</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="renderSplashEndFrame"><span class="type-signature"></span>renderSplashEndFrame<span class="signature">()</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    RenderSplashEndFrame method of the Arcade widget. This method draws the simulator end page, where the commands to control the simulator and to start another simulation(renderSimulatorFrame) are displayed.
+    RenderEndMenu method of the Arcade widget. This method draws the simulator end page, where the commands to control the simulator and to start another simulation(renderEachSimulationFrame) are displayed.
 It is also initialized the new lap timer, using jchronometer lib, as soon as the user uses the command to start the new simulation.
 </div>
 
@@ -5143,7 +4890,7 @@ It is also initialized the new lap timer, using jchronometer lib, as soon as the
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1236">line 1236</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1123">line 1123</a>
     </li></ul></dd>
     
 
@@ -5199,7 +4946,7 @@ It is also initialized the new lap timer, using jchronometer lib, as soon as the
     
 
     
-    <h4 class="name" id="renderSplashFrame"><span class="type-signature"></span>renderSplashFrame<span class="signature">()</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    <h4 class="name" id="renderPauseMenu"><span class="type-signature"></span>renderPauseMenu<span class="signature">()</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
     
 
     
@@ -5207,116 +4954,7 @@ It is also initialized the new lap timer, using jchronometer lib, as soon as the
 
 
 <div class="description">
-    RenderSplashFrame method of the Arcade widget. This method draws the simulator home page, where the commands to control the simulator are displayed.
-It is also initialized the lap timer, using jchronometer lib, as soon as the user uses the command to start the simulation(renderSimulatorFrame).
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1067">line 1067</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    The created instance of the widget Arcade.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Arcade</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="renderSplashPauseFrame"><span class="type-signature"></span>renderSplashPauseFrame<span class="signature">()</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    RenderSplashPauseFrame method of the Arcade widget. This method draws the simulator pause page, where the commands to control the simulator and to resume the simulation(renderSimulatorFrame) are displayed.
+    RenderPauseMenu method of the Arcade widget. This method draws the simulator pause page, where the commands to control the simulator and to resume the simulation(renderEachSimulationFrame) are displayed.
 It is also resumed the lap timer, using jchronometer lib, as soon as the user uses the command to resume the simulation.
 </div>
 
@@ -5361,7 +4999,116 @@ It is also resumed the lap timer, using jchronometer lib, as soon as the user us
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1166">line 1166</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1056">line 1056</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget Arcade.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Arcade</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="renderSimulation"><span class="type-signature"></span>renderSimulation<span class="signature">()</span><span class="type-signature"> &rarr; {Arcade}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    RenderSimulation method of the Arcade widget. This method draws the simulator home page, where the commands to control the simulator are displayed.
+It is also initialized the lap timer, using jchronometer lib, as soon as the user uses the command to start the simulation(renderEachSimulationFrame).
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1199">line 1199</a>
     </li></ul></dd>
     
 
@@ -5704,7 +5451,7 @@ offer alternate colors. This is used, for instance, to render the track separato
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2151">line 2151</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2182">line 2182</a>
     </li></ul></dd>
     
 
@@ -5886,7 +5633,7 @@ those two segments have during the simulation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2133">line 2133</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2164">line 2164</a>
     </li></ul></dd>
     
 
@@ -5942,7 +5689,7 @@ those two segments have during the simulation.
     
 
     
-    <h4 class="name" id="setControllableCarPosition"><span class="type-signature"></span>setControllableCarPosition<span class="signature">(vehicleCurrentDirection, newSpeed, newPosition, newPositionX, vehicleXPosition, vehicleYPosition)</span><span class="type-signature"> &rarr; {carSprite}</span></h4>
+    <h4 class="name" id="setControllableVehiclePosition"><span class="type-signature"></span>setControllableVehiclePosition<span class="signature">(vehicleCurrentDirection, newSpeed, newPosition, newPositionX, vehicleXPosition, vehicleYPosition)</span><span class="type-signature"> &rarr; {carSprite}</span></h4>
     
 
     
@@ -5950,7 +5697,7 @@ those two segments have during the simulation.
 
 
 <div class="description">
-    SetControllableCarPosition method of the Arcade widget. This method sets the controllable car position, posx, speed and vehicle sprite based on current direction.
+    SetControllableVehiclePosition method of the Arcade widget. This method sets the controllable vehicle position, posx, speed and vehicle sprite based on current direction.
 </div>
 
 
@@ -6158,7 +5905,7 @@ those two segments have during the simulation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2451">line 2451</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1645">line 1645</a>
     </li></ul></dd>
     
 
@@ -6267,7 +6014,7 @@ That is, returns the new state after the action performed by the user (accelerat
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line703">line 703</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line702">line 702</a>
     </li></ul></dd>
     
 
@@ -6301,7 +6048,7 @@ That is, returns the new state after the action performed by the user (accelerat
     
 
     
-    <h4 class="name" id="updateControllableCar"><span class="type-signature"></span>updateControllableCar<span class="signature">()</span><span class="type-signature"> &rarr; {carSprite}</span></h4>
+    <h4 class="name" id="updateControllableVehicle"><span class="type-signature"></span>updateControllableVehicle<span class="signature">()</span><span class="type-signature"> &rarr; {carSprite}</span></h4>
     
 
     
@@ -6309,7 +6056,7 @@ That is, returns the new state after the action performed by the user (accelerat
 
 
 <div class="description">
-    UpdateControllableCar method of the Arcade widget. This method updates the controllable car position and speed.
+    UpdateControllableVehicle method of the Arcade widget. This method updates the controllable car position and speed.
 </div>
 
 
@@ -6353,7 +6100,7 @@ That is, returns the new state after the action performed by the user (accelerat
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line2287">line 2287</a>
+        <a href="Arcade.js.html">Arcade.js</a>, <a href="Arcade.js.html#line1293">line 1293</a>
     </li></ul></dd>
     
 
@@ -6426,7 +6173,7 @@ That is, returns the new state after the action performed by the user (accelerat
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Jul 15 2018 19:35:49 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jul 21 2018 11:01:10 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

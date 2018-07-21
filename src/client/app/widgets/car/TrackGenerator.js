@@ -1,12 +1,12 @@
 /**
  * @module TrackGenerator
- * @version 2.0.0
+ * @version 3.0.0
  * @author José Carlos
  * @desc This module allows to either generate randomly or generate based on trackLayout optional field the track, which will be used to create the environment of the 2D driving simulator, using HTML5 Canvas.
  * The trackLayout optional field allows to specifiy the desired layout, which will be parsed and iterated to create all segments that matches that layout.
  *
  * @date Apr 02, 2018
- * last modified @date Jun 16, 2018
+ * last modified @date Jul 21, 2018
  *
  *
  * @example <caption>Usage of public API to create a desired track, using trackLayout, with straight lines, curves and slopes.</caption>
@@ -311,14 +311,24 @@
  * in the previous example, as it follows,</caption>
  *
  *           trackLayout: [ 
- *               // describing the desired track, which is a 12-zone straight line, i.e. track with only straight lines with length 12. 
+ *               // describing the desired track, which is a 12-zone straight line, i.e. track with only straight lines with length 12, and it will place a 'traffic_cone'
+ *               // sprite on zone 10, on horizontal position -0.5 (left side the track) at a distance of 80 in relation with the zoneSize (by default is 250). 
  *               {
  *                   topography: {
  *                       name:"straight",
  *                       curvature: 0
  *                   },
  *                   profile: "flat",
- *                   numZones: 12
+ *                   numZones: 12,
+ *                   trafficSignals: [
+ *                       {
+ *                           filename:"traffic_cone",
+ *                           scale: 3.4,
+ *                           zone: 10,
+ *                           posX: -0.5,
+ *                           zoneDistance: 80 // (max distance is zoneSize) 
+ *                       }
+ *                  ]
  *               }
  *            ]
  *
@@ -368,15 +378,15 @@ define(function (require, exports, module) {
      * @param opt {Object} Options:
      * @param [opt.parent] {String} the HTML element where the display will be appended (default is "body").
      * @param [opt.spritesFilename] {String} the spritesheet filename(json file) that will be loaded (default is "spritesheet").
-     * @param [opt.render] {Object} the rendering configurations, i.e. width, height, etc. (default is {width: 320, height: 240, depthOfField: 150, camera_distance: 30, camera_height: 100}).
+     * @param [opt.render] {Object} the rendering configurations, i.e. width, height, etc. (default is {depthOfField: 150, camera_distance: 30, camera_height: 320}).
      * @param [opt.trackSegmentSize] {Int} the size of the track segment (default is 5).
      * @param [opt.numberOfSegmentPerColor] {Int} the number of segments per color, i.e. how many sequenced segments to alternate colors (default is 4).
      * @param [opt.numLanes] {Int} the number of lanes the track will be draw (default is 3).
      * @param [opt.laneWidth] {Float} the width of the lane separator (default is 0.02).
      * @param [opt.trackParam] {Object} the track configurations, i.e. number of zones(track length), etc (default is {numZones: 12, zoneSize: 250}).
      * @param [opt.controllable_vehicle] {Object} the vehicle configurations, i.e. initial position, acceleration and deceleration values, etc (default is {position: 10, speed: 0, acceleration: 0.05, deceleration: 0.3, breaking: 0.6, turning: 5.0, posx: 0, maxSpeed: 15}).
-     * @param [opt.objects] {Array} the sprite names to be drawed in the landscape (default is ["tree","rock"]).
-     * @param [opt.obstacle] {Array} the sprite names to be drawed within the track as obstacles (default is ["rock"]).
+     * @param [opt.objects] {Array} the sprite names to be drawed in the landscape (default is []).
+     * @param [opt.obstacle] {Array} the sprite names to be drawed within the track as obstacles (default is []).
      * @param [opt.trackLayout] {Array} the track layout that will be used to create the corresponding segments. (default is []).
      * @param [opt.trackColors] {Array} the track colors that will be used to color the segments in each stripe. (default is {grass1: "#699864", border1: "#e00", border2: "#fff", outborder1: "#496a46", outborder_end1: "#474747", track_segment1: "#777", lane1: "#fff", lane2: "#777", laneArrow1: "#00FF00", track_segment_end:"#000", lane_end: "#fff"}).
      * @param [opt.obstaclePerIteration] {Int} the number of iterations where a new obstacle will be placed within the track (default is 50).
@@ -481,15 +491,14 @@ define(function (require, exports, module) {
      * @function generateTrackBasedOnTrackLayoutOptField
      * @public  
      * @description GenerateTrackBasedOnTrackLayoutOptField method of the TrackGenerator widget. This method generates the track present in the trackLayout opt field.
-     * Every obstaclePerIteration iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
-     * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no).
-     * It also has information about the randomly generated position and the type of sprite, i.e. the sprite provided as opt from the available list (obtained in the spritesheet.json file)
-     * During the remaining iterations (which will not be considered as obstacles on the road), a value is randomly generated to decide in which side it will be placed (spriteSidesRandom).
-     * Then the position on that side is also randomly generated in spritePos (given by spritePosRightRandom or spritePosLeftRandom).
-     * Before finishing, another random number is generated to know how far to put the sprite on the selected side in relation to the landscape/track separator, in order to have
-     * sprites randomly scattered, but balanced (instead of being concentrated in a given area).
-     * After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in and whether those are obstacles or not,
-     * a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
+     * Every obstaclePerIteration iterations an obstacle is placed on a part of the track, based on 'positionsX' array values (horizontal positions).
+     * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no), and has information about the scale that Arcade widget will apply,
+     * when rendering that sprite, in the scale field.
+     * It also has information about the position choosen from 'positionsX' array and the type of sprite, i.e. the sprite provided as opt from the available list, in 'filename' (obtained in the spritesheet.json file)
+     * During the remaining iterations (which will not be considered as obstacles on the road), the sprites provided in 'objects' opt field will be used as the 'obstacles'. That is, a new sprite will be choosen from that 
+     + array, and it will use the position values obtained from its 'positionsX' array as well as the scale to apply in the rendering process.
+     * After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in, whether those are obstacles or not and what scale must be applied during 
+     * the rendering process, a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
      * within this context on the PVSio-web platform.
      * @memberof module:TrackGenerator
      * @instance
@@ -619,12 +628,6 @@ define(function (require, exports, module) {
                                 } 
                             }
 
-                            // self.generatedTrack.push({
-                            //     height: 0,
-                            //     curve: 0,
-                            //     sprite: sprite
-                            // })
-
                             self.generatedTrack.push({
                                 height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/self.trackParam.zoneSize * Math.PI-Math.PI/2)),
                                 curve: currentZone.curve+intendedCurveForCurrentZone / 2 * (1 + Math.sin(i/self.trackParam.zoneSize * Math.PI-Math.PI/2)),
@@ -673,15 +676,14 @@ define(function (require, exports, module) {
      * @function generateTrackCurvesSlopes
      * @public  
      * @description GenerateTrackCurvesSlopes method of the TrackGenerator widget. This method generates the straight line simulator version.
-     * Every obstaclePerIteration iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
-     * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no).
-     * It also has information about the randomly generated position and the type of sprite, i.e. the sprite provided as opt from the available list (obtained in the spritesheet.json file)
-     * During the remaining iterations (which will not be considered as obstacles on the road), a value is randomly generated to decide in which side it will be placed (spriteSidesRandom).
-     * Then the position on that side is also randomly generated in spritePos (given by spritePosRightRandom or spritePosLeftRandom).
-     * Before finishing, another random number is generated to know how far to put the sprite on the selected side in relation to the landscape/track separator, in order to have
-     * sprites randomly scattered, but balanced (instead of being concentrated in a given area).
-     * After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in and whether those are obstacles or not,
-     * a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
+     * Every obstaclePerIteration iterations an obstacle is placed on a part of the track, based on 'positionsX' array values (horizontal positions).
+     * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no), and has information about the scale that Arcade widget will apply,
+     * when rendering that sprite, in the scale field.
+     * It also has information about the position choosen from 'positionsX' array and the type of sprite, i.e. the sprite provided as opt from the available list, in 'filename' (obtained in the spritesheet.json file)
+     * During the remaining iterations (which will not be considered as obstacles on the road), the sprites provided in 'objects' opt field will be used as the 'obstacles'. That is, a new sprite will be choosen from that 
+     + array, and it will use the position values obtained from its 'positionsX' array as well as the scale to apply in the rendering process.
+     * After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in, whether those are obstacles or not and what scale must be applied during 
+     * the rendering process, a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
      * within this context on the PVSio-web platform.
      * @example <caption>Usage of public API to create randomly track, with straight lines, curves and slopes.</caption>
      * define(function (require, exports, module) {
@@ -985,15 +987,14 @@ define(function (require, exports, module) {
      * @function generateStraightTrack
      * @public 
      * @description GenerateStraightTrack method of the TrackGenerator widget. This method generates the straight line simulator version.
-     * Every obstaclePerIteration iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
-     * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no).
-     * It also has information about the randomly generated position and the type of sprite, i.e. the sprite provided as opt from the available list (obtained in the spritesheet.json file)
-     * During the remaining iterations (which will not be considered as obstacles on the road), a value is randomly generated to decide in which side it will be placed (spriteSidesRandom).
-     * Then the position on that side is also randomly generated in spritePos (given by spritePosRightRandom or spritePosLeftRandom).
-     * Before finishing, another random number is generated to know how far to put the sprite on the selected side in relation to the landscape/track separator, in order to have
-     * sprites randomly scattered, but balanced (instead of being concentrated in a given area).
-     * After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in and whether those are obstacles or not,
-     * a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
+     * Every obstaclePerIteration iterations an obstacle is placed on a part of the track, based on 'positionsX' array values (horizontal positions).
+     * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no), and has information about the scale that Arcade widget will apply,
+     * when rendering that sprite, in the scale field.
+     * It also has information about the position choosen from 'positionsX' array and the type of sprite, i.e. the sprite provided as opt from the available list, in 'filename' (obtained in the spritesheet.json file)
+     * During the remaining iterations (which will not be considered as obstacles on the road), the sprites provided in 'objects' opt field will be used as the 'obstacles'. That is, a new sprite will be choosen from that 
+     + array, and it will use the position values obtained from its 'positionsX' array as well as the scale to apply in the rendering process.
+     * After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in, whether those are obstacles or not and what scale must be applied during 
+     * the rendering process, a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
      * within this context on the PVSio-web platform.
      * @example <caption>Usage of public API to create randomly track, with only straight lines.</caption>
      * define(function (require, exports, module) {

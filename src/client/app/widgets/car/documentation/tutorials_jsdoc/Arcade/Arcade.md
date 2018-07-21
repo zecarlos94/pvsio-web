@@ -97,10 +97,9 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     parent: "content", // defines parent div, which is div id="body" by default
     spritesFilename: "spritesheet2", // defines spritesheet configuration filename, which is "spritesheet.json" by default
     render: {
-        height: 240,
         depthOfField: 150,
         camera_distance: 30,
-        camera_height: 100
+        camera_height: 320
     },
     trackSegmentSize: 5,
     numberOfSegmentPerColor: 4,
@@ -110,8 +109,8 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
         numZones:    12, // number of different portions of the track
         zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
     },
-    // Information regarding current controllable_car's car
-    controllable_car: {
+    // Information regarding current controllable_vehicle's car
+    controllable_vehicle: {
         position: 10,
         speed: 0,
         acceleration: 0.05,
@@ -1059,6 +1058,46 @@ trackGenerator.trackGeneratorWidget.generateTrackCurvesSlopes();
 trackGenerator.trackGeneratorWidget.generateTrackBasedOnTrackLayoutOptField();
 ```
 
+> The opt fields 'objects' and 'obstacles' have the following structure,
+
+```
+{
+  filename:"real_tree3",
+  scale: 1,
+  positionsX: [
+      -0.8,
+      0.6
+  ]
+}
+```
+
+> This structure is responsible for defining the sprite name, for instance, 'real_tree3' regards to 'real_tree3.png' present in the current spritesheet provided also as opt field, as well as for defining the scale to be applied to this sprite by the Arcade Widget. It is also responsible for providing the horizontal positions, array 'positionsX', where the sprite must be placed. That is, for obstacles and objects is necessary to define them separately so it will be possible to have different scales applied to different sprites. For example, the user can have 'real_tree2' and 'real_tree3', which are 2 different trees, with different scales, i.e. rendering one tree bigger than the other. The other positive aspect of such structure regards to the sprite's placement, i.e. instead of generating the position randomly, it is easier to define exactly where the sprite must be placed, so the final result looks exactly as it is expected.
+
+> The opt field 'trackLayout' has the following structure,
+
+```
+{
+ topography: {
+    name:"straight",
+     curvature: 0
+ },
+ profile: "flat",
+ numZones: 1,
+ trafficSignals: [
+  {
+     filename:"30kmh_limit",
+     scale: 1,
+     zone: 1,
+     posX: -0.4,
+     zoneDistance: 30 // (max distance is zoneSize) 
+  }
+ ]
+}
+```
+
+> This structure is responsible for defining a part of the final track to be rendered by the Arcade Widget. This defines the topography, either it is a straight block, or a left curved block or a right curved block, with an elevation profile of either flat, or up or down. It also defines the number of blocks to replicate, in numZones field. That is, if this field has the number 3, then the API will create 3 blocks with this topography sequentially. This is useful to define straight line blocks sequentially, that will allow to have parts of the track with different lengths (straight lines case). It also defines the sprites that must be placed within this part of the track in 'trafficSignals' field. This field was created to allow the placement of traffic signals on a specific part of the track. For instance, '30kmh_limit.png' sprite will be placed in the horizontal axis at -0.4 and in the vertical axis (within field of view of current zoneSize) at 30, that is, if the current zoneSize is defined as 250, then this sprite will be placed at 30, i.e. (30/250 means that this sprite will appear in the beginning of the topograohy). If zoneDistance has 220 as its value, then this sprite will appear almost in the end of the topography. 'trafficSignals' field is an array so it will be possible to place more than one sprite per topography, i.e., since zoneSize varies, is important to have the possibility to define more than one sprite in that zoneSize, otherwise, it would be strange to only have one sprite in a vast section of the track (imagine if the zoneSize was 2500) and zoneDistance was 30, then in the rendering process, the sprite would appear in the beginning and then the user would drive (in the track) for a while until a new sprite would appear (that is, until the next topography begins).
+
+
 > To create the track is then only necessary, create the constructor with the optional fields that you want, if none is inserted, the widget will use the following predefined values,
 ```
 parent: "body",
@@ -1066,7 +1105,7 @@ spritesFilename: "spritesheet",
 render: {
     depthOfField: 150,
     camera_distance: 30,
-    camera_height: 100
+    camera_height: 320
 },
 trackSegmentSize: 5,
 numberOfSegmentPerColor: 4,
@@ -1076,7 +1115,7 @@ trackParam: {
     numZones:  12,
     zoneSize:  250
 },
-controllable_car: {
+controllable_vehicle: {
     position: 10,
     speed: 0,
     acceleration: 0.05,
@@ -1111,7 +1150,7 @@ trackLayout: []
 
 ```
 generatedJSON = {
-    controllable_car: controllable_car,
+    controllable_vehicle: controllable_vehicle,
     laneWidth: laneWidth,
     numLanes: numLanes,
     numberOfSegmentPerColor: numberOfSegmentPerColor,
@@ -1199,6 +1238,7 @@ arcade.arcadeWidget = new Arcade("arcadeWidget", {
     spritesFilename: "spritesheet2", // defines spritesheet configuration filename, which is "spritesheet.json" by default
     spritesFiles: ["spritesheet2","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
     realisticImgs: false,
+    useVehicle: true,
     vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
     vehicleImgIndex: 2, // defines vehicle sprite image suffix
     // logoImgIndex: 1, // defines logo sprite image suffix
@@ -1290,6 +1330,7 @@ function render(res) {
     arcade.tachometerGauge.render(evaluate(res.rpm));
     arcade.steeringWheel.render(evaluate(res.steering));
     arcade.arcadeWidget.render(res);
+    arcade.lincolnMKCDashboard(); // Renders the Full Dashboard Image
 }
 ```
 
@@ -1300,6 +1341,7 @@ trackFilename: "track-curves-slopes-random",
 spritesFilename: "spritesheet", 
 spritesFiles: ["spritesheet","spritesheet.text"], 
 realisticImgs: false,
+useVehicle: true,
 vehicle: "car", 
 vehicleImgIndex: null, 
 logoImgIndex: null,
@@ -1315,11 +1357,11 @@ stripePositions: {
     finishLineP2: 0.40,
     diffLanesFinishLine: 0.05
 },
-lapNumber: 2,
+lapNumber: 0, // infinite simulation (multiple laps, i.e. always begins a new lap and only stops when user wants to)
 showOfficialLogo: false,
 loadPVSSpeedPositions: true,
 predefinedTracks: null,
-newLap_functionNamePVS: "new_lap",
+newLap_functionNamePVS: "set_positions_init",
 action_attribute: "action",
 direction_attribute: "direction",
 sound_attribute: "sound",
@@ -1406,11 +1448,6 @@ main: THEORY
     val: real
   #]
 
-  LAP_INIT: real = 1.0
-  Lap: TYPE = [#
-    val: real
-  #]
-
   Action: TYPE = { idle, acc, brake, pause, resume, quit }
   Direction: TYPE = { left, right, straight }
   Sound: TYPE = { unmute, mute }
@@ -1432,8 +1469,7 @@ main: THEORY
     direction: Direction,
     sound: Sound,
     startstopbutton: Startstopbutton,
-    sportmodebutton: Sportmodebutton,
-    lap: Lap
+    sportmodebutton: Sportmodebutton
   #]
 
   get_current_time: Time = (# hour := get_time`hour, min := get_time`minute #)
@@ -1453,8 +1489,7 @@ main: THEORY
     direction := straight,
     sound := unmute,
     startstopbutton := off,
-    sportmodebutton := off,
-    lap := (# val := LAP_INIT #)
+    sportmodebutton := off
   #)
 
   %-- utility functions
@@ -1464,9 +1499,9 @@ main: THEORY
     LET new_rpm = (speed(st)`val * gear(st) * 440) / tyre / 1000
      IN COND
           new_rpm < 0 -> 0,
-      new_rpm > MAX_RPM -> MAX_RPM,
-      ELSE -> new_rpm
-    ENDCOND
+    new_rpm > MAX_RPM -> MAX_RPM,
+    ELSE -> new_rpm
+  ENDCOND
 
   getAcc(g: Gear): Speed_Val =
    COND
@@ -1524,9 +1559,9 @@ main: THEORY
         step = getAcc(gear(st)),
         st = IF speed(st)`val + step < MAX_SPEED
              THEN st WITH [ speed := speed(st) WITH [ val:= speed(st)`val + step ]]
-         ELSE st WITH [ speed := speed(st) WITH [ val:= MAX_SPEED ]] ENDIF,
-    new_rpm = getRPM(st),
-    st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+       ELSE st WITH [ speed := speed(st) WITH [ val:= MAX_SPEED ]] ENDIF,
+  new_rpm = getRPM(st),
+  st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
      IN IF rpm(st) > 6 THEN gearUP(st) ELSE st ENDIF
 
   accelerateSportMode(st: state): state =
@@ -1534,40 +1569,40 @@ main: THEORY
         step = getAccSportMode(gear(st)),
         st = IF speed(st)`val + step < MAX_SPEED
              THEN st WITH [ speed := speed(st) WITH [ val:= speed(st)`val + step ]]
-         ELSE st WITH [ speed := speed(st) WITH [ val:= MAX_SPEED ]] ENDIF,
-    new_rpm = getRPM(st),
-    st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+       ELSE st WITH [ speed := speed(st) WITH [ val:= MAX_SPEED ]] ENDIF,
+  new_rpm = getRPM(st),
+  st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
      IN IF rpm(st) > 6 THEN gearUP(st) ELSE st ENDIF
 
   brake(st: state): state =
     LET step = getBrk(gear(st)),
         st = IF speed(st)`val >= 0
-         THEN st WITH [ speed := speed(st) WITH
-              [ val := IF speed(st)`val + step`speed > 0
-                   THEN speed(st)`val + step`speed
-                   ELSE 0 ENDIF ]]
-         ELSE %-- the car was driving in reverse, so the speed was negative
+       THEN st WITH [ speed := speed(st) WITH
+            [ val := IF speed(st)`val + step`speed > 0
+           THEN speed(st)`val + step`speed
+           ELSE 0 ENDIF ]]
+       ELSE %-- the car was driving in reverse, so the speed was negative
                   st WITH [ speed := speed(st) WITH
-                  [ val:= IF speed(st)`val - step`speed < 0
-                  THEN speed(st)`val - step`speed
-                  ELSE 0 ENDIF ]] ENDIF,
-    new_rpm = getRPM(st),
+              [ val:= IF speed(st)`val - step`speed < 0
+          THEN speed(st)`val - step`speed
+          ELSE 0 ENDIF ]] ENDIF,
+  new_rpm = getRPM(st),
         st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
      IN IF rpm(st) < 4 THEN gearDOWN(st) ELSE st ENDIF
 
   brakeSportMode(st: state): state =
     LET step = getBrkSportMode(gear(st)),
         st = IF speed(st)`val >= 0
-         THEN st WITH [ speed := speed(st) WITH
-              [ val := IF speed(st)`val + step`speed > 0
-                   THEN speed(st)`val + step`speed
-                   ELSE 0 ENDIF ]]
-         ELSE %-- the car was driving in reverse, so the speed was negative
+       THEN st WITH [ speed := speed(st) WITH
+            [ val := IF speed(st)`val + step`speed > 0
+           THEN speed(st)`val + step`speed
+           ELSE 0 ENDIF ]]
+       ELSE %-- the car was driving in reverse, so the speed was negative
                   st WITH [ speed := speed(st) WITH
-                  [ val:= IF speed(st)`val - step`speed < 0
-                  THEN speed(st)`val - step`speed
-                  ELSE 0 ENDIF ]] ENDIF,
-    new_rpm = getRPM(st),
+              [ val:= IF speed(st)`val - step`speed < 0
+          THEN speed(st)`val - step`speed
+          ELSE 0 ENDIF ]] ENDIF,
+  new_rpm = getRPM(st),
         st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
      IN IF rpm(st) < 4 THEN gearDOWN(st) ELSE st ENDIF
 
@@ -1576,7 +1611,7 @@ main: THEORY
     LET step = speed`val / 60 * 1
      IN IF step >= 0
         THEN IF odo + step <= MAX_ODO THEN odo + step ELSE odo + step - MAX_ODO ENDIF
-    ELSE IF odo + step <= 0 THEN 0 ELSE odo + step ENDIF ENDIF
+  ELSE IF odo + step <= 0 THEN 0 ELSE odo + step ENDIF ENDIF
 
   POSX_STEP: real = 25 
   tick(st: state): state =
@@ -1585,15 +1620,15 @@ main: THEORY
     IN IF speed(st)`val > 0
        THEN LET new_speed: Speed_Val = COND action(st) = idle -> IF speed(st)`val - FRICTION > 0 THEN speed(st)`val - FRICTION ELSE 0 ENDIF,
                                             ELSE -> speed(st)`val ENDCOND,
-            st = st WITH [ speed := speed(st) WITH [ val := new_speed ]]
-         IN st WITH [ rpm := getRPM(st),
-                      odo := inc(odo(st), speed(st)),
-              posx := posx(st) WITH [ val := COND steering(st) >= 20 -> posx(st)`val + POSX_STEP,
-                                                  steering(st) <= -20 -> posx(st)`val - POSX_STEP,
-                                  ELSE -> posx(st)`val ENDCOND ],
-                  direction := COND steering(st) >= 20 -> right,
-                        steering(st) <= -20 -> left,
-                        ELSE -> straight ENDCOND ]
+          st = st WITH [ speed := speed(st) WITH [ val := new_speed ]]
+       IN st WITH [ rpm := getRPM(st),
+                    odo := inc(odo(st), speed(st)),
+        posx := posx(st) WITH [ val := COND steering(st) >= 20 -> posx(st)`val + POSX_STEP,
+                                        steering(st) <= -20 -> posx(st)`val - POSX_STEP,
+                    ELSE -> posx(st)`val ENDCOND ],
+            direction := COND steering(st) >= 20 -> right,
+              steering(st) <= -20 -> left,
+              ELSE -> straight ENDCOND ]
         ELSE st ENDIF
 
 
@@ -1617,8 +1652,7 @@ main: THEORY
   steering_wheel_rotate(x: real)(st: state): state = st WITH [ steering := x ]
 
   %-- API for new laps
-  LAP_STEP: real = 1.0 
-  new_lap(st: state): state = st WITH [  position := (# val := POSITION_INIT  #), lap := lap(st) WITH [ val:= lap(st)`val + LAP_STEP ] ]
+  set_positions_init(st: state): state = st WITH [ position := (# val := POSITION_INIT  #), posx := (# val := POSX_INIT #) ]
 
   %-- API for sound controls 
   press_mute(st: state): state = st WITH [ sound := mute ]
@@ -1690,11 +1724,6 @@ PosX: TYPE = [#
     val: real
 #]
 
-LAP_INIT: real = 1.0
-Lap: TYPE = [#
-	val: real
-#]
-
 Action: TYPE = { idle, acc, brake, pause, resume, quit }
 Direction: TYPE = { left, right, straight }
 Sound: TYPE = { unmute, mute }
@@ -1710,9 +1739,8 @@ state: TYPE = [#
 	position: Position,
 	posx: PosX,
 	action: Action,
-    direction: Direction,
+  direction: Direction,
 	sound: Sound,
-	lap: Lap
 #]
 
 getAccSportMode(g: Gear): Speed_Val =
@@ -1757,6 +1785,8 @@ brakeSportMode(st: state): state =
         st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
      IN IF rpm(st) < 4 THEN gearDOWN(st) ELSE st ENDIF
 
+set_positions_init(st: state): state = st WITH [ position := (# val := POSITION_INIT  #), posx := (# val := POSX_INIT #) ]
+
 press_startAndStop(st: state): state = startAndStop(st)
 release_startAndStop(st: state): state = st WITH [ action := idle ]
 
@@ -1764,6 +1794,6 @@ press_activateSportMode(st: state): state = activateSportMode(st)
 release_activateSportMode(st: state): state = st WITH [ action := idle ]
 ```
 
-> Position, PosX and Speed allows to set the vehicle's position and speed during the simulation. Sound allows the Arcade widget to know when to mute/unmute the audio files, using the Sound widget API. PosX value changes based on the steering wheel rotation. Position value changes based on actions 'accelerate'/'brake' and the current speed value. Actions 'pause','resume' and 'quit' allows the Arcade widget to reveal the 'pause','resume' and 'quit' menus, respetively. Lap allows to set multiple laps in the simulation, updating the current lap number when new_lap function is invoked.
+> Position, PosX and Speed allows to set the vehicle's position and speed during the simulation. Sound allows the Arcade widget to know when to mute/unmute the audio files, using the Sound widget API. PosX value changes based on the steering wheel rotation. Position value changes based on actions 'accelerate'/'brake' and the current speed value. Actions 'pause','resume' and 'quit' allows the Arcade widget to reveal the 'pause','resume' and 'quit' menus, respetively. The set_positions_init function is invoked when a new lap begins in the Arcade Widget. This function resets the position and posx values in PVS. This is necessary to allow the vehicle to be placed at the beginning of the track and to restart the new rendering sequentially, with the least impact to the user.
 
 > Specifications 'startAndStop' and 'activateSportMode' are defining the behaviour, in the realistic demo done for the conference ICGI 2018 paper. That is, is the specification that allows to simulate the activation of the sport mode when the proper button is clicked and observe the design issue/flaw reported by many drivers, which led its manufacturer to recall the vehicles and replace that design. 

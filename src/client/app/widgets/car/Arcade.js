@@ -1,13 +1,13 @@
 /**
  * @module Arcade
- * @version 2.0.0
+ * @version 3.0.0
  * @author José Carlos
  * @desc This module draws the 2D arcade driving simulator, using HTML5 Canvas.
  *
  * @date Apr 02, 2018
- * last modified @date Jun 16, 2018
+ * last modified @date Jul 21, 2018
  *
- * @example <caption>Usage of API to create a new simulation within a PVSio-web demo, after creating a track with curves and slopes, and using a car as a vehicle.
+ * @example <caption>Usage of API to create a new simulation within a PVSio-web demo, after creating a track with curves and slopes, and using either a car or a airplane or a helicopter or a motorbike or a bicycle as a vehicle.
  * Opt field trackFilename is the JSON file, which was created by TrackGenerator Widget or by hand or by other future Widget that creates tracks.
  * </caption>
  *   define(function (require, exports, module) {
@@ -204,7 +204,7 @@ define(function (require, exports, module) {
      *        Default is { top: 1000, left: 100, width: 500, height: 500 }.
      * @param opt {Object} Options:
      * @param [opt.parent] {String} the HTML element where the display will be appended (default is "body").
-	 * @param [opt.scaleWindow] {Float} the scale to be set on canvas (default is 2.2).
+	 * @param [opt.scaleWindow] {Float} the scale to be set on canvas (default is 1).
 	 * @param [opt.trackFilename] {String} the track configuration filename, i.e. JSON file with the track that will be drawed as well as the required sprite coordinates, etc (default is "track").
 	 * @param [opt.spritesFilename] {String} the spritesheet configuration filename, i.e. JSON file with the all available sprites, whose coordinates are the same in trackFilename, i.e. the track must have been generated with this JSON as well so the coordinates will match (default is "spritesheet").
 	 * @param [opt.spritesFiles] {Array} array with spritesheets(images) names (default is ["spritesheet","spritesheet.text"]).
@@ -215,7 +215,7 @@ define(function (require, exports, module) {
 	 * @param [opt.useVehicle] {Bool} value that indicates if arcade will display a sprite of the vehicle (default is true).
 	 * @param [opt.vehicle] {String} the type of vehicle to be used in the simulation. The types available are ["airplane", "bicycle", "car", "helicopter", "motorbike"]. It should be noted that these types must exist in the spritesheet if they are to be used. (default is "car").
 	 * @param [opt.stripePositions] {Object} position values and respective widths (borders, track and finish line) to be rendered on a stripe. (default is { trackP1: -0.55, trackP2: 0.55, borderWidth: 0.08, inOutBorderWidth: 0.02, landscapeOutBorderWidth: 0.13, diffTrackBorder: 0.05, finishLineP1: -0.40, finishLineP2: 0.40, diffLanesFinishLine: 0.05 }).
-	 * @param [opt.lapNumber] {Int} the number of desired laps in the simulation (default is 2 laps).
+	 * @param [opt.lapNumber] {Int} the number of desired laps in the simulation (default is 0 laps, i.e. infinite simulation).
 	 * @param [opt.showOfficialLogo] {Bool} the option to render extra image, on the bottom-left corner, which is the PVSio-web logo created in this thesis (default is false).
 	 * @param [opt.loadPVSSpeedPositions] {Bool} allows to use PVS calculated positions and speed in the simulation. (default is true).
 	 * @param [opt.predefinedTracks] {Int} allows to use predefined tracks, present on JSON files with filename "trackLayout"+predefined+".json", in car/configurations/ directory. (default is null).
@@ -984,15 +984,6 @@ define(function (require, exports, module) {
 		}
 
         this.onPageLoad(this.spritesFiles);
-        // Solution derived from https://stackoverflow.com/questions/2749244/javascript-setinterval-and-this-solution
-        // this.loadingTrackNrIterations = setInterval(
-        //     (function(self) {         //Self-executing func which takes 'this' as self
-        //         return function() {   //Return a function in the context of 'self'
-        //             self.getNrIterations(); //Thing you wanted to run as non-window 'this'
-        //         }
-        //     })(this),
-        //     500     //normal interval, 'this' scope not impacted here.
-        // ); 
         return this;
     };
 
@@ -1065,7 +1056,7 @@ define(function (require, exports, module) {
      /**
      * @function renderPauseMenu
      * @private
-     * @description RenderPauseMenu method of the Arcade widget. This method draws the simulator pause page, where the commands to control the simulator and to resume the simulation(renderSimulatorFrame) are displayed.
+     * @description RenderPauseMenu method of the Arcade widget. This method draws the simulator pause page, where the commands to control the simulator and to resume the simulation(renderEachSimulationFrame) are displayed.
      * It is also resumed the lap timer, using jchronometer lib, as soon as the user uses the command to resume the simulation.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -1132,7 +1123,7 @@ define(function (require, exports, module) {
     /**
      * @function renderEndMenu
      * @private
-     * @description RenderEndMenu method of the Arcade widget. This method draws the simulator end page, where the commands to control the simulator and to start another simulation(renderSimulatorFrame) are displayed.
+     * @description RenderEndMenu method of the Arcade widget. This method draws the simulator end page, where the commands to control the simulator and to start another simulation(renderEachSimulationFrame) are displayed.
      * It is also initialized the new lap timer, using jchronometer lib, as soon as the user uses the command to start the new simulation.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
@@ -1209,7 +1200,7 @@ define(function (require, exports, module) {
      * @function renderSimulation
      * @private
      * @description RenderSimulation method of the Arcade widget. This method draws the simulator home page, where the commands to control the simulator are displayed.
-     * It is also initialized the lap timer, using jchronometer lib, as soon as the user uses the command to start the simulation(renderSimulatorFrame).
+     * It is also initialized the lap timer, using jchronometer lib, as soon as the user uses the command to start the simulation(renderEachSimulationFrame).
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
      * @instance

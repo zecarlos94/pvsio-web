@@ -28,13 +28,13 @@
         <article>
             <pre class="prettyprint source linenums"><code>/**
  * @module TrackGenerator
- * @version 2.0.0
+ * @version 3.0.0
  * @author José Carlos
  * @desc This module allows to either generate randomly or generate based on trackLayout optional field the track, which will be used to create the environment of the 2D driving simulator, using HTML5 Canvas.
  * The trackLayout optional field allows to specifiy the desired layout, which will be parsed and iterated to create all segments that matches that layout.
  *
  * @date Apr 02, 2018
- * last modified @date Jun 16, 2018
+ * last modified @date Jul 21, 2018
  *
  *
  * @example &lt;caption>Usage of public API to create a desired track, using trackLayout, with straight lines, curves and slopes.&lt;/caption>
@@ -55,11 +55,9 @@
  *           parent: "content", // defines parent div, which is div id="body" by default
  *           spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *           render: {
- *               width: 320,
- *               height: 240,
  *               depthOfField: 150,
  *               camera_distance: 30,
- *               camera_height: 100
+ *               camera_height: 320
  *           },
  *           trackSegmentSize: 5,
  *           numberOfSegmentPerColor: 4,
@@ -69,16 +67,16 @@
  *               numZones:    12, // number of different portions of the track
  *               zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
  *           },
- *           // Information regarding current controllable_car's car
- *           controllable_car: {
+ *           // Information regarding current controllable_vehicle's car
+ *           controllable_vehicle: {
  *               position: 10,
  *               speed: 0,
  *               acceleration: 0.05,
- *               deceleration: 0.04,
- *               breaking: 0.3,
+ *               deceleration: 0.3,
+ *               breaking: 0.6,
  *               turning: 5.0,
  *               posx: 0,
- *               maxSpeed: 20
+ *               maxSpeed: 15
  *           },
  *           objects: [
  *            {
@@ -341,14 +339,24 @@
  * in the previous example, as it follows,&lt;/caption>
  *
  *           trackLayout: [ 
- *               // describing the desired track, which is a 12-zone straight line, i.e. track with only straight lines with length 12. 
+ *               // describing the desired track, which is a 12-zone straight line, i.e. track with only straight lines with length 12, and it will place a 'traffic_cone'
+ *               // sprite on zone 10, on horizontal position -0.5 (left side the track) at a distance of 80 in relation with the zoneSize (by default is 250). 
  *               {
  *                   topography: {
  *                       name:"straight",
  *                       curvature: 0
  *                   },
  *                   profile: "flat",
- *                   numZones: 12
+ *                   numZones: 12,
+ *                   trafficSignals: [
+ *                       {
+ *                           filename:"traffic_cone",
+ *                           scale: 3.4,
+ *                           zone: 10,
+ *                           posX: -0.5,
+ *                           zoneDistance: 80 // (max distance is zoneSize) 
+ *                       }
+ *                  ]
  *               }
  *            ]
  *
@@ -398,15 +406,15 @@ define(function (require, exports, module) {
      * @param opt {Object} Options:
      * @param [opt.parent] {String} the HTML element where the display will be appended (default is "body").
      * @param [opt.spritesFilename] {String} the spritesheet filename(json file) that will be loaded (default is "spritesheet").
-     * @param [opt.render] {Object} the rendering configurations, i.e. width, height, etc. (default is {width: 320, height: 240, depthOfField: 150, camera_distance: 30, camera_height: 100}).
+     * @param [opt.render] {Object} the rendering configurations, i.e. width, height, etc. (default is {depthOfField: 150, camera_distance: 30, camera_height: 320}).
      * @param [opt.trackSegmentSize] {Int} the size of the track segment (default is 5).
      * @param [opt.numberOfSegmentPerColor] {Int} the number of segments per color, i.e. how many sequenced segments to alternate colors (default is 4).
      * @param [opt.numLanes] {Int} the number of lanes the track will be draw (default is 3).
      * @param [opt.laneWidth] {Float} the width of the lane separator (default is 0.02).
      * @param [opt.trackParam] {Object} the track configurations, i.e. number of zones(track length), etc (default is {numZones: 12, zoneSize: 250}).
-     * @param [opt.controllable_car] {Object} the vehicle configurations, i.e. initial position, acceleration and deceleration values, etc (default is {position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20}).
-     * @param [opt.objects] {Array} the sprite names to be drawed in the landscape (default is ["tree","rock"]).
-     * @param [opt.obstacle] {Array} the sprite names to be drawed within the track as obstacles (default is ["rock"]).
+     * @param [opt.controllable_vehicle] {Object} the vehicle configurations, i.e. initial position, acceleration and deceleration values, etc (default is {position: 10, speed: 0, acceleration: 0.05, deceleration: 0.3, breaking: 0.6, turning: 5.0, posx: 0, maxSpeed: 15}).
+     * @param [opt.objects] {Array} the sprite names to be drawed in the landscape (default is []).
+     * @param [opt.obstacle] {Array} the sprite names to be drawed within the track as obstacles (default is []).
      * @param [opt.trackLayout] {Array} the track layout that will be used to create the corresponding segments. (default is []).
      * @param [opt.trackColors] {Array} the track colors that will be used to color the segments in each stripe. (default is {grass1: "#699864", border1: "#e00", border2: "#fff", outborder1: "#496a46", outborder_end1: "#474747", track_segment1: "#777", lane1: "#fff", lane2: "#777", laneArrow1: "#00FF00", track_segment_end:"#000", lane_end: "#fff"}).
      * @param [opt.obstaclePerIteration] {Int} the number of iterations where a new obstacle will be placed within the track (default is 50).
@@ -425,7 +433,7 @@ define(function (require, exports, module) {
         opt.numLanes = opt.numLanes;
         opt.laneWidth = opt.laneWidth;
         opt.trackParam = opt.trackParam; 
-        opt.controllable_car = opt.controllable_car;
+        opt.controllable_vehicle = opt.controllable_vehicle;
         opt.objects = opt.objects;
         opt.obstacle = opt.obstacle;
         opt.trackLayout = opt.trackLayout;
@@ -446,14 +454,14 @@ define(function (require, exports, module) {
         // Random numbers to place sprites randomly within the landscape territory
         this.randomPos = Math.random;
         
-        this.renderCanvas            = (opt.render) ? opt.render : { width: 320, height: 240, depthOfField: 150, camera_distance: 30, camera_height: 100 };
+        this.renderCanvas            = (opt.render) ? opt.render : { depthOfField: 150, camera_distance: 30, camera_height: 320 };
         this.trackSegmentSize        = (opt.trackSegmentSize) ? opt.trackSegmentSize : 5;
         this.numberOfSegmentPerColor = (opt.numberOfSegmentPerColor) ? opt.numberOfSegmentPerColor : 4;
         this.numLanes                = (opt.numLanes) ? opt.numLanes : 3;
         this.laneWidth               = (opt.laneWidth) ? opt.laneWidth: 0.02;
         this.trackParam              = (opt.trackParam) ? opt.trackParam : { numZones: 12, /*number of different portions of the track*/ zoneSize:  250 /*length of each numZones (the bigger this value. the longer it will take to finish)*/ };        
         this.params                  = JSON.parse(JSON.stringify(this.trackParam));
-        this.controllable_car        = (opt.controllable_car) ? opt.controllable_car : { position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20 };
+        this.controllable_vehicle        = (opt.controllable_vehicle) ? opt.controllable_vehicle : { position: 10, speed: 0, acceleration: 0.05, deceleration: 0.3, breaking: 0.6, turning: 5.0, posx: 0, maxSpeed: 15 };
 
         this.objects  = (opt.objects) ? opt.objects : [];
         this.obstacle = (opt.obstacle) ? opt.obstacle : [];
@@ -473,9 +481,9 @@ define(function (require, exports, module) {
         };
         this.obstaclePerIteration = (opt.obstaclePerIteration) ? opt.obstaclePerIteration : 50;
 
-        let trackLayout2 = [];        
-        this.trackLayout.forEach(el => trackLayout2.unshift(el));
-        this.trackLayout = trackLayout2;
+        // let trackLayout2 = [];        
+        // this.trackLayout.forEach(el => trackLayout2.unshift(el));
+        // this.trackLayout = trackLayout2;
 
         this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
         this.spritesFilename = (opt.spritesFilename) ? ("text!widgets/car/configurations/" + opt.spritesFilename + ".json") : "text!widgets/car/configurations/spritesheet.json";
@@ -511,112 +519,93 @@ define(function (require, exports, module) {
      * @function generateTrackBasedOnTrackLayoutOptField
      * @public  
      * @description GenerateTrackBasedOnTrackLayoutOptField method of the TrackGenerator widget. This method generates the track present in the trackLayout opt field.
-     * Every obstaclePerIteration iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
-     * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no).
-     * It also has information about the randomly generated position and the type of sprite, i.e. the sprite provided as opt from the available list (obtained in the spritesheet.json file)
-     * During the remaining iterations (which will not be considered as obstacles on the road), a value is randomly generated to decide in which side it will be placed (spriteSidesRandom).
-     * Then the position on that side is also randomly generated in spritePos (given by spritePosRightRandom or spritePosLeftRandom).
-     * Before finishing, another random number is generated to know how far to put the sprite on the selected side in relation to the landscape/track separator, in order to have
-     * sprites randomly scattered, but balanced (instead of being concentrated in a given area).
-     * After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in and whether those are obstacles or not,
-     * a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
+     * Every obstaclePerIteration iterations an obstacle is placed on a part of the track, based on 'positionsX' array values (horizontal positions).
+     * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no), and has information about the scale that Arcade widget will apply,
+     * when rendering that sprite, in the scale field.
+     * It also has information about the position choosen from 'positionsX' array and the type of sprite, i.e. the sprite provided as opt from the available list, in 'filename' (obtained in the spritesheet.json file)
+     * During the remaining iterations (which will not be considered as obstacles on the road), the sprites provided in 'objects' opt field will be used as the 'obstacles'. That is, a new sprite will be choosen from that 
+     + array, and it will use the position values obtained from its 'positionsX' array as well as the scale to apply in the rendering process.
+     * After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in, whether those are obstacles or not and what scale must be applied during 
+     * the rendering process, a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
      * within this context on the PVSio-web platform.
      * @memberof module:TrackGenerator
      * @instance
      */
-    TrackGenerator.prototype.generateTrackBasedOnTrackLayoutOptField = function () {
+    TrackGenerator.prototype.generateTrackBasedOnTrackLayoutOptField = function () { 
         this.loadFile();
         setTimeout(
             (function(self) {         //Self-executing func which takes 'this' as self
-                return function() {   //Return a function in the context of 'self'
-                   //Thing you wanted to run as non-window 'this'
-
+                return function() { 
                     let sprite = false;
+                    let spriteScale=1;
                     let chooseIndexFromObjects=null;
                     let chooseObjectFromDesiredObjects=null;
                     let chooseIndexFromObstacle=null;
                     let chooseObstacleFromDesiredObstacle=null;
                     let index=null;
-                    let iter = 0;
-                    let finalNumZones = 0;
-                    self.trackLayout.forEach(el => iter+=el.numZones);
-                    finalNumZones = iter;
-                    
                     let currentZone = {
                         height: 0,
                         curve: 0
                     };
+                    let iterAux=0;
+                    let topographyRead=[];
 
-                    let tmpIter=1;
-                    let tmpPos=1;
-                    let zoneDistanceSprite=0;
-                    let trafficSignalSprite=null;
-                    let numtrafficSignalPlacement=0;
-                    let zoneNumbertrafficSignalSprite=null;
-                    let spriteScale=1;
-
-                    while(iter){
-                        if(tmpIter&lt;=self.trackLayout[self.trackLayout.length-tmpPos].numZones){
-                            // Generate current Zone
-                            let intendedHeightForCurrentZone;
-                            let intendedCurveForCurrentZone = parseInt(self.trackLayout[self.trackLayout.length-tmpPos].topography.curvature);
-
-                            switch(self.trackLayout[self.trackLayout.length-tmpPos].profile){
-                                case "flat":
-                                    intendedHeightForCurrentZone=0;
-                                    break; 
-                                case "up": 
-                                    intendedHeightForCurrentZone = 900 * self.randomPos(); // Ease vertical transitions
-                                    break;
-                                case "down": 
-                                    intendedHeightForCurrentZone = -900 * self.randomPos();
-                                    break;  
+                    self.trackLayout.forEach(el => {
+                        iterAux+=el.numZones;
+                        for(let j=0;j&lt;el.numZones;j++){
+                            for(let l=0;l&lt;el.trafficSignals.length;l++){
+                                el.trafficSignals[l].drawed=false;
                             }
-                                    
-                            self.trackLayout[self.trackLayout.length-tmpPos].trafficSignals.forEach(el => {
-                                    if(el.zone===tmpIter){
-                                        index = self.spritesAvailable.findIndex(el2 => el2.name === el.filename);
-                                        zoneDistanceSprite = el.zoneDistance;
-                                        zoneNumbertrafficSignalSprite = el.zone;
-                                        spriteScale = el.scale;
-                                        trafficSignalSprite = {type: self.spritesAvailable[index].value, pos: el.posX, obstacle: 0, scale: spriteScale};
-                                    }
-                                }
-                            );
+                            topographyRead.push(el);
+                        }
+                    });
 
-                            for(let i=0; i &lt; self.params.zoneSize; i++){
-                                if(zoneNumbertrafficSignalSprite===tmpIter){
-                                    if(i===zoneDistanceSprite){
-                                        if(numtrafficSignalPlacement===0){
-                                            sprite=trafficSignalSprite;
-                                            numtrafficSignalPlacement++;
+                    if(self.trackParam.numZones!==iterAux){
+                        self.trackParam.numZones=iterAux;
+                    }
+                    
+                    let iter = self.trackParam.numZones;
+                    let tmpIter=0;
+                    while(tmpIter&lt;iter){
+                        // Generate current Zone
+                        let intendedHeightForCurrentZone;
+                        let intendedCurveForCurrentZone;
+
+                        switch(topographyRead[tmpIter].profile){
+                            case "flat":
+                                intendedHeightForCurrentZone=0;
+                                break; 
+                            case "up": 
+                                intendedHeightForCurrentZone = 900 * self.randomPos();
+                                break;
+                            case "down": 
+                                intendedHeightForCurrentZone = - 900 * self.randomPos();
+                                break;  
+                        }
+
+                        switch(topographyRead[tmpIter].topography.name){
+                            case "straight":
+                                intendedCurveForCurrentZone=0;
+                                break; 
+                            case "left": 
+                                intendedCurveForCurrentZone = (parseInt(topographyRead[tmpIter].topography.curvature) * 10) * self.randomPos();
+                                break;
+                            case "right": 
+                                intendedCurveForCurrentZone = (parseInt(topographyRead[tmpIter].topography.curvature) * 10) * self.randomPos();
+                                break;  
+                        }
+
+                        for(let i=0; i &lt; self.trackParam.zoneSize; i++){
+                            for(let k=0;k&lt;topographyRead[tmpIter].trafficSignals.length;k++){
+                                if(topographyRead[tmpIter].trafficSignals[k].drawed===false){
+                                    if(topographyRead[tmpIter].trafficSignals[k].zone===(tmpIter+1) &amp;&amp; topographyRead[tmpIter].trafficSignals[k].zoneDistance===i){
+                                        if(topographyRead[tmpIter].trafficSignals[k].drawed){
+                                            break;
                                         }
-                                    }
-                                    else if(i===self.params.zoneSize-1){
-                                        numtrafficSignalPlacement=0;
-                                    }
-                                    else{
-                                        if(i%self.obstaclePerIteration==0){
-                                            if(self.obstacle.length!==0){
-                                                // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
-                                                // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
-                                                chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
-                                                chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
-                                                index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle.filename);
-                                                spriteScale = chooseObstacleFromDesiredObstacle.scale;
-                                                sprite = {type: self.spritesAvailable[index].value, pos: chooseObstacleFromDesiredObstacle.positionsX[Math.floor((self.randomPos() * (chooseObstacleFromDesiredObstacle.positionsX.length)))], obstacle: 1, scale: spriteScale};
-                                            }
-                                        }
-                                        else {
-                                            if(self.objects.length!==0){
-                                                // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
-                                                chooseIndexFromObjects = Math.floor(self.randomPos() * (self.objects.length));
-                                                chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
-                                                spriteScale = chooseObjectFromDesiredObjects.scale;
-                                                index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects.filename);
-                                                sprite = {type: self.spritesAvailable[index].value, pos: chooseObjectFromDesiredObjects.positionsX[Math.floor((self.randomPos() * (chooseObjectFromDesiredObjects.positionsX.length)))], obstacle: 0, scale: spriteScale};
-                                            }
-                                        } 
+                                        index = self.spritesAvailable.findIndex(el2 => el2.name === topographyRead[tmpIter].trafficSignals[k].filename);
+                                        sprite= {type: self.spritesAvailable[index].value, pos: topographyRead[tmpIter].trafficSignals[k].posX, obstacle: 0, scale: topographyRead[tmpIter].trafficSignals[k].scale};
+                                        topographyRead[tmpIter].trafficSignals[k].drawed=true;
+                                        break;
                                     }
                                 }else{
                                     if(i%self.obstaclePerIteration==0){
@@ -625,54 +614,63 @@ define(function (require, exports, module) {
                                             // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
                                             chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
                                             chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
-                                            spriteScale = chooseObstacleFromDesiredObstacle.scale;
                                             index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle.filename);
+                                            spriteScale = chooseObstacleFromDesiredObstacle.scale;
                                             sprite = {type: self.spritesAvailable[index].value, pos: chooseObstacleFromDesiredObstacle.positionsX[Math.floor((self.randomPos() * (chooseObstacleFromDesiredObstacle.positionsX.length)))], obstacle: 1, scale: spriteScale};
                                         }
                                     }
                                     else {
                                         if(self.objects.length!==0){
                                             // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
-                                            chooseIndexFromObjects = Math.floor(self.randomPos() * (self.objects.length));
+                                            chooseIndexFromObjects = Math.floor((self.randomPos() * self.objects.length));
                                             chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
-                                            spriteScale = chooseObjectFromDesiredObjects.scale;
                                             index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects.filename);
+                                            spriteScale = chooseObjectFromDesiredObjects.scale;
                                             sprite = {type: self.spritesAvailable[index].value, pos: chooseObjectFromDesiredObjects.positionsX[Math.floor((self.randomPos() * (chooseObjectFromDesiredObjects.positionsX.length)))], obstacle: 0, scale: spriteScale};
                                         }
-                                    } 
+                                    }
                                 }
-
-                                // Draw segments next to each other with 'i/params.zoneSize'
-                                // Avoid horizontal gaps with 'Math.PI-Math.PI/2'
-                                // Avoid vertical gaps with '1 +' 
-                                // Better perspective with '2*'
-                                // 2 * (1 + Math.sin(i/params.zoneSize *))
-                                self.generatedTrack.push({
-                                    height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/self.params.zoneSize * Math.PI-Math.PI/2)),
-                                    curve: currentZone.curve+intendedCurveForCurrentZone / 2 * (1 + Math.sin(i/self.params.zoneSize * Math.PI-Math.PI/2)),
-                                    sprite: sprite
-                                })
                             }
 
-                            currentZone.height += intendedHeightForCurrentZone;
-                            currentZone.curve += intendedCurveForCurrentZone;
-
-                            tmpIter++;
-                            iter--;
-                            
-                        }else{
-                            tmpIter=1;
-                            if(tmpPos&lt;=self.trackLayout.length) {
-                                tmpPos++;
+                            if(sprite===false){
+                                if(i%self.obstaclePerIteration==0){
+                                    if(self.obstacle.length!==0){
+                                        // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
+                                        // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
+                                        chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
+                                        chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
+                                        spriteScale = chooseObstacleFromDesiredObstacle.scale;
+                                        index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle.filename);
+                                        sprite = {type: self.spritesAvailable[index].value, pos: chooseObstacleFromDesiredObstacle.positionsX[Math.floor((self.randomPos() * (chooseObstacleFromDesiredObstacle.positionsX.length)))], obstacle: 1, scale: spriteScale};
+                                    }
+                                }
+                                else {
+                                    if(self.objects.length!==0){
+                                        // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
+                                        chooseIndexFromObjects = Math.floor(self.randomPos() * (self.objects.length));
+                                        chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
+                                        spriteScale = chooseObjectFromDesiredObjects.scale;
+                                        index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects.filename);
+                                        sprite = {type: self.spritesAvailable[index].value, pos: chooseObjectFromDesiredObjects.positionsX[Math.floor((self.randomPos() * (chooseObjectFromDesiredObjects.positionsX.length)))], obstacle: 0, scale: spriteScale};
+                                    }
+                                } 
                             }
+
+                            self.generatedTrack.push({
+                                height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/self.trackParam.zoneSize * Math.PI-Math.PI/2)),
+                                curve: currentZone.curve+intendedCurveForCurrentZone / 2 * (1 + Math.sin(i/self.trackParam.zoneSize * Math.PI-Math.PI/2)),
+                                sprite: sprite
+                            })
+                    
                         }
+                        currentZone.height += intendedHeightForCurrentZone;
+                        currentZone.curve += intendedCurveForCurrentZone;
+
+                        tmpIter++;
                     }
-                    self.params.numZones = finalNumZones * self.params.zoneSize;
-
-                    self.trackParam.numZones = finalNumZones;
-
+                    
                     self.generatedJSON = {
-                        controllable_car: self.controllable_car,
+                        controllable_vehicle: self.controllable_vehicle,
                         laneWidth: self.laneWidth,
                         numLanes: self.numLanes,
                         numberOfSegmentPerColor: self.numberOfSegmentPerColor,
@@ -682,13 +680,13 @@ define(function (require, exports, module) {
                         trackSegmentSize: self.trackSegmentSize,
                         trackColors: self.trackColors
                     };
-
+                    
+                    self.trackParam.numZones = self.trackParam.numZones * self.trackParam.zoneSize;
+                    
                     setTimeout(
-                        (function(self2) {         //Self-executing func which takes 'this' as self
-                            return function() {   //Return a function in the context of 'self'
+                        (function(self2) {         
+                            return function() {   
                                 d3.select("#created_"+self2.TRACKGENERATORID).text("Success: True"); 
-                                // TODO writeFile track.json with its content with Paolo Masci new API (when it has been implemented)
-                                // console.log(self2.generatedJSON);
                                 console.log(JSON.stringify(self2.generatedJSON));
                             }
                         })(self),
@@ -700,20 +698,20 @@ define(function (require, exports, module) {
         );
         return this;
     };
+    
 
     /**
      * @function generateTrackCurvesSlopes
      * @public  
      * @description GenerateTrackCurvesSlopes method of the TrackGenerator widget. This method generates the straight line simulator version.
-     * Every obstaclePerIteration iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
-     * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no).
-     * It also has information about the randomly generated position and the type of sprite, i.e. the sprite provided as opt from the available list (obtained in the spritesheet.json file)
-     * During the remaining iterations (which will not be considered as obstacles on the road), a value is randomly generated to decide in which side it will be placed (spriteSidesRandom).
-     * Then the position on that side is also randomly generated in spritePos (given by spritePosRightRandom or spritePosLeftRandom).
-     * Before finishing, another random number is generated to know how far to put the sprite on the selected side in relation to the landscape/track separator, in order to have
-     * sprites randomly scattered, but balanced (instead of being concentrated in a given area).
-     * After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in and whether those are obstacles or not,
-     * a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
+     * Every obstaclePerIteration iterations an obstacle is placed on a part of the track, based on 'positionsX' array values (horizontal positions).
+     * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no), and has information about the scale that Arcade widget will apply,
+     * when rendering that sprite, in the scale field.
+     * It also has information about the position choosen from 'positionsX' array and the type of sprite, i.e. the sprite provided as opt from the available list, in 'filename' (obtained in the spritesheet.json file)
+     * During the remaining iterations (which will not be considered as obstacles on the road), the sprites provided in 'objects' opt field will be used as the 'obstacles'. That is, a new sprite will be choosen from that 
+     + array, and it will use the position values obtained from its 'positionsX' array as well as the scale to apply in the rendering process.
+     * After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in, whether those are obstacles or not and what scale must be applied during 
+     * the rendering process, a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
      * within this context on the PVSio-web platform.
      * @example &lt;caption>Usage of public API to create randomly track, with straight lines, curves and slopes.&lt;/caption>
      * define(function (require, exports, module) {
@@ -733,11 +731,9 @@ define(function (require, exports, module) {
      *           parent: "content", // defines parent div, which is div id="body" by default
      *           spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
      *           render: {
-     *               width: 320,
-     *               height: 240,
      *               depthOfField: 150,
      *               camera_distance: 30,
-     *               camera_height: 100
+     *               camera_height: 320
      *           },
      *           trackSegmentSize: 5,
      *           numberOfSegmentPerColor: 4,
@@ -747,16 +743,16 @@ define(function (require, exports, module) {
      *               numZones:    12, // number of different portions of the track
      *               zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
      *           },
-     *           // Information regarding current controllable_car's car
-     *           controllable_car: {
+     *           // Information regarding current controllable_vehicle's car
+     *           controllable_vehicle: {
      *               position: 10,
      *               speed: 0,
      *               acceleration: 0.05,
-     *               deceleration: 0.04,
-     *               breaking: 0.3,
+     *               deceleration: 0.3,
+     *               breaking: 0.6,
      *               turning: 5.0,
      *               posx: 0,
-     *               maxSpeed: 20
+     *               maxSpeed: 15
      *           },
      *           objects: [
      *            {
@@ -864,14 +860,13 @@ define(function (require, exports, module) {
      * @memberof module:TrackGenerator
      * @instance
      */
-    TrackGenerator.prototype.generateTrackCurvesSlopes = function () {
+    TrackGenerator.prototype.generateTrackCurvesSlopes = function () { 
         this.loadFile();
         setTimeout(
             (function(self) {         //Self-executing func which takes 'this' as self
-                return function() {   //Return a function in the context of 'self'
-                    //Thing you wanted to run as non-window 'this'
-                    // Generate current Zone
+                return function() { 
                     let sprite = false;
+                    let spriteScale=1;
                     let chooseIndexFromObjects=null;
                     let chooseObjectFromDesiredObjects=null;
                     let chooseIndexFromObstacle=null;
@@ -898,10 +893,7 @@ define(function (require, exports, module) {
                         height: 0,
                         curve: 0
                     };
-
-                    let iter = self.params.numZones;
-                    let spriteScale=1;
-
+                    let iter     = self.trackParam.numZones;
                     while(iter){
                         // Generate current Zone
                         let intendedHeightForCurrentZone;
@@ -918,12 +910,12 @@ define(function (require, exports, module) {
                             case 0:
                                 intendedCurveForCurrentZone = 0; break;
                             case 1:
-                                intendedCurveForCurrentZone = - 400 * self.randomPos(); break;
+                                intendedCurveForCurrentZone = - 900 * self.randomPos(); break;
                             case -1:
-                                intendedCurveForCurrentZone = 400 * self.randomPos(); break;
+                                intendedCurveForCurrentZone = 900 * self.randomPos(); break;
                         }
-                        
-                        for(let i=0; i &lt; self.params.zoneSize; i++){
+
+                        for(let i=0; i &lt; self.trackParam.zoneSize; i++){
                             if(i%self.obstaclePerIteration==0){
                                 if(self.obstacle.length!==0){
                                     // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
@@ -945,16 +937,16 @@ define(function (require, exports, module) {
                                     sprite = {type: self.spritesAvailable[index].value, pos: chooseObjectFromDesiredObjects.positionsX[Math.floor((self.randomPos() * (chooseObjectFromDesiredObjects.positionsX.length)))], obstacle: 0, scale: spriteScale};
                                 }
                             }
-
                             self.generatedTrack.push({
-                                height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/self.params.zoneSize * Math.PI-Math.PI/2)),
-                                curve: currentZone.curve+intendedCurveForCurrentZone / 2 * (1 + Math.sin(i/self.params.zoneSize * Math.PI-Math.PI/2)),
+                                height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/self.trackParam.zoneSize * Math.PI-Math.PI/2)),
+                                curve: currentZone.curve+intendedCurveForCurrentZone / 2 * (1 + Math.sin(i/self.trackParam.zoneSize * Math.PI-Math.PI/2)),
                                 sprite: sprite
                             })
+                    
                         }
                         currentZone.height += intendedHeightForCurrentZone;
                         currentZone.curve += intendedCurveForCurrentZone;
-                
+
                         // Find next zone
                         if(self.randomPos() &lt; 0.8){
                             slopesTransitionRandom = 1+Math.round(self.randomPos());
@@ -985,13 +977,12 @@ define(function (require, exports, module) {
                             case -1:
                                 curveType = curvesTransitions.straightToLeftToLeftTransition[curvesTransitionRandom]; break;
                         }
-                
+
                         iter--;
                     }
-                    self.params.numZones = self.params.numZones * self.params.zoneSize;
-
+                    
                     self.generatedJSON = {
-                        controllable_car: self.controllable_car,
+                        controllable_vehicle: self.controllable_vehicle,
                         laneWidth: self.laneWidth,
                         numLanes: self.numLanes,
                         numberOfSegmentPerColor: self.numberOfSegmentPerColor,
@@ -1001,13 +992,13 @@ define(function (require, exports, module) {
                         trackSegmentSize: self.trackSegmentSize,
                         trackColors: self.trackColors
                     };
-
+                    
+                    self.trackParam.numZones = self.trackParam.numZones * self.trackParam.zoneSize;
+                    
                     setTimeout(
-                        (function(self2) {         //Self-executing func which takes 'this' as self
-                            return function() {   //Return a function in the context of 'self'
+                        (function(self2) {         
+                            return function() {   
                                 d3.select("#created_"+self2.TRACKGENERATORID).text("Success: True"); 
-                                // TODO writeFile track.json with its content with Paolo Masci new API (when it has been implemented)
-                                // console.log(self2.generatedJSON);
                                 console.log(JSON.stringify(self2.generatedJSON));
                             }
                         })(self),
@@ -1019,20 +1010,19 @@ define(function (require, exports, module) {
         );
         return this;
     };
-
+    
     /**
      * @function generateStraightTrack
      * @public 
      * @description GenerateStraightTrack method of the TrackGenerator widget. This method generates the straight line simulator version.
-     * Every obstaclePerIteration iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
-     * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no).
-     * It also has information about the randomly generated position and the type of sprite, i.e. the sprite provided as opt from the available list (obtained in the spritesheet.json file)
-     * During the remaining iterations (which will not be considered as obstacles on the road), a value is randomly generated to decide in which side it will be placed (spriteSidesRandom).
-     * Then the position on that side is also randomly generated in spritePos (given by spritePosRightRandom or spritePosLeftRandom).
-     * Before finishing, another random number is generated to know how far to put the sprite on the selected side in relation to the landscape/track separator, in order to have
-     * sprites randomly scattered, but balanced (instead of being concentrated in a given area).
-     * After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in and whether those are obstacles or not,
-     * a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
+     * Every obstaclePerIteration iterations an obstacle is placed on a part of the track, based on 'positionsX' array values (horizontal positions).
+     * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no), and has information about the scale that Arcade widget will apply,
+     * when rendering that sprite, in the scale field.
+     * It also has information about the position choosen from 'positionsX' array and the type of sprite, i.e. the sprite provided as opt from the available list, in 'filename' (obtained in the spritesheet.json file)
+     * During the remaining iterations (which will not be considered as obstacles on the road), the sprites provided in 'objects' opt field will be used as the 'obstacles'. That is, a new sprite will be choosen from that 
+     + array, and it will use the position values obtained from its 'positionsX' array as well as the scale to apply in the rendering process.
+     * After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in, whether those are obstacles or not and what scale must be applied during 
+     * the rendering process, a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
      * within this context on the PVSio-web platform.
      * @example &lt;caption>Usage of public API to create randomly track, with only straight lines.&lt;/caption>
      * define(function (require, exports, module) {
@@ -1052,11 +1042,9 @@ define(function (require, exports, module) {
      *           parent: "content", // defines parent div, which is div id="body" by default
      *           spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
      *           render: {
-     *               width: 320,
-     *               height: 240,
      *               depthOfField: 150,
      *               camera_distance: 30,
-     *               camera_height: 100
+     *               camera_height: 320
      *           },
      *           trackSegmentSize: 5,
      *           numberOfSegmentPerColor: 4,
@@ -1066,18 +1054,18 @@ define(function (require, exports, module) {
      *               numZones:    12, // number of different portions of the track
      *               zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
      *           },
-     *           // Information regarding current controllable_car's car
-     *           controllable_car: {
+     *           // Information regarding current controllable_vehicle's car
+     *           controllable_vehicle: {
      *               position: 10,
      *               speed: 0,
      *               acceleration: 0.05,
-     *               deceleration: 0.04,
-     *               breaking: 0.3,
+     *               deceleration: 0.3,
+     *               breaking: 0.6,
      *               turning: 5.0,
      *               posx: 0,
-     *               maxSpeed: 20
+     *               maxSpeed: 15
      *           },
-         *           objects: [
+     *           objects: [
      *            {
      *                filename:"real_tree3",
      *                scale: 1,
@@ -1182,14 +1170,11 @@ define(function (require, exports, module) {
      * @memberof module:TrackGenerator
      * @instance
      */ 
-    TrackGenerator.prototype.generateStraightTrack = function () {
+    TrackGenerator.prototype.generateStraightTrack = function () { 
         this.loadFile();
         setTimeout(
             (function(self) {         //Self-executing func which takes 'this' as self
-                return function() {   //Return a function in the context of 'self'
-                    //Thing you wanted to run as non-window 'this'
-                    // Generate current Zone
-                    let numIterations = self.params.numZones * self.params.zoneSize;
+                return function() { 
                     let sprite = false;
                     let spriteScale=1;
                     let chooseIndexFromObjects=null;
@@ -1197,41 +1182,43 @@ define(function (require, exports, module) {
                     let chooseIndexFromObstacle=null;
                     let chooseObstacleFromDesiredObstacle=null;
                     let index=null;
-                
-                    for(let i=0; i &lt; numIterations; i++){            
-                        if(i%self.obstaclePerIteration==0){
-                            if(self.obstacle.length!==0){
-                                // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
-                                // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
-                                chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
-                                chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
-                                index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle.filename);
-                                spriteScale = chooseObstacleFromDesiredObstacle.scale;
-                                sprite = {type: self.spritesAvailable[index].value, pos: chooseObstacleFromDesiredObstacle.positionsX[Math.floor((self.randomPos() * (chooseObstacleFromDesiredObstacle.positionsX.length)))], obstacle: 1, scale: spriteScale};
+                    let iter     = self.trackParam.numZones;
+                    while(iter){
+                        for(let i=0; i &lt; self.trackParam.zoneSize; i++){
+                            if(i%self.obstaclePerIteration==0){
+                                if(self.obstacle.length!==0){
+                                    // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
+                                    // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
+                                    chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
+                                    chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
+                                    index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle.filename);
+                                    spriteScale = chooseObstacleFromDesiredObstacle.scale;
+                                    sprite = {type: self.spritesAvailable[index].value, pos: chooseObstacleFromDesiredObstacle.positionsX[Math.floor((self.randomPos() * (chooseObstacleFromDesiredObstacle.positionsX.length)))], obstacle: 1, scale: spriteScale};
+                                }
                             }
-                        }
-                        else {
-                            if(self.objects.length!==0){
-                                // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
-                                chooseIndexFromObjects = Math.floor((self.randomPos() * self.objects.length));
-                                chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
-                                index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects.filename);
-                                spriteScale = chooseObjectFromDesiredObjects.scale;
-                                sprite = {type: self.spritesAvailable[index].value, pos: chooseObjectFromDesiredObjects.positionsX[Math.floor((self.randomPos() * (chooseObjectFromDesiredObjects.positionsX.length)))], obstacle: 0, scale: spriteScale};
+                            else {
+                                if(self.objects.length!==0){
+                                    // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
+                                    chooseIndexFromObjects = Math.floor((self.randomPos() * self.objects.length));
+                                    chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
+                                    index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects.filename);
+                                    spriteScale = chooseObjectFromDesiredObjects.scale;
+                                    sprite = {type: self.spritesAvailable[index].value, pos: chooseObjectFromDesiredObjects.positionsX[Math.floor((self.randomPos() * (chooseObjectFromDesiredObjects.positionsX.length)))], obstacle: 0, scale: spriteScale};
+                                }
                             }
+                            self.generatedTrack.push({
+                                height: 0,
+                                curve: 0,
+                                sprite: sprite
+                            })
+                    
                         }
 
-                        self.generatedTrack.push({
-                            height: 0,
-                            curve: 0,
-                            sprite: sprite
-                        })
+                        iter--;
                     }
-
-                    self.params.numZones = numIterations; 
-
+                    
                     self.generatedJSON = {
-                        controllable_car: self.controllable_car,
+                        controllable_vehicle: self.controllable_vehicle,
                         laneWidth: self.laneWidth,
                         numLanes: self.numLanes,
                         numberOfSegmentPerColor: self.numberOfSegmentPerColor,
@@ -1241,13 +1228,13 @@ define(function (require, exports, module) {
                         trackSegmentSize: self.trackSegmentSize,
                         trackColors: self.trackColors
                     };
-
+                    
+                    self.trackParam.numZones = self.trackParam.numZones * self.trackParam.zoneSize;
+                    
                     setTimeout(
-                        (function(self2) {         //Self-executing func which takes 'this' as self
-                            return function() {   //Return a function in the context of 'self'
+                        (function(self2) {         
+                            return function() {   
                                 d3.select("#created_"+self2.TRACKGENERATORID).text("Success: True"); 
-                                // TODO writeFile track.json with its content with Paolo Masci new API (when it has been implemented)
-                                // console.log(self2.generatedJSON);
                                 console.log(JSON.stringify(self2.generatedJSON));
                             }
                         })(self),
@@ -1259,8 +1246,7 @@ define(function (require, exports, module) {
         );
         return this;
     };
-
-
+    
     /**
      * @function loadFile
      * @private
@@ -1341,7 +1327,7 @@ define(function (require, exports, module) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Jul 15 2018 19:35:45 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jul 21 2018 11:01:04 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

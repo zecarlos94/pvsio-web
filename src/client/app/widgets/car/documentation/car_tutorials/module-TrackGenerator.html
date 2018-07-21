@@ -63,7 +63,7 @@ The trackLayout optional field allows to specifiy the desired layout, which will
 
     
     <dt class="tag-version">Version:</dt>
-    <dd class="tag-version"><ul class="dummy"><li>2.0.0</li></ul></dd>
+    <dd class="tag-version"><ul class="dummy"><li>3.0.0</li></ul></dd>
     
 
     
@@ -141,11 +141,9 @@ The trackLayout optional field allows to specifiy the desired layout, which will
           parent: "content", // defines parent div, which is div id="body" by default
           spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
           render: {
-              width: 320,
-              height: 240,
               depthOfField: 150,
               camera_distance: 30,
-              camera_height: 100
+              camera_height: 320
           },
           trackSegmentSize: 5,
           numberOfSegmentPerColor: 4,
@@ -155,16 +153,16 @@ The trackLayout optional field allows to specifiy the desired layout, which will
               numZones:    12, // number of different portions of the track
               zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
           },
-          // Information regarding current controllable_car's car
-          controllable_car: {
+          // Information regarding current controllable_vehicle's car
+          controllable_vehicle: {
               position: 10,
               speed: 0,
               acceleration: 0.05,
-              deceleration: 0.04,
-              breaking: 0.3,
+              deceleration: 0.3,
+              breaking: 0.6,
               turning: 5.0,
               posx: 0,
-              maxSpeed: 20
+              maxSpeed: 15
           },
           objects: [
            {
@@ -427,14 +425,24 @@ The trackLayout optional field allows to specifiy the desired layout, which will
 in the previous example, as it follows,</p>
     
     <pre class="prettyprint"><code>          trackLayout: [ 
-              // describing the desired track, which is a 12-zone straight line, i.e. track with only straight lines with length 12. 
+              // describing the desired track, which is a 12-zone straight line, i.e. track with only straight lines with length 12, and it will place a 'traffic_cone'
+              // sprite on zone 10, on horizontal position -0.5 (left side the track) at a distance of 80 in relation with the zoneSize (by default is 250). 
               {
                   topography: {
                       name:"straight",
                       curvature: 0
                   },
                   profile: "flat",
-                  numZones: 12
+                  numZones: 12,
+                  trafficSignals: [
+                      {
+                          filename:"traffic_cone",
+                          scale: 3.4,
+                          zone: 10,
+                          posX: -0.5,
+                          zoneDistance: 80 // (max distance is zoneSize) 
+                      }
+                 ]
               }
            ]</code></pre>
 
@@ -712,7 +720,7 @@ in the previous example, as it follows,</p>
 
             
 
-            <td class="description last">the rendering configurations, i.e. width, height, etc. (default is {width: 320, height: 240, depthOfField: 150, camera_distance: 30, camera_height: 100}).</td>
+            <td class="description last">the rendering configurations, i.e. width, height, etc. (default is {depthOfField: 150, camera_distance: 30, camera_height: 320}).</td>
         </tr>
 
     
@@ -884,7 +892,7 @@ in the previous example, as it follows,</p>
 
         <tr>
             
-                <td class="name"><code>controllable_car</code></td>
+                <td class="name"><code>controllable_vehicle</code></td>
             
 
             <td class="type">
@@ -910,7 +918,7 @@ in the previous example, as it follows,</p>
 
             
 
-            <td class="description last">the vehicle configurations, i.e. initial position, acceleration and deceleration values, etc (default is {position: 10, speed: 0, acceleration: 0.05, deceleration: 0.04, breaking: 0.3, turning: 5.0, posx: 0, maxSpeed: 20}).</td>
+            <td class="description last">the vehicle configurations, i.e. initial position, acceleration and deceleration values, etc (default is {position: 10, speed: 0, acceleration: 0.05, deceleration: 0.3, breaking: 0.6, turning: 5.0, posx: 0, maxSpeed: 15}).</td>
         </tr>
 
     
@@ -943,7 +951,7 @@ in the previous example, as it follows,</p>
 
             
 
-            <td class="description last">the sprite names to be drawed in the landscape (default is ["tree","rock"]).</td>
+            <td class="description last">the sprite names to be drawed in the landscape (default is []).</td>
         </tr>
 
     
@@ -976,7 +984,7 @@ in the previous example, as it follows,</p>
 
             
 
-            <td class="description last">the sprite names to be drawed within the track as obstacles (default is ["rock"]).</td>
+            <td class="description last">the sprite names to be drawed within the track as obstacles (default is []).</td>
         </tr>
 
     
@@ -1183,15 +1191,14 @@ in the previous example, as it follows,</p>
 
 <div class="description">
     GenerateStraightTrack method of the TrackGenerator widget. This method generates the straight line simulator version.
-Every obstaclePerIteration iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
-The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no).
-It also has information about the randomly generated position and the type of sprite, i.e. the sprite provided as opt from the available list (obtained in the spritesheet.json file)
-During the remaining iterations (which will not be considered as obstacles on the road), a value is randomly generated to decide in which side it will be placed (spriteSidesRandom).
-Then the position on that side is also randomly generated in spritePos (given by spritePosRightRandom or spritePosLeftRandom).
-Before finishing, another random number is generated to know how far to put the sprite on the selected side in relation to the landscape/track separator, in order to have
-sprites randomly scattered, but balanced (instead of being concentrated in a given area).
-After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in and whether those are obstacles or not,
-a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
+Every obstaclePerIteration iterations an obstacle is placed on a part of the track, based on 'positionsX' array values (horizontal positions).
+The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no), and has information about the scale that Arcade widget will apply,
+when rendering that sprite, in the scale field.
+It also has information about the position choosen from 'positionsX' array and the type of sprite, i.e. the sprite provided as opt from the available list, in 'filename' (obtained in the spritesheet.json file)
+During the remaining iterations (which will not be considered as obstacles on the road), the sprites provided in 'objects' opt field will be used as the 'obstacles'. That is, a new sprite will be choosen from that 
+     + array, and it will use the position values obtained from its 'positionsX' array as well as the scale to apply in the rendering process.
+After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in, whether those are obstacles or not and what scale must be applied during 
+the rendering process, a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
 within this context on the PVSio-web platform.
 </div>
 
@@ -1279,11 +1286,9 @@ within this context on the PVSio-web platform.
           parent: "content", // defines parent div, which is div id="body" by default
           spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
           render: {
-              width: 320,
-              height: 240,
               depthOfField: 150,
               camera_distance: 30,
-              camera_height: 100
+              camera_height: 320
           },
           trackSegmentSize: 5,
           numberOfSegmentPerColor: 4,
@@ -1293,16 +1298,16 @@ within this context on the PVSio-web platform.
               numZones:    12, // number of different portions of the track
               zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
           },
-          // Information regarding current controllable_car's car
-          controllable_car: {
+          // Information regarding current controllable_vehicle's car
+          controllable_vehicle: {
               position: 10,
               speed: 0,
               acceleration: 0.05,
-              deceleration: 0.04,
-              breaking: 0.3,
+              deceleration: 0.3,
+              breaking: 0.6,
               turning: 5.0,
               posx: 0,
-              maxSpeed: 20
+              maxSpeed: 15
           },
           objects: [
            {
@@ -1424,15 +1429,14 @@ within this context on the PVSio-web platform.
 
 <div class="description">
     GenerateTrackBasedOnTrackLayoutOptField method of the TrackGenerator widget. This method generates the track present in the trackLayout opt field.
-Every obstaclePerIteration iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
-The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no).
-It also has information about the randomly generated position and the type of sprite, i.e. the sprite provided as opt from the available list (obtained in the spritesheet.json file)
-During the remaining iterations (which will not be considered as obstacles on the road), a value is randomly generated to decide in which side it will be placed (spriteSidesRandom).
-Then the position on that side is also randomly generated in spritePos (given by spritePosRightRandom or spritePosLeftRandom).
-Before finishing, another random number is generated to know how far to put the sprite on the selected side in relation to the landscape/track separator, in order to have
-sprites randomly scattered, but balanced (instead of being concentrated in a given area).
-After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in and whether those are obstacles or not,
-a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
+Every obstaclePerIteration iterations an obstacle is placed on a part of the track, based on 'positionsX' array values (horizontal positions).
+The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no), and has information about the scale that Arcade widget will apply,
+when rendering that sprite, in the scale field.
+It also has information about the position choosen from 'positionsX' array and the type of sprite, i.e. the sprite provided as opt from the available list, in 'filename' (obtained in the spritesheet.json file)
+During the remaining iterations (which will not be considered as obstacles on the road), the sprites provided in 'objects' opt field will be used as the 'obstacles'. That is, a new sprite will be choosen from that 
+     + array, and it will use the position values obtained from its 'positionsX' array as well as the scale to apply in the rendering process.
+After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in, whether those are obstacles or not and what scale must be applied during 
+the rendering process, a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
 within this context on the PVSio-web platform.
 </div>
 
@@ -1515,15 +1519,14 @@ within this context on the PVSio-web platform.
 
 <div class="description">
     GenerateTrackCurvesSlopes method of the TrackGenerator widget. This method generates the straight line simulator version.
-Every obstaclePerIteration iterations an obstacle is randomly placed on a part of the track, i.e. between the track and landscape separators.
-The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no).
-It also has information about the randomly generated position and the type of sprite, i.e. the sprite provided as opt from the available list (obtained in the spritesheet.json file)
-During the remaining iterations (which will not be considered as obstacles on the road), a value is randomly generated to decide in which side it will be placed (spriteSidesRandom).
-Then the position on that side is also randomly generated in spritePos (given by spritePosRightRandom or spritePosLeftRandom).
-Before finishing, another random number is generated to know how far to put the sprite on the selected side in relation to the landscape/track separator, in order to have
-sprites randomly scattered, but balanced (instead of being concentrated in a given area).
-After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in and whether those are obstacles or not,
-a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
+Every obstaclePerIteration iterations an obstacle is placed on a part of the track, based on 'positionsX' array values (horizontal positions).
+The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no), and has information about the scale that Arcade widget will apply,
+when rendering that sprite, in the scale field.
+It also has information about the position choosen from 'positionsX' array and the type of sprite, i.e. the sprite provided as opt from the available list, in 'filename' (obtained in the spritesheet.json file)
+During the remaining iterations (which will not be considered as obstacles on the road), the sprites provided in 'objects' opt field will be used as the 'obstacles'. That is, a new sprite will be choosen from that 
+     + array, and it will use the position values obtained from its 'positionsX' array as well as the scale to apply in the rendering process.
+After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in, whether those are obstacles or not and what scale must be applied during 
+the rendering process, a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
 within this context on the PVSio-web platform.
 </div>
 
@@ -1611,11 +1614,9 @@ within this context on the PVSio-web platform.
           parent: "content", // defines parent div, which is div id="body" by default
           spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
           render: {
-              width: 320,
-              height: 240,
               depthOfField: 150,
               camera_distance: 30,
-              camera_height: 100
+              camera_height: 320
           },
           trackSegmentSize: 5,
           numberOfSegmentPerColor: 4,
@@ -1625,16 +1626,16 @@ within this context on the PVSio-web platform.
               numZones:    12, // number of different portions of the track
               zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
           },
-          // Information regarding current controllable_car's car
-          controllable_car: {
+          // Information regarding current controllable_vehicle's car
+          controllable_vehicle: {
               position: 10,
               speed: 0,
               acceleration: 0.05,
-              deceleration: 0.04,
-              breaking: 0.3,
+              deceleration: 0.3,
+              breaking: 0.6,
               turning: 5.0,
               posx: 0,
-              maxSpeed: 20
+              maxSpeed: 15
           },
           objects: [
            {
@@ -2007,7 +2008,7 @@ within this context on the PVSio-web platform.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Jul 15 2018 19:35:54 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jul 21 2018 11:35:36 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>
