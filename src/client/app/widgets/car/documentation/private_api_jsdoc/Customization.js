@@ -7,27 +7,495 @@
  * @date Apr 04, 2018
  * last modified @date Jun 16, 2018
  *
+ * @example <caption>Defining initial CSS properties and re-render CSS properties after ending customization options. </caption>
+ *
+ *	Before declaring Customization it is advised to define all CSS before and after rendering the Customization Widget,
+ *  		
+ *          let initWindowCSSValues = [
+ *              {
+ *                  id: "mySidenav",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "width",
+ *                          value: "630px"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "menu",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "margin-left",
+ *                          value: "450px"
+ *                      },
+ *                      {
+ *                          property: "visibility",
+ *                          value: "hidden"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "game-window",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "border",
+ *                          value: "5px solid black"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "instructions",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "margin-left",
+ *                          value: "-60px"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: null,
+ *                  class: "dashboard-widgets",
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "hidden"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "steering_wheel",
+ *                  class: "last-steering_wheel",
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "hidden"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "track_img",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              }
+ *          ];
+ *
+ *          let reRenderedWindowCSSValues = [
+ *              {
+ *                  id: "steering_wheel",
+ *                  class: "last-steering_wheel",
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "block"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "mySidenav",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "width",
+ *                          value: "0px"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "menu",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "margin-left",
+ *                          value: "-170px"
+ *                      },
+ *                      {
+ *                          property: "margin-left",
+ *                          value: "0px"
+ *                      },
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "track_img",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "hidden"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "game-window",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "border",
+ *                          value: "none"
+ *                      },
+ *						{
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "instructions",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "margin-left",
+ *                          value: "650px"
+ *                      },
+ *                      {
+ *                          property: "margin-top",
+ *                          value: "-220px"
+ *                      },
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeTopography_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeSpritesheetJSONFilename_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeSpritesheetImages_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeLandscapeObjects_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeTrackObstacles_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeTrackParams_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "writeArcadeVehicle_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "colorPicker_customization-widget",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "gauges",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "position",
+ *                          value: "absolute"
+ *                      },
+ *                      {
+ *                          property: "margin-left",
+ *                          value: "280px"
+ *                      },
+ *                      {   
+ *                          property: "margin-top",
+ *                          value: "200px"
+ *                      },
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "steering_wheel",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "margin-top",
+ *                          value: "200px"
+ *                      },
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "mobileDevicesController",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: "gamepadImage",
+ *                  class: null,
+ *                  styles: [
+ *                      {
+ *                          property: "visibility",
+ *                          value: "visible"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: null,
+ *                  class: "dashboard-widgets",
+ *                  styles: [
+ *                      {
+ *                          property: "margin-top",
+ *                          value: "200px"
+ *                      }
+ *                  ]
+ *              },
+ *              {
+ *                  id: null,
+ *                  class: "customization_customization-widget",
+ *                  styles: [
+ *                      {
+ *                          property: "display",
+ *                          value: "none"
+ *                      }
+ *                  ]
+ *              },
+ *          ];   
+ *
+ * @example <caption>Also add the CSS regarding new sliders as it follows,</caption>
+ *
+ * For each slider declared on sliderRanges optional field is advised to set its CSS at pvsio-web/src/client/lib/image-picker/css/slider.css
+ * as it follows, "#slidecontainer-"+SLIDER_NAME+"_"+Customization_WIDGET_ID
  * 
- * @example <caption>Usage of <strong>Private API</strong> within Customization Widget. That is, API which is only used internally by the Customization Widget to create the customization menu.</caption>
- *          
- *          // Sets the imagepicker actions, and sets all CSS styles
- *          let aux = initWindowCSSValues[initWindowCSSValues.length - 1];
- *          customization.setImagePicker(aux);
+ * For instance to create slider pvs on Customization Widget, with id="customization-widget", it should be declared the following CSS,
+ * #slidecontainer-pvs_customization-widget{
+ *	// all CSS properties regarding this slider
+ *}
+ *
+ * If this step is skipped the only difference is that the Customization menu instead of having two columns of sliders will have 
+ * a slider per paragraph, i.e., each slider will have 100% width. In other words, if not declared, the widget itself will also work
+ * perfectly. In the future, when PVSio-web has a file-writing api, this step will disappear, therefore simplifying the process even more.
  * 
- *          // Updates the last selected steering wheel image (imagepicker)
- *          steeringWheel = customization.getSteeringWheelImage();
+ * @example <caption>Usage of API to create a new customization menu, within a PVSio-web demo.</caption>
+ *
+ *          // After Customization module was loaded, initialize it
+ *          let customization = new Customization(
+ *          "customization-widget",  // id of the gauge element that will be created
+ *          {top: 100, left: 700, width: 750, height: 750}, // coordinates object
+ *          {
+ *            parent: "content", // defines parent div, which is div id="body" by default
+ *            sliderColor: "#4CAF50",
+ *            imagesSteeringWheels: [
+ *            {
+ *              path: "../../../client/app/widgets/car/steering_wheels/basic_steering_wheel.svg",
+ *              value: "basic_steering_wheel.svg",
+ *            },
+ *            {
+ *              path: "../../../client/app/widgets/car/steering_wheels/ferrari_steering_wheel.svg",
+ *              value: "ferrari_steering_wheel.svg",
+ *            },
+ *            {
+ *              path: "../../../client/app/widgets/car/steering_wheels/porsche_steering_wheel.svg",
+ *              value: "porsche_steering_wheel.svg",
+ *            },
+ *            {
+ *              path: "../../../client/app/widgets/car/steering_wheels/sparco_steering_wheel.svg",
+ *              value: "sparco_steering_wheel.svg",
+ *            }
+ *            ],
+ *            sliderRanges: [
+ *            {
+ *              name: "speedometer",
+ *              min: 0,
+ *              max: 400,
+ *              value: 340
+ *             },
+ *             {
+ *              name: "tachometer",
+ *              min: 0,
+ *              max: 20,
+ *              value: 16
+ *             },
+ *             {
+ *               name: "lanes",
+ *               min: 0,
+ *               max: 3,
+ *               value: 0
+ *             },
+ *             {
+ *               name: "obstacles",
+ *               min: 0,
+ *               max: 10,
+ *               value: 0
+ *             },
+ *			   {
+ *                name: "laps",
+ *                min: 0,
+ *                max: 3,
+ *                value: 0
+ *              },
+ *              {
+ *                name: "pvs",
+ *                min: 0,
+ *                max: 1,
+ *                value: 0
+ *              }
+ *             ],
+ *             controlsText: ["Car controls:", "[left/right arrow keys] Turn Left/Right", "[up/down arrow keys] Accelerate/Brake" ],
+ *             gauges: [
+ *             {
+ *               name: "speedometer-gauge",
+ *               styleId: "",
+ *               style: ""
+ *             },
+ *             {
+ *               name: "tachometer-gauge",
+ *               styleId: "float",
+ *               style: "right"
+ *             }
+ *             ],
+ *             gaugesStyles: [
+ *             {
+ *               zoom: "45%",
+ *               marginLeft: "370px",
+ *               marginTop: "430px"
+ *             }
+ *             ],
+ *             callback: onMessageReceived
+ *          } // options
+ *          );
  * 
- *          // Removes all divs(html) within div "speedometer-gauge"
- *          customization.removeParentAllChilds("speedometer-gauge");
+ *          // Adds the "last-gauge" id to all div with class "gauge"
+ *          customization.setLastRenderingDiv("gauge");
  * 
- *          // Removes all divs(html) within div "tachometer-gauge"
- *          customization.removeParentAllChilds("tachometer-gauge");
+ *          // Starts the imagepicker, and sets all initial CSS styles.
+ *          customization.setInitRenderingDiv(initWindowCSSValues);
+ *
+ *          // Updates all sliders (ranges values)
+ *          sliders=customization.rangeEvents(sliders);
  * 
- *          // Removes div(html) "steering_wheel"
- *          customization.removeChild("steering_wheel");
+ *          // Re-renders new widgets and sets new layout (new CSS styles)
+ *          customization.endRange(onMessageReceived,car,reRenderedWindowCSSValues,sliders,steeringWheel);
+ *     }
+ * });
  * 
- *          // Sets all reRendered CSS styles.
- *          customization.reRenderedWindowCSS(CSSValues);
+ *
+ * @example <caption>Usage of other public API's of Customization Widget.</caption>
+ *
+ *  Using variable Customization created in the previous example is also possible to call the following,
+ *
+ *       // Hides the Customization widget.
+ *       customization.hide();
+ *
+ *		 // Reveals the Customization widget
+ *       customization.reveal();
+ *
+ *	     // Returns the current main div
+ *       customization.show();
+ * 
+ *       // Starts the imagepicker, and sets all initial CSS styles.
+ *       customization.setInitRenderingDiv(initWindowCSSValues);
+ * 
+ *       // Updates all sliders (ranges values)
+ *		 let sliders = {
+ *              maxValueSpeedometer: {
+ *                  id: "Speedometer",
+ *                  value: null
+ *              },
+ *              maxValueTachometer: {
+ *                  id: "Tachometer",
+ *                  value: null
+ *              },
+ *              maxValueLanes: {
+ *                  id: "Lanes",
+ *                  value: null
+ *              },
+ *              maxValueObstacles: {
+ *                  id: "Obstacles",
+ *                  value: null
+ *              },
+ *              maxValueLapNumber: {
+ *                  id: "Laps",
+ *                  value: null
+ *              },
+ *              maxValuePVSInstructions: {
+ *                  id: "Pvs",
+ *                  value: null
+ *              }
+ *       };
+ *       sliders=customization.rangeEvents(sliders);
+ * 
+ *       // Adds the "last-gauge" id to all div with class "gauge"
+ *       customization.setLastRenderingDiv("gauge");
+ * 
+ *       // Re-renders new widgets and sets new layout (new CSS styles)
+ *       customization.endRange(onMessageReceived,car,reRenderedWindowCSSValues,sliders,steeringWheel);
+ *
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*jshint esnext:true */
@@ -387,8 +855,8 @@ define(function (require, exports, module) {
                              .text("to describe the profile of the track");
         this.writeTopography.append("p").style("margin-left","40px")
                              .text("Set each topography zone length after numZones\:");
-        this.writeTopography.append("textarea").attr("id","topography_"+this.CUSTOMIZATIONID).attr("rows","2").attr("cols","60").style("margin-left","40px")
-                            .text("[{\"topography\":{\"name\":\"\",\"curvature\":},\"profile\":\"\",\"numZones\":}]");
+        this.writeTopography.append("textarea").attr("id","topography_"+this.CUSTOMIZATIONID).attr("rows","22").attr("cols","60").style("margin-left","40px")
+                            .text("[\n{\n\"topography\":\n{\n\"name\":\"\",\n\"curvature\":\n},\n\"profile\":\"\",\n\"numZones\":,\n\"trafficSignals\":\n[\n{\n\"filename\":\"\",\n\"zone\":,\n\"scale\":,\n\"posX\":,\n\"zoneDistance\":\n}\n]\n}\n]");
 
         this.customizationDiv.append("br");
         this.customizationDiv.append("br");
@@ -424,8 +892,18 @@ define(function (require, exports, module) {
         this.writeLandscapeObjects=this.customizationDiv.append("div").attr("id","writeLandscapeObjects_"+this.CUSTOMIZATIONID);
         this.writeLandscapeObjects.append("p").style("margin-left","40px")
         .text("Add \"\" to each object");
+        this.writeLandscapeObjects.append("p").style("margin-left","40px")
+        .text("After filename add inside \"\" the sprite name, ");
+        this.writeLandscapeObjects.append("p").style("margin-left","40px")
+        .text("and after scale insert the scale to be applied in this sprite, ");
+        this.writeLandscapeObjects.append("p").style("margin-left","40px")
+        .text("and in positionsX insert the horizontal positions where it");
+        this.writeLandscapeObjects.append("p").style("margin-left","40px")
+        .text("should be placed. Negative values will place them on the left side");
+        this.writeLandscapeObjects.append("p").style("margin-left","40px")
+        .text("and positive values will place them on the right side of the track");
         this.writeLandscapeObjects.append("textarea").attr("id","landscapeObjects_"+this.CUSTOMIZATIONID).attr("rows","2").attr("cols","60").style("margin-left","40px")
-                             .text("[]");
+                             .text("[{\"filename\":\"\", \"scale\":, \"positionsX\":[]}]");
 
         this.customizationDiv.append("br");
         this.customizationDiv.append("br");
@@ -436,8 +914,18 @@ define(function (require, exports, module) {
         this.writeTrackObstacles=this.customizationDiv.append("div").attr("id","writeTrackObstacles_"+this.CUSTOMIZATIONID);
         this.writeTrackObstacles.append("p").style("margin-left","40px")
         .text("Add \"\" to each obstacle");
+        this.writeTrackObstacles.append("p").style("margin-left","40px")
+        .text("After filename add inside \"\" the sprite name, ");
+        this.writeTrackObstacles.append("p").style("margin-left","40px")
+        .text("and after scale insert the scale to be applied in this sprite, ");
+        this.writeTrackObstacles.append("p").style("margin-left","40px")
+        .text("and in positionsX insert the horizontal positions where it");
+        this.writeTrackObstacles.append("p").style("margin-left","40px")
+        .text("should be placed. Negative values will place them on the left side");
+        this.writeTrackObstacles.append("p").style("margin-left","40px")
+        .text("and positive values will place them on the right side of the track");
         this.writeTrackObstacles.append("textarea").attr("id","trackObstacles_"+this.CUSTOMIZATIONID).attr("rows","2").attr("cols","60").style("margin-left","40px")
-                             .text("[]");
+                             .text("[{\"filename\":\"\", \"scale\":, \"positionsX\":[]}]");
 
         this.customizationDiv.append("br");
         this.customizationDiv.append("br");
@@ -451,7 +939,9 @@ define(function (require, exports, module) {
         this.writeTrackParams.append("p").style("margin-left","40px")
         .text("numZones is the number of different portions of the track");
         this.writeTrackParams.append("p").style("margin-left","40px")
-        .text("zoneSize is the length of each numZones");
+        .text("zoneSize is the length of each numZones, i.e. total sum of all");
+        this.writeTrackParams.append("p").style("margin-left","40px")
+        .text("zones defined in trackLayout");
         this.writeTrackParams.append("textarea").attr("id","trackParams_"+this.CUSTOMIZATIONID).attr("rows","2").attr("cols","60").style("margin-left","40px")
                              .text("{numZones:, zoneSize:}");
 
@@ -463,7 +953,9 @@ define(function (require, exports, module) {
         this.customizationDiv.append("br");
         this.writeArcadeVehicle=this.customizationDiv.append("div").attr("id","writeArcadeVehicle_"+this.CUSTOMIZATIONID);
         this.writeArcadeVehicle.append("p").style("margin-left","40px")
-                             .text("Write: if arcade widget will use realistic vehicle image or not (Bool), ");
+                             .text("Write: if arcade widget will show the vehicle image or not (Bool), ");
+        this.writeArcadeVehicle.append("p").style("margin-left","40px")
+                             .text("if arcade widget will use realistic vehicle image or not (Bool), ");
         this.writeArcadeVehicle.append("p").style("margin-left","40px")
                              .text("the desired vehicle and the vehicle index available on spritesheet JSON");
         this.writeArcadeVehicle.append("p").style("margin-left","40px")
@@ -472,6 +964,12 @@ define(function (require, exports, module) {
                              .text("Supported Vehicles are: \"airplane\",\"bicycle\",\"car\",\"helicopter\"");
         this.writeArcadeVehicle.append("p").style("margin-left","40px")
                              .text("and \"motorbike\"");
+        this.writeArcadeVehicle.append("p").style("margin-left","40px")
+                             .text("For instance, the input: true, false, motorbike, 1 means that Arcade Widget");
+        this.writeArcadeVehicle.append("p").style("margin-left","40px")
+                             .text("will show a motorbike image, which is not a realistic image, with index 1,");
+        this.writeArcadeVehicle.append("p").style("margin-left","40px")
+                             .text("i.e. filename \"motorbike1.png\".");
         this.writeArcadeVehicle.append("textarea").attr("id","arcadeVehicle_"+this.CUSTOMIZATIONID).attr("rows","2").attr("cols","60").style("margin-left","40px")
                              .text("");
 
@@ -596,7 +1094,17 @@ define(function (require, exports, module) {
         if(this.isMobile){
             d3.select("#slidecontainer-end_"+this.CUSTOMIZATIONID).style("width","15%");
         }else{
-            d3.select("#slidecontainer-end_"+this.CUSTOMIZATIONID).style("width","6%");
+        	let w = window,
+			    d = document,
+			    e = d.documentElement,
+			    g = d.getElementsByTagName('body')[0],
+			    x = w.innerWidth || e.clientWidth || g.clientWidth,
+			    y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+        	if(x>=1200){
+        	 	d3.select("#slidecontainer-end_"+this.CUSTOMIZATIONID).style("width","6%");
+        	}else{
+        		d3.select("#slidecontainer-end_"+this.CUSTOMIZATIONID).style("width","10%");
+        	}
         }
 
         this.customizationDiv.append("p")
@@ -650,7 +1158,7 @@ define(function (require, exports, module) {
 
     /**
      * @function removeParentAllChilds
-     * @protected
+     * @public
      * @description RemoveParentAllChilds method of the Customization widget. This method removes all the divs(html) within the div with the received id as the argument.
      * That is, it removes all child nodes from the parent div, with id="#(argument id)".
      * @param id {String} the parent div id name, where all child nodes will be removed.
@@ -665,7 +1173,7 @@ define(function (require, exports, module) {
 
     /**
      * @function removeChild
-     * @protected
+     * @public
      * @description removeChild method of the Customization widget. This method removes the node, with id received as argument.
      * @param id {String} the div id name to be removed.
      * @memberof module:Customization
@@ -718,7 +1226,7 @@ define(function (require, exports, module) {
 
     /**
      * @function setImagePicker
-     * @protected
+     * @public
      * @description SetImagePicker method of the Customization widget. This method is responsible for getting values related to the image selected in the imagepicker.
      * In this, it adds the name of the selected image, taken from the path field, to the div with id="#selectedSteeringWheel_"+this.CUSTOMIZATIONID, so that the currently selected image can be accessed at any time.
      * Also adds the value of the path field to the div with id/class provided in the aux object, so that it can be viewed in that div (larger size, i.e. highlighted) as well as all its styles.
@@ -735,8 +1243,8 @@ define(function (require, exports, module) {
 	            hide_select: true,
 	            selected: function (option) {
 	                let values = this.val();
-	                let path = ($(this).find("option[value='" + $(this).val() + "']").data('img-src'));
-	                let steeringWheelStyle = values.split("_");       
+                    let path = ($(this).find("option[value='" + $(this).val() + "']").data('img-src'));
+                    let steeringWheelStyle = values.split("_steering_wheel");  
 	                d3.select("#selectedSteeringWheel_"+self.CUSTOMIZATIONID)
 	                  .text(steeringWheelStyle[0]);
 	                let lastCSS = [];
@@ -757,7 +1265,7 @@ define(function (require, exports, module) {
 
     /**
      * @function getSteeringWheelImage
-     * @protected
+     * @public
      * @description GetSteeringWheelImage method of the Customization widget. This method selects the div text with id="# selectedSteeringWheel_"+this.CUSTOMIZATIONID, which in turn contains the name 
      * of the last selected image in the imagepicker. This content will be used to render the new Steering Wheel widget.
      * @memberof module:Customization
@@ -784,7 +1292,7 @@ define(function (require, exports, module) {
 
     /**
      * @function reRenderedWindowCSS
-     * @protected
+     * @public
      * @description ReRenderedWindowCSS method of the Customization widget. This method is responsible for updating all required styles in the re-rendering process.
      * @param reRenderedWindowCSSValues {Object} array of objects with all the ids, class, and styles to update. 
      * That is, it has all the CSS parameters, which are necessary in the re-rendering process, which will produce the new layout on the screen (re-organized widgets).
@@ -963,8 +1471,8 @@ define(function (require, exports, module) {
 		                    });
 
 		                    self.setLastRenderingDiv("gauge");
-                    		steeringWheel = self.getSteeringWheelImage();
-
+                            steeringWheel = self.getSteeringWheelImage();
+                            
 							// ---------------- STEERING WHEEL ----------------
 		                    car.steeringWheel = new SteeringWheel("steering_wheel", {
 		                        top: 100,
@@ -1099,26 +1607,111 @@ define(function (require, exports, module) {
 		                    car.gyroscopeController.render();
 		                    car.drawGamepad.render();
 
-		                    (spritesheetJSONFilename_Final==="") ? spritesheetJSONFilename_Final = "spritesheet" : spritesheetJSONFilename_Final;
-		                    (spritesheetImages_Final==="") ? spritesheetImages_Final = "[\"spritesheet\",\"spritesheet.text\"]" : spritesheetImages_Final;
+		                    (spritesheetJSONFilename_Final==="") ? spritesheetJSONFilename_Final = "spritesheet2" : spritesheetJSONFilename_Final;
+		                    (spritesheetImages_Final==="") ? spritesheetImages_Final = "[\"spritesheet2\",\"spritesheet.text\"]" : spritesheetImages_Final;
 		                    (numZones_Final==="") ? numZones_Final = 12 : numZones_Final;
 		                    (zoneSize_Final==="") ? zoneSize_Final = 250 : numZones_Final;
-		                    (landscapeObjects_Final==="[]") ? landscapeObjects_Final = "[\"tree\",\"boulder\"]" : landscapeObjects_Final;
-		                    (trackObstacles_Final==="[]") ? trackObstacles_Final = "[\"boulder\"]" : trackObstacles_Final;
-		                    (topography_Final==="[{\"topography\":{\"name\":\"\",\"curvature\":},\"profile\":\"\",\"numZones\":}]") ? topography_Final = "[ \
-		                        {\"topography\":{\"name\":\"straight\",\"curvature\":0},\"profile\":\"flat\",\"numZones\":3}, \
-		                        {\"topography\":{\"name\":\"left\",\"curvature\":90},\"profile\":\"flat\",\"numZones\":3}, \
-		                        {\"topography\":{\"name\":\"straight\",\"curvature\":0},\"profile\":\"up\",\"numZones\":3}, \
-		                        {\"topography\":{\"name\":\"right\",\"curvature\":-90},\"profile\":\"flat\",\"numZones\":3}, \
-		                        {\"topography\":{\"name\":\"straight\",\"curvature\":0},\"profile\":\"down\",\"numZones\":3}, \
-		                        {\"topography\":{\"name\":\"left\",\"curvature\":90},\"profile\":\"flat\",\"numZones\":3}]" : topography_Final;
-		                    (arcadeVehicle_Final==="") ? arcadeVehicle_Final = "false,car,2" : arcadeVehicle_Final;
+                            (landscapeObjects_Final==="[{\"filename\":\"\", \"scale\":, \"positionsX\":[]}]") ? landscapeObjects_Final = "[]" : landscapeObjects_Final;
+		                    (trackObstacles_Final==="[{\"filename\":\"\", \"scale\":, \"positionsX\":[]}]") ? trackObstacles_Final = "[]" : trackObstacles_Final;
+                            (topography_Final==="[\n{\n\"topography\":\n{\n\"name\":\"\",\n\"curvature\":\n},\n\"profile\":\"\",\n\"numZones\":,\n\"trafficSignals\":\n[\n{\n\"filename\":\"\",\n\"zone\":,\n\"scale\":,\n\"posX\":,\n\"zoneDistance\":\n}\n]\n}\n]") ? topography_Final = "[ \
+                                    { \
+                                    \"topography\": \
+                                        { \
+                                        \"name\":\"left\", \
+                                        \"curvature\": -90 \
+                                        }, \
+                                    \"profile\": \"flat\", \
+                                    \"numZones\": 4, \
+                                    \"trafficSignals\": [ \
+                                        { \
+                                             \"filename\":\"traffic_light_green\", \
+                                             \"zone\": 1, \
+                                             \"scale\": 4, \
+                                             \"posX\": -0.5, \
+                                             \"zoneDistance\": 5 \
+                                        }, \
+                                        { \
+                                            \"filename\":\"dangerous_curve_left\", \
+                                            \"zone\": 1, \
+                                            \"scale\": 3, \
+                                            \"posX\": -0.4, \
+                                            \"zoneDistance\": 20 \
+                                       }, \
+                                       { \
+                                            \"filename\":\"50kmh_limit\", \
+                                            \"zone\": 1, \
+                                            \"scale\": 3, \
+                                            \"posX\": -0.4, \
+                                            \"zoneDistance\": 90 \
+                                       }, \
+                                       { \
+                                            \"filename\":\"vehicle_surpass_forbidden\", \
+                                            \"zone\": 1, \
+                                            \"scale\": 3, \
+                                            \"posX\": -0.4, \
+                                            \"zoneDistance\": 130 \
+                                       }, \
+                                       { \
+                                            \"filename\":\"dangerous_curve_left\", \
+                                            \"zone\": 2, \
+                                            \"scale\": 3, \
+                                            \"posX\": -0.4, \
+                                            \"zoneDistance\": 20 \
+                                       }, \
+                                       { \
+                                            \"filename\":\"30kmh_limit\", \
+                                            \"zone\": 2, \
+                                            \"scale\": 3, \
+                                            \"posX\": -0.4, \
+                                            \"zoneDistance\": 90  \
+                                       }, \
+                                       { \
+                                            \"filename\":\"dangerous_curve_left\", \
+                                            \"zone\": 3, \
+                                            \"scale\": 3, \
+                                            \"posX\": -0.4, \
+                                            \"zoneDistance\": 20  \
+                                       }, \
+                                       { \
+                                            \"filename\":\"50kmh_limit\", \
+                                            \"zone\": 3, \
+                                            \"scale\": 3, \
+                                            \"posX\": -0.4, \
+                                            \"zoneDistance\": 90 \
+                                       }, \
+                                       { \
+                                            \"filename\":\"dangerous_curve_left\", \
+                                            \"zone\": 4, \
+                                            \"scale\": 3, \
+                                            \"posX\": -0.4, \
+                                            \"zoneDistance\": 20 \
+                                       }, \
+                                       { \
+                                            \"filename\":\"30kmh_limit\", \
+                                            \"zone\": 4, \
+                                            \"scale\": 3, \
+                                            \"posX\": -0.4, \
+                                            \"zoneDistance\": 90 \
+                                       }, \
+                                       { \
+                                        \"filename\":\"traffic_light_red\", \
+                                        \"zone\": 4, \
+                                        \"scale\": 4, \
+                                        \"posX\": -0.5, \
+                                        \"zoneDistance\": 100 \
+                                       } \
+                                    ]\
+                                }\
+                            ]" : topography_Final;
+                            
+                            (arcadeVehicle_Final==="") ? arcadeVehicle_Final = "true,true,car,2" : arcadeVehicle_Final;
 
-		                    let realisticImgs_Final = JSON.parse(arcadeVehicle_Final.split(",")[0]);
-		                    let vehicle_Final = arcadeVehicle_Final.split(",")[1];
-		                    let vehicleImgIndex_Final = parseInt(arcadeVehicle_Final.split(",")[2]);
-		                    let loadPVSSpeedPositions_Final = (parseInt(usePVS_Final)===0) ? false : true;
-
+                            let useVehicle_Final = JSON.parse(arcadeVehicle_Final.split(",")[0]);
+		                    let realisticImgs_Final = JSON.parse(arcadeVehicle_Final.split(",")[1]);
+		                    let vehicle_Final = arcadeVehicle_Final.split(",")[2];
+		                    let vehicleImgIndex_Final = parseInt(arcadeVehicle_Final.split(",")[3]);
+                            let loadPVSSpeedPositions_Final = (parseInt(usePVS_Final)===0) ? false : true;
+                            
 		                    // -----------------------------  TRACK GENERATOR COMPONENTS -----------------------------
 		                    car.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget", {
 		                        top: 80,
@@ -1184,66 +1777,64 @@ define(function (require, exports, module) {
 		                    // trackFilename opt field must receive json file just created by car.trackGeneratorWidget.generateTrackBasedOnTrackLayoutOptField();
 
 		                    // ----------------------------- ARCADE GAME COMPONENTS -----------------------------
-		                    car.arcadeWidget = new Arcade("arcadeWidget", {
-					            top: 300,
-					            left: 860,
-					            width: 320,
-					            height: 240
-					        }, {
-					            parent: "content", // defines parent div, which is div id="body" by default
-					            scaleWindow: 2.2, // scales canvas div
-					            trackFilename: "trackLayout2",// "track-curves-slopes-random", // "track-straight-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
-					            spritesFilename: spritesheetJSONFilename_Final, // defines spritesheet configuration filename, which is "spritesheet.json" by default
-					            spritesFiles: JSON.parse(spritesheetImages_Final), // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
+                            car.arcadeWidget = new Arcade("arcadeWidget", {
+                                top: 100,
+					            left: 630,
+					            width: 800,
+					            height: 600
+                            }, {
+                                parent: "content", // defines parent div, which is div id="body" by default
+                                scaleWindow: 1, // scales canvas div
+                                trackFilename: "trackLayout_real", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
+                                spritesFilename: spritesheetJSONFilename_Final, // defines spritesheet configuration filename, which is "spritesheet.json" by default
+                                spritesFiles: JSON.parse(spritesheetImages_Final), // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
                                 realisticImgs: realisticImgs_Final,
-                                userVehicle: true,
-					            vehicle: vehicle_Final, // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
-					            vehicleImgIndex: parseInt(vehicleImgIndex_Final), // defines vehicle sprite image suffix
-					            // logoImgIndex: 1, // defines logo sprite image suffix
-					            // backgroundImgIndex: 1, // defines background sprite image suffix
-					            stripePositions: {
-					                trackP1: -0.55,
-					                trackP2: 0.55,
-					                borderWidth: 0.08,
-					                inOutBorderWidth: 0.02,
-					                landscapeOutBorderWidth: 0.13,
-					                diffTrackBorder: 0.05,
-					                finishLineP1: -0.40,
-					                finishLineP2: 0.40,
-					                diffLanesFinishLine: 0.05
-					            },
-					            lapNumber: parseInt(numLaps_Final),
-					            // showOfficialLogo: true,
-					            loadPVSSpeedPositions: loadPVSSpeedPositions_Final,
-					            // predefinedTracks: 4,
-					            // newLap_functionNamePVS: "new_lap",
-					            // action_attribute: "action",
-					            // direction_attribute: "direction",
-					            // sound_attribute: "sound",
-					            // lap_attribute: "lap",
-					            // speed_attribute: "speed",
-					            // posx_attribute: "posx",
-					            // position_attribute: "position",
-					            // lap_value: "val",
-					            // speed_value: "val",
-					            // posx_value: "val",
-					            // position_value: "val",
-					            // left_attribute: "left",
-					            // right_attribute: "right",
-					            // straight_attribute: "straight",
-					            // accelerate_attribute: "acc",
-					            // brake_attribute: "brake",
-					            // idle_attribute: "idle",
-					            // quit_attribute: "quit",
-					            // pause_attribute: "pause",
-					            // resume_attribute: "resume",
-					            // mute_attribute: "mute",
-					            // unmute_attribute: "unmute",
-					            callback: callback
-					        });
+                                useVehicle: true,
+                                vehicle: ""+vehicle_Final, // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
+                                vehicleImgIndex: parseInt(vehicleImgIndex_Final), // defines vehicle sprite image suffix
+                                logoImgIndex: 3, // defines logo sprite image suffix
+                                backgroundImgIndex: 1, // defines background sprite image suffix
+                                stripePositions: {
+                                    trackP1: -0.55,
+                                    trackP2: 0.55,
+                                    borderWidth: 0.08,
+                                    inOutBorderWidth: 0.02,
+                                    landscapeOutBorderWidth: 0.13,
+                                    diffTrackBorder: 0.05,
+                                    finishLineP1: -0.40,
+                                    finishLineP2: 0.40,
+                                    diffLanesFinishLine: 0.05
+                                },
+                                lapNumber: parseInt(numLaps_Final),
+                                // showOfficialLogo: true,
+                                loadPVSSpeedPositions: loadPVSSpeedPositions_Final,
+                                // predefinedTracks: 4,
+                                // newLap_functionNamePVS: "set_positions_init",
+                                // action_attribute: "action",
+                                // direction_attribute: "direction",
+                                // sound_attribute: "sound",
+                                // speed_attribute: "speed",
+                                // posx_attribute: "posx",
+                                // position_attribute: "position",
+                                // speed_value: "val",
+                                // posx_value: "val",
+                                // position_value: "val",
+                                // left_attribute: "left",
+                                // right_attribute: "right",
+                                // straight_attribute: "straight",
+                                // accelerate_attribute: "acc",
+                                // brake_attribute: "brake",
+                                // idle_attribute: "idle",
+                                // quit_attribute: "quit",
+                                // pause_attribute: "pause",
+                                // resume_attribute: "resume",
+                                // mute_attribute: "mute",
+                                // unmute_attribute: "unmute",
+                                callback: callback
+                            });
 
-		                    car.arcadeWidget.startSimulation();
-		                    car.arcadeWidget.render(initalPVSState);
+                            car.arcadeWidget.startSimulation();
+                            car.arcadeWidget.render(initalPVSState);
 		                }
 					}
                 }

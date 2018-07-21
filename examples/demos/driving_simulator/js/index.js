@@ -470,7 +470,11 @@ require([
                 {
                     path: "../../../client/app/widgets/car/steering_wheels/sparco_steering_wheel.svg",
                     value: "sparco_steering_wheel.svg",
-                }
+                },
+                {
+                    path: "../../../client/app/widgets/car/steering_wheels/lincoln_mkc_2015_2_steering_wheel.svg",
+                    value: "lincoln_mkc_2015_2_steering_wheel.svg",
+                },
             ],
             sliderRanges: [
                 {

@@ -11,9 +11,11 @@ Guide step-by-step to create a new track with TrackGenerator Widget and, then, r
 
 <img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectTrackColors.png" alt="selectTrackColors" width="700" style="margin-left: 150px" >
 
-4. **Insert within the square brackets the topography of the lane that you intend to use in the simulation, i.e., the lane that will be constructed and rendered. Use only the keywords: 'left', 'right' and 'straight' to describe the topography of the track, after "name:". Use only the keywords: 'flat', 'up' and 'down' to describe the profile/height of the track after "profile:". Use angles, in degrees, to define the curvature angle after "curvature". The angle 0 represents a straight line. To represent left curvatures the angle must be between 0 and -90. To represent right curvatures the angle must be between 0 and 90.**
+4. **Insert within the square brackets the topography of the lane that you intend to use in the simulation, i.e., the lane that will be constructed and rendered. Use only the keywords: 'left', 'right' and 'straight' to describe the topography of the track, after "name:". Use only the keywords: 'flat', 'up' and 'down' to describe the profile/height of the track after "profile:". Use angles, in degrees, to define the curvature angle after "curvature". The angle 0 represents a straight line. To represent left curvatures the angle must be between 0 and -90. To represent right curvatures the angle must be between 0 and 90. The field numZones allows to replicate as many blocks as the user desires. That is, if the user wants 4 left curves instead of declaring 4 topographies with one zone it can be done by declaring one topography with 4 zones. This is particularly useful when declaring straight lines (blocks) that allows to produce sections with different lenghts. The field trafficSignals is an array that allows to place sprites in a specific part of the topography zone. For instance, placing a speed limit traffic signal in a certain horizontal position (posX), in a section of the zone, i.e. vertical position based on the field of view (zoneDistance), with a certain scale. If the user wants to place the aforementioned signal (filename) in -0.4(left side), at a distance of 40 (out of zoneSize value-must be higher or equal than 40), with a scale of 2.3 in zone 3 of a 4-zone topography (numZones is 4, that is 4 equal consecutive blocks), he will observe that on zone 3, at approximately 3/4 of the topography, a speed limit traffic signal scaled by 2.3 at a distance of 40 out of zoneSize. If zoneSize is 250 (default length of each zone), then 40/250 means that the sprite will appear almost in the beginning of the third zone as expected and desired.**
 
-<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectTrackTopography.png" alt="selectTrackTopography" width="700" style="margin-left: 150px" >
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectTrackTopography1.png" alt="selectTrackTopography" width="700" style="margin-left: 150px" >
+
+<img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectTrackTopography2.png" alt="selectTrackTopography" width="700" style="margin-left: 150px" >
 
 5. **Insert the spritesheet JSON filename.**
 
@@ -23,11 +25,11 @@ Guide step-by-step to create a new track with TrackGenerator Widget and, then, r
 
 <img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectSpritesheetImages.png" alt="selectSpritesheetImages" width="700" style="margin-left: 150px" >
 
-7. **Insert within the square brackets the landscape sprites, separated by ','.**
+7. **Insert within the square brackets the landscape sprite's objects, separated by ','. Filename field has the sprite name, scale has the value to apply on the current sprite by the Arcade Widget and positionsX is an array with its horizontal positions. Usually values range between -1 and 1, however depending on the field of view it may be possible to see sprites placed between -3 and 3. Negative values represent left side placements and positive values represent right side placements.**
 
 <img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectLandscapeObjects.png" alt="selectLandscapeObjects" width="700" style="margin-left: 150px" >
 
-8. **Insert within the square brackets the track sprites (obstacles), separated by ','.**
+8. **Insert within the square brackets the track sprite's obstacles, separated by ','. Filename field has the sprite name, scale has the value to apply on the current sprite by the Arcade Widget and positionsX is an array with its horizontal positions. Usually values range between -1 and 1, however depending on the field of view it may be possible to see sprites placed between -3 and 3. Negative values represent left side placements and positive values represent right side placements.**
 
 <img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectTrackObstacles.png" alt="selectTrackObstacles" width="700" style="margin-left: 150px" >
 
@@ -35,7 +37,8 @@ Guide step-by-step to create a new track with TrackGenerator Widget and, then, r
 
 <img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectTrackParams.png" alt="selectTrackParams" width="700" style="margin-left: 150px" >
 
-10. **Select arcade vehicle, present in both provided spritesheet JSON and png files, in steps 5 and 6.**
+10. **Select arcade vehicle, present in both provided spritesheet JSON and png files, in steps 5 and 6. In this menu the user
+can choose if the Arcade Widget will show any vehicle, if it will be a realistic image or not, what image will be used, i.e. the sprite name, and also choose the image index (suffix) if exists more than one image with the same name. That is, if spritesheet provided earlier has 2 sets of cars, car and car2, then the user can use this field to select which car sprite will be used.**
 
 <img src="/Users/zecarlos/Desktop/pvsio-web/src/client/app/widgets/car/documentation/tutorials_jsdoc/img/selectArcadeVehicle.png" alt="selectArcadeVehicle" width="700" style="margin-left: 150px" >
 
