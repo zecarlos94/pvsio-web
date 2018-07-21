@@ -200,190 +200,274 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
         lane_end: "#fff"
     },
     // trackLayout: [ 
-    //     // trackLayout1.json File
-    //     // describing the desired track, which is straight line, with 8 zones (8 blocks) and with 
-    //     // profiles "flat".
-    //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
-    //     // those angles to define different curvatures, instead of generating the same curvature for the same
-    //     // side
-    //     {
-    //         topography: {
-    //             name:"straight",
-    //             curvature: 0
-    //         },
-    //         profile: "flat",
-    //         numZones: 8,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          },
-    //          {
-    //             filename:"under_construction_barrier",
-    //             zone: 3,
-    //             scale: 1,
-    //             posX: 0.4,
-    //             zoneDistance: 100
-    //          }
-    //         ]
-    //     }
+    //   // trackLayout1.json File
+    //   // describing the desired track, which is straight line, with 8 zones (8 blocks) and with 
+    //   // profiles "flat".
+    //   // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
+    //   // those angles to define different curvatures, instead of generating the same curvature for the same
+    //   // side
+    //   {
+    //       topography: {
+    //           name:"straight",
+    //           curvature: 0
+    //       },
+    //       profile: "flat",
+    //       numZones: 8,
+    //       trafficSignals: [
+    //           {
+    //               filename:"traffic_light_green",
+    //               zone: 1,
+    //               scale: 4,
+    //               posX: -0.5,
+    //               zoneDistance: 5 // (max distance is zoneSize) 
+    //           },
+    //           {
+    //               filename:"50kmh_limit",
+    //               zone: 2,
+    //               scale: 3,
+    //               posX: -0.4,
+    //               zoneDistance: 90 // (max distance is zoneSize) 
+    //           },
+    //           {
+    //               filename:"vehicle_surpass_forbidden",
+    //               zone: 3,
+    //               scale: 3,
+    //               posX: -0.4,
+    //               zoneDistance: 130 // (max distance is zoneSize) 
+    //           },
+    //           {
+    //               filename:"30kmh_limit",
+    //               zone: 4,
+    //               scale: 3,
+    //               posX: -0.4,
+    //               zoneDistance: 90 // (max distance is zoneSize) 
+    //           },
+    //           {
+    //               filename:"50kmh_limit",
+    //               zone: 5,
+    //               scale: 3,
+    //               posX: -0.4,
+    //               zoneDistance: 90 // (max distance is zoneSize) 
+    //           },
+    //           {
+    //               filename:"vehicle_surpass_forbidden",
+    //               zone: 6,
+    //               scale: 3,
+    //               posX: -0.4,
+    //               zoneDistance: 130 // (max distance is zoneSize) 
+    //           },
+    //           {
+    //               filename:"30kmh_limit",
+    //               zone: 7,
+    //               scale: 3,
+    //               posX: -0.4,
+    //               zoneDistance: 90 // (max distance is zoneSize) 
+    //           },
+    //           {
+    //               filename:"traffic_light_red",
+    //               zone: 8,
+    //               scale: 4,
+    //               posX: -0.5,
+    //               zoneDistance: 100 // (max distance is zoneSize) 
+    //           }
+    //       ]
+    //   }
     // ],
-    trackLayout: [ 
-        // trackLayout2.json File
-        // describing the desired track, which is curve to left, straight line, 
-        // curve to right, straight line, curve to left and straight line each with 3 zones (blocks) and with different 
-        // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
-        // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
-        // those angles to define different curvatures, instead of generating the same curvature for the same
-        // side
-        {
-            topography: {
-                name:"left",
-                curvature: -90
-            },
-            profile: "flat",
-            numZones: 3,
-            trafficSignals: [
-              {
-                 filename:"traffic_cone",
-                 scale: 1,
-                 zone: 1,
-                 posX: -0.4,
-                 zoneDistance: 30  (max distance is zoneSize) 
-              },
-              {
-                 filename:"under_construction_barrier",
-                 zone: 3,
-                 scale: 1,
-                 posX: 0.4,
-                 zoneDistance: 100
-              }
-            ]
-        },
-        {
-            topography: {
-                name:"straight",
-                curvature: 0
-            },
-            profile: "down",
-            numZones: 3,
-            trafficSignals: [
-              {
-                 filename:"traffic_cone",
-                 scale: 1,
-                 zone: 1,
-                 posX: -0.4,
-                 zoneDistance: 30  (max distance is zoneSize) 
-              },
-              {
-                 filename:"under_construction_barrier",
-                 zone: 3,
-                 scale: 1,
-                 posX: 0.4,
-                 zoneDistance: 100
-              }
-            ]
-        },
-        {
-            topography: {
-                name:"right",
-                curvature: 90
-            },
-            profile: "flat",
-            numZones: 3,
-            trafficSignals: [
-              {
-                 filename:"traffic_cone",
-                 scale: 1,
-                 zone: 1,
-                 posX: -0.4,
-                 zoneDistance: 30  (max distance is zoneSize) 
-              },
-              {
-                 filename:"under_construction_barrier",
-                 zone: 3,
-                 scale: 1,
-                 posX: 0.4,
-                 zoneDistance: 100
-              }
-            ]
-        },
-        {
-            topography: {
-                name:"straight",
-                curvature: 0
-            },
-            profile: "up",
-            numZones: 3,
-            trafficSignals: [
-              {
-                 filename:"traffic_cone",
-                 scale: 1,
-                 zone: 1,
-                 posX: -0.4,
-                 zoneDistance: 30  (max distance is zoneSize) 
-              },
-              {
-                 filename:"under_construction_barrier",
-                 zone: 3,
-                 scale: 1,
-                 posX: 0.4,
-                 zoneDistance: 100
-              }
-            ]
-        },
-        {
-            topography: {
-                name:"left",
-                curvature: -90
-            },
-            profile: "flat",
-            numZones: 3,
-            trafficSignals: [
-              {
-                 filename:"traffic_cone",
-                 scale: 1,
-                 zone: 1,
-                 posX: -0.4,
-                 zoneDistance: 30  (max distance is zoneSize) 
-              },
-              {
-                 filename:"under_construction_barrier",
-                 zone: 3,
-                 scale: 1,
-                 posX: 0.4,
-                 zoneDistance: 100
-              }
-            ]
-        },
-        {
-            topography: {
-                name:"straight",
-                curvature: 0
-            },
-            profile: "flat",
-            numZones: 3,
-            trafficSignals: [
-              {
-                 filename:"traffic_cone",
-                 scale: 1,
-                 zone: 1,
-                 posX: -0.4,
-                 zoneDistance: 30  (max distance is zoneSize) 
-              },
-              {
-                 filename:"under_construction_barrier",
-                 zone: 3,
-                 scale: 1,
-                 posX: 0.4,
-                 zoneDistance: 100
-              }
-            ]
-        }
-    ],
+    // trackLayout: [ 
+    // // trackLayout2.json File
+    // // describing the desired track, which is curve to left, straight line, 
+    // // curve to right, straight line, curve to left and straight line each with 3 zones (blocks) and with different 
+    // // profiles, i.e. "flat" or "up" or "down" allows to define slopes within each zone (default is []).
+    // // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
+    // // those angles to define different curvatures, instead of generating the same curvature for the same
+    // // side
+    //  {
+    //   topography: {
+    //       name:"left",
+    //       curvature: -90
+    //   },
+    //   profile: "flat",
+    //   numZones: 3,
+    //   trafficSignals: [
+    //       {
+    //           filename:"traffic_light_green",
+    //           zone: 1,
+    //           scale: 4,
+    //           posX: -0.5,
+    //           zoneDistance: 5 // (max distance is zoneSize) 
+    //       },
+    //       {
+    //           filename:"50kmh_limit",
+    //           zone: 2,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       },
+    //       {
+    //           filename:"vehicle_surpass_forbidden",
+    //           zone: 3,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"straight",
+    //       curvature: 0
+    //   },
+    //   profile: "down",
+    //   numZones: 3,
+    //   trafficSignals: [
+    //       {
+    //           filename:"50kmh_limit",
+    //           zone: 4,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       },
+    //       {
+    //           filename:"vehicle_surpass_forbidden",
+    //           zone: 5,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       },
+    //       {
+    //           filename:"30kmh_limit",
+    //           zone: 6,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"right",
+    //       curvature: 90
+    //   },
+    //   profile: "flat",
+    //   numZones: 3,
+    //   trafficSignals: [
+    //       {
+    //           filename:"vehicle_surpass_forbidden",
+    //           zone: 7,
+    //           scale: 3,
+    //           posX: 0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       },
+    //       {
+    //           filename:"50kmh_limit",
+    //           zone: 8,
+    //           scale: 3,
+    //           posX: 0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       },
+    //       {
+    //           filename:"vehicle_surpass_forbidden",
+    //           zone: 9,
+    //           scale: 3,
+    //           posX: 0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"straight",
+    //       curvature: 0
+    //   },
+    //   profile: "up",
+    //   numZones: 3,
+    //   trafficSignals: [
+    //       {
+    //           filename:"50kmh_limit",
+    //           zone: 10,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       },
+    //       {
+    //           filename:"vehicle_surpass_forbidden",
+    //           zone: 11,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       },
+    //       {
+    //           filename:"30kmh_limit",
+    //           zone: 12,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"left",
+    //       curvature: -90
+    //   },
+    //   profile: "flat",
+    //   numZones: 3,
+    //   trafficSignals: [
+    //       {
+    //           filename:"30kmh_limit",
+    //           zone: 13,
+    //           scale: 4,
+    //           posX: -0.5,
+    //           zoneDistance: 5 // (max distance is zoneSize) 
+    //       },
+    //       {
+    //           filename:"50kmh_limit",
+    //           zone: 14,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       },
+    //       {
+    //           filename:"vehicle_surpass_forbidden",
+    //           zone: 15,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"straight",
+    //       curvature: 0
+    //   },
+    //   profile: "flat",
+    //   numZones: 3,
+    //   trafficSignals: [
+    //       {
+    //           filename:"50kmh_limit",
+    //           zone: 16,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       },
+    //       {
+    //           filename:"vehicle_surpass_forbidden",
+    //           zone: 17,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       },
+    //       {
+    //           filename:"30kmh_limit",
+    //           zone: 18,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    // }
+    // ],
     // trackLayout: [ 
     //     // trackLayout3.json File
     //     // describing the desired track, which is straight line, followed by curve to left, straight line, 
@@ -392,141 +476,204 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
     //     // those angles to define different curvatures, instead of generating the same curvature for the same
     //     // side
-    //     {
-    //         topography: {
-    //             name:"straight",
-    //             curvature: 0
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"left",
-    //             curvature: -90
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"straight",
-    //             curvature: 0
-    //         },
-    //         profile: "up",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"right",
-    //             curvature: 90
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"straight",
-    //             curvature: 0
-    //         },
-    //         profile: "down",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"left",
-    //             curvature: -90
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     }
+    //  {
+    //   topography: {
+    //       name:"straight",
+    //       curvature: 0
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"50kmh_limit",
+    //           zone: 1,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"left",
+    //       curvature: -90
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"dangerous_curve_left",
+    //           zone: 2,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"straight",
+    //       curvature: 0
+    //   },
+    //   profile: "up",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"50kmh_limit",
+    //           zone: 3,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"right",
+    //       curvature: 90
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"dangerous_curve_right",
+    //           zone: 4,
+    //           scale: 4,
+    //           posX: 0.5,
+    //           zoneDistance: 5 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"straight",
+    //       curvature: 0
+    //   },
+    //   profile: "down",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"70kmh_limit",
+    //           zone: 5,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"left",
+    //       curvature: -90
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"traffic_light_red",
+    //           zone: 6,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  }
     // ],
     // trackLayout: [ 
     //     // trackLayout4.json File
     //     // describing the desired track, which is curve to right, with 4 zones (blocks) and with  
     //     // profile "flat". This layout allows to render a closed circular track (with 4 curves to right 
     //     // where a new curve starts after the previous ends) 
-    //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
-    //     // those angles to define different curvatures, instead of generating the same curvature for the same
+    //     // Curvature is the angle of curvature for that topography name. This will be used to define different 
+    //     // curvatures, instead of generating the same curvature for the same
     //     // side
-    //     {
-    //         topography: {
-    //             name:"right",
-    //             curvature: 90
-    //         },
-    //         profile: "flat",
-    //         numZones: 4,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
+    //   {
+    //     topography: {
+    //         name:"right",
+    //         curvature: 90
+    //     },
+    //     profile: "flat",
+    //     numZones: 4,
+    //     trafficSignals: [
+    //         {
+    //             filename:"traffic_light_green",
     //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          },
-    //          {
-    //             filename:"under_construction_barrier",
-    //             zone: 3,
-    //             scale: 1,
+    //             scale: 4,
+    //             posX: 0.5,
+    //             zoneDistance: 5 // (max distance is zoneSize) 
+    //         },
+    //         {
+    //             filename:"dangerous_curve_right",
+    //             zone: 1,
+    //             scale: 3,
     //             posX: 0.4,
-    //             zoneDistance: 100
-    //          }
-    //         ]
-    //     }
+    //             zoneDistance: 20 // (max distance is zoneSize) 
+    //         },
+    //         {
+    //             filename:"50kmh_limit",
+    //             zone: 1,
+    //             scale: 3,
+    //             posX: 0.4,
+    //             zoneDistance: 90 // (max distance is zoneSize) 
+    //         },
+    //         {
+    //             filename:"vehicle_surpass_forbidden",
+    //             zone: 1,
+    //             scale: 3,
+    //             posX: 0.4,
+    //             zoneDistance: 130 // (max distance is zoneSize) 
+    //         },
+    //         {
+    //             filename:"dangerous_curve_right",
+    //             zone: 2,
+    //             scale: 3,
+    //             posX: 0.4,
+    //             zoneDistance: 20 // (max distance is zoneSize) 
+    //         },
+    //         {
+    //             filename:"30kmh_limit",
+    //             zone: 2,
+    //             scale: 3,
+    //             posX: 0.4,
+    //             zoneDistance: 90 // (max distance is zoneSize) 
+    //         },
+    //         {
+    //             filename:"dangerous_curve_right",
+    //             zone: 3,
+    //             scale: 3,
+    //             posX: 0.4,
+    //             zoneDistance: 20 // (max distance is zoneSize) 
+    //         },
+    //         {
+    //             filename:"50kmh_limit",
+    //             zone: 3,
+    //             scale: 3,
+    //             posX: 0.4,
+    //             zoneDistance: 90 // (max distance is zoneSize) 
+    //         },
+    //         {
+    //             filename:"dangerous_curve_right",
+    //             zone: 4,
+    //             scale: 3,
+    //             posX: 0.4,
+    //             zoneDistance: 20 // (max distance is zoneSize) 
+    //         },
+    //         {
+    //             filename:"30kmh_limit",
+    //             zone: 4,
+    //             scale: 3,
+    //             posX: 0.4,
+    //             zoneDistance: 90 // (max distance is zoneSize) 
+    //         },
+    //         {
+    //             filename:"traffic_light_red",
+    //             zone: 4,
+    //             scale: 4,
+    //             posX: 0.5,
+    //             zoneDistance: 100 // (max distance is zoneSize) 
+    //         }
+    //     ]
+    // }
     // ],
     // trackLayout: [ 
     //     // trackLayout5.json File
@@ -536,142 +683,142 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
     //     // those angles to define different curvatures, instead of generating the same curvature for the same
     //     // side
-    //     {
-    //         topography: {
-    //             name:"left",
-    //             curvature: -90
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"straight",
-    //             curvature: 0
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"left",
-    //             curvature: -90
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"straight",
-    //             curvature: 0
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"left",
-    //             curvature: -90
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"straight",
-    //             curvature: 0
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"left",
-    //             curvature: -90
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"straight",
-    //             curvature: 0
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     }
+    //  {
+    //   topography: {
+    //       name:"left",
+    //       curvature: -90
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"dangerous_curve_left",
+    //           zone: 1,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"straight",
+    //       curvature: 0
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"50kmh_limit",
+    //           zone: 2,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"left",
+    //       curvature: -90
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"dangerous_curve_left",
+    //           zone: 3,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"straight",
+    //       curvature: 0
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"70kmh_limit",
+    //           zone: 4,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"left",
+    //       curvature: -90
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"dangerous_curve_left",
+    //           zone: 5,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"straight",
+    //       curvature: 0
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"70kmh_limit",
+    //           zone: 6,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"left",
+    //       curvature: -90
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"dangerous_curve_left",
+    //           zone: 7,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"straight",
+    //       curvature: 0
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"traffic_light_red",
+    //           zone: 8,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
     // ],
     // trackLayout: [ 
     //     // trackLayout6.json File
@@ -681,117 +828,187 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
     //     // those angles to define different curvatures, instead of generating the same curvature for the same
     //     // side
-    //     {
-    //         topography: {
-    //             name:"left",
-    //             curvature: -90
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"straight",
-    //             curvature: 0
-    //         },
-    //         profile: "down",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"right",
-    //             curvature: 90
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"straight",
-    //             curvature: 0
-    //         },
-    //         profile: "up",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"left",
-    //             curvature: -90
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     }
+    //  {
+    //   topography: {
+    //       name:"left",
+    //       curvature: -90
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"dangerous_curve_left",
+    //           zone: 1,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"straight",
+    //       curvature: 0
+    //   },
+    //   profile: "down",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"50kmh_limit",
+    //           zone: 2,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"right",
+    //       curvature: 90
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"dangerous_curve_right",
+    //           zone: 3,
+    //           scale: 3,
+    //           posX: 0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"straight",
+    //       curvature: 0
+    //   },
+    //   profile: "up",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"30kmh_limit",
+    //           zone: 4,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"left",
+    //       curvature: -90
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"dangerous_curve_left",
+    //           zone: 5,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
     // ],
     // trackLayout: [ 
     //     // trackLayout7.json File
     //     // describing the desired track, which is curve to left, with 4 zones (blocks) and with  
     //     // profile "flat". This layout allows to render a closed circular track (with 4 curves to left 
     //     // where a new curve starts after the previous ends) 
-    //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
-    //     // those angles to define different curvatures, instead of generating the same curvature for the same
+    //     // Curvature is the angle of curvature for that topography name. This will be used to define different 
+    //     // curvatures, instead of generating the same curvature for the same
     //     // side
-    //     {
-    //         topography: {
-    //             name:"left",
-    //             curvature: -90
-    //         },
-    //         profile: "flat",
-    //         numZones: 4,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     }
+    //      {
+    //        topography: {
+    //            name:"left",
+    //            curvature: -90
+    //        },
+    //        profile: "flat",
+    //        numZones: 4,
+    //        trafficSignals: [
+    //            {
+    //                filename:"traffic_light_green",
+    //                zone: 1,
+    //                scale: 4,
+    //                posX: -0.5,
+    //                zoneDistance: 5 // (max distance is zoneSize) 
+    //            },
+    //            {
+    //                filename:"dangerous_curve_left",
+    //                zone: 1,
+    //                scale: 3,
+    //                posX: -0.4,
+    //                zoneDistance: 20 // (max distance is zoneSize) 
+    //            },
+    //            {
+    //                filename:"50kmh_limit",
+    //                zone: 1,
+    //                scale: 3,
+    //                posX: -0.4,
+    //                zoneDistance: 90 // (max distance is zoneSize) 
+    //            },
+    //            {
+    //                filename:"vehicle_surpass_forbidden",
+    //                zone: 1,
+    //                scale: 3,
+    //                posX: -0.4,
+    //                zoneDistance: 130 // (max distance is zoneSize) 
+    //            },
+    //            {
+    //                filename:"dangerous_curve_left",
+    //                zone: 2,
+    //                scale: 3,
+    //                posX: -0.4,
+    //                zoneDistance: 20 // (max distance is zoneSize) 
+    //            },
+    //            {
+    //                filename:"30kmh_limit",
+    //                zone: 2,
+    //                scale: 3,
+    //                posX: -0.4,
+    //                zoneDistance: 90 // (max distance is zoneSize) 
+    //            },
+    //            {
+    //                filename:"dangerous_curve_left",
+    //                zone: 3,
+    //                scale: 3,
+    //                posX: -0.4,
+    //                zoneDistance: 20 // (max distance is zoneSize) 
+    //            },
+    //            {
+    //                filename:"50kmh_limit",
+    //                zone: 3,
+    //                scale: 3,
+    //                posX: -0.4,
+    //                zoneDistance: 90 // (max distance is zoneSize) 
+    //            },
+    //            {
+    //                filename:"dangerous_curve_left",
+    //                zone: 4,
+    //                scale: 3,
+    //                posX: -0.4,
+    //                zoneDistance: 20 // (max distance is zoneSize) 
+    //            },
+    //            {
+    //                filename:"30kmh_limit",
+    //                zone: 4,
+    //                scale: 3,
+    //                posX: -0.4,
+    //                zoneDistance: 90 // (max distance is zoneSize) 
+    //            },
+    //            {
+    //                filename:"traffic_light_red",
+    //                zone: 4,
+    //                scale: 4,
+    //                posX: -0.5,
+    //                zoneDistance: 100 // (max distance is zoneSize) 
+    //            }
+    //        ]
+    //    }
     // ],
     // trackLayout: [ 
     //     // trackLayout8.json File
@@ -801,91 +1018,91 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
     //     // those angles to define different curvatures, instead of generating the same curvature for the same
     //     // side
-    //     {
-    //         topography: {
-    //             name:"right",
-    //             curvature: 90
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"straight",
-    //             curvature: 0
-    //         },
-    //         profile: "down",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"left",
-    //             curvature: -90
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"straight",
-    //             curvature: 0
-    //         },
-    //         profile: "up",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"right",
-    //             curvature: 90
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     }
+    //  {
+    //   topography: {
+    //       name:"right",
+    //       curvature: 90
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"dangerous_curve_right",
+    //           zone: 1,
+    //           scale: 3,
+    //           posX: 0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"straight",
+    //       curvature: 0
+    //   },
+    //   profile: "down",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"50kmh_limit",
+    //           zone: 2,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"left",
+    //       curvature: -90
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"dangerous_curve_left",
+    //           zone: 3,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"straight",
+    //       curvature: 0
+    //   },
+    //   profile: "up",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"30kmh_limit",
+    //           zone: 4,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"right",
+    //       curvature: 90
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"dangerous_curve_right",
+    //           zone: 5,
+    //           scale: 3,
+    //           posX: 0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
     // ],
     // trackLayout: [ 
     //     // trackLayout9.json File
@@ -895,142 +1112,108 @@ trackGenerator.trackGeneratorWidget = new TrackGenerator("trackGeneratorWidget",
     //     // Curvature is the angle of curvature for that topography name. This will be useful to try to use 
     //     // those angles to define different curvatures, instead of generating the same curvature for the same
     //     // side
-    //     {
-    //         topography: {
-    //             name:"right",
-    //             curvature: 90
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"straight",
-    //             curvature: 0
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"right",
-    //             curvature: 90
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"straight",
-    //             curvature: 0
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"right",
-    //             curvature: 90
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"straight",
-    //             curvature: 0
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"right",
-    //             curvature: 90
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     },
-    //     {
-    //         topography: {
-    //             name:"straight",
-    //             curvature: 0
-    //         },
-    //         profile: "flat",
-    //         numZones: 1,
-    //         trafficSignals: [
-    //          {
-    //             filename:"traffic_cone",
-    //             scale: 1,
-    //             zone: 1,
-    //             posX: -0.4,
-    //             zoneDistance: 30 // (max distance is zoneSize) 
-    //          }
-    //         ]
-    //     }
+    //  {
+    //   topography: {
+    //       name:"right",
+    //       curvature: 90
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"dangerous_curve_right",
+    //           zone: 1,
+    //           scale: 3,
+    //           posX: 0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"straight",
+    //       curvature: 0
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"50kmh_limit",
+    //           zone: 2,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"right",
+    //       curvature: 90
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"dangerous_curve_right",
+    //           zone: 3,
+    //           scale: 3,
+    //           posX: 0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"straight",
+    //       curvature: 0
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"70kmh_limit",
+    //           zone: 4,
+    //           scale: 3,
+    //           posX: -0.4,
+    //           zoneDistance: 90 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //   topography: {
+    //       name:"right",
+    //       curvature: 90
+    //   },
+    //   profile: "flat",
+    //   numZones: 1,
+    //   trafficSignals: [
+    //       {
+    //           filename:"dangerous_curve_right",
+    //           zone: 5,
+    //           scale: 3,
+    //           posX: 0.4,
+    //           zoneDistance: 130 // (max distance is zoneSize) 
+    //       }
+    //   ]
+    //  },
+    //  {
+    //    topography: {
+    //        name:"straight",
+    //        curvature: 0
+    //    },
+    //    profile: "flat",
+    //    numZones: 1,
+    //    trafficSignals: [
+    //        {
+    //            filename:"traffic_light_red",
+    //            scale: 1,
+    //            zone: 1,
+    //            posX: -0.4,
+    //            zoneDistance: 30 // (max distance is zoneSize) 
+    //        }
+    //    ]
+    //  }
     // ],
     callback: onMessageReceived
 });
