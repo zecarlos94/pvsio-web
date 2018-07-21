@@ -51,11 +51,9 @@
  *                  // action_attribute: "action",
  *                  // direction_attribute: "direction",
  *                  // sound_attribute: "sound",
- *                  // lap_attribute: "lap",
  *                  // speed_attribute: "speed",
  *                  // posx_attribute: "posx",
  *                  // position_attribute: "position",
- *                  // lap_value: "val",
  *                  // speed_value: "val",
  *                  // posx_value: "val",
  *                  // position_value: "val",
@@ -128,12 +126,10 @@
  *                  // newLap_functionNamePVS: "set_positions_init",
  *                  // action_attribute: "action",
  *                  // direction_attribute: "direction",
- *                  // sound_attribute: "sound",
- *                  // lap_attribute: "lap",
+ *                  // sound_attribute: "sound",           
  *                  // speed_attribute: "speed",
  *                  // posx_attribute: "posx",
  *                  // position_attribute: "position",
- *                  // lap_value: "val",
  *                  // speed_value: "val",
  *                  // posx_value: "val",
  *                  // position_value: "val",
@@ -223,11 +219,9 @@ define(function (require, exports, module) {
 	 * @param [opt.action_attribute] {String} allows to set pvs attribute name for action. (default is "action").
 	 * @param [opt.direction_attribute] {String} allows to set pvs attribute name for direction. (default is "direction").
 	 * @param [opt.sound_attribute] {String} allows to set pvs attribute name for sound. (default is "sound").
-	 * @param [opt.lap_attribute] {String} allows to set pvs attribute name for lap. (default is "lap").
 	 * @param [opt.speed_attribute] {String} allows to set pvs attribute name for speed. (default is "speed").
 	 * @param [opt.posx_attribute] {String} allows to set pvs attribute name for posx. (default is "posx").
 	 * @param [opt.position_attribute] {String} allows to set pvs attribute name for position. (default is "position").
-	 * @param [opt.lap_value] {String} allows to set pvs val name for lap attribute. (default is "val").
 	 * @param [opt.speed_value] {String} allows to set pvs val name for speed attribute. (default is "val").
 	 * @param [opt.posx_value] {String} allows to set pvs val name for posx attribute. (default is "val").
 	 * @param [opt.position_value] {String} allows to set pvs val name for position attribute. (default is "val").
@@ -473,9 +467,6 @@ define(function (require, exports, module) {
         this.vehicle.sound_attribute = {};
         this.vehicle.sound_attribute = opt.sound_attribute || "sound";
 
-        this.vehicle.lap_attribute = {};
-        this.vehicle.lap_attribute = opt.lap_attribute || "lap";
-
         this.vehicle.speed_attribute = {};
         this.vehicle.speed_attribute = opt.speed_attribute || "speed";
 
@@ -484,9 +475,6 @@ define(function (require, exports, module) {
 
         this.vehicle.position_attribute = {};
         this.vehicle.position_attribute = opt.position_attribute || "position";
-
-        this.vehicle.lap_value = {};
-        this.vehicle.lap_value = opt.lap_value || "val";
 
         this.vehicle.speed_value = {};
         this.vehicle.speed_value = opt.speed_value || "val";
