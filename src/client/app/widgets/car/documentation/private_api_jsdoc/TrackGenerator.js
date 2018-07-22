@@ -369,7 +369,7 @@ define(function (require, exports, module) {
 
     /**
      * @function constructor
-     * @private
+     * @potected
      * @description Constructor for the TrackGenerator widget.
      * @param id {String} The id of the widget instance.
      * @param coords {Object} The four coordinates (top, left, width, height) of the display, specifying
@@ -489,7 +489,7 @@ define(function (require, exports, module) {
 
     /**
      * @function generateTrackBasedOnTrackLayoutOptField
-     * @private  
+     * @potected  
      * @description GenerateTrackBasedOnTrackLayoutOptField method of the TrackGenerator widget. This method generates the track present in the trackLayout opt field.
      * Every obstaclePerIteration iterations an obstacle is placed on a part of the track, based on 'positionsX' array values (horizontal positions).
      * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no), and has information about the scale that Arcade widget will apply,
@@ -567,73 +567,105 @@ define(function (require, exports, module) {
                                 break;  
                         }
 
-                        for(let i=0; i < self.trackParam.zoneSize; i++){
-                            for(let k=0;k<topographyRead[tmpIter].trafficSignals.length;k++){
-                                if(topographyRead[tmpIter].trafficSignals[k].drawed===false){
-                                    if(topographyRead[tmpIter].trafficSignals[k].zone===(tmpIter+1) && topographyRead[tmpIter].trafficSignals[k].zoneDistance===i){
-                                        if(topographyRead[tmpIter].trafficSignals[k].drawed){
-                                            break;
-                                        }
-                                        index = self.spritesAvailable.findIndex(el2 => el2.name === topographyRead[tmpIter].trafficSignals[k].filename);
-                                        sprite= {type: self.spritesAvailable[index].value, pos: topographyRead[tmpIter].trafficSignals[k].posX, obstacle: 0, scale: topographyRead[tmpIter].trafficSignals[k].scale};
-                                        topographyRead[tmpIter].trafficSignals[k].drawed=true;
-                                        break;
-                                    }
-                                }else{
-                                    if(i%self.obstaclePerIteration==0){
-                                        if(self.obstacle.length!==0){
-                                            // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
-                                            // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
-                                            chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
-                                            chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
-                                            index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle.filename);
-                                            spriteScale = chooseObstacleFromDesiredObstacle.scale;
-                                            sprite = {type: self.spritesAvailable[index].value, pos: chooseObstacleFromDesiredObstacle.positionsX[Math.floor((self.randomPos() * (chooseObstacleFromDesiredObstacle.positionsX.length)))], obstacle: 1, scale: spriteScale};
-                                        }
-                                    }
-                                    else {
-                                        if(self.objects.length!==0){
-                                            // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
-                                            chooseIndexFromObjects = Math.floor((self.randomPos() * self.objects.length));
-                                            chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
-                                            index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects.filename);
-                                            spriteScale = chooseObjectFromDesiredObjects.scale;
-                                            sprite = {type: self.spritesAvailable[index].value, pos: chooseObjectFromDesiredObjects.positionsX[Math.floor((self.randomPos() * (chooseObjectFromDesiredObjects.positionsX.length)))], obstacle: 0, scale: spriteScale};
-                                        }
-                                    }
-                                }
-                            }
-
-                            if(sprite===false){
+                        if(topographyRead[tmpIter].trafficSignals.length===0){
+                            for(let i=0; i < self.trackParam.zoneSize; i++){
                                 if(i%self.obstaclePerIteration==0){
                                     if(self.obstacle.length!==0){
                                         // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
                                         // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
                                         chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
                                         chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
-                                        spriteScale = chooseObstacleFromDesiredObstacle.scale;
                                         index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle.filename);
+                                        spriteScale = chooseObstacleFromDesiredObstacle.scale;
                                         sprite = {type: self.spritesAvailable[index].value, pos: chooseObstacleFromDesiredObstacle.positionsX[Math.floor((self.randomPos() * (chooseObstacleFromDesiredObstacle.positionsX.length)))], obstacle: 1, scale: spriteScale};
                                     }
                                 }
                                 else {
                                     if(self.objects.length!==0){
                                         // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
-                                        chooseIndexFromObjects = Math.floor(self.randomPos() * (self.objects.length));
+                                        chooseIndexFromObjects = Math.floor((self.randomPos() * self.objects.length));
                                         chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
-                                        spriteScale = chooseObjectFromDesiredObjects.scale;
                                         index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects.filename);
+                                        spriteScale = chooseObjectFromDesiredObjects.scale;
                                         sprite = {type: self.spritesAvailable[index].value, pos: chooseObjectFromDesiredObjects.positionsX[Math.floor((self.randomPos() * (chooseObjectFromDesiredObjects.positionsX.length)))], obstacle: 0, scale: spriteScale};
                                     }
-                                } 
+                                }
+                                self.generatedTrack.push({
+                                    height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/self.trackParam.zoneSize * Math.PI-Math.PI/2)),
+                                    curve: currentZone.curve+intendedCurveForCurrentZone / 2 * (1 + Math.sin(i/self.trackParam.zoneSize * Math.PI-Math.PI/2)),
+                                    sprite: sprite
+                                })
+                        
                             }
+                        }else{
+                            for(let i=0; i < self.trackParam.zoneSize; i++){
+                                for(let k=0;k<topographyRead[tmpIter].trafficSignals.length;k++){
+                                    if(topographyRead[tmpIter].trafficSignals[k].drawed===false){
+                                        if(topographyRead[tmpIter].trafficSignals[k].zone===(tmpIter+1) && topographyRead[tmpIter].trafficSignals[k].zoneDistance===i){
+                                            if(topographyRead[tmpIter].trafficSignals[k].drawed){
+                                                break;
+                                            }
+                                            index = self.spritesAvailable.findIndex(el2 => el2.name === topographyRead[tmpIter].trafficSignals[k].filename);
+                                            sprite= {type: self.spritesAvailable[index].value, pos: topographyRead[tmpIter].trafficSignals[k].posX, obstacle: 0, scale: topographyRead[tmpIter].trafficSignals[k].scale};
+                                            topographyRead[tmpIter].trafficSignals[k].drawed=true;
+                                            break;
+                                        }
+                                    }else{
+                                        if(i%self.obstaclePerIteration==0){
+                                            if(self.obstacle.length!==0){
+                                                // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
+                                                // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
+                                                chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
+                                                chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
+                                                index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle.filename);
+                                                spriteScale = chooseObstacleFromDesiredObstacle.scale;
+                                                sprite = {type: self.spritesAvailable[index].value, pos: chooseObstacleFromDesiredObstacle.positionsX[Math.floor((self.randomPos() * (chooseObstacleFromDesiredObstacle.positionsX.length)))], obstacle: 1, scale: spriteScale};
+                                            }
+                                        }
+                                        else {
+                                            if(self.objects.length!==0){
+                                                // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
+                                                chooseIndexFromObjects = Math.floor((self.randomPos() * self.objects.length));
+                                                chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
+                                                index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects.filename);
+                                                spriteScale = chooseObjectFromDesiredObjects.scale;
+                                                sprite = {type: self.spritesAvailable[index].value, pos: chooseObjectFromDesiredObjects.positionsX[Math.floor((self.randomPos() * (chooseObjectFromDesiredObjects.positionsX.length)))], obstacle: 0, scale: spriteScale};
+                                            }
+                                        }
+                                    }
+                                }
 
-                            self.generatedTrack.push({
-                                height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/self.trackParam.zoneSize * Math.PI-Math.PI/2)),
-                                curve: currentZone.curve+intendedCurveForCurrentZone / 2 * (1 + Math.sin(i/self.trackParam.zoneSize * Math.PI-Math.PI/2)),
-                                sprite: sprite
-                            })
-                    
+                                if(sprite===false){
+                                    if(i%self.obstaclePerIteration==0){
+                                        if(self.obstacle.length!==0){
+                                            // each obstaclePerIteration iterations a new obstacle is placed within the generatedTrack
+                                            // generates random integer numbers between 0 and obstacle.length(there are obstacle.length sprites desired to draw)
+                                            chooseIndexFromObstacle = Math.floor((self.randomPos() * self.obstacle.length));
+                                            chooseObstacleFromDesiredObstacle=self.obstacle[chooseIndexFromObstacle];
+                                            spriteScale = chooseObstacleFromDesiredObstacle.scale;
+                                            index = self.spritesAvailable.findIndex(el => el.name === chooseObstacleFromDesiredObstacle.filename);
+                                            sprite = {type: self.spritesAvailable[index].value, pos: chooseObstacleFromDesiredObstacle.positionsX[Math.floor((self.randomPos() * (chooseObstacleFromDesiredObstacle.positionsX.length)))], obstacle: 1, scale: spriteScale};
+                                        }
+                                    }
+                                    else {
+                                        if(self.objects.length!==0){
+                                            // generates random integer numbers between 0 and objects.length(there are objects.length sprites desired to draw)
+                                            chooseIndexFromObjects = Math.floor(self.randomPos() * (self.objects.length));
+                                            chooseObjectFromDesiredObjects=self.objects[chooseIndexFromObjects];
+                                            spriteScale = chooseObjectFromDesiredObjects.scale;
+                                            index = self.spritesAvailable.findIndex(el => el.name === chooseObjectFromDesiredObjects.filename);
+                                            sprite = {type: self.spritesAvailable[index].value, pos: chooseObjectFromDesiredObjects.positionsX[Math.floor((self.randomPos() * (chooseObjectFromDesiredObjects.positionsX.length)))], obstacle: 0, scale: spriteScale};
+                                        }
+                                    } 
+                                }
+
+                                self.generatedTrack.push({
+                                    height: currentZone.height+intendedHeightForCurrentZone / 2 * (1 + Math.sin(i/self.trackParam.zoneSize * Math.PI-Math.PI/2)),
+                                    curve: currentZone.curve+intendedCurveForCurrentZone / 2 * (1 + Math.sin(i/self.trackParam.zoneSize * Math.PI-Math.PI/2)),
+                                    sprite: sprite
+                                })
+                        
+                            }
                         }
                         currentZone.height += intendedHeightForCurrentZone;
                         currentZone.curve += intendedCurveForCurrentZone;
@@ -671,10 +703,10 @@ define(function (require, exports, module) {
         return this;
     };
     
-
+    
     /**
      * @function generateTrackCurvesSlopes
-     * @private  
+     * @potected  
      * @description GenerateTrackCurvesSlopes method of the TrackGenerator widget. This method generates the straight line simulator version.
      * Every obstaclePerIteration iterations an obstacle is placed on a part of the track, based on 'positionsX' array values (horizontal positions).
      * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no), and has information about the scale that Arcade widget will apply,
@@ -985,7 +1017,7 @@ define(function (require, exports, module) {
     
     /**
      * @function generateStraightTrack
-     * @private 
+     * @potected 
      * @description GenerateStraightTrack method of the TrackGenerator widget. This method generates the straight line simulator version.
      * Every obstaclePerIteration iterations an obstacle is placed on a part of the track, based on 'positionsX' array values (horizontal positions).
      * The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no), and has information about the scale that Arcade widget will apply,
@@ -1250,7 +1282,7 @@ define(function (require, exports, module) {
 
     /**
      * @function hide
-     * @private 
+     * @potected 
      * @description Hide method of the TrackGenerator widget. This method changes the current main div visibility to 'hidden'.
      * @memberof module:TrackGenerator
      * @instance
@@ -1261,7 +1293,7 @@ define(function (require, exports, module) {
 
     /**
      * @function reveal
-     * @private 
+     * @potected 
      * @description Reveal method of the TrackGenerator widget. This method changes the current main div visibility to 'visible'.
      * @memberof module:TrackGenerator
      * @instance
@@ -1272,7 +1304,7 @@ define(function (require, exports, module) {
 
     /**
      * @function render
-     * @private
+     * @potected
      * @description Render method of the TrackGenerator widget. This method reveals the widget.
      * @memberof module:TrackGenerator
      * @instance

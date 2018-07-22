@@ -1,0 +1,316 @@
+% ---------------------------------------------------------------
+%  Theory: car_demo
+%  Author: Paolo Masci and Jose Carlos
+%          INESC TEC and Universidade do Minho
+% ---------------------------------------------------------------
+
+main: THEORY
+ BEGIN
+
+  Gear: TYPE = { P, N, R, GEAR_1, GEAR_2, GEAR_3, GEAR_4, GEAR_5, GEAR_6 }
+  gear2real(g: Gear): real =
+    COND
+     g = P OR g = N -> 0,
+     g = R -> 3.67,
+     g = GEAR_1 -> 3.78,
+     g = GEAR_2 -> 2.06,
+     g = GEAR_3 -> 1.23,
+     g = GEAR_4 -> 0.83,
+     g = GEAR_5 -> 0.7,
+     g = GEAR_6 -> 0.6
+    ENDCOND
+  CONVERSION gear2real
+
+  MAX_SPEED: real = 300
+  Speed_Unit: TYPE = { kpm, mph }
+  Speed_Val: TYPE = { x: real | x <= MAX_SPEED }
+  Speed: TYPE = [#
+    val: Speed_Val,
+    units: Speed_Unit
+  #]
+
+  MAX_RPM: real = 14
+  Rpm: TYPE = { x: nonneg_real | x <= MAX_RPM }
+
+  MAX_ODO: real = 999999
+  Odo: TYPE = { x: nonneg_real | x <= MAX_ODO }
+
+  TEMP_AMB: real = 16.1
+  Temp_Units: TYPE = { C, F }
+  Temp: TYPE = [#
+    val: real,
+    units: Temp_Units
+  #]
+
+  POSITION_INIT: real = 10.0
+  Position: TYPE = [#
+    val: real
+  #]
+
+  POSX_INIT: real = 0.0
+  PosX: TYPE = [#
+    val: real
+  #]
+
+  Action: TYPE = { idle, acc, brake, pause, resume, quit }
+  Direction: TYPE = { left, right, straight }
+  Sound: TYPE = { unmute, mute }
+  Startstopbutton: TYPE = { off, on }
+  Sportmodebutton: TYPE = { off, on }
+  Time: TYPE = [# hour: int, min: int #]
+
+  state: TYPE = [#
+    speed: Speed, % Km/h
+    gear: Gear,
+    rpm: Rpm, % x1000/min
+    odo: Odo, % Km
+    temp: Temp,
+    time: Time,
+    steering: real,
+    position: Position,
+    posx: PosX,
+    action: Action,
+    direction: Direction,
+    sound: Sound,
+    startstopbutton: Startstopbutton,
+    sportmodebutton: Sportmodebutton
+  #]
+
+  get_current_time: Time = (# hour := get_time`hour, min := get_time`minute #)
+
+  %-- initial state
+  init(x: real): state = (#
+    speed := (# val:= IF x < MAX_SPEED THEN x ELSE MAX_SPEED ENDIF, units := kpm #),
+    gear := N,
+    rpm := 0,
+    odo := 0,
+    temp := (# val := TEMP_AMB, units := C #),
+    time := get_current_time,
+    steering := 0,
+    position := (# val := POSITION_INIT  #),
+    posx := (# val := POSX_INIT #),
+    action := idle,
+    direction := straight,
+    sound := unmute,
+    startstopbutton := off,
+    sportmodebutton := off
+  #)
+
+  %-- utility functions
+  tyre: real = 7.30 %-- tyre circumference, in feet
+  % this function converts speed into rpms based on the gear and tyre size
+  getRPM(st: state): Rpm =
+    LET new_rpm = (speed(st)`val * gear(st) * 440) / tyre / 1000
+     IN COND
+          new_rpm < 0 -> 0,
+	  new_rpm > MAX_RPM -> MAX_RPM,
+	  ELSE -> new_rpm
+	ENDCOND
+
+  getAcc(g: Gear): Speed_Val =
+   COND
+     g = P OR g = N -> 0,
+     g = R -> -0.6,
+     g = GEAR_1 -> 0.6,
+     g = GEAR_2 -> 1.2,
+     g = GEAR_3 -> 1,
+     g = GEAR_4 -> 0.8,
+     g = GEAR_5 -> 0.6,
+     g = GEAR_6 -> 0.3
+   ENDCOND
+
+  getAccSportMode(g: Gear): Speed_Val =
+   COND
+      g = P OR g = N -> 0,
+      g = R -> -5,
+      g = GEAR_1 -> 1.3,
+      g = GEAR_2 -> 1.5,
+      g = GEAR_3 -> 1.8,
+      g = GEAR_4 -> 2,
+      g = GEAR_5 -> 2.2,
+      g = GEAR_6 -> 2.5
+   ENDCOND
+
+  getBrk(g: Gear): [# speed: real, rpm: real #] = (# speed := -2, rpm := -1 #)
+
+  getBrkSportMode(g: Gear): [# speed: real, rpm: real #] = (# speed := -8, rpm := -2 #)
+
+  gearUP(st: state): state =
+    LET g = gear(st) IN
+    COND
+     g = P OR g = N OR g = R -> st,
+     g = GEAR_1 -> st WITH [ gear := GEAR_2 ],
+     g = GEAR_2 -> st WITH [ gear := GEAR_3 ],
+     g = GEAR_3 -> st WITH [ gear := GEAR_4 ],
+     g = GEAR_4 -> st WITH [ gear := GEAR_5 ],
+     g = GEAR_5 -> st WITH [ gear := GEAR_6 ],
+     g = GEAR_6 -> st
+    ENDCOND
+  gearDOWN(st: state): state =
+    LET g = gear(st) IN
+    COND
+     g = P OR g = N OR g = R -> st,
+     g = GEAR_1 -> st,
+     g = GEAR_2 -> st WITH [ gear := GEAR_1 ],
+     g = GEAR_3 -> st WITH [ gear := GEAR_2 ],
+     g = GEAR_4 -> st WITH [ gear := GEAR_3 ],
+     g = GEAR_5 -> st WITH [ gear := GEAR_4 ],
+     g = GEAR_6 -> st WITH [ gear := GEAR_5 ]
+    ENDCOND
+
+  accelerate(st: state): state =
+    LET st = st WITH [ gear := IF gear(st) = N THEN GEAR_1 ELSE gear(st) ENDIF ],
+        step = getAcc(gear(st)),
+        st = IF speed(st)`val + step < MAX_SPEED
+             THEN st WITH [ speed := speed(st) WITH [ val:= speed(st)`val + step ]]
+	     ELSE st WITH [ speed := speed(st) WITH [ val:= MAX_SPEED ]] ENDIF,
+	new_rpm = getRPM(st),
+	st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+     IN IF rpm(st) > 6 THEN gearUP(st) ELSE st ENDIF
+
+  accelerateSportMode(st: state): state =
+    LET st = st WITH [ gear := IF gear(st) = N THEN GEAR_1 ELSE gear(st) ENDIF ],
+        step = getAccSportMode(gear(st)),
+        st = IF speed(st)`val + step < MAX_SPEED
+             THEN st WITH [ speed := speed(st) WITH [ val:= speed(st)`val + step ]]
+	     ELSE st WITH [ speed := speed(st) WITH [ val:= MAX_SPEED ]] ENDIF,
+	new_rpm = getRPM(st),
+	st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+     IN IF rpm(st) > 6 THEN gearUP(st) ELSE st ENDIF
+
+  brake(st: state): state =
+    LET step = getBrk(gear(st)),
+        st = IF speed(st)`val >= 0
+	     THEN st WITH [ speed := speed(st) WITH
+	   	   	  [ val := IF speed(st)`val + step`speed > 0
+				   THEN speed(st)`val + step`speed
+				   ELSE 0 ENDIF ]]
+	     ELSE %-- the car was driving in reverse, so the speed was negative
+                  st WITH [ speed := speed(st) WITH
+		          [ val:= IF speed(st)`val - step`speed < 0
+				  THEN speed(st)`val - step`speed
+				  ELSE 0 ENDIF ]] ENDIF,
+	new_rpm = getRPM(st),
+        st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+     IN IF rpm(st) < 4 THEN gearDOWN(st) ELSE st ENDIF
+
+  brakeSportMode(st: state): state =
+    LET step = getBrkSportMode(gear(st)),
+        st = IF speed(st)`val >= 0
+	     THEN st WITH [ speed := speed(st) WITH
+	   	   	  [ val := IF speed(st)`val + step`speed > 0
+				   THEN speed(st)`val + step`speed
+				   ELSE 0 ENDIF ]]
+	     ELSE %-- the car was driving in reverse, so the speed was negative
+                  st WITH [ speed := speed(st) WITH
+		          [ val:= IF speed(st)`val - step`speed < 0
+				  THEN speed(st)`val - step`speed
+				  ELSE 0 ENDIF ]] ENDIF,
+	new_rpm = getRPM(st),
+        st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+     IN IF rpm(st) < 4 THEN gearDOWN(st) ELSE st ENDIF
+
+  FRICTION: Speed_Val = 0.6
+  inc(odo: Odo, speed: Speed): Odo =
+    LET step = speed`val / 60 * 1
+     IN IF step >= 0
+        THEN IF odo + step <= MAX_ODO THEN odo + step ELSE odo + step - MAX_ODO ENDIF
+	ELSE IF odo + step <= 0 THEN 0 ELSE odo + step ENDIF ENDIF
+
+  POSX_STEP: real = 25 
+  tick(st: state): state =
+   LET st = st WITH [ time := get_current_time,
+                      position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+    IN IF speed(st)`val > 0
+       THEN LET new_speed: Speed_Val = COND action(st) = idle -> IF speed(st)`val - FRICTION > 0 THEN speed(st)`val - FRICTION ELSE 0 ENDIF,
+                                            ELSE -> speed(st)`val ENDCOND,
+	        st = st WITH [ speed := speed(st) WITH [ val := new_speed ]]
+	     IN st WITH [ rpm := getRPM(st),
+	       	          odo := inc(odo(st), speed(st)),
+			  posx := posx(st) WITH [ val := COND steering(st) >= 20 -> posx(st)`val + POSX_STEP,
+			      	     	    	              steering(st) <= -20 -> posx(st)`val - POSX_STEP,
+							      ELSE -> posx(st)`val ENDCOND ],
+		    	  direction := COND steering(st) >= 20 -> right,
+					    steering(st) <= -20 -> left,
+					    ELSE -> straight ENDCOND ]
+        ELSE st ENDIF
+
+
+  %-- APIs
+  press_accelerate(st: state): state = IF sportmodebutton(st) = off
+                                        THEN accelerate(st) WITH [ action := acc ]
+                                        ELSE accelerateSportMode(st) WITH [ action := acc ]
+                                      ENDIF
+  release_accelerate(st: state): state = st WITH [ action := idle ]
+
+  press_brake(st: state): state = IF sportmodebutton(st) = off
+                                    THEN brake(st) WITH [ action := brake ]
+                                    ELSE brakeSportMode(st) WITH [ action := brake ]
+                                  ENDIF
+  release_brake(st: state): state = st WITH [ action := idle ]
+
+  STEERING_STEP: real = 20 %deg
+  steering_wheel_right(st: state): state = st WITH [ steering := IF steering(st) < 90 THEN steering(st) + STEERING_STEP ELSE 90 ENDIF ]
+  steering_wheel_left(st: state): state = st WITH [ steering := IF steering(st) > -90 THEN steering(st) - STEERING_STEP ELSE -90 ENDIF ]
+  steering_wheel_straight(st: state): state = st WITH [ steering := 0, posx := posx(st) WITH [ val:= posx(st)`val ], direction := straight ]
+  steering_wheel_rotate(x: real)(st: state): state = st WITH [ steering := x ]
+
+  %-- API for new laps
+  set_positions_init(st: state): state = st WITH [ position := (# val := POSITION_INIT  #), posx := (# val := POSX_INIT #) ]
+
+  %-- API for sound controls 
+  press_mute(st: state): state = st WITH [ sound := mute ]
+  release_mute(st: state): state = st WITH [ sound := mute ]
+  
+  press_unmute(st: state): state = st WITH [ sound := unmute ]
+  release_unmute(st: state): state = st WITH [ sound := unmute ]
+  
+  %-- API for virtual Keypad controller 
+  %-- TODO create the interactions with Arcade Driving Simulator
+  press_quit(st: state): state = st WITH [ action := quit, startstopbutton := off ]
+  release_quit(st: state): state = st WITH [ action := idle ]
+  press_pause(st: state): state = st WITH [ action := pause, startstopbutton := off ]
+  release_pause(st: state): state = st WITH [ action := idle ]
+  press_resume(st: state): state = st WITH [ action := resume, startstopbutton := on ]
+  release_resume(st: state): state = st WITH [ action := idle ]
+
+  %-- API for external controllers such as PS4 gamepad
+  click_accelerate(st: state): state = IF sportmodebutton(st) = off
+                                        THEN accelerate(st) WITH [ action := acc ]
+                                        ELSE accelerateSportMode(st) WITH [ action := acc ]
+                                      ENDIF
+  click_brake(st: state): state = IF sportmodebutton(st) = off
+                                    THEN brake(st) WITH [ action := brake ]
+                                    ELSE brakeSportMode(st) WITH [ action := brake ]
+                                  ENDIF
+
+  %-- API for external controller interactive image
+  press_rightArrow(st: state): state = steering_wheel_right(st)
+  release_rightArrow(st: state): state = st
+
+  press_leftArrow(st: state): state = steering_wheel_left(st)
+  release_leftArrow(st: state): state = st
+
+  %-- API for case study 2015 Lincoln MCK interactive dashboard image
+  startAndStop(st: state): state = 
+    LET st = IF startstopbutton(st) = off
+              THEN st WITH [ action := resume, startstopbutton := on ]
+              ELSE st WITH [ action := quit, startstopbutton := off ] 
+             ENDIF
+    IN st 
+
+  activateSportMode(st: state): state = 
+    LET st = IF sportmodebutton(st) = off
+              THEN st WITH [ sportmodebutton := on ]
+              ELSE st WITH [ sportmodebutton := off ] 
+             ENDIF
+    IN st 
+   
+  press_startAndStop(st: state): state = startAndStop(st)
+  release_startAndStop(st: state): state = st WITH [ action := idle ]
+
+  press_activateSportMode(st: state): state = activateSportMode(st)
+  release_activateSportMode(st: state): state = st WITH [ action := idle ]
+
+END main
+

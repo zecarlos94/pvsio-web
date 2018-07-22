@@ -497,6 +497,1369 @@ in the previous example, as it follows,</p>
     
 
     
+    <h4 class="name" id="constructor"><span class="type-signature"></span>constructor<span class="signature">(id, coords, opt)</span><span class="type-signature"> &rarr; {TrackGenerator}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Constructor for the TrackGenerator widget.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The id of the widget instance.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>coords</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The four coordinates (top, left, width, height) of the display, specifying
+       the left, top corner, and the width and height of the (rectangular) display.
+       Default is { top: 1000, left: 100, width: 500, height: 500 }.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>opt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Options:
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>parent</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the HTML element where the display will be appended (default is "body").</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>spritesFilename</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the spritesheet filename(json file) that will be loaded (default is "spritesheet").</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>render</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the rendering configurations, i.e. width, height, etc. (default is {depthOfField: 150, camera_distance: 30, camera_height: 320}).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>trackSegmentSize</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the size of the track segment (default is 5).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>numberOfSegmentPerColor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the number of segments per color, i.e. how many sequenced segments to alternate colors (default is 4).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>numLanes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the number of lanes the track will be draw (default is 3).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>laneWidth</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the width of the lane separator (default is 0.02).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>trackParam</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the track configurations, i.e. number of zones(track length), etc (default is {numZones: 12, zoneSize: 250}).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>controllable_vehicle</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the vehicle configurations, i.e. initial position, acceleration and deceleration values, etc (default is {position: 10, speed: 0, acceleration: 0.05, deceleration: 0.3, breaking: 0.6, turning: 5.0, posx: 0, maxSpeed: 15}).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>objects</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the sprite names to be drawed in the landscape (default is []).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>obstacle</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the sprite names to be drawed within the track as obstacles (default is []).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>trackLayout</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the track layout that will be used to create the corresponding segments. (default is []).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>trackColors</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the track colors that will be used to color the segments in each stripe. (default is {grass1: "#699864", border1: "#e00", border2: "#fff", outborder1: "#496a46", outborder_end1: "#474747", track_segment1: "#777", lane1: "#fff", lane2: "#777", laneArrow1: "#00FF00", track_segment_end:"#000", lane_end: "#fff"}).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>obstaclePerIteration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Int</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the number of iterations where a new obstacle will be placed within the track (default is 50).</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line370">line 370</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget TrackGenerator.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">TrackGenerator</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="generateStraightTrack"><span class="type-signature"></span>generateStraightTrack<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    GenerateStraightTrack method of the TrackGenerator widget. This method generates the straight line simulator version.
+Every obstaclePerIteration iterations an obstacle is placed on a part of the track, based on 'positionsX' array values (horizontal positions).
+The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no), and has information about the scale that Arcade widget will apply,
+when rendering that sprite, in the scale field.
+It also has information about the position choosen from 'positionsX' array and the type of sprite, i.e. the sprite provided as opt from the available list, in 'filename' (obtained in the spritesheet.json file)
+During the remaining iterations (which will not be considered as obstacles on the road), the sprites provided in 'objects' opt field will be used as the 'obstacles'. That is, a new sprite will be choosen from that 
+     + array, and it will use the position values obtained from its 'positionsX' array as well as the scale to apply in the rendering process.
+After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in, whether those are obstacles or not and what scale must be applied during 
+the rendering process, a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
+within this context on the PVSio-web platform.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line1018">line 1018</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+        <p class="code-caption">Usage of public API to create randomly track, with only straight lines.</p>
+    
+    <pre class="prettyprint"><code>define(function (require, exports, module) {
+    "use strict";
+
+    // Require the TrackGenerator module
+    require("widgets/car/TrackGenerator");
+
+    function main() {
+      // After TrackGenerator module was loaded, initialize it
+      let trackGenerator = new TrackGenerator("trackGeneratorWidget", {
+          top: 80,
+          left: 650,
+          width: 780,
+          height: 650
+      }, {
+          parent: "content", // defines parent div, which is div id="body" by default
+          spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+          render: {
+              depthOfField: 150,
+              camera_distance: 30,
+              camera_height: 320
+          },
+          trackSegmentSize: 5,
+          numberOfSegmentPerColor: 4,
+          numLanes: 3,
+          laneWidth: 0.02,
+          trackParam: {
+              numZones:    12, // number of different portions of the track
+              zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
+          },
+          // Information regarding current controllable_vehicle's car
+          controllable_vehicle: {
+              position: 10,
+              speed: 0,
+              acceleration: 0.05,
+              deceleration: 0.3,
+              breaking: 0.6,
+              turning: 5.0,
+              posx: 0,
+              maxSpeed: 15
+          },
+          objects: [
+           {
+               filename:"real_tree3",
+               scale: 1,
+               positionsX: [
+                    -0.8,
+                    0.6
+               ]
+            },
+            {
+                filename:"real_tree4",
+                scale: 1,
+                positionsX: [
+                    -0.6,
+                    0.8
+                ]
+            },
+            {
+                filename:"real_building",
+                scale: 1,
+                positionsX: [
+                    -0.7,
+                   0.9
+                ]
+            },
+           {
+               filename:"real_building2",
+               scale: 1,
+               positionsX: [
+                    -0.9,
+                    0.7
+                ]
+           },
+            {
+                filename:"real_skyscraper",
+                scale: 1,
+                positionsX: [
+                    1.9,
+                    -1.7
+                ]
+            }
+          ],
+          obstacle: [
+            {
+                filename:"30kmh_limit",
+                scale: 1,
+                positionsX: [
+                    0.1
+                ]
+           },
+            {
+               filename:"horizontal_pedrestrian_crossing_rubber_bump",
+               scale: 1,
+               positionsX: [
+                    -0.1
+                ]
+            },
+            {
+                filename:"under_construction_barrier",
+                scale: 1,
+                positionsX: [
+                   0.4
+                ]
+            },
+            {
+               filename:"traffic_cone",
+               scale: 1,
+               positionsX: [
+                    -0.4
+                ]
+            },
+            {
+               filename:"traffic_light_red",
+               scale: 1,
+               positionsX: [
+                    0
+                ]
+            }
+          ],
+          trackColors: {
+              grass1: "#699864",
+              border1: "#e00",
+              border2: "#fff",
+              outborder1: "#496a46",
+              outborder_end1: "#474747",
+              track_segment1: "#777",
+              lane1: "#fff",
+              lane2: "#777",
+              laneArrow1: "#00FF00",
+              track_segment_end:"#000",
+              lane_end: "#fff"
+          },
+          callback: onMessageReceived
+      });
+
+      // Reveals TrackGenerator Widget
+      trackGenerator.prototype.render(); 
+     
+      // Creates the track randomly
+      trackGenerator.generateStraightTrack();    
+    }
+});</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="generateTrackBasedOnTrackLayoutOptField"><span class="type-signature"></span>generateTrackBasedOnTrackLayoutOptField<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    GenerateTrackBasedOnTrackLayoutOptField method of the TrackGenerator widget. This method generates the track present in the trackLayout opt field.
+Every obstaclePerIteration iterations an obstacle is placed on a part of the track, based on 'positionsX' array values (horizontal positions).
+The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no), and has information about the scale that Arcade widget will apply,
+when rendering that sprite, in the scale field.
+It also has information about the position choosen from 'positionsX' array and the type of sprite, i.e. the sprite provided as opt from the available list, in 'filename' (obtained in the spritesheet.json file)
+During the remaining iterations (which will not be considered as obstacles on the road), the sprites provided in 'objects' opt field will be used as the 'obstacles'. That is, a new sprite will be choosen from that 
+     + array, and it will use the position values obtained from its 'positionsX' array as well as the scale to apply in the rendering process.
+After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in, whether those are obstacles or not and what scale must be applied during 
+the rendering process, a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
+within this context on the PVSio-web platform.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line490">line 490</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="generateTrackCurvesSlopes"><span class="type-signature"></span>generateTrackCurvesSlopes<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    GenerateTrackCurvesSlopes method of the TrackGenerator widget. This method generates the straight line simulator version.
+Every obstaclePerIteration iterations an obstacle is placed on a part of the track, based on 'positionsX' array values (horizontal positions).
+The sprite variable has the information about whether or not it is an obstacle in the obstacle field (1-yes, 0-no), and has information about the scale that Arcade widget will apply,
+when rendering that sprite, in the scale field.
+It also has information about the position choosen from 'positionsX' array and the type of sprite, i.e. the sprite provided as opt from the available list, in 'filename' (obtained in the spritesheet.json file)
+During the remaining iterations (which will not be considered as obstacles on the road), the sprites provided in 'objects' opt field will be used as the 'obstacles'. That is, a new sprite will be choosen from that 
+     + array, and it will use the position values obtained from its 'positionsX' array as well as the scale to apply in the rendering process.
+After creating the segments that make up the track, on generatedTrack variable, that includes information on what sprites to put in, whether those are obstacles or not and what scale must be applied during 
+the rendering process, a JSON object, generatedJSON, is created, which will later be saved in a track.json file in the widgets/car/configurations directory, when there is a file writing API
+within this context on the PVSio-web platform.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line707">line 707</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+        <p class="code-caption">Usage of public API to create randomly track, with straight lines, curves and slopes.</p>
+    
+    <pre class="prettyprint"><code>define(function (require, exports, module) {
+    "use strict";
+
+    // Require the TrackGenerator module
+    require("widgets/car/TrackGenerator");
+
+    function main() {
+      // After TrackGenerator module was loaded, initialize it
+      let trackGenerator = new TrackGenerator("trackGeneratorWidget", {
+          top: 80,
+          left: 650,
+          width: 780,
+          height: 650
+      }, {
+          parent: "content", // defines parent div, which is div id="body" by default
+          spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+          render: {
+              depthOfField: 150,
+              camera_distance: 30,
+              camera_height: 320
+          },
+          trackSegmentSize: 5,
+          numberOfSegmentPerColor: 4,
+          numLanes: 3,
+          laneWidth: 0.02,
+          trackParam: {
+              numZones:    12, // number of different portions of the track
+              zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
+          },
+          // Information regarding current controllable_vehicle's car
+          controllable_vehicle: {
+              position: 10,
+              speed: 0,
+              acceleration: 0.05,
+              deceleration: 0.3,
+              breaking: 0.6,
+              turning: 5.0,
+              posx: 0,
+              maxSpeed: 15
+          },
+          objects: [
+           {
+               filename:"real_tree3",
+               scale: 1,
+               positionsX: [
+                    -0.8,
+                    0.6
+               ]
+            },
+            {
+                filename:"real_tree4",
+                scale: 1,
+                positionsX: [
+                    -0.6,
+                    0.8
+                ]
+            },
+            {
+                filename:"real_building",
+                scale: 1,
+                positionsX: [
+                    -0.7,
+                   0.9
+                ]
+            },
+           {
+               filename:"real_building2",
+               scale: 1,
+               positionsX: [
+                    -0.9,
+                    0.7
+                ]
+           },
+            {
+                filename:"real_skyscraper",
+                scale: 1,
+                positionsX: [
+                    1.9,
+                    -1.7
+                ]
+            }
+          ],
+          obstacle: [
+            {
+                filename:"30kmh_limit",
+                scale: 1,
+                positionsX: [
+                    0.1
+                ]
+           },
+            {
+               filename:"horizontal_pedrestrian_crossing_rubber_bump",
+               scale: 1,
+               positionsX: [
+                    -0.1
+                ]
+            },
+            {
+                filename:"under_construction_barrier",
+                scale: 1,
+                positionsX: [
+                   0.4
+                ]
+            },
+            {
+               filename:"traffic_cone",
+               scale: 1,
+               positionsX: [
+                    -0.4
+                ]
+            },
+            {
+               filename:"traffic_light_red",
+               scale: 1,
+               positionsX: [
+                    0
+                ]
+            }
+          ],
+          obstaclePerIteration: 20,
+          trackColors: {
+              grass1: "#699864",
+              border1: "#e00",
+              border2: "#fff",
+              outborder1: "#496a46",
+              outborder_end1: "#474747",
+              track_segment1: "#777",
+              lane1: "#fff",
+              lane2: "#777",
+              laneArrow1: "#00FF00",
+              track_segment_end:"#000",
+              lane_end: "#fff"
+          },
+          callback: onMessageReceived
+      });
+
+      // Reveals TrackGenerator Widget
+      trackGenerator.prototype.render(); 
+     
+      // Creates the track randomly
+      trackGenerator.generateTrackCurvesSlopes();    
+    }
+});</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="hide"><span class="type-signature"></span>hide<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Hide method of the TrackGenerator widget. This method changes the current main div visibility to 'hidden'.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line1283">line 1283</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="loadFile"><span class="type-signature"></span>loadFile<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
@@ -549,7 +1912,179 @@ in the previous example, as it follows,</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line1222">line 1222</a>
+        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line1254">line 1254</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="render"><span class="type-signature"></span>render<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Render method of the TrackGenerator widget. This method reveals the widget.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line1305">line 1305</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="reveal"><span class="type-signature"></span>reveal<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Reveal method of the TrackGenerator widget. This method changes the current main div visibility to 'visible'.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="TrackGenerator.js.html">TrackGenerator.js</a>, <a href="TrackGenerator.js.html#line1294">line 1294</a>
     </li></ul></dd>
     
 
@@ -599,7 +2134,7 @@ in the previous example, as it follows,</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jul 21 2018 16:51:01 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Jul 22 2018 12:56:55 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

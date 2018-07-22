@@ -267,14 +267,14 @@ require([
             render: {
                 depthOfField: 150,
                 camera_distance: 30,
-                camera_height: 320
+                camera_height: 270
             },
             trackSegmentSize: 5,
             numberOfSegmentPerColor: 4,
             numLanes: 3,
             laneWidth: 0.02,
             trackParam: {
-                numZones:    12, // number of different portions of the track
+                numZones:    3, // number of different portions of the track
                 zoneSize:  250 // length of each numZones (the bigger this value. the longer it will take to finish)
             },
             // Information regarding current controllable_car's car
@@ -449,7 +449,7 @@ require([
         // trackGenerator.trackGeneratorWidget2.generateTrackCurvesSlopes();
         trackGenerator.trackGeneratorWidget2.generateTrackBasedOnTrackLayoutOptField();
 
-        var demoFolder = "track_generator_simulator";
+        var demoFolder = "old_appearance_track_generator_simulator";
         //register event listener for websocket connection from the client
         client.addListener('WebSocketConnectionOpened', function (e) {
             console.log("web socket connected");

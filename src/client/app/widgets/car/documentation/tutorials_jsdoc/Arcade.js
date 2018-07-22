@@ -614,8 +614,8 @@ define(function (require, exports, module) {
                 .style("height", this.height + "px");
 
         this.soundWidget = new Sound("soundWidget_"+this.id, {
-            top: (this.top+350),
-            left: (this.left-230),
+            top: (this.top+this.height-30),
+            left: (this.left-30),
             width: 750,
             height: 750
         }, {
@@ -1057,10 +1057,18 @@ define(function (require, exports, module) {
         let centerX = Math.floor(this.renderCanvas.width / 2);
         let centerY = Math.floor(this.renderCanvas.height / 2);
         let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
-        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
-        // this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
-        let centerDeviation = 40;
-        let centerDeviationSpritesFont = 70;
+        let centerDeviation;
+        let centerDeviationSpritesFont;
+        if(this.width<=800){
+            centerDeviation = 30;
+            centerDeviationSpritesFont = 40;
+            this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.70*this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
+        }else{
+            centerDeviation = 40;
+            centerDeviationSpritesFont = 70;
+            this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
+            // this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
+        }
 
         if(this.realPrefix!==""){
             this.drawText("Click on space bar to resume",{x: centerX-4*centerDeviation, y: centerY}, 1, ratioFonts);
@@ -1124,10 +1132,18 @@ define(function (require, exports, module) {
         let centerX = Math.floor(this.renderCanvas.width / 2);
         let centerY = Math.floor(this.renderCanvas.height / 2);
         let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
-        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
-        // this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
-        let centerDeviation = 40;
-        let centerDeviationSpritesFont = 70;
+        let centerDeviation;
+        let centerDeviationSpritesFont;
+        if(this.width<=800){
+            centerDeviation = 30;
+            centerDeviationSpritesFont = 40;
+            this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.70*this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
+        }else{
+            centerDeviation = 40;
+            centerDeviationSpritesFont = 70;
+            this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
+            // this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
+        }
 
         if(this.realPrefix!==""){
             this.drawText("Thank you for playing!",{x: centerX-3*centerDeviation, y: centerY}, 1, ratioFonts);
@@ -1203,10 +1219,18 @@ define(function (require, exports, module) {
                 let centerX = Math.floor(this.renderCanvas.width / 2);
                 let centerY = Math.floor(this.renderCanvas.height / 2);
                 let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
-                this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
                 
-                let centerDeviation = 40;
-                let centerDeviationSpritesFont = 70;
+                let centerDeviation;
+                let centerDeviationSpritesFont;
+                if(this.width<=800){
+                    centerDeviation = 30;
+                    centerDeviationSpritesFont = 40;
+                    this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.70*this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
+                }else{
+                    centerDeviation = 40;
+                    centerDeviationSpritesFont = 70;
+                    this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
+                }
 
                 if(this.realPrefix!==""){
                     this.drawText("Instructions:",{x: centerX-centerDeviation, y: centerY-centerDeviation}, 1, ratioFonts);
@@ -1332,81 +1356,151 @@ define(function (require, exports, module) {
         let vehicleXRightPosition;
         let vehicleYRightPosition;
 
+        let centerDeviationVehicleXAirplane;
+        let centerDeviationVehicleYAirplane;
+        let centerDeviationVehicleXBicycle;
+        let centerDeviationVehicleYBicycle;
+        let centerDeviationVehicleXCar;
+        let centerDeviationVehicleYCar;
+        let centerDeviationVehicleXHelicopter;
+        let centerDeviationVehicleYHelicopter;
+        let centerDeviationVehicleXMotorbike;
+        let centerDeviationVehicleYMotorbike;
+        if(this.width<=800){
+            centerDeviationVehicleXAirplane = 90;
+            centerDeviationVehicleYAirplane = 220;
+            centerDeviationVehicleXBicycle = 40;
+            centerDeviationVehicleYBicycle = 160;
+            centerDeviationVehicleXCar = 70;
+            centerDeviationVehicleYCar = 120;
+            centerDeviationVehicleXHelicopter = 110;
+            centerDeviationVehicleYHelicopter = 260;
+            centerDeviationVehicleXMotorbike = 40;
+            centerDeviationVehicleYMotorbike = 200;
+        }else{
+            centerDeviationVehicleXAirplane = 100;
+            centerDeviationVehicleYAirplane = 190;
+            centerDeviationVehicleXBicycle = 100;
+            centerDeviationVehicleYBicycle = 190;
+            centerDeviationVehicleXCar = 100;
+            centerDeviationVehicleYCar = 190;
+            centerDeviationVehicleXHelicopter = 100;
+            centerDeviationVehicleYHelicopter = 190;
+            centerDeviationVehicleXMotorbike = 100;
+            centerDeviationVehicleYMotorbike = 190;
+        }
+    
         switch (this.spritesImgsInformation.vehicleType) {
             case "airplane":
                 if(this.spritesImgsInformation.vehicleIndex===2){
-                    vehicleXFrontPosition = this.renderCanvas.width/2-100;
-                    vehicleYFrontPosition = this.renderCanvas.height-190;
-                    vehicleXLeftPosition  = this.renderCanvas.width/2-100;
-                    vehicleYLeftPosition  = this.renderCanvas.height-190;
-                    vehicleXRightPosition = this.renderCanvas.width/2-100;
-                    vehicleYRightPosition = this.renderCanvas.height-190;
+                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXAirplane;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYAirplane;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXAirplane;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYAirplane;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXAirplane;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYAirplane;
+                    }
                 }else{
-                    vehicleXFrontPosition = this.renderCanvas.width/2-100;
-                    vehicleYFrontPosition = this.renderCanvas.height-190;
-                    vehicleXLeftPosition  = this.renderCanvas.width/2-100;
-                    vehicleYLeftPosition  = this.renderCanvas.height-190;
-                    vehicleXRightPosition = this.renderCanvas.width/2-100;
-                    vehicleYRightPosition = this.renderCanvas.height-190;
+                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXAirplane;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYAirplane;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXAirplane;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYAirplane;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXAirplane;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYAirplane;
+                    }
                 }
                 break;
             case "bicycle":
                 if(this.spritesImgsInformation.vehicleRealistic){
-                    vehicleXFrontPosition = this.renderCanvas.width/2-100;
-                    vehicleYFrontPosition = this.renderCanvas.height-190;
-                    vehicleXLeftPosition  = this.renderCanvas.width/2-100;
-                    vehicleYLeftPosition  = this.renderCanvas.height-190;
-                    vehicleXRightPosition = this.renderCanvas.width/2-100;
-                    vehicleYRightPosition = this.renderCanvas.height-190;
+                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXBicycle;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYBicycle;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXBicycle;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYBicycle;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXBicycle;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYBicycle;
+                    }
                 }else{
-                    vehicleXFrontPosition = this.renderCanvas.width/2-100;
-                    vehicleYFrontPosition = this.renderCanvas.height-190;
-                    vehicleXLeftPosition  = this.renderCanvas.width/2-100;
-                    vehicleYLeftPosition  = this.renderCanvas.height-190;
-                    vehicleXRightPosition = this.renderCanvas.width/2-100;
-                    vehicleYRightPosition = this.renderCanvas.height-190;
+                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXBicycle;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYBicycle;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXBicycle;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYBicycle;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXBicycle;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYBicycle;
+                    }
                 }
                 break;
             case "car":
                 if(this.spritesImgsInformation.vehicleRealistic){
-                    vehicleXFrontPosition = this.renderCanvas.width/2-100;
-                    vehicleYFrontPosition = this.renderCanvas.height-190;
-                    vehicleXLeftPosition  = this.renderCanvas.width/2-100;
-                    vehicleYLeftPosition  = this.renderCanvas.height-190;
-                    vehicleXRightPosition = this.renderCanvas.width/2-100;
-                    vehicleYRightPosition = this.renderCanvas.height-190;
+                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXCar;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYCar;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXCar;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYCar;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXCar;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYCar;
+                    }
                 }else{
-                    vehicleXFrontPosition = this.renderCanvas.width/2-100;
-                    vehicleYFrontPosition = this.renderCanvas.height-190;
-                    vehicleXLeftPosition  = this.renderCanvas.width/2-100;
-                    vehicleYLeftPosition  = this.renderCanvas.height-190;
-                    vehicleXRightPosition = this.renderCanvas.width/2-100;
-                    vehicleYRightPosition = this.renderCanvas.height-190;
+                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXCar;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYCar;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXCar;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYCar;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXCar;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYCar;
+                    }
                 }
                 break;
             case "helicopter":
-                vehicleXFrontPosition = this.renderCanvas.width/2-100;
-                vehicleYFrontPosition = this.renderCanvas.height-190;
-                vehicleXLeftPosition  = this.renderCanvas.width/2-100;
-                vehicleYLeftPosition  = this.renderCanvas.height-190;
-                vehicleXRightPosition = this.renderCanvas.width/2-100;
-                vehicleYRightPosition = this.renderCanvas.height-190;
+                if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
+                    this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXHelicopter;
+                    this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYHelicopter;
+                }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
+                    this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXHelicopter;
+                    this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYHelicopter;
+                }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
+                    this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXHelicopter;
+                    this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYHelicopter;
+                }
                 break;
             case "motorbike":
                 if(this.spritesImgsInformation.vehicleRealistic){
-                    vehicleXFrontPosition = this.renderCanvas.width/2-100;
-                    vehicleYFrontPosition = this.renderCanvas.height-190;
-                    vehicleXLeftPosition  = this.renderCanvas.width/2-100;
-                    vehicleYLeftPosition  = this.renderCanvas.height-190;
-                    vehicleXRightPosition = this.renderCanvas.width/2-100;
-                    vehicleYRightPosition = this.renderCanvas.height-190;
+                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXMotorbike;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYMotorbike;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXMotorbike;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYMotorbike;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXMotorbike;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYMotorbike;
+                    }
                 }else{
-                    vehicleXFrontPosition = this.renderCanvas.width/2-100;
-                    vehicleYFrontPosition = this.renderCanvas.height-190;
-                    vehicleXLeftPosition  = this.renderCanvas.width/2-100;
-                    vehicleYLeftPosition  = this.renderCanvas.height-190;
-                    vehicleXRightPosition = this.renderCanvas.width/2-100;
-                    vehicleYRightPosition = this.renderCanvas.height-190;
+                    if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXMotorbike;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYMotorbike;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXMotorbike;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYMotorbike;
+                    }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXMotorbike;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYMotorbike;
+                    }
                 }
                 break;
         }
@@ -1511,117 +1605,151 @@ define(function (require, exports, module) {
                 }
                 this.auxiliaryPVSValues.newPositionXAux = this.lastPVSValues.lastPosXPVS;
             }
+
+            let centerDeviationVehicleXAirplane;
+            let centerDeviationVehicleYAirplane;
+            let centerDeviationVehicleXBicycle;
+            let centerDeviationVehicleYBicycle;
+            let centerDeviationVehicleXCar;
+            let centerDeviationVehicleYCar;
+            let centerDeviationVehicleXHelicopter;
+            let centerDeviationVehicleYHelicopter;
+            let centerDeviationVehicleXMotorbike;
+            let centerDeviationVehicleYMotorbike;
+            if(this.width<=800){
+                centerDeviationVehicleXAirplane = 90;
+                centerDeviationVehicleYAirplane = 220;
+                centerDeviationVehicleXBicycle = 40;
+                centerDeviationVehicleYBicycle = 160;
+                centerDeviationVehicleXCar = 70;
+                centerDeviationVehicleYCar = 120;
+                centerDeviationVehicleXHelicopter = 110;
+                centerDeviationVehicleYHelicopter = 260;
+                centerDeviationVehicleXMotorbike = 40;
+                centerDeviationVehicleYMotorbike = 200;
+            }else{
+                centerDeviationVehicleXAirplane = 100;
+                centerDeviationVehicleYAirplane = 190;
+                centerDeviationVehicleXBicycle = 100;
+                centerDeviationVehicleYBicycle = 190;
+                centerDeviationVehicleXCar = 100;
+                centerDeviationVehicleYCar = 190;
+                centerDeviationVehicleXHelicopter = 100;
+                centerDeviationVehicleYHelicopter = 190;
+                centerDeviationVehicleXMotorbike = 100;
+                centerDeviationVehicleYMotorbike = 190;
+            }
        
             switch (this.spritesImgsInformation.vehicleType) {
                 case "airplane":
                     if(this.spritesImgsInformation.vehicleIndex===2){
                         if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXAirplane;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYAirplane;
                         }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXAirplane;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYAirplane;
                         }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXAirplane;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYAirplane;
                         }
                     }else{
                         if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXAirplane;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYAirplane;
                         }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXAirplane;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYAirplane;
                         }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXAirplane;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYAirplane;
                         }
                     }
                     break;
                 case "bicycle":
                     if(this.spritesImgsInformation.vehicleRealistic){
                         if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXBicycle;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYBicycle;
                         }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXBicycle;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYBicycle;
                         }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXBicycle;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYBicycle;
                         }
                     }else{
                         if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXBicycle;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYBicycle;
                         }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXBicycle;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYBicycle;
                         }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXBicycle;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYBicycle;
                         }
                     }
                     break;
                 case "car":
                     if(this.spritesImgsInformation.vehicleRealistic){
                         if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXCar;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYCar;
                         }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXCar;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYCar;
                         }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXCar;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYCar;
                         }
                     }else{
                         if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXCar;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYCar;
                         }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXCar;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYCar;
                         }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXCar;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYCar;
                         }
                     }
                     break;
                 case "helicopter":
                     if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXHelicopter;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYHelicopter;
                     }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXHelicopter;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYHelicopter;
                     }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                        this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXHelicopter;
+                        this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYHelicopter;
                     }
                     break;
                 case "motorbike":
                     if(this.spritesImgsInformation.vehicleRealistic){
                         if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXMotorbike;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYMotorbike;
                         }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXMotorbike;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYMotorbike;
                         }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXMotorbike;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYMotorbike;
                         }
                     }else{
                         if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.left_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXMotorbike;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYMotorbike;
                         }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.right_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXMotorbike;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYMotorbike;
                         }else if(this.auxiliaryPVSValues.vehicleCurrentDirectionAux===this.vehicle.straight_attribute){
-                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-100;
-                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-190;
+                            this.auxiliaryPVSValues.vehicleXPositionAux= this.renderCanvas.width/2-centerDeviationVehicleXMotorbike;
+                            this.auxiliaryPVSValues.vehicleYPositionAux= this.renderCanvas.height-centerDeviationVehicleYMotorbike;
                         }
                     }
                     break;
@@ -1729,7 +1857,13 @@ define(function (require, exports, module) {
         
         let centerX = Math.floor(this.renderCanvas.width / 2);
         let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
-        let centerDeviationDuringSimulation = 70;
+
+        let centerDeviationDuringSimulation;
+        if(this.width<=800){
+            centerDeviationDuringSimulation = 45;
+        }else{
+            centerDeviationDuringSimulation = 70;
+        }
 
         let carSprite = null;
 
@@ -2603,14 +2737,34 @@ define(function (require, exports, module) {
         this.renderCanvas.width / backgroundWidth : this.renderCanvas.height / backgroundHeight;
     
         let first = position / 2 % (this.main_sprites.background.w);
-        // (image, x, y, scale) args
-        // LEFT 
-        this.drawSprite(null, this.main_sprites.background, first-(Math.ceil(ratio)*this.main_sprites.background.w)+1, 0, Math.ceil(ratio));
-        // CENTER (Starts in (0,0) - Variable 'first' is 0 in the beginning of the simulation, since 'position' is also 0) 
-        this.drawSprite(null, this.main_sprites.background, first, 0, Math.ceil(ratio));
-        // RIGHT 
-        this.drawSprite(null, this.main_sprites.background, first+(Math.ceil(ratio)*this.main_sprites.background.w)-1, 0, Math.ceil(ratio));
-        
+
+        if(this.height<=400){
+            // (image, x, y, scale) args
+            // LEFT 
+            this.drawSprite(null, this.main_sprites.background, first-(1.3*this.main_sprites.background.w)+1, 0, 1.3);
+            // CENTER (Starts in (0,0) - Variable 'first' is 0 in the beginning of the simulation, since 'position' is also 0) 
+            this.drawSprite(null, this.main_sprites.background, first, 0, 1.3);
+            // RIGHT 
+            this.drawSprite(null, this.main_sprites.background, first+(1.3*this.main_sprites.background.w)-1, 0, 1.3);
+        }else if(this.height<=600){
+            // (image, x, y, scale) args
+            // LEFT 
+            this.drawSprite(null, this.main_sprites.background, first-(2.3*this.main_sprites.background.w)+1, 0, 2.3);
+            // CENTER (Starts in (0,0) - Variable 'first' is 0 in the beginning of the simulation, since 'position' is also 0) 
+            this.drawSprite(null, this.main_sprites.background, first, 0, 2.3);
+            // RIGHT 
+            this.drawSprite(null, this.main_sprites.background, first+(2.3*this.main_sprites.background.w)-1, 0, 2.3);
+        }
+        else{
+            // (image, x, y, scale) args
+            // LEFT 
+            this.drawSprite(null, this.main_sprites.background, first-(Math.ceil(ratio)*this.main_sprites.background.w)+1, 0, Math.ceil(ratio));
+            // CENTER (Starts in (0,0) - Variable 'first' is 0 in the beginning of the simulation, since 'position' is also 0) 
+            this.drawSprite(null, this.main_sprites.background, first, 0, Math.ceil(ratio));
+            // RIGHT 
+            this.drawSprite(null, this.main_sprites.background, first+(Math.ceil(ratio)*this.main_sprites.background.w)-1, 0, Math.ceil(ratio));
+        }
+            
         
         // // To create a backgroung with a pattern of background image
         // let backgroundImage = spriteToImage(this.spritesheetsImages[0], this.main_sprites.background);    
