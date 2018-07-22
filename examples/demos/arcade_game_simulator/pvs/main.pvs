@@ -1,6 +1,6 @@
 % ---------------------------------------------------------------
 %  Theory: car_demo
-%  Author: Paolo Masci
+%  Author: Paolo Masci and Jose Carlos
 %          INESC TEC and Universidade do Minho
 % ---------------------------------------------------------------
 
@@ -52,14 +52,11 @@ main: THEORY
     val: real
   #]
 
-  LAP_INIT: real = 1.0
-  Lap: TYPE = [#
-    val: real
-  #]
-
   Action: TYPE = { idle, acc, brake, pause, resume, quit }
   Direction: TYPE = { left, right, straight }
   Sound: TYPE = { unmute, mute }
+  Startstopbutton: TYPE = { off, on }
+  Sportmodebutton: TYPE = { off, on }
   Time: TYPE = [# hour: int, min: int #]
 
   state: TYPE = [#
@@ -75,7 +72,8 @@ main: THEORY
     action: Action,
     direction: Direction,
     sound: Sound,
-    lap: Lap
+    startstopbutton: Startstopbutton,
+    sportmodebutton: Sportmodebutton
   #]
 
   get_current_time: Time = (# hour := get_time`hour, min := get_time`minute #)
@@ -94,7 +92,8 @@ main: THEORY
     action := idle,
     direction := straight,
     sound := unmute,
-    lap := (# val := LAP_INIT #)
+    startstopbutton := off,
+    sportmodebutton := off
   #)
 
   %-- utility functions
@@ -119,7 +118,22 @@ main: THEORY
      g = GEAR_5 -> 0.6,
      g = GEAR_6 -> 0.3
    ENDCOND
+
+  getAccSportMode(g: Gear): Speed_Val =
+   COND
+      g = P OR g = N -> 0,
+      g = R -> -5,
+      g = GEAR_1 -> 1.3,
+      g = GEAR_2 -> 1.5,
+      g = GEAR_3 -> 1.8,
+      g = GEAR_4 -> 2,
+      g = GEAR_5 -> 2.2,
+      g = GEAR_6 -> 2.5
+   ENDCOND
+
   getBrk(g: Gear): [# speed: real, rpm: real #] = (# speed := -2, rpm := -1 #)
+
+  getBrkSportMode(g: Gear): [# speed: real, rpm: real #] = (# speed := -8, rpm := -2 #)
 
   gearUP(st: state): state =
     LET g = gear(st) IN
@@ -154,8 +168,34 @@ main: THEORY
 	st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
      IN IF rpm(st) > 6 THEN gearUP(st) ELSE st ENDIF
 
+  accelerateSportMode(st: state): state =
+    LET st = st WITH [ gear := IF gear(st) = N THEN GEAR_1 ELSE gear(st) ENDIF ],
+        step = getAccSportMode(gear(st)),
+        st = IF speed(st)`val + step < MAX_SPEED
+             THEN st WITH [ speed := speed(st) WITH [ val:= speed(st)`val + step ]]
+	     ELSE st WITH [ speed := speed(st) WITH [ val:= MAX_SPEED ]] ENDIF,
+	new_rpm = getRPM(st),
+	st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+     IN IF rpm(st) > 6 THEN gearUP(st) ELSE st ENDIF
+
   brake(st: state): state =
     LET step = getBrk(gear(st)),
+        st = IF speed(st)`val >= 0
+	     THEN st WITH [ speed := speed(st) WITH
+	   	   	  [ val := IF speed(st)`val + step`speed > 0
+				   THEN speed(st)`val + step`speed
+				   ELSE 0 ENDIF ]]
+	     ELSE %-- the car was driving in reverse, so the speed was negative
+                  st WITH [ speed := speed(st) WITH
+		          [ val:= IF speed(st)`val - step`speed < 0
+				  THEN speed(st)`val - step`speed
+				  ELSE 0 ENDIF ]] ENDIF,
+	new_rpm = getRPM(st),
+        st = st WITH [ rpm := new_rpm ]%, position := position(st) WITH [ val:= position(st)`val + speed(st)`val ]]
+     IN IF rpm(st) < 4 THEN gearDOWN(st) ELSE st ENDIF
+
+  brakeSportMode(st: state): state =
+    LET step = getBrkSportMode(gear(st)),
         st = IF speed(st)`val >= 0
 	     THEN st WITH [ speed := speed(st) WITH
 	   	   	  [ val := IF speed(st)`val + step`speed > 0
@@ -197,10 +237,16 @@ main: THEORY
 
 
   %-- APIs
-  press_accelerate(st: state): state = accelerate(st) WITH [ action := acc ]
+  press_accelerate(st: state): state = IF sportmodebutton(st) = off
+                                        THEN accelerate(st) WITH [ action := acc ]
+                                        ELSE accelerateSportMode(st) WITH [ action := acc ]
+                                      ENDIF
   release_accelerate(st: state): state = st WITH [ action := idle ]
 
-  press_brake(st: state): state = brake(st) WITH [ action := brake ]
+  press_brake(st: state): state = IF sportmodebutton(st) = off
+                                    THEN brake(st) WITH [ action := brake ]
+                                    ELSE brakeSportMode(st) WITH [ action := brake ]
+                                  ENDIF
   release_brake(st: state): state = st WITH [ action := idle ]
 
   STEERING_STEP: real = 20 %deg
@@ -210,8 +256,7 @@ main: THEORY
   steering_wheel_rotate(x: real)(st: state): state = st WITH [ steering := x ]
 
   %-- API for new laps
-  LAP_STEP: real = 1.0 
-  new_lap(st: state): state = st WITH [  position := (# val := POSITION_INIT  #), lap := lap(st) WITH [ val:= lap(st)`val + LAP_STEP ] ]
+  set_positions_init(st: state): state = st WITH [ position := (# val := POSITION_INIT  #), posx := (# val := POSX_INIT #) ]
 
   %-- API for sound controls 
   press_mute(st: state): state = st WITH [ sound := mute ]
@@ -222,16 +267,22 @@ main: THEORY
   
   %-- API for virtual Keypad controller 
   %-- TODO create the interactions with Arcade Driving Simulator
-  press_quit(st: state): state = st WITH [ action := quit ]
+  press_quit(st: state): state = st WITH [ action := quit, startstopbutton := off ]
   release_quit(st: state): state = st WITH [ action := idle ]
-  press_pause(st: state): state = st WITH [ action := pause ]
+  press_pause(st: state): state = st WITH [ action := pause, startstopbutton := off ]
   release_pause(st: state): state = st WITH [ action := idle ]
-  press_resume(st: state): state = st WITH [ action := resume ]
+  press_resume(st: state): state = st WITH [ action := resume, startstopbutton := on ]
   release_resume(st: state): state = st WITH [ action := idle ]
 
   %-- API for external controllers such as PS4 gamepad
-  click_accelerate(st: state): state = accelerate(st) WITH [ action := acc ]
-  click_brake(st: state): state = brake(st) WITH [ action := brake ]
+  click_accelerate(st: state): state = IF sportmodebutton(st) = off
+                                        THEN accelerate(st) WITH [ action := acc ]
+                                        ELSE accelerateSportMode(st) WITH [ action := acc ]
+                                      ENDIF
+  click_brake(st: state): state = IF sportmodebutton(st) = off
+                                    THEN brake(st) WITH [ action := brake ]
+                                    ELSE brakeSportMode(st) WITH [ action := brake ]
+                                  ENDIF
 
   %-- API for external controller interactive image
   press_rightArrow(st: state): state = steering_wheel_right(st)
@@ -239,6 +290,27 @@ main: THEORY
 
   press_leftArrow(st: state): state = steering_wheel_left(st)
   release_leftArrow(st: state): state = st
+
+  %-- API for case study 2015 Lincoln MCK interactive dashboard image
+  startAndStop(st: state): state = 
+    LET st = IF startstopbutton(st) = off
+              THEN st WITH [ action := resume, startstopbutton := on ]
+              ELSE st WITH [ action := quit, startstopbutton := off ] 
+             ENDIF
+    IN st 
+
+  activateSportMode(st: state): state = 
+    LET st = IF sportmodebutton(st) = off
+              THEN st WITH [ sportmodebutton := on ]
+              ELSE st WITH [ sportmodebutton := off ] 
+             ENDIF
+    IN st 
+   
+  press_startAndStop(st: state): state = startAndStop(st)
+  release_startAndStop(st: state): state = st WITH [ action := idle ]
+
+  press_activateSportMode(st: state): state = activateSportMode(st)
+  release_activateSportMode(st: state): state = st WITH [ action := idle ]
 
 END main
 

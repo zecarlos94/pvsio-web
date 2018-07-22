@@ -281,22 +281,22 @@ require([
 
         // ----------------------------- ARCADE GAME COMPONENTS -----------------------------
         arcade.arcadeWidget = new Arcade("arcadeWidget", {
-            top: 300,
-            left: 860,
-            width: 320,
-            height: 240
+            top: 0,
+            left: 630,
+            width: 800,
+            height: 600
         }, {
             parent: "content", // defines parent div, which is div id="body" by default
-            scaleWindow: 2.2, // scales canvas div
-            trackFilename: "trackLayout2",// "track-curves-slopes-random", // "track-straight-random", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
-            spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
-            spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
-            realisticImgs: false,
+            scaleWindow: 1, // scales canvas div
+            trackFilename: "trackLayout_real", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
+            spritesFilename: "spritesheet2", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+            spritesFiles: ["spritesheet2","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
+            realisticImgs: true,
             useVehicle: true,
             vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
-            vehicleImgIndex: 2, // defines vehicle sprite image suffix
-            // logoImgIndex: 1, // defines logo sprite image suffix
-            // backgroundImgIndex: 1, // defines background sprite image suffix
+            vehicleImgIndex: 1, // defines vehicle sprite image suffix
+            logoImgIndex: 3, // defines logo sprite image suffix
+            backgroundImgIndex: 1, // defines background sprite image suffix
             stripePositions: {
                 trackP1: -0.55,
                 trackP2: 0.55,
@@ -308,19 +308,17 @@ require([
                 finishLineP2: 0.40,
                 diffLanesFinishLine: 0.05
             },
-            // lapNumber: 3,
+            lapNumber: 3,
             // showOfficialLogo: true,
             loadPVSSpeedPositions: true,
             // predefinedTracks: 4,
-            // newLap_functionNamePVS: "new_lap",
+            // newLap_functionNamePVS: "set_positions_init",
             // action_attribute: "action",
             // direction_attribute: "direction",
             // sound_attribute: "sound",
-            // lap_attribute: "lap",
             // speed_attribute: "speed",
             // posx_attribute: "posx",
             // position_attribute: "position",
-            // lap_value: "val",
             // speed_value: "val",
             // posx_value: "val",
             // position_value: "val",

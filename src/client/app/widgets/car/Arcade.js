@@ -614,8 +614,8 @@ define(function (require, exports, module) {
                 .style("height", this.height + "px");
 
         this.soundWidget = new Sound("soundWidget_"+this.id, {
-            top: (this.top+350),
-            left: (this.left-230),
+            top: (this.top+this.height-30),
+            left: (this.left-30),
             width: 750,
             height: 750
         }, {
@@ -1057,10 +1057,18 @@ define(function (require, exports, module) {
         let centerX = Math.floor(this.renderCanvas.width / 2);
         let centerY = Math.floor(this.renderCanvas.height / 2);
         let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
-        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
-        // this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
-        let centerDeviation = 40;
-        let centerDeviationSpritesFont = 70;
+        let centerDeviation;
+        let centerDeviationSpritesFont;
+        if(this.width<=800){
+            centerDeviation = 30;
+            centerDeviationSpritesFont = 40;
+            this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.70*this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
+        }else{
+            centerDeviation = 40;
+            centerDeviationSpritesFont = 70;
+            this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
+            // this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
+        }
 
         if(this.realPrefix!==""){
             this.drawText("Click on space bar to resume",{x: centerX-4*centerDeviation, y: centerY}, 1, ratioFonts);
@@ -1124,10 +1132,18 @@ define(function (require, exports, module) {
         let centerX = Math.floor(this.renderCanvas.width / 2);
         let centerY = Math.floor(this.renderCanvas.height / 2);
         let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
-        this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
-        // this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
-        let centerDeviation = 40;
-        let centerDeviationSpritesFont = 70;
+        let centerDeviation;
+        let centerDeviationSpritesFont;
+        if(this.width<=800){
+            centerDeviation = 30;
+            centerDeviationSpritesFont = 40;
+            this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.70*this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
+        }else{
+            centerDeviation = 40;
+            centerDeviationSpritesFont = 70;
+            this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
+            // this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.5*this.main_sprites.logo.w, centerY-1.5*this.main_sprites.logo.h, (1+(1/ratioFonts))*this.main_sprites.logo.w, (1+(1/ratioFonts))*this.main_sprites.logo.h);
+        }
 
         if(this.realPrefix!==""){
             this.drawText("Thank you for playing!",{x: centerX-3*centerDeviation, y: centerY}, 1, ratioFonts);
@@ -1203,10 +1219,18 @@ define(function (require, exports, module) {
                 let centerX = Math.floor(this.renderCanvas.width / 2);
                 let centerY = Math.floor(this.renderCanvas.height / 2);
                 let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
-                this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
                 
-                let centerDeviation = 40;
-                let centerDeviationSpritesFont = 70;
+                let centerDeviation;
+                let centerDeviationSpritesFont;
+                if(this.width<=800){
+                    centerDeviation = 30;
+                    centerDeviationSpritesFont = 40;
+                    this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-0.70*this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
+                }else{
+                    centerDeviation = 40;
+                    centerDeviationSpritesFont = 70;
+                    this.canvasInformations.context.drawImage(this.spritesheetsImages[0], this.main_sprites.logo.x, this.main_sprites.logo.y, this.main_sprites.logo.w, this.main_sprites.logo.h, centerX-this.main_sprites.logo.w, 0.5*this.main_sprites.logo.h, ratioFonts*this.main_sprites.logo.w, ratioFonts*this.main_sprites.logo.h);
+                }
 
                 if(this.realPrefix!==""){
                     this.drawText("Instructions:",{x: centerX-centerDeviation, y: centerY-centerDeviation}, 1, ratioFonts);
@@ -1729,7 +1753,13 @@ define(function (require, exports, module) {
         
         let centerX = Math.floor(this.renderCanvas.width / 2);
         let ratioFonts   = Math.ceil(this.renderCanvas.width / this.renderCanvas.height);
-        let centerDeviationDuringSimulation = 70;
+
+        let centerDeviationDuringSimulation;
+        if(this.width<=800){
+            centerDeviationDuringSimulation = 45;
+        }else{
+            centerDeviationDuringSimulationt = 70;
+        }
 
         let carSprite = null;
 
