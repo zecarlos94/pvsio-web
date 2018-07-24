@@ -1,7 +1,24 @@
-[{"topography":{"name":"straight","curvature":0},"profile":"flat","numZones":3},{"topography":{"name":"left","curvature":90},"profile":"flat","numZones":3},{"topography":{"name":"straight","curvature":0},"profile":"up","numZones":3},{"topography":{"name":"right","curvature":-90},"profile":"flat","numZones":3},{"topography":{"name":"straight","curvature":0},"profile":"down","numZones":3},{"topography":{"name":"left","curvature":90},"profile":"flat","numZones":3}]
+[{"topography":{"name":"left","curvature":-90},"profile":"flat","numZones":4, "trafficSignals":[
+{"filename":"traffic_light_green","zone":1,"scale":4,"posX":-0.5,"zoneDistance":5},{"filename":"dangerous_curve_left","zone":1,"scale":3,"posX":-0.4,"zoneDistance":20},{"filename":"50kmh_limit","zone":1,"scale":3,"posX":-0.4,"zoneDistance":90},{"filename":"vehicle_surpass_forbidden","zone":1,"scale":3,"posX":-0.4,"zoneDistance":130},
+{"filename":"dangerous_curve_left","zone":2,"scale":3,"posX":-0.4,"zoneDistance":20},{"filename":"30kmh_limit","zone":2,"scale":3,"posX":-0.4,"zoneDistance":90},{"filename":"dangerous_curve_left","zone":3,"scale":3,"posX":-0.4,"zoneDistance":20},{"filename":"50kmh_limit","zone":3,"scale":3,"posX":-0.4,"zoneDistance":90},{"filename":"dangerous_curve_left","zone":4,"scale":3,"posX":-0.4,"zoneDistance":20},{"filename":"30kmh_limit","zone":4,"scale":3,"posX":-0.4,"zoneDistance":90},{"filename":"traffic_light_red","zone":4,"scale":4,"posX":-0.5,"zoneDistance":100}]
+}]
+
 spritesheet
+
 spritesheet,spritesheet.text
-["tree","stump","boulder","tree2","brunetteGirlBack","bush2","hatManBack"]
-["dead_tree2","column","dearRight"]
-{numZones: 20, zoneSize: 400}
-false, car, 1
+
+[{filename:"tree",scale: 3.5,positionsX: [-2.4,2.3]},
+{filename:"stump",scale: 3.5,positionsX: [-2.9,4.2]},
+{filename:"boulder",scale: 3.5,positionsX: [-1.8,1.6]},
+{filename:"tree2",scale: 3.5,positionsX: [-1.6,1.8]},
+{filename:"brunetteGirlBack",scale: 6,positionsX: [-1.7,1.9]},
+{filename:"bush2",scale: 6,positionsX: [-1.9,1.7]},
+{filename:"hatManBack",scale: 7,positionsX: [2.9,-2.7]}]
+
+[{filename:"dead_tree2",scale: 2.75,positionsX: [0.4]},
+{filename:"column",scale: 2.75,positionsX: [0.4]},
+{filename:"dearRight",scale: 1.75,positionsX: [-0.4,0.4,-0.3,0.2,0]}]
+
+{numZones:6, zoneSize:250}
+
+true,false,car,1
