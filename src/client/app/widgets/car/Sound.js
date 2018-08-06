@@ -179,8 +179,9 @@ define(function (require, exports, module) {
      * @param [opt.parent] {String} the HTML element where the display will be appended (default is "body").
      * @param [opt.mutedImg] {String} the location of the muted image (default is "widgets/car/configurations/img/muted.png").
      * @param [opt.notMutedImg] {String} the location of the unmuted image (default is "widgets/car/configurations/img/notMuted.png").
-     * @param [opt.soundOff] {Boolean} the boolean value that indicates whether the sound state is "off", i.e. whether it is 'off' or not. It is used in the arcade driving simulator(default is null).
+     * @param [opt.soundOff] {Boolean} the boolean value that indicates whether the sound state is "off", i.e. whether it is 'off' or not. It is used in the arcade driving simulator (default is null).
      * @param [opt.sounds] {Array} the songs that will be managed by the widget. User must provide audio path in "url" property and declare if that song will or will not be played in a loop in "loop" property (default songs are "widgets/car/configurations/song/loop.mp3" and "widgets/car/configurations/song/sound.mp3").
+     * @param [opt.invokePVS] {Bool} the boolean value that indicates if this widget will be controlled by the PVS model status or just by the "click" event on muted and unmuted images (default is false).
      * @param [opt.mute_functionNamePVS] {String} the pvs function name for action mute (default is "mute").
      * @param [opt.unmute_functionNamePVS] {String} the pvs function name for action unmute (default is "unmute").
      * @returns {Sound} The created instance of the widget Sound.
