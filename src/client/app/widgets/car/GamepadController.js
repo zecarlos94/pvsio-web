@@ -176,7 +176,7 @@ define(function (require, exports, module) {
      * @param [opt.usePressReleasePVS] {Bool} is the variable that allows to change press()/release() click() invocations (Default is true).
      * @param [opt.type] {String} Field 'type' allows to differentiate the axes of the external controller, i.e. to differentiate between gamepad axes and a more complex controller 
      *          such as steeringWheelAndPedals axes (Default is "gamepad". Other possible value is "steeringWheelAndPedals").
-     *          accelerationIndex {Int} Index 'accelerationIndex' is the external controller index where acceleration action will be invoked (Default is 0).
+     * @param [opt.accelerationIndex] {Int} Index 'accelerationIndex' is the external controller index where acceleration action will be invoked (Default is 0).
      * @param [opt.brakeIndex] {Int} Index 'brakeIndex' is the external controller index where brake action will be invoked (Default is 1).
      * @param [opt.leftArrowIndex] {Int} Index 'leftArrowIndex' is the external controller index where turn left action(steering wheel left rotation) will be invoked (Default is 14).
      * @param [opt.rightArrowIndex] {Int} Index 'rightArrowIndex' is the external controller index where turn right action(steering wheel right rotation) will be invoked (Default is 15).
