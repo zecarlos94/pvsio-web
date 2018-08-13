@@ -481,7 +481,7 @@ define(function (require, exports, module) {
      * @param [opt.muteAction] {Object} Object with index 'muteIndex', the external controller index where mute pvs instruction will be invoked, and string instructionPVS, which is the name of the pvs instruction for this action (Default is 4 and "mute"). 
      * @param [opt.unmuteAction] {Object} Object with index 'unmuteIndex', the external controller index where unmute pvs instruction will be invoked, and string instructionPVS, which is the name of the pvs instruction for this action (Default is 5 and "unmute"). 
      * @param [opt.useSensitivity] {Boolean} boolean to determine which rotation API will be invoked, i.e., with or without sensitivity (default is false).
-     * @param [opt.sensitivityValue] {Int} the sensivity value to be provided to the rotation API with sensitivity (default is "gyroscope").
+     * @param [opt.sensitivityValue] {Int} the sensivity value to be provided to the rotation API with sensitivity (default is 40).
      * @returns {GamepadController} The created instance of the widget GamepadController.
      * @memberof module:GamepadController
      * @instance

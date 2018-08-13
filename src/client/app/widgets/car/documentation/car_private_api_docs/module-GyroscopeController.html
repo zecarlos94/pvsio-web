@@ -128,8 +128,27 @@ the speedometer values displayed.</div>
 
 
 
-    <h5>Example</h5>
+    <h5>Examples</h5>
     
+        <p class="code-caption">Usage of private API's of GyroscopeController Widget.</p>
+    
+    <pre class="prettyprint"><code> Using variable GyroscopeController created in the previous example is also possible to call the following,
+
+      //Rotates "carSteeringWheel" left to right, and vice-versa, and presses/releases the "carAccelerate"/"carBrake", based on x,y values. 
+      //That is, "x" value represents the motion of the device around the x axis, represented in degrees with values 
+      //ranging from -180 to 180. This represents a front to back motion of the device or vice-versa. 
+      //That is, "y" value represents the motion of the device around the y axis, represented in degrees with values 
+      //ranging from -90 to 90. This represents a left to right motion of the device or vice-versa.  
+      gyroscope.rotateSteeringAngle(x,y);
+
+      //Rotates "carSteeringWheel" left to right, and vice-versa, and presses/releases the "carAccelerate"/"carBrake", based on x,y values, with sensitivity. 
+      //That is, "x" value represents the motion of the device around the x axis, represented in degrees with values 
+      //ranging from -180 to 180. This represents a front to back motion of the device or vice-versa. 
+      //That is, "y" value represents the motion of the device around the y axis, represented in degrees with values 
+      //ranging from -90*sensitivity to 90*sensitivity. This represents a left to right motion of the device or vice-versa.
+      //Sensitivity "sensitivity" values range from 0% to 100%.
+      gyroscope.rotateSteeringAngleWithSensitivity(x,y,sensitivity);</code></pre>
+
         <p class="code-caption">Usage of private API.</p>
     
     <pre class="prettyprint"><code>define(function (require, exports, module) {
@@ -225,7 +244,7 @@ the speedometer values displayed.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line66">line 66</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line84">line 84</a>
     </li></ul></dd>
     
 
@@ -287,7 +306,7 @@ the speedometer values displayed.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line71">line 71</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -349,7 +368,7 @@ the speedometer values displayed.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line59">line 59</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line77">line 77</a>
     </li></ul></dd>
     
 
@@ -411,7 +430,7 @@ the speedometer values displayed.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line53">line 53</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line71">line 71</a>
     </li></ul></dd>
     
 
@@ -766,7 +785,7 @@ the speedometer values displayed.</div>
 
             
 
-            <td class="description last">the sensivity value to be provided to the rotation API with sensitivity (default is "gyroscope").</td>
+            <td class="description last">the sensivity value to be provided to the rotation API with sensitivity (default is 40).</td>
         </tr>
 
     
@@ -814,7 +833,7 @@ the speedometer values displayed.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line94">line 94</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line112">line 112</a>
     </li></ul></dd>
     
 
@@ -922,7 +941,7 @@ the speedometer values displayed.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line159">line 159</a>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line292">line 292</a>
     </li></ul></dd>
     
 
@@ -951,6 +970,447 @@ the speedometer values displayed.</div>
 
 
         
+            
+
+    
+
+    
+    <h4 class="name" id="rotateSteeringAngle"><span class="type-signature"></span>rotateSteeringAngle<span class="signature">(beta, gamma)</span><span class="type-signature"> &rarr; {GyroscopeController}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    RotateSteeringAngle method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation). Default sensitivity is 100.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>beta</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The value of horizontal rotation (is zero when the device is parallel to Earth’s surface), between -180 and 180. It is used to accelerate or brake(press/release opt buttons).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>gamma</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The value of vertical axis(up to/or down), between -90 and 90. It is used to calculate the angle in degrees calculated based on vertical axis value given by the gyroscope.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line177">line 177</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget GyroscopeController.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">GyroscopeController</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+        <p class="code-caption">Usage of API to create a new Gyroscope Widget, to listen events "deviceorientation" within a PVSio-web demo and
+to rotate steering wheel Widget received as opt field without sensitivity.</p>
+    
+    <pre class="prettyprint"><code>define(function (require, exports, module) {
+    "use strict";
+
+    // Require the GyroscopeController module
+    require("widgets/car/GyroscopeController");
+
+    function main() {
+         // After GyroscopeController module was loaded, initialize it
+         let gyroscope = new GyroscopeController(
+              'example', // id of the GyroscopeController element that will be created
+              { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
+              {
+                 parent: "gyroscope",
+                 carSteeringWheel: car.steeringWheel,
+                 carAccelerate: arcade.up,
+                 carBrake: arcade.down,
+                 useSensitivity: false, // Default is false
+                 sensitivityValue: 50 // Default is 40% 
+              }
+          );
+
+         gyroscope.rotateSteeringAngle(x,y);
+     }
+});</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="rotateSteeringAngleWithSensitivity"><span class="type-signature"></span>rotateSteeringAngleWithSensitivity<span class="signature">(beta, gamma, sensitivity)</span><span class="type-signature"> &rarr; {GyroscopeController}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    RotateSteeringAngleWithSensitivity method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation) and with the required sensitivity.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>beta</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The value of horizontal rotation (is zero when the device is parallel to Earth’s surface), between -180 and 180. It is used to accelerate or brake(press/release opt buttons).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>gamma</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The value of vertical axis(up to/or down), between -90 and 90. It is used to calculate the angle in degrees calculated based on vertical axis value given by the gyroscope.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sensitivity</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The value of sensitivity of the steering wheel rotation angle, between 1 and 100.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="GyroscopeController.js.html">GyroscopeController.js</a>, <a href="GyroscopeController.js.html#line238">line 238</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The created instance of the widget GyroscopeController.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">GyroscopeController</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+        <p class="code-caption">Usage of API to create a new Gyroscope Widget, to listen events "deviceorientation" within a PVSio-web demo and
+to rotate steering wheel Widget received as opt field with sensitivity of 75%.</p>
+    
+    <pre class="prettyprint"><code>define(function (require, exports, module) {
+    "use strict";
+
+    // Require the GyroscopeController module
+    require("widgets/car/GyroscopeController");
+
+    function main() {
+         // After GyroscopeController module was loaded, initialize it
+         let gyroscope = new GyroscopeController(
+              'example', // id of the GyroscopeController element that will be created
+              { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
+              {
+                 parent: "gyroscope",
+                 carSteeringWheel: car.steeringWheel 
+              }
+          );
+
+         gyroscope.rotateSteeringAngleWithSensitivity(x,y,75);
+    }
+});</code></pre>
+
+
+
+        
     
 
     
@@ -972,7 +1432,7 @@ the speedometer values displayed.</div>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Aug 10 2018 14:48:07 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Aug 13 2018 15:07:35 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

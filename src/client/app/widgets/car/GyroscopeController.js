@@ -51,21 +51,6 @@
  *       // Reveals the GyroscopeController widget.
  *       gyroscope.reveal();
  *
- *       //Rotates "carSteeringWheel" left to right, and vice-versa, and presses/releases the "carAccelerate"/"carBrake", based on x,y values. 
- *       //That is, "x" value represents the motion of the device around the x axis, represented in degrees with values 
- *       //ranging from -180 to 180. This represents a front to back motion of the device or vice-versa. 
- *       //That is, "y" value represents the motion of the device around the y axis, represented in degrees with values 
- *       //ranging from -90 to 90. This represents a left to right motion of the device or vice-versa.  
- *       gyroscope.rotateSteeringAngle(x,y);
- * 
- *       //Rotates "carSteeringWheel" left to right, and vice-versa, and presses/releases the "carAccelerate"/"carBrake", based on x,y values, with sensitivity. 
- *       //That is, "x" value represents the motion of the device around the x axis, represented in degrees with values 
- *       //ranging from -180 to 180. This represents a front to back motion of the device or vice-versa. 
- *       //That is, "y" value represents the motion of the device around the y axis, represented in degrees with values 
- *       //ranging from -90*sensitivity to 90*sensitivity. This represents a left to right motion of the device or vice-versa.
- *       //Sensitivity "sensitivity" values range from 0% to 100%.
- *       gyroscope.rotateSteeringAngleWithSensitivity(x,y,sensitivity);
- *
  */
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*jshint esnext:true */
@@ -99,7 +84,7 @@ define(function (require, exports, module) {
      * @param [opt.carAccelerate] {ButtonExternalController} Button 'accelerate' to accelerate when a certain gamepad button is pressed.
      * @param [opt.carBrake] {ButtonExternalController} Button 'brake' to brake when a certain gamepad button is pressed.
      * @param [opt.useSensitivity] {Boolean} boolean to determine which rotation API will be invoked, i.e., with or without sensitivity (default is false).
-     * @param [opt.sensitivityValue] {Int} the sensivity value to be provided to the rotation API with sensitivity (default is "gyroscope").
+     * @param [opt.sensitivityValue] {Int} the sensivity value to be provided to the rotation API with sensitivity (default is 40).
      * @returns {GyroscopeController} The created instance of the widget GyroscopeController.
      * @memberof module:GyroscopeController
      * @instance
@@ -152,7 +137,7 @@ define(function (require, exports, module) {
 
      /**
      * @function rotateSteeringAngle
-     * @public
+     * @private
      * @description RotateSteeringAngle method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation). Default sensitivity is 100.
      * @param beta {Float} The value of horizontal rotation (is zero when the device is parallel to Earth’s surface), between -180 and 180. It is used to accelerate or brake(press/release opt buttons).
      * @param gamma {Float} The value of vertical axis(up to/or down), between -90 and 90. It is used to calculate the angle in degrees calculated based on vertical axis value given by the gyroscope.
@@ -213,7 +198,7 @@ define(function (require, exports, module) {
 
     /**
      * @function rotateSteeringAngleWithSensitivity
-     * @public
+     * @private
      * @description RotateSteeringAngleWithSensitivity method of the GyroscopeController widget. This method rotates the steering wheel based on gyroscope angle of inclination(device orientation) and with the required sensitivity.
      * @param beta {Float} The value of horizontal rotation (is zero when the device is parallel to Earth’s surface), between -180 and 180. It is used to accelerate or brake(press/release opt buttons).
      * @param gamma {Float} The value of vertical axis(up to/or down), between -90 and 90. It is used to calculate the angle in degrees calculated based on vertical axis value given by the gyroscope.
