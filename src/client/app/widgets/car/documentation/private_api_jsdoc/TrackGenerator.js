@@ -6,7 +6,7 @@
  * The trackLayout optional field allows to specifiy the desired layout, which will be parsed and iterated to create all segments that matches that layout.
  *
  * @date Apr 02, 2018
- * last modified @date Jul 21, 2018
+ * last modified @date Aug 14, 2018
  *
  *
  * @example <caption>Usage of public API to create a desired track, using trackLayout, with straight lines, curves and slopes.</caption>

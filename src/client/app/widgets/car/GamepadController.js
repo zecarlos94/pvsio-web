@@ -11,7 +11,7 @@
  * {@link https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_API}
  *
  * @date October 23, 2017
- * last modified @date Jun 16, 2018
+ * last modified @date Aug 14, 2018
  *
  * @example <caption>Usage of API to create a new GamepadController Widget, to listen events "gamepadconnected" and "gamepaddisconnected" within a PVSio-web demo.
  * This widget is also self-contained, i.e., the event handler function will call the rotate and the press/release methods for each click event captured.</caption>
@@ -24,7 +24,7 @@
  *     function main() {
  *          // After GamepadController module was loaded, initialize it
  *          let gamepadController = new GamepadController(
- *               'example', // id of the GamepadController element that will be created
+ *               'example', // id of the gamepadController element that will be created
  *               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
  *               {
  *                  carAccelerate: car.up, 

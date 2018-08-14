@@ -7,7 +7,7 @@
  * ButtonEVO Widget.
  *
  * @date October 6, 2017
- * last modified @date Jun 16, 2018
+ * last modified @date Aug 14, 2018
  *
  *
  * @example <caption>Usage of DrawGamepad within a PVSio-web demo(PS4 gamepad).</caption>
@@ -20,7 +20,7 @@
  *     function main() {
  *          // After DrawGamepad module was loaded, initialize it
  *          let drawGamepad = new DrawGamepad(
- *               'example', // id of the gauge element that will be created
+ *               'example', // id of the drawGamepad element that will be created
  *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
  *               { 
  *                  parent: "content", // defines parent div, which is div id="body" by default   
@@ -47,7 +47,7 @@
  *     function main() {
  *          // After DrawGamepad module was loaded, initialize it
  *          let drawGamepad = new DrawGamepad(
- *               'example', // id of the gauge element that will be created
+ *               'example', // id of the drawGamepad element that will be created
  *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
  *               { 
  *                  parent: "content", // defines parent div, which is div id="body" by default   
@@ -443,7 +443,7 @@ define(function (require, exports, module) {
      *     function main() {
      *          // After DrawGamepad module was loaded, initialize it
      *          let drawGamepad = new DrawGamepad(
-     *               'example', // id of the gauge element that will be created
+     *               'example', // id of the drawGamepad element that will be created
      *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
      *               {  
      *                  parent: "content", // defines parent div, which is div id="body" by default  
@@ -481,7 +481,7 @@ define(function (require, exports, module) {
      *     function main() {
      *          // After DrawGamepad module was loaded, initialize it
      *          let drawGamepad = new DrawGamepad(
-     *               'example', // id of the gauge element that will be created
+     *               'example', // id of the drawGamepad element that will be created
      *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
      *               {  
      *                  parent: "content", // defines parent div, which is div id="body" by default  

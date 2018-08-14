@@ -6,7 +6,7 @@
  * a virtual keypad suitable for mobile devices. Renders based on device type(desktop, mobile).
  *
  * @date Mar 02, 2018
- * last modified @date Jun 16, 2018
+ * last modified @date Aug 14, 2018
  *
  * @example <caption>Usage of private API.</caption>
  * define(function (require, exports, module) {

@@ -9,7 +9,7 @@
  * the speedometer values displayed.
  *
  * @date Apr 05, 2018
- * last modified @date Jun 16, 2018
+ * last modified @date Aug 14, 2018
  *
  *
  * @example <caption>Usage of API to create a new Gyroscope Widget, to listen events "deviceorientation" within a PVSio-web demo.
@@ -23,7 +23,7 @@
  *     function main() {
  *          // After GyroscopeController module was loaded, initialize it
  *          let gyroscope = new GyroscopeController(
- *               'example', // id of the GyroscopeController element that will be created
+ *               'example', // id of the gyroscopeController element that will be created
  *               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
  *               {
  *                  parent: "gyroscope",
@@ -152,7 +152,7 @@ define(function (require, exports, module) {
      *     function main() {
      *          // After GyroscopeController module was loaded, initialize it
      *          let gyroscope = new GyroscopeController(
-     *               'example', // id of the GyroscopeController element that will be created
+     *               'example', // id of the gyroscopeController element that will be created
      *               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
      *               {
      *                  parent: "gyroscope",
@@ -214,7 +214,7 @@ define(function (require, exports, module) {
      *     function main() {
      *          // After GyroscopeController module was loaded, initialize it
      *          let gyroscope = new GyroscopeController(
-     *               'example', // id of the GyroscopeController element that will be created
+     *               'example', // id of the gyroscopeController element that will be created
      *               { top: 1000, left: 100, width: 500, height: 500 }, // coordinates object
      *               {
      *                  parent: "gyroscope",

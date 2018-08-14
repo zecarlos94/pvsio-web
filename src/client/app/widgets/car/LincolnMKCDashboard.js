@@ -5,7 +5,7 @@
  * @desc This module allows to design the 2015 Lincoln MKC Dashboard, for the case study discussed in the ICGI2018 paper.
  *
  * @date Jul 10, 2018
- *
+ * last modified @date Aug 14, 2018
  *
  * @example <caption>Usage of LincolnMKCDashboard within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -17,7 +17,7 @@
  *     function main() {
  *          // After LincolnMKCDashboard module was loaded, initialize it
  *          let lincolnMKCDashboard = new LincolnMKCDashboard(
- *               'example', // id of the gauge element that will be created
+ *               'example', // id of the lincolnMKCDashboard element that will be created
  *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
  *               { 
  *                  parent: "content", // defines parent div, which is div id="body" by default 
@@ -211,7 +211,7 @@ define(function (require, exports, module) {
      *     function main() {
      *          // After LincolnMKCDashboard module was loaded, initialize it
      *          let lincolnMKCDashboard = new LincolnMKCDashboard(
-     *               'example', // id of the gauge element that will be created
+     *               'example', // id of the lincolnMKCDashboard element that will be created
      *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
      *               {  
      *                  parent: "content", // defines parent div, which is div id="body" by default 
@@ -249,7 +249,7 @@ define(function (require, exports, module) {
      *     function main() {
      *          // After LincolnMKCDashboard module was loaded, initialize it
      *          let lincolnMKCDashboard = new LincolnMKCDashboard(
-     *               'example', // id of the gauge element that will be created
+     *               'example', // id of the lincolnMKCDashboard element that will be created
      *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
      *               {  
      *                  parent: "content", // defines parent div, which is div id="body" by default

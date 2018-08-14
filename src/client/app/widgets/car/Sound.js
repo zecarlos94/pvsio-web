@@ -6,7 +6,7 @@
  * It was developed so that more than one song can be played in the arcade driving simulator (Arcade widget).
  *
  * @date Mar 10, 2018
- * last modified @date Jun 16, 2018
+ * last modified @date Aug 14, 2018
  *
  * @example <caption>Usage of Sound within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -18,7 +18,7 @@
  *     function main() {
  *          // After Sound module was loaded, initialize it
  *          let sound = new Sound(
- *               'example', // id of the Sound element that will be created
+ *               'example', // id of the sound element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
  *               { parent: 'tog', // default is 'body'
  *                 mutedImg: "img/muted.png", 
@@ -471,7 +471,7 @@ define(function (require, exports, module) {
      *     function main() {
      *          // After Sound module was loaded, initialize it
      *          let sound = new Sound(
-     *               'example', // id of the Sound element that will be created
+     *               'example', // id of the sound element that will be created
      *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
      *               { parent: 'tog', 
      *                 mutedImg: "img/muted.png", 
@@ -520,7 +520,7 @@ define(function (require, exports, module) {
      *     function main() {
      *          // After Sound module was loaded, initialize it
      *          let sound = new Sound(
-     *               'example', // id of the Sound element that will be created
+     *               'example', // id of the sound element that will be created
      *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
      *               { parent: 'tog', 
      *                 mutedImg: "img/muted.png", 

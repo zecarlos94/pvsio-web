@@ -5,7 +5,7 @@
  * @desc This module draws the 2D arcade driving simulator, using HTML5 Canvas.
  *
  * @date Apr 02, 2018
- * last modified @date Jul 21, 2018
+ * last modified @date Aug 14, 2018
  *
  * @example <caption>Usage of API to create a new simulation within a PVSio-web demo, after creating a track with curves and slopes, and using either a car or a airplane or a helicopter or a motorbike or a bicycle as a vehicle.
  * Opt field trackFilename is the JSON file, which was created by TrackGenerator Widget or by hand or by other future Widget that creates tracks.
@@ -19,7 +19,7 @@
  *     function main() {
  *          // After Arcade module was loaded, initialize it
  *          let arcade = new Arcade(
- *               'example', // id of the Arcade element that will be created
+ *               'example', // id of the arcade element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
  *               { parent: 'content',
  *                 scaleWindow: 2.2, // scales canvas div
@@ -95,7 +95,7 @@
  *     function main() {
  *          // After Arcade module was loaded, initialize it
  *          let arcade = new Arcade(
- *               'example', // id of the Arcade element that will be created
+ *               'example', // id of the arcade element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
  *               { parent: 'content',
  *                 scaleWindow: 2.2, // scales canvas div

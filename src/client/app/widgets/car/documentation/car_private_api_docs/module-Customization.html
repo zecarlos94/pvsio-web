@@ -130,321 +130,321 @@
     
     <pre class="prettyprint"><code>	Before declaring Customization it is advised to define all CSS before and after rendering the Customization Widget,
  		
-         let initWindowCSSValues = [
-             {
-                 id: "mySidenav",
-                 class: null,
-                 styles: [
-                     {
-                         property: "width",
-                         value: "630px"
-                     }
-                 ]
-             },
-             {
-                 id: "menu",
-                 class: null,
-                 styles: [
-                     {
-                         property: "margin-left",
-                         value: "450px"
-                     },
-                     {
-                         property: "visibility",
-                         value: "hidden"
-                     }
-                 ]
-             },
-             {
-                 id: "game-window",
-                 class: null,
-                 styles: [
-                     {
-                         property: "border",
-                         value: "5px solid black"
-                     }
-                 ]
-             },
-             {
-                 id: "instructions",
-                 class: null,
-                 styles: [
-                     {
-                         property: "margin-left",
-                         value: "-60px"
-                     }
-                 ]
-             },
-             {
-                 id: null,
-                 class: "dashboard-widgets",
-                 styles: [
-                     {
-                         property: "visibility",
-                         value: "hidden"
-                     }
-                 ]
-             },
-             {
-                 id: "steering_wheel",
-                 class: "last-steering_wheel",
-                 styles: [
-                     {
-                         property: "visibility",
-                         value: "hidden"
-                     }
-                 ]
-             },
-             {
-                 id: "track_img",
-                 class: null,
-                 styles: [
-                     {
-                         property: "visibility",
-                         value: "visible"
-                     }
-                 ]
-             }
-         ];
+ let initWindowCSSValues = [
+     {
+     id: "mySidenav",
+     class: null,
+     styles: [
+     {
+     property: "width",
+     value: "630px"
+     }
+     ]
+     },
+     {
+     id: "menu",
+     class: null,
+     styles: [
+     {
+     property: "margin-left",
+     value: "450px"
+     },
+     {
+     property: "visibility",
+     value: "hidden"
+     }
+     ]
+     },
+     {
+     id: "game-window",
+     class: null,
+     styles: [
+     {
+     property: "border",
+     value: "5px solid black"
+     }
+     ]
+     },
+     {
+     id: "instructions",
+     class: null,
+     styles: [
+     {
+     property: "margin-left",
+     value: "-60px"
+     }
+     ]
+     },
+     {
+     id: null,
+     class: "dashboard-widgets",
+     styles: [
+     {
+     property: "visibility",
+     value: "hidden"
+     }
+     ]
+     },
+     {
+     id: "steering_wheel",
+     class: "last-steering_wheel",
+     styles: [
+     {
+     property: "visibility",
+     value: "hidden"
+     }
+     ]
+     },
+     {
+     id: "track_img",
+     class: null,
+     styles: [
+     {
+     property: "visibility",
+     value: "visible"
+     }
+     ]
+     }
+ ];
 
-         let reRenderedWindowCSSValues = [
-             {
-                 id: "steering_wheel",
-                 class: "last-steering_wheel",
-                 styles: [
-                     {
-                         property: "display",
-                         value: "block"
-                     }
-                 ]
-             },
-             {
-                 id: "mySidenav",
-                 class: null,
-                 styles: [
-                     {
-                         property: "width",
-                         value: "0px"
-                     }
-                 ]
-             },
-             {
-                 id: "menu",
-                 class: null,
-                 styles: [
-                     {
-                         property: "margin-left",
-                         value: "-170px"
-                     },
-                     {
-                         property: "margin-left",
-                         value: "0px"
-                     },
-                     {
-                         property: "visibility",
-                         value: "visible"
-                     }
-                 ]
-             },
-             {
-                 id: "track_img",
-                 class: null,
-                 styles: [
-                     {
-                         property: "visibility",
-                         value: "hidden"
-                     }
-                 ]
-             },
-             {
-                 id: "game-window",
-                 class: null,
-                 styles: [
-                     {
-                         property: "border",
-                         value: "none"
-                     },
+ let reRenderedWindowCSSValues = [
+     {
+     id: "steering_wheel",
+     class: "last-steering_wheel",
+     styles: [
+     {
+     property: "display",
+     value: "block"
+     }
+     ]
+     },
+     {
+     id: "mySidenav",
+     class: null,
+     styles: [
+     {
+     property: "width",
+     value: "0px"
+     }
+     ]
+     },
+     {
+     id: "menu",
+     class: null,
+     styles: [
+     {
+     property: "margin-left",
+     value: "-170px"
+     },
+     {
+     property: "margin-left",
+     value: "0px"
+     },
+     {
+     property: "visibility",
+     value: "visible"
+     }
+     ]
+     },
+     {
+     id: "track_img",
+     class: null,
+     styles: [
+     {
+     property: "visibility",
+     value: "hidden"
+     }
+     ]
+     },
+     {
+     id: "game-window",
+     class: null,
+     styles: [
+     {
+     property: "border",
+     value: "none"
+     },
 						{
-                         property: "display",
-                         value: "none"
-                     }
-                 ]
-             },
-             {
-                 id: "instructions",
-                 class: null,
-                 styles: [
-                     {
-                         property: "margin-left",
-                         value: "650px"
-                     },
-                     {
-                         property: "margin-top",
-                         value: "-220px"
-                     },
-                     {
-                         property: "visibility",
-                         value: "visible"
-                     }
-                 ]
-             },
-             {
-                 id: "writeTopography_customization-widget",
-                 class: null,
-                 styles: [
-                     {
-                         property: "display",
-                         value: "none"
-                     }
-                 ]
-             },
-             {
-                 id: "writeSpritesheetJSONFilename_customization-widget",
-                 class: null,
-                 styles: [
-                     {
-                         property: "display",
-                         value: "none"
-                     }
-                 ]
-             },
-             {
-                 id: "writeSpritesheetImages_customization-widget",
-                 class: null,
-                 styles: [
-                     {
-                         property: "display",
-                         value: "none"
-                     }
-                 ]
-             },
-             {
-                 id: "writeLandscapeObjects_customization-widget",
-                 class: null,
-                 styles: [
-                     {
-                         property: "display",
-                         value: "none"
-                     }
-                 ]
-             },
-             {
-                 id: "writeTrackObstacles_customization-widget",
-                 class: null,
-                 styles: [
-                     {
-                         property: "display",
-                         value: "none"
-                     }
-                 ]
-             },
-             {
-                 id: "writeTrackParams_customization-widget",
-                 class: null,
-                 styles: [
-                     {
-                         property: "display",
-                         value: "none"
-                     }
-                 ]
-             },
-             {
-                 id: "writeArcadeVehicle_customization-widget",
-                 class: null,
-                 styles: [
-                     {
-                         property: "display",
-                         value: "none"
-                     }
-                 ]
-             },
-             {
-                 id: "colorPicker_customization-widget",
-                 class: null,
-                 styles: [
-                     {
-                         property: "display",
-                         value: "none"
-                     }
-                 ]
-             },
-             {
-                 id: "gauges",
-                 class: null,
-                 styles: [
-                     {
-                         property: "position",
-                         value: "absolute"
-                     },
-                     {
-                         property: "margin-left",
-                         value: "280px"
-                     },
-                     {   
-                         property: "margin-top",
-                         value: "200px"
-                     },
-                     {
-                         property: "visibility",
-                         value: "visible"
-                     }
-                 ]
-             },
-             {
-                 id: "steering_wheel",
-                 class: null,
-                 styles: [
-                     {
-                         property: "margin-top",
-                         value: "200px"
-                     },
-                     {
-                         property: "visibility",
-                         value: "visible"
-                     }
-                 ]
-             },
-             {
-                 id: "mobileDevicesController",
-                 class: null,
-                 styles: [
-                     {
-                         property: "visibility",
-                         value: "visible"
-                     }
-                 ]
-             },
-             {
-                 id: "gamepadImage",
-                 class: null,
-                 styles: [
-                     {
-                         property: "visibility",
-                         value: "visible"
-                     }
-                 ]
-             },
-             {
-                 id: null,
-                 class: "dashboard-widgets",
-                 styles: [
-                     {
-                         property: "margin-top",
-                         value: "200px"
-                     }
-                 ]
-             },
-             {
-                 id: null,
-                 class: "customization_customization-widget",
-                 styles: [
-                     {
-                         property: "display",
-                         value: "none"
-                     }
-                 ]
-             },
-         ];   </code></pre>
+     property: "display",
+     value: "none"
+     }
+     ]
+     },
+     {
+     id: "instructions",
+     class: null,
+     styles: [
+     {
+     property: "margin-left",
+     value: "650px"
+     },
+     {
+     property: "margin-top",
+     value: "-220px"
+     },
+     {
+     property: "visibility",
+     value: "visible"
+     }
+     ]
+     },
+     {
+     id: "writeTopography_customization-widget",
+     class: null,
+     styles: [
+     {
+     property: "display",
+     value: "none"
+     }
+     ]
+     },
+     {
+     id: "writeSpritesheetJSONFilename_customization-widget",
+     class: null,
+     styles: [
+     {
+     property: "display",
+     value: "none"
+     }
+     ]
+     },
+     {
+     id: "writeSpritesheetImages_customization-widget",
+     class: null,
+     styles: [
+     {
+     property: "display",
+     value: "none"
+     }
+     ]
+     },
+     {
+     id: "writeLandscapeObjects_customization-widget",
+     class: null,
+     styles: [
+     {
+     property: "display",
+     value: "none"
+     }
+     ]
+     },
+     {
+     id: "writeTrackObstacles_customization-widget",
+     class: null,
+     styles: [
+     {
+     property: "display",
+     value: "none"
+     }
+     ]
+     },
+     {
+     id: "writeTrackParams_customization-widget",
+     class: null,
+     styles: [
+     {
+     property: "display",
+     value: "none"
+     }
+     ]
+     },
+     {
+     id: "writeArcadeVehicle_customization-widget",
+     class: null,
+     styles: [
+     {
+     property: "display",
+     value: "none"
+     }
+     ]
+     },
+     {
+     id: "colorPicker_customization-widget",
+     class: null,
+     styles: [
+     {
+     property: "display",
+     value: "none"
+     }
+     ]
+     },
+     {
+     id: "gauges",
+     class: null,
+     styles: [
+     {
+     property: "position",
+     value: "absolute"
+     },
+     {
+     property: "margin-left",
+     value: "280px"
+     },
+     {   
+     property: "margin-top",
+     value: "200px"
+     },
+     {
+     property: "visibility",
+     value: "visible"
+     }
+     ]
+     },
+     {
+     id: "steering_wheel",
+     class: null,
+     styles: [
+     {
+     property: "margin-top",
+     value: "200px"
+     },
+     {
+     property: "visibility",
+     value: "visible"
+     }
+     ]
+     },
+     {
+     id: "mobileDevicesController",
+     class: null,
+     styles: [
+     {
+     property: "visibility",
+     value: "visible"
+     }
+     ]
+     },
+     {
+     id: "gamepadImage",
+     class: null,
+     styles: [
+     {
+     property: "visibility",
+     value: "visible"
+     }
+     ]
+     },
+     {
+     id: null,
+     class: "dashboard-widgets",
+     styles: [
+     {
+     property: "margin-top",
+     value: "200px"
+     }
+     ]
+     },
+     {
+     id: null,
+     class: "customization_customization-widget",
+     styles: [
+     {
+     property: "display",
+     value: "none"
+     }
+     ]
+     },
+ ];   </code></pre>
 
         <p class="code-caption">Also add the CSS regarding new sliders as it follows,</p>
     
@@ -462,104 +462,111 @@ perfectly. In the future, when PVSio-web has a file-writing api, this step will 
 
         <p class="code-caption">Usage of API to create a new customization menu, within a PVSio-web demo.</p>
     
-    <pre class="prettyprint"><code>         // After Customization module was loaded, initialize it
-         let customization = new Customization(
-         "customization-widget",  // id of the gauge element that will be created
-         {top: 100, left: 700, width: 750, height: 750}, // coordinates object
-         {
-           parent: "content", // defines parent div, which is div id="body" by default
-           sliderColor: "#4CAF50",
-           imagesSteeringWheels: [
-           {
-             path: "../../../client/app/widgets/car/steering_wheels/basic_steering_wheel.svg",
-             value: "basic_steering_wheel.svg",
-           },
-           {
-             path: "../../../client/app/widgets/car/steering_wheels/ferrari_steering_wheel.svg",
-             value: "ferrari_steering_wheel.svg",
-           },
-           {
-             path: "../../../client/app/widgets/car/steering_wheels/porsche_steering_wheel.svg",
-             value: "porsche_steering_wheel.svg",
-           },
-           {
-             path: "../../../client/app/widgets/car/steering_wheels/sparco_steering_wheel.svg",
-             value: "sparco_steering_wheel.svg",
-           }
-           ],
-           sliderRanges: [
-           {
-             name: "speedometer",
-             min: 0,
-             max: 400,
-             value: 340
-            },
-            {
-             name: "tachometer",
-             min: 0,
-             max: 20,
-             value: 16
-            },
-            {
-              name: "lanes",
-              min: 0,
-              max: 3,
-              value: 0
-            },
-            {
-              name: "obstacles",
-              min: 0,
-              max: 10,
-              value: 0
-            },
+    <pre class="prettyprint"><code>define(function (require, exports, module) {
+  "use strict";
+
+  // Require the Customization module
+  require("widgets/car/Customization");
+
+  function main() {
+     // After Customization module was loaded, initialize it
+     let customization = new Customization(
+     "customization-widget",  // id of the customization element that will be created
+     {top: 100, left: 700, width: 750, height: 750}, // coordinates object
+     {
+       parent: "content", // defines parent div, which is div id="body" by default
+       sliderColor: "#4CAF50",
+       imagesSteeringWheels: [
+       {
+         path: "../../../client/app/widgets/car/steering_wheels/basic_steering_wheel.svg",
+         value: "basic_steering_wheel.svg",
+       },
+       {
+         path: "../../../client/app/widgets/car/steering_wheels/ferrari_steering_wheel.svg",
+         value: "ferrari_steering_wheel.svg",
+       },
+       {
+         path: "../../../client/app/widgets/car/steering_wheels/porsche_steering_wheel.svg",
+         value: "porsche_steering_wheel.svg",
+       },
+       {
+         path: "../../../client/app/widgets/car/steering_wheels/sparco_steering_wheel.svg",
+         value: "sparco_steering_wheel.svg",
+       }
+       ],
+       sliderRanges: [
+       {
+         name: "speedometer",
+         min: 0,
+         max: 400,
+         value: 340
+        },
+        {
+         name: "tachometer",
+         min: 0,
+         max: 20,
+         value: 16
+        },
+        {
+          name: "lanes",
+          min: 0,
+          max: 3,
+          value: 0
+        },
+        {
+          name: "obstacles",
+          min: 0,
+          max: 10,
+          value: 0
+        },
 			   {
-               name: "laps",
-               min: 0,
-               max: 3,
-               value: 0
-             },
-             {
-               name: "pvs",
-               min: 0,
-               max: 1,
-               value: 0
-             }
-            ],
-            controlsText: ["Car controls:", "[left/right arrow keys] Turn Left/Right", "[up/down arrow keys] Accelerate/Brake" ],
-            gauges: [
-            {
-              name: "speedometer-gauge",
-              styleId: "",
-              style: ""
-            },
-            {
-              name: "tachometer-gauge",
-              styleId: "float",
-              style: "right"
-            }
-            ],
-            gaugesStyles: [
-            {
-              zoom: "45%",
-              marginLeft: "370px",
-              marginTop: "430px"
-            }
-            ],
-            callback: onMessageReceived
-         } // options
-         );
+           name: "laps",
+           min: 0,
+           max: 3,
+           value: 0
+         },
+         {
+           name: "pvs",
+           min: 0,
+           max: 1,
+           value: 0
+         }
+        ],
+        controlsText: ["Car controls:", "[left/right arrow keys] Turn Left/Right", "[up/down arrow keys] Accelerate/Brake" ],
+        gauges: [
+        {
+          name: "speedometer-gauge",
+          styleId: "",
+          style: ""
+        },
+        {
+          name: "tachometer-gauge",
+          styleId: "float",
+          style: "right"
+        }
+        ],
+        gaugesStyles: [
+        {
+          zoom: "45%",
+          marginLeft: "370px",
+          marginTop: "430px"
+        }
+        ],
+        callback: onMessageReceived
+     } // options
+     );
 
-         // Adds the "last-gauge" id to all div with class "gauge"
-         customization.setLastRenderingDiv("gauge");
+     // Adds the "last-gauge" id to all div with class "gauge"
+     customization.setLastRenderingDiv("gauge");
 
-         // Starts the imagepicker, and sets all initial CSS styles.
-         customization.setInitRenderingDiv(initWindowCSSValues);
+     // Starts the imagepicker, and sets all initial CSS styles.
+     customization.setInitRenderingDiv(initWindowCSSValues);
 
-         // Updates all sliders (ranges values)
-         sliders=customization.rangeEvents(sliders);
+     // Updates all sliders (ranges values)
+     sliders=customization.rangeEvents(sliders);
 
-         // Re-renders new widgets and sets new layout (new CSS styles)
-         customization.endRange(onMessageReceived,car,reRenderedWindowCSSValues,sliders,steeringWheel);
+     // Re-renders new widgets and sets new layout (new CSS styles)
+     customization.endRange(onMessageReceived,car,reRenderedWindowCSSValues,sliders,steeringWheel);
     }
 });</code></pre>
 
@@ -581,30 +588,30 @@ perfectly. In the future, when PVSio-web has a file-writing api, this step will 
 
       // Updates all sliders (ranges values)
 		 let sliders = {
-             maxValueSpeedometer: {
-                 id: "Speedometer",
-                 value: null
-             },
-             maxValueTachometer: {
-                 id: "Tachometer",
-                 value: null
-             },
-             maxValueLanes: {
-                 id: "Lanes",
-                 value: null
-             },
-             maxValueObstacles: {
-                 id: "Obstacles",
-                 value: null
-             },
-             maxValueLapNumber: {
-                 id: "Laps",
-                 value: null
-             },
-             maxValuePVSInstructions: {
-                 id: "Pvs",
-                 value: null
-             }
+         maxValueSpeedometer: {
+         id: "Speedometer",
+         value: null
+         },
+         maxValueTachometer: {
+         id: "Tachometer",
+         value: null
+         },
+         maxValueLanes: {
+         id: "Lanes",
+         value: null
+         },
+         maxValueObstacles: {
+         id: "Obstacles",
+         value: null
+         },
+         maxValueLapNumber: {
+         id: "Laps",
+         value: null
+         },
+         maxValuePVSInstructions: {
+         id: "Pvs",
+         value: null
+         }
       };
       sliders=customization.rangeEvents(sliders);
 
@@ -696,7 +703,7 @@ of the last selected image in the imagepicker. This content will be used to rend
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1266">line 1266</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1273">line 1273</a>
     </li></ul></dd>
     
 
@@ -831,7 +838,7 @@ of the last selected image in the imagepicker. This content will be used to rend
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1174">line 1174</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1181">line 1181</a>
     </li></ul></dd>
     
 
@@ -989,7 +996,7 @@ That is, it removes all child nodes from the parent div, with id="#(argument id)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1159">line 1159</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1166">line 1166</a>
     </li></ul></dd>
     
 
@@ -1150,7 +1157,7 @@ If the id is null, the class field is used to select the respective div. Otherwi
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1293">line 1293</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1300">line 1300</a>
     </li></ul></dd>
     
 
@@ -1315,7 +1322,7 @@ as example 3) shows. This object has the id/class of that div, as well as an arr
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1227">line 1227</a>
+        <a href="Customization.js.html">Customization.js</a>, <a href="Customization.js.html#line1234">line 1234</a>
     </li></ul></dd>
     
 
@@ -1392,7 +1399,7 @@ as example 3) shows. This object has the id/class of that div, as well as an arr
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Aug 13 2018 15:07:35 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Aug 14 2018 11:40:42 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

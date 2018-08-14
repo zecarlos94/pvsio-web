@@ -7,7 +7,7 @@
  * can be found in main.pvs file in the demonstration where the widget's constructor was invoked.
  *
  * @date October 6, 2017
- * last modified @date Jun 16, 2018
+ * last modified @date Aug 14, 2018
  *
  * @example <caption>Usage of SteeringWheel within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -19,7 +19,7 @@
  *     function main() {
  *          // After SteeringWheel module was loaded, initialize it
  *          let wheel = new SteeringWheel(
- *               'example', // id of the gauge element that will be created
+ *               'example', // id of the wheel element that will be created
  *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
  *               { style: 'ferrari' }
  *               // options, in this case, style represents the SVG image name, available at steering_wheels folder.
@@ -199,7 +199,7 @@ define(function (require, exports, module) {
      *     function main() {
      *          // After SteeringWheel module was loaded, initialize it
      *          let wheel = new SteeringWheel(
-     *               'example', // id of the gauge element that will be created
+     *               'example', // id of the wheel element that will be created
      *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
      *               { style: 'ferrari' }
      *               // options, in this case, style represents the SVG image name, available at steering_wheels folder.
@@ -220,7 +220,7 @@ define(function (require, exports, module) {
      *     function main() {
      *          // After SteeringWheel module was loaded, initialize it
      *          let wheel = new SteeringWheel(
-     *               'example', // id of the gauge element that will be created
+     *               'example', // id of the wheel element that will be created
      *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
      *               { style: 'ferrari' }
      *               // options, in this case, style represents the SVG image name, available at steering_wheels folder.
