@@ -312,7 +312,7 @@
  *
  *           trackLayout: [ 
  *               // describing the desired track, which is a 12-zone straight line, i.e. track with only straight lines with length 12, and it will place a 'traffic_cone'
- *               // sprite on zone 10, on horizontal position -0.5 (left side the track) at a distance of 80 in relation with the zoneSize (by default is 250). 
+ *               // sprite on zone 10, on horizontal position -0.5 (right side the track) at a distance of 80 in relation with the zoneSize (by default is 250). 
  *               {
  *                   topography: {
  *                       name:"straight",

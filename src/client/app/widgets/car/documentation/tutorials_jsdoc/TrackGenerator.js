@@ -6,7 +6,7 @@
  * The trackLayout optional field allows to specifiy the desired layout, which will be parsed and iterated to create all segments that matches that layout.
  *
  * @date Apr 02, 2018
- * last modified @date Jul 21, 2018
+ * last modified @date Aug 14, 2018
  *
  *
  * @example <caption>Usage of public API to create a desired track, using trackLayout, with straight lines, curves and slopes.</caption>
@@ -312,7 +312,7 @@
  *
  *           trackLayout: [ 
  *               // describing the desired track, which is a 12-zone straight line, i.e. track with only straight lines with length 12, and it will place a 'traffic_cone'
- *               // sprite on zone 10, on horizontal position -0.5 (left side the track) at a distance of 80 in relation with the zoneSize (by default is 250). 
+ *               // sprite on zone 10, on horizontal position -0.5 (right side the track) at a distance of 80 in relation with the zoneSize (by default is 250). 
  *               {
  *                   topography: {
  *                       name:"straight",

@@ -906,9 +906,9 @@ define(function (require, exports, module) {
         this.writeLandscapeObjects.append("p").style("margin-left","40px")
         .text("and in positionsX insert the horizontal positions where it");
         this.writeLandscapeObjects.append("p").style("margin-left","40px")
-        .text("should be placed. Negative values will place them on the left side");
+        .text("should be placed. Negative values will place them on the right side");
         this.writeLandscapeObjects.append("p").style("margin-left","40px")
-        .text("and positive values will place them on the right side of the track");
+        .text("and positive values will place them on the left side of the track");
         this.writeLandscapeObjects.append("textarea").attr("id","landscapeObjects_"+this.CUSTOMIZATIONID).attr("rows","2").attr("cols","60").style("margin-left","40px")
                              .text("[{\"filename\":\"\", \"scale\":, \"positionsX\":[]}]");
 
@@ -928,9 +928,9 @@ define(function (require, exports, module) {
         this.writeTrackObstacles.append("p").style("margin-left","40px")
         .text("and in positionsX insert the horizontal positions where it");
         this.writeTrackObstacles.append("p").style("margin-left","40px")
-        .text("should be placed. Negative values will place them on the left side");
+        .text("should be placed. Negative values will place them on the right side");
         this.writeTrackObstacles.append("p").style("margin-left","40px")
-        .text("and positive values will place them on the right side of the track");
+        .text("and positive values will place them on the left side of the track");
         this.writeTrackObstacles.append("textarea").attr("id","trackObstacles_"+this.CUSTOMIZATIONID).attr("rows","2").attr("cols","60").style("margin-left","40px")
                              .text("[{\"filename\":\"\", \"scale\":, \"positionsX\":[]}]");
 
