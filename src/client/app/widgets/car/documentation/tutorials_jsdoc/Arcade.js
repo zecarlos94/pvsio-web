@@ -22,6 +22,7 @@
  *               'example', // id of the arcade element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
  *               { parent: 'content',
+ *                 callback: onMessageReceived,
  *                 scaleWindow: 2.2, // scales canvas div
  *                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
@@ -98,6 +99,7 @@
  *               'example', // id of the arcade element that will be created
  *               { top: 100, left: 700, width: 500, height: 500 }, // coordinates object
  *               { parent: 'content',
+ *                 callback: onMessageReceived,
  *                 scaleWindow: 2.2, // scales canvas div
  *                 trackFilename: "track-straight", // "track-curves-slopes", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
@@ -1023,7 +1025,7 @@ define(function (require, exports, module) {
     /**
      * @function init
      * @private
-     * @description Init method of the Arcade widget. This method inits the canvas and adds the events onkeydown and onkeyup to capture the desired actions, i.e. accelerate, brake, etc.
+     * @description Init method of the Arcade widget. This method inits the canvas and sets the desired width and height.
      * @memberof module:Arcade
      * @returns {Arcade} The created instance of the widget Arcade.
      * @instance
@@ -1814,7 +1816,7 @@ define(function (require, exports, module) {
 
     /**
      * @function renderEachSimulationFrame
-     * @public
+     * @private
      * @description RenderEachSimulationFrame method of the Arcade widget. This method renders each frame during the simulation.
      * @memberof module:Arcade
      * @instance
