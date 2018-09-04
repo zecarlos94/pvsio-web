@@ -138,6 +138,7 @@ require([
             parent: "content", // defines parent div, which is div id="body" by default
             style: "ps4", // defines parent div, which is "ps4" by default
             buttonsPVS: [ "accelerate", "brake", "unmute", "mute", "pause", "quit", "touchpad", "resume", "leftArrow", "upArrow", "rightArrow", "downArrow", "rightStick", "leftStick" ],
+            imagePath: "arcade_game_simulator/img/virtual_controllers/",
             callback: onMessageReceived
         });
 

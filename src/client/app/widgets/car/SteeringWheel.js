@@ -7,7 +7,7 @@
  * can be found in main.pvs file in the demonstration where the widget's constructor was invoked.
  *
  * @date October 6, 2017
- * last modified @date Aug 14, 2018
+ * last modified @date Sept 04, 2018
  *
  * @example <caption>Usage of SteeringWheel within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -21,7 +21,7 @@
  *          let wheel = new SteeringWheel(
  *               'example', // id of the wheel element that will be created
  *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
- *               { style: 'ferrari' }
+ *               { style: 'ferrari', imagePath: "arcade_game_simulator_full_screen_for_paper/img/steering_wheels/"}
  *               // options, in this case, style represents the SVG image name, available at steering_wheels folder.
  *               // 'ferrari' will use "ferrari_steering_wheel.svg" as SVG image.
  *           );
@@ -68,6 +68,7 @@ define(function (require, exports, module) {
      * @param [opt.parent] {String} the HTML element where the display will be appended (default is "body").
      * @param [opt.style] {String} a valid style identifier, i.e., valid SVG filename (default is "ferrari").
      * @param [opt.z-index] {String} value for the CSS property z-index (if not provided, no z-index is applied).
+     * @param [opt.imagePath] {String} the image path with steering wheel to load. (default is "../../client/app/widgets/car/steering_wheels/").
      * @returns {SteeringWheel} The created instance of the widget SteeringWheel.
      * @memberof module:SteeringWheel
      * @instance
@@ -76,6 +77,7 @@ define(function (require, exports, module) {
         opt = opt || {};
         opt.style = opt.style || "ferrari";
         opt.opacity = opt.opacity || 1;
+        opt.imagePath = opt.imagePath;
         coords = coords || {};
 
         this.id = id;
@@ -84,6 +86,7 @@ define(function (require, exports, module) {
         this.width = coords.width || 250;
         this.height = coords.height || 250;
 
+        this.imagePath = (opt.imagePath) ? (opt.imagePath) : "";
         this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
         this.div = d3.select(this.parent)
                         .append("div").attr("id", id)
@@ -94,23 +97,42 @@ define(function (require, exports, module) {
                         .style("z-index", opt["z-index"] || 0)
                         .style("display", "none");
 
-        // Load steering wheel picture based on style options
-        let _this = this;
-        let steering_wheel_file = "text!widgets/car/steering_wheels/" + opt.style + "_steering_wheel.svg";
-        require([steering_wheel_file], function(steering_wheel) {
-            _this.div.append("div").attr("id", id + "_SW").html(steering_wheel);
-            // Scale svg according to scale factor
-            let svgHeight = parseFloat(_this.div.select("svg").style("height").replace("px", ""));
-            let svgWidth = parseFloat(_this.div.select("svg").style("width").replace("px", ""));
-            let widthDiff = svgWidth - _this.width;
-            let heightDiff = svgHeight - _this.height;
-            let ratio = (widthDiff === heightDiff || widthDiff > heightDiff) ?
-                            _this.width / svgWidth : _this.height / svgHeight;
-            _this.div.style("transform", "scale(" + ratio + ")");
-            _this.steering_wheel = _this.div.select("svg");
-            _this.steering_wheel.style("transition", "transform 0.3s");
-            return _this;
-        });
+        if(this.imagePath!==""){
+            let _this = this;
+            let steering_wheel_file = "text!../../../../demos/" + this.imagePath + opt.style + "_steering_wheel.svg";
+            require([steering_wheel_file], function(steering_wheel) {
+                _this.div.append("div").attr("id", id + "_SW").html(steering_wheel);
+                // Scale svg according to scale factor
+                let svgHeight = parseFloat(_this.div.select("svg").style("height").replace("px", ""));
+                let svgWidth = parseFloat(_this.div.select("svg").style("width").replace("px", ""));
+                let widthDiff = svgWidth - _this.width;
+                let heightDiff = svgHeight - _this.height;
+                let ratio = (widthDiff === heightDiff || widthDiff > heightDiff) ?
+                                _this.width / svgWidth : _this.height / svgHeight;
+                _this.div.style("transform", "scale(" + ratio + ")");
+                _this.steering_wheel = _this.div.select("svg");
+                _this.steering_wheel.style("transition", "transform 0.3s");
+                return _this;
+            });
+        }else{
+            // Load steering wheel picture based on style options
+            let _this = this;
+            let steering_wheel_file = "text!widgets/car/steering_wheels/" + opt.style + "_steering_wheel.svg";
+            require([steering_wheel_file], function(steering_wheel) {
+                _this.div.append("div").attr("id", id + "_SW").html(steering_wheel);
+                // Scale svg according to scale factor
+                let svgHeight = parseFloat(_this.div.select("svg").style("height").replace("px", ""));
+                let svgWidth = parseFloat(_this.div.select("svg").style("width").replace("px", ""));
+                let widthDiff = svgWidth - _this.width;
+                let heightDiff = svgHeight - _this.height;
+                let ratio = (widthDiff === heightDiff || widthDiff > heightDiff) ?
+                                _this.width / svgWidth : _this.height / svgHeight;
+                _this.div.style("transform", "scale(" + ratio + ")");
+                _this.steering_wheel = _this.div.select("svg");
+                _this.steering_wheel.style("transition", "transform 0.3s");
+                return _this;
+            });
+        }
 
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
@@ -201,7 +223,7 @@ define(function (require, exports, module) {
      *          let wheel = new SteeringWheel(
      *               'example', // id of the wheel element that will be created
      *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
-     *               { style: 'ferrari' }
+     *               { style: 'ferrari', imagePath: "arcade_game_simulator_full_screen_for_paper/img/steering_wheels/" }
      *               // options, in this case, style represents the SVG image name, available at steering_wheels folder.
      *               // 'ferrari' will use "ferrari_steering_wheel.svg" as SVG image.
      *           );
@@ -222,7 +244,7 @@ define(function (require, exports, module) {
      *          let wheel = new SteeringWheel(
      *               'example', // id of the wheel element that will be created
      *               { top: 100, left: 100, width: 300, height: 300 }, // coordinates object
-     *               { style: 'ferrari' }
+     *               { style: 'ferrari', imagePath: "arcade_game_simulator_full_screen_for_paper/img/steering_wheels/" }
      *               // options, in this case, style represents the SVG image name, available at steering_wheels folder.
      *               // 'ferrari' will use "ferrari_steering_wheel.svg" as SVG image.
      *           );

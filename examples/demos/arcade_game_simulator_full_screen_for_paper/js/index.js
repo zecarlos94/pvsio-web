@@ -135,6 +135,7 @@ require([
             dashIndex: 1,
             design: "before", // "after",
             buttonsPVS: [ "startAndStop", "activateSportMode"],
+            imagePath: "img/lincoln_mkc_dashboard_case_study/",
             callback: onMessageReceived
             } 
         );
@@ -219,6 +220,7 @@ require([
         }, {
             style: "lincoln_mkc_2015_2", // "lincoln_mkc_2015_1", // will show steering wheel with its gauges (this won't move-static image)
             "z-index": 1, // to overlap the gauges
+            imagePath: "arcade_game_simulator_full_screen_for_paper/img/steering_wheels/",
             callback: onMessageReceived
         });
 

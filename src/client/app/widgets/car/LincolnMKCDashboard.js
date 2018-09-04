@@ -5,7 +5,7 @@
  * @desc This module allows to design the 2015 Lincoln MKC Dashboard, for the case study discussed in the ICGI2018 paper.
  *
  * @date Jul 10, 2018
- * last modified @date Aug 14, 2018
+ * last modified @date Sept 04, 2018
  *
  * @example <caption>Usage of LincolnMKCDashboard within a PVSio-web demo.</caption>
  * define(function (require, exports, module) {
@@ -22,6 +22,7 @@
  *               { 
  *                  parent: "content", // defines parent div, which is div id="body" by default 
  *                  dashIndex: 1,  
+ *                  imagePath: "img/lincoln_mkc_dashboard_case_study/",
  *                  design: "before", // "after"  
  *                  buttonsPVS: [ "startAndStop", "activateSportMode"],
  *                  // actions defined in main.pvs file, i.e., button startAndStop of Lincoln MKC Dashboard action will be "press_startAndStop"/"release_startAndStop".
@@ -73,6 +74,7 @@ define(function (require, exports, module) {
      * @param [opt.dashIndex] {Bool} is the index of full dashboard placed as a suffix in the filename (default is 1).
      * @param [opt.design] {String} the image with lincolnMKCDashboard to load. Only has 2 values: 'before', i.e. the design before General Motors recalled the vehicles, and 'after', i.e. the design after General Motors recalled the vehicles (default is "before").
      * @param [opt.buttonsPVS] {Array} the actions defined in main.pvs file, which are used to define all Lincoln MKC Dashboard buttons, ButtonEVO, ids (default is [ "startAndStop", "activateSportMode" ]).
+     * @param [opt.imagePath] {String} the image path with lincolnMKCDashboard to load. (default is "../../client/app/widgets/car/lincoln_mkc_dashboard_case_study/").
      * @returns {LincolnMKCDashboard} The created instance of the widget LincolnMKCDashboard.
      * @memberof module:LincolnMKCDashboard
      * @instance
@@ -80,6 +82,7 @@ define(function (require, exports, module) {
     function LincolnMKCDashboard(id, coords, opt) {
         opt = opt || {};
         opt.buttonsPVS = opt.buttonsPVS;
+        opt.imagePath = opt.imagePath;
         coords = coords || {};
 
         this.id = id;
@@ -94,23 +97,9 @@ define(function (require, exports, module) {
         this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
         this.design = (opt.design) ? (opt.design) : "before";
         this.dashIndex = (opt.dashIndex) ? (opt.dashIndex) : 1;
+        this.imagePath = (opt.imagePath) ? (opt.imagePath) : "";
 
-        let _this = this;
-        let lincolnMKCDashboard_file = "text!widgets/car/lincoln_mkc_dashboard_case_study/2015_lincoln_mkc_"+this.design+"_recall_"+this.dashIndex+".svg";
-
-        require([lincolnMKCDashboard_file], function(lincolnMKCDashboardFile) {
-            if(_this.dashIndex===1){
-                if(_this.design==="before"){
-                    _this.div.append("div").attr("id", "lincolnMKCDashboard_"+id+"_SW").attr("style", "zoom: 77%").html(lincolnMKCDashboardFile);
-                }else if(_this.design==="after"){
-                    _this.div.append("div").attr("id", "lincolnMKCDashboard_"+id+"_SW").attr("style", "zoom: 77%").html(lincolnMKCDashboardFile);
-                }
-            }
-        	
-            return _this;
-        });
-
-    	this.div = d3.select(this.parent)
+        this.div = d3.select(this.parent)
                      .append("div").attr("id", "lincolnMKCDashboardImage")
                      .style("position", "absolute")
                      .style("top", this.top + "px")
@@ -120,6 +109,33 @@ define(function (require, exports, module) {
                      .style("display", "none");
 
         this.div.append("div").attr("id", "lincolnMKCDashboard_"+this.LINCOLNMKCDASHBOARDID);
+
+        if(this.imagePath!==""){
+            if(this.dashIndex===1){
+                if(this.design==="before"){
+                    this.div.append("img").attr("id", "lincolnMKCDashboard_"+id+"_SW").attr("src", this.imagePath+"2015_lincoln_mkc_"+this.design+"_recall_"+this.dashIndex+".svg")
+                                          .attr("style", "zoom: 77%");
+                }else if(_this.design==="after"){
+                    this.div.append("img").attr("id", "lincolnMKCDashboard_"+id+"_SW").attr("src", this.imagePath+"2015_lincoln_mkc_"+this.design+"_recall_"+this.dashIndex+".svg")
+                                          .attr("style", "zoom: 77%");
+                }
+            }    
+        }else{
+            let _this = this;
+            let lincolnMKCDashboard_file = "text!widgets/car/lincoln_mkc_dashboard_case_study/2015_lincoln_mkc_"+this.design+"_recall_"+this.dashIndex+".svg";
+    
+            require([lincolnMKCDashboard_file], function(lincolnMKCDashboardFile) {
+                if(_this.dashIndex===1){
+                    if(_this.design==="before"){
+                        _this.div.append("div").attr("id", "lincolnMKCDashboard_"+id+"_SW").attr("style", "zoom: 77%").html(lincolnMKCDashboardFile);
+                    }else if(_this.design==="after"){
+                        _this.div.append("div").attr("id", "lincolnMKCDashboard_"+id+"_SW").attr("style", "zoom: 77%").html(lincolnMKCDashboardFile);
+                    }
+                }
+                
+                return _this;
+            });
+        }
                         
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
@@ -216,6 +232,7 @@ define(function (require, exports, module) {
      *               {  
      *                  parent: "content", // defines parent div, which is div id="body" by default 
      *                  dashIndex: 1,
+     *                  imagePath: "img/lincoln_mkc_dashboard_case_study/",
      *                  design: "before", // "after", 
      *                  buttonsPVS: [ "startAndStop", "activateSportMode" ],
      *                  // actions defined in main.pvs file, i.e., button startAndStop of Lincoln MKC Dashboard action will be "press_startAndStop"/"release_startAndStop".
@@ -254,6 +271,7 @@ define(function (require, exports, module) {
      *               {  
      *                  parent: "content", // defines parent div, which is div id="body" by default
      *                  dashIndex: 1,
+     *                  imagePath: "img/lincoln_mkc_dashboard_case_study/",
      *                  design: "before", // "after", 
      *                  buttonsPVS: [ "startAndStop", "activateSportMode" ],
      *                  // actions defined in main.pvs file, i.e., button startAndStop of Lincoln MKC Dashboard action will be "press_startAndStop"/"release_startAndStop".
