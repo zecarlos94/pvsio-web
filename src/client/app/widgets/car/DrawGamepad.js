@@ -139,41 +139,28 @@ define(function (require, exports, module) {
                     .style("width", this.width + "px") 
                     .append("div").attr("id", "drawGamepad_"+this.DRAWGAMEPADID);
            
+        let _this = this;
+        let gamepad_file;
         if(this.imagePath!==""){
-            let _this = this;
-            let gamepad_file = "text!../../../../demos/" + this.imagePath + opt.style + ".svg";
-            require([gamepad_file], function(gamepad) {
-                _this.div.append("div").attr("id", "drawGamepad_"+id+"_SW").attr("style", "zoom: 75%").html(gamepad);
-                // Scale svg according to scale factor
-                let svgHeight = parseFloat(_this.div.select("svg").style("height").replace("px", ""));
-                let svgWidth = parseFloat(_this.div.select("svg").style("width").replace("px", ""));
-                let widthDiff = svgWidth - _this.width;
-                let heightDiff = svgHeight - _this.height;
-                let ratio = (widthDiff === heightDiff || widthDiff > heightDiff) ?
-                                _this.width / svgWidth : _this.height / svgHeight;
-                _this.div.style("transform", "scale(" + ratio + ")");
-                _this.gamepad = _this.div.select("svg");
-                _this.gamepad.style("transition", "transform 0.3s");
-                return _this;
-            });
+            gamepad_file = "text!../../../../demos/" + this.imagePath + opt.style + ".svg";
         }else{
-            let _this = this;
-            let gamepad_file = "text!widgets/car/virtual_controllers/" + opt.style + ".svg";
-            require([gamepad_file], function(gamepad) {
-                _this.div.append("div").attr("id", "drawGamepad_"+id+"_SW").attr("style", "zoom: 75%").html(gamepad);
-                // Scale svg according to scale factor
-                let svgHeight = parseFloat(_this.div.select("svg").style("height").replace("px", ""));
-                let svgWidth = parseFloat(_this.div.select("svg").style("width").replace("px", ""));
-                let widthDiff = svgWidth - _this.width;
-                let heightDiff = svgHeight - _this.height;
-                let ratio = (widthDiff === heightDiff || widthDiff > heightDiff) ?
-                                _this.width / svgWidth : _this.height / svgHeight;
-                _this.div.style("transform", "scale(" + ratio + ")");
-                _this.gamepad = _this.div.select("svg");
-                _this.gamepad.style("transition", "transform 0.3s");
-                return _this;
-            });
+            gamepad_file = "text!widgets/car/virtual_controllers/" + opt.style + ".svg";
         }
+
+        require([gamepad_file], function(gamepad) {
+            _this.div.append("div").attr("id", "drawGamepad_"+id+"_SW").attr("style", "zoom: 75%").html(gamepad);
+            // Scale svg according to scale factor
+            let svgHeight = parseFloat(_this.div.select("svg").style("height").replace("px", ""));
+            let svgWidth = parseFloat(_this.div.select("svg").style("width").replace("px", ""));
+            let widthDiff = svgWidth - _this.width;
+            let heightDiff = svgHeight - _this.height;
+            let ratio = (widthDiff === heightDiff || widthDiff > heightDiff) ?
+                            _this.width / svgWidth : _this.height / svgHeight;
+            _this.div.style("transform", "scale(" + ratio + ")");
+            _this.gamepad = _this.div.select("svg");
+            _this.gamepad.style("transition", "transform 0.3s");
+            return _this;
+        });
 
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;

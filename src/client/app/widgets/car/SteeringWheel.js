@@ -96,43 +96,30 @@ define(function (require, exports, module) {
                         .style("transform-origin", "0 0")
                         .style("z-index", opt["z-index"] || 0)
                         .style("display", "none");
-
+        
+        // Load steering wheel picture based on style options
+        let _this = this;
+        let steering_wheel_file
         if(this.imagePath!==""){
-            let _this = this;
-            let steering_wheel_file = "text!../../../../demos/" + this.imagePath + opt.style + "_steering_wheel.svg";
-            require([steering_wheel_file], function(steering_wheel) {
-                _this.div.append("div").attr("id", id + "_SW").html(steering_wheel);
-                // Scale svg according to scale factor
-                let svgHeight = parseFloat(_this.div.select("svg").style("height").replace("px", ""));
-                let svgWidth = parseFloat(_this.div.select("svg").style("width").replace("px", ""));
-                let widthDiff = svgWidth - _this.width;
-                let heightDiff = svgHeight - _this.height;
-                let ratio = (widthDiff === heightDiff || widthDiff > heightDiff) ?
-                                _this.width / svgWidth : _this.height / svgHeight;
-                _this.div.style("transform", "scale(" + ratio + ")");
-                _this.steering_wheel = _this.div.select("svg");
-                _this.steering_wheel.style("transition", "transform 0.3s");
-                return _this;
-            });
+            steering_wheel_file = "text!../../../../demos/" + this.imagePath + opt.style + "_steering_wheel.svg";
         }else{
-            // Load steering wheel picture based on style options
-            let _this = this;
-            let steering_wheel_file = "text!widgets/car/steering_wheels/" + opt.style + "_steering_wheel.svg";
-            require([steering_wheel_file], function(steering_wheel) {
-                _this.div.append("div").attr("id", id + "_SW").html(steering_wheel);
-                // Scale svg according to scale factor
-                let svgHeight = parseFloat(_this.div.select("svg").style("height").replace("px", ""));
-                let svgWidth = parseFloat(_this.div.select("svg").style("width").replace("px", ""));
-                let widthDiff = svgWidth - _this.width;
-                let heightDiff = svgHeight - _this.height;
-                let ratio = (widthDiff === heightDiff || widthDiff > heightDiff) ?
-                                _this.width / svgWidth : _this.height / svgHeight;
-                _this.div.style("transform", "scale(" + ratio + ")");
-                _this.steering_wheel = _this.div.select("svg");
-                _this.steering_wheel.style("transition", "transform 0.3s");
-                return _this;
-            });
+            steering_wheel_file = "text!widgets/car/steering_wheels/" + opt.style + "_steering_wheel.svg";
         }
+
+        require([steering_wheel_file], function(steering_wheel) {
+            _this.div.append("div").attr("id", id + "_SW").html(steering_wheel);
+            // Scale svg according to scale factor
+            let svgHeight = parseFloat(_this.div.select("svg").style("height").replace("px", ""));
+            let svgWidth = parseFloat(_this.div.select("svg").style("width").replace("px", ""));
+            let widthDiff = svgWidth - _this.width;
+            let heightDiff = svgHeight - _this.height;
+            let ratio = (widthDiff === heightDiff || widthDiff > heightDiff) ?
+                            _this.width / svgWidth : _this.height / svgHeight;
+            _this.div.style("transform", "scale(" + ratio + ")");
+            _this.steering_wheel = _this.div.select("svg");
+            _this.steering_wheel.style("transition", "transform 0.3s");
+            return _this;
+        });
 
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
