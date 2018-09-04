@@ -1,0 +1,724 @@
+{"frames": [
+
+{
+	"filename": "30kmh_limit.png",
+	"frame": {"x":1125,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "50kmh_limit.png",
+	"frame": {"x":1350,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "70kmh_limit.png",
+	"frame": {"x":900,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "100kmh_limit.png",
+	"frame": {"x":1200,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "caution.png",
+	"frame": {"x":1229,"y":155,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "caution_icy_conditions.png",
+	"frame": {"x":1329,"y":155,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "caution_speed_bumps.png",
+	"frame": {"x":1429,"y":155,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "dangerous_curve_left.png",
+	"frame": {"x":450,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "dangerous_curve_right.png",
+	"frame": {"x":525,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "dear_crossing.png",
+	"frame": {"x":675,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "direction_forbidden.png",
+	"frame": {"x":1050,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "finish_line.png",
+	"frame": {"x":1139,"y":0,"w":34,"h":62},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":34,"h":62},
+	"sourceSize": {"w":34,"h":62}
+},
+{
+	"filename": "highway_lanes.png",
+	"frame": {"x":1425,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "horizontal_pedrestrian_crossing_rubber_bump.png",
+	"frame": {"x":252,"y":0,"w":153,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":153,"h":40},
+	"sourceSize": {"w":153,"h":40}
+},
+{
+	"filename": "horizontal_speed_rubber_bump.png",
+	"frame": {"x":99,"y":0,"w":153,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":153,"h":40},
+	"sourceSize": {"w":153,"h":40}
+},
+{
+	"filename": "icy_surface.png",
+	"frame": {"x":929,"y":155,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "no_parking.png",
+	"frame": {"x":1029,"y":155,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "one_way_direction_1.png",
+	"frame": {"x":1275,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "one_way_direction_2.png",
+	"frame": {"x":750,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "one_way_direction_only.png",
+	"frame": {"x":825,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "parking_spot.png",
+	"frame": {"x":600,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "prohibition_sign.png",
+	"frame": {"x":975,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "real_background.png",
+	"frame": {"x":128,"y":416,"w":1703,"h":400},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1703,"h":400},
+	"sourceSize": {"w":1703,"h":400}
+},
+{
+	"filename": "real_bicycle_back.png",
+	"frame": {"x":0,"y":256,"w":61,"h":107},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":61,"h":107},
+	"sourceSize": {"w":61,"h":107}
+},
+{
+	"filename": "real_bicycle_front.png",
+	"frame": {"x":466,"y":256,"w":61,"h":115},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":61,"h":115},
+	"sourceSize": {"w":61,"h":115}
+},
+{
+	"filename": "real_bicycle_left.png",
+	"frame": {"x":61,"y":256,"w":72,"h":108},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":72,"h":108},
+	"sourceSize": {"w":72,"h":108}
+},
+{
+	"filename": "real_bicycle_right.png",
+	"frame": {"x":133,"y":256,"w":83,"h":110},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":83,"h":110},
+	"sourceSize": {"w":83,"h":110}
+},
+{
+	"filename": "real_boulder.png",
+	"frame": {"x":1611,"y":75,"w":80,"h":79},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":79},
+	"sourceSize": {"w":80,"h":79}
+},
+{
+	"filename": "real_boulder2.png",
+	"frame": {"x":32,"y":0,"w":67,"h":35},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":35},
+	"sourceSize": {"w":67,"h":35}
+},
+{
+	"filename": "real_building.png",
+	"frame": {"x":801,"y":256,"w":43,"h":119},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":43,"h":119},
+	"sourceSize": {"w":43,"h":119}
+},
+{
+	"filename": "real_building2.png",
+	"frame": {"x":527,"y":256,"w":178,"h":115},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":178,"h":115},
+	"sourceSize": {"w":178,"h":115}
+},
+{
+	"filename": "real_bush.png",
+	"frame": {"x":1363,"y":0,"w":128,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":75},
+	"sourceSize": {"w":128,"h":75}
+},
+{
+	"filename": "real_bush1.png",
+	"frame": {"x":1337,"y":256,"w":225,"h":150},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":225,"h":150},
+	"sourceSize": {"w":225,"h":150}
+},
+{
+	"filename": "real_car2_faced_front.png",
+	"frame": {"x":561,"y":0,"w":67,"h":53},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":53},
+	"sourceSize": {"w":67,"h":53}
+},
+{
+	"filename": "real_car2_faced_left.png",
+	"frame": {"x":707,"y":0,"w":79,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":54},
+	"sourceSize": {"w":79,"h":54}
+},
+{
+	"filename": "real_car2_faced_right.png",
+	"frame": {"x":628,"y":0,"w":79,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":54},
+	"sourceSize": {"w":79,"h":54}
+},
+{
+	"filename": "real_car_faced_front.png",
+	"frame": {"x":898,"y":0,"w":66,"h":60},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":60},
+	"sourceSize": {"w":66,"h":60}
+},
+{
+	"filename": "real_car_faced_left.png",
+	"frame": {"x":964,"y":0,"w":88,"h":60},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":88,"h":60},
+	"sourceSize": {"w":88,"h":60}
+},
+{
+	"filename": "real_car_faced_right.png",
+	"frame": {"x":1052,"y":0,"w":87,"h":61},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":87,"h":61},
+	"sourceSize": {"w":87,"h":61}
+},
+{
+	"filename": "real_coconut_tree.png",
+	"frame": {"x":1729,"y":155,"w":71,"h":101},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":71,"h":101},
+	"sourceSize": {"w":71,"h":101}
+},
+{
+	"filename": "real_dead_tree.png",
+	"frame": {"x":1562,"y":256,"w":150,"h":157},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":157},
+	"sourceSize": {"w":150,"h":157}
+},
+{
+	"filename": "real_logo.png",
+	"frame": {"x":1237,"y":0,"w":126,"h":71},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":126,"h":71},
+	"sourceSize": {"w":126,"h":71}
+},
+{
+	"filename": "real_motorbike2_back.png",
+	"frame": {"x":203,"y":155,"w":58,"h":83},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":58,"h":83},
+	"sourceSize": {"w":58,"h":83}
+},
+{
+	"filename": "real_motorbike2_front.png",
+	"frame": {"x":145,"y":155,"w":58,"h":83},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":58,"h":83},
+	"sourceSize": {"w":58,"h":83}
+},
+{
+	"filename": "real_motorbike2_left.png",
+	"frame": {"x":319,"y":155,"w":93,"h":85},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":93,"h":85},
+	"sourceSize": {"w":93,"h":85}
+},
+{
+	"filename": "real_motorbike2_right.png",
+	"frame": {"x":0,"y":155,"w":91,"h":80},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":80},
+	"sourceSize": {"w":91,"h":80}
+},
+{
+	"filename": "real_motorbike3_back.png",
+	"frame": {"x":91,"y":155,"w":54,"h":82},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":54,"h":82},
+	"sourceSize": {"w":54,"h":82}
+},
+{
+	"filename": "real_motorbike3_front.png",
+	"frame": {"x":261,"y":155,"w":58,"h":83},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":58,"h":83},
+	"sourceSize": {"w":58,"h":83}
+},
+{
+	"filename": "real_motorbike3_left.png",
+	"frame": {"x":1691,"y":75,"w":81,"h":80},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":81,"h":80},
+	"sourceSize": {"w":81,"h":80}
+},
+{
+	"filename": "real_motorbike3_right.png",
+	"frame": {"x":1532,"y":75,"w":79,"h":78},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":78},
+	"sourceSize": {"w":79,"h":78}
+},
+{
+	"filename": "real_motorbike_back.png",
+	"frame": {"x":505,"y":155,"w":66,"h":90},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":90},
+	"sourceSize": {"w":66,"h":90}
+},
+{
+	"filename": "real_motorbike_front.png",
+	"frame": {"x":664,"y":155,"w":65,"h":98},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":98},
+	"sourceSize": {"w":65,"h":98}
+},
+{
+	"filename": "real_motorbike_left.png",
+	"frame": {"x":571,"y":155,"w":93,"h":90},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":93,"h":90},
+	"sourceSize": {"w":93,"h":90}
+},
+{
+	"filename": "real_motorbike_right.png",
+	"frame": {"x":412,"y":155,"w":93,"h":90},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":93,"h":90},
+	"sourceSize": {"w":93,"h":90}
+},
+{
+	"filename": "real_palm_tree.png",
+	"frame": {"x":844,"y":256,"w":169,"h":127},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":169,"h":127},
+	"sourceSize": {"w":169,"h":127}
+},
+{
+	"filename": "real_palm_tree2.png",
+	"frame": {"x":1712,"y":256,"w":117,"h":160},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":117,"h":160},
+	"sourceSize": {"w":117,"h":160}
+},
+{
+	"filename": "real_pine_tree.png",
+	"frame": {"x":1263,"y":256,"w":74,"h":138},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":138},
+	"sourceSize": {"w":74,"h":138}
+},
+{
+	"filename": "real_skyscraper.png",
+	"frame": {"x":777,"y":256,"w":24,"h":115},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":115},
+	"sourceSize": {"w":24,"h":115}
+},
+{
+	"filename": "real_tree.png",
+	"frame": {"x":216,"y":256,"w":92,"h":113},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":92,"h":113},
+	"sourceSize": {"w":92,"h":113}
+},
+{
+	"filename": "real_tree2.png",
+	"frame": {"x":1013,"y":256,"w":250,"h":136},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":250,"h":136},
+	"sourceSize": {"w":250,"h":136}
+},
+{
+	"filename": "real_tree3.png",
+	"frame": {"x":0,"y":416,"w":128,"h":176},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":176},
+	"sourceSize": {"w":128,"h":176}
+},
+{
+	"filename": "real_tree4.png",
+	"frame": {"x":308,"y":256,"w":110,"h":113},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":110,"h":113},
+	"sourceSize": {"w":110,"h":113}
+},
+{
+	"filename": "road_work_ahead.png",
+	"frame": {"x":823,"y":0,"w":75,"h":60},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":60},
+	"sourceSize": {"w":75,"h":60}
+},
+{
+	"filename": "road_work_people.png",
+	"frame": {"x":1716,"y":0,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "slippery_wet_conditions.png",
+	"frame": {"x":729,"y":155,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "slow_down_children_near.png",
+	"frame": {"x":829,"y":155,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "slow_zone.png",
+	"frame": {"x":1129,"y":155,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "speed_bump_near.png",
+	"frame": {"x":1491,"y":0,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "stop.png",
+	"frame": {"x":1529,"y":155,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "street_barrier.png",
+	"frame": {"x":449,"y":0,"w":112,"h":52},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":112,"h":52},
+	"sourceSize": {"w":112,"h":52}
+},
+{
+	"filename": "street_fire_hydrant_pump.png",
+	"frame": {"x":225,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "traffic_cone.png",
+	"frame": {"x":786,"y":0,"w":37,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":37,"h":54},
+	"sourceSize": {"w":37,"h":54}
+},
+{
+	"filename": "traffic_cone2.png",
+	"frame": {"x":1500,"y":75,"w":32,"h":77},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":77},
+	"sourceSize": {"w":32,"h":77}
+},
+{
+	"filename": "traffic_cone3.png",
+	"frame": {"x":405,"y":0,"w":44,"h":44},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":44,"h":44},
+	"sourceSize": {"w":44,"h":44}
+},
+{
+	"filename": "traffic_cone4.png",
+	"frame": {"x":0,"y":0,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "traffic_light_1.png",
+	"frame": {"x":0,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "traffic_light_2.png",
+	"frame": {"x":1641,"y":0,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "traffic_light_all_lights_on.png",
+	"frame": {"x":753,"y":256,"w":24,"h":115},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":115},
+	"sourceSize": {"w":24,"h":115}
+},
+{
+	"filename": "traffic_light_green.png",
+	"frame": {"x":705,"y":256,"w":24,"h":115},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":115},
+	"sourceSize": {"w":24,"h":115}
+},
+{
+	"filename": "traffic_light_red.png",
+	"frame": {"x":729,"y":256,"w":24,"h":115},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":115},
+	"sourceSize": {"w":24,"h":115}
+},
+{
+	"filename": "traffic_light_turned_off.png",
+	"frame": {"x":442,"y":256,"w":24,"h":115},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":115},
+	"sourceSize": {"w":24,"h":115}
+},
+{
+	"filename": "traffic_light_yellow.png",
+	"frame": {"x":418,"y":256,"w":24,"h":115},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":115},
+	"sourceSize": {"w":24,"h":115}
+},
+{
+	"filename": "traffic_signal.png",
+	"frame": {"x":1566,"y":0,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "transit_forbidden.png",
+	"frame": {"x":150,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "trucks_surpass_forbidden.png",
+	"frame": {"x":75,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "under_construction.png",
+	"frame": {"x":1629,"y":155,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "under_construction_barrier.png",
+	"frame": {"x":1173,"y":0,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
+},
+{
+	"filename": "vehicle_surpass_forbidden.png",
+	"frame": {"x":300,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+},
+{
+	"filename": "warning_sign.png",
+	"frame": {"x":375,"y":75,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "spritesheet6.png",
+	"format": "RGBA8888",
+	"size": {"w":1831,"h":816},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:a1702b9e1593831a55a44610c36ad040:c2ac84408ed151d8c1ea0337ee8eaaf9:b4f3a1993ca3e84521640a296670bfc2$"
+}
+}
