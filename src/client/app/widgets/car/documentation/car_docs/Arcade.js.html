@@ -33,7 +33,7 @@
  * @desc This module draws the 2D arcade driving simulator, using HTML5 Canvas.
  *
  * @date Apr 02, 2018
- * last modified @date Aug 14, 2018
+ * last modified @date Sept 04, 2018
  *
  * @example &lt;caption>Usage of API to create a new simulation within a PVSio-web demo, after creating a track with curves and slopes, and using either a car or a airplane or a helicopter or a motorbike or a bicycle as a vehicle.
  * Opt field trackFilename is the JSON file, which was created by TrackGenerator Widget or by hand or by other future Widget that creates tracks.
@@ -52,6 +52,7 @@
  *               { parent: 'content',
  *                 callback: onMessageReceived,
  *                 scaleWindow: 2.2, // scales canvas div
+ *                 filesPath: "arcade_game_simulator_full_screen_for_paper/configuration/",
  *                 trackFilename: "track-curves-slopes", // "track-straight", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -129,6 +130,7 @@
  *               { parent: 'content',
  *                 callback: onMessageReceived,
  *                 scaleWindow: 2.2, // scales canvas div
+ *                 filesPath: "arcade_game_simulator_full_screen_for_paper/configuration/",
  *                 trackFilename: "track-straight", // "track-curves-slopes", // defines track configuration filename, which is "track-curves-slopes.json" by default
  *                 spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *                 spritesFiles: ["spritesheet","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
@@ -265,13 +267,15 @@ define(function (require, exports, module) {
 	 * @param [opt.resume_attribute] {String} allows to set pvs attribute name for resume action. (default is "resume").
 	 * @param [opt.mute_attribute] {String} allows to set pvs attribute name for mute sound. (default is "mute").
 	 * @param [opt.unmute_attribute] {String} allows to set pvs attribute name for unmute sound. (default is "unmute").
-   	 * @returns {Arcade} The created instance of the widget Arcade.
+   	 * @param [opt.filesPath] {String} the path with spritsheet image and other JSON files to load. (default is "../../client/app/widgets/car/configurations/").
+     * @returns {Arcade} The created instance of the widget Arcade.
      * @memberof module:Arcade
      * @instance
      */
     function Arcade(id, coords, opt) {
         opt = opt || {};
         coords = coords || {};
+        opt.filesPath = opt.filesPath;
         opt.parent = opt.parent;
         opt.trackFilename = opt.trackFilename;
         opt.spritesFilename = opt.spritesFilename;
@@ -288,6 +292,8 @@ define(function (require, exports, module) {
         opt.loadPVSSpeedPositions = opt.loadPVSSpeedPositions;
         opt.predefinedTracks = opt.predefinedTracks;
         opt.scaleWindow = opt.scaleWindow;
+
+        this.filesPath = (opt.filesPath) ? (opt.filesPath) : "";
 
         this.lastPVSValues = {
         	lastSoundPVS: null,
@@ -557,8 +563,14 @@ define(function (require, exports, module) {
         this.WIDGETSTATE = null;
         this.WIDGETID = this.id;
 
-        this.trackFilename = (opt.trackFilename) ? ("text!widgets/car/configurations/" + opt.trackFilename + ".json") : "text!widgets/car/configurations/track-curves-slopes-random.json";
-        this.spritesFilename = (opt.spritesFilename) ? ("text!widgets/car/configurations/" + opt.spritesFilename + ".json") : "text!widgets/car/configurations/spritesheet.json";
+        if(this.filesPath!==""){
+            this.trackFilename = (opt.trackFilename) ? ("text!../../../../demos/" + this.filesPath + opt.trackFilename + ".json") : "text!../../../../demos/" + this.filesPath + "track-curves-slopes-random.json";
+            this.spritesFilename = (opt.spritesFilename) ? ("text!../../../../demos/" + this.filesPath + opt.spritesFilename + ".json") : "text!../../../../demos/" + this.filesPath + "spritesheet.json";
+        }else{
+            this.trackFilename = (opt.trackFilename) ? ("text!widgets/car/configurations/" + opt.trackFilename + ".json") : "text!widgets/car/configurations/track-curves-slopes-random.json";
+            this.spritesFilename = (opt.spritesFilename) ? ("text!widgets/car/configurations/" + opt.spritesFilename + ".json") : "text!widgets/car/configurations/spritesheet.json";
+        }
+
         this.spritesFiles = (opt.spritesFiles) ? opt.spritesFiles : ["spritesheet","spritesheet.text"];
         this.spritesImgsInformation.vehicleIndex = (opt.vehicleImgIndex) ? opt.vehicleImgIndex : null;
         this.spritesImgsInformation.logoIndex = (opt.logoImgIndex) ? opt.logoImgIndex : null;
@@ -624,7 +636,7 @@ define(function (require, exports, module) {
         this.configurationFiles.trackLayout7Predefined = require("text!widgets/car/configurations/trackLayout7.json");
         this.configurationFiles.trackLayout8Predefined = require("text!widgets/car/configurations/trackLayout8.json");
         this.configurationFiles.trackLayout9Predefined = require("text!widgets/car/configurations/trackLayout9.json");
-
+       
         // Requiring predefined JSON files
         this.configurationFiles.trackStraightJSONPredefined = require("text!widgets/car/configurations/track-straight-random.json");
         this.configurationFiles.trackCurvesSlopesJSONPredefined = require("text!widgets/car/configurations/track-curves-slopes-random.json");
@@ -1029,7 +1041,11 @@ define(function (require, exports, module) {
             (function(self) {         
                 return function(el,ind) {   
                     self.spritesheetsImages[ind] = new Image();
-                    self.spritesheetsImages[ind].src = "../../client/app/widgets/car/configurations/img/"+self.spritesFiles[ind]+".png";
+                    if(self.filesPath!==""){
+                        self.spritesheetsImages[ind].src = "../"+self.filesPath+self.spritesFiles[ind]+".png";
+                    }else{
+                        self.spritesheetsImages[ind].src = "../../client/app/widgets/car/configurations/img/"+self.spritesFiles[ind]+".png";
+                    }
                 }
             })(this));
 
@@ -2903,7 +2919,7 @@ define(function (require, exports, module) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Sep 04 2018 15:54:51 GMT+0100 (WEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Sep 04 2018 16:30:55 GMT+0100 (WEST)
 </footer>
 
 <script> prettyPrint(); </script>

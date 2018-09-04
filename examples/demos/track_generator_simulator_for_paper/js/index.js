@@ -96,7 +96,7 @@ require([
             height: 650
         }, {
             parent: "content", // defines parent div, which is div id="body" by default
-            imagePath: "track_generator_simulator_for_paper/img/",
+            filePath: "track_generator_simulator_for_paper/img/",
             spritesFilename: "spritesheet2", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             render: {
                 depthOfField: 150,

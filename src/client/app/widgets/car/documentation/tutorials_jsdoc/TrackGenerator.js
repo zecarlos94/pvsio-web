@@ -6,7 +6,7 @@
  * The trackLayout optional field allows to specifiy the desired layout, which will be parsed and iterated to create all segments that matches that layout.
  *
  * @date Apr 02, 2018
- * last modified @date Aug 14, 2018
+ * last modified @date Sept 04, 2018
  *
  *
  * @example <caption>Usage of public API to create a desired track, using trackLayout, with straight lines, curves and slopes.</caption>
@@ -25,6 +25,7 @@
  *           height: 650
  *       }, {
  *           parent: "content", // defines parent div, which is div id="body" by default
+ *           filePath: "track_generator_simulator_for_paper/img/",
  *           spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
  *           render: {
  *               depthOfField: 150,
@@ -390,6 +391,7 @@ define(function (require, exports, module) {
      * @param [opt.trackLayout] {Array} the track layout that will be used to create the corresponding segments. (default is []).
      * @param [opt.trackColors] {Array} the track colors that will be used to color the segments in each stripe. (default is {grass1: "#699864", border1: "#e00", border2: "#fff", outborder1: "#496a46", outborder_end1: "#474747", track_segment1: "#777", lane1: "#fff", lane2: "#777", laneArrow1: "#00FF00", track_segment_end:"#000", lane_end: "#fff"}).
      * @param [opt.obstaclePerIteration] {Int} the number of iterations where a new obstacle will be placed within the track (default is 50).
+     * @param [opt.filePath] {String} the image path with spritsheet to load. (default is "../../client/app/widgets/car/configurations/").
      * @returns {TrackGenerator} The created instance of the widget TrackGenerator.
      * @memberof module:TrackGenerator
      * @instance
@@ -398,6 +400,7 @@ define(function (require, exports, module) {
         opt = opt || {};
         coords = coords || {};
         opt.parent = opt.parent;
+        opt.filePath = opt.filePath;
         opt.spritesFilename = opt.spritesFilename;        
         opt.render = opt.render;
         opt.trackSegmentSize = opt.trackSegmentSize;
@@ -457,16 +460,8 @@ define(function (require, exports, module) {
         // this.trackLayout.forEach(el => trackLayout2.unshift(el));
         // this.trackLayout = trackLayout2;
 
+        this.filePath = (opt.filePath) ? (opt.filePath) : "";
         this.parent = (opt.parent) ? ("#" + opt.parent) : "body";
-        this.spritesFilename = (opt.spritesFilename) ? ("text!widgets/car/configurations/" + opt.spritesFilename + ".json") : "text!widgets/car/configurations/spritesheet.json";
-        
-        // Load spritesheet based on spritesFilename options
-        let _this = this;
-        let spritesheet_file = "text!widgets/car/configurations/" + opt.spritesFilename + ".json";
-        require([spritesheet_file], function(spritesheet) {
-            _this.div.append("div").attr("id", "spritesheet_file_loaded_opt_field_"+id).style("display","none").text(spritesheet);
-            return _this;
-        });
 
         this.div = d3.select(this.parent).append("div").attr("id","trackGenerator_"+this.TRACKGENERATORID);
         
@@ -474,6 +469,22 @@ define(function (require, exports, module) {
         this.div.append("span")
                 .attr("id","created_"+this.TRACKGENERATORID)
                 .text("Success: False");
+
+        // Load spritesheet based on spritesFilename options
+        let _this = this;
+        let spritesheet_file;
+        if(this.filePath!==""){
+            this.spritesFilename = (opt.spritesFilename) ? ("text!../../../../demos/" + this.filePath + opt.spritesFilename + ".json") : "text!../../../../demos/" + this.filePath + "spritesheet.json";
+            spritesheet_file = "text!../../../../demos/" + this.filePath + opt.spritesFilename + ".json";
+        }else{
+            this.spritesFilename = (opt.spritesFilename) ? ("text!widgets/car/configurations/" + opt.spritesFilename + ".json") : "text!widgets/car/configurations/spritesheet.json";
+            spritesheet_file = "text!widgets/car/configurations/" + opt.spritesFilename + ".json";
+        }
+
+        require([spritesheet_file], function(spritesheet) {
+            _this.div.append("div").attr("id", "spritesheet_file_loaded_opt_field_"+id).style("display","none").text(spritesheet);
+            return _this;
+        });
 
         opt.callback = opt.callback || function () {};
         this.callback = opt.callback;
@@ -733,6 +744,7 @@ define(function (require, exports, module) {
      *           height: 650
      *       }, {
      *           parent: "content", // defines parent div, which is div id="body" by default
+     *           filePath: "track_generator_simulator_for_paper/img/",
      *           spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
      *           render: {
      *               depthOfField: 150,
@@ -1044,6 +1056,7 @@ define(function (require, exports, module) {
      *           height: 650
      *       }, {
      *           parent: "content", // defines parent div, which is div id="body" by default
+     *           filePath: "track_generator_simulator_for_paper/img/",
      *           spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
      *           render: {
      *               depthOfField: 150,

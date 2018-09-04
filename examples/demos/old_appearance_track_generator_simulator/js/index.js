@@ -96,7 +96,7 @@ require([
             height: 650
         }, {
             parent: "content", // defines parent div, which is div id="body" by default
-            imagePath: "old_appearance_track_generator_simulator/img/",
+            filePath: "old_appearance_track_generator_simulator/img/",
             spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             render: {
                 depthOfField: 150,
@@ -264,7 +264,7 @@ require([
             height: 650
         }, {
             parent: "content", // defines parent div, which is div id="body" by default
-            imagePath: "old_appearance_track_generator_simulator/img/",
+            filePath: "old_appearance_track_generator_simulator/img/",
             spritesFilename: "spritesheet", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             render: {
                 depthOfField: 150,

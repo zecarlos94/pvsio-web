@@ -309,6 +309,7 @@ require([
         }, {
             parent: "content", // defines parent div, which is div id="body" by default
             scaleWindow: 1, // scales canvas div
+            // filesPath: "arcade_game_simulator_full_screen/configuration/",
             trackFilename: "trackLayout_real", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
             spritesFilename: "spritesheet2", // defines spritesheet configuration filename, which is "spritesheet.json" by default
             spritesFiles: ["spritesheet2","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
