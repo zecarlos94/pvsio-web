@@ -125,7 +125,7 @@ require([
             objects: [
                 {
                     filename:"tree",
-                    scale: 3.5,
+                    scale: 9,
                     positionsX: [
                         -2.4,
                         2.3
@@ -133,7 +133,7 @@ require([
                 },
                 {
                     filename:"stump",
-                    scale: 3.5,
+                    scale: 4.5,
                     positionsX: [
                         -2.9,
                         4.2
@@ -149,55 +149,25 @@ require([
                 },
                 {
                     filename:"tree2",
-                    scale: 3.5,
+                    scale: 9,
                     positionsX: [
                         -1.6,
                         1.8
                     ]
                 },
                 {
-                    filename:"brunetteGirlBack",
-                    scale: 6,
-                    positionsX: [
-                        -1.7,
-                        1.9
-                    ]
-                },
-                {
                     filename:"bush2",
-                    scale: 6,
+                    scale: 7.5,
                     positionsX: [
                         -1.9,
                         1.7
-                    ]
-                },
-                {
-                    filename:"hatManBack",
-                    scale: 7,
-                    positionsX: [
-                        2.9,
-                        -2.7
                     ]
                 }
             ],
             obstacle: [
                 {
-                    filename:"dead_tree2",
-                    scale: 2.75,
-                    positionsX: [
-                        0.4
-                    ]
-                },
-                {
-                    filename:"column",
-                    scale: 2.75,
-                    positionsX: [
-                        0.4
-                    ]
-                },
-                {
                     filename:"dearRight",
-                    scale: 1.75,
+                    scale: 3.75,
                     positionsX: [
                         -0.4,
                         0.4,
@@ -293,7 +263,7 @@ require([
             objects: [
                 {
                     filename:"tree",
-                    scale: 3.5,
+                    scale: 9,
                     positionsX: [
                         -2.4,
                         2.3
@@ -301,7 +271,7 @@ require([
                 },
                 {
                     filename:"stump",
-                    scale: 3.5,
+                    scale: 4.5,
                     positionsX: [
                         -2.9,
                         4.2
@@ -317,55 +287,25 @@ require([
                 },
                 {
                     filename:"tree2",
-                    scale: 3.5,
+                    scale: 9,
                     positionsX: [
                         -1.6,
                         1.8
                     ]
                 },
                 {
-                    filename:"brunetteGirlBack",
-                    scale: 6,
-                    positionsX: [
-                        -1.7,
-                        1.9
-                    ]
-                },
-                {
                     filename:"bush2",
-                    scale: 6,
+                    scale: 7.5,
                     positionsX: [
                         -1.9,
                         1.7
-                    ]
-                },
-                {
-                    filename:"hatManBack",
-                    scale: 7,
-                    positionsX: [
-                        2.9,
-                        -2.7
                     ]
                 }
             ],
             obstacle: [
                 {
-                    filename:"dead_tree2",
-                    scale: 2.75,
-                    positionsX: [
-                        0.4
-                    ]
-                },
-                {
-                    filename:"column",
-                    scale: 2.75,
-                    positionsX: [
-                        0.4
-                    ]
-                },
-                {
                     filename:"dearRight",
-                    scale: 1.75,
+                    scale: 3.75,
                     positionsX: [
                         -0.4,
                         0.4,
