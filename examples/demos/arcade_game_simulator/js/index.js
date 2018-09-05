@@ -291,14 +291,14 @@ require([
             scaleWindow: 1, // scales canvas div
             // filesPath: "arcade_game_simulator/configuration/",
             trackFilename: "trackLayout_real", // defines track configuration filename, which is "track-curves-slopes-random.json" by default
-            spritesFilename: "spritesheet2", // defines spritesheet configuration filename, which is "spritesheet.json" by default
-            spritesFiles: ["spritesheet2","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
+            spritesFilename: "spritesheet4", // defines spritesheet configuration filename, which is "spritesheet.json" by default
+            spritesFiles: ["spritesheet4","spritesheet.text"], // defines all spritesheets(images). Default are "spritesheet.png" and "spritesheet.text.png"
             realisticImgs: true,
             useVehicle: true,
             vehicle: "car", // available vehicles: ["airplane","bicycle","car","helicopter","motorbike"]
             vehicleImgIndex: 1, // defines vehicle sprite image suffix
             logoImgIndex: 3, // defines logo sprite image suffix
-            backgroundImgIndex: 1, // defines background sprite image suffix
+            // backgroundImgIndex: 1, // defines background sprite image suffix
             stripePositions: {
                 trackP1: -0.55,
                 trackP2: 0.55,
